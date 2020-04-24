@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/writeColor"
+    android:orientation="vertical"
+    android:layout_marginTop="1dp"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:id="@+id/content01"
+            android:text="就诊类型"
+            android:textSize="7pt"
+            android:textColor="@color/textColor_vt"/>
+        <LinearLayout
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/pBackColor"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:text="就诊类型"
+            android:id="@+id/content02"
+            android:textSize="7pt"
+            android:textColor="@color/textColor_vt"/>
+        <LinearLayout
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/pBackColor"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:text="就诊类型"
+            android:id="@+id/content03"
+            android:textSize="7pt"
+            android:textColor="@color/textColor_vt"/>
+        <LinearLayout
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/pBackColor"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:id="@+id/content04"
+            android:text="就诊类型"
+            android:textSize="7pt"
+            android:textColor="@color/textColor_vt"/>
+        <LinearLayout
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/pBackColor"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:id="@+id/content05"
+            android:text="就诊类型"
+            android:textSize="7pt"
+            android:textColor="@color/textColor_vt"/>
+
+
+    </LinearLayout>
+
+
+
+</LinearLayout>

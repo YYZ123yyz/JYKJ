@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/writeColor">
+
+    <ImageView
+        android:id="@+id/iv_head"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_margin="10dp"
+        android:src="@mipmap/docter_heard"/>
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="陈医生（西安市中医院）"
+        android:layout_toRightOf="@+id/iv_head"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/textColor_black"
+        android:layout_marginLeft="10dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2019-11-30 9:30"
+        android:textSize="12sp"
+        android:layout_toRightOf="@+id/iv_head"
+        android:layout_below="@+id/tv_name"
+        android:id="@+id/tv_date"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="10dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="已通过"
+        android:id="@+id/tv_state"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:textColor="@color/groabColor"
+        android:layout_marginRight="10dp"/>
+
+<View
+    android:layout_width="match_parent"
+    android:layout_height="5dp"
+    android:layout_below="@+id/iv_head"
+    android:background="@color/pBackColor"/>
+
+</RelativeLayout>

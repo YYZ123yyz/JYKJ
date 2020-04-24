@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/writeColor"
+    android:orientation="horizontal"
+    android:id="@+id/item_fragmentHYHD_parentClick"
+    >
+    <ImageView
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_marginLeft="10dp"
+        android:layout_gravity="center_vertical"
+        android:id="@+id/item_fragmentHYHD_titleImage"
+        android:background="@mipmap/arrow_hyhdr"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginLeft="10dp"
+        android:gravity="center_vertical"
+        android:textSize="8pt"
+        android:textColor="@color/tabColor_nomal"
+        android:id="@+id/item_fragmentHYHD_titleName"
+        android:text="李萌飞的联盟"/>
+
+</LinearLayout>

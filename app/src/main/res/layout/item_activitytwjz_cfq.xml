@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    android:id="@+id/clickLayout"
+    android:background="@color/writeColor"
+    android:orientation="vertical"
+    >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/writeColor">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_centerVertical="true"
+            android:text="1、拜新同(硝苯地平控释片)"
+            android:id="@+id/name"
+            android:textColor="@color/tabColor_nomal"
+            android:textSize="8pt" />
+
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:text="老百姓大药房"
+            android:id="@+id/prescribeType"
+            android:layout_marginRight="10dp"
+            android:textColor="@color/tabColor_nomal"
+            android:textSize="8pt" />
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:background="@color/writeColor">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_centerVertical="true"
+            android:text="购买数量"
+            android:id="@+id/drugAmount"
+            android:textColor="@color/textColor_vt"
+            android:textSize="7pt" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:background="@color/writeColor">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_centerVertical="true"
+            android:text="1片(共30ml)/次"
+            android:id="@+id/useNum"
+            android:textColor="@color/textColor_vt"
+            android:textSize="7pt" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="1次1天"
+            android:id="@+id/useFrequency"
+            android:textColor="@color/textColor_vt"
+            android:textSize="7pt" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:text="服用30天"
+            android:id="@+id/useCycle"
+            android:layout_marginRight="10dp"
+            android:textColor="@color/textColor_vt"
+            android:textSize="7pt" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:orientation="horizontal"
+        android:background="@color/writeColor">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:id="@+id/useDesc"
+            android:layout_centerVertical="true"
+            android:text="早晨服用"
+            android:textColor="@color/textColor_vt"
+            android:textSize="7pt" />
+
+        <TextView
+            android:layout_width="70dp"
+            android:layout_height="25dp"
+            android:layout_marginRight="10dp"
+            android:layout_centerVertical="true"
+            android:text="删除"
+            android:gravity="center"
+            android:id="@+id/tv_delete"
+            android:background="@mipmap/bg5"
+            android:textColor="@color/textColor_vt"
+            android:textSize="7pt" />
+
+
+    </LinearLayout>
+</LinearLayout>

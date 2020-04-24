@@ -1,0 +1,547 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/pBackColor"
+    android:orientation="vertical"
+    tools:context=".activity.MainActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/groabColor">
+
+        <ImageView
+            android:id="@+id/addpatient_back"
+            android:layout_width="10dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:src="@mipmap/arrow_left" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="添加患者"
+            android:textColor="@color/writeColor"
+            android:textSize="10pt" />
+
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:background="@color/writeColor"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/li_activityAddPatient_smsfz"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center"
+                        android:src="@mipmap/smsfz" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="5dp"
+                        android:text="扫描身份证"
+                        android:textColor="@color/tabColor_nomal"
+                        android:textSize="8pt" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:id="@+id/li_sys"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center"
+                        android:src="@mipmap/smtj" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="5dp"
+                        android:text="扫码添加"
+                        android:textColor="@color/tabColor_nomal"
+                        android:textSize="8pt" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/li_activityAddPatient_applicationAudit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center"
+                        android:src="@mipmap/sqsh" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="5dp"
+                        android:text="申请审核"
+                        android:textColor="@color/tabColor_nomal"
+                        android:textSize="8pt" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:text="[扫描身份证]自动识别并添加如下列对应的信息"
+                android:textColor="@color/textColor_vt"
+                android:textSize="7pt" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="1dp"
+                android:background="@color/writeColor"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:text="身份证号"
+                    android:textColor="@color/tabColor_nomal"
+                    android:textSize="8pt" />
+
+
+                <EditText
+                    android:id="@+id/et_activityAddpatient_idCardEdit"
+
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:background="@null"
+                    android:gravity="right"
+                    android:layout_marginRight="10dp"
+                    android:layout_width="200dp"
+                    android:hint="请输入身份证号（必填）"
+
+                    android:textColor="@color/textColor_vt"
+                    android:textSize="8pt" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="1dp"
+                android:background="@color/writeColor"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:text="姓名"
+                    android:textColor="@color/tabColor_nomal"
+                    android:textSize="8pt" />
+
+
+                <EditText
+                    android:id="@+id/et_activityAddpatient_userNameEdit"
+                    android:gravity="right"
+                    android:layout_marginRight="10dp"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:background="@null"
+                    android:hint="请输入姓名（必填）"
+                    android:textColor="@color/textColor_vt"
+                    android:textSize="8pt" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/li_sexChoice_layout"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="1dp"
+                android:background="@color/writeColor"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:text="性别"
+                    android:textColor="@color/tabColor_nomal"
+                    android:textSize="8pt" />
+
+
+                <TextView
+                    android:id="@+id/et_activityAddpatient_sexEdit"
+                    android:gravity="right"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="请选择性别(必选)"
+                    android:textColor="@color/textColor_vt"
+                    android:textSize="8pt" />
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="10dp"
+                    android:src="@mipmap/arrow_r" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/li_birthDayChoice_layout"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="1dp"
+                android:background="@color/writeColor"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:text="出生日期"
+                    android:textColor="@color/tabColor_nomal"
+                    android:textSize="8pt" />
+
+
+                <TextView
+                    android:id="@+id/et_activityAddpatient_birthDayEdit"
+                    android:gravity="right"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="请选择出生日期(必选)"
+                    android:textColor="@color/textColor_vt"
+                    android:textSize="8pt" />
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="10dp"
+                    android:src="@mipmap/arrow_r" />
+            </LinearLayout>
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="1dp"
+                android:background="@color/writeColor"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:text="现居住所"
+                    android:textColor="@color/tabColor_nomal"
+                    android:textSize="8pt" />
+
+
+                <EditText
+                    android:id="@+id/et_address"
+                    android:gravity="right"
+                    android:layout_marginRight="10dp"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:background="@null"
+                    android:hint="请填写地址"
+                    android:textColor="@color/textColor_vt"
+                    android:textSize="8pt" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/li_hzbqLayout"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="1dp"
+                android:background="@color/writeColor"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:text="患者标签"
+                    android:textColor="@color/tabColor_nomal"
+                    android:textSize="8pt" />
+
+
+                <TextView
+                    android:id="@+id/tv_hzbqText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:text="请选择患者标签(必选)"
+                    android:textColor="@color/textColor_vt"
+                    android:textSize="8pt" />
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="10dp"
+                    android:src="@mipmap/arrow_r" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:text="问诊血压"
+                android:textColor="@color/textColor_vt"
+                android:textSize="7pt" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="1dp"
+                android:background="@color/writeColor"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:text="收纳压（高压/mmHg）"
+                    android:textColor="@color/tabColor_nomal"
+                    android:textSize="8pt" />
+
+
+                <EditText
+                    android:id="@+id/et_xy"
+                    android:gravity="right"
+                    android:layout_marginRight="10dp"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:background="@null"
+                    android:hint="请输入数值"
+                    android:textColor="@color/textColor_vt"
+                    android:textSize="8pt" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="1dp"
+                android:background="@color/writeColor"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:text="舒张压（低压/mmHg）"
+                    android:textColor="@color/tabColor_nomal"
+                    android:textSize="8pt" />
+
+
+                <EditText
+                    android:id="@+id/et_sny"
+                    android:gravity="right"
+                    android:layout_marginRight="10dp"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:background="@null"
+                    android:hint="请输入数值"
+                    android:textColor="@color/textColor_vt"
+                    android:textSize="8pt" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="1dp"
+                android:background="@color/writeColor"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:text="心率（次/分钟）"
+                    android:textColor="@color/tabColor_nomal"
+                    android:textSize="8pt" />
+
+
+                <EditText
+                    android:id="@+id/et_xl"
+                    android:gravity="right"
+                    android:layout_marginRight="10dp"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:background="@null"
+                    android:hint="请输入数值"
+                    android:textColor="@color/textColor_vt"
+                    android:textSize="8pt" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="1dp"
+                android:background="@color/writeColor"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:text="手机号"
+                    android:textColor="@color/tabColor_nomal"
+                    android:textSize="8pt" />
+
+
+                <EditText
+                    android:id="@+id/et_phoneNum"
+                    android:gravity="right"
+                    android:layout_marginRight="10dp"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:background="@null"
+                    android:hint="请输入手机号"
+                    android:textColor="@color/textColor_vt"
+                    android:textSize="8pt" />
+
+            </LinearLayout>
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="1dp"
+                android:background="@color/writeColor"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:text="短信验证码"
+                    android:textColor="@color/tabColor_nomal"
+                    android:textSize="8pt" />
+
+
+                <EditText
+                    android:id="@+id/et_yzm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@null"
+                    android:hint="请填写短信验证码"
+                    android:textColor="@color/textColor_vt"
+                    android:textSize="8pt" />
+
+                <TextView
+                    android:id="@+id/tv_getVCodeText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="10dp"
+                    android:text="点击获取"
+                    android:textColor="@color/tabColor_nomal"
+                    android:textSize="8pt" />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/bt_commit"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_margin="40dp"
+                android:background="@mipmap/bg_2"
+                android:gravity="center"
+                android:text="添加"
+                android:textColor="@color/writeColor"
+                android:textSize="9pt" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

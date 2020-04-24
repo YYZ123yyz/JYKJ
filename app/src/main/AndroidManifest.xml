@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="www.jykj.com.jykj_zxyl">
+
+    <application
+        android:name=".application.JYKJApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/logo"
+        android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:roundIcon="@mipmap/logo"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        <activity android:name="yyz_exploit.activity.activity.ResActivity"></activity>
+        <activity android:name="yyz_exploit.activity.Myself_Service" /> <!-- 用户登录 -->
+        <activity android:name=".activity.LoginActivity" /> <!-- 手机号登录 -->
+        <activity android:name=".activity.PhoneLoginActivity" /> <!-- 用户注册 -->
+        <activity android:name=".activity.UseRegistActivity" /> <!-- 首页 -->
+        <activity android:name=".activity.MainActivity">
+
+            <!-- 忘记密码 -->
+
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
+        </activity> <!-- 引导页 -->
+        <!-- //忘记密码 -->
+        <activity android:name="yyz_exploit.Forget_activity" />
+        <activity android:name=".activity.WelcomeActivity" /> <!-- 闪屏页 -->
+        <activity android:name=".activity.SplashActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity> <!-- 我的账户 -->
+        <activity android:name=".activity.myself.MyAccountActivity" /> <!-- 我的余额 -->
+        <activity android:name=".activity.myself.MySurplusActivity" /> <!-- 我的余额明细 -->
+        <activity android:name=".activity.myself.SurplusDetailActivity" /> <!-- 我的排班 -->
+        <activity android:name=".activity.myself.MyPBActivity" /> <!-- 我的排班 -->
+        <activity android:name=".activity.myself.ShareDataSetActivity" /> <!-- 我的服务权限开通 -->
+        <activity android:name=".activity.myself.ServicePermisionActivity" /> <!-- 我的服务权限开通设置 -->
+        <activity android:name=".activity.myself.ServicePermisionSetActivity" /> <!-- 我的平台授权 -->
+        <activity android:name=".activity.myself.PlatformLicenseActivity" /> <!-- 退出联盟 -->
+        <activity android:name=".activity.myself.ExitAllianceActivity" /> <!-- 设置 -->
+        <activity android:name=".activity.myself.SettingActivity" /> <!-- 设置 == > 关于我们 -->
+        <activity android:name=".activity.myself.setting.AboutActivity" /> <!-- 设置 == > 修改密码 -->
+        <activity android:name=".activity.myself.setting.OpeaPassWordActivity" /> <!-- 设置 == > 客服热线 -->
+        <activity android:name=".activity.myself.setting.ServiceHotlineActivity" /> <!-- 个人资料 -->
+        <activity
+            android:name=".activity.myself.UserCenterActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 用户认证 -->
+        <activity
+            android:name=".activity.myself.UserAuthenticationActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 我的积分 -->
+        <!-- 微信登录 -->
+        <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activity.myself.MyIntegralInfoActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 我的积分明细 -->
+        <activity
+            android:name=".activity.myself.MyIntegralActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 我的积分兑换记录 -->
+        <activity
+            android:name=".activity.myself.RedeemRecordActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 我的优惠券 -->
+        <activity
+            android:name=".activity.myself.MyCouponActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 我的优惠明细 -->
+        <activity
+            android:name=".activity.myself.MyCouponDetailActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 患者管理搜索页面 -->
+        <activity
+            android:name=".activity.myself.hzgl.HZGLSearchActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 医疗资讯WEB页面 -->
+        <activity
+            android:name=".activity.ylzx.YLZXWebActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 我的识别码 -->
+        <activity
+            android:name=".activity.home.QRCodeActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 消息 -->
+        <activity
+            android:name=".activity.home.NewsActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 医生联盟 -->
+        <activity
+            android:name=".activity.home.DoctorsUnionActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 医生联盟 == 》联盟消息 -->
+        <activity
+            android:name=".activity.home.yslm.UnionMessageActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 医生联盟 == 》我的邀请==》处理邀请 -->
+        <activity
+            android:name=".activity.home.yslm.UnionInvateHandlerActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 医生联盟设置层级 -->
+        <activity
+            android:name=".activity.home.yslm.DoctorUnionSettingOrgDateActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 医生联盟邀请加入 -->
+        <activity
+            android:name=".activity.home.yslm.DoctorUnionInviteMemberActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 患者管理==》患者资料 -->
+        <activity
+            android:name=".activity.hzgl.HZGLHZZLActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 患者管理==》血压信息 -->
+        <activity
+            android:name=".activity.hzgl.HZGLXYActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 患者管理==》用药信息 -->
+        <activity
+            android:name=".activity.hzgl.HZGLYYXXActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 患者管理==》其他打卡 -->
+        <activity
+            android:name=".activity.hzgl.HZGLQTDKActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 患者管理==》提醒患者 -->
+        <activity
+            android:name=".activity.hzgl.HZGLTXHZActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 首页==》图文就诊 -->
+        <activity
+            android:name=".activity.home.TWJZActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 首页==》问诊信息 -->
+        <activity
+            android:name=".activity.home.twjz.WZXXActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 首页==》问诊详情 -->
+        <activity
+            android:name=".activity.home.twjz.WDZS_WZXQActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 首页==》就诊小结 -->
+        <activity
+            android:name=".activity.home.twjz.TWJZ_JZXJActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 首页==》就诊小结 -->
+        <activity
+            android:name=".activity.home.twjz.KJCF_XZYPActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 首页==》就诊记录 -->
+        <activity
+            android:name=".activity.home.twjz.TWJZ_JZJLActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 首页==》邀请同行 -->
+        <activity
+            android:name=".activity.home.InvitepeersActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 首页==》我的评价 -->
+        <activity
+            android:name=".activity.home.MyCommentActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 首页==》就医总览 -->
+        <activity
+            android:name=".activity.home.JYZLActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 图文就诊==》开具处方 -->
+        <activity
+            android:name=".activity.home.twjz.TWJZ_KJCFActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 图文就诊==》开具处方 ==》 处方药品 -->
+        <activity
+            android:name=".activity.home.twjz.KJCF_CFYPActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 图文就诊==》诊断描述 -->
+        <activity
+            android:name=".activity.home.twjz.TWJZ_ZDMSActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 图文就诊==》选择疾病 -->
+        <activity
+            android:name=".activity.home.twjz.WDZS_XZJBActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 图文就诊==》开具处方 ==》 处方签 -->
+        <activity
+            android:name=".activity.home.twjz.TWJZ_CFQActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 添加患者 -->
+        <activity
+            android:name=".activity.home.tjhz.AddPatientActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 添加患者扫码 -->
+        <activity
+            android:name=".activity.home.tjhz.AddPatientQRCodeActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 添加患者==》申请审核 -->
+        <activity
+            android:name=".activity.home.tjhz.ApplicationAuditActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 添加患者==》申请审核处理 -->
+        <activity
+            android:name=".activity.home.tjhz.ApplicationAuditDealActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 医生联盟=》》 加入联盟 -->
+        <activity
+            android:name=".activity.home.yslm.JoinDoctorsUnionActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 医生联盟=》》 设置 -->
+        <activity
+            android:name=".activity.home.yslm.DoctorsUnionSettingActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 医生联盟=》》 设置 ==》选择联盟层级 -->
+        <activity
+            android:name=".activity.home.yslm.DoctorsUnionSettingChoiceOrgActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 医生联盟=》》 创建联盟 -->
+        <activity
+            android:name=".activity.home.yslm.CreateUnionActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 医生联盟=》》 修改联盟 -->
+        <activity
+            android:name=".activity.home.yslm.UpdateUnionActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 医生联盟=》》 申请审核 -->
+        <activity
+            android:name=".activity.home.yslm.ReviewActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 医生联盟=》申请审核》 审核 -->
+        <activity
+            android:name=".activity.home.yslm.CheckReviewActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 医生联盟=》 查看患者 -->
+        <activity
+            android:name=".activity.home.yslm.ViewPatientActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 就诊总览=》 个人总览 -->
+        <activity
+            android:name=".activity.home.jyzl.JYZL_GRZLActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 个人总览=》 个人状况 -->
+        <activity
+            android:name=".activity.home.jyzl.GRXX_GRZKActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 个人总览=》 个人状况 ==》基本信息 -->
+        <activity
+            android:name=".activity.home.jyzl.GRXX_GRZK_JBXXActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 个人总览=》 个人状况 ==》患者标签 -->
+        <activity
+            android:name=".activity.home.jyzl.GRXX_GRZK_HZBQActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 个人总览=》 个人状况 ==》症状信息 -->
+        <activity
+            android:name=".activity.home.jyzl.GRXX_GRZK_ZZXXActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 个人总览=》 个人状况 ==》既往病史 -->
+        <activity
+            android:name=".activity.home.jyzl.GRXX_GRZK_JWBSActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 个人总览=》 个人状况 ==》既往病史 == 》 详情 -->
+        <activity
+            android:name=".activity.home.jyzl.JWBSDetailActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 添加患者==》身份证扫描 -->
+        <activity
+            android:name=".activity.home.tjhz.IDCardScanningActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 患医互动==》聊天页面 -->
+        <activity
+            android:name=".activity.hyhd.ChatActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 患医互动==》新建群聊页面 -->
+        <activity
+            android:name=".activity.hyhd.NewChatGroupActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 患医互动==》医生好友申请 -->
+        <activity
+            android:name=".activity.hyhd.HYHD_HYSQActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 患医互动==》聊天页面==》发送位置 -->
+        <activity
+            android:name="com.hyphenate.easeui.ui.EaseBaiduMapActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 患医互动==》聊天页面==》查看大图 -->
+        <activity
+            android:name="com.hyphenate.easeui.ui.EaseShowBigImageActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 扫一扫 -->
+        <activity android:name="zxing.android.CaptureActivity" /> <!-- 患医互动==》聊天页面==》观看视频 -->
+        <activity
+            android:name="com.hyphenate.easeui.ui.EaseShowVideoActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 患医互动==》聊天页面==》语音通话 -->
+        <activity
+            android:name="com.hyphenate.easeui.hyhd.VoiceCallActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 患医互动==》聊天页面==》语音通话 -->
+        <activity
+            android:name="com.hyphenate.easeui.hyhd.VideoCallActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 我的直播间 -->
+        <activity
+            android:name=".activity.home.MyLiveRoomActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 我的诊所 -->
+        <activity
+            android:name=".activity.home.MyClinicActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 我的消息==》患者就诊 -->
+        <activity
+            android:name=".activity.home.PatientVisitActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 我的消息==》患者就诊==》会诊邀请 -->
+        <activity
+            android:name=".activity.home.HzyqActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 我的消息==》诊后留言 -->
+        <activity
+            android:name=".activity.home.ZhlyActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 我的消息==》诊后留言==留言 -->
+        <activity
+            android:name=".activity.home.ZhlyReplyActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 我的消息==》添加患者 -->
+        <activity
+            android:name=".activity.home.AddPatientActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 我的患者 -->
+        <activity
+            android:name=".activity.home.MyPatientActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 联盟消息 -->
+        <activity
+            android:name=".activity.home.UnionNewsActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 联盟消息==详情 -->
+        <activity
+            android:name=".activity.home.news.UnionNewsDetailActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 首页=》》 我的患者审核 -->
+        <activity
+            android:name=".activity.home.PatientReviewActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 身份证拍照页面 -->
+        <activity
+            android:name="orcameralib.CameraActivity"
+            android:screenOrientation="portrait" /> <!-- 设置环信应用的AppKey -->
+        <!-- <meta-data android:name="EASEMOB_APPKEY"  android:value="Your AppKey" /> -->
+        <meta-data
+            android:name="EASEMOB_APPKEY"
+            android:value="1114191231107514#jiuyiteck-htn" /> <!-- 声明SDK所需的service SDK核心功能 -->
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="www.jykj.com.jykj_zxyl.fileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider>
+
+        <receiver android:name="com.hyphenate.chat.EMMonitorReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_REMOVED" />
+
+                <data android:scheme="package" />
+            </intent-filter>
+            <!-- 可选filter -->
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.USER_PRESENT" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name="com.hyphenate.chat.EMChatService"
+            android:exported="true" /> <!-- 声明SDK所需的receiver -->
+        <service
+            android:name="com.hyphenate.chat.EMJobService"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+        <service
+            android:name=".service.MessageReciveService"
+            android:exported="true" />
+
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
+    </application>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+
+    <uses-permission android:name="android.permission.GET_PACKAGE_SIZE" />
+
+</manifest>

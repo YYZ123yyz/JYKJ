@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/pBackColor"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/groabColor">
+
+        <LinearLayout
+            android:id="@+id/ll_back"
+            android:layout_width="50dp"
+            android:layout_height="60dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="10dp"
+                android:layout_height="20dp"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:layout_marginLeft="15dp"
+                android:src="@mipmap/arrow_left" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="提醒建议"
+            android:textColor="@color/writeColor"
+            android:textSize="10pt" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/writeColor"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:text="白晓彤"
+            android:textColor="@color/tabColor_nomal"
+            android:textSize="9pt" />
+
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_time"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:gravity="bottom"
+        android:paddingLeft="15dp"
+        android:paddingBottom="10dp"
+        android:textColor="@color/textColor_vt"
+        android:textSize="6pt" />
+
+    <TextView
+        android:id="@+id/tv_content"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="@color/writeColor"
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp"
+        android:paddingRight="10dp"
+        android:textColor="@color/tabColor_nomal"
+        android:textSize="8pt" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:text="填写给患者的建议"
+            android:textColor="@color/textColor_vt"
+            android:textSize="7pt" />
+        <TextView
+            android:id="@+id/tv_choose_template"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="选择消息模板"
+            android:textSize="7pt"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"/>
+    </RelativeLayout>
+
+    <EditText
+        android:id="@+id/tv_template"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="@color/writeColor"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:gravity="top"
+        android:paddingTop="5dp"
+        android:hint="请在此填写要提醒患者的内容后发送！"
+        android:textColor="@color/tabColor_nomal"
+        android:textSize="9pt" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_marginTop="1dp"
+        android:background="@color/writeColor">
+
+        <Button
+            android:id="@+id/btn_send"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="60dp"
+            android:layout_marginRight="60dp"
+            android:background="@mipmap/bg_2"
+            android:text="发送"
+            android:textColor="@color/writeColor"
+            android:textSize="8pt" />
+    </LinearLayout>
+</LinearLayout>

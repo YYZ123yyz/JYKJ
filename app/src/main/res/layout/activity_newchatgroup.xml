@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/pBackColor"
+    android:orientation="vertical">
+    <www.jykj.com.jykj_zxyl.util.NestedExpandaleListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:groupIndicator="@null"
+        android:background="@color/writeColor"
+        android:id="@+id/rv_activityNewChatGroup_yshyInfo"
+        />
+
+</LinearLayout>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/writeColor">
+
+    <ImageView
+        android:id="@+id/iv_head"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:background="@mipmap/docter_heard"/>
+
+    <LinearLayout
+        android:id="@+id/text_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/iv_head"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="李飞联盟（陕西/西安/市中医院）"
+            android:id="@+id/item_joinUnionActivity_unionNameText"
+            android:textColor="@color/textColor_black"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="10sp"
+            android:text="3级"
+            android:id="@+id/item_joinUnionActivity_unionLeaveText"
+            android:textColor="@color/textColor_vt"
+            android:drawableLeft="@mipmap/icon_rank"
+            android:layout_marginTop="10dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="医生人数58（当前）/100（上限）"
+            android:id="@+id/item_joinUnionActivity_unionUserNumText"
+            android:textSize="12sp"
+            android:textColor="@color/textColor_vt"
+            android:layout_marginTop="5dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="患者人数58（当前）/100（上限）"
+            android:id="@+id/item_joinUnionActivity_unionHZNumText"
+            android:textSize="12sp"
+            android:textColor="@color/textColor_vt"
+            android:layout_marginTop="5dp"/>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignRight="@+id/text_layout"
+        android:layout_alignBottom="@+id/text_layout"
+        android:layout_marginRight="20dp"
+        android:text="加入"
+        android:paddingRight="15dp"
+        android:paddingLeft="15dp"
+        android:paddingTop="5dp"
+        android:id="@+id/tv_itemJoinUnionActivity_joinUnionText"
+        android:paddingBottom="5dp"
+        android:textColor="@color/writeColor"
+        android:background="@drawable/shape_corner_button1"
+        />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginLeft="70dp"
+        android:background="@color/editHintColor"
+        android:layout_below="@+id/text_layout"/>
+
+</RelativeLayout>

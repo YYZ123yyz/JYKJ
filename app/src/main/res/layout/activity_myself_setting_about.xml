@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/pBackColor"
+    tools:context=".activity.myself.MyAccountActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/groabColor"
+        >
+        <LinearLayout
+            android:layout_width="61dp"
+            android:layout_height="match_parent"
+            android:id="@+id/back"
+            android:orientation="horizontal">
+        <ImageView
+            android:layout_width="10dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="15dp"
+            android:src="@mipmap/arrow_left"/>
+        </LinearLayout>
+        <TextView
+            android:text="关于我们"
+            android:textSize="10pt"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:textColor="@color/writeColor"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
+
+
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="关于我们"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:id="@+id/tv_about"
+            android:layout_marginLeft="10dp"
+            android:textSize="8pt"
+            android:textColor="@color/textColor_vo"/>
+
+</LinearLayout>

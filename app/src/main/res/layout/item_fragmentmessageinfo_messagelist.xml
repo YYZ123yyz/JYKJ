@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/writeColor"
+    android:layout_marginTop="1dp"
+    android:id="@+id/li_itemFragmentHYHD_clickLayout"
+    android:orientation="horizontal"
+    >
+    <ImageView
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:src="@mipmap/hztx"
+        android:layout_marginLeft="10dp"
+        android:id="@+id/iv_itemMessageAdapter_head"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
+        android:layout_gravity="center_vertical"
+        />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
+        android:layout_marginLeft="10dp"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="狄仁杰"
+                android:textSize="9pt"
+                android:id="@+id/tv_itemMessageAdapter_userNameText"
+                android:textColor="@color/tabColor_nomal"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="省三院"
+                android:textSize="7pt"
+                android:id="@+id/tv_itemMessageAdapter_userSSYText"
+                android:layout_marginLeft="10dp"
+                android:textColor="@color/tabColor_nomal"
+                />
+        </LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="李飞的联盟"
+            android:id="@+id/tv_itemMessageAdapter_userMessageText"
+            android:textSize="7pt"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/textColor_vt"
+            android:singleLine="true"
+            android:ellipsize="end"
+            />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="12:48"
+        android:id="@+id/tv_itemMessageAdapter_userDateText"
+        android:textSize="7pt"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="10dp"
+        android:textColor="@color/textColor_vt"
+        />
+
+</LinearLayout>

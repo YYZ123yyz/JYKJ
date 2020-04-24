@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/pop_triangle"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:orientation="vertical"
+        android:background="@drawable/pop_more_feature_bg">
+
+        <TextView
+            android:id="@+id/tv_sys"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="扫一扫"
+            android:textSize="16sp"
+            android:paddingLeft="35dp"
+            android:paddingRight="35dp"
+            android:paddingTop="15dp"
+            android:drawablePadding="10dp"
+            android:textColor="@color/textColor_black"
+            android:drawableLeft="@mipmap/pop_sys"/>
+        <TextView
+            android:id="@+id/tv_yqth"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="邀请同行"
+            android:textSize="16sp"
+            android:paddingLeft="35dp"
+            android:paddingRight="35dp"
+            android:paddingTop="15dp"
+            android:drawablePadding="10dp"
+            android:textColor="@color/textColor_black"
+            android:drawableLeft="@mipmap/pop_yqth"/>
+        <TextView
+            android:id="@+id/tv_tjhz"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="添加患者"
+            android:textSize="16sp"
+            android:paddingLeft="35dp"
+            android:paddingRight="35dp"
+            android:paddingTop="15dp"
+            android:drawablePadding="10dp"
+            android:textColor="@color/textColor_black"
+            android:drawableLeft="@mipmap/pop_tjhz"/>
+        <TextView
+            android:id="@+id/tv_wdzs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="我的诊所"
+            android:textSize="16sp"
+            android:paddingLeft="35dp"
+            android:paddingRight="35dp"
+            android:paddingTop="15dp"
+            android:drawablePadding="10dp"
+            android:textColor="@color/textColor_black"
+            android:drawableLeft="@mipmap/pop_wdzs"/>
+        <TextView
+            android:id="@+id/tv_wdxx"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="我的消息"
+            android:textSize="16sp"
+            android:paddingLeft="35dp"
+            android:paddingRight="35dp"
+            android:paddingTop="15dp"
+            android:drawablePadding="10dp"
+            android:textColor="@color/textColor_black"
+            android:drawableLeft="@mipmap/pop_wdxx"/>
+
+        <TextView
+            android:id="@+id/tv_fqhz"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="发起会诊"
+            android:textSize="16sp"
+            android:paddingLeft="35dp"
+            android:paddingRight="35dp"
+            android:paddingTop="15dp"
+            android:drawablePadding="10dp"
+            android:textColor="@color/textColor_black"
+            android:drawableLeft="@mipmap/pop_fqhz"/>
+        <TextView
+            android:id="@+id/tv_wdbb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="我的报表"
+            android:textSize="16sp"
+            android:paddingLeft="35dp"
+            android:paddingRight="35dp"
+            android:paddingTop="15dp"
+            android:drawablePadding="10dp"
+            android:textColor="@color/textColor_black"
+            android:drawableLeft="@mipmap/pop_wdbb"/>
+        <TextView
+            android:id="@+id/tv_bzfk"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="帮助与反馈"
+            android:textSize="16sp"
+            android:paddingLeft="35dp"
+            android:paddingRight="35dp"
+            android:paddingTop="15dp"
+            android:drawablePadding="10dp"
+            android:layout_marginBottom="15dp"
+            android:textColor="@color/textColor_black"
+            android:drawableLeft="@mipmap/pop_bzfk"/>
+
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

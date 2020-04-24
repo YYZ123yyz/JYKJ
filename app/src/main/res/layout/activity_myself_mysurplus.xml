@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/pBackColor"
+    tools:context=".activity.myself.MyAccountActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/groabColor"
+        >
+        <ImageView
+            android:layout_width="10dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:src="@mipmap/arrow_left"/>
+        <TextView
+            android:text="我的余额"
+            android:textSize="10pt"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:textColor="@color/writeColor"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:text="明细"
+            android:textSize="10pt"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:layout_width="wrap_content"
+            android:id="@+id/activity_mySurPlus_detail"
+            android:textColor="@color/writeColor"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
+
+    <ImageView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="80dp"
+        android:src="@mipmap/activity_mysurplus_ye"/>
+
+
+    <TextView
+        android:text="当前余额"
+        android:textSize="9pt"
+        android:layout_width="wrap_content"
+        android:textColor="@color/textColor_vo"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30dp"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:text="￥ 20.00"
+        android:textSize="14pt"
+        android:layout_width="wrap_content"
+        android:textColor="@color/textColor_vo"
+        android:layout_gravity="center_horizontal"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:text="提现"
+        android:textSize="9pt"
+        android:background="@mipmap/activity_mysurplus_qx"
+        android:layout_width="240dp"
+        android:textColor="@color/writeColor"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:layout_marginTop="120dp"
+        android:layout_height="35dp"/>
+
+    <TextView
+        android:text="《提现说明》"
+        android:textSize="7pt"
+        android:layout_width="wrap_content"
+        android:textColor="@color/groabColor"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:layout_marginTop="60dp"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>

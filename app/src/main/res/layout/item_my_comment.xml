@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/writeColor">
+
+    <ImageView
+        android:id="@+id/iv_head"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@mipmap/hztx"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"/>
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/iv_head"
+        android:text="狄仁杰"
+        android:textSize="14sp" />
+
+    <LinearLayout
+        android:id="@+id/ll_sex"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@+id/tv_name"
+        android:layout_gravity="center_vertical"
+        android:background="@mipmap/man">
+
+        <TextView
+            android:id="@+id/tv_age"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="30"
+            android:layout_marginRight="10dp"
+            android:textColor="@color/writeColor"
+            android:textSize="7pt" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/iv_head"
+        android:text="2019-11-13"
+        android:textSize="11sp"
+        android:layout_below="@+id/ll_sex"
+        android:layout_marginLeft="10dp"/>
+
+    <TextView
+        android:id="@+id/tv_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/iv_head"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/textColor_black"
+        android:ellipsize="end"
+        android:maxLines="3"
+        android:text="感谢医生的就诊，我已经开好了药，准备按时按量服用，注意休息注意饮食吃完这疗程再来复诊"/>
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="回复"
+    android:layout_below="@+id/tv_content"
+    android:layout_alignParentRight="true"
+    android:layout_marginRight="10dp"
+    android:background="@drawable/shape_setting_button"
+    android:layout_marginBottom="20dp"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp"
+    android:paddingTop="3dp"
+    android:paddingBottom="3dp"
+    android:textColor="@color/groabColor"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="6dp"
+        android:background="#F5F5F5"/>
+</RelativeLayout>

@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+      <include layout="@layout/new_layout"></include>
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="40dp"
+          android:layout_marginTop="50dp"
+          android:orientation="horizontal">
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="30dp"
+                android:src="@mipmap/phone"/>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginRight="30dp"
+                android:layout_marginLeft="10dp"
+                android:inputType="number"
+                android:id="@+id/et_activityRegist_phoneNumEdit"
+                android:hint="请输入手机号"
+                android:textSize="8pt"
+                android:background="@null"/>
+      </LinearLayout>
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="1dp"
+          android:layout_marginLeft="30dp"
+          android:layout_marginRight="30dp"
+          android:orientation="vertical"
+          android:background="@color/pBackColor"/>
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="40dp"
+          android:layout_marginTop="10dp"
+          android:orientation="horizontal">
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="30dp"
+                android:src="@mipmap/vcode"/>
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginRight="30dp"
+                android:layout_marginLeft="10dp"
+                android:hint="请输入验证码"
+                android:inputType="number"
+                android:id="@+id/et_new_vCodeEdit"
+                android:textSize="8pt"
+                android:background="@null"/>
+            <TextView
+                android:text="获取验证码"
+                android:textSize="8pt"
+                android:layout_marginRight="30dp" android:id="@+id/tv_activityRetist_getVCodeText"
+                android:layout_width="wrap_content"
+                android:textColor="@color/groabColor"
+                android:layout_height="wrap_content"/>
+      </LinearLayout>
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="1dp"
+          android:layout_marginLeft="30dp"
+          android:layout_marginRight="30dp"
+          android:orientation="vertical"
+          android:background="@color/pBackColor"/>
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="40dp"
+          android:layout_marginTop="10dp"
+          android:orientation="horizontal">
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="30dp"
+                android:src="@mipmap/password"/>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginRight="30dp"
+                android:layout_marginLeft="10dp"
+                android:inputType="textPassword"
+                android:hint="请输入新密码" android:id="@+id/et_new_passwordEdit"
+                android:textSize="8pt"
+                android:background="@null"/>
+      </LinearLayout>
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="40dp"
+          android:orientation="horizontal">
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="30dp"
+                android:src="@mipmap/password"/>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginRight="30dp"
+                android:layout_marginLeft="10dp"
+                android:inputType="textPassword"
+                android:hint="请确认新密码"
+                android:id="@+id/et_new_confirm"
+                android:textSize="8pt"
+                android:background="@null"/>
+      </LinearLayout>
+
+
+      <RelativeLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginLeft="30dp"
+          android:layout_marginRight="30dp"
+          android:layout_marginTop="10dp"
+          >
+
+      </RelativeLayout>
+      <Button
+          android:layout_gravity="center"
+          android:layout_width="238dp"
+          android:layout_height="48dp"
+          android:layout_marginTop="40dp"
+          android:layout_marginLeft="30dp"
+          android:layout_marginRight="30dp"
+          android:background="@mipmap/login"
+          android:id="@+id/bt_activitysumbit_registBt"
+          android:textColor="#ffffffff"
+          android:textSize="18sp"
+          android:text="提交"/>
+
+
+</LinearLayout>

@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/pBackColor"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/groabColor">
+
+        <LinearLayout
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:id="@+id/li_back">
+            <ImageView
+                android:id="@+id/iv_back_left"
+                android:layout_width="10dp"
+                android:layout_height="20dp"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="15dp"
+                android:src="@mipmap/arrow_left" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="处方药品"
+            android:textColor="@color/writeColor"
+            android:textSize="10pt" />
+    </RelativeLayout>
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal"
+                android:layout_marginTop="1dp"
+                android:id="@+id/li_cflxLayout"
+                android:background="@color/writeColor">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="10dp"
+                    android:layout_gravity="center_vertical"
+                    android:text="处方类型"
+
+                    android:textColor="@color/tabColor_nomal"
+                    android:textSize="9pt" />
+
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="请选择"
+                    android:id="@+id/prescribeType"
+                    android:textColor="@color/textColor_vt"
+                    android:textSize="9pt" />
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="10dp"
+                    android:src="@mipmap/arrow_r"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="10dp"/>
+            </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:orientation="horizontal"
+                    android:id="@+id/li_xzyp"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/writeColor">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginLeft="10dp"
+                        android:layout_gravity="center_vertical"
+                        android:text="药品名称"
+                        android:textColor="@color/tabColor_nomal"
+                        android:textSize="9pt" />
+
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="请选择"
+                        android:id="@+id/tv_ypmc"
+                        android:textColor="@color/textColor_vt"
+                        android:textSize="9pt" />
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginLeft="10dp"
+                        android:src="@mipmap/arrow_r"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="10dp"/>
+                </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal"
+                android:layout_marginTop="1dp"
+                android:id="@+id/li_activityTWJZKJCF_cfyp"
+                android:background="@color/writeColor">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="10dp"
+                    android:layout_gravity="center_vertical"
+
+                    android:text="购药数量"
+                    android:textColor="@color/tabColor_nomal"
+                    android:textSize="9pt" />
+
+
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_gravity="center_vertical"
+                    android:hint="请输入购买数量"
+                    android:gravity="right"
+                    android:id="@+id/et_gmsl"
+                    android:inputType="numberDecimal"
+                    android:layout_marginRight="10dp"
+                    android:background="@null"
+                    android:textColor="@color/textColor_vt"
+                    android:textSize="9pt" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal"
+                android:layout_marginTop="1dp"
+                android:background="@color/writeColor">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="10dp"
+                    android:layout_gravity="center_vertical"
+                    android:text="规格"
+                    android:textColor="@color/tabColor_nomal"
+                    android:textSize="9pt" />
+
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_gravity="center_vertical"
+                    android:text="请选择"
+                    android:id="@+id/tv_ypgg"
+                    android:textColor="@color/textColor_vt"
+                    android:textSize="9pt" />
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:gravity="right"
+                    android:layout_marginLeft="10dp"
+                    android:src="@mipmap/arrow_r"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="10dp"/>
+            </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="1dp"
+                    android:background="@color/writeColor">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginLeft="10dp"
+                        android:layout_gravity="center_vertical"
+                        android:text="每次服用数量"
+                        android:textColor="@color/tabColor_nomal"
+                        android:textSize="9pt" />
+
+
+
+                    <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_gravity="center_vertical"
+                        android:hint="请输入每次服用数量"
+                        android:gravity="right"
+                        android:id="@+id/et_mcfysl"
+                        android:layout_marginRight="10dp"
+                        android:inputType="number"
+                        android:background="@null"
+                        android:textColor="@color/textColor_vt"
+                        android:textSize="9pt" />
+                </LinearLayout>
+
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="1dp"
+                    android:background="@color/writeColor">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginLeft="10dp"
+                        android:layout_gravity="center_vertical"
+                        android:text="用药频率（次、天）"
+                        android:textColor="@color/tabColor_nomal"
+                        android:textSize="9pt" />
+
+
+
+                    <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="right"
+                        android:id="@+id/et_yypl"
+                        android:inputType="number"
+                        android:hint="请输入用药频率"
+                        android:layout_marginRight="10dp"
+                        android:background="@null"
+                        android:textColor="@color/textColor_vt"
+                        android:textSize="9pt" />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="1dp"
+                    android:background="@color/writeColor">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginLeft="10dp"
+                        android:layout_gravity="center_vertical"
+                        android:text="服用周期（服药天数）"
+                        android:textColor="@color/tabColor_nomal"
+                        android:textSize="9pt" />
+
+
+
+                    <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_gravity="center_vertical"
+                        android:inputType="number"
+                        android:hint="请输入服用周期"
+                        android:id="@+id/et_fyzq"
+                        android:gravity="right"
+                        android:layout_marginRight="10dp"
+                        android:background="@null"
+                        android:textColor="@color/textColor_vt"
+                        android:textSize="9pt" />
+                </LinearLayout>
+
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="1dp"
+                    android:background="@color/writeColor">
+
+
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="10dp"
+                        android:text="用药备注"
+                        android:textColor="@color/tabColor_nomal"
+                        android:textSize="9pt" />
+
+
+
+                    <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_weight="1"
+                        android:layout_gravity="center_vertical"
+                        android:hint="请输入用药备注"
+                        android:id="@+id/et_yybz"
+                        android:layout_marginRight="10dp"
+                        android:background="@null"
+                        android:textColor="@color/textColor_vt"
+                        android:textSize="9pt" />
+
+                </LinearLayout>
+
+
+
+
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:layout_marginTop="40dp"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginRight="30dp"
+                    android:background="@mipmap/login"
+                    android:textColor="@color/writeColor"
+                    android:id="@+id/button_xz"
+                    android:textSize="9pt"
+                    android:text="新增一用药"/>
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

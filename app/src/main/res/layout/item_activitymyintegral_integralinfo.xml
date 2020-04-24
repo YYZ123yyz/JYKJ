@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/writeColor"
+    android:layout_marginTop="1dp"
+    android:orientation="vertical"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="提现"
+            android:layout_weight="1"
+            android:id="@+id/item_integralDetail_suType"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="8dp"
+            android:textSize="9pt"
+            android:textColor="@color/tabColor_nomal"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="-100"
+            android:id="@+id/item_integralDetail_price"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="8dp"
+            android:textSize="9pt"
+            android:textColor="@color/tabColor_nomal"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="11月27日"
+            android:layout_marginLeft="7dp"
+            android:id="@+id/item_integralDetail_data"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            android:textSize="7pt"
+            android:textColor="@color/textColor_vt"/>
+
+    </LinearLayout>
+
+</LinearLayout>

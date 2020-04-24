@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/pBackColor"
+    tools:context=".activity.MainActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/groabColor"
+        >
+
+        <LinearLayout
+            android:id="@+id/ll_back"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true">
+
+            <ImageView
+                android:id="@+id/iv_back_left"
+                android:layout_width="10dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="15dp"
+                android:src="@mipmap/arrow_left" />
+
+        </LinearLayout>
+        <TextView
+            android:text="审核"
+            android:textSize="10pt"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:textColor="@color/writeColor"
+            android:layout_height="wrap_content"/>
+
+
+    </RelativeLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="申请时间：2019-11-29 08：12"
+        android:textSize="7pt"
+        android:id="@+id/tv_activityApplyAudit_dateText"
+        android:textColor="@color/textColor_vt"
+        android:paddingLeft="10dp"
+        android:gravity="center_vertical"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/writeColor"
+        android:orientation="horizontal">
+        <ImageView
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:src="@mipmap/hztx"
+            android:id="@+id/tv_activityApplyAudit_userHeard"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="15dp"
+            android:layout_gravity="center_vertical"
+            />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="15dp"
+            android:layout_marginLeft="10dp"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="狄仁杰"
+                    android:id="@+id/tv_activityApplyAudit_userNameText"
+                    android:textSize="9pt"
+                    android:textColor="@color/tabColor_nomal"
+                    />
+
+            </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="提示内容：您好，我是您的新患者，3天后复诊"
+                android:id="@+id/tv_activityApplyAudit_applyReson"
+                android:textSize="6pt"
+                android:layout_marginTop="5dp"
+                android:textColor="@color/textColor_vt"
+                />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:layout_marginTop="1dp"
+        android:background="@color/writeColor">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:layout_gravity="center_vertical"
+            android:text="患者标签"
+
+            android:textColor="@color/tabColor_nomal"
+            android:textSize="8pt" />
+
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_gravity="center_vertical"
+            android:text="请选择标签(必填)"
+            android:id="@+id/tv_activityApplyAudit_userLaber"
+            android:textColor="@color/textColor_vt"
+            android:textSize="8pt" />
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="10dp"
+            android:src="@mipmap/arrow_r"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="10dp"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/writeColor"
+        android:layout_marginTop="1dp"
+        android:orientation="horizontal">
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@mipmap/bg_2"
+            android:text="通过"
+            android:textSize="8pt"
+            android:id="@+id/bt_activityApplyAudit_agree"
+            android:textColor="@color/writeColor"
+            android:gravity="center"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:layout_gravity="center_vertical"/>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="若不通过则填写拒绝原因"
+        android:textSize="7pt"
+
+        android:textColor="@color/textColor_vt"
+        android:paddingLeft="10dp"
+        android:gravity="center_vertical"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/writeColor"
+        android:layout_marginTop="1dp"
+        android:orientation="vertical">
+        <EditText
+            android:layout_margin="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:padding="10dp"
+            android:textSize="7pt"
+
+            android:id="@+id/et_activityApplyAudit_refunedReasud"
+            android:background="@color/pBackColor"
+            android:hint="请在此填写拒绝原因"/>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@mipmap/bg_2"
+            android:text="拒绝"
+            android:textSize="8pt"
+            android:textColor="@color/writeColor"
+            android:gravity="center"
+            android:layout_marginLeft="40dp"
+            android:id="@+id/tv_activityApplyAudit_refuned"
+            android:layout_marginRight="40dp"
+            android:layout_marginBottom="50dp"
+            android:layout_gravity="center_vertical"/>
+    </LinearLayout>
+</LinearLayout>

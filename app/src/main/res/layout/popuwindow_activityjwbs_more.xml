@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="180dp"
+        android:layout_height="90dp"
+        android:orientation="horizontal"
+        android:background="@mipmap/poputop"
+        android:id="@+id/l1_popuwindowActivitEditMyInfo_qb"
+        >
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:textSize="8pt"
+            android:textColor="#000000"
+            android:text="全部"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="180dp"
+        android:layout_height="80dp"
+        android:orientation="horizontal"
+        android:background="@mipmap/popumiddle"
+        android:id="@+id/l1_popuwindowActivitEditMyInfo_jwbs"
+        >
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="20dp"
+            android:gravity="center"
+            android:textSize="8pt"
+            android:textColor="#000000"
+            android:text="既往病史"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="180dp"
+        android:layout_height="90dp"
+        android:orientation="horizontal"
+
+        android:background="@mipmap/popuwindowbuttom2"
+        android:id="@+id/l1_popuwindowActivitEditMyInfo_bcjl"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="20dp"
+            android:layout_marginBottom="10dp"
+            android:gravity="center"
+            android:textSize="8pt"
+            android:textColor="#000000"
+            android:text="病程记录"/>
+
+    </LinearLayout>
+</LinearLayout>

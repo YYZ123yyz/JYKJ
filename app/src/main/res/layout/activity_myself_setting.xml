@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/pBackColor"
+    tools:context=".activity.myself.MyAccountActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/groabColor"
+        >
+        <ImageView
+            android:id="@+id/myself_back"
+            android:layout_width="10dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:src="@mipmap/arrow_left"/>
+        <TextView
+            android:text="设置"
+            android:textSize="10pt"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:textColor="@color/writeColor"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/writeColor"
+        android:layout_marginTop="15dp"
+        android:id="@+id/li_activitySetting_operPassWord"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="修改登录密码"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:textSize="8pt"
+            android:textColor="@color/textColor_vo"/>
+
+        <ImageView
+            android:layout_width="12dp"
+            android:layout_height="18dp"
+            android:layout_marginRight="15dp"
+            android:src="@mipmap/fragmentmyself_jt_r"
+            android:layout_gravity="center_vertical"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/writeColor"
+        android:layout_marginTop="15dp"
+        android:id="@+id/li_activitySetting_aboutLayout"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="关于我们"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:textSize="8pt"
+            android:textColor="@color/textColor_vo"/>
+
+        <ImageView
+            android:layout_width="12dp"
+            android:layout_height="18dp"
+            android:layout_marginRight="15dp"
+            android:src="@mipmap/fragmentmyself_jt_r"
+            android:layout_gravity="center_vertical"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/writeColor"
+        android:id="@+id/li_activitySetting_serviceHolting"
+        android:layout_marginTop="1dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="客服热线"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:textSize="8pt"
+            android:textColor="@color/textColor_vo"/>
+
+        <ImageView
+            android:layout_width="12dp"
+            android:layout_height="18dp"
+            android:layout_marginRight="15dp"
+            android:src="@mipmap/fragmentmyself_jt_r"
+            android:layout_gravity="center_vertical"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/writeColor"
+        android:layout_marginTop="1dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="意见反馈"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:textSize="8pt"
+            android:textColor="@color/textColor_vo"/>
+
+        <ImageView
+            android:layout_width="12dp"
+            android:layout_height="18dp"
+            android:layout_marginRight="15dp"
+            android:src="@mipmap/fragmentmyself_jt_r"
+            android:layout_gravity="center_vertical"
+            />
+    </LinearLayout>
+
+    <!--<LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/writeColor"
+        android:layout_marginTop="15dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="打赏设置"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:textSize="8pt"
+            android:textColor="@color/textColor_vo"/>
+
+        <ImageView
+            android:layout_width="12dp"
+            android:layout_height="18dp"
+            android:layout_marginRight="15dp"
+            android:src="@mipmap/fragmentmyself_jt_r"
+            android:layout_gravity="center_vertical"
+            />
+    </LinearLayout>-->
+
+    <LinearLayout
+        android:id="@+id/myself_Vt"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/writeColor"
+        android:layout_marginTop="1dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="清除缓存"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:textSize="8pt"
+            android:textColor="@color/textColor_vo"/>
+         <TextView
+             android:id="@+id/myself_Cache"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_gravity="center_vertical"
+             ></TextView>
+        <ImageView
+            android:layout_width="12dp"
+            android:layout_height="18dp"
+            android:layout_marginRight="15dp"
+            android:src="@mipmap/fragmentmyself_jt_r"
+            android:layout_gravity="center_vertical"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/writeColor"
+        android:layout_marginTop="1dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="检测新版本"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:textSize="8pt"
+            android:textColor="@color/textColor_vo"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="当前版本：1.0"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="10dp"
+            android:textSize="8pt"
+            android:textColor="@color/textColor_vo"/>
+
+        <ImageView
+            android:layout_width="12dp"
+            android:layout_height="18dp"
+            android:layout_marginRight="15dp"
+            android:src="@mipmap/fragmentmyself_jt_r"
+            android:layout_gravity="center_vertical"
+            />
+    </LinearLayout>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:text="退出当前账号"
+        android:layout_marginTop="60dp"
+        android:id="@+id/bt_activityMySelfSetting_exitButton"
+        android:layout_gravity="center_horizontal"
+        android:textSize="8pt"
+        android:background="@mipmap/activity_mysurplus_qx"
+        android:textColor="@color/writeColor"/>
+</LinearLayout>

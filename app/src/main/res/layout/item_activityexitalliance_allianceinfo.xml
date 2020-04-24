@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="1dp"
+    android:background="@color/writeColor"
+    android:orientation="horizontal"
+    >
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="李飞的联盟"
+            android:id="@+id/tv_itemExitAlliance_allianceName"
+            android:textSize="8pt"
+            android:textColor="@color/tabColor_nomal"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="省第三人民医院"
+            android:id="@+id/tv_itemExitAlliance_allianceRemark"
+            android:layout_marginBottom="10dp"
+            android:textSize="7pt"
+            android:textColor="@color/textColor_vt"/>
+    </LinearLayout>
+    <TextView
+        android:layout_width="80dp"
+        android:layout_height="35dp"
+        android:text="退出"
+        android:gravity="center"
+        android:layout_gravity="center_vertical"
+        android:layout_marginRight="10dp"
+        android:textSize="8pt"
+        android:background="@mipmap/bg4"
+        android:textColor="@color/writeColor"/>
+
+</LinearLayout>

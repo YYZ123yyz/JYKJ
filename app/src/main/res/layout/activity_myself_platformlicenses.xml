@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/pBackColor"
+    tools:context=".activity.myself.MyAccountActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/groabColor"
+        >
+        <ImageView
+            android:layout_width="10dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:src="@mipmap/arrow_left"/>
+        <TextView
+            android:text="平台授权"
+            android:textSize="10pt"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:textColor="@color/writeColor"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/writeColor"
+        android:layout_marginTop="15dp"
+        android:id="@+id/li_activityServicePermision_ImageText"
+        android:orientation="horizontal">
+        <ImageView
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="15dp"
+            android:src="@mipmap/platform_weixin"
+            android:layout_gravity="center_vertical"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="微信"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:textSize="8pt"
+            android:textColor="@color/textColor_vo"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="已授权"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="10dp"
+            android:textSize="8pt"
+            android:textColor="@color/tabColor_nomal"/>
+        <ImageView
+            android:layout_width="12dp"
+            android:layout_height="18dp"
+            android:layout_marginRight="15dp"
+            android:src="@mipmap/fragmentmyself_jt_r"
+            android:layout_gravity="center_vertical"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/writeColor"
+        android:layout_marginTop="1dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="15dp"
+            android:src="@mipmap/platform_zfb"
+            android:layout_gravity="center_vertical"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="支付宝"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:textSize="8pt"
+            android:textColor="@color/textColor_vo"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="未授权"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="10dp"
+            android:textSize="8pt"
+            android:textColor="@color/textColor_vt"/>
+        <ImageView
+            android:layout_width="12dp"
+            android:layout_height="18dp"
+            android:layout_marginRight="15dp"
+            android:src="@mipmap/fragmentmyself_jt_r"
+            android:layout_gravity="center_vertical"
+            />
+    </LinearLayout>
+
+</LinearLayout>

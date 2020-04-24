@@ -1,0 +1,399 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/pBackColor"
+    tools:context=".activity.myself.MyAccountActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/groabColor"
+        >
+        <LinearLayout
+            android:id="@+id/ll_back"
+            android:layout_width="60dp"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="10dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="15dp"
+                android:src="@mipmap/arrow_left" />
+        </LinearLayout>
+        <TextView
+            android:text="图文就诊设置"
+            android:textSize="10pt"
+            android:layout_centerInParent="true"
+            android:id="@+id/titleText"
+            android:layout_width="wrap_content"
+            android:textColor="@color/writeColor"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:text="保存"
+            android:textSize="10pt"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:layout_width="wrap_content"
+            android:id="@+id/commit"
+            android:textColor="@color/writeColor"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/writeColor"
+        android:layout_marginTop="15dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="开通图文就诊"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:id="@+id/tv_activityServicePermisionSet_serviceTitle"
+            android:layout_marginLeft="10dp"
+            android:textSize="8pt"
+            android:textColor="@color/textColor_vo"/>
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="20dp"
+            android:layout_marginRight="5dp"
+            android:id="@+id/iv_activityServicePermisionSet_serviceSet"
+            android:src="@mipmap/sharedataset_close"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/writeColor"
+        android:layout_marginTop="15dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="图文就诊基础价格"
+            android:id="@+id/tv_activityServicePermisionSet_servicePriceTitle"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:textSize="8pt"
+            android:textColor="@color/textColor_vo"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="￥ "
+            android:layout_gravity="center_vertical"
+            android:textSize="8pt"
+            android:textColor="@color/textColor_vo"/>
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="请输入"
+            android:gravity="center"
+            android:background="@null"
+            android:id="@+id/et_activityServicePermisionSet_servicePriceTitle"
+            android:inputType="numberDecimal"
+            android:layout_gravity="center_vertical"
+            android:textSize="8pt"
+            android:textColor="@color/textColor_vo"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="元/次 "
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="15dp"
+            android:textSize="8pt"
+            android:textColor="@color/textColor_vo"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/writeColor"
+        android:layout_marginTop="1dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="图文就诊议价价格"
+            android:id="@+id/tv_activityServicePermisionSet_serviceYJPriceTitle"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:textSize="8pt"
+            android:textColor="@color/textColor_vo"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="￥ "
+            android:layout_gravity="center_vertical"
+            android:textSize="8pt"
+            android:textColor="@color/textColor_vo"/>
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="请输入"
+            android:gravity="center"
+            android:id="@+id/et_activityServicePermisionSet_yjPriceEdit"
+            android:background="@null"
+            android:inputType="numberDecimal"
+            android:layout_gravity="center_vertical"
+            android:textSize="8pt"
+            android:textColor="@color/textColor_vo"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="元/次 "
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="15dp"
+            android:textSize="8pt"
+            android:textColor="@color/textColor_vo"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/writeColor"
+        android:layout_marginTop="15dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="基础号源数量"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:textSize="8pt"
+            android:textColor="@color/textColor_vo"/>
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="请输入"
+            android:id="@+id/et_activityServicePermisionSet_hyNumEdit"
+            android:gravity="center"
+            android:background="@null"
+            android:inputType="number"
+            android:layout_gravity="center_vertical"
+            android:textSize="8pt"
+            android:textColor="@color/textColor_vo"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="个"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="15dp"
+            android:textSize="8pt"
+            android:textColor="@color/textColor_vo"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/writeColor"
+        android:layout_marginTop="1dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="议价号源数量"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:textSize="8pt"
+            android:textColor="@color/textColor_vo"/>
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="请输入"
+            android:id="@+id/et_activityServicePermisionSet_yjhyNumEdit"
+            android:background="@null"
+            android:gravity="center"
+            android:inputType="number"
+            android:layout_gravity="center_vertical"
+            android:textSize="8pt"
+            android:textColor="@color/textColor_vo"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="个"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="15dp"
+            android:textSize="8pt"
+            android:textColor="@color/textColor_vo"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/writeColor"
+        android:layout_marginTop="1dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="免费号源数量"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:textSize="8pt"
+            android:textColor="@color/textColor_vo"/>
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="请输入"
+            android:gravity="center"
+            android:id="@+id/et_activityServicePermisionSet_mfhyNumEdit"
+            android:background="@null"
+            android:inputType="number"
+            android:layout_gravity="center_vertical"
+            android:textSize="8pt"
+            android:textColor="@color/textColor_vo"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="个"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="15dp"
+            android:textSize="8pt"
+            android:textColor="@color/textColor_vo"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/writeColor"
+        android:layout_marginTop="15dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="服务时间"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:textSize="8pt"
+            android:textColor="@color/textColor_vo"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="48小时"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="10dp"
+            android:id="@+id/tv_fwsj"
+            android:textSize="8pt"
+            android:textColor="@color/textColor_vo"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/writeColor"
+        android:layout_marginTop="1dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="图文消息数"
+            android:id="@+id/messageNumTitle"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:textSize="8pt"
+            android:textColor="@color/textColor_vo"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="20次"
+            android:id="@+id/tv_messageNum"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="10dp"
+            android:textSize="8pt"
+            android:textColor="@color/textColor_vo"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/ypmessageNumTitle"
+        android:background="@color/writeColor"
+        android:layout_marginTop="1dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="音频通话时长"
+
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:textSize="8pt"
+            android:textColor="@color/textColor_vo"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="20次"
+            android:id="@+id/tv_ypthsj"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="10dp"
+            android:textSize="8pt"
+            android:textColor="@color/textColor_vo"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/writeColor"
+        android:layout_marginTop="1dp"
+        android:id="@+id/spMessageNumTitle"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="视频通话时长"
+
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:textSize="8pt"
+            android:textColor="@color/textColor_vo"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="20次"
+            android:id="@+id/tv_spthsj"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="10dp"
+            android:textSize="8pt"
+            android:textColor="@color/textColor_vo"/>
+
+    </LinearLayout>
+
+</LinearLayout>

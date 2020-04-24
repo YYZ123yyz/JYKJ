@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:background="@color/writeColor">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2019-11-30 11:08"
+            android:textSize="12sp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:id="@+id/tv_itemMyApply_applyData"
+            android:layout_marginBottom="5dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:text="通过审核"
+            android:id="@+id/tv_itemMyApply_applyState"
+            android:textSize="12sp"
+            android:textColor="@color/groabColor"
+            android:layout_centerVertical="true"/>
+
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/editHintColor"
+        android:layout_below="@+id/text_layout"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/clickLayout"
+        android:background="@color/writeColor">
+
+        <ImageView
+            android:id="@+id/iv_head"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+
+            android:src="@mipmap/docter_heard"/>
+
+        <LinearLayout
+            android:id="@+id/text_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/iv_head"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="李飞联盟（陕西/西安/市中医院）"
+                android:id="@+id/tv_itemMyApply_unionName"
+                android:textColor="@color/textColor_black"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="10sp"
+                android:text="3级"
+                android:id="@+id/tv_itemMyApply_unionLeave"
+                android:textColor="@color/textColor_vt"
+                android:drawableLeft="@mipmap/icon_rank"
+                android:layout_marginTop="10dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="医生人数58（当前）/100（上限）"
+                android:textSize="12sp"
+                android:id="@+id/tv_itemMyApply_ysUserNum"
+                android:textColor="@color/textColor_vt"
+                android:layout_marginTop="5dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="患者人数58（当前）/100（上限）"
+                android:textSize="12sp"
+                android:textColor="@color/textColor_vt"
+                android:id="@+id/tv_itemMyApply_hzUserNum"
+                android:layout_marginTop="5dp"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:background="@color/pBackColor"
+            android:layout_below="@+id/text_layout"/>
+
+    </RelativeLayout>
+
+</LinearLayout>

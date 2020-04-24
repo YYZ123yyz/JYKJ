@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:background="@color/writeColor"
+    android:layout_height="match_parent">
+
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/groabColor"
+        android:orientation="horizontal"
+        >
+        <TextView
+            android:text="趋势图"
+            android:textSize="9pt"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:background="@mipmap/pg_messagetitle"
+            android:layout_width="wrap_content"
+            android:textColor="@color/tabColor_nomal"
+            android:id="@+id/tv_activityHZGLXY_xyQST"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginBottom="10dp"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:text="日志"
+            android:textSize="9pt"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_gravity="center"
+            android:id="@+id/tv_activityHZGLXY_xyRZ"
+            android:layout_width="wrap_content"
+            android:textColor="@color/writeColor"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:text="血压规则"
+            android:textSize="9pt"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="10dp"
+            android:layout_width="wrap_content"
+            android:textColor="@color/writeColor"
+            android:id="@+id/tv_activityHZGLXY_xygz"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </FrameLayout>
+
+   
+
+</LinearLayout>

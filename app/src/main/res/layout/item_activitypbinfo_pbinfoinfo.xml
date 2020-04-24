@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:layout_marginTop="1dp"
+    android:background="@color/writeColor"
+    android:orientation="horizontal"
+    >
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="周一"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:id="@+id/item_activityPBInfo_date"
+        android:textSize="8pt"
+        android:textColor="@color/textColor_vo"/>
+    <ImageView
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:id="@+id/item_activityPBInfo_morning"
+        android:layout_gravity="center"
+        android:src="@mipmap/nochoice"/>
+    <ImageView
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:id="@+id/item_activityPBInfo_afternoon"
+        android:layout_gravity="center"
+        android:src="@mipmap/nochoice"/>
+    <ImageView
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:id="@+id/item_activityPBInfo_ninght"
+        android:layout_gravity="center"
+        android:src="@mipmap/nochoice"/>
+
+</LinearLayout>
