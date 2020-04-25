@@ -98,6 +98,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private IWXAPI api;
     private SharedPreferences sp;
+    private    Handler  handler= new  Handler();
 
 
     @Override
@@ -149,14 +150,11 @@ public class LoginActivity extends AppCompatActivity {
                                 userInfo.setUserPwd(mPassWordEdit.getText().toString());
                                 mApp.mLoginUserInfo = userInfo;
                                 mApp.mViewSysUserDoctorInfoAndHospital = new Gson().fromJson(netRetEntity.getResJsonData(), ViewSysUserDoctorInfoAndHospital.class);
-                                mApp.mViewSysUserDoctorInfoAndHospital.setDoctorCode("dd0500f4e9684678aad9ee00000001");
-                                mApp.mViewSysUserDoctorInfoAndHospital.setQrCode("JY0100HZ200111180041000001");
+                                //   mApp.mViewSysUserDoctorInfoAndHospital.setDoctorCode("dd0500f4e9684678aad9ee00000001");
+                                //  mApp.mViewSysUserDoctorInfoAndHospital.setQrCode("JY0100HZ200111180041000001");
                                 mApp.saveUserInfo();
-
-
-                          //      Toast.makeText(mContext, "恭喜，登录成功", LENGTH_SHORT).show();
+                                //      Toast.makeText(mContext, "恭喜，登录成功", LENGTH_SHORT).show();
                                 mApp.mViewSysUserDoctorInfoAndHospital.getUserRoleId();
-
                                 //登录IM
                                 mApp.loginIM();
                                 mLoadingDialog.dismiss();
@@ -277,7 +275,6 @@ public class LoginActivity extends AppCompatActivity {
             req.scope = "snsapi_userinfo";
             req.state = "wechat_sdk_demo_test";
             WXapi.sendReq(req);
-            PreferenceUtils.putString(mContext, "LOGINTYPE", "LOGIN");
         } else {
             Toast.makeText(mContext, "您还没有安装微信，请先安装微信客户端", Toast.LENGTH_SHORT).show();
         }
@@ -426,7 +423,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onResume();
         receiveBroadCast = new LoginActivity.ReceiveBroadCast();
         IntentFilter filter = new IntentFilter();
-        filter.addAction("loginUserInfo");
+        filter.addAction("authlogin");
         getBaseContext().registerReceiver(receiveBroadCast, filter);
     }
 
@@ -434,19 +431,24 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     public void onDestroy() {
         super.onDestroy();
-      //  getApplication().unregisterReceiver(receiveBroadCast);
+        getApplication().unregisterReceiver(receiveBroadCast);
+
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
 
-    private void weChatAuth() {
-        if (api == null) {
-            api = WXAPIFactory.createWXAPI(LoginActivity.this, WX_APP_ID, true);
-        }
-        SendAuth.Req req = new SendAuth.Req();
-        req.scope = "snsapi_userinfo";
-        req.state = "wx_login_duzun";
-        api.sendReq(req);
     }
+    //    private void weChatAuth() {
+//        if (api == null) {
+//            api = WXAPIFactory.createWXAPI(LoginActivity.this, WX_APP_ID, true);
+//        }
+//        SendAuth.Req req = new SendAuth.Req();
+//        req.scope = "snsapi_userinfo";
+//        req.state = "wx_login_duzun";
+//        api.sendReq(req);
+//    }
 
 
     public void getAccessToken() {
@@ -498,8 +500,6 @@ public class LoginActivity extends AppCompatActivity {
 
 
             @Override
-
-
             public void onError(Exception e) {
                 Toast.makeText(getApplication(), "通过code获取数据没有成功", Toast.LENGTH_SHORT).show();
             }
@@ -555,25 +555,38 @@ public class LoginActivity extends AppCompatActivity {
                         @Override
                         public void onResponse(Response response) throws IOException {
                             String string = response.body().string();
-                            Log.d("tag", string);
-                            ResBean resBean = new Gson().fromJson(string, ResBean.class);
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    if (resBean.getResCode() == 0) {
-                                        Toast.makeText(getApplication(), "授权失败，需要重新授权", Toast.LENGTH_SHORT).show();
-                                    } else if (resBean.getResCode() == 1 && resBean.getResData().equals("1")) {
-                                        //進行綁定
-                                        Intent intent = new Intent(LoginActivity.this, ResActivity.class);
-                                        intent.putExtra("openid", openid1);
-                                        startActivity(intent);
-                                    } else if (resBean.getResCode() == 1 && resBean.getResData().equals("2")) {
-                                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                        mApp.saveUserInfo();
-                                        startActivity(intent);
-                                    }
-                                }
-                            });
+                            Log.d("tag111111111", string);
+                            NetRetEntity resBean = new Gson().fromJson(string, NetRetEntity.class);
+                            handler .postDelayed(
+                                    new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            if (resBean.getResCode() == 0) {
+                                                Toast.makeText(getApplication(), "授权失败，需要重新授权", Toast.LENGTH_SHORT).show();
+                                            } else if (resBean.getResCode() == 1 && resBean.getResData().equals("1")) {
+                                                //進行綁定
+                                                Intent intent = new Intent(LoginActivity.this, ResActivity.class);
+                                                intent.putExtra("openid", openid1);
+                                                startActivity(intent);
+                                            } else if (resBean.getResCode() == 1 && resBean.getResData().equals("2")) {
+                                                UserInfo userInfo = new UserInfo();
+                                                ViewSysUserDoctorInfoAndHospital viewSysUserDoctorInfoAndHospital = new Gson().fromJson(resBean.getResJsonData(), ViewSysUserDoctorInfoAndHospital.class);
+                                                mApp.mViewSysUserDoctorInfoAndHospital = viewSysUserDoctorInfoAndHospital;
+                                                userInfo.setUserPhone(viewSysUserDoctorInfoAndHospital.getUserAccount());
+                                                userInfo.setUserPwd(viewSysUserDoctorInfoAndHospital.getUserPass());
+                                                mApp.mLoginUserInfo = userInfo;
+                                                //登录IM
+                                                mApp.mViewSysUserDoctorInfoAndHospital.getUserRoleId();
+                                                mApp.loginIM();
+
+                                                mApp.saveUserInfo(viewSysUserDoctorInfoAndHospital);
+                                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                                startActivity(intent);
+
+                                            }
+                                        }
+                                    }, 100
+                            );
                         }
                     });
                 } catch (JSONException e) {
@@ -597,9 +610,6 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             getAccessToken();
-            Intent intent1 = new Intent(LoginActivity.this, MainActivity.class);
-            mApp.saveUserInfo();
-            startActivity(intent1);
         }
     }
 

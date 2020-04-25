@@ -12,6 +12,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.StrictMode;
 import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -208,6 +209,20 @@ public class JYKJApplication extends Application {
         m_persist.putString("loginUserInfo", new Gson().toJson(mLoginUserInfo));
         m_persist.putString("viewSysUserDoctorInfoAndHospital", new Gson().toJson(mViewSysUserDoctorInfoAndHospital));
         m_persist.commit();
+        Log.e("tag", "run: "+"ccccccccccccccccc" );
+    }
+
+    /**
+     *    保存用户信息
+     * @param mViewSysUserDoctorInfoAndHospital
+     */
+    public void saveUserInfo(ViewSysUserDoctorInfoAndHospital mViewSysUserDoctorInfoAndHospital) {
+        //数据存储,以json字符串的格式保存
+        m_persist = new SharedPreferences_DataSave(this, "JYKJDOCTER");
+        m_persist.putString("loginUserInfo", new Gson().toJson(mLoginUserInfo));
+        m_persist.putString("viewSysUserDoctorInfoAndHospital", new Gson().toJson(mViewSysUserDoctorInfoAndHospital));
+        m_persist.commit();
+        Log.e("tag", "run: "+"ccccccccccccccccc" );
     }
 
     /**

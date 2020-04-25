@@ -107,9 +107,9 @@ public class SettingActivity extends AppCompatActivity {
                     //清除缓存
                     mApp.cleanPersistence();
                     startActivity(new Intent(SettingActivity.this, LoginActivity.class));
-                    for (int i = 0; i < mApp.gActivityList.size(); i++) {
-                        mApp.gActivityList.get(i).finish();
-                    }
+//                    for (int i = 0; i < mApp.gActivityList.size(); i++) {
+//                        mApp.gActivityList.get(i).finish();
+//                    }
                     break;
                 case R.id.li_activitySetting_aboutLayout:
                     startActivity(new Intent(SettingActivity.this, AboutActivity.class));
