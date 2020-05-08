@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,108 +8,58 @@
     tools:ignore="MissingDefaultResource">
 
     <RelativeLayout
+        android:id="@+id/live_rl"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:background="@color/groabColor">
-        <LinearLayout
-            android:id="@+id/ll_back"
-            android:layout_width="60dp"
-            android:layout_height="match_parent"
-            android:layout_centerVertical="true">
-            <ImageView
-                android:id="@+id/iv_back_left"
-                android:layout_width="10dp"
-                android:layout_height="20dp"
-                android:layout_marginLeft="15dp"
-                android:layout_gravity="center_vertical"
-                android:src="@mipmap/arrow_left" />
 
-        </LinearLayout>
+        <ImageView
+            android:id="@+id/iv_back_left"
+            android:layout_width="10dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="15dp"
+            android:src="@mipmap/arrow_left" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="我的直播"
+            android:text="直播列表"
             android:textColor="@color/writeColor"
             android:textSize="10pt" />
 
     </RelativeLayout>
 
-    <RelativeLayout
+    <TextView
+        android:id="@+id/live_tv"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="100dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/em_live_button_bg_gift_shape"
+        android:gravity="center"
+        android:text="我要\n直播"
+        android:textColor="#fff"></TextView>
+
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/sy_tablayout"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@+id/live_rl"
+        android:layout_marginLeft="18dp"
+        android:layout_marginRight="18dp"
+        app:tabSelectedTextColor="#fff05522" />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/sy_viewpager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/writeColor">
-
-        <ImageView
-            android:id="@+id/iv_video"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:src="@mipmap/icon_video_live" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="8dp"
-            android:layout_toRightOf="@+id/iv_video"
-            android:text="视频直播"
-            android:textColor="@color/blackColor" />
-
-        <ImageView
-            android:id="@+id/iv_arrow_right"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="8dp"
-            android:src="@mipmap/roww_right" />
+        android:layout_below="@+id/sy_tablayout" />
 
 
-
-    </RelativeLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:layout_marginLeft="60dp"
-        android:background="@color/hintTextColor" />
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="1px"
-        android:background="@color/writeColor">
-
-        <ImageView
-            android:id="@+id/iv_voice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:src="@mipmap/icon_voice_live" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="8dp"
-            android:layout_toRightOf="@+id/iv_voice"
-            android:text="语音直播"
-            android:textColor="@color/blackColor" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="8dp"
-            android:src="@mipmap/roww_right" />
-
-    </RelativeLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:layout_marginLeft="60dp"
-        android:background="@color/hintTextColor" />
-
-
-</LinearLayout>
+</RelativeLayout>

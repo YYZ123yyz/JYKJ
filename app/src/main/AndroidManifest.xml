@@ -2,6 +2,26 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="www.jykj.com.jykj_zxyl">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.GET_PACKAGE_SIZE" />
+
     <application
         android:name=".application.JYKJApplication"
         android:allowBackup="true"
@@ -11,7 +31,8 @@
         android:roundIcon="@mipmap/logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name="yyz_exploit.activity.activity.ResActivity"></activity>
+        <activity android:name="yyz_exploit.activity.activity.LiveAudienceActivity"></activity>
+        <activity android:name="yyz_exploit.activity.activity.ResActivity" />
         <activity android:name="yyz_exploit.activity.Myself_Service" /> <!-- 用户登录 -->
         <activity android:name=".activity.LoginActivity" /> <!-- 手机号登录 -->
         <activity android:name=".activity.PhoneLoginActivity" /> <!-- 用户注册 -->
@@ -60,7 +81,8 @@
         <!-- 微信登录 -->
         <activity
             android:name=".wxapi.WXEntryActivity"
-            android:exported="true" />
+            android:exported="true" /> <!-- 主播页面 -->
+        <activity android:name="yyz_exploit.activity.LivePushActivity" />
         <activity
             android:name=".activity.myself.MyIntegralInfoActivity"
             android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 我的积分明细 -->
@@ -323,25 +345,5 @@
             android:name="org.apache.http.legacy"
             android:required="false" />
     </application>
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION" />
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.GET_TASKS" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="android.permission.CALL_PHONE" />
-
-    <uses-permission android:name="android.permission.GET_PACKAGE_SIZE" />
 
 </manifest>
