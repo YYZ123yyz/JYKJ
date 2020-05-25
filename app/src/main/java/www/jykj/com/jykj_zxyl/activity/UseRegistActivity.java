@@ -55,7 +55,7 @@ public class UseRegistActivity extends AppCompatActivity {
     private String mSmsToken;                  //短信验证码token
 
     private TimerTask mTask;
-    private int mInitVCodeTime = 120;
+    private int mInitVCodeTime = 30;
     private Timer mTimer;
     private String openid;
     private boolean login;
@@ -126,7 +126,7 @@ public class UseRegistActivity extends AppCompatActivity {
                     case 11:
                         mGetVCode.setText("重新获取");
                         mGetVCode.setClickable(true);
-                        mInitVCodeTime = 120;
+                        mInitVCodeTime = 30;
                         mTimer.cancel();
                         mTask.cancel();
                         break;

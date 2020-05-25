@@ -366,6 +366,7 @@ public class FragmentYHHD extends Fragment {
                                     interactPatient.setPatientNewLoginDate(viewSysUserDoctorInfoAndHospitals.get(i).getNewLoginDate());
                                     interactPatient.setPatientUserLabelName(viewSysUserDoctorInfoAndHospitals.get(i).getHospitalInfoName());
                                     interactPatient.setPatientUserName(viewSysUserDoctorInfoAndHospitals.get(i).getUserName());
+                                    interactPatient.setPatientUserLogoUrl(viewSysUserDoctorInfoAndHospitals.get(i).getUserLogoUrl());
                                     interactPatient.setType("user");
                                     mInteractPatient.add(interactPatient);
                                 }
@@ -412,6 +413,7 @@ public class FragmentYHHD extends Fragment {
                             interactPatient.setType("message");
                             interactPatient.setLastMessage(mProvideDoctorPatientUserInfo.get(i).getLastMessage());
                             interactPatient.setNoRead(mProvideDoctorPatientUserInfo.get(i).isNoRead());
+                            interactPatient.setPatientUserLogoUrl(mProvideDoctorPatientUserInfo.get(i).getUserLogoUrl());
                             mInteractPatient.add(interactPatient);
                         }
                         mMessageInfoRecycleAdapter.setDate(mInteractPatient);
@@ -509,7 +511,7 @@ public class FragmentYHHD extends Fragment {
                     defaultLayout();
                     mYSHY.setVisibility(View.GONE);
                     mMessageRecycleView.setVisibility(View.VISIBLE);
-                    mJQImage.setVisibility(View.VISIBLE);
+                 //   mJQImage.setVisibility(View.VISIBLE);
                     mHYSQText.setVisibility(View.GONE);
                     mMessageList.setBackgroundResource(R.mipmap.pg_messagetitle);
                     mMessageList.setTextColor(mActivity.getResources().getColor(R.color.tabColor_nomal));

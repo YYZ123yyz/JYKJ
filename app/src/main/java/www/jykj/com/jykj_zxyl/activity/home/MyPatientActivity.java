@@ -35,6 +35,7 @@ import www.jykj.com.jykj_zxyl.fragment.MyReviewFragment;
 import www.jykj.com.jykj_zxyl.fragment.hzgl.BloodLogFragment;
 import www.jykj.com.jykj_zxyl.fragment.hzgl.TrendFragment;
 import www.jykj.com.jykj_zxyl.util.ActivityUtil;
+import yyz_exploit.activity.activity.OpinionActivity;
 import zxing.common.Constant;
 
 /**
@@ -69,6 +70,7 @@ public class MyPatientActivity extends AppCompatActivity{
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_patient);
+        ActivityUtil.setStatusBarMain(MyPatientActivity.this);
         mApp = (JYKJApplication) getApplication();
         mContext = this;
         mActivity = this;

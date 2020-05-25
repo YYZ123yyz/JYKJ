@@ -17,6 +17,7 @@ import android.os.Message;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,6 +49,8 @@ import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.activity.hyhd.BindDoctorFriend;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.custom.MoreFeaturesPopupWindow;
+import www.jykj.com.jykj_zxyl.util.ActivityUtil;
+import yyz_exploit.activity.activity.OpinionActivity;
 import zxing.android.CaptureActivity;
 import zxing.common.Constant;
 import zxing.encode.CodeCreator;
@@ -87,6 +90,7 @@ public class QRCodeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_qr_code);
         context = this;
         mApp = (JYKJApplication) getApplication();
+        ActivityUtil.setStatusBarMain(QRCodeActivity.this);
         mShareManager = WechatShareManager.getInstance(context);
         initView();
         initHandler();
@@ -241,7 +245,7 @@ public class QRCodeActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         Bitmap bitmap = NetWorkUtils.getHttpBitmap(userLogoUrl);
-                        Bitmap bm = QRCodeUtil.getImageBitmap(bitmap, "可爱，你在干嘛呢", 360);
+                        Bitmap bm = QRCodeUtil.getImageBitmap(bitmap, "1111111", 360);
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -263,7 +267,7 @@ public class QRCodeActivity extends AppCompatActivity {
             @Override
             public void run() {
                 Bitmap bitmap = NetWorkUtils.getHttpBitmap(userLogoUrl);
-                Bitmap bm = QRCodeUtil.getImageBitmap(bitmap, "可爱，你在干嘛呢", 360);
+                Bitmap bm = QRCodeUtil.getImageBitmap(bitmap, "1111111", 360);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -295,7 +299,12 @@ public class QRCodeActivity extends AppCompatActivity {
         userName.setText(mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
         userYY.setText(mApp.mViewSysUserDoctorInfoAndHospital.getHospitalInfoName());
         userPhone.setText(mApp.mViewSysUserDoctorInfoAndHospital.getLinkPhone());
-        userZC.setText(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorTitleName() + "|" + mApp.mViewSysUserDoctorInfoAndHospital.getDepartmentName());
+        if(TextUtils.isEmpty(mApp.mViewSysUserDoctorInfoAndHospital.getDepartmentName())){
+            userZC.setText(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorTitleName());
+        }else{
+            userZC.setText(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorTitleName() + "|" + mApp.mViewSysUserDoctorInfoAndHospital.getDepartmentName());
+        }
+
         userSCLY.setText(mApp.mViewSysUserDoctorInfoAndHospital.getGoodAtRealm());
         userGRJJ.setText(mApp.mViewSysUserDoctorInfoAndHospital.getSynopsis());
 

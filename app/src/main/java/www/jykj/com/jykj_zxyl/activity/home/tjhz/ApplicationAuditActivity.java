@@ -21,16 +21,16 @@ import www.jykj.com.jykj_zxyl.adapter.TWJZNoFinishRecycleAdapter;
 /**
  * 添加患者==>申请审核
  */
-    public class ApplicationAuditActivity extends AppCompatActivity {
+public class ApplicationAuditActivity extends AppCompatActivity {
 
-        private             Context                     mContext;
-        private             RecyclerView                mApplicationList;                  //申请审核
+    private Context mContext;
+    private RecyclerView mApplicationList;                  //申请审核
 
-        private             LinearLayoutManager         layoutManager;
-        private             ApplicationAuditRecycleAdapter mApplicationAuditRecycleAdapter;       //适配器
-        private             List<HZIfno>                mHZEntyties = new ArrayList<>();            //所有数据
+    private LinearLayoutManager layoutManager;
+    private ApplicationAuditRecycleAdapter mApplicationAuditRecycleAdapter;       //适配器
+    private List<HZIfno> mHZEntyties = new ArrayList<>();            //所有数据
 
-        @Override
+    @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_applicationaudit);
@@ -50,12 +50,12 @@ import www.jykj.com.jykj_zxyl.adapter.TWJZNoFinishRecycleAdapter;
         //如果可以确定每个item的高度是固定的，设置这个选项可以提高性能
         mApplicationList.setHasFixedSize(true);
         //创建并设置Adapter
-        mApplicationAuditRecycleAdapter = new ApplicationAuditRecycleAdapter(mHZEntyties,mContext);
+        mApplicationAuditRecycleAdapter = new ApplicationAuditRecycleAdapter(mHZEntyties, mContext);
         mApplicationList.setAdapter(mApplicationAuditRecycleAdapter);
         mApplicationAuditRecycleAdapter.setOnItemClickListener(new ApplicationAuditRecycleAdapter.OnItemClickListener() {
             @Override
             public void onClick(int position) {
-                startActivity(new Intent(mContext,ApplicationAuditDealActivity.class));
+                startActivity(new Intent(mContext, ApplicationAuditDealActivity.class));
             }
 
             @Override
@@ -67,8 +67,7 @@ import www.jykj.com.jykj_zxyl.adapter.TWJZNoFinishRecycleAdapter;
     }
 
 
-
-    class   ButtonClick implements View.OnClickListener {
+    class ButtonClick implements View.OnClickListener {
         @Override
         public void onClick(View view) {
             switch (view.getId()) {

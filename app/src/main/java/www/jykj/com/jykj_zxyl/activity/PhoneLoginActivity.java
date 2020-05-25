@@ -62,7 +62,7 @@ public class PhoneLoginActivity extends AppCompatActivity {
     private ImageView mAgreeImg;                  //同意协议图标
 
     private TimerTask mTask;
-    private int mInitVCodeTime = 120;
+    private int mInitVCodeTime = 30;
     private Timer mTimer;
     private String mSmsToken;                  //短信验证码token
     private ImageView phonelogin_weChat;
@@ -169,7 +169,7 @@ public class PhoneLoginActivity extends AppCompatActivity {
                     case 11:
                         mGetVCode.setText("重新获取");
                         mGetVCode.setClickable(true);
-                        mInitVCodeTime = 120;
+                        mInitVCodeTime = 30;
                         mTimer.cancel();
                         mTask.cancel();
                         break;

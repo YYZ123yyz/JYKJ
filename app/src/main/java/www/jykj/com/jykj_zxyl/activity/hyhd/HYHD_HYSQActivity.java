@@ -40,25 +40,24 @@ import www.jykj.com.jykj_zxyl.util.NestedExpandaleListView;
  */
 public class HYHD_HYSQActivity extends AppCompatActivity {
 
-    private             LinearLayout                        mBack;
-    private             Context                             mContext;
-    private             HYHD_HYSQActivity                   mActivity;
-    private             Handler                             mHandler;
-    private             JYKJApplication                     mApp;
+    private LinearLayout mBack;
+    private Context mContext;
+    private HYHD_HYSQActivity mActivity;
+    private Handler mHandler;
+    private JYKJApplication mApp;
 
-    private         RecyclerView            mRecycleView;
+    private RecyclerView mRecycleView;
 
-    private         LinearLayoutManager     layoutManager;
-    private         YHHD_HYSQRecycleAdapter mAdapter;       //适配器
+    private LinearLayoutManager layoutManager;
+    private YHHD_HYSQRecycleAdapter mAdapter;       //适配器
 
-    private                 int                         mRowNum = 10;                        //分页行数
-    private                 int                         mPageNum = 1;                       //分页页码
-    private                   boolean                   mLoadDate = true;
+    private int mRowNum = 10;                        //分页行数
+    private int mPageNum = 1;                       //分页页码
+    private boolean mLoadDate = true;
 
-    private                 int                         mOperaType;                         //操作类型  1=同意  3=拒绝
-    private                 int                         getmOperaIndex;                         //操作下标
-    private                 String                      refundReson;                        //拒绝原因
-
+    private int mOperaType;                         //操作类型  1=同意  3=拒绝
+    private int getmOperaIndex;                         //操作下标
+    private String refundReson;                        //拒绝原因
 
 
     public ProgressDialog mDialogProgress = null;
@@ -66,9 +65,6 @@ public class HYHD_HYSQActivity extends AppCompatActivity {
 
 
     private List<ProvideBindingDoctorDoctorApply> mList = new ArrayList<>();
-
-
-
 
 
     @Override
@@ -93,15 +89,12 @@ public class HYHD_HYSQActivity extends AppCompatActivity {
                 switch (msg.what) {
                     case 0:
                         cacerProgress();
-                        NetRetEntity netRetEntity = JSON.parseObject(mNetRetStr,NetRetEntity.class);
-                        if (netRetEntity.getResCode() == 0)
-                        {
+                        NetRetEntity netRetEntity = JSON.parseObject(mNetRetStr, NetRetEntity.class);
+                        if (netRetEntity.getResCode() == 0) {
                             mLoadDate = false;
-                            Toast.makeText(mContext,netRetEntity.getResMsg(),Toast.LENGTH_SHORT).show();
-                        }
-                        else
-                        {
-                            List<ProvideBindingDoctorDoctorApply>   list = JSON.parseArray(netRetEntity.getResJsonData(),ProvideBindingDoctorDoctorApply.class);
+                            Toast.makeText(mContext, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
+                        } else {
+                            List<ProvideBindingDoctorDoctorApply> list = JSON.parseArray(netRetEntity.getResJsonData(), ProvideBindingDoctorDoctorApply.class);
                             mList.addAll(list);
                             mAdapter.setDate(mList);
                             mAdapter.notifyDataSetChanged();
@@ -111,15 +104,12 @@ public class HYHD_HYSQActivity extends AppCompatActivity {
                         break;
                     case 3:
                         cacerProgress();
-                        netRetEntity = JSON.parseObject(mNetRetStr,NetRetEntity.class);
-                        if (netRetEntity.getResCode() == 0)
-                        {
+                        netRetEntity = JSON.parseObject(mNetRetStr, NetRetEntity.class);
+                        if (netRetEntity.getResCode() == 0) {
                             mLoadDate = false;
-                            Toast.makeText(mContext,netRetEntity.getResMsg(),Toast.LENGTH_SHORT).show();
-                        }
-                        else
-                        {
-                            Toast.makeText(mContext,netRetEntity.getResMsg(),Toast.LENGTH_SHORT).show();
+                            Toast.makeText(mContext, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(mContext, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
                             mList.get(getmOperaIndex).setFlagApplyState(mOperaType);
                             mList.get(getmOperaIndex).setRefuseReason(refundReson);
                             mAdapter.setDate(mList);
@@ -130,25 +120,26 @@ public class HYHD_HYSQActivity extends AppCompatActivity {
             }
         };
     }
+
     /**
      * 获取数据
      */
     private void getDate() {
-        getProgressBar("请稍候","正在获取数据");
+        getProgressBar("请稍候", "正在获取数据");
         ProvideBindingDoctorDoctorApply provideBindingDoctorDoctorApply = new ProvideBindingDoctorDoctorApply();
         provideBindingDoctorDoctorApply.setRowNum(mRowNum);
         provideBindingDoctorDoctorApply.setPageNum(mPageNum);
         provideBindingDoctorDoctorApply.setLoginDoctorPosition(mApp.loginDoctorPosition);
         provideBindingDoctorDoctorApply.setSearchDoctorCode(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
         provideBindingDoctorDoctorApply.setSearchDoctorName(mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
-        new Thread(){
-            public void run(){
+        new Thread() {
+            public void run() {
                 try {
-                    mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo="+new Gson().toJson(provideBindingDoctorDoctorApply),Constant.SERVICEURL+"bindingDoctorPatientControlle/searchBindingDoctorDoctorApplyList");
+                    mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + new Gson().toJson(provideBindingDoctorDoctorApply), Constant.SERVICEURL + "bindingDoctorPatientControlle/searchBindingDoctorDoctorApplyList");
                 } catch (Exception e) {
                     NetRetEntity retEntity = new NetRetEntity();
                     retEntity.setResCode(0);
-                    retEntity.setResMsg("网络连接异常，请联系管理员："+e.getMessage());
+                    retEntity.setResMsg("网络连接异常，请联系管理员：" + e.getMessage());
                     mNetRetStr = new Gson().toJson(retEntity);
                     e.printStackTrace();
                 }
@@ -162,7 +153,7 @@ public class HYHD_HYSQActivity extends AppCompatActivity {
      * 审核
      */
     private void OperApprovalBindingDoctorDoctor() {
-        getProgressBar("请稍候","正在提交");
+        getProgressBar("请稍候", "正在提交");
         ProvideBindingDoctorDoctorApply provideBindingDoctorDoctorApply = new ProvideBindingDoctorDoctorApply();
         provideBindingDoctorDoctorApply.setLoginDoctorPosition(mApp.loginDoctorPosition);
         provideBindingDoctorDoctorApply.setOperDoctorCode(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
@@ -170,15 +161,15 @@ public class HYHD_HYSQActivity extends AppCompatActivity {
         provideBindingDoctorDoctorApply.setDdApplyId(mList.get(getmOperaIndex).getDdApplyId());
         provideBindingDoctorDoctorApply.setFlagApplyState(mOperaType);
         provideBindingDoctorDoctorApply.setRefuseReason(refundReson);
-        new Thread(){
-            public void run(){
+        new Thread() {
+            public void run() {
                 try {
                     String str = JSON.toJSONString(provideBindingDoctorDoctorApply);
-                    mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo="+str,Constant.SERVICEURL+"bindingDoctorPatientControlle/operApprovalBindingDoctorDoctor");
+                    mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + str, Constant.SERVICEURL + "bindingDoctorPatientControlle/operApprovalBindingDoctorDoctor");
                 } catch (Exception e) {
                     NetRetEntity retEntity = new NetRetEntity();
                     retEntity.setResCode(0);
-                    retEntity.setResMsg("网络连接异常，请联系管理员："+e.getMessage());
+                    retEntity.setResMsg("网络连接异常，请联系管理员：" + e.getMessage());
                     mNetRetStr = new Gson().toJson(retEntity);
                     e.printStackTrace();
                 }
@@ -193,7 +184,7 @@ public class HYHD_HYSQActivity extends AppCompatActivity {
      */
     private void initLayout() {
 
-        mBack = (LinearLayout)this.findViewById(R.id.back);
+        mBack = (LinearLayout) this.findViewById(R.id.back);
         mBack.setOnClickListener(new ButtonClick());
 
         mRecycleView = (RecyclerView) this.findViewById(R.id.iv_hysq);
@@ -204,17 +195,16 @@ public class HYHD_HYSQActivity extends AppCompatActivity {
         //如果可以确定每个item的高度是固定的，设置这个选项可以提高性能
         mRecycleView.setHasFixedSize(true);
         //创建并设置Adapter
-        mAdapter = new YHHD_HYSQRecycleAdapter(mList,mContext);
+        mAdapter = new YHHD_HYSQRecycleAdapter(mList, mContext);
         mRecycleView.setAdapter(mAdapter);
         mRecycleView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                if(newState == RecyclerView.SCROLL_STATE_IDLE)
-                {
-                    if (mLoadDate){
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    if (mLoadDate) {
                         int lastVisiblePosition = layoutManager.findLastVisibleItemPosition();
-                        if(lastVisiblePosition >= layoutManager.getItemCount() - 1) {
+                        if (lastVisiblePosition >= layoutManager.getItemCount() - 1) {
                             mPageNum++;
                             getDate();
                         }
@@ -225,7 +215,7 @@ public class HYHD_HYSQActivity extends AppCompatActivity {
         mAdapter.setOnItemTYClickListenerr(new YHHD_HYSQRecycleAdapter.OnItemTYClickListener() {
             @Override
             public void onClick(int position) {
-                Toast.makeText(mContext,"同意",Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, "同意", Toast.LENGTH_SHORT).show();
                 mOperaType = 3;
                 getmOperaIndex = position;
                 OperApprovalBindingDoctorDoctor();
@@ -251,7 +241,7 @@ public class HYHD_HYSQActivity extends AppCompatActivity {
                                 refundReson = et.getText().toString();
                                 OperApprovalBindingDoctorDoctor();
                             }
-                        }).setNegativeButton("取消",null).show();
+                        }).setNegativeButton("取消", null).show();
             }
 
             @Override
@@ -262,11 +252,10 @@ public class HYHD_HYSQActivity extends AppCompatActivity {
     }
 
 
-
     /**
      * 点击事件
      */
-    class   ButtonClick implements View.OnClickListener {
+    class ButtonClick implements View.OnClickListener {
         @Override
         public void onClick(View view) {
             switch (view.getId()) {

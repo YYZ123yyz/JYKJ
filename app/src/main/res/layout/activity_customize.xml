@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    tools:context="yyz_exploit.activity.activity.CustomizeActivity">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/layout">
+        <LinearLayout
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true">
+            <ImageView
+                android:id="@+id/iv_back_left"
+                android:layout_width="10dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="15dp"
+                android:layout_gravity="center_vertical"
+                android:src="@mipmap/arrow_left" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/layout_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text=""
+            android:textColor="@color/writeColor"
+            android:textSize="10pt" />
+    </RelativeLayout>
+
+    <EditText
+        android:id="@+id/cust_ed"
+        android:hint="请输入自定义关键字(最多10个字)"
+        android:layout_width="match_parent"
+        android:maxLength="10"
+        android:layout_height="wrap_content"/>
+    <Button
+        android:id="@+id/cust_confirm"
+        android:text="确认"
+        android:textColor="@color/hintTextColor"
+        android:layout_gravity="center"
+        android:layout_width="250dp"
+        android:background="@drawable/flag"
+        android:layout_height="wrap_content"/>
+</LinearLayout>

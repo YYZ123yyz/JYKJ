@@ -2,6 +2,7 @@ package www.jykj.com.jykj_zxyl.adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.assist.SimpleImageLoadingListener;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
@@ -84,6 +86,10 @@ public class MessageInfoRecycleAdapter extends RecyclerView.Adapter<MessageInfoR
         viewHolder.mUserName.setText(datas.get(position).getPatientUserName());
         viewHolder.mSSY.setText(datas.get(position).getPatientTitleDesc());
         viewHolder.mDate.setText(datas.get(position).getPatientNewLoginDate());
+//        int avatarResId = Integer.parseInt(datas.get(position).getPatientUserLogoUrl());
+//        Glide.with(mContext).load(avatarResId).into(viewHolder.mImageView);
+//        String patientUserLogoUrl = datas.get(position).getPatientUserLogoUrl();
+//        viewHolder.mImageView.setImageURI(Uri.parse(patientUserLogoUrl));
         if ("user".equals(datas.get(position).getType()))
             viewHolder.mMessage.setText(datas.get(position).getPatientUserLabelName());
         else if ("message".equals(datas.get(position).getType()))

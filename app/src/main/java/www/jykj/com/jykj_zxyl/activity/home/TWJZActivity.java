@@ -33,15 +33,15 @@ import www.jykj.com.jykj_zxyl.fragment.ylzx.FragmentYXZN;
  */
 public class TWJZActivity extends AppCompatActivity {
 
-    private                 Context                 mContext;
-    private                 TWJZActivity            mActivity;
-    private                 Handler                 mHandler;
-    private                 JYKJApplication         mApp;
-    private                 ViewPager               pager;
-    private                 FragmentAdapter         fragmentAdapter;
-    private                 List<Fragment>          fragmentList;
-    private                 TabLayout               tabLayout;
-    private                 List<String>            mTitles;
+    private Context mContext;
+    private TWJZActivity mActivity;
+    private Handler mHandler;
+    private JYKJApplication mApp;
+    private ViewPager pager;
+    private FragmentAdapter fragmentAdapter;
+    private List<Fragment> fragmentList;
+    private TabLayout tabLayout;
+    private List<String> mTitles;
     private LinearLayout llBack;
 
     @Override
@@ -60,23 +60,24 @@ public class TWJZActivity extends AppCompatActivity {
      * 初始化布局
      */
     private void initLayout() {
-        pager= (ViewPager) this.findViewById(R.id.page);
-        tabLayout= (TabLayout) this.findViewById(R.id.tab_layout);
+        pager = (ViewPager) this.findViewById(R.id.page);
+        tabLayout = (TabLayout) this.findViewById(R.id.tab_layout);
         llBack = (LinearLayout) findViewById(R.id.ll_back);
 
-        fragmentList=new ArrayList<>();
-        mTitles=new ArrayList<>();
+        fragmentList = new ArrayList<>();
+        mTitles = new ArrayList<>();
         mTitles.add("未完成");
         mTitles.add("历史记录");
 
         fragmentList.add(new FragmenNoFinish());
         fragmentList.add(new FragmentHistory());
 
-        fragmentAdapter=new FragmentAdapter(mActivity.getSupportFragmentManager(),fragmentList,mTitles);
+        fragmentAdapter = new FragmentAdapter(mActivity.getSupportFragmentManager(), fragmentList, mTitles);
         pager.setAdapter(fragmentAdapter);
         tabLayout.setupWithViewPager(pager);//与ViewPage建立关系
     }
-    private void initListener(){
+
+    private void initListener() {
         llBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -88,12 +89,11 @@ public class TWJZActivity extends AppCompatActivity {
 
 
     private void initHandler() {
-        mHandler = new Handler(){
+        mHandler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
-                switch (msg.what)
-                {
+                switch (msg.what) {
 
                 }
             }

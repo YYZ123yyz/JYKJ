@@ -19,7 +19,7 @@
                 android:text="日均"
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
-                android:textSize="9pt"
+                android:textSize="15sp"
                 android:textColor="@color/tabColor_nomal"
                 android:gravity="center"/>
             <LinearLayout
@@ -44,7 +44,7 @@
                 android:text="周均"
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
-                android:textSize="9pt"
+                android:textSize="15sp"
                 android:textColor="@color/tabColor_nomal"
                 android:gravity="center"/>
             <LinearLayout
@@ -72,7 +72,7 @@
                 android:gravity="center"
                 android:text="月均"
                 android:textColor="@color/tabColor_nomal"
-                android:textSize="9pt" />
+                android:textSize="15sp" />
 
             <LinearLayout
                 android:id="@+id/view_blood_month_average"
@@ -86,7 +86,7 @@
 
     </LinearLayout>
 
-    <LinearLayout
+    <!--<LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:orientation="horizontal">
@@ -117,87 +117,191 @@
             android:src="@mipmap/arrow_r"
             android:layout_marginRight="10dp"
             android:gravity="center"/>
+    </LinearLayout>-->
+
+    <!--自定义时间-->
+    <LinearLayout
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="30dp">
+        <TextView
+            android:layout_gravity="center"
+            android:text="自定义时间"
+            android:textColor=" #799DFE "
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <ImageView
+            android:layout_gravity="center"
+            android:src="@mipmap/bloo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp">
+
+        <RelativeLayout
+            android:id="@+id/rl_start_time"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/shape_box_gray"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_start_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2019-01-01"
+                android:layout_centerInParent="true"
+                android:padding="5dp"/>
+            <ImageView
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_toRightOf="@+id/tv_start_time"
+                android:src="@mipmap/arrow"
+                android:layout_centerVertical="true"/>
+
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="至"
+            android:layout_marginLeft="10dp"/>
+
+        <RelativeLayout
+            android:id="@+id/rl_end_time"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/shape_box_gray"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_end_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:layout_centerInParent="true"
+                android:text="2019-01-01"/>
+            <ImageView
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_toRightOf="@+id/tv_end_time"
+                android:src="@mipmap/arrow"
+                android:layout_centerVertical="true"/>
+        </RelativeLayout>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:background="@color/writeColor"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_comfirm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/shape_corner_button1"
+            android:gravity="center"
+            android:paddingLeft="20dp"
+            android:paddingTop="5dp"
+            android:paddingRight="20dp"
+            android:paddingBottom="5dp"
+            android:text="确定"
+            android:textColor="@color/writeColor" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/writeColor"
         android:orientation="horizontal">
-        <LinearLayout
-            android:id="@+id/ll_blood_day"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="全天血压"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:textSize="9pt"
-                android:textColor="@color/tabColor_nomal"
-                android:gravity="center"/>
-            <LinearLayout
-                android:id="@+id/view_blood_day"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal"
-                android:background="@color/groabColor"/>
-        </LinearLayout>
+<!--        <LinearLayout-->
+<!--            android:id="@+id/ll_blood_day"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="vertical">-->
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="全天血压"-->
+<!--                android:layout_gravity="center"-->
+<!--                android:layout_marginTop="10dp"-->
+<!--                android:textSize="9pt"-->
+<!--                android:textColor="@color/tabColor_nomal"-->
+<!--                android:gravity="center"/>-->
+<!--            <LinearLayout-->
+<!--                android:id="@+id/view_blood_day"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="1dp"-->
+<!--                android:layout_marginTop="10dp"-->
+<!--                android:orientation="horizontal"-->
+<!--                android:background="@color/groabColor"/>-->
+<!--        </LinearLayout>-->
 
-        <LinearLayout
-            android:id="@+id/ll_blood_week"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="晨间均压"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:textSize="9pt"
-                android:textColor="@color/tabColor_nomal"
-                android:gravity="center"/>
-            <LinearLayout
-                android:id="@+id/view_blood_week"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="10dp"
-                android:visibility="gone"
-                android:orientation="horizontal"
-                android:background="@color/groabColor"/>
-        </LinearLayout>
+<!--        <LinearLayout-->
+<!--            android:id="@+id/ll_blood_week"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_weight="1"-->
+<!--            android:orientation="vertical">-->
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="晨间均压"-->
+<!--                android:layout_gravity="center"-->
+<!--                android:layout_marginTop="10dp"-->
+<!--                android:textSize="9pt"-->
+<!--                android:textColor="@color/tabColor_nomal"-->
+<!--                android:gravity="center"/>-->
+<!--            <LinearLayout-->
+<!--                android:id="@+id/view_blood_week"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="1dp"-->
+<!--                android:layout_marginTop="10dp"-->
+<!--                android:visibility="gone"-->
+<!--                android:orientation="horizontal"-->
+<!--                android:background="@color/groabColor"/>-->
+<!--        </LinearLayout>-->
 
-        <LinearLayout
-            android:id="@+id/ll_blood_month"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="夜间均压"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:textSize="9pt"
-                android:textColor="@color/tabColor_nomal"
-                android:gravity="center"/>
-            <LinearLayout
-                android:id="@+id/view_blood_month"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:visibility="gone"
-                android:orientation="horizontal"
-                android:layout_marginTop="10dp"
-                android:background="@color/groabColor"/>
-        </LinearLayout>
+<!--        <LinearLayout-->
+<!--            android:id="@+id/ll_blood_month"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_weight="1"-->
+<!--            android:orientation="vertical">-->
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="夜间均压"-->
+<!--                android:layout_gravity="center"-->
+<!--                android:layout_marginTop="10dp"-->
+<!--                android:textSize="9pt"-->
+<!--                android:textColor="@color/tabColor_nomal"-->
+<!--                android:gravity="center"/>-->
+<!--            <LinearLayout-->
+<!--                android:id="@+id/view_blood_month"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="1dp"-->
+<!--                android:visibility="gone"-->
+<!--                android:orientation="horizontal"-->
+<!--                android:layout_marginTop="10dp"-->
+<!--                android:background="@color/groabColor"/>-->
+<!--        </LinearLayout>-->
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -224,61 +328,61 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/writeColor"
-        android:orientation="horizontal">
-        <TextView
-            android:id="@+id/tv_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="白小童"
-            android:layout_gravity="center"
-            android:textSize="8pt"
-            android:layout_marginLeft="10dp"
-            android:textColor="@color/tabColor_nomal"
-            />
-        <TextView
-            android:id="@+id/tv_sex"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="男"
-            android:layout_gravity="center"
-            android:textSize="8pt"
-            android:layout_marginLeft="10dp"
-            android:textColor="@color/tabColor_nomal"
-            />
-        <TextView
-            android:id="@+id/tv_age"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="30岁"
-            android:layout_gravity="center"
-            android:textSize="8pt"
-            android:layout_marginLeft="10dp"
-            android:textColor="@color/tabColor_nomal"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="血压:113/85"
-            android:layout_gravity="center"
-            android:textSize="8pt"
-            android:textColor="@color/tabColor_nomal"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="心率:87"
-            android:textSize="8pt"
-            android:layout_marginRight="10dp"
-            android:layout_gravity="center_vertical"
-            android:textColor="@color/tabColor_nomal"
-            />
-    </LinearLayout>
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="50dp"-->
+<!--        android:background="@color/writeColor"-->
+<!--        android:orientation="horizontal">-->
+<!--        <TextView-->
+<!--            android:id="@+id/tv_name"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="白小童"-->
+<!--            android:layout_gravity="center"-->
+<!--            android:textSize="8pt"-->
+<!--            android:layout_marginLeft="10dp"-->
+<!--            android:textColor="@color/tabColor_nomal"-->
+<!--            />-->
+<!--        <TextView-->
+<!--            android:id="@+id/tv_sex"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="男"-->
+<!--            android:layout_gravity="center"-->
+<!--            android:textSize="8pt"-->
+<!--            android:layout_marginLeft="10dp"-->
+<!--            android:textColor="@color/tabColor_nomal"-->
+<!--            />-->
+<!--        <TextView-->
+<!--            android:id="@+id/tv_age"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="30岁"-->
+<!--            android:layout_gravity="center"-->
+<!--            android:textSize="8pt"-->
+<!--            android:layout_marginLeft="10dp"-->
+<!--            android:textColor="@color/tabColor_nomal"-->
+<!--            />-->
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_weight="1"-->
+<!--            android:gravity="center"-->
+<!--            android:text="血压:113/85"-->
+<!--            android:layout_gravity="center"-->
+<!--            android:textSize="8pt"-->
+<!--            android:textColor="@color/tabColor_nomal"-->
+<!--            />-->
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="心率:87"-->
+<!--            android:textSize="8pt"-->
+<!--            android:layout_marginRight="10dp"-->
+<!--            android:layout_gravity="center_vertical"-->
+<!--            android:textColor="@color/tabColor_nomal"-->
+<!--            />-->
+<!--    </LinearLayout>-->
 
     <com.github.mikephil.charting.charts.LineChart
         android:layout_width="match_parent"

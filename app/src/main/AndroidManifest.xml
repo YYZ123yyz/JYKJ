@@ -31,10 +31,19 @@
         android:roundIcon="@mipmap/logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name="yyz_exploit.activity.activity.DetailsActivity"></activity>
-        <activity android:name="yyz_exploit.activity.activity.UntieActivity" /> <!-- 帮助与反馈页面 -->
-        <activity android:name="yyz_exploit.activity.activity.HelpActivity" />
-        <activity android:name="yyz_exploit.activity.activity.LiveAudienceActivity" />
+        <activity android:name="yyz_exploit.activity.activity.PrivacyActivity"></activity>
+        <activity android:name="yyz_exploit.activity.activity.Login_protocolActivity" />
+        <activity android:name="yyz_exploit.activity.activity.CustomizeActivity" />
+        <activity android:name="yyz_exploit.activity.activity.KeywordActivity" />
+        <activity android:name="yyz_exploit.activity.activity.BeforesettingActivity" />
+        <activity android:name="yyz_exploit.activity.activity.NoticeActivity" />
+        <activity android:name="yyz_exploit.activity.activity.LectureActivity" />
+        <activity android:name="yyz_exploit.activity.activity.FeedbackActivity" /> <!-- 意见反馈页面 -->
+        <activity android:name="yyz_exploit.activity.activity.OpinionActivity" />
+        <activity android:name="yyz_exploit.activity.activity.DetailsActivity" />
+        <activity android:name="yyz_exploit.activity.activity.UntieActivity" />
+        <activity android:name="yyz_exploit.activity.activity.HelpActivity" /> <!-- 帮助与反馈页面 -->
+        <activity android:name="yyz_exploit.activity.activity.LivefAudienceActivity" />
         <activity android:name="yyz_exploit.activity.activity.ResActivity" />
         <activity android:name="yyz_exploit.activity.Myself_Service" /> <!-- 用户登录 -->
         <activity android:name=".activity.LoginActivity" /> <!-- 手机号登录 -->
@@ -62,6 +71,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity> <!-- 我的账户 -->
+        <!-- <activity android:name="yyz_exploit.activity.activity.BloodpressureActivity"></activity> -->
         <activity android:name=".activity.myself.MyAccountActivity" /> <!-- 我的余额 -->
         <activity android:name=".activity.myself.MySurplusActivity" /> <!-- 我的余额明细 -->
         <activity android:name=".activity.myself.SurplusDetailActivity" /> <!-- 我的排班 -->

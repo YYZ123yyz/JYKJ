@@ -116,9 +116,6 @@
             android:layout_marginBottom="15dp"
             android:textColor="@color/textColor_black"
             android:drawableLeft="@mipmap/pop_bzfk"/>
-
-
-
     </LinearLayout>
 
 

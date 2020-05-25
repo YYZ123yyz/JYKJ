@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    tools:context="yyz_exploit.activity.activity.LectureActivity">
+
+    <include layout="@layout/new_layout"/>
+
+    <LinearLayout
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:gravity="center"
+            android:layout_weight="1"
+            android:id="@+id/lectrue_forecast"
+            android:text="直播预报"
+            android:textColor="@color/tabColor_nomal"
+            android:drawableTop="@mipmap/lecture_forecast"
+            android:layout_width="wrap_content"
+            android:layout_height="70dp"/>
+        <TextView
+            android:gravity="center"
+            android:layout_weight="1"
+            android:id="@+id/room_upload"
+            android:text="上传"
+            android:textColor="@color/tabColor_nomal"
+            android:drawableTop="@mipmap/upload"
+            android:layout_width="wrap_content"
+            android:layout_height="70dp"/>
+        <TextView
+            android:gravity="center"
+            android:layout_weight="1"
+            android:id="@+id/room_Record"
+            android:text="录制"
+            android:textColor="@color/tabColor_nomal"
+            android:drawableTop="@mipmap/record"
+            android:layout_width="wrap_content"
+            android:layout_height="70dp"/>
+    </LinearLayout>
+
+    <com.jcodecraeer.xrecyclerview.XRecyclerView
+        android:id="@+id/lecture_recy"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</LinearLayout>

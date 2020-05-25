@@ -30,12 +30,8 @@ import com.google.gson.Gson;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.lang.reflect.Type;
 import java.net.URLEncoder;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
-import entity.mySelf.ProvideDoctorQualification;
 import entity.mySelf.UpLoadImgParment;
 import entity.patientmanager.ProvideIdentityNumberInfo;
 import netService.HttpNetService;
@@ -85,12 +81,6 @@ public class UserAuthenticationActivity extends AppCompatActivity {
     private int mPhotoType;                 //图片类型  1、身份证正面   2、身份证反面  3、执业证  4、资格证  5、职称证
     private String mPhotoBitmapString;             //图片base64字符串
     private Button mCommit;
-    private LinearLayout lin_sumbit;
-    private TextView submit_state;
-    private LinearLayout lin_data;
-    private TextView sumbit_data;
-    private LinearLayout lin_status;
-    private TextView status;
 
 
     /**
@@ -147,29 +137,10 @@ public class UserAuthenticationActivity extends AppCompatActivity {
                         NetRetEntity retEntity = new NetRetEntity();
                         retEntity.setResCode(0);
                         retEntity.setResMsg("提交失败：" + netRetEntity.getResMsg());
+
                         mNetRetStr = new Gson().toJson(retEntity);
                         mHandler.sendEmptyMessage(1);
                         return;
-                    }else{
-                        Integer flagSubmitState = mApp.provideDoctorQualification.getFlagSubmitState();
-                        if(flagSubmitState==1){
-                            //提交状态
-                            submit_state.setText("已提交");
-                            //提交日期
-                            Date submitDate = mApp.provideDoctorQualification.getSubmitDate();
-                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(
-                                    "yyyy-MM-dd hh:mm:ss");
-                            String format = simpleDateFormat.format(submitDate);
-                            sumbit_data.setText(format);
-                            //审核状态
-                            status.setText("通过");
-
-                        }
-//                        Integer flagApplyState = mApp.provideDoctorQualification.getFlagApplyState();
-//                        if(flagApplyState==3){
-//
-//                        }
-
                     }
 
                 } catch (Exception e) {
@@ -432,25 +403,6 @@ public class UserAuthenticationActivity extends AppCompatActivity {
 
         mCommit = (Button) this.findViewById(R.id.bt_commit);
         mCommit.setOnClickListener(new ButtonClick());
-
-        //提交状态lin
-        lin_sumbit = findViewById(R.id.lin_sumbit);
-        //提交状态textview
-        submit_state = findViewById(R.id.submit_state);
-
-        //提交日期  lin
-        lin_data = findViewById(R.id.lin_data);
-        //提交日期 textview
-        sumbit_data = findViewById(R.id.sumbit_data);
-
-        //审核状态   lin
-        lin_status = findViewById(R.id.lin_status);
-        //审核状态 textview
-        status = findViewById(R.id.status);
-
-        lin_sumbit.setVisibility(View.INVISIBLE);
-        lin_data.setVisibility(View.INVISIBLE);
-        lin_status.setVisibility(View.INVISIBLE);
     }
 
 
@@ -592,10 +544,6 @@ public class UserAuthenticationActivity extends AppCompatActivity {
                         mNetRetStr = new Gson().toJson(retEntity);
                         mHandler.sendEmptyMessage(5);
                         return;
-                    }else {
-                        lin_sumbit.setVisibility(View.VISIBLE);
-                        lin_data.setVisibility(View.VISIBLE);
-                        lin_status.setVisibility(View.VISIBLE);
                     }
 
                 } catch (Exception e) {

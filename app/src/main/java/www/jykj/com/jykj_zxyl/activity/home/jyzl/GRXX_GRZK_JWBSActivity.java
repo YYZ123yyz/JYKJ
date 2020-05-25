@@ -11,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -124,6 +125,7 @@ public class GRXX_GRZK_JWBSActivity extends AppCompatActivity {
                         break;
                     case 1:
                         cacerProgress();
+                        Log.e("aaa","mNetRetStr/"+mNetRetStr);
                         mProvidePatientConditionDiseaseRecords = JSON.parseArray(JSON.parseObject(mNetRetStr,NetRetEntity.class).getResJsonData(),ProvidePatientConditionDiseaseRecord.class);
 //                        showViewDate();
                         mPatientJWBSAdapter.setDate(mProvidePatientConditionDiseaseRecords);

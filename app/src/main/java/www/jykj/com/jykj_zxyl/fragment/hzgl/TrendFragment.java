@@ -69,6 +69,9 @@ public class TrendFragment extends Fragment implements View.OnClickListener {
     private TextView tvViewTime;
     private String startTime,endTime;
 
+    float zmienna = 123;
+    private float[] yData = {zmienna, 10.6f, 66.76f, 44.32f, 46.01f, 16.89f, 23.9f};
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_trend, container, false);
@@ -89,16 +92,71 @@ public class TrendFragment extends Fragment implements View.OnClickListener {
         viewBloodDayAverage = (LinearLayout) v.findViewById(R.id.view_blood_day_average);
         viewBloodWeekAverage = (LinearLayout) v.findViewById(R.id.view_blood_week_average);
         viewBloodMonthAverage = (LinearLayout) v.findViewById(R.id.view_blood_month_average);
-        llBloodDay = (LinearLayout) v.findViewById(R.id.ll_blood_day);
-        llBloodWeek = (LinearLayout) v.findViewById(R.id.ll_blood_week);
-        llBloodMonth = (LinearLayout) v.findViewById(R.id.ll_blood_month);
-        viewBloodDay = (LinearLayout) v.findViewById(R.id.view_blood_day);
-        viewBloodWeek = (LinearLayout) v.findViewById(R.id.view_blood_week);
-        viewBloodMonth = (LinearLayout) v.findViewById(R.id.view_blood_month);
-        tvName = (TextView)v.findViewById(R.id.tv_name);
-        tvAge = (TextView)v.findViewById(R.id.tv_age);
-        tvSex = (TextView)v.findViewById(R.id.tv_sex);
-        tvViewTime = (TextView)v.findViewById(R.id.tv_view_time);
+
+//        tvViewTime = (TextView)v.findViewById(R.id.tv_view_time);
+        TextView tvComfirm = v.findViewById(R.id.tv_comfirm);
+        RelativeLayout rlStartTime = v.findViewById(R.id.rl_start_time);
+        TextView tvStartTime = v.findViewById(R.id.tv_start_time);
+        RelativeLayout rlEndTime = v.findViewById(R.id.rl_end_time);
+        TextView tvEndTime = v.findViewById(R.id.tv_end_time);
+        tvComfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+             //   tvViewTime.setText(startTime+"至"+endTime);
+                getData(searchTimeType,searchDateType);
+            }
+        });
+
+        rlStartTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DateUtils.showDatePickerDialog(getActivity(), false, "请选择月日", 2020, 1, 1, new DateUtils.OnDatePickerListener() {
+                    @Override
+                    public void onConfirm(int year, int month, int dayOfMonth) {
+                        startTime = year+"-"+month+"-"+dayOfMonth;
+                        tvStartTime.setText(startTime);
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
+            }
+        });
+
+        rlEndTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DateUtils.showDatePickerDialog(getActivity(), false, "请选择月日", 2020, 1, 1, new DateUtils.OnDatePickerListener() {
+                    @Override
+                    public void onConfirm(int year, int month, int dayOfMonth) {
+                        endTime = year+"-"+month+"-"+dayOfMonth;
+                        tvEndTime.setText(endTime);
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
+            }
+        });
+
+
+
+
+
+     //   llBloodDay = (LinearLayout) v.findViewById(R.id.ll_blood_day);
+     //   llBloodWeek = (LinearLayout) v.findViewById(R.id.ll_blood_week);
+      //  llBloodMonth = (LinearLayout) v.findViewById(R.id.ll_blood_month);
+     //   viewBloodDay = (LinearLayout) v.findViewById(R.id.view_blood_day);
+      //  viewBloodWeek = (LinearLayout) v.findViewById(R.id.view_blood_week);
+    //    viewBloodMonth = (LinearLayout) v.findViewById(R.id.view_blood_month);
+//        tvName = (TextView)v.findViewById(R.id.tv_name);
+//        tvAge = (TextView)v.findViewById(R.id.tv_age);
+//        tvSex = (TextView)v.findViewById(R.id.tv_sex);
+
         String name = mData.getUserName();
         String sex;
         String age;
@@ -108,17 +166,17 @@ public class TrendFragment extends Fragment implements View.OnClickListener {
             sex = "女";
         }
         age = DateUtils.getAgeFromBirthDate(mData.getBirthday()) + "岁";
-        tvName.setText(name);
-        tvSex.setText(sex);
-        tvAge.setText(age);
+//        tvName.setText(name);
+//        tvSex.setText(sex);
+//        tvAge.setText(age);
 
         llBloodDayAverage.setOnClickListener(this);
         llBloodWeekAverage.setOnClickListener(this);
         llBloodMonthAverage.setOnClickListener(this);
-        llBloodDay.setOnClickListener(this);
-        llBloodMonth.setOnClickListener(this);
-        llBloodWeek.setOnClickListener(this);
-        tvViewTime.setOnClickListener(this);
+       // llBloodDay.setOnClickListener(this);
+      //  llBloodMonth.setOnClickListener(this);
+     //   llBloodWeek.setOnClickListener(this);
+     //   tvViewTime.setOnClickListener(this);
         getData(searchTimeType,searchDateType);
 
     }
@@ -137,17 +195,17 @@ public class TrendFragment extends Fragment implements View.OnClickListener {
                     provideViewPatientInfo.setLoginDoctorPosition(mApp.loginDoctorPosition);
                     provideViewPatientInfo.setOperDoctorCode(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
                     provideViewPatientInfo.setOperDoctorName(mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
-                    provideViewPatientInfo.setPageNum(mPageNum);
-                    provideViewPatientInfo.setRowNum(mRowNum);
+//                    provideViewPatientInfo.setPageNum(mPageNum);
+//                    provideViewPatientInfo.setRowNum(mRowNum);
                     provideViewPatientInfo.setSearchPatientCode(mData.getPatientCode());
                     provideViewPatientInfo.setSearchDateType(searchDateType);
-                    provideViewPatientInfo.setSearchTimeType(searchTimeType);
+                  //  provideViewPatientInfo.setSearchTimeType(searchTimeType);
                     provideViewPatientInfo.setSearchDateStart(startTime);
                     provideViewPatientInfo.setSearchDateEnd(endTime);
 
                     String jsonString = JSON.toJSONString(provideViewPatientInfo);
                     mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + jsonString, Constant.SERVICEURL + "patientDataControlle/searchDoctorManagePatientStateResBloodPressureCycleData");
-//                    Log.e("mNetRetStr",mNetRetStr);
+                    Log.e("mNetRetStr",mNetRetStr);
                     NetRetEntity netRetEntity = new Gson().fromJson(mNetRetStr, NetRetEntity.class);
                     if (netRetEntity.getResCode() == 0) {
                         NetRetEntity retEntity = new NetRetEntity();
@@ -333,39 +391,39 @@ public class TrendFragment extends Fragment implements View.OnClickListener {
                 searchDateType = "4";
                 getData(searchTimeType,searchDateType);
                 break;
-            case R.id.ll_blood_day:
-                if(viewBloodDay.getVisibility()!=View.VISIBLE) {
-                    viewBloodDay.setVisibility(View.VISIBLE);
-                    viewBloodWeek.setVisibility(View.GONE);
-                    viewBloodMonth.setVisibility(View.GONE);
-                }
-                groupList.clear();
-                searchTimeType = "0";
-                getData(searchTimeType,searchDateType);
-                break;
-            case R.id.ll_blood_week:
-                if(viewBloodWeek.getVisibility()!=View.VISIBLE) {
-                    viewBloodDay.setVisibility(View.GONE);
-                    viewBloodWeek.setVisibility(View.VISIBLE);
-                    viewBloodMonth.setVisibility(View.GONE);
-                }
-                groupList.clear();
-                searchTimeType = "1";
-                getData(searchTimeType,searchDateType);
-                break;
-            case R.id.ll_blood_month:
-                if(viewBloodMonth.getVisibility()!=View.VISIBLE) {
-                    viewBloodDay.setVisibility(View.GONE);
-                    viewBloodWeek.setVisibility(View.GONE);
-                    viewBloodMonth.setVisibility(View.VISIBLE);
-                }
-                groupList.clear();
-                searchTimeType = "3";
-                getData(searchTimeType,searchDateType);
-                break;
-            case R.id.tv_view_time:
-                showViewTimePop();
-                break;
+          //  case R.id.ll_blood_day:
+//                if(viewBloodDay.getVisibility()!=View.VISIBLE) {
+//                    viewBloodDay.setVisibility(View.VISIBLE);
+//                    viewBloodWeek.setVisibility(View.GONE);
+//                    viewBloodMonth.setVisibility(View.GONE);
+//                }
+//                groupList.clear();
+//                searchTimeType = "0";
+//                getData(searchTimeType,searchDateType);
+            //    break;
+//            case R.id.ll_blood_week:
+//                if(viewBloodWeek.getVisibility()!=View.VISIBLE) {
+//                    viewBloodDay.setVisibility(View.GONE);
+//                    viewBloodWeek.setVisibility(View.VISIBLE);
+//                    viewBloodMonth.setVisibility(View.GONE);
+//                }
+//                groupList.clear();
+//                searchTimeType = "1";
+//                getData(searchTimeType,searchDateType);
+//                break;
+//            case R.id.ll_blood_month:
+//                if(viewBloodMonth.getVisibility()!=View.VISIBLE) {
+//                    viewBloodDay.setVisibility(View.GONE);
+//                    viewBloodWeek.setVisibility(View.GONE);
+//                    viewBloodMonth.setVisibility(View.VISIBLE);
+//                }
+//                groupList.clear();
+//                searchTimeType = "3";
+//                getData(searchTimeType,searchDateType);
+//                break;
+//            case R.id.tv_view_time:
+//                showViewTimePop();
+//                break;
 
         }
     }
@@ -379,98 +437,52 @@ public class TrendFragment extends Fragment implements View.OnClickListener {
         popupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
         popupWindow.setOutsideTouchable(false);
         popupWindow.setFocusable(true);
-        popupWindow.showAsDropDown(tvViewTime,0,0);
-        TextView tvDay1 = view.findViewById(R.id.tv_30_day);
-        TextView tvDay2 = view.findViewById(R.id.tv_3_month);
-        TextView tvDay3 = view.findViewById(R.id.tv_6_month);
-        TextView tvComfirm = view.findViewById(R.id.tv_comfirm);
-        RelativeLayout rlStartTime = view.findViewById(R.id.rl_start_time);
-        TextView tvStartTime = view.findViewById(R.id.tv_start_time);
-        RelativeLayout rlEndTime = view.findViewById(R.id.rl_end_time);
-        TextView tvEndTime = view.findViewById(R.id.tv_end_time);
+      //  popupWindow.showAsDropDown(tvViewTime,0,0);
+//        TextView tvDay1 = view.findViewById(R.id.tv_30_day);
+//        TextView tvDay2 = view.findViewById(R.id.tv_3_month);
+//        TextView tvDay3 = view.findViewById(R.id.tv_6_month);
 
-        tvDay1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tvDay1.setBackgroundResource(R.drawable.shape_corner_button1);
-                tvDay2.setBackgroundResource(R.drawable.shape_button_button2);
-                tvDay3.setBackgroundResource(R.drawable.shape_button_button2);
-                tvDay1.setTextColor(getResources().getColor(R.color.writeColor));
-                tvDay2.setTextColor(getResources().getColor(R.color.blackColor));
-                tvDay3.setTextColor(getResources().getColor(R.color.blackColor));
-                searchDateType = "4";
-            }
-        });
 
-        tvDay2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tvDay1.setBackgroundResource(R.drawable.shape_button_button2);
-                tvDay2.setBackgroundResource(R.drawable.shape_corner_button1);
-                tvDay3.setBackgroundResource(R.drawable.shape_button_button2);
-                tvDay1.setTextColor(getResources().getColor(R.color.blackColor));
-                tvDay2.setTextColor(getResources().getColor(R.color.writeColor));
-                tvDay3.setTextColor(getResources().getColor(R.color.blackColor));
-                searchDateType = "5";
-            }
-        });
+//        tvDay1.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                tvDay1.setBackgroundResource(R.drawable.shape_corner_button1);
+//                tvDay2.setBackgroundResource(R.drawable.shape_button_button2);
+//                tvDay3.setBackgroundResource(R.drawable.shape_button_button2);
+//                tvDay1.setTextColor(getResources().getColor(R.color.writeColor));
+//                tvDay2.setTextColor(getResources().getColor(R.color.blackColor));
+//                tvDay3.setTextColor(getResources().getColor(R.color.blackColor));
+//                searchDateType = "4";
+//            }
+//        });
+//
+//        tvDay2.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                tvDay1.setBackgroundResource(R.drawable.shape_button_button2);
+//                tvDay2.setBackgroundResource(R.drawable.shape_corner_button1);
+//                tvDay3.setBackgroundResource(R.drawable.shape_button_button2);
+//                tvDay1.setTextColor(getResources().getColor(R.color.blackColor));
+//                tvDay2.setTextColor(getResources().getColor(R.color.writeColor));
+//                tvDay3.setTextColor(getResources().getColor(R.color.blackColor));
+//                searchDateType = "5";
+//            }
+//        });
+//
+//        tvDay3.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                tvDay1.setBackgroundResource(R.drawable.shape_button_button2);
+//                tvDay2.setBackgroundResource(R.drawable.shape_button_button2);
+//                tvDay3.setBackgroundResource(R.drawable.shape_corner_button1);
+//                tvDay1.setTextColor(getResources().getColor(R.color.blackColor));
+//                tvDay2.setTextColor(getResources().getColor(R.color.blackColor));
+//                tvDay3.setTextColor(getResources().getColor(R.color.writeColor));
+//                searchDateType = "6";
+//            }
+//        });
 
-        tvDay3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tvDay1.setBackgroundResource(R.drawable.shape_button_button2);
-                tvDay2.setBackgroundResource(R.drawable.shape_button_button2);
-                tvDay3.setBackgroundResource(R.drawable.shape_corner_button1);
-                tvDay1.setTextColor(getResources().getColor(R.color.blackColor));
-                tvDay2.setTextColor(getResources().getColor(R.color.blackColor));
-                tvDay3.setTextColor(getResources().getColor(R.color.writeColor));
-                searchDateType = "6";
-            }
-        });
 
-        tvComfirm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tvViewTime.setText(startTime+"至"+endTime);
-                getData(searchTimeType,searchDateType);
-            }
-        });
-
-        rlStartTime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DateUtils.showDatePickerDialog(getActivity(), false, "请选择月日", 2020, 1, 1, new DateUtils.OnDatePickerListener() {
-                    @Override
-                    public void onConfirm(int year, int month, int dayOfMonth) {
-                        startTime = year+"-"+month+"-"+dayOfMonth;
-                        tvStartTime.setText(startTime);
-                    }
-
-                    @Override
-                    public void onCancel() {
-
-                    }
-                });
-            }
-        });
-
-        rlEndTime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DateUtils.showDatePickerDialog(getActivity(), false, "请选择月日", 2020, 1, 1, new DateUtils.OnDatePickerListener() {
-                    @Override
-                    public void onConfirm(int year, int month, int dayOfMonth) {
-                        endTime = year+"-"+month+"-"+dayOfMonth;
-                        tvEndTime.setText(endTime);
-                    }
-
-                    @Override
-                    public void onCancel() {
-
-                    }
-                });
-            }
-        });
 
 
 

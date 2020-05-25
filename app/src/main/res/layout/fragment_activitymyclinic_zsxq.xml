@@ -42,10 +42,10 @@
             android:orientation="vertical">
 
             <ImageView
-                android:layout_width="30dp"
+                android:id="@+id/iv_ypjz"
+                android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:layout_gravity="center_horizontal"
-                android:id="@+id/iv_ypjz"
                 android:src="@mipmap/mainpae_ypjz" />
 
             <TextView

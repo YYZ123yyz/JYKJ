@@ -150,25 +150,25 @@ public class MyPatientRecyclerAdapter extends RecyclerView.Adapter<MyPatientRecy
         }
 
 
-        //其他打卡点击事件
-        if (mOnQTDKItemClickListenerl != null)
-        {
-            viewHolder.mQTDK.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    mOnQTDKItemClickListenerl.onClick(position);
-                }
-            });
-
-            viewHolder.mQTDK.setOnLongClickListener(new View.OnLongClickListener() {
-
-                @Override
-                public boolean onLongClick(View view) {
-                    mOnQTDKItemClickListenerl.onLongClick(position);
-                    return false;
-                }
-            });
-        }
+//        //其他打卡点击事件
+//        if (mOnQTDKItemClickListenerl != null)
+//        {
+//            viewHolder.mQTDK.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    mOnQTDKItemClickListenerl.onClick(position);
+//                }
+//            });
+//
+//            viewHolder.mQTDK.setOnLongClickListener(new View.OnLongClickListener() {
+//
+//                @Override
+//                public boolean onLongClick(View view) {
+//                    mOnQTDKItemClickListenerl.onLongClick(position);
+//                    return false;
+//                }
+//            });
+//        }
 
         //提醒患者点击事件
         if (mOnTXHZItemClickListenerl != null)

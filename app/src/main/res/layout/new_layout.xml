@@ -7,7 +7,6 @@
         android:layout_height="60dp"
         android:background="@color/layout">
         <LinearLayout
-            android:id="@+id/ll_back"
             android:layout_width="60dp"
             android:layout_height="match_parent"
             android:layout_centerVertical="true">

@@ -30,6 +30,8 @@ import www.jykj.com.jykj_zxyl.fragment.wdzs.FragmentZSXQ;
 import www.jykj.com.jykj_zxyl.fragment.wdzs.FragmentZSZKZL;
 import www.jykj.com.jykj_zxyl.fragment.yslm.FragmentDoctorFriend;
 import www.jykj.com.jykj_zxyl.fragment.yslm.FragmentDoctorPliatform;
+import www.jykj.com.jykj_zxyl.util.ActivityUtil;
+import yyz_exploit.activity.activity.OpinionActivity;
 
 /**
  * 我的诊所
@@ -69,6 +71,7 @@ public class MyClinicActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_clinic);
+        ActivityUtil.setStatusBarMain(MyClinicActivity.this);
         mContext = this;
         initView();
     }

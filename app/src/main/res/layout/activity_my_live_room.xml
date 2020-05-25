@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:ignore="MissingDefaultResource">
 
     <RelativeLayout
@@ -26,40 +25,100 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="直播列表"
+            android:text="我的直播间"
             android:textColor="@color/writeColor"
             android:textSize="10pt" />
 
     </RelativeLayout>
 
+   <LinearLayout
+       android:layout_below="@+id/live_rl"
+       android:id="@+id/lin_banner"
+       android:orientation="vertical"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content">
+       <com.youth.banner.Banner
+           android:layout_marginBottom="20dp"
+           android:layout_marginTop="20dp"
+           android:layout_marginLeft="10dp"
+           android:layout_marginRight="10dp"
+           android:id="@+id/live_banner"
+           android:layout_width="match_parent"
+           android:layout_height="150dp"></com.youth.banner.Banner>
+    <LinearLayout
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:gravity="center"
+            android:layout_weight="1"
+            android:id="@+id/room_forecast"
+            android:text="直播预报"
+            android:textColor="@color/tabColor_nomal"
+            android:drawableTop="@mipmap/forecast"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:gravity="center"
+            android:layout_weight="1"
+            android:id="@+id/room_Hit"
+            android:text="正在热播"
+            android:textColor="@color/tabColor_nomal"
+            android:drawableTop="@mipmap/hit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:gravity="center"
+            android:layout_weight="1"
+            android:id="@+id/room_Lecture"
+            android:text="专题讲座"
+            android:textColor="@color/tabColor_nomal"
+            android:drawableTop="@mipmap/lecture"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:gravity="center"
+            android:layout_weight="1"
+            android:id="@+id/room_my"
+            android:text="我主讲"
+            android:textColor="@color/tabColor_nomal"
+            android:drawableTop="@mipmap/my"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+
+   </LinearLayout>
+
     <TextView
-        android:id="@+id/live_tv"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_below="@+id/lin_banner"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:textSize="17sp"
+        android:textColor="@color/tabColor_nomal"
+        android:id="@+id/room_text"
+        android:text="直播预报"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <com.jcodecraeer.xrecyclerview.XRecyclerView
+        android:layout_below="@+id/room_text"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:id="@+id/room_recy"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+    <com.barnettwong.dragfloatactionbuttonlibrary.view.DragFloatActionButton
+        android:id="@+id/live"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_marginBottom="100dp"
+        android:layout_marginBottom="50dp"
         android:layout_marginRight="20dp"
-        android:background="@drawable/em_live_button_bg_gift_shape"
-        android:gravity="center"
-        android:text="我要\n直播"
-        android:textColor="#fff"></TextView>
-
-
-    <android.support.design.widget.TabLayout
-        android:id="@+id/sy_tablayout"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_below="@+id/live_rl"
-        android:layout_marginLeft="18dp"
-        android:layout_marginRight="18dp"
-        app:tabSelectedTextColor="#fff05522" />
-
-    <android.support.v4.view.ViewPager
-        android:id="@+id/sy_viewpager"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/sy_tablayout" />
-
-
+        android:clickable="true"
+        android:src="@mipmap/live" />
 </RelativeLayout>

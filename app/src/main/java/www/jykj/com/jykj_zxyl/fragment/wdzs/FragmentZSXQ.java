@@ -10,6 +10,7 @@ import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -89,7 +90,6 @@ public class FragmentZSXQ extends Fragment {
     private ImageView mDHJZImage;                 //电话就诊
 
     private RecyclerView mRecycleView;              //列表
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -346,7 +346,6 @@ public class FragmentZSXQ extends Fragment {
                         if (netRetEntity.getResCode() == 0) {
                             Toast.makeText(mContext, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
                         } else {
-
                             mProvideDoctorSetServiceState = JSON.parseObject(netRetEntity.getResJsonData(), ProvideDoctorSetServiceState.class);
                             if (mProvideDoctorSetServiceState != null)
                                 setLayoutDate();
@@ -360,7 +359,6 @@ public class FragmentZSXQ extends Fragment {
                         if (netRetEntity.getResCode() == 0) {
                             Toast.makeText(mContext, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
                         } else {
-
                             provideViewInteractOrderTreatmentAndPatientInterrogations = JSON.parseArray(netRetEntity.getResJsonData(), ProvideViewInteractOrderTreatmentAndPatientInterrogation.class);
                             mTWJZNoFinishRecycleAdapter.setDate(provideViewInteractOrderTreatmentAndPatientInterrogations);
                             mTWJZNoFinishRecycleAdapter.notifyDataSetChanged();
@@ -420,6 +418,7 @@ public class FragmentZSXQ extends Fragment {
                 try {
                     String string = new Gson().toJson(provideViewInteractOrderTreatmentAndPatientInterrogation);
                     mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + string, Constant.SERVICEURL + "doctorInteractDataControlle/searchMyClinicDetailResTreatmentRecord");
+                    Log.e("bbbb", "run: "+string );
                     String string01 = Constant.SERVICEURL + "msgDataControlle/searchMsgPushReminderAllCount";
                     System.out.println(string + string01);
                 } catch (Exception e) {
@@ -439,16 +438,20 @@ public class FragmentZSXQ extends Fragment {
      */
     private void getYWCData() {
         getProgressBar("请稍候", "正在获取数据。。。");
-        ProvideDoctorSetServiceState provideDoctorSetServiceState = new ProvideDoctorSetServiceState();
-        provideDoctorSetServiceState.setLoginDoctorPosition(mApp.loginDoctorPosition);
-        provideDoctorSetServiceState.setOperDoctorCode(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
-        provideDoctorSetServiceState.setOperDoctorName(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
+        ProvideViewInteractOrderTreatmentAndPatientInterrogation provideViewInteractOrderTreatmentAndPatientInterrogation = new ProvideViewInteractOrderTreatmentAndPatientInterrogation();
+        provideViewInteractOrderTreatmentAndPatientInterrogation.setLoginDoctorPosition(mApp.loginDoctorPosition);
+        provideViewInteractOrderTreatmentAndPatientInterrogation.setOperDoctorCode(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
+        provideViewInteractOrderTreatmentAndPatientInterrogation.setOperDoctorName(mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
+        provideViewInteractOrderTreatmentAndPatientInterrogation.setPageNum(mPageNum + "");
+        provideViewInteractOrderTreatmentAndPatientInterrogation.setRowNum(mRowNum + "");
+        provideViewInteractOrderTreatmentAndPatientInterrogation.setTreatmentType(mType);
 
         new Thread() {
             public void run() {
                 try {
-                    String string = new Gson().toJson(provideDoctorSetServiceState);
+                    String string = new Gson().toJson(provideViewInteractOrderTreatmentAndPatientInterrogation);
                     mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + string, Constant.SERVICEURL + "doctorInteractDataControlle/searchMyClinicDetailResTreatmentRecord");
+                    Log.e("bbbb", "run: "+string );
                     String string01 = Constant.SERVICEURL + "msgDataControlle/searchMsgPushReminderAllCount";
                     System.out.println(string + string01);
                 } catch (Exception e) {

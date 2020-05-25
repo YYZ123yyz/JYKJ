@@ -22,36 +22,36 @@ import www.jykj.com.jykj_zxyl.activity.home.wdzs.ProvideViewInteractOrderTreatme
 import www.jykj.com.jykj_zxyl.util.Util;
 
 /**
- *  患医互动 ==》医生好友 ==》好友申请
+ * 患医互动 ==》医生好友 ==》好友申请
  */
 public class YHHD_HYSQRecycleAdapter extends RecyclerView.Adapter<YHHD_HYSQRecycleAdapter.ViewHolder> {
-    public          List<ProvideBindingDoctorDoctorApply>                    datas = new ArrayList<>();
-    private         OnItemTYClickListener             mOnItemTYClickListener;           //同意
-    private         OnItemJJClickListener             mOnItemJJClickListener;           //拒绝
+    public List<ProvideBindingDoctorDoctorApply> datas = new ArrayList<>();
+    private OnItemTYClickListener mOnItemTYClickListener;           //同意
+    private OnItemJJClickListener mOnItemJJClickListener;           //拒绝
 
 
-    private         Context                         mContext;
+    private Context mContext;
 
 
-    public YHHD_HYSQRecycleAdapter(List<ProvideBindingDoctorDoctorApply> list, Context context){
+    public YHHD_HYSQRecycleAdapter(List<ProvideBindingDoctorDoctorApply> list, Context context) {
         mContext = context;
         datas = list;
     }
 
     //重新设置数据
-    public void setDate(List<ProvideBindingDoctorDoctorApply> list){
+    public void setDate(List<ProvideBindingDoctorDoctorApply> list) {
         datas = list;
     }
 
-        //创建新View，被LayoutManager所调用
-       @Override
-        public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType){
-                View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_hz_yshy_hysq_,viewGroup,false);
-                ViewHolder vh = new ViewHolder(view);
+    //创建新View，被LayoutManager所调用
+    @Override
+    public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_hz_yshy_hysq_, viewGroup, false);
+        ViewHolder vh = new ViewHolder(view);
 
-                return vh;
-       }
-        //将数据与界面进行绑定的操作
+        return vh;
+    }
+    //将数据与界面进行绑定的操作
 
     /**
      * 展示数据
@@ -61,8 +61,7 @@ public class YHHD_HYSQRecycleAdapter extends RecyclerView.Adapter<YHHD_HYSQRecyc
      */
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
-        if (datas.get(position).getUserLogoUrl() != null && !"".equals(datas.get(position).getUserLogoUrl()))
-        {
+        if (datas.get(position).getUserLogoUrl() != null && !"".equals(datas.get(position).getUserLogoUrl())) {
             try {
                 int avatarResId = Integer.parseInt(datas.get(position).getUserLogoUrl());
                 Glide.with(mContext).load(avatarResId).into(viewHolder.mImage);
@@ -75,8 +74,7 @@ public class YHHD_HYSQRecycleAdapter extends RecyclerView.Adapter<YHHD_HYSQRecyc
             }
         }
         viewHolder.mUserName.setText(datas.get(position).getLaunchDoctorName());
-        switch (datas.get(position).getFlagApplyType())
-        {
+        switch (datas.get(position).getFlagApplyType()) {
             case 0:
                 viewHolder.flagApplyType.setText("未知");
                 break;
@@ -94,8 +92,7 @@ public class YHHD_HYSQRecycleAdapter extends RecyclerView.Adapter<YHHD_HYSQRecyc
 
         if (datas.get(position).getApplyDate() != null)
             viewHolder.date.setText(Util.dateToStr(datas.get(position).getApplyDate()));
-        switch (datas.get(position).getFlagApplyState())
-        {
+        switch (datas.get(position).getFlagApplyState()) {
             case 0:
                 if (datas.get(position).getApplyReason() == null || "".equals(datas.get(position).getApplyReason()))
                     viewHolder.applyReason.setVisibility(View.GONE);
@@ -136,8 +133,7 @@ public class YHHD_HYSQRecycleAdapter extends RecyclerView.Adapter<YHHD_HYSQRecyc
                 viewHolder.jjyy.setText("已通过");
                 break;
         }
-        if (mOnItemTYClickListener != null)
-        {
+        if (mOnItemTYClickListener != null) {
             viewHolder.ty.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -156,8 +152,7 @@ public class YHHD_HYSQRecycleAdapter extends RecyclerView.Adapter<YHHD_HYSQRecyc
         }
 
 
-        if (mOnItemJJClickListener != null)
-        {
+        if (mOnItemJJClickListener != null) {
             viewHolder.jj.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -176,74 +171,69 @@ public class YHHD_HYSQRecycleAdapter extends RecyclerView.Adapter<YHHD_HYSQRecyc
         }
 
 
-
-
     }
-        //获取数据的数量
-        @Override
-        public int getItemCount(){
+
+    //获取数据的数量
+    @Override
+    public int getItemCount() {
 
         return datas.size();
 //            return 10;
+    }
+
+
+    //自定义的ViewHolder，持有每个Item的的所有界面元素
+
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        public LinearLayout mClickLinearLayout;                     //整个布局，用来监听点击事件
+        private ImageView mImage;
+        private TextView mUserName;                                  //姓名
+        private TextView flagApplyType;                                  //申请类型
+        private TextView date;                                  //申请时间
+        private TextView applyReason;                                  //描述
+        private LinearLayout opera;                                 //操作
+
+        private TextView ty;                                  //同意
+        private TextView jj;                                  //拒绝
+        private TextView jjyy;                                  //拒绝原因
+
+
+        public ViewHolder(View view) {
+            super(view);
+            mClickLinearLayout = (LinearLayout) view.findViewById(R.id.li_itemActivityTWJZ_hzxx);
+            mImage = (ImageView) view.findViewById(R.id.tv_itemUserImageText);
+            mUserName = (TextView) view.findViewById(R.id.tv_itemUserNameText);
+            flagApplyType = (TextView) view.findViewById(R.id.tv_itemSSYText);
+            date = (TextView) view.findViewById(R.id.date);
+            applyReason = (TextView) view.findViewById(R.id.tv_applyReason);
+            opera = (LinearLayout) view.findViewById(R.id.opera);
+            ty = (TextView) view.findViewById(R.id.tv_ty);
+            jj = (TextView) view.findViewById(R.id.tv_jj);
+            jjyy = (TextView) view.findViewById(R.id.flagApplyStateText);
         }
+    }
 
 
-
-
-        //自定义的ViewHolder，持有每个Item的的所有界面元素
-
-        public static class ViewHolder extends RecyclerView.ViewHolder{
-            public LinearLayout mClickLinearLayout;                     //整个布局，用来监听点击事件
-            private ImageView   mImage;
-            private TextView    mUserName;                                  //姓名
-            private TextView    flagApplyType;                                  //申请类型
-            private TextView    date;                                  //申请时间
-            private TextView    applyReason;                                  //描述
-            private LinearLayout opera;                                 //操作
-
-            private TextView    ty;                                  //同意
-            private TextView    jj;                                  //拒绝
-            private TextView    jjyy;                                  //拒绝原因
-
-
-            public ViewHolder(View view){
-                super(view);
-                mClickLinearLayout = (LinearLayout) view.findViewById(R.id.li_itemActivityTWJZ_hzxx);
-                mImage = (ImageView)view.findViewById(R.id.tv_itemUserImageText);
-                mUserName = (TextView)view.findViewById(R.id.tv_itemUserNameText);
-                flagApplyType = (TextView)view.findViewById(R.id.tv_itemSSYText);
-                date = (TextView)view.findViewById(R.id.date);
-                applyReason = (TextView)view.findViewById(R.id.tv_applyReason);
-                opera = (LinearLayout)view.findViewById(R.id.opera);
-                ty = (TextView)view.findViewById(R.id.tv_ty);
-                jj = (TextView)view.findViewById(R.id.tv_jj);
-                jjyy = (TextView)view.findViewById(R.id.flagApplyStateText);
-            }
-        }
-
-
-
-    public interface OnItemTYClickListener{
+    public interface OnItemTYClickListener {
         void onClick(int position);
+
         void onLongClick(int position);
     }
 
-    public void setOnItemTYClickListenerr(OnItemTYClickListener onItemClickListener ){
-        this.mOnItemTYClickListener=onItemClickListener;
+    public void setOnItemTYClickListenerr(OnItemTYClickListener onItemClickListener) {
+        this.mOnItemTYClickListener = onItemClickListener;
     }
 
 
-    public interface OnItemJJClickListener{
+    public interface OnItemJJClickListener {
         void onClick(int position);
+
         void onLongClick(int position);
     }
 
-    public void setOnItemJJClickListenerr(OnItemJJClickListener onItemClickListener ){
-        this.mOnItemJJClickListener=onItemClickListener;
+    public void setOnItemJJClickListenerr(OnItemJJClickListener onItemClickListener) {
+        this.mOnItemJJClickListener = onItemClickListener;
     }
-
-
-
 
 
 }

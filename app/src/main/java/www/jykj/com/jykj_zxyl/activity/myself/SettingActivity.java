@@ -21,6 +21,7 @@ import www.jykj.com.jykj_zxyl.activity.myself.setting.OpeaPassWordActivity;
 import www.jykj.com.jykj_zxyl.activity.myself.setting.ServiceHotlineActivity;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.util.ActivityUtil;
+import yyz_exploit.activity.activity.OpinionActivity;
 
 /**
  * 设置
@@ -37,6 +38,7 @@ public class SettingActivity extends AppCompatActivity {
     private ImageView myself_back;
     private LinearLayout myself_vt;
     private TextView myself_cache;
+    private LinearLayout setting_opinion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +85,9 @@ public class SettingActivity extends AppCompatActivity {
         myself_cache.setOnClickListener(new ButtonClick());
         clearData();
 
+        //意见反馈
+        setting_opinion = findViewById(R.id.setting_opinion);
+        setting_opinion.setOnClickListener(new ButtonClick());
     }
     //获取系统缓存
     private void clearData() {
@@ -133,6 +138,10 @@ public class SettingActivity extends AppCompatActivity {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
+                    break;
+                case  R.id.setting_opinion:
+                    Intent intent = new Intent(SettingActivity.this, OpinionActivity.class);
+                    startActivity(intent);
                     break;
             }
         }

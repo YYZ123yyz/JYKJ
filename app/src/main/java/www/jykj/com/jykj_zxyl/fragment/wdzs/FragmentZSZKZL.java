@@ -154,7 +154,7 @@ public class FragmentZSZKZL extends Fragment {
                             cacerProgress();
                             Toast.makeText(mContext, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
                         } else {
-                            if ("1".equals(netRetEntity.getResJsonData())) {
+                            if ("0".equals(netRetEntity.getResJsonData())) {
                                 showDialog();
                             } else {
                                 getData();
@@ -425,7 +425,6 @@ public class FragmentZSZKZL extends Fragment {
      * 设置数据
      */
     private void getData() {
-
         mProvideInteractClinicStateOverview.setLoginDoctorPosition(mApp.loginDoctorPosition);
         mProvideInteractClinicStateOverview.setOperDoctorCode(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
         mProvideInteractClinicStateOverview.setOperDoctorName(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());

@@ -13,6 +13,8 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,10 +37,18 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
     private View view3;
     private ArrayList<View> list;
     private TextView tvLogin, tvRegister;
+    private TextView welcome_pass;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        requestWindowFeature(Window.FEATURE_NO_TITLE);  //无title
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);  //全屏
+        setContentView(R.layout.activity_splash);
+
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
@@ -49,39 +59,49 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
 
 
     private void initView() {
+        //跳过
+        welcome_pass = findViewById(R.id.welcome_pass);
+        welcome_pass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(WelcomeActivity.this, LoginActivity.class);
+                startActivity(intent);
+            }
+        });
+
         mViewPager = this.findViewById(R.id.viewpager);
-        ivOneDot = this.findViewById(R.id.iv_one_dot);
-        ivTwoDot = this.findViewById(R.id.iv_two_dot);
-        ivThreeDot = this.findViewById(R.id.iv_three_dot);
+      //  ivOneDot = this.findViewById(R.id.iv_one_dot);
+       // ivTwoDot = this.findViewById(R.id.iv_two_dot);
+    //    ivThreeDot = this.findViewById(R.id.iv_three_dot);
         list = new ArrayList<>();
         view1 = View.inflate(this, R.layout.view_guide_one, null);
         view2 = View.inflate(this, R.layout.view_guide_two, null);
         view3 = View.inflate(this, R.layout.view_guide_three, null);
         tvLogin = view3.findViewById(R.id.tv_login);
-        tvRegister = view3.findViewById(R.id.tv_regist);
+     //   tvRegister = view3.findViewById(R.id.tv_regist);
         tvLogin.setOnClickListener(this);
-        tvRegister.setOnClickListener(this);
+    //    tvRegister.setOnClickListener(this);
         list.add(view1);
         list.add(view2);
         list.add(view3);
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                if (position == 0) {
-                    ivOneDot.setImageResource(R.drawable.shape_dot_white);
-                    ivTwoDot.setImageResource(R.drawable.shape_dot_gray);
-                    ivThreeDot.setImageResource(R.drawable.shape_dot_gray);
-                }
-                if (position == 1) {
-                    ivOneDot.setImageResource(R.drawable.shape_dot_gray);
-                    ivTwoDot.setImageResource(R.drawable.shape_dot_white);
-                    ivThreeDot.setImageResource(R.drawable.shape_dot_gray);
-                }
-                if (position == 2) {
-                    ivOneDot.setImageResource(R.drawable.shape_dot_gray);
-                    ivTwoDot.setImageResource(R.drawable.shape_dot_gray);
-                    ivThreeDot.setImageResource(R.drawable.shape_dot_white);
-                }
+//                if (position == 0) {
+//                    ivOneDot.setImageResource(R.drawable.shape_dot_white);
+//                    ivTwoDot.setImageResource(R.drawable.shape_dot_gray);
+//                    ivThreeDot.setImageResource(R.drawable.shape_dot_gray);
+//                }
+//                if (position == 1) {
+//                    ivOneDot.setImageResource(R.drawable.shape_dot_gray);
+//                    ivTwoDot.setImageResource(R.drawable.shape_dot_white);
+//                    ivThreeDot.setImageResource(R.drawable.shape_dot_gray);
+//                }
+//                if (position == 2) {
+//                    ivOneDot.setImageResource(R.drawable.shape_dot_gray);
+//                    ivTwoDot.setImageResource(R.drawable.shape_dot_gray);
+//                    ivThreeDot.setImageResource(R.drawable.shape_dot_white);
+//                }
             }
 
             @Override
@@ -145,10 +165,11 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.tv_login) {
-            startActivity(new Intent(this, LoginActivity.class));
-        } else if (v.getId() == R.id.tv_regist) {
-            startActivity(new Intent(this, UseRegistActivity.class));
+
+        switch (v.getId()) {
+            case R.id.tv_login:
+                startActivity(new Intent(this, LoginActivity.class));
+                break;
         }
     }
 }

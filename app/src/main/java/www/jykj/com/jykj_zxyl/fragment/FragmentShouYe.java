@@ -11,8 +11,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +21,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
-import com.baidu.mapapi.map.Text;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
@@ -39,26 +36,20 @@ import rx.functions.Action1;
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.activity.MainActivity;
 import www.jykj.com.jykj_zxyl.activity.home.DoctorsUnionActivity;
-import www.jykj.com.jykj_zxyl.activity.home.InvitepeersActivity;
-import www.jykj.com.jykj_zxyl.activity.home.JYZLActivity;
 import www.jykj.com.jykj_zxyl.activity.home.MyClinicActivity;
-import www.jykj.com.jykj_zxyl.activity.home.MyCommentActivity;
 import www.jykj.com.jykj_zxyl.activity.home.MyLiveRoomActivity;
 import www.jykj.com.jykj_zxyl.activity.home.MyPatientActivity;
 import www.jykj.com.jykj_zxyl.activity.home.NewsActivity;
 import www.jykj.com.jykj_zxyl.activity.home.QRCodeActivity;
-import www.jykj.com.jykj_zxyl.activity.home.TWJZActivity;
 import www.jykj.com.jykj_zxyl.activity.home.tjhz.AddPatientActivity;
 import www.jykj.com.jykj_zxyl.activity.hyhd.BindDoctorFriend;
 import www.jykj.com.jykj_zxyl.activity.myself.UserAuthenticationActivity;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.custom.MoreFeaturesPopupWindow;
-import www.jykj.com.jykj_zxyl.util.DialogUtil;
 import zxing.android.CaptureActivity;
 import zxing.common.Constant;
 
 import static android.app.Activity.RESULT_OK;
-import static android.content.Context.MODE_PRIVATE;
 
 
 /**
@@ -286,6 +277,7 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
             case R.id.ll_sys:
                 scan();
                 break;
+                //我的诊所
             case R.id.ll_wdzs:
                 startActivity(new Intent(getActivity(), MyClinicActivity.class));
                 break;

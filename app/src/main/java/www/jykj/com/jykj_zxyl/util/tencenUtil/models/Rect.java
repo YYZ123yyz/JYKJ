@@ -23,6 +23,10 @@ import www.jykj.com.jykj_zxyl.util.tencenUtil.common.AbstractModel;
 
 public class Rect extends AbstractModel {
 
+    public int left;
+    public int top;
+    public int right;
+    public int bottom;
     /**
     * 左上角x
     */
@@ -50,6 +54,10 @@ public class Rect extends AbstractModel {
     @SerializedName("Height")
     @Expose
     private Integer Height;
+
+    public Rect(int i, int i1, int i2, int i3) {
+        super();
+    }
 
     /**
      * Get 左上角x 

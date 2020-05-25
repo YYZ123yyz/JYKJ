@@ -17,6 +17,7 @@ import android.os.Message;
 import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
@@ -178,6 +179,7 @@ public class UserCenterActivity extends AppCompatActivity {
                                 Toast.makeText(mContext, "操作成功", Toast.LENGTH_SHORT).show();
                                 //登录IM
                                 mApp.loginIM();
+                                finish();
                             } else {
                                 Toast.makeText(mContext, "提交失败" + netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
                             }
@@ -216,9 +218,20 @@ public class UserCenterActivity extends AppCompatActivity {
         if (mProvideViewSysUserDoctorInfoAndHospital.getBirthday() != null && !"".equals(mProvideViewSysUserDoctorInfoAndHospital.getBirthday()))
             mUserBirthDayText.setText(Util.dateToStrNUR(mProvideViewSysUserDoctorInfoAndHospital.getBirthday()));
         //区域
-        String region = mProvideViewSysUserDoctorInfoAndHospital.getProvinceName() + mProvideViewSysUserDoctorInfoAndHospital.getCityName() + mProvideViewSysUserDoctorInfoAndHospital.getAreaName();
-        if (region != null && !"".equals(region))
-            mChoiceRegionText.setText(region);
+        String region;
+        if(TextUtils.isEmpty(mProvideViewSysUserDoctorInfoAndHospital.getProvinceName())&&TextUtils.isEmpty( mProvideViewSysUserDoctorInfoAndHospital.getCityName())&&TextUtils.isEmpty(mProvideViewSysUserDoctorInfoAndHospital.getAreaName())){
+            region="";
+        }
+        else  if(TextUtils.isEmpty(mProvideViewSysUserDoctorInfoAndHospital.getCityName())){
+            region=mProvideViewSysUserDoctorInfoAndHospital.getProvinceName();
+        }
+       else if (TextUtils.isEmpty(mProvideViewSysUserDoctorInfoAndHospital.getAreaName())) {
+            region = mProvideViewSysUserDoctorInfoAndHospital.getProvinceName() + mProvideViewSysUserDoctorInfoAndHospital.getCityName();
+        } else {
+            region = mProvideViewSysUserDoctorInfoAndHospital.getProvinceName() + mProvideViewSysUserDoctorInfoAndHospital.getCityName() + mProvideViewSysUserDoctorInfoAndHospital.getAreaName();
+        }
+
+        mChoiceRegionText.setText(region);
         //医院
         if (mProvideViewSysUserDoctorInfoAndHospital.getHospitalInfoName() != null && !"".equals(mProvideViewSysUserDoctorInfoAndHospital.getHospitalInfoName()))
             mChoiceHospitalText.setText(mProvideViewSysUserDoctorInfoAndHospital.getHospitalInfoName());
@@ -1049,13 +1062,19 @@ public class UserCenterActivity extends AppCompatActivity {
         mProvideViewSysUserDoctorInfoAndHospital.setProvince(mChoiceRegionMap.get("provice").getRegion_id());
         mProvideViewSysUserDoctorInfoAndHospital.setProvince(mChoiceRegionMap.get("provice").getRegion_name());
         if ("sqb".equals(mChoiceRegionMap.get("city").getRegion_id())) {
+            if (mChoiceRegionMap.get("provice").getRegion_name().equals("") || mChoiceRegionMap.get("provice").getRegion_name() == null || mChoiceRegionMap.get("provice").getRegion_name() == "") {
+                mChoiceRegionText.setText("");
+            }
             mChoiceRegionText.setText(mChoiceRegionMap.get("provice").getRegion_name());
-            mChoiceRegionLevel = 1;               //市级所有，则是省级
+            mChoiceRegionLevel = 1;//市级所有，则是省级
             mChoiceRegionLevel = 1;               //市级所有，则是省级
             mChoiceRegionID = mChoiceRegionMap.get("provice").getRegion_id();
             mProvideViewSysUserDoctorInfoAndHospital.setCity("");
             mProvideViewSysUserDoctorInfoAndHospital.setArea("");
         } else if (mChoiceRegionMap.get("dist") == null || "qqb".equals(mChoiceRegionMap.get("dist").getRegion_id())) {
+            if (mChoiceRegionMap.get("city").getRegion_name().equals("") || mChoiceRegionMap.get("city").getRegion_name() == null || mChoiceRegionMap.get("city").getRegion_name() == "") {
+                mChoiceRegionText.setText("mChoiceRegionMap.get(\"provice\").getRegion_name()");
+            }
             mChoiceRegionText.setText(mChoiceRegionMap.get("provice").getRegion_name() + mChoiceRegionMap.get("city").getRegion_name());
             mChoiceRegionLevel = 2;               //区级全部，则是市级
             mChoiceRegionID = mChoiceRegionMap.get("city").getRegion_id();
@@ -1067,6 +1086,9 @@ public class UserCenterActivity extends AppCompatActivity {
             mChoiceRegionID = mChoiceRegionMap.get("city").getRegion_id();
         }
         if (mChoiceRegionMap.get("dist") != null && !"qqb".equals(mChoiceRegionMap.get("dist").getRegion_id())) {
+            if (mChoiceRegionMap.get("dist").getRegion_name().equals("") || mChoiceRegionMap.get("dist").getRegion_name() == "" || mChoiceRegionMap.get("dist").getRegion_name() == null) {
+                mChoiceRegionText.setText("mChoiceRegionMap.get(\"provice\").getRegion_name() + mChoiceRegionMap.get(\"city\").getRegion_name() ");
+            }
             mChoiceRegionText.setText(mChoiceRegionMap.get("provice").getRegion_name() + mChoiceRegionMap.get("city").getRegion_name() + mChoiceRegionMap.get("dist").getRegion_name());
             mProvideViewSysUserDoctorInfoAndHospital.setArea(mChoiceRegionMap.get("dist").getRegion_id());
             mChoiceRegionLevel = 3;               //区级全部，则是市级

@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
     private FragmentShouYe mFragmentShouYe;                                 //首页Fragment
     private FragmentHZGL mFragmentHZGL;                                 //患者管理Fragment
 
-    private FragmentYHHD mFragmentYHHD;                                 //医患互动Fragment
+    private FragmentYHHD mFragmentYHHD;//医患互动Fragment
     private FragmentYLZX mFragmentYLZX;                                       //医疗资讯Fragment
     private FragmentMySelf mFragmentMySelf;                                 //我的Fragment
     private int mCurrentFragment;                                //当前所在的Fragment
@@ -159,8 +159,8 @@ public class MainActivity extends AppCompatActivity {
                                 string = "您有" + mProvideMsgPushReminderCount.getMsgTypeCount02() + "条诊后留言消息";
                             else if (mProvideMsgPushReminderCount.getMsgTypeCount03() > 0)
                                 string = "您有" + mProvideMsgPushReminderCount.getMsgTypeCount03() + "条添加患者消息";
-//                            else if (mProvideMsgPushReminderCount.getMsgTypeCount04() > 0)
-//                                string = "您有" + mProvideMsgPushReminderCount.getMsgTypeCount04() + "条医生联盟消息";
+                            else if (mProvideMsgPushReminderCount.getMsgTypeCount04() > 0)
+                                string = "您有" + mProvideMsgPushReminderCount.getMsgTypeCount04() + "条医生联盟消息";
                             else if (mProvideMsgPushReminderCount.getMsgTypeCount05() > 0)
                                 string = "您有" + mProvideMsgPushReminderCount.getMsgTypeCount05() + "条医患圈消息";
                             else if (mProvideMsgPushReminderCount.getMsgTypeCount06() > 0)
@@ -169,7 +169,7 @@ public class MainActivity extends AppCompatActivity {
                                 string = "您有" + mProvideMsgPushReminderCount.getMsgTypeCount07() + "条患者签约消息";
                             else if (mProvideMsgPushReminderCount.getMsgTypeCount08() > 0)
                                 string = "您有" + mProvideMsgPushReminderCount.getMsgTypeCount08() + "条系统消息消息";
-                       //     mFragmentShouYe.setNewMessageView(string);
+//                            mFragmentShouYe.setNewMessageView(string);
                         } else
                             mFragmentShouYe.setNewMessageView("");
 

@@ -58,6 +58,8 @@ import yyz_exploit.Forget_activity;
 import yyz_exploit.Utils.HttpUtil;
 import yyz_exploit.Utils.HttpUtils;
 import yyz_exploit.Utils.PrefParams;
+import yyz_exploit.activity.activity.Login_protocolActivity;
+import yyz_exploit.activity.activity.PrivacyActivity;
 import yyz_exploit.activity.activity.ResActivity;
 import yyz_exploit.bean.ResBean;
 
@@ -70,7 +72,7 @@ public class LoginActivity extends AppCompatActivity {
     private Handler mHandler;
     private String mNetRegionRetStr;                 //获取返回字符串
     private TextView mPhoneLogin;                //手机号登录
-    private TextView mUseRegist;                 //用户注册
+    private TextView mUseRegist,login_protocol,privacy;                 //用户注册
     private Button mLogin;                     //登录
     private EditText mAccountEdit;               //输入帐号
     private EditText mPassWordEdit;              //输入密码
@@ -189,10 +191,10 @@ public class LoginActivity extends AppCompatActivity {
         mAccountEdit = (EditText) this.findViewById(R.id.tv_activityLogin_accountEdit);
         mPassWordEdit = (EditText) this.findViewById(R.id.tv_activityLogin_passWordEdit);
 
-        mAgreeImg = (ImageView) this.findViewById(R.id.iv_activityLogin_agreeImg);
+      //  mAgreeImg = (ImageView) this.findViewById(R.id.iv_activityLogin_agreeImg);
         //设置是否同意协议图标
-        setAgreeImg();
-        mAgreeImg.setOnClickListener(new ButtonClick());
+       // setAgreeImg();
+      //  mAgreeImg.setOnClickListener(new ButtonClick());
 
         mLogin = (Button) this.findViewById(R.id.button_activityLogin_LoginButton);
         mLogin.setOnClickListener(new ButtonClick());
@@ -209,18 +211,24 @@ public class LoginActivity extends AppCompatActivity {
         login_forget = findViewById(R.id.login_Forget);
         login_forget.setOnClickListener(new ButtonClick());
 
+     //用户 协议
+        login_protocol=findViewById(R.id.login_protocol);
+        login_protocol.setOnClickListener(new ButtonClick());
 
+        //隐私
+        privacy=findViewById(R.id.privacy);
+        privacy.setOnClickListener(new ButtonClick());
     }
 
-    /**
-     * 设置是否同意协议图标
-     */
-    private void setAgreeImg() {
-        if (mAgree)
-            mAgreeImg.setImageResource(R.mipmap.choice);
-        else
-            mAgreeImg.setImageResource(R.mipmap.nochoice);
-    }
+//    /**
+//     * 设置是否同意协议图标
+//     */
+//    private void setAgreeImg() {
+//        if (mAgree)
+//            mAgreeImg.setImageResource(R.mipmap.choice);
+//        else
+//            mAgreeImg.setImageResource(R.mipmap.nochoice);
+//    }
 
 
     /**
@@ -245,11 +253,11 @@ public class LoginActivity extends AppCompatActivity {
                 case R.id.button_activityLogin_LoginButton:
                     userLogin();
                     break;
-                case R.id.iv_activityLogin_agreeImg:
-                    //取反
-                    mAgree = !mAgree;
-                    setAgreeImg();
-                    break;
+//                case R.id.iv_activityLogin_agreeImg:
+//                    //取反
+//                    mAgree = !mAgree;
+//                    setAgreeImg();
+//                    break;
                 //微信登录
                 case R.id.login_WeChat:
                     weChatLogin();
@@ -258,6 +266,16 @@ public class LoginActivity extends AppCompatActivity {
                 case R.id.login_Forget:
                     Intent intent1 = new Intent(LoginActivity.this, Forget_activity.class);
                     startActivity(intent1);
+                    break;
+                    //用户协议
+                case R.id.login_protocol:
+                    Intent intent2 = new Intent(LoginActivity.this, Login_protocolActivity.class);
+                    startActivity(intent2);
+                    break;
+                    //隐私
+                case R.id.privacy:
+                    Intent intent3 = new Intent(LoginActivity.this, PrivacyActivity.class);
+                    startActivity(intent3);
                     break;
             }
         }
@@ -287,10 +305,10 @@ public class LoginActivity extends AppCompatActivity {
      */
     private void userLogin() {
         //登录
-        if (!mAgree) {
-            Toast.makeText(mContext, "请先同意用户服务协议", LENGTH_SHORT).show();
-            return;
-        }
+//        if (!mAgree) {
+//            Toast.makeText(mContext, "请先同意用户服务协议", LENGTH_SHORT).show();
+//            return;
+//        }
         if (mAccountEdit.getText().toString() == null || "".equals(mAccountEdit.getText().toString())) {
             Toast.makeText(mContext, "帐号不能为空", LENGTH_SHORT).show();
             return;
@@ -431,7 +449,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     public void onDestroy() {
         super.onDestroy();
-      //  getApplication().unregisterReceiver(receiveBroadCast);
+        getApplication().unregisterReceiver(receiveBroadCast);
 
     }
 
@@ -629,4 +647,14 @@ public class LoginActivity extends AppCompatActivity {
         }
         return false;
     }
+//
+//    @Override
+//    public void onDetachedFromWindow() {
+//        try {
+//            super.onDetachedFromWindow();
+//        }
+//        catch (IllegalArgumentException e) {
+//            stopFlipping();
+//        }
+//    }
 }

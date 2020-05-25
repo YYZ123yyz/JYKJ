@@ -11,6 +11,7 @@ import android.view.WindowManager;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.activity.MainActivity;
 import www.jykj.com.jykj_zxyl.activity.home.DoctorsUnionActivity;
@@ -19,6 +20,7 @@ import www.jykj.com.jykj_zxyl.activity.home.MyPatientActivity;
 import www.jykj.com.jykj_zxyl.activity.home.NewsActivity;
 import www.jykj.com.jykj_zxyl.activity.home.tjhz.AddPatientActivity;
 import www.jykj.com.jykj_zxyl.fragment.FragmentShouYe;
+import yyz_exploit.activity.activity.HelpActivity;
 import zxing.android.CaptureActivity;
 
 public class MoreFeaturesPopupWindow extends PopupWindow implements View.OnClickListener {
@@ -126,8 +128,9 @@ public class MoreFeaturesPopupWindow extends PopupWindow implements View.OnClick
             case R.id.tv_wdbb:
 
                 break;
+                //帮助与反馈
             case R.id.tv_bzfk:
-
+                mContext.startActivity(new Intent(mContext, HelpActivity.class));
                 break;
         }
     }

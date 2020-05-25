@@ -40,7 +40,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="李飞"
+                        android:text=""
                         android:id="@+id/tv_fragmentShouYe_userNameText"
                         android:textColor="@color/writeColor"
                         android:textSize="10pt" />
@@ -48,7 +48,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="主治医师"
+                        android:text=""
                         android:layout_marginTop="3dp"
                         android:id="@+id/tv_fragmentShouYe_userTitleText"
                         android:textColor="@color/writeColor"
@@ -387,6 +387,9 @@
                     android:layout_marginRight="10dp"
                     android:src="@mipmap/roww_right" />
             </LinearLayout>
+
+
+
 
             <ImageView
                 android:layout_width="match_parent"

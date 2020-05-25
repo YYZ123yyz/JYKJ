@@ -9,6 +9,7 @@ import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -35,14 +36,16 @@ import www.jykj.com.jykj_zxyl.util.ActivityUtil;
 public class AboutActivity extends AppCompatActivity {
 
 
-    private                 String                      mNetRetStr;                 //返回字符串
-    public                  ProgressDialog              mDialogProgress =null;
-    private                 Context                     mContext;
-    private                  AboutActivity mActivity;
-    private                 JYKJApplication             mApp;
-    private                 Handler                     mHandler;
-    private                 TextView                    mAboutText;
-    private                 LinearLayout                mBack;
+    private String mNetRetStr;                 //返回字符串
+    public ProgressDialog mDialogProgress = null;
+    private Context mContext;
+    private AboutActivity mActivity;
+    private JYKJApplication mApp;
+    private Handler mHandler;
+    private TextView mAboutText;
+    private LinearLayout mBack;
+    private WebView about_wb;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,32 +57,22 @@ public class AboutActivity extends AppCompatActivity {
         mApp.gActivityList.add(this);
         ActivityUtil.setStatusBarMain(mActivity);
         initLayout();
-        initHandler();
-        getData();
+    //    getData();
     }
 
-    private void initHandler() {
-        mHandler = new Handler() {
-            @Override
-            public void handleMessage(Message msg) {
-                switch (msg.what) {
-                    case 0:
-                        cacerProgress();
-                        NetRetEntity retEntity = new Gson().fromJson(mNetRetStr,NetRetEntity.class);
-                        mAboutText.setText(Html.fromHtml(retEntity.getResJsonData()));
-                        break;
-                }
-            }
-        };
-    }
+
 
 
     /**
      * 初始化布局
      */
     private void initLayout() {
-        mAboutText = (TextView)this.findViewById(R.id.tv_about);
-        mBack = (LinearLayout)this.findViewById(R.id.back);
+
+        about_wb = findViewById(R.id.about_wb);
+        about_wb.loadUrl("https://jiuyihtn.com/AppAssembly/aboutUs.html");
+
+        mAboutText = (TextView) this.findViewById(R.id.tv_about);
+        mBack = (LinearLayout) this.findViewById(R.id.back);
         mBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -92,7 +85,7 @@ public class AboutActivity extends AppCompatActivity {
     /**
      * 点击事件
      */
-    class   ButtonClick implements View.OnClickListener {
+    class ButtonClick implements View.OnClickListener {
         @Override
         public void onClick(View view) {
             switch (view.getId()) {
@@ -101,49 +94,48 @@ public class AboutActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * 获取数据
-     */
-    private void getData() {
-        getProgressBar("请稍候。。。。","正在加载数据");
-        new Thread(){
-            public void run(){
-                try {
-                    ProvideViewSysUserDoctorInfoAndHospital provideViewSysUserDoctorInfoAndHospital = new ProvideViewSysUserDoctorInfoAndHospital();
-                    provideViewSysUserDoctorInfoAndHospital.setLoginDoctorPosition(mApp.loginDoctorPosition);
-                    provideViewSysUserDoctorInfoAndHospital.setOperDoctorCode(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
-                    provideViewSysUserDoctorInfoAndHospital.setOperDoctorName(mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
-                    //实体转JSON字符串
-                    String str = new Gson().toJson(provideViewSysUserDoctorInfoAndHospital);
-                    //获取用户数据
-                    mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo="+str,Constant.SERVICEURL+"/doctorPersonalSetControlle/getDoctorAboutUsHtmlData");
-                    NetRetEntity netRetEntity = new Gson().fromJson(mNetRetStr, NetRetEntity.class);
-                    if (netRetEntity.getResCode() == 0)
-                    {
-                        NetRetEntity retEntity = new NetRetEntity();
-                        retEntity.setResCode(0);
-                        retEntity.setResMsg("获取信息失败："+netRetEntity.getResMsg());
-                        mNetRetStr = new Gson().toJson(retEntity);
-                        mHandler.sendEmptyMessage(0);
-                        return;
-                    }
-                } catch (Exception e) {
-                    NetRetEntity retEntity = new NetRetEntity();
-                    retEntity.setResCode(0);
-                    retEntity.setResMsg("网络连接异常，请联系管理员："+e.getMessage());
-                    mNetRetStr = new Gson().toJson(retEntity);
-                    e.printStackTrace();
-                }
-                mHandler.sendEmptyMessage(0);
-            }
-        }.start();
-    }
+//    /**
+//     * 获取数据
+//     */
+//    private void getData() {
+//        getProgressBar("请稍候。。。。", "正在加载数据");
+//        new Thread() {
+//            public void run() {
+//                try {
+//                    ProvideViewSysUserDoctorInfoAndHospital provideViewSysUserDoctorInfoAndHospital = new ProvideViewSysUserDoctorInfoAndHospital();
+//                    provideViewSysUserDoctorInfoAndHospital.setLoginDoctorPosition(mApp.loginDoctorPosition);
+//                    provideViewSysUserDoctorInfoAndHospital.setOperDoctorCode(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
+//                    provideViewSysUserDoctorInfoAndHospital.setOperDoctorName(mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
+//                    //实体转JSON字符串
+//                    String str = new Gson().toJson(provideViewSysUserDoctorInfoAndHospital);
+//                    //获取用户数据
+//                    mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + str, Constant.SERVICEURL + "/doctorPersonalSetControlle/getDoctorAboutUsHtmlData");
+//                    NetRetEntity netRetEntity = new Gson().fromJson(mNetRetStr, NetRetEntity.class);
+//                    if (netRetEntity.getResCode() == 0) {
+//                        NetRetEntity retEntity = new NetRetEntity();
+//                        retEntity.setResCode(0);
+//                        retEntity.setResMsg("获取信息失败：" + netRetEntity.getResMsg());
+//                        mNetRetStr = new Gson().toJson(retEntity);
+//                        mHandler.sendEmptyMessage(0);
+//                        return;
+//                    }
+//                } catch (Exception e) {
+//                    NetRetEntity retEntity = new NetRetEntity();
+//                    retEntity.setResCode(0);
+//                    retEntity.setResMsg("网络连接异常，请联系管理员：" + e.getMessage());
+//                    mNetRetStr = new Gson().toJson(retEntity);
+//                    e.printStackTrace();
+//                }
+//                mHandler.sendEmptyMessage(0);
+//            }
+//        }.start();
+//    }
 
     /**
-     *   获取进度条
+     * 获取进度条
      */
 
-    public void getProgressBar(String title,String progressPrompt){
+    public void getProgressBar(String title, String progressPrompt) {
         if (mDialogProgress == null) {
             mDialogProgress = new ProgressDialog(mContext);
         }
@@ -156,7 +148,7 @@ public class AboutActivity extends AppCompatActivity {
     /**
      * 取消进度条
      */
-    public void cacerProgress(){
+    public void cacerProgress() {
         if (mDialogProgress != null) {
             mDialogProgress.dismiss();
         }
