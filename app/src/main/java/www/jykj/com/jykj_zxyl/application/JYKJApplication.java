@@ -47,11 +47,15 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.tencent.bugly.crashreport.CrashReport;
 import entity.DoctorInfo.InteractPatient;
 import entity.basicDate.EMMessageEntity;
 import entity.basicDate.ProvideBasicsRegion;
@@ -65,10 +69,11 @@ import netService.entity.NetRetEntity;
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.activity.MainActivity;
 import www.jykj.com.jykj_zxyl.service.MessageReciveService;
-
+import com.tencent.bugly.crashreport.CrashReport;
+import com.tencent.rtmp.TXLiveBase;
 
 public class JYKJApplication extends Application {
-
+    private JYKJApplication instance;
     public boolean gRefreshDate = false;                   //客户管理中是否需要刷新行政区划数据
     public List<Activity> gActivityList = new ArrayList();
     public static Context gContext;
@@ -198,7 +203,42 @@ public class JYKJApplication extends Application {
                 .build();                                    // 创建配置过得DisplayImageOption对象
         saveIMNumInfo();
         getIMNumInfo();
+        initLitesmat();
+    }
 
+    void initLitesmat(){
+        String licenceURL = "http://license.vod2.myqcloud.com/license/v1/6803be91c7f78640a122154f66452db8/TXLiveSDK.licence"; // 获取到的 licence url
+        String licenceKey = "55d1d4ae6154fe55d434335e1ddc05fb"; // 获取到的 licence key
+        TXLiveBase.setConsoleEnabled(true);
+        instance = this;
+        CrashReport.UserStrategy strategy = new CrashReport.UserStrategy(getApplicationContext());
+        strategy.setAppVersion(TXLiveBase.getSDKVersionStr());
+        CrashReport.initCrashReport(getApplicationContext(),strategy);
+
+        TXLiveBase.getInstance().setLicence(instance, licenceURL, licenceKey);
+
+        closeAndroidPDialog();
+    }
+
+    private void closeAndroidPDialog(){
+        try {
+            Class aClass = Class.forName("android.content.pm.PackageParser$Package");
+            Constructor declaredConstructor = aClass.getDeclaredConstructor(String.class);
+            declaredConstructor.setAccessible(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            Class cls = Class.forName("android.app.ActivityThread");
+            Method declaredMethod = cls.getDeclaredMethod("currentActivityThread");
+            declaredMethod.setAccessible(true);
+            Object activityThread = declaredMethod.invoke(null);
+            Field mHiddenApiWarningShown = cls.getDeclaredField("mHiddenApiWarningShown");
+            mHiddenApiWarningShown.setAccessible(true);
+            mHiddenApiWarningShown.setBoolean(activityThread, true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -220,6 +260,8 @@ public class JYKJApplication extends Application {
     public void saveUserInfo(ViewSysUserDoctorInfoAndHospital mViewSysUserDoctorInfoAndHospital) {
         //数据存储,以json字符串的格式保存
         m_persist = new SharedPreferences_DataSave(this, "JYKJDOCTER");
+        m_persist.putString("userID",mLoginUserInfo.getUserPhone());
+        m_persist.putString("userName",mLoginUserInfo.getUserPhone());
         m_persist.putString("loginUserInfo", new Gson().toJson(mLoginUserInfo));
         m_persist.putString("viewSysUserDoctorInfoAndHospital", new Gson().toJson(mViewSysUserDoctorInfoAndHospital));
         m_persist.commit();

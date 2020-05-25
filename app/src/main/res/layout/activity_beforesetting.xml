@@ -90,6 +90,7 @@
                 android:layout_height="wrap_content"/>
         </LinearLayout>
         <TextView
+                android:id="@+id/startLive"
             android:layout_marginTop="30dp"
             android:gravity="center"
             android:layout_gravity="center"
