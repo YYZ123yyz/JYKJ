@@ -37,6 +37,7 @@ import www.jykj.com.jykj_zxyl.adapter.MessageInfoRecycleAdapter;
 import www.jykj.com.jykj_zxyl.adapter.UnionOrgDateAdapter;
 import www.jykj.com.jykj_zxyl.application.Constant;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
+import www.jykj.com.jykj_zxyl.util.ActivityUtil;
 import www.jykj.com.jykj_zxyl.util.Util;
 
 public class DoctorUnionSettingOrgDateActivity extends AppCompatActivity {
@@ -73,7 +74,9 @@ public class DoctorUnionSettingOrgDateActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doctorunion_settingorgdate);
-            mApp = (JYKJApplication) getApplication();
+        ActivityUtil.setStatusBarMain(DoctorUnionSettingOrgDateActivity.this);
+
+        mApp = (JYKJApplication) getApplication();
         mContext = this;
         mUnionCode = getIntent().getStringExtra("unionCode");
         mUnionName = getIntent().getStringExtra("unionName");

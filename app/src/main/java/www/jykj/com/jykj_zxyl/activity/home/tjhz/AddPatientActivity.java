@@ -47,9 +47,11 @@ import netService.HttpNetService;
 import netService.entity.NetRetEntity;
 import rx.functions.Action1;
 import www.jykj.com.jykj_zxyl.R;
+import www.jykj.com.jykj_zxyl.activity.home.news.UnionNewsDetailActivity;
 import www.jykj.com.jykj_zxyl.application.Constant;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import orcameralib.CameraActivity;
+import www.jykj.com.jykj_zxyl.util.ActivityUtil;
 import www.jykj.com.jykj_zxyl.util.BitmapUtil;
 import www.jykj.com.jykj_zxyl.util.tencenUtil.models.QrcodeOCRRequest;
 import zxing.android.CaptureActivity;
@@ -152,6 +154,8 @@ public class AddPatientActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_addpatient);
+        ActivityUtil.setStatusBarMain(AddPatientActivity.this);
+
         mContext = this;
         mActivity = this;
         mApp = (JYKJApplication) getApplication();

@@ -163,9 +163,9 @@ public class MyPatientNotSignetFragment extends Fragment {
             public void onClick(int position) {
                 Intent intent = new Intent();
                 intent.setClass(mContext,HZGLTXHZActivity.class);
+                intent.putExtra("patientLable",mHZEntyties.get(position));
                 startActivity(intent);
             }
-
             @Override
             public void onLongClick(int position) {
 

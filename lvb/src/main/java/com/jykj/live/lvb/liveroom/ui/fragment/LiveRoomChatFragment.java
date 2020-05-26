@@ -22,6 +22,7 @@ import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.*;
 import android.widget.*;
+
 import com.hyphenate.EMCallBack;
 import com.hyphenate.EMMessageListener;
 import com.hyphenate.chat.*;
@@ -50,44 +51,44 @@ public class LiveRoomChatFragment extends Fragment implements IMLVBLiveRoomListe
     private static final String TAG = LiveRoomChatFragment.class.getSimpleName();
 
     private Handler mHandler;
-    
-    private Activity mActivity;
-    private LiveRoomActivityInterface                       mActivityInterface;
-    
-    private String mSelfUserID;
-    private AnchorInfo                                      mPKAnchorInfo;
-    private RoomInfo                                        mRoomInfo;
 
-    private List<AnchorInfo> mPusherList         = new ArrayList<>();
-    private List<RoomVideoView> mPlayerViews        = new ArrayList<>();
+    private Activity mActivity;
+    private LiveRoomActivityInterface mActivityInterface;
+
+    private String mSelfUserID;
+    private AnchorInfo mPKAnchorInfo;
+    private RoomInfo mRoomInfo;
+
+    private List<AnchorInfo> mPusherList = new ArrayList<>();
+    private List<RoomVideoView> mPlayerViews = new ArrayList<>();
 
     private ListView mChatListView;
     private ArrayList<RoomListViewAdapter.TextChatMsg> mChatMsgList;
-    private RoomListViewAdapter.ChatMessageAdapter          mChatMsgAdapter;
-    
+    private RoomListViewAdapter.ChatMessageAdapter mChatMsgAdapter;
+
     private Button mBtnLinkMic;
     private Button mBtnPK;
     private LinearLayout mOperatorLayout;
     private BeautyPanel mBeautyPanelView;
-    private TextMsgInputDialog                              mTextMsgInputDialog;
-    private SwipeAnimationController                        mSwipeAnimationController;
+    private TextMsgInputDialog mTextMsgInputDialog;
+    private SwipeAnimationController mSwipeAnimationController;
 
-    private int                                             mShowLogFlag        = 0;
-    private int                                             mBeautyLevel        = 5;
-    private int                                             mWhiteningLevel     = 3;
-    private int                                             mRuddyLevel         = 2;
-    private int                                             mBeautyStyle        = TXLiveConstants.BEAUTY_STYLE_SMOOTH;
+    private int mShowLogFlag = 0;
+    private int mBeautyLevel = 5;
+    private int mWhiteningLevel = 3;
+    private int mRuddyLevel = 2;
+    private int mBeautyStyle = TXLiveConstants.BEAUTY_STYLE_SMOOTH;
 
-    private boolean                                         mCreateRoom         = false;
-    private boolean                                         mPusherMute         = false;
+    private boolean mCreateRoom = false;
+    private boolean mPusherMute = false;
 
-    private boolean                                         mPendingLinkMicReq  = false;
-    private boolean                                         mIsBeingLinkMic     = false;
-    private boolean                                         mOnLinkMic          = false; // 标记我是否在麦上
+    private boolean mPendingLinkMicReq = false;
+    private boolean mIsBeingLinkMic = false;
+    private boolean mOnLinkMic = false; // 标记我是否在麦上
 
-    private boolean                                         mPendingPKReq       = false;
-    private boolean                                         mIsBeingPK          = false;
-    private String mPKUserId           = "";
+    private boolean mPendingPKReq = false;
+    private boolean mIsBeingPK = false;
+    private String mPKUserId = "";
 
     // 消息监听器
     private EMMessageListener mMessageListener;
@@ -107,8 +108,6 @@ public class LiveRoomChatFragment extends Fragment implements IMLVBLiveRoomListe
     }
 
 
-
-
     /***********************************************************************************************************************************************
      *
      *                                                      Fragment生命周期函数调用顺序
@@ -116,7 +115,7 @@ public class LiveRoomChatFragment extends Fragment implements IMLVBLiveRoomListe
      *     onAttach() --> onCreateView() --> onActivityCreated() --> onResume() --> onPause() --> onDestroyView() --> onDestroy() --> onDetach()
      *
      ***********************************************************************************************************************************************/
-    
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -142,24 +141,24 @@ public class LiveRoomChatFragment extends Fragment implements IMLVBLiveRoomListe
         videoViews[2] = ((TXCloudVideoView) view.findViewById(R.id.video_player3));
 
         Button kickoutBtns[] = {null, null, null};
-        kickoutBtns[0] = (Button)view.findViewById(R.id.btn_kick_out1);
-        kickoutBtns[1] = (Button)view.findViewById(R.id.btn_kick_out2);
-        kickoutBtns[2] = (Button)view.findViewById(R.id.btn_kick_out3);
+        kickoutBtns[0] = (Button) view.findViewById(R.id.btn_kick_out1);
+        kickoutBtns[1] = (Button) view.findViewById(R.id.btn_kick_out2);
+        kickoutBtns[2] = (Button) view.findViewById(R.id.btn_kick_out3);
 
         FrameLayout loadingBkgs[] = {null, null, null};
-        loadingBkgs[0] = (FrameLayout)view.findViewById(R.id.loading_background1);
-        loadingBkgs[1] = (FrameLayout)view.findViewById(R.id.loading_background2);
-        loadingBkgs[2] = (FrameLayout)view.findViewById(R.id.loading_background3);
+        loadingBkgs[0] = (FrameLayout) view.findViewById(R.id.loading_background1);
+        loadingBkgs[1] = (FrameLayout) view.findViewById(R.id.loading_background2);
+        loadingBkgs[2] = (FrameLayout) view.findViewById(R.id.loading_background3);
 
         ImageView loadingImgs[] = {null, null, null};
-        loadingImgs[0] = (ImageView)view.findViewById(R.id.loading_imageview1);
-        loadingImgs[1] = (ImageView)view.findViewById(R.id.loading_imageview2);
-        loadingImgs[2] = (ImageView)view.findViewById(R.id.loading_imageview3);
+        loadingImgs[0] = (ImageView) view.findViewById(R.id.loading_imageview1);
+        loadingImgs[1] = (ImageView) view.findViewById(R.id.loading_imageview2);
+        loadingImgs[2] = (ImageView) view.findViewById(R.id.loading_imageview3);
 
         mPlayerViews.add(new RoomVideoView(videoViews[0], kickoutBtns[0], loadingBkgs[0], loadingImgs[0]));
         mPlayerViews.add(new RoomVideoView(videoViews[1], kickoutBtns[1], loadingBkgs[1], loadingImgs[1]));
         mPlayerViews.add(new RoomVideoView(videoViews[2], kickoutBtns[2], loadingBkgs[2], loadingImgs[2]));
-        
+
         //切换摄像头
         (view.findViewById(R.id.rtmproom_camera_switcher_btn)).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -189,7 +188,7 @@ public class LiveRoomChatFragment extends Fragment implements IMLVBLiveRoomListe
         });
 
         //连麦
-        mBtnLinkMic = (Button)view.findViewById(R.id.rtmproom_linkmic_btn);
+        mBtnLinkMic = (Button) view.findViewById(R.id.rtmproom_linkmic_btn);
         mBtnLinkMic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -213,14 +212,13 @@ public class LiveRoomChatFragment extends Fragment implements IMLVBLiveRoomListe
         });
 
         //主播PK
-        mBtnPK = (Button)view.findViewById(R.id.rtmproom_pk_btn);
+        mBtnPK = (Button) view.findViewById(R.id.rtmproom_pk_btn);
         mBtnPK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (mIsBeingPK) {
                     stopPK(true, mPKAnchorInfo);
-                }
-                else {
+                } else {
                     showOnlinePushers(true);
                 }
             }
@@ -257,8 +255,7 @@ public class LiveRoomChatFragment extends Fragment implements IMLVBLiveRoomListe
         if (mCreateRoom) {
             //大主播隐藏掉连麦入口
             (view.findViewById(R.id.linkmic_btn_view)).setVisibility(View.GONE);
-        }
-        else {
+        } else {
             //普通观众隐藏掉切换摄像头、美颜和静音推流的入口、PK入口
             (view.findViewById(R.id.camera_switch_view)).setVisibility(View.GONE);
             (view.findViewById(R.id.beauty_btn_view)).setVisibility(View.GONE);
@@ -280,7 +277,7 @@ public class LiveRoomChatFragment extends Fragment implements IMLVBLiveRoomListe
             }
         });
 
-        RelativeLayout chatViewLayout = (RelativeLayout)view.findViewById(R.id.chat_layout);
+        RelativeLayout chatViewLayout = (RelativeLayout) view.findViewById(R.id.chat_layout);
         mSwipeAnimationController = new SwipeAnimationController(mActivity);
         mSwipeAnimationController.setAnimationView(chatViewLayout);
 
@@ -347,7 +344,8 @@ public class LiveRoomChatFragment extends Fragment implements IMLVBLiveRoomListe
      *
      * @param list 收到的新消息集合
      */
-    @Override public void onMessageReceived(List<EMMessage> list) {
+    @Override
+    public void onMessageReceived(List<EMMessage> list) {
         // 循环遍历当前收到的消息
         for (EMMessage message : list) {
             Log.i("lzan13", "收到新消息:" + message);
@@ -372,7 +370,8 @@ public class LiveRoomChatFragment extends Fragment implements IMLVBLiveRoomListe
     /**
      * 收到新的 CMD 消息
      */
-    @Override public void onCmdMessageReceived(List<EMMessage> list) {
+    @Override
+    public void onCmdMessageReceived(List<EMMessage> list) {
         for (int i = 0; i < list.size(); i++) {
             // 透传消息
             EMMessage cmdMessage = list.get(i);
@@ -386,7 +385,9 @@ public class LiveRoomChatFragment extends Fragment implements IMLVBLiveRoomListe
      *
      * @param list 收到消息已读回执
      */
-    @Override public void onMessageRead(List<EMMessage> list) {}
+    @Override
+    public void onMessageRead(List<EMMessage> list) {
+    }
 
     /**
      * 收到新的发送回执
@@ -394,22 +395,28 @@ public class LiveRoomChatFragment extends Fragment implements IMLVBLiveRoomListe
      *
      * @param list 收到发送回执的消息集合
      */
-    @Override public void onMessageDelivered(List<EMMessage> list) {}
+    @Override
+    public void onMessageDelivered(List<EMMessage> list) {
+    }
 
     /**
      * 消息撤回回调
      *
      * @param list 撤回的消息列表
      */
-    @Override public void onMessageRecalled(List<EMMessage> list) {}
+    @Override
+    public void onMessageRecalled(List<EMMessage> list) {
+    }
 
     /**
      * 消息的状态改变
      *
      * @param message 发生改变的消息
-     * @param object 包含改变的消息
+     * @param object  包含改变的消息
      */
-    @Override public void onMessageChanged(EMMessage message, Object object) {}
+    @Override
+    public void onMessageChanged(EMMessage message, Object object) {
+    }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -423,7 +430,7 @@ public class LiveRoomChatFragment extends Fragment implements IMLVBLiveRoomListe
         mCreateRoom = bundle.getBoolean("createRoom");
         //mChatId = bundle.getString("userID");//聊天室id
         mChatId = EMClient.getInstance().getCurrentUser();//聊天室id
-        if (mSelfUserID == null || ( !mCreateRoom && mRoomInfo == null)) {
+        if (mSelfUserID == null || (!mCreateRoom && mRoomInfo == null)) {
             return;
         }
 
@@ -434,12 +441,12 @@ public class LiveRoomChatFragment extends Fragment implements IMLVBLiveRoomListe
         TXCloudVideoView videoView = ((TXCloudVideoView) mActivity.findViewById(R.id.video_view_full_screen));
         videoView.setLogMargin(12, 12, 80, 60);
 
-        if (mCreateRoom){
+        if (mCreateRoom) {
             mActivityInterface.getLiveRoom().startLocalPreview(true, videoView);
             mActivityInterface.getLiveRoom().setCameraMuteImage(BitmapFactory.decodeResource(getResources(), R.drawable.pause_publish));
             mActivityInterface.getLiveRoom().setBeautyStyle(mBeautyStyle, mBeautyLevel, mWhiteningLevel, mRuddyLevel);
             mActivityInterface.getLiveRoom().muteLocalAudio(mPusherMute);
-            mActivityInterface.getLiveRoom().createRoom("",mRoomInfo.roomInfo, new IMLVBLiveRoomListener.CreateRoomCallback() {
+            mActivityInterface.getLiveRoom().createRoom("", mRoomInfo.roomInfo, new IMLVBLiveRoomListener.CreateRoomCallback() {
                 @Override
                 public void onSuccess(String roomId) {
                     mRoomInfo.roomID = roomId;
@@ -450,8 +457,7 @@ public class LiveRoomChatFragment extends Fragment implements IMLVBLiveRoomListe
                     errorGoBack("创建直播间错误", errCode, e);
                 }
             });
-        }
-        else {
+        } else {
             mActivityInterface.getLiveRoom().enterRoom(mRoomInfo.roomID, videoView, new IMLVBLiveRoomListener.EnterRoomCallback() {
                 @Override
                 public void onError(int errCode, String errInfo) {
@@ -460,11 +466,11 @@ public class LiveRoomChatFragment extends Fragment implements IMLVBLiveRoomListe
 
                 @Override
                 public void onSuccess() {
-                    
+
                 }
             });
         }
-        mMessageListener =  this;
+        mMessageListener = this;
         initConversation();
     }
 
@@ -521,7 +527,7 @@ public class LiveRoomChatFragment extends Fragment implements IMLVBLiveRoomListe
         backStack();
     }
 
-    private void errorGoBack(String title, int errCode, String errInfo){
+    private void errorGoBack(String title, int errCode, String errInfo) {
         mActivityInterface.getLiveRoom().exitRoom(null);
         SpannableStringBuilder spannableStrBuidler = null;
         errInfo = errInfo + "[" + errCode + "]";
@@ -576,7 +582,7 @@ public class LiveRoomChatFragment extends Fragment implements IMLVBLiveRoomListe
                 }).show();
     }
 
-    private void backStack(){
+    private void backStack() {
         if (mActivity != null) {
             mActivity.runOnUiThread(new Runnable() {
                 @Override
@@ -591,7 +597,7 @@ public class LiveRoomChatFragment extends Fragment implements IMLVBLiveRoomListe
         }
     }
 
-    private void switchLog(){
+    private void switchLog() {
         mShowLogFlag++;
         mShowLogFlag = (mShowLogFlag % 3);
         switch (mShowLogFlag) {
@@ -657,7 +663,7 @@ public class LiveRoomChatFragment extends Fragment implements IMLVBLiveRoomListe
         }
     }
 
-    private void addMessageItem(final String userName, final String message, final RoomListViewAdapter.TextChatMsg.Aligment aligment){
+    private void addMessageItem(final String userName, final String message, final RoomListViewAdapter.TextChatMsg.Aligment aligment) {
         mActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -674,20 +680,22 @@ public class LiveRoomChatFragment extends Fragment implements IMLVBLiveRoomListe
         });
     }
 
-    private void hyphenateSendMessage(final String message){
+    private void hyphenateSendMessage(final String message) {
         // 创建一条新消息，第一个参数为消息内容，第二个为接受者username
         EMMessage hypmessage = EMMessage.createTxtSendMessage(message, mChatId);
         // 调用发送消息的方法
         EMClient.getInstance().chatManager().sendMessage(hypmessage);
         // 为消息设置回调
         hypmessage.setMessageStatusCallback(new EMCallBack() {
-            @Override public void onSuccess() {
+            @Override
+            public void onSuccess() {
                 // 消息发送成功，打印下日志，正常操作应该去刷新ui
                 addMessageItem(mActivityInterface.getSelfUserName(), message, RoomListViewAdapter.TextChatMsg.Aligment.LEFT);
                 Log.i("lzan13", "send message on success");
             }
 
-            @Override public void onError(int i, String s) {
+            @Override
+            public void onError(int i, String s) {
                 // 消息发送失败，打印下失败的信息，正常操作应该去刷新ui
                 new AlertDialog.Builder(mActivity, R.style.RtmpRoomDialogTheme).setMessage("聊天室调用失败")
                         .setTitle("发送消息失败")
@@ -699,13 +707,14 @@ public class LiveRoomChatFragment extends Fragment implements IMLVBLiveRoomListe
                         }).show();
             }
 
-            @Override public void onProgress(int i, String s) {
+            @Override
+            public void onProgress(int i, String s) {
                 // 消息发送进度，一般只有在发送图片和文件等消息才会有回调，txt不回调
             }
         });
     }
 
-    private void sendMessage(final String message){
+    private void sendMessage(final String message) {
         mActivityInterface.getLiveRoom().sendRoomTextMsg(message, new IMLVBLiveRoomListener.SendRoomTextMsgCallback() {
             @Override
             public void onError(int errCode, String errInfo) {
@@ -728,7 +737,7 @@ public class LiveRoomChatFragment extends Fragment implements IMLVBLiveRoomListe
 
     /**
      * 错误回调
-     *
+     * <p>
      * SDK 不可恢复的错误，一定要监听，并分情况给用户适当的界面提示
      *
      * @param errCode   错误码
@@ -960,7 +969,7 @@ public class LiveRoomChatFragment extends Fragment implements IMLVBLiveRoomListe
 
     /**
      * 连麦观众收到被踢出连麦的通知
-     *
+     * <p>
      * 连麦观众收到被主播踢除连麦的消息，您需要调用 {@link MLVBLiveRoom#kickoutJoinAnchor(String)} 来退出连麦
      */
     @Override
@@ -970,7 +979,7 @@ public class LiveRoomChatFragment extends Fragment implements IMLVBLiveRoomListe
 
     /**
      * 收到请求跨房 PK 通知
-     *
+     * <p>
      * 主播收到其他房间主播的 PK 请求
      * 如果同意 PK ，您需要调用 {@link MLVBLiveRoom#startRemoteView(AnchorInfo, TXCloudVideoView, PlayCallback)}  接口播放邀约主播的流
      *
@@ -1136,7 +1145,7 @@ public class LiveRoomChatFragment extends Fragment implements IMLVBLiveRoomListe
     }
 
     private void showOnlinePushers(boolean show) {
-        final RelativeLayout relativeLayout = (RelativeLayout)mActivity.findViewById(R.id.online_pushers_layout);
+        final RelativeLayout relativeLayout = (RelativeLayout) mActivity.findViewById(R.id.online_pushers_layout);
         if (show && relativeLayout.getVisibility() == View.VISIBLE) {
             show = false;
         }
@@ -1177,7 +1186,7 @@ public class LiveRoomChatFragment extends Fragment implements IMLVBLiveRoomListe
                 OnlinePusherListViewAdapter adapter = new OnlinePusherListViewAdapter();
                 adapter.setDataList(pusherList);
 
-                ListView listView = (ListView)mActivity.findViewById(R.id.online_pushers_list_view);
+                ListView listView = (ListView) mActivity.findViewById(R.id.online_pushers_list_view);
                 listView.setAdapter(adapter);
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
@@ -1238,7 +1247,7 @@ public class LiveRoomChatFragment extends Fragment implements IMLVBLiveRoomListe
 
     private void startPK(final AnchorInfo anchorInfo) {
         mPendingPKReq = false;
-        mIsBeingPK    = true;
+        mIsBeingPK = true;
         mPKUserId = anchorInfo.userID;
 
         mBtnPK.setEnabled(true);
@@ -1250,7 +1259,7 @@ public class LiveRoomChatFragment extends Fragment implements IMLVBLiveRoomListe
 
         showPKLoadingAnimation(true);
 
-        TXCloudVideoView videoView = (TXCloudVideoView)mActivity.findViewById(R.id.video_view_pk);
+        TXCloudVideoView videoView = (TXCloudVideoView) mActivity.findViewById(R.id.video_view_pk);
         videoView.setLogMargin(12, 12, 35, 12);
         mActivityInterface.getLiveRoom().startRemoteView(anchorInfo, videoView, new IMLVBLiveRoomListener.PlayCallback() {
             @Override
@@ -1260,7 +1269,7 @@ public class LiveRoomChatFragment extends Fragment implements IMLVBLiveRoomListe
 
             @Override
             public void onError(int errCode, String errInfo) {
-               stopPK(true, anchorInfo);
+                stopPK(true, anchorInfo);
             }
 
             @Override
@@ -1275,7 +1284,7 @@ public class LiveRoomChatFragment extends Fragment implements IMLVBLiveRoomListe
             return;
         }
         mPendingPKReq = false;
-        mIsBeingPK    = false;
+        mIsBeingPK = false;
 
         mBtnPK.setEnabled(true);
         mBtnPK.setBackgroundResource(R.drawable.pk_start);
@@ -1304,8 +1313,8 @@ public class LiveRoomChatFragment extends Fragment implements IMLVBLiveRoomListe
 
     private void adjustFullScreenVideoView(boolean fullScreen) {
         FrameLayout frameLayout = (FrameLayout) mActivity.findViewById(R.id.frame_layout_push);
-        TXCloudVideoView videoView = (TXCloudVideoView)mActivity.findViewById(R.id.video_view_full_screen);
-        ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams)frameLayout.getLayoutParams();
+        TXCloudVideoView videoView = (TXCloudVideoView) mActivity.findViewById(R.id.video_view_full_screen);
+        ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) frameLayout.getLayoutParams();
         if (fullScreen) {
             int parent = layoutParams.topToTop;
             layoutParams.rightToRight = parent;
@@ -1314,8 +1323,7 @@ public class LiveRoomChatFragment extends Fragment implements IMLVBLiveRoomListe
             layoutParams.bottomToTop = -1;
 
             videoView.setLogMargin(12, 12, 80, 60);
-        }
-        else {
+        } else {
             layoutParams.rightToLeft = R.id.guideline_v;
             layoutParams.bottomToTop = R.id.guideline_h;
             layoutParams.rightToRight = -1;
@@ -1328,21 +1336,21 @@ public class LiveRoomChatFragment extends Fragment implements IMLVBLiveRoomListe
 
     private void showPKLoadingAnimation(boolean show) {
         FrameLayout frameLayout = (FrameLayout) mActivity.findViewById(R.id.loading_background_pk);
-        ImageView imageView   = (ImageView) mActivity.findViewById(R.id.loading_imageview_pk);
+        ImageView imageView = (ImageView) mActivity.findViewById(R.id.loading_imageview_pk);
         frameLayout.setVisibility(show ? View.VISIBLE : View.GONE);
         imageView.setVisibility(show ? View.VISIBLE : View.GONE);
         imageView.setImageResource(R.drawable.linkmic_loading);
         AnimationDrawable ad = (AnimationDrawable) imageView.getDrawable();
         if (show) {
             ad.start();
-        }
-        else {
+        } else {
             ad.stop();
         }
     }
 
     private Toast mNoticeToast;
     private Timer mNoticeTimer;
+
     private void showNoticeToast(String text) {
         if (mNoticeToast == null) {
             mNoticeToast = Toast.makeText(mActivity, text, Toast.LENGTH_LONG);
@@ -1391,8 +1399,8 @@ public class LiveRoomChatFragment extends Fragment implements IMLVBLiveRoomListe
         ImageView loadingImg;
         Button kickButton;
         String userID;
-        boolean          isUsed;
-        
+        boolean isUsed;
+
 
         public RoomVideoView(TXCloudVideoView view, Button button, FrameLayout loadingBkg, ImageView loadingImg) {
             this.videoView = view;
@@ -1407,7 +1415,7 @@ public class LiveRoomChatFragment extends Fragment implements IMLVBLiveRoomListe
                     kickButton.setVisibility(View.INVISIBLE);
                     String userID = RoomVideoView.this.userID;
                     if (userID != null) {
-                        for (AnchorInfo item: mPusherList) {
+                        for (AnchorInfo item : mPusherList) {
                             if (userID.equalsIgnoreCase(item.userID)) {
                                 onAnchorExit(item);
                                 break;
@@ -1448,7 +1456,7 @@ public class LiveRoomChatFragment extends Fragment implements IMLVBLiveRoomListe
             }
         }
 
-        private void setUsed(boolean used){
+        private void setUsed(boolean used) {
             videoView.setVisibility(used ? View.VISIBLE : View.GONE);
             if (used == false) {
                 stopLoading(false);
@@ -1468,8 +1476,7 @@ public class LiveRoomChatFragment extends Fragment implements IMLVBLiveRoomListe
                 item.setUsed(true);
                 item.userID = id;
                 return item;
-            }
-            else {
+            } else {
                 if (item.userID != null && item.userID.equals(id)) {
                     item.setUsed(true);
                     return item;
@@ -1479,16 +1486,16 @@ public class LiveRoomChatFragment extends Fragment implements IMLVBLiveRoomListe
         return null;
     }
 
-    public synchronized void recycleVideoView(String id){
+    public synchronized void recycleVideoView(String id) {
         for (RoomVideoView item : mPlayerViews) {
-            if (item.userID != null && item.userID.equals(id)){
+            if (item.userID != null && item.userID.equals(id)) {
                 item.userID = null;
                 item.setUsed(false);
             }
         }
     }
 
-    public synchronized void recycleVideoView(){
+    public synchronized void recycleVideoView() {
         for (RoomVideoView item : mPlayerViews) {
             item.userID = null;
             item.setUsed(false);
@@ -1498,7 +1505,7 @@ public class LiveRoomChatFragment extends Fragment implements IMLVBLiveRoomListe
     private class OnlinePusherListViewAdapter extends BaseAdapter {
         private List<AnchorInfo> dataList;
 
-        public void setDataList(List<AnchorInfo> dataList){
+        public void setDataList(List<AnchorInfo> dataList) {
             this.dataList = dataList;
         }
 
@@ -1519,7 +1526,7 @@ public class LiveRoomChatFragment extends Fragment implements IMLVBLiveRoomListe
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            LinearLayout view = (LinearLayout)convertView;
+            LinearLayout view = (LinearLayout) convertView;
             if (view == null) {
                 view = (LinearLayout) LayoutInflater.from(mActivity.getApplicationContext()).inflate(R.layout.layout_liveroom_online_pusher, null);
             }

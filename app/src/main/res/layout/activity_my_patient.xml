@@ -7,11 +7,12 @@
     android:layout_height="match_parent">
 
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:background="@color/groabColor">
         <LinearLayout
+            android:layout_weight="1"
             android:id="@+id/ll_back"
             android:layout_width="40dp"
             android:layout_height="match_parent"
@@ -25,43 +26,52 @@
                 android:src="@mipmap/arrow_left" />
 
         </LinearLayout>
-        <TextView
-            android:id="@+id/tv_my_patient"
-            android:text="签约患者"
-            android:textSize="14sp"
-            android:gravity="center"
-            android:layout_centerVertical="true"
-            android:background="@mipmap/pg_messagetitle"
-            android:layout_width="75dp"
-            android:layout_height="30dp"
-            android:textColor="@color/tabColor_nomal"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_toRightOf="@+id/ll_back"
-            />
-        <TextView
-            android:id="@+id/tv_my_patient_n"
-            android:text="未签约患者"
-            android:gravity="center"
-            android:layout_centerVertical="true"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_toRightOf="@+id/tv_my_patient"
-            android:layout_width="90dp"
-            android:textColor="@color/writeColor"
-            android:layout_height="30dp"/>
-        <TextView
-            android:id="@+id/tv_my_review"
-            android:text="申请审核"
-            android:gravity="center"
-            android:layout_margin="10dp"
-            android:textColor="@color/writeColor"
-            android:layout_centerVertical="true"
-            android:layout_width="75dp"
-            android:layout_height="30dp"
-            android:layout_toRightOf="@+id/tv_my_patient_n"/>
+        <LinearLayout
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp">
+            <TextView
+                android:layout_gravity="center"
+                android:id="@+id/tv_my_patient"
+                android:text="签约患者"
+                android:textSize="14sp"
+                android:gravity="center"
+                android:layout_centerVertical="true"
+                android:background="@mipmap/pg_messagetitle"
+                android:layout_width="75dp"
+                android:layout_height="30dp"
+                android:textColor="@color/tabColor_nomal"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_toRightOf="@+id/ll_back"
+                />
+            <TextView
+                android:layout_gravity="center"
+                android:id="@+id/tv_my_patient_n"
+                android:text="未签约患者"
+                android:gravity="center"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_toRightOf="@+id/tv_my_patient"
+                android:layout_width="90dp"
+                android:textColor="@color/writeColor"
+                android:layout_height="30dp"/>
+        </LinearLayout>
+
+        <!--        <TextView-->
+        <!--            android:id="@+id/tv_my_review"-->
+        <!--            android:text="申请审核"-->
+        <!--            android:gravity="center"-->
+        <!--            android:layout_margin="10dp"-->
+        <!--            android:textColor="@color/writeColor"-->
+        <!--            android:layout_centerVertical="true"-->
+        <!--            android:layout_width="75dp"-->
+        <!--            android:layout_height="30dp"-->
+        <!--            android:layout_toRightOf="@+id/tv_my_patient_n"/>-->
 
         <ImageView
+            android:layout_gravity="center"
             android:id="@+id/iv_add"
             android:layout_width="18dp"
             android:layout_height="18dp"
@@ -69,17 +79,17 @@
             android:layout_alignParentRight="true"
             android:layout_marginRight="10dp"
             android:src="@mipmap/icon_add_small"/>
-        <ImageView
-            android:id="@+id/iv_search"
-            android:layout_width="18dp"
-            android:layout_height="18dp"
-            android:layout_centerVertical="true"
-            android:layout_toLeftOf="@+id/iv_add"
-            android:layout_marginRight="10dp"
-            android:src="@mipmap/search1"/>
+        <!--        <ImageView-->
+        <!--            android:id="@+id/iv_search"-->
+        <!--            android:layout_width="18dp"-->
+        <!--            android:layout_height="18dp"-->
+        <!--            android:layout_centerVertical="true"-->
+        <!--            android:layout_toLeftOf="@+id/iv_add"-->
+        <!--            android:layout_marginRight="10dp"-->
+        <!--            android:src="@mipmap/search1"/>-->
 
 
-    </RelativeLayout>
+    </LinearLayout>
 
     <FrameLayout
         android:id="@+id/content"

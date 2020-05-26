@@ -27,6 +27,7 @@ import www.jykj.com.jykj_zxyl.fragment.ylzx.FragmentWDSC;
 import www.jykj.com.jykj_zxyl.fragment.ylzx.FragmentYXWX;
 import www.jykj.com.jykj_zxyl.fragment.ylzx.FragmentYXXW;
 import www.jykj.com.jykj_zxyl.fragment.ylzx.FragmentYXZN;
+import www.jykj.com.jykj_zxyl.util.ActivityUtil;
 
 /**
  * 图文就诊
@@ -48,6 +49,8 @@ public class TWJZActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_twjz);
+        ActivityUtil.setStatusBarMain(TWJZActivity.this);
+
         mContext = this;
         mActivity = this;
         mApp = (JYKJApplication) getApplication();

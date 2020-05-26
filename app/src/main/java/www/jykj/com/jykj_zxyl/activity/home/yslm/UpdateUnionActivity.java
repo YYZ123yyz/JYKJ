@@ -56,6 +56,7 @@ import netService.entity.NetRetEntity;
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.application.Constant;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
+import www.jykj.com.jykj_zxyl.util.ActivityUtil;
 import www.jykj.com.jykj_zxyl.util.BitmapUtil;
 import www.jykj.com.jykj_zxyl.util.ProvincePicker;
 
@@ -115,6 +116,8 @@ public class UpdateUnionActivity extends AppCompatActivity implements View.OnCli
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.update_create_union);
+        ActivityUtil.setStatusBarMain(UpdateUnionActivity.this);
+
         mContext = this;
         mActivity = this;
         mProvideViewUnionDoctorMemberAndUnionDetailInfo = (ProvideViewUnionDoctorMemberAndUnionDetailInfo) getIntent().getSerializableExtra("doctorUnion");

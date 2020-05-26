@@ -18,6 +18,17 @@ public class ProvideDoctorSetServiceState implements java.io.Serializable {
 	private Integer flagVideo;//视频就诊.0:未开通;1:已开通;
 	private Integer flagSigning;//签约就诊.0:未开通;1:已开通;
 
+	public Integer getFlagPhone() {
+		return flagPhone;
+	}
+
+	public void setFlagPhone(Integer flagPhone) {
+		this.flagPhone = flagPhone;
+	}
+
+	private Integer flagPhone;//电话就诊.0:未开通;1:已开通;
+
+
 	private	String loginDoctorPosition;
 	private	String operDoctorCode;
 	private	String operDoctorName;

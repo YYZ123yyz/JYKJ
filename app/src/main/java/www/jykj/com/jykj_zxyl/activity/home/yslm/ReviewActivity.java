@@ -19,6 +19,7 @@ import www.jykj.com.jykj_zxyl.fragment.twjz.FragmentHistory;
 import www.jykj.com.jykj_zxyl.fragment.yslm.FragmentMyApply;
 import www.jykj.com.jykj_zxyl.fragment.yslm.FragmentMyReview;
 import www.jykj.com.jykj_zxyl.fragment.yslm.FragmentReviewHistory;
+import www.jykj.com.jykj_zxyl.util.ActivityUtil;
 
 /**
  * 医生联盟审核
@@ -35,6 +36,8 @@ public class ReviewActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_review);
+        ActivityUtil.setStatusBarMain(ReviewActivity.this);
+
         initView();
         initListener();
     }

@@ -28,6 +28,7 @@ import www.jykj.com.jykj_zxyl.activity.myself.hzgl.HZGLSearchActivity;
 import www.jykj.com.jykj_zxyl.adapter.HZGLRecycleAdapter;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.fragment.FragmentHZGL;
+import www.jykj.com.jykj_zxyl.util.ActivityUtil;
 
 public class ViewPatientActivity extends AppCompatActivity {
     private Context mContext;
@@ -56,6 +57,8 @@ public class ViewPatientActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_patient);
+        ActivityUtil.setStatusBarMain(ViewPatientActivity.this);
+
         mContext = this;
         initLayout();
         initHandler();

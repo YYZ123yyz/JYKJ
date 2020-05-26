@@ -42,6 +42,7 @@ import orcameralib.CameraActivity;
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.application.Constant;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
+import www.jykj.com.jykj_zxyl.util.ActivityUtil;
 import www.jykj.com.jykj_zxyl.util.BitmapUtil;
 import zxing.android.CaptureActivity;
 
@@ -87,6 +88,8 @@ public class AddPatientQRCodeActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_addpatient_qrcode);
+        ActivityUtil.setStatusBarMain(AddPatientQRCodeActivity.this);
+
         mContext = this;
         mActivity = this;
         mApp = (JYKJApplication) getApplication();

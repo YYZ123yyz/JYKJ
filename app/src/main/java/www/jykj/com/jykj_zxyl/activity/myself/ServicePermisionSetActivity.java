@@ -1,11 +1,13 @@
 package www.jykj.com.jykj_zxyl.activity.myself;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -31,70 +33,78 @@ import www.jykj.com.jykj_zxyl.util.ActivityUtil;
  */
 public class ServicePermisionSetActivity extends AppCompatActivity {
 
-    private                 Context                     mContext;
-    private                 ServicePermisionSetActivity mActivity;
-    public                  ProgressDialog              mDialogProgress =null;
-    private                 Handler                     mHandler;
-    private                 String                      mNetRetStr;                 //获取返回字符串
-    private                 JYKJApplication             mApp;
-    private                 ProvideDoctorSetService     mProvideDoctorSetService;
+    private Context mContext;
+    private ServicePermisionSetActivity mActivity;
+    public ProgressDialog mDialogProgress = null;
+    private Handler mHandler;
+    private String mNetRetStr;                 //获取返回字符串
+    private JYKJApplication mApp;
+    private ProvideDoctorSetService mProvideDoctorSetService;
 
-    private                 int                         mServiceType;              //服务类型
-    private                 int                         mDoctorStatus;              //医生认证状态
+    private int mServiceType;              //服务类型
+    private int mDoctorStatus;              //医生认证状态
 
-    private                 TextView                    mTitleText;                     //标题
-    private                 TextView                    mServiceSetTitleText;         //开通服务标题
-    private                 ImageView                   mServiceSetStateImg;         //开通服务状态
+    private TextView mTitleText;                     //标题
+    private TextView mServiceSetTitleText;         //开通服务标题
+    private ImageView mServiceSetStateImg,back;         //开通服务状态
 
-    private                 TextView                    mBasePriceTitleText;             //基础价格标题
-    private                 EditText                    mBasePriceEdit;                 //基础价格
-    private                 TextView                    mYJPriceTitleText;             //溢价价格标题
-    private                 EditText                    mYJPriceEdit;                 //溢价价格
-    private                 EditText                    mHYNumEdit;                 //号源数量
-    private                 EditText                    mYJHYNumEdit;                 //溢价号源数量
-    private                 EditText                    mMFHYPriceEdit;                 //免费号源数量
-    private                 TextView                    mMessageNumTitle;               //消息数量
-    private                 LinearLayout                    mYPMessageNumTitle;             //音频通话时长
-    private                 LinearLayout                    mSPMessageNumTitle;             //视频频通话时长
+    private TextView mBasePriceTitleText;             //基础价格标题
+    private EditText mBasePriceEdit;                 //基础价格
+    private TextView mYJPriceTitleText;             //溢价价格标题
+    private EditText mYJPriceEdit;                 //溢价价格
+    private EditText mHYNumEdit;                 //号源数量
+    private EditText mYJHYNumEdit;                 //溢价号源数量
+    private EditText mMFHYPriceEdit;                 //免费号源数量
+    private TextView mMessageNumTitle;               //消息数量
+    private LinearLayout mYPMessageNumTitle;             //音频通话时长
+    private LinearLayout mSPMessageNumTitle;             //视频频通话时长
 
-    private                 TextView                    mFWSHText;                      //服务时间
-    private                 TextView                    mMessageNumText;                      //回复消息数量
-    private                 TextView                    mYPNumText;                      //音频通话时间
-    private                 TextView                    mSPNumText;                      //视频通话时间
-    private                 TextView                    mCommit;                        //保存
+    private TextView mFWSHText;                      //服务时间
+    private TextView mMessageNumText;                      //回复消息数量
+    private TextView mYPNumText;                      //音频通话时间
+    private TextView mSPNumText;                      //视频通话时间
+    private TextView mCommit;                        //保存
 
     /**
      * 初始化布局
      */
+    @SuppressLint("WrongViewCast")
     private void initLayout() {
-        mCommit = (TextView)this.findViewById(R.id.commit);
+        back=findViewById(R.id.back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        mCommit = (TextView) this.findViewById(R.id.commit);
         mCommit.setOnClickListener(new ButtonClick());
 
-        mTitleText = (TextView)this.findViewById(R.id.titleText);
-        mServiceSetTitleText = (TextView)this.findViewById(R.id.tv_activityServicePermisionSet_serviceTitle);
-        mServiceSetStateImg = (ImageView)this.findViewById(R.id.iv_activityServicePermisionSet_serviceSet);
+        mTitleText = (TextView) this.findViewById(R.id.titleText);
+        mServiceSetTitleText = (TextView) this.findViewById(R.id.tv_activityServicePermisionSet_serviceTitle);
+        mServiceSetStateImg = (ImageView) this.findViewById(R.id.iv_activityServicePermisionSet_serviceSet);
         mServiceSetStateImg.setOnClickListener(new ButtonClick());
-        mMessageNumTitle = (TextView)this.findViewById(R.id.messageNumTitle);
-        mYPMessageNumTitle = (LinearLayout)this.findViewById(R.id.ypmessageNumTitle);
-        mSPMessageNumTitle = (LinearLayout)this.findViewById(R.id.spMessageNumTitle);
+        mMessageNumTitle = (TextView) this.findViewById(R.id.messageNumTitle);
+        mYPMessageNumTitle = (LinearLayout) this.findViewById(R.id.ypmessageNumTitle);
+        mSPMessageNumTitle = (LinearLayout) this.findViewById(R.id.spMessageNumTitle);
 
-        mBasePriceTitleText = (TextView)this.findViewById(R.id.tv_activityServicePermisionSet_servicePriceTitle);
-        mYJPriceTitleText = (TextView)this.findViewById(R.id.tv_activityServicePermisionSet_serviceYJPriceTitle);
+        mBasePriceTitleText = (TextView) this.findViewById(R.id.tv_activityServicePermisionSet_servicePriceTitle);
+        mYJPriceTitleText = (TextView) this.findViewById(R.id.tv_activityServicePermisionSet_serviceYJPriceTitle);
 
-        mBasePriceEdit = (EditText)this.findViewById(R.id.et_activityServicePermisionSet_servicePriceTitle);
-        mYJPriceEdit = (EditText)this.findViewById(R.id.et_activityServicePermisionSet_yjPriceEdit);
-        mHYNumEdit = (EditText)this.findViewById(R.id.et_activityServicePermisionSet_hyNumEdit);
-        mYJHYNumEdit = (EditText)this.findViewById(R.id.et_activityServicePermisionSet_yjhyNumEdit);
-        mMFHYPriceEdit = (EditText)this.findViewById(R.id.et_activityServicePermisionSet_mfhyNumEdit);
+        mBasePriceEdit = (EditText) this.findViewById(R.id.et_activityServicePermisionSet_servicePriceTitle);
+        mYJPriceEdit = (EditText) this.findViewById(R.id.et_activityServicePermisionSet_yjPriceEdit);
+        mHYNumEdit = (EditText) this.findViewById(R.id.et_activityServicePermisionSet_hyNumEdit);
+        mYJHYNumEdit = (EditText) this.findViewById(R.id.et_activityServicePermisionSet_yjhyNumEdit);
+        mMFHYPriceEdit = (EditText) this.findViewById(R.id.et_activityServicePermisionSet_mfhyNumEdit);
 
-        mFWSHText = (TextView)this.findViewById(R.id.tv_fwsj);
-        mMessageNumText = (TextView)this.findViewById(R.id.tv_messageNum);
+        mFWSHText = (TextView) this.findViewById(R.id.tv_fwsj);
+        mMessageNumText = (TextView) this.findViewById(R.id.tv_messageNum);
 
-        mYPNumText = (TextView)this.findViewById(R.id.tv_ypthsj);
-        mSPNumText = (TextView)this.findViewById(R.id.tv_spthsj);
+        mYPNumText = (TextView) this.findViewById(R.id.tv_ypthsj);
+        mSPNumText = (TextView) this.findViewById(R.id.tv_spthsj);
 
-        switch (mServiceType)
-        {
+        switch (mServiceType) {
             case 1:
                 mTitleText.setText("图文就诊设置");
                 mServiceSetTitleText.setText("开通图文就诊");
@@ -153,35 +163,33 @@ public class ServicePermisionSetActivity extends AppCompatActivity {
         mActivity = this;
         mApp = (JYKJApplication) getApplication();
         ActivityUtil.setStatusBarMain(mActivity);
-        mDoctorStatus = getIntent().getIntExtra("doctorStatus",0);
-        mServiceType = getIntent().getIntExtra("serviceType",0);
+        mDoctorStatus = getIntent().getIntExtra("doctorStatus", 0);
+        mServiceType = getIntent().getIntExtra("serviceType", 0);
         initLayout();
         initHandler();
         getData();
     }
 
     private void initHandler() {
-        mHandler = new Handler(){
+        mHandler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
-                switch (msg.what)
-                {
+                switch (msg.what) {
                     case 0:
                         break;
                     case 1:
                         cacerProgress();
-                        NetRetEntity netRetEntity = JSON.parseObject(mNetRetStr,NetRetEntity.class);
-                        if (netRetEntity.getResCode() == 1)
-                        {
-                            mProvideDoctorSetService = JSON.parseObject(netRetEntity.getResJsonData(),ProvideDoctorSetService.class);
+                        NetRetEntity netRetEntity = JSON.parseObject(mNetRetStr, NetRetEntity.class);
+                        if (netRetEntity.getResCode() == 1) {
+                            mProvideDoctorSetService = JSON.parseObject(netRetEntity.getResJsonData(), ProvideDoctorSetService.class);
                             setLayoutDate();
                         }
                         break;
 
                     case 2:
                         cacerProgress();
-                        netRetEntity = JSON.parseObject(mNetRetStr,NetRetEntity.class);
-                        Toast.makeText(mContext,netRetEntity.getResMsg(),Toast.LENGTH_SHORT).show();
+                        netRetEntity = JSON.parseObject(mNetRetStr, NetRetEntity.class);
+                        Toast.makeText(mContext, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
                         break;
                 }
             }
@@ -193,61 +201,61 @@ public class ServicePermisionSetActivity extends AppCompatActivity {
             mServiceSetStateImg.setImageResource(R.mipmap.sharedataset_close);
         else
             mServiceSetStateImg.setImageResource(R.mipmap.sharedataset_open);
-        if (mProvideDoctorSetService.getPriceBasics() ==  0.0)
+        if (mProvideDoctorSetService.getPriceBasics() == 0.0)
             mBasePriceEdit.setHint("请输入");
         else
-            mBasePriceEdit.setText(mProvideDoctorSetService.getPriceBasics()+"");
-        if (mProvideDoctorSetService.getPricePremium() ==  0.0)
+            mBasePriceEdit.setText(mProvideDoctorSetService.getPriceBasics() + "");
+        if (mProvideDoctorSetService.getPricePremium() == 0.0)
             mYJPriceEdit.setHint("请输入");
         else
-            mYJPriceEdit.setText(mProvideDoctorSetService.getPricePremium()+"");
-        if (mProvideDoctorSetService.getSourceNumBasics() ==  0)
+            mYJPriceEdit.setText(mProvideDoctorSetService.getPricePremium() + "");
+        if (mProvideDoctorSetService.getSourceNumBasics() == 0)
             mHYNumEdit.setHint("请输入");
         else
-            mHYNumEdit.setText(mProvideDoctorSetService.getSourceNumBasics()+"");
-        if (mProvideDoctorSetService.getSourceNumPremium() ==  0)
+            mHYNumEdit.setText(mProvideDoctorSetService.getSourceNumBasics() + "");
+        if (mProvideDoctorSetService.getSourceNumPremium() == 0)
             mYJHYNumEdit.setHint("请输入");
         else
-            mYJHYNumEdit.setText(mProvideDoctorSetService.getSourceNumPremium()+"");
-        if (mProvideDoctorSetService.getSourceNumFree() ==  0)
+            mYJHYNumEdit.setText(mProvideDoctorSetService.getSourceNumPremium() + "");
+        if (mProvideDoctorSetService.getSourceNumFree() == 0)
             mMFHYPriceEdit.setHint("请输入");
         else
-            mMFHYPriceEdit.setText(mProvideDoctorSetService.getSourceNumFree()+"");
+            mMFHYPriceEdit.setText(mProvideDoctorSetService.getSourceNumFree() + "");
 
         switch (mServiceType) {
             case 1:
-                if (mProvideDoctorSetService.getServiceDate() != null && !"".equals(mProvideDoctorSetService.getServiceDate()))
-                    mFWSHText.setText(mProvideDoctorSetService.getServiceDate());
+                if (mProvideDoctorSetService.getServiceDateStr() != null && !"".equals(mProvideDoctorSetService.getServiceDateStr()))
+                    mFWSHText.setText(mProvideDoctorSetService.getServiceDateStr());
                 else
                     mFWSHText.setText("0");
-                if (mProvideDoctorSetService.getSigningImgTextStr() != null && ! "".equals(mProvideDoctorSetService.getSigningImgTextStr()))
-                    mMessageNumText.setText(mProvideDoctorSetService.getSigningImgTextStr());
+                if (mProvideDoctorSetService.getLimitNumStr() != null && !"".equals(mProvideDoctorSetService.getLimitNumStr()))
+                    mMessageNumText.setText(mProvideDoctorSetService.getLimitNumStr());
                 else
                     mMessageNumText.setText("0");
                 break;
             case 2:
-                if (mProvideDoctorSetService.getServiceDate() != null && ! "".equals(mProvideDoctorSetService.getServiceDate()))
-                    mFWSHText.setText(mProvideDoctorSetService.getServiceDate());
+                if (mProvideDoctorSetService.getServiceDateStr() != null && !"".equals(mProvideDoctorSetService.getServiceDateStr()))
+                    mFWSHText.setText(mProvideDoctorSetService.getServiceDateStr());
                 else
                     mFWSHText.setText("0");
-                if (mProvideDoctorSetService.getSigningAudioStr() != null && ! "".equals(mProvideDoctorSetService.getSigningAudioStr()))
-                    mMessageNumText.setText(mProvideDoctorSetService.getSigningAudioStr());
+                if (mProvideDoctorSetService.getLimitNumStr() != null && !"".equals(mProvideDoctorSetService.getLimitNumStr()))
+                    mMessageNumText.setText(mProvideDoctorSetService.getLimitNumStr());
                 else
                     mMessageNumText.setText("0");
                 break;
             case 3:
-                if (mProvideDoctorSetService.getServiceDate() != null && !"".equals(mProvideDoctorSetService.getServiceDate()))
-                    mFWSHText.setText(mProvideDoctorSetService.getServiceDate());
+                if (mProvideDoctorSetService.getServiceDateStr() != null && !"".equals(mProvideDoctorSetService.getServiceDateStr()))
+                    mFWSHText.setText(mProvideDoctorSetService.getServiceDateStr());
                 else
                     mFWSHText.setText("0");
-                if (mProvideDoctorSetService.getSigningVideoStr() != null && !"".equals(mProvideDoctorSetService.getSigningVideoStr()))
-                    mMessageNumText.setText(mProvideDoctorSetService.getSigningVideoStr());
+                if (mProvideDoctorSetService.getLimitNumStr() != null && !"".equals(mProvideDoctorSetService.getLimitNumStr()))
+                    mMessageNumText.setText(mProvideDoctorSetService.getLimitNumStr());
                 else
                     mMessageNumText.setText("0");
                 break;
             case 4:
-                if (mProvideDoctorSetService.getServiceDate() != null && !"".equals(mProvideDoctorSetService.getServiceDate()))
-                    mFWSHText.setText(mProvideDoctorSetService.getServiceDate());
+                if (mProvideDoctorSetService.getServiceDateStr() != null && !"".equals(mProvideDoctorSetService.getServiceDateStr()))
+                    mFWSHText.setText(mProvideDoctorSetService.getServiceDateStr());
                 else
                     mFWSHText.setText("0");
                 if (mProvideDoctorSetService.getSigningImgTextStr() != null && !"".equals(mProvideDoctorSetService.getSigningImgTextStr()))
@@ -263,16 +271,24 @@ public class ServicePermisionSetActivity extends AppCompatActivity {
                 else
                     mSPNumText.setText("0");
                 break;
+            case 5:
+                if (mProvideDoctorSetService.getServiceDateStr() != null && !"".equals(mProvideDoctorSetService.getServiceDateStr()))
+                    mFWSHText.setText(mProvideDoctorSetService.getServiceDateStr());
+                else
+                    mFWSHText.setText("0");
+                if (mProvideDoctorSetService.getLimitNumStr() != null && !"".equals(mProvideDoctorSetService.getLimitNumStr()))
+                    mMessageNumText.setText(mProvideDoctorSetService.getLimitNumStr());
+                else
+                    mMessageNumText.setText("0");
+                break;
         }
     }
-
-
 
 
     /**
      * 点击事件
      */
-    class   ButtonClick implements View.OnClickListener {
+    class ButtonClick implements View.OnClickListener {
         @Override
         public void onClick(View view) {
             switch (view.getId()) {
@@ -289,6 +305,7 @@ public class ServicePermisionSetActivity extends AppCompatActivity {
 
                 case R.id.commit:
                     commit();
+                    finish();
                     break;
             }
         }
@@ -307,8 +324,8 @@ public class ServicePermisionSetActivity extends AppCompatActivity {
                     provideDoctorSetParment.setLoginDoctorPosition(mApp.loginDoctorPosition);
                     provideDoctorSetParment.setOperDoctorCode(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
                     provideDoctorSetParment.setOperDoctorName(mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
-                    provideDoctorSetParment.setServiceType(mServiceType+"");
-                    provideDoctorSetParment.setFlagOpening(mProvideDoctorSetService.getFlagOpening()+"");
+                    provideDoctorSetParment.setServiceType(mServiceType + "");
+                    provideDoctorSetParment.setFlagOpening(mProvideDoctorSetService.getFlagOpening() + "");
                     String string = mBasePriceEdit.getText().toString();
                     if (mBasePriceEdit.getText().toString() != null && !"".equals(mBasePriceEdit.getText().toString()))
                         provideDoctorSetParment.setPriceBasics(mBasePriceEdit.getText().toString());
@@ -373,6 +390,7 @@ public class ServicePermisionSetActivity extends AppCompatActivity {
                     provideDoctorSetService.setServiceType(mServiceType);
                     mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + new Gson().toJson(provideDoctorSetService), Constant.SERVICEURL + "doctorPersonalSetControlle/getDoctorSetServiceByServiceTypeResData");
                     NetRetEntity netRetEntity = new Gson().fromJson(mNetRetStr, NetRetEntity.class);
+                    Log.e("bbbb", "run: "+mNetRetStr );
                     if (netRetEntity.getResCode() == 0) {
                         NetRetEntity retEntity = new NetRetEntity();
                         retEntity.setResCode(0);
@@ -394,7 +412,7 @@ public class ServicePermisionSetActivity extends AppCompatActivity {
     }
 
 
-    public void getProgressBar(String title,String progressPrompt){
+    public void getProgressBar(String title, String progressPrompt) {
         if (mDialogProgress == null) {
             mDialogProgress = new ProgressDialog(this);
         }
@@ -407,12 +425,11 @@ public class ServicePermisionSetActivity extends AppCompatActivity {
     /**
      * 取消进度条
      */
-    public void cacerProgress(){
+    public void cacerProgress() {
         if (mDialogProgress != null) {
             mDialogProgress.dismiss();
         }
     }
-
 
 
 }

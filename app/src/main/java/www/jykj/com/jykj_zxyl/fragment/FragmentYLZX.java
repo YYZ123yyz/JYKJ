@@ -32,15 +32,15 @@ import www.jykj.com.jykj_zxyl.fragment.ylzx.FragmentYXZN;
  * Created by admin on 2016/6/1.
  */
 public class FragmentYLZX extends Fragment {
-    private             Context                             mContext;
-    private             MainActivity                        mActivity;
-    private             Handler                             mHandler;
-    private             JYKJApplication                     mApp;
-    private             ViewPager                           pager;
-    private             FragmentAdapter                     fragmentAdapter;
-    private             List<Fragment>                      fragmentList;
-    private             TabLayout                           tabLayout;
-    private                 List<String>                    mTitles;
+    private Context mContext;
+    private MainActivity mActivity;
+    private Handler mHandler;
+    private JYKJApplication mApp;
+    private ViewPager pager;
+    private FragmentAdapter fragmentAdapter;
+    private List<Fragment> fragmentList;
+    private TabLayout tabLayout;
+    private List<String> mTitles;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -57,11 +57,11 @@ public class FragmentYLZX extends Fragment {
      * 初始化布局
      */
     private void initLayout(View view) {
-        pager=view.findViewById(R.id.page);
-        tabLayout=view.findViewById(R.id.tab_layout);
+        pager = view.findViewById(R.id.page);
+        tabLayout = view.findViewById(R.id.tab_layout);
 
-        fragmentList=new ArrayList<>();
-        mTitles=new ArrayList<>();
+        fragmentList = new ArrayList<>();
+        mTitles = new ArrayList<>();
         mTitles.add("热门精选");
         mTitles.add("医学新闻");
         mTitles.add("医学文献");
@@ -73,19 +73,18 @@ public class FragmentYLZX extends Fragment {
         fragmentList.add(new FragmentYXZN());
         fragmentList.add(new FragmentWDSC());
 
-        fragmentAdapter=new FragmentAdapter(mActivity.getSupportFragmentManager(),fragmentList,mTitles);
+        fragmentAdapter = new FragmentAdapter(mActivity.getSupportFragmentManager(), fragmentList, mTitles);
         pager.setAdapter(fragmentAdapter);
         tabLayout.setupWithViewPager(pager);//与ViewPage建立关系
     }
 
 
     private void initHandler() {
-        mHandler = new Handler(){
+        mHandler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
-                switch (msg.what)
-                {
+                switch (msg.what) {
 
                 }
             }

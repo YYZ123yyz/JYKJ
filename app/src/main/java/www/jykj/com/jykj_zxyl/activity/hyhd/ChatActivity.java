@@ -17,6 +17,7 @@ import com.hyphenate.easeui.widget.EaseChatMessageList;
 import com.hyphenate.easeui.widget.EaseTitleBar;
 
 import www.jykj.com.jykj_zxyl.R;
+import www.jykj.com.jykj_zxyl.activity.home.ZhlyReplyActivity;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.util.ActivityUtil;
 
@@ -41,6 +42,8 @@ public class ChatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_chat);
+        ActivityUtil.setStatusBarMain(ChatActivity.this);
+
         mContext = this;
         mActivity = this;
         mApp = (JYKJApplication) getApplication();

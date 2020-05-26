@@ -20,6 +20,7 @@ import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.activity.home.twjz.TWJZ_CFQActivity;
 import www.jykj.com.jykj_zxyl.adapter.JYZL_GRZLRecycleAdapter;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
+import www.jykj.com.jykj_zxyl.util.ActivityUtil;
 
 /**
  * 就诊总览==》个人总览==>个人状况
@@ -44,6 +45,8 @@ public class GRXX_GRZKActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_jyzl_grzl_grzk);
+        ActivityUtil.setStatusBarMain(GRXX_GRZKActivity.this);
+
         mContext = this;
         initLayout();
     }

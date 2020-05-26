@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -99,6 +100,7 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
     private LinearLayout home_certification;
 
     private SharedPreferences sp;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_activitymain_shouyefragment, container, false);
@@ -193,18 +195,15 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
         mUserHead = (ImageView) view.findViewById(R.id.iv_userhead);
 
 
-        //消息条数
-        ProvideMsgPushReminderCount provideMsgPushReminderCount = new ProvideMsgPushReminderCount();
-        Integer msgTypeCountSum = provideMsgPushReminderCount.getMsgTypeCountSum();
-
-        //有新消息
-        if (msgTypeCountSum != null && msgTypeCountSum != 0) {
-            String str = Integer.toString(msgTypeCountSum);
-            setNewMessageView(str);
-        } else {//无新消息
-            setNewMessageView("");
-        }
-
+//        //消息条数
+//        ProvideMsgPushReminderCount provideMsgPushReminderCount = new ProvideMsgPushReminderCount();
+//        Integer msgTypeCountSum = provideMsgPushReminderCount.getMsgTypeCountSum();
+//
+//        //有新消息
+//        if (msgTypeCountSum != null && msgTypeCountSum != 0) {
+//            String str = Integer.toString(msgTypeCountSum);
+//            setNewMessageView(str);
+//        }
         //医师资格认证
         home_certification = view.findViewById(R.id.home_certification);
 
@@ -277,7 +276,7 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
             case R.id.ll_sys:
                 scan();
                 break;
-                //我的诊所
+            //我的诊所
             case R.id.ll_wdzs:
                 startActivity(new Intent(getActivity(), MyClinicActivity.class));
                 break;
@@ -421,14 +420,13 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
      *
      * @param string
      */
-
     public void setNewMessageView(String string) {
-
         if ("".equals(string))
             mNewMessageLayout.setVisibility(View.GONE);
         else {
             mNewMessageLayout.setVisibility(View.VISIBLE);
             mNewMessage.setText(string);
+            Log.e("ppp", "setNewMessageView: "+string );
         }
     }
 }

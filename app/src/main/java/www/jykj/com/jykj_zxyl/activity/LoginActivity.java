@@ -449,7 +449,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        getApplication().unregisterReceiver(receiveBroadCast);
+//        getApplication().unregisterReceiver(receiveBroadCast);
 
     }
 

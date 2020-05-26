@@ -21,6 +21,7 @@ import netService.entity.NetRetEntity;
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.application.Constant;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
+import www.jykj.com.jykj_zxyl.util.ActivityUtil;
 
 /**
  * 消息
@@ -64,6 +65,8 @@ public class NewsActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news);
+        ActivityUtil.setStatusBarMain(NewsActivity.this);
+
         mContext = this;
         mActivity = this;
         mApp = (JYKJApplication) getApplication();

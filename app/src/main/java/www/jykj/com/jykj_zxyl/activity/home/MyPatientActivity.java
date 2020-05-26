@@ -74,7 +74,6 @@ public class MyPatientActivity extends AppCompatActivity{
         mApp = (JYKJApplication) getApplication();
         mContext = this;
         mActivity = this;
-        ActivityUtil.setStatusBar(mActivity);
         initLayout();
         initHandler();
         setIndex(0);
@@ -85,14 +84,14 @@ public class MyPatientActivity extends AppCompatActivity{
      */
     private void initLayout() {
         mMyPatient = findViewById(R.id.tv_my_patient);
-        mMyReview = findViewById(R.id.tv_my_review);
+        // mMyReview = findViewById(R.id.tv_my_review);
         ivAdd = findViewById(R.id.iv_add);
         llBack = findViewById(R.id.ll_back);
         mMyPatientN = this.findViewById(R.id.tv_my_patient_n);
         fragmentManager = getFragmentManager();
 
         mMyPatient.setOnClickListener(new ButtonClick());
-        mMyReview.setOnClickListener(new ButtonClick());
+        //  mMyReview.setOnClickListener(new ButtonClick());
         llBack.setOnClickListener(new ButtonClick());
         ivAdd.setOnClickListener(new ButtonClick());
         mMyPatientN.setOnClickListener(new ButtonClick());
@@ -110,8 +109,8 @@ public class MyPatientActivity extends AppCompatActivity{
                     setIndex(0);
                     mMyPatient.setBackgroundResource(R.mipmap.pg_messagetitle);
                     mMyPatientN.setBackgroundResource(0);
-                    mMyReview.setBackgroundResource(0);
-                    mMyReview.setTextColor(getResources().getColor(R.color.writeColor));
+                    //  mMyReview.setBackgroundResource(0);
+                    //   mMyReview.setTextColor(getResources().getColor(R.color.writeColor));
                     mMyPatientN.setTextColor(getResources().getColor(R.color.writeColor));
                     mMyPatient.setTextColor(getResources().getColor(R.color.tabColor_nomal));
                     break;
@@ -119,20 +118,20 @@ public class MyPatientActivity extends AppCompatActivity{
                     setIndex(1);
                     mMyPatient.setBackgroundResource(0);
                     mMyPatientN.setBackgroundResource(R.mipmap.pg_messagetitle);
-                    mMyReview.setBackgroundResource(0);
-                    mMyReview.setTextColor(getResources().getColor(R.color.writeColor));
+                    //   mMyReview.setBackgroundResource(0);
+                    //   mMyReview.setTextColor(getResources().getColor(R.color.writeColor));
                     mMyPatientN.setTextColor(getResources().getColor(R.color.tabColor_nomal));
                     mMyPatient.setTextColor(getResources().getColor(R.color.writeColor));
                     break;
-                case R.id.tv_my_review:
-                    setIndex(2);
-                    mMyReview.setBackgroundResource(R.mipmap.pg_messagetitle);
-                    mMyPatient.setBackgroundResource(0);
-                    mMyPatientN.setBackgroundResource(0);
-                    mMyPatient.setTextColor(getResources().getColor(R.color.writeColor));
-                    mMyReview.setTextColor(getResources().getColor(R.color.tabColor_nomal));
-                    mMyPatientN.setTextColor(getResources().getColor(R.color.writeColor));
-                    break;
+//                case R.id.tv_my_review:
+//                    setIndex(2);
+//                    mMyReview.setBackgroundResource(R.mipmap.pg_messagetitle);
+//                    mMyPatient.setBackgroundResource(0);
+//                    mMyPatientN.setBackgroundResource(0);
+//                    mMyPatient.setTextColor(getResources().getColor(R.color.writeColor));
+//                    mMyReview.setTextColor(getResources().getColor(R.color.tabColor_nomal));
+//                    mMyPatientN.setTextColor(getResources().getColor(R.color.writeColor));
+//                    break;
                 case R.id.ll_back:
                     finish();
                     break;

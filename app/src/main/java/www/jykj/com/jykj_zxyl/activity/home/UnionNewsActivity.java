@@ -32,6 +32,7 @@ import www.jykj.com.jykj_zxyl.adapter.PaintVisitAdapter;
 import www.jykj.com.jykj_zxyl.adapter.UnionNewsAdapter;
 import www.jykj.com.jykj_zxyl.application.Constant;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
+import www.jykj.com.jykj_zxyl.util.ActivityUtil;
 
 public class UnionNewsActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -61,6 +62,8 @@ public class UnionNewsActivity extends AppCompatActivity implements View.OnClick
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_union_news);
+        ActivityUtil.setStatusBarMain(UnionNewsActivity.this);
+
         mContext = this;
         mActivity = this;
         mMessageType = getIntent().getStringExtra("messageType");

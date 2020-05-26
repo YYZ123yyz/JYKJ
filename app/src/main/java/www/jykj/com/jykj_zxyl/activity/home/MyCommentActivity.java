@@ -10,6 +10,7 @@ import android.widget.ImageView;
 
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.adapter.MyCommentAdapter;
+import www.jykj.com.jykj_zxyl.util.ActivityUtil;
 
 public class MyCommentActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
@@ -20,6 +21,8 @@ public class MyCommentActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_comment);
+        ActivityUtil.setStatusBarMain(MyCommentActivity.this);
+
         initView();
         initListener();
     }

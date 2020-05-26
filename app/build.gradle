@@ -5,13 +5,13 @@ android {
         debug {
             keyAlias 'JYKJ'
             keyPassword 'JYKJ123456'
-            storeFile file('E:/tmpwork/workspace/tencentvideo/JYKJcode/app/src/main/yyz.jks')
+            storeFile file('F:/yangyunze/JYKJcode/app/src/main/yyz.jks')
             storePassword 'JYKJ123456'
         }
         release {
             keyAlias 'JYKJ'
             keyPassword 'JYKJ123456'
-            storeFile file('E:/tmpwork/workspace/tencentvideo/JYKJcode/app/src/main/yyz.jks')
+            storeFile file('F:/yangyunze/JYKJcode/app/src/main/yyz.jks')
             storePassword 'JYKJ123456'
             v2SigningEnabled false
         }

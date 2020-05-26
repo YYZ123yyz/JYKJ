@@ -139,6 +139,15 @@ public class ServicePermisionActivity extends AppCompatActivity {
             mQYFWText.setTextColor(getResources().getColor(R.color.textColor_vo));
         }
 
+        if (mProvideDoctorSetServiceState.getFlagPhone() != null && mProvideDoctorSetServiceState.getFlagPhone() == 1) {
+            mQYFWText.setText("已开通");
+            mQYFWText.setTextColor(getResources().getColor(R.color.groabColor));
+
+        } else {
+            mQYFWText.setText("未开通");
+            mQYFWText.setTextColor(getResources().getColor(R.color.textColor_vo));
+        }
+
     }
 
 
@@ -213,7 +222,7 @@ public class ServicePermisionActivity extends AppCompatActivity {
                     intent.putExtra("serviceType", 4);
                     startActivity(intent);
                     break;
-                    //电话就诊
+                //电话就诊
                 case R.id.li_activityServicePermision_Phone:
                     intent = new Intent();
                     intent.setClass(mContext, ServicePermisionSetActivity.class);

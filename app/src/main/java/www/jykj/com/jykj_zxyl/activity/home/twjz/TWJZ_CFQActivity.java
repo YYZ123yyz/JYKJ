@@ -20,6 +20,7 @@ import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.adapter.TWJZNoFinishRecycleAdapter;
 import www.jykj.com.jykj_zxyl.adapter.TWJZ_CFQRecycleAdapter;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
+import www.jykj.com.jykj_zxyl.util.ActivityUtil;
 
 /**
  * 图文就诊（处方签）
@@ -40,6 +41,8 @@ public class TWJZ_CFQActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_twjz_cfq);
+        ActivityUtil.setStatusBarMain(TWJZ_CFQActivity.this);
+
         mContext = this;
         mActivity = this;
         mApp = (JYKJApplication) getApplication();

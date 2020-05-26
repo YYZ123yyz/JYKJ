@@ -17,6 +17,7 @@ import entity.HZIfno;
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.adapter.ApplicationAuditRecycleAdapter;
 import www.jykj.com.jykj_zxyl.adapter.TWJZNoFinishRecycleAdapter;
+import www.jykj.com.jykj_zxyl.util.ActivityUtil;
 
 /**
  * 添加患者==>申请审核
@@ -34,6 +35,8 @@ public class ApplicationAuditActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_applicationaudit);
+        ActivityUtil.setStatusBarMain(ApplicationAuditActivity.this);
+
         mContext = this;
         initLayout();
     }

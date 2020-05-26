@@ -31,6 +31,7 @@ import www.jykj.com.jykj_zxyl.adapter.WDZS_XZJBAdapter;
 import www.jykj.com.jykj_zxyl.adapter.WDZS_YPXXAdapter;
 import www.jykj.com.jykj_zxyl.application.Constant;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
+import www.jykj.com.jykj_zxyl.util.ActivityUtil;
 
 
 /**
@@ -66,6 +67,8 @@ public class KJCF_XZYPActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_twjz_xzyp);
+        ActivityUtil.setStatusBarMain(KJCF_XZYPActivity.this);
+
         mContext = this;
         mActivity = this;
         mApp = (JYKJApplication) getApplication();

@@ -20,6 +20,7 @@ import www.jykj.com.jykj_zxyl.activity.home.twjz.TWJZ_CFQActivity;
 import www.jykj.com.jykj_zxyl.adapter.JYZLecycleAdapter;
 import www.jykj.com.jykj_zxyl.adapter.TWJZ_CFQRecycleAdapter;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
+import www.jykj.com.jykj_zxyl.util.ActivityUtil;
 
 public class JYZLActivity extends AppCompatActivity {
 
@@ -38,6 +39,8 @@ public class JYZLActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_jyzl);
+        ActivityUtil.setStatusBarMain(JYZLActivity.this);
+
         mContext = this;
         initLayout();
     }

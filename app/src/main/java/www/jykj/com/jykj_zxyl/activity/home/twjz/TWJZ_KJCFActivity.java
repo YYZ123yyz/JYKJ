@@ -35,6 +35,7 @@ import www.jykj.com.jykj_zxyl.adapter.JYZLecycleAdapter;
 import www.jykj.com.jykj_zxyl.adapter.TWJZ_CFQRecycleAdapter;
 import www.jykj.com.jykj_zxyl.application.Constant;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
+import www.jykj.com.jykj_zxyl.util.ActivityUtil;
 import www.jykj.com.jykj_zxyl.util.NestedExpandaleListView;
 
 /**
@@ -73,6 +74,8 @@ public class TWJZ_KJCFActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_twjz_kjcf);
+        ActivityUtil.setStatusBarMain(TWJZ_KJCFActivity.this);
+
         mContext = this;
         mActivity = this;
         mApp = (JYKJApplication) getApplication();

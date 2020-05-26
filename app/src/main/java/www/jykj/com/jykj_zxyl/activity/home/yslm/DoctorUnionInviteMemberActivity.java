@@ -61,6 +61,7 @@ import www.jykj.com.jykj_zxyl.fragment.yslm.FragmentDoctorPliatform;
 import www.jykj.com.jykj_zxyl.fragment.yslm.FragmentMyApply;
 import www.jykj.com.jykj_zxyl.fragment.yslm.FragmentMyReview;
 import www.jykj.com.jykj_zxyl.fragment.yslm.FragmentReviewHistory;
+import www.jykj.com.jykj_zxyl.util.ActivityUtil;
 import www.jykj.com.jykj_zxyl.util.FullyLinearLayoutManager;
 import www.jykj.com.jykj_zxyl.util.ProvincePicker;
 
@@ -98,6 +99,8 @@ public class DoctorUnionInviteMemberActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_union_invidemember);
+        ActivityUtil.setStatusBarMain(DoctorUnionInviteMemberActivity.this);
+
         mApp = (JYKJApplication) getApplication();
         mContext = this;
         mUnionCode = getIntent().getStringExtra("unionCode");

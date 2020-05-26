@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.adapter.ZhlyAdapter;
+import www.jykj.com.jykj_zxyl.util.ActivityUtil;
 
 /**
  * 诊后留言
@@ -24,6 +25,8 @@ public class ZhlyActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_zhly);
+        ActivityUtil.setStatusBarMain(ZhlyActivity.this);
+
         initView();
         initListener();
     }

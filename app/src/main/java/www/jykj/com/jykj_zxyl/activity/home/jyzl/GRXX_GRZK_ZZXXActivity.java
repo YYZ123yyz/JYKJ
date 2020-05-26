@@ -37,6 +37,7 @@ import www.jykj.com.jykj_zxyl.activity.home.twjz.TWJZ_CFQActivity;
 import www.jykj.com.jykj_zxyl.adapter.JYZL_GRZLRecycleAdapter;
 import www.jykj.com.jykj_zxyl.application.Constant;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
+import www.jykj.com.jykj_zxyl.util.ActivityUtil;
 import www.jykj.com.jykj_zxyl.util.Util;
 
 /**
@@ -88,6 +89,8 @@ public class GRXX_GRZK_ZZXXActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_jyzl_grzl_grzk_zzxx);
+        ActivityUtil.setStatusBarMain(GRXX_GRZK_ZZXXActivity.this);
+
         mContext = this;
         mApp = (JYKJApplication) getApplication();
         mPatientCode = getIntent().getStringExtra("patientCode");

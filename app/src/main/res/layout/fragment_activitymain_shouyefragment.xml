@@ -355,7 +355,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="70dp"
+                android:layout_height="50dp"
                 android:id="@+id/li_fragmentShouYe_newMessage"
                 android:layout_marginTop="15dp"
                 android:background="@color/writeColor"
@@ -373,12 +373,11 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="20dp"
-                    android:text=""
                     android:layout_weight="1"
+                    android:text=""
                     android:id="@+id/tv_fragmentShouYe_NewMessage"
                     android:textColor="@color/textColor_vo"
                     android:textSize="8pt" />
-
 
                 <ImageView
                     android:layout_width="15dp"
@@ -386,7 +385,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginRight="10dp"
                     android:src="@mipmap/roww_right" />
-            </LinearLayout>
+            </LinearLayout>/
 
 
 

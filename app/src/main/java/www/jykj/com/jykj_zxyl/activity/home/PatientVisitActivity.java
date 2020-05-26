@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.adapter.PaintVisitAdapter;
+import www.jykj.com.jykj_zxyl.util.ActivityUtil;
 
 /**
  * 患者就诊
@@ -23,6 +24,8 @@ public class PatientVisitActivity extends AppCompatActivity implements View.OnCl
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patient_visit);
+        ActivityUtil.setStatusBarMain(PatientVisitActivity.this);
+
         initView();
         initListener();
     }

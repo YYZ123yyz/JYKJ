@@ -16,6 +16,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import www.jykj.com.jykj_zxyl.R;
+import www.jykj.com.jykj_zxyl.util.ActivityUtil;
 
 /**
  * 邀请同行
@@ -28,6 +29,8 @@ public class InvitepeersActivity extends AppCompatActivity implements View.OnCli
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_invite_peers);
+        ActivityUtil.setStatusBarMain(InvitepeersActivity.this);
+
         initView();
     }
 

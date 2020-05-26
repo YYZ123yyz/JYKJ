@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import www.jykj.com.jykj_zxyl.R;
+import www.jykj.com.jykj_zxyl.util.ActivityUtil;
 
 /**
  * 消息=》患者就诊=》会诊邀请
@@ -18,6 +19,8 @@ public class HzyqActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hzyq);
+        ActivityUtil.setStatusBarMain(HzyqActivity.this);
+
         initView();
         initListener();
     }

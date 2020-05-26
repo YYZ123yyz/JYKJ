@@ -29,6 +29,7 @@ import www.jykj.com.jykj_zxyl.activity.home.wdzs.ProvideViewInteractOrderTreatme
 import www.jykj.com.jykj_zxyl.adapter.WZZXImageViewRecycleAdapter;
 import www.jykj.com.jykj_zxyl.application.Constant;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
+import www.jykj.com.jykj_zxyl.util.ActivityUtil;
 import www.jykj.com.jykj_zxyl.util.FullyGridLayoutManager;
 
 /**
@@ -67,6 +68,8 @@ public class TWJZ_JZJLActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_twjz_jzjl);
+        ActivityUtil.setStatusBarMain(TWJZ_JZJLActivity.this);
+
         mContext =this;
         mActivity = this;
         mApp = (JYKJApplication) getApplication();

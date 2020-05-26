@@ -24,6 +24,7 @@ import netService.entity.NetRetEntity;
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.application.Constant;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
+import www.jykj.com.jykj_zxyl.util.ActivityUtil;
 import www.jykj.com.jykj_zxyl.util.Util;
 
 public class UnionInvateHandlerActivity extends AppCompatActivity {
@@ -57,7 +58,9 @@ public class UnionInvateHandlerActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_unioninvate_review);
-            mApp = (JYKJApplication) getApplication();
+        ActivityUtil.setStatusBarMain(UnionInvateHandlerActivity.this);
+
+        mApp = (JYKJApplication) getApplication();
         mContext = this;
         mProvideViewUnionDoctorMemberInviteInfo = (ProvideViewUnionDoctorMemberInviteInfo) getIntent().getSerializableExtra("invateInfo");
 //        mProvideViewUnionDoctorMemberApplyInfo = (ProvideViewUnionDoctorMemberApplyInfo) JSON.parse(string);

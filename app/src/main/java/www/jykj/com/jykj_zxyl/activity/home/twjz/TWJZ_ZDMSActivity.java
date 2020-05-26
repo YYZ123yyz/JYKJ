@@ -35,6 +35,7 @@ import www.jykj.com.jykj_zxyl.activity.myself.hzgl.HZGLSearchActivity;
 import www.jykj.com.jykj_zxyl.adapter.WZZXImageViewRecycleAdapter;
 import www.jykj.com.jykj_zxyl.application.Constant;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
+import www.jykj.com.jykj_zxyl.util.ActivityUtil;
 import www.jykj.com.jykj_zxyl.util.BitmapUtil;
 import www.jykj.com.jykj_zxyl.util.FullyGridLayoutManager;
 import www.jykj.com.jykj_zxyl.util.Util;
@@ -89,6 +90,8 @@ public class TWJZ_ZDMSActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_twjz_zdms);
+        ActivityUtil.setStatusBarMain(TWJZ_ZDMSActivity.this);
+
         mContext =this;
         mActivity = this;
         mApp = (JYKJApplication) getApplication();

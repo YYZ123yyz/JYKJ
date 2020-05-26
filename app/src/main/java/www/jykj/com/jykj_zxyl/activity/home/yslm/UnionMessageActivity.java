@@ -20,6 +20,7 @@ import www.jykj.com.jykj_zxyl.fragment.yslm.FragmentReviewHistory;
 import www.jykj.com.jykj_zxyl.fragment.yslm.FragmentUnionMyBeInvate;
 import www.jykj.com.jykj_zxyl.fragment.yslm.FragmentUnionMyBeInvateHandler;
 import www.jykj.com.jykj_zxyl.fragment.yslm.FragmentUnionMyInvate;
+import www.jykj.com.jykj_zxyl.util.ActivityUtil;
 
 /**
  * 医生联盟 == >联盟消息
@@ -36,6 +37,8 @@ public class UnionMessageActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_review);
+        ActivityUtil.setStatusBarMain(UnionMessageActivity.this);
+
         initView();
         initListener();
     }

@@ -9,7 +9,9 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import www.jykj.com.jykj_zxyl.R;
+import www.jykj.com.jykj_zxyl.activity.home.yslm.ViewPatientActivity;
 import www.jykj.com.jykj_zxyl.adapter.AddPatientAdapter;
+import www.jykj.com.jykj_zxyl.util.ActivityUtil;
 
 /**
  * 添加患者
@@ -22,6 +24,8 @@ public class AddPatientActivity extends AppCompatActivity implements View.OnClic
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_patient);
+        ActivityUtil.setStatusBarMain(AddPatientActivity.this);
+
         initView();
         initListener();
     }

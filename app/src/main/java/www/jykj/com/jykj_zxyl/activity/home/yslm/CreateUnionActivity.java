@@ -50,6 +50,7 @@ import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.activity.MainActivity;
 import www.jykj.com.jykj_zxyl.application.Constant;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
+import www.jykj.com.jykj_zxyl.util.ActivityUtil;
 import www.jykj.com.jykj_zxyl.util.BitmapUtil;
 import www.jykj.com.jykj_zxyl.util.ProvincePicker;
 
@@ -105,6 +106,8 @@ public class CreateUnionActivity extends AppCompatActivity implements View.OnCli
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_union);
+        ActivityUtil.setStatusBarMain(CreateUnionActivity.this);
+
         mContext = this;
         mActivity = this;
         mProvideUnionDoctor = new ProvideUnionDoctor();

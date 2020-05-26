@@ -48,6 +48,7 @@ import www.jykj.com.jykj_zxyl.activity.home.yslm.UpdateUnionActivity;
 import www.jykj.com.jykj_zxyl.adapter.MyUnionMemberListAdapter;
 import www.jykj.com.jykj_zxyl.application.Constant;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
+import www.jykj.com.jykj_zxyl.util.ActivityUtil;
 
 
 /**
@@ -100,6 +101,8 @@ public class DoctorsUnionActivity extends AppCompatActivity implements View.OnCl
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doctors_union);
+        ActivityUtil.setStatusBarMain(DoctorsUnionActivity.this);
+
         mContext = this;
         mActivity = this;
         mApp = (JYKJApplication) getApplication();

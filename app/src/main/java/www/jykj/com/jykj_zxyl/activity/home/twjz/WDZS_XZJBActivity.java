@@ -39,6 +39,7 @@ import www.jykj.com.jykj_zxyl.adapter.WDZS_XZJBAdapter;
 import www.jykj.com.jykj_zxyl.adapter.WZZXImageViewRecycleAdapter;
 import www.jykj.com.jykj_zxyl.application.Constant;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
+import www.jykj.com.jykj_zxyl.util.ActivityUtil;
 import www.jykj.com.jykj_zxyl.util.FullyGridLayoutManager;
 
 
@@ -75,6 +76,8 @@ public class WDZS_XZJBActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_twjz_xzjb);
+        ActivityUtil.setStatusBarMain(WDZS_XZJBActivity.this);
+
         mContext =this;
         mActivity = this;
         mApp = (JYKJApplication) getApplication();

@@ -26,6 +26,8 @@ import android.widget.Toast;
 import com.alibaba.fastjson.JSON;
 import com.google.gson.Gson;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,6 +42,7 @@ import entity.patientInfo.ProvideViewPatientLablePunchClockState;
 import netService.HttpNetService;
 import netService.entity.NetRetEntity;
 import www.jykj.com.jykj_zxyl.R;
+import www.jykj.com.jykj_zxyl.activity.home.MyPatientActivity;
 import www.jykj.com.jykj_zxyl.adapter.ChooseMsgAdapter;
 import www.jykj.com.jykj_zxyl.adapter.HZGL_QTDK_RecycleAdapter;
 import www.jykj.com.jykj_zxyl.application.Constant;
@@ -59,7 +62,7 @@ public class HZGLTXHZActivity extends AppCompatActivity {
     private TextView tvName;
     private TextView tvContent;
     private Button btnSend;
-    private TextView tvTime;
+    private TextView tvTime,tvSex;
     private EditText tvTemplate;
     private TextView tvChoseTemplate;
     private JYKJApplication mApp;
@@ -77,7 +80,7 @@ public class HZGLTXHZActivity extends AppCompatActivity {
         mContext = this;
         mActivity = this;
         mApp = (JYKJApplication) getApplication();
-        ActivityUtil.setStatusBar(mActivity);
+        ActivityUtil.setStatusBarMain(HZGLTXHZActivity.this);
         initLayout();
         initHandler();
 
@@ -87,6 +90,9 @@ public class HZGLTXHZActivity extends AppCompatActivity {
      * 初始化布局
      */
     private void initLayout() {
+        if (getIntent() != null) {
+            mData = (ProvideViewPatientLablePunchClockState) getIntent().getSerializableExtra("patientLable");
+        }
         findViewById(R.id.ll_back).setOnClickListener(new ButtonClick());
         tvName = findViewById(R.id.tv_name);
         tvContent = findViewById(R.id.tv_content);
@@ -97,18 +103,20 @@ public class HZGLTXHZActivity extends AppCompatActivity {
         btnSend.setOnClickListener(new ButtonClick());
         tvChoseTemplate.setOnClickListener(new ButtonClick());
 
-        if (getIntent() != null) {
-            mData = (ProvideViewPatientLablePunchClockState) getIntent().getSerializableExtra("patientLable");
-        }
-
-        String sex;
-        if (mData.getGender() == 1) {
-            sex = "男";
-        } else {
-            sex = "女";
-        }
-        String age = DateUtils.getAgeFromBirthDate(mData.getBirthday()) + "岁";
-        tvName.setText(mData.getUserName() + " " + sex + " " + age);
+        tvSex=findViewById(R.id.tvSex);
+//        String sex = null;
+//        if (mData.getGender() == 1) {
+//            sex = "男";
+//        } else if(mData.getGender() == 2){
+//            sex = "女";
+//        }else if(mData.getGender() == 0){
+//            sex = "未知";
+//        }else if(mData.getGender().equals("")&&mData.getGender()==null){
+//            sex = "未知";
+//        }
+//      //  String age = DateUtils.getAgeFromBirthDate(mData.getBirthday()) + "岁";
+//        tvName.setText(mData.getUserName() + " " + sex );
+//    //    tvName.setText(mData.getUserName());
         getMsgPushData();
         getChooseMsgModel();
     }
@@ -143,6 +151,7 @@ public class HZGLTXHZActivity extends AppCompatActivity {
      * 设置数据
      */
     private void getChooseMsgModel() {
+
         new Thread() {
             public void run() {
                 try {
@@ -180,6 +189,13 @@ public class HZGLTXHZActivity extends AppCompatActivity {
     }
 
     private void getMsgPushData() {
+        tvName.setText(mData.getUserName());
+        if (mData.getGender() == 1) {
+            tvSex.setText("男");
+        } else {
+            tvSex.setText("女");
+        }
+//        tvAge.setText(DateUtils.getAgeFromBirthDate(mData.getBirthday()) + "岁");
         new Thread() {
             public void run() {
                 try {
@@ -265,8 +281,29 @@ public class HZGLTXHZActivity extends AppCompatActivity {
 
                         break;
                     case 1:
-                        tvTime.setText("最近提醒日期：" + provideMsgPushReminder.getMsgReadDate());
-                        tvContent.setText(provideMsgPushReminder.getMsgContent());
+//                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(
+//                                "yyyy-MM-dd hh:mm:ss");
+//                        String string = "";
+//                        java.util.Date data = provideMsgPushReminder.getMsgReadDate();
+//                        try {
+//                            data = simpleDateFormat.parse(string);
+//                        } catch (ParseException e) {
+//                            // TODO Auto-generated catch block
+//                            e.printStackTrace();
+//                        }
+//
+//                        string = simpleDateFormat.format(data);
+//                        if(string.equals("")){
+//                            tvTime.setText("暂无");
+//                        }
+                        if(provideMsgPushReminder.getMsgReadDate()==null){
+                            tvTime.setText("暂无");
+                            tvContent.setText(provideMsgPushReminder.getMsgContent());
+                        }else{
+                            tvTime.setText(""+provideMsgPushReminder.getMsgReadDate());
+                            tvContent.setText(provideMsgPushReminder.getMsgContent());
+                        }
+
                         break;
                     case 2:
                         NetRetEntity retEntity = new Gson().fromJson(mNetRetStr, NetRetEntity.class);

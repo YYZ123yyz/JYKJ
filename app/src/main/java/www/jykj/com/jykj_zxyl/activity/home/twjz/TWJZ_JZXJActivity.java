@@ -37,6 +37,7 @@ import www.jykj.com.jykj_zxyl.adapter.TWJZ_CFQRecycleAdapter;
 import www.jykj.com.jykj_zxyl.adapter.WZZXImageViewRecycleAdapter;
 import www.jykj.com.jykj_zxyl.application.Constant;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
+import www.jykj.com.jykj_zxyl.util.ActivityUtil;
 import www.jykj.com.jykj_zxyl.util.FullyGridLayoutManager;
 
 /**
@@ -79,6 +80,8 @@ public class TWJZ_JZXJActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_twjz_jzxj);
+        ActivityUtil.setStatusBarMain(TWJZ_JZXJActivity.this);
+
         mContext = this;
         mActivity = this;
         mApp = (JYKJApplication) getApplication();

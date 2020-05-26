@@ -36,6 +36,7 @@ import www.jykj.com.jykj_zxyl.adapter.JYZL_GRZLRecycleAdapter;
 import www.jykj.com.jykj_zxyl.adapter.PatientJWBSAdapter;
 import www.jykj.com.jykj_zxyl.application.Constant;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
+import www.jykj.com.jykj_zxyl.util.ActivityUtil;
 
 /**
  * 就诊总览==》个人总览==>个人状况==>既往病史
@@ -75,6 +76,8 @@ public class GRXX_GRZK_JWBSActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_jyzl_grzl_grzk_jwbs);
+        ActivityUtil.setStatusBarMain(GRXX_GRZK_JWBSActivity.this);
+
         mPatientCode = getIntent().getStringExtra("patientCode");
         mContext = this;
         mApp = (JYKJApplication) getApplication();

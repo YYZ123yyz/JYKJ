@@ -35,6 +35,7 @@ import www.jykj.com.jykj_zxyl.application.Constant;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.fragment.twjz.FragmenNoFinish;
 import www.jykj.com.jykj_zxyl.fragment.twjz.FragmentHistory;
+import www.jykj.com.jykj_zxyl.util.ActivityUtil;
 import www.jykj.com.jykj_zxyl.util.FullyGridLayoutManager;
 import www.jykj.com.jykj_zxyl.util.PhotoDialog;
 import www.jykj.com.jykj_zxyl.util.Util;
@@ -169,6 +170,8 @@ public class WZXXActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wzxx);
+        ActivityUtil.setStatusBarMain(WZXXActivity.this);
+
         mContext = this;
         mActivity = this;
         mApp = (JYKJApplication) getApplication();

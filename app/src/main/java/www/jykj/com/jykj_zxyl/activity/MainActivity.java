@@ -168,8 +168,8 @@ public class MainActivity extends AppCompatActivity {
                             else if (mProvideMsgPushReminderCount.getMsgTypeCount07() > 0)
                                 string = "您有" + mProvideMsgPushReminderCount.getMsgTypeCount07() + "条患者签约消息";
                             else if (mProvideMsgPushReminderCount.getMsgTypeCount08() > 0)
-                                string = "您有" + mProvideMsgPushReminderCount.getMsgTypeCount08() + "条系统消息消息";
-//                            mFragmentShouYe.setNewMessageView(string);
+                                string = "您有" + mProvideMsgPushReminderCount.getMsgTypeCount08() + "条系统消息";
+                            mFragmentShouYe.setNewMessageView(string);
                         } else
                             mFragmentShouYe.setNewMessageView("");
 

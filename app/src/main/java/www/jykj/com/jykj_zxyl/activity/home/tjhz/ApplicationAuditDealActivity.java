@@ -23,6 +23,7 @@ import entity.HZIfno;
 import entity.unionInfo.ProvideViewUnionDoctorMemberApplyInfo;
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.adapter.ApplicationAuditRecycleAdapter;
+import www.jykj.com.jykj_zxyl.util.ActivityUtil;
 
 /**
  * 添加患者==>处理审核
@@ -46,7 +47,9 @@ import www.jykj.com.jykj_zxyl.adapter.ApplicationAuditRecycleAdapter;
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_applicationauditdeal);
-        mContext = this;
+            ActivityUtil.setStatusBarMain(ApplicationAuditDealActivity.this);
+
+            mContext = this;
         mProvideViewUnionDoctorMemberApplyInfo = (ProvideViewUnionDoctorMemberApplyInfo) getIntent().getSerializableExtra("applyInfo");
 //        mProvideViewUnionDoctorMemberApplyInfo = (ProvideViewUnionDoctorMemberApplyInfo) JSON.parse(string);
         initLayout();
