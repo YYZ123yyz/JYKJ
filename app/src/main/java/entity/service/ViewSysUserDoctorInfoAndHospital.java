@@ -43,6 +43,25 @@ public class ViewSysUserDoctorInfoAndHospital  implements java.io.Serializable {
 	private String updateDate;
 	private String updateMan;
 
+	private String doctorShareUrl;//分享出去链接地址（医生）
+	private String patientShareUrl;//分享出去链接地址（患者）
+
+	public String getDoctorShareUrl() {
+		return doctorShareUrl;
+	}
+
+	public void setDoctorShareUrl(String doctorShareUrl) {
+		this.doctorShareUrl = doctorShareUrl;
+	}
+
+	public String getPatientShareUrl() {
+		return patientShareUrl;
+	}
+
+	public void setPatientShareUrl(String patientShareUrl) {
+		this.patientShareUrl = patientShareUrl;
+	}
+
 	public Integer getDoctorId() {
 		return doctorId;
 	}

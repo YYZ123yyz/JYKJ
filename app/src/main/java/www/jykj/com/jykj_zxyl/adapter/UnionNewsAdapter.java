@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +29,7 @@ public class UnionNewsAdapter extends RecyclerView.Adapter<UnionNewsAdapter.View
     private         List<ProvideMsgPushReminder>   mDate = new ArrayList<>();
     private         Context                         mContext;
     private         OnItemClickListener mOnItemClickListener;
+    private String mMessageType;               //消息类型
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -48,7 +50,6 @@ public class UnionNewsAdapter extends RecyclerView.Adapter<UnionNewsAdapter.View
         else
             holder.mUserName.setTextColor(mContext.getResources().getColor(R.color.colorRed));
         holder.mUserName.setText(mDate.get(position).getSenderUserName());
-
         if (mDate.get(position).getFlagMsgRead() == 1)
             holder.mMessageDatet.setTextColor(mContext.getResources().getColor(R.color.tabColor_nomal));
         else
@@ -59,22 +60,25 @@ public class UnionNewsAdapter extends RecyclerView.Adapter<UnionNewsAdapter.View
             holder.mMessageType.setTextColor(mContext.getResources().getColor(R.color.tabColor_nomal));
         else
             holder.mMessageType.setTextColor(mContext.getResources().getColor(R.color.colorRed));
-        if ("4000101".equals(mDate.get(position).getMsgType()+""))
+        if (mDate.get(position).getMsgType()==4000101)
             holder.mMessageType.setText("患者就诊");
-        if ("4000102".equals(mDate.get(position).getMsgType()+""))
+        if (mDate.get(position).getMsgType()==4000102)
             holder.mMessageType.setText("诊后留言");
-        if ("4000103".equals(mDate.get(position).getMsgType()+""))
+        if (mDate.get(position).getMsgType()==4000103)
             holder.mMessageType.setText("添加患者");
-        if ("4000104".equals(mDate.get(position).getMsgType()+""))
+        if (mDate.get(position).getMsgType()==4000104)
             holder.mMessageType.setText("联盟消息");
-        if ("4000105".equals(mDate.get(position).getMsgType()+""))
+        if (mDate.get(position).getMsgType()==4000105)
             holder.mMessageType.setText("医患圈");
-        if ("4000106".equals(mDate.get(position).getMsgType()+""))
+        if (mDate.get(position).getMsgType()==4000106)
             holder.mMessageType.setText("紧急提醒");
-        if ("4000107".equals(mDate.get(position).getMsgType()+""))
+        if (mDate.get(position).getMsgType()==4000107)
             holder.mMessageType.setText("患者签约");
-        if ("4000108".equals(mDate.get(position).getMsgType()+""))
+        if (mDate.get(position).getMsgType()==4000108)
             holder.mMessageType.setText("系统消息");
+
+        Log.e("tag", "onBindViewHolder:2222 "+mDate.toString() );
+
         if (mDate.get(position).getUserLogoUrl() != null && !"".equals(mDate.get(position).getUserLogoUrl()))
         {
             try {

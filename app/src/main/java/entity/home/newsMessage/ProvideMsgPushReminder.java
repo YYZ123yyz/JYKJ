@@ -26,17 +26,12 @@ public class ProvideMsgPushReminder implements java.io.Serializable {
 	private Integer flagMsgRead;//消息是否已读.0:未读;1:已读;
 	private Integer flagMsgTop;//是否置顶消息.即首页中提醒.0:否;1:是;
 	private Integer flagOperBtn;//阅读消息时,是否需要带有操作按钮.0:不需要;1:需要;
-	private String operBtnContent;//操作按钮内容,以[^]进行分割.Eg.接受^拒绝;确认^取消	
+	private String operBtnContent;//操作按钮内容,以[^]进行分割.Eg.接受^拒绝;确认^取消
 	private Date msgReadDate;//消息读取日期
+
 	private String userLogoUrl;
-
-	public String getUserLogoUrl() {
-		return userLogoUrl;
-	}
-
-	public void setUserLogoUrl(String userLogoUrl) {
-		this.userLogoUrl = userLogoUrl;
-	}
+	private String sendMsgDate;//发送消息日期
+	private String msgLookUrl;//消息查看H5链接地址
 
 	public Integer getReminderId() {
 		return reminderId;
@@ -172,5 +167,29 @@ public class ProvideMsgPushReminder implements java.io.Serializable {
 
 	public void setMsgReadDate(Date msgReadDate) {
 		this.msgReadDate = msgReadDate;
+	}
+
+	public String getUserLogoUrl() {
+		return userLogoUrl;
+	}
+
+	public void setUserLogoUrl(String userLogoUrl) {
+		this.userLogoUrl = userLogoUrl;
+	}
+
+	public String getSendMsgDate() {
+		return sendMsgDate;
+	}
+
+	public void setSendMsgDate(String sendMsgDate) {
+		this.sendMsgDate = sendMsgDate;
+	}
+
+	public String getMsgLookUrl() {
+		return msgLookUrl;
+	}
+
+	public void setMsgLookUrl(String msgLookUrl) {
+		this.msgLookUrl = msgLookUrl;
 	}
 }

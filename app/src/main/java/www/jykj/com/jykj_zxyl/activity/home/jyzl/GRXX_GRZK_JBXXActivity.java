@@ -11,6 +11,8 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -211,16 +213,36 @@ public class GRXX_GRZK_JBXXActivity extends AppCompatActivity {
             mUserLinkPhone.setText(mProvideViewSysUserPatientInfoAndRegion.getLinkPhone());
 
         String region = "";
-        if (mProvideViewSysUserPatientInfoAndRegion.getProvinceName() != null || !"".equals(mProvideViewSysUserPatientInfoAndRegion.getProvinceName()))
-            region += mProvideViewSysUserPatientInfoAndRegion.getProvinceName();
-        if (mProvideViewSysUserPatientInfoAndRegion.getCityName() != null || !"".equals(mProvideViewSysUserPatientInfoAndRegion.getCityName()))
-            region += mProvideViewSysUserPatientInfoAndRegion.getCityName();
-        if (mProvideViewSysUserPatientInfoAndRegion.getAreaName() != null || !"".equals(mProvideViewSysUserPatientInfoAndRegion.getAreaName()))
-            region += mProvideViewSysUserPatientInfoAndRegion.getAreaName();
-        if ("".equals(region))
-            mUserRegion .setText("未设置");
-        else
-            mUserRegion.setText(region);
+        if(TextUtils.isEmpty(mProvideViewSysUserPatientInfoAndRegion.getProvinceName())&&TextUtils.isEmpty( mProvideViewSysUserPatientInfoAndRegion.getCityName())&&TextUtils.isEmpty(mProvideViewSysUserPatientInfoAndRegion.getAreaName())){
+            region="未设置";
+        }
+        else  if(TextUtils.isEmpty(mProvideViewSysUserPatientInfoAndRegion.getCityName())){
+            region=mProvideViewSysUserPatientInfoAndRegion.getProvinceName();
+        }
+        else if (TextUtils.isEmpty(mProvideViewSysUserPatientInfoAndRegion.getAreaName())) {
+            region = mProvideViewSysUserPatientInfoAndRegion.getProvinceName() + mProvideViewSysUserPatientInfoAndRegion.getCityName();
+        } else {
+            region = mProvideViewSysUserPatientInfoAndRegion.getProvinceName() + mProvideViewSysUserPatientInfoAndRegion.getCityName() + mProvideViewSysUserPatientInfoAndRegion.getAreaName();
+        }
+
+        mUserRegion.setText(region);
+
+
+
+
+
+
+
+//        if (mProvideViewSysUserPatientInfoAndRegion.getProvinceName() != null || !"".equals(mProvideViewSysUserPatientInfoAndRegion.getProvinceName()))
+//            region += mProvideViewSysUserPatientInfoAndRegion.getProvinceName();
+//        if (mProvideViewSysUserPatientInfoAndRegion.getCityName() != null || !"".equals(mProvideViewSysUserPatientInfoAndRegion.getCityName()))
+//            region += mProvideViewSysUserPatientInfoAndRegion.getCityName();
+//        if (mProvideViewSysUserPatientInfoAndRegion.getAreaName() != null || !"".equals(mProvideViewSysUserPatientInfoAndRegion.getAreaName()))
+//            region += mProvideViewSysUserPatientInfoAndRegion.getAreaName();
+//        if ("".equals(region)&&region==null)
+//            mUserRegion .setText("未设置");
+//        else
+//            mUserRegion.setText("");
 
         if (mProvideViewSysUserPatientInfoAndRegion.getAddress() == null || "".equals(mProvideViewSysUserPatientInfoAndRegion.getAddress()))
             mUserAddress.setText("未设置");

@@ -51,7 +51,6 @@ public class UseRegistActivity extends AppCompatActivity {
     private Button mRegistBt;          //注册
 
     private boolean mAgree = true;                     //是否同意协议，默认同意
-    private ImageView mAgreeImg;                  //同意协议图标
     private String mSmsToken;                  //短信验证码token
 
     private TimerTask mTask;
@@ -87,10 +86,8 @@ public class UseRegistActivity extends AppCompatActivity {
                         cacerProgress();
                         if (mNetRetStr != null && !mNetRetStr.equals("")) {
                             NetRetEntity netRetEntity = new Gson().fromJson(mNetRetStr, NetRetEntity.class);
-                            Toast.makeText(mContext, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
-
                             if (netRetEntity.getResCode() == 1) {
-                                startTask();
+
                                 mSmsToken = netRetEntity.getResTokenData();
                                 Toast.makeText(mContext, "获取成功，请注意接收短信", Toast.LENGTH_SHORT).show();
                             } else {
@@ -162,27 +159,12 @@ public class UseRegistActivity extends AppCompatActivity {
         mPhoneNum = (EditText) this.findViewById(R.id.et_activityRegist_phoneNumEdit);
         mVCode = (EditText) this.findViewById(R.id.et_activityRegist_vCodeEdit);
         mPassWord = (EditText) this.findViewById(R.id.et_activityRegist_passwordEdit);
-
-        mAgreeImg = (ImageView) this.findViewById(R.id.iv_activityRegist_agreeImg);
-        //设置是否同意协议图标
-        setAgreeImg();
-        mAgreeImg.setOnClickListener(new ButtonClick());
-
         mRegistBt = (Button) this.findViewById(R.id.bt_activityRegist_registBt);
         mGetVCode = (TextView) this.findViewById(R.id.tv_activityRetist_getVCodeText);
         mGetVCode.setOnClickListener(new ButtonClick());
         mRegistBt.setOnClickListener(new ButtonClick());
     }
 
-    /**
-     * 设置是否同意协议图标
-     */
-    private void setAgreeImg() {
-        if (mAgree)
-            mAgreeImg.setImageResource(R.mipmap.choice);
-        else
-            mAgreeImg.setImageResource(R.mipmap.nochoice);
-    }
 
 
     /**
@@ -200,11 +182,6 @@ public class UseRegistActivity extends AppCompatActivity {
                     userRegist();
                     break;
 
-                case R.id.iv_activityRegist_agreeImg:
-                    //取反
-                    mAgree = !mAgree;
-                    setAgreeImg();
-                    break;
 
             }
         }

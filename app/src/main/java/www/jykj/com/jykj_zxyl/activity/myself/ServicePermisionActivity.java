@@ -57,6 +57,8 @@ public class ServicePermisionActivity extends AppCompatActivity {
     private ProvideDoctorSetServiceState mProvideDoctorSetServiceState;
     private LinearLayout li_activityServicePermision_phone;
     private TextView tv_activityServicePermision_phone;
+    private Intent intent;
+    private Integer flagDoctorStatus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -140,12 +142,12 @@ public class ServicePermisionActivity extends AppCompatActivity {
         }
 
         if (mProvideDoctorSetServiceState.getFlagPhone() != null && mProvideDoctorSetServiceState.getFlagPhone() == 1) {
-            mQYFWText.setText("已开通");
-            mQYFWText.setTextColor(getResources().getColor(R.color.groabColor));
+            tv_activityServicePermision_phone.setText("已开通");
+            tv_activityServicePermision_phone.setTextColor(getResources().getColor(R.color.groabColor));
 
         } else {
-            mQYFWText.setText("未开通");
-            mQYFWText.setTextColor(getResources().getColor(R.color.textColor_vo));
+            tv_activityServicePermision_phone.setText("未开通");
+            tv_activityServicePermision_phone.setTextColor(getResources().getColor(R.color.textColor_vo));
         }
 
     }
@@ -195,40 +197,80 @@ public class ServicePermisionActivity extends AppCompatActivity {
                     finish();
                     break;
                 case R.id.li_activityServicePermision_ImageText:
-                    Intent intent = new Intent();
-                    intent.setClass(mContext, ServicePermisionSetActivity.class);
-                    intent.putExtra("doctorStatus", mProvideDoctorSetServiceState.getFlagDoctorStatus());
-                    intent.putExtra("serviceType", 1);
-                    startActivity(intent);
+                    flagDoctorStatus = mApp.mViewSysUserDoctorInfoAndHospital.getFlagDoctorStatus();
+                    if(flagDoctorStatus ==1){
+                        intent = new Intent();
+                        intent.setClass(mContext, ServicePermisionSetActivity.class);
+                        intent.putExtra("doctorStatus", mProvideDoctorSetServiceState.getFlagDoctorStatus());
+                        intent.putExtra("serviceType", 1);
+                        startActivity(intent);
+                    }else{
+                        intent = new Intent();
+                        intent.setClass(mContext, UserAuthenticationActivity.class);
+                        startActivity(intent);
+                    }
+//                    Intent intent = new Intent();
+//                    intent.setClass(mContext, ServicePermisionSetActivity.class);
+//                    intent.putExtra("doctorStatus", mProvideDoctorSetServiceState.getFlagDoctorStatus());
+//                    intent.putExtra("serviceType", 1);
+//                    startActivity(intent);
                     break;
                 case R.id.li_activityServicePermision_YPJZImageText:
-                    intent = new Intent();
-                    intent.setClass(mContext, ServicePermisionSetActivity.class);
-                    intent.putExtra("doctorStatus", mProvideDoctorSetServiceState.getFlagDoctorStatus());
-                    intent.putExtra("serviceType", 2);
-                    startActivity(intent);
+                   flagDoctorStatus = mApp.mViewSysUserDoctorInfoAndHospital.getFlagDoctorStatus();
+                    if(flagDoctorStatus ==1){
+                        intent = new Intent();
+                        intent.setClass(mContext, ServicePermisionSetActivity.class);
+                        intent.putExtra("doctorStatus", mProvideDoctorSetServiceState.getFlagDoctorStatus());
+                        intent.putExtra("serviceType", 2);
+                        startActivity(intent);
+                    }else{
+                        intent = new Intent();
+                        intent.setClass(mContext, UserAuthenticationActivity.class);
+                        startActivity(intent);
+                    }
                     break;
                 case R.id.li_activityServicePermision_SPJZImageText:
-                    intent = new Intent();
-                    intent.setClass(mContext, ServicePermisionSetActivity.class);
-                    intent.putExtra("doctorStatus", mProvideDoctorSetServiceState.getFlagDoctorStatus());
-                    intent.putExtra("serviceType", 3);
-                    startActivity(intent);
+                    flagDoctorStatus = mApp.mViewSysUserDoctorInfoAndHospital.getFlagDoctorStatus();
+                    if(flagDoctorStatus ==1){
+                        intent = new Intent();
+                        intent.setClass(mContext, ServicePermisionSetActivity.class);
+                        intent.putExtra("doctorStatus", mProvideDoctorSetServiceState.getFlagDoctorStatus());
+                        intent.putExtra("serviceType", 3);
+                        startActivity(intent);
+                    }else{
+                        intent = new Intent();
+                        intent.setClass(mContext, UserAuthenticationActivity.class);
+                        startActivity(intent);
+                    }
                     break;
                 case R.id.li_activityServicePermision_FWQXImageText:
-                    intent = new Intent();
-                    intent.setClass(mContext, ServicePermisionSetActivity.class);
-                    intent.putExtra("doctorStatus", mProvideDoctorSetServiceState.getFlagDoctorStatus());
-                    intent.putExtra("serviceType", 4);
-                    startActivity(intent);
+                    flagDoctorStatus = mApp.mViewSysUserDoctorInfoAndHospital.getFlagDoctorStatus();
+                    if(flagDoctorStatus ==1){
+                        intent = new Intent();
+                        intent.setClass(mContext, ServicePermisionSetActivity.class);
+                        intent.putExtra("doctorStatus", mProvideDoctorSetServiceState.getFlagDoctorStatus());
+                        intent.putExtra("serviceType", 4);
+                        startActivity(intent);
+                    }else{
+                        intent = new Intent();
+                        intent.setClass(mContext, UserAuthenticationActivity.class);
+                        startActivity(intent);
+                    }
                     break;
                 //电话就诊
                 case R.id.li_activityServicePermision_Phone:
-                    intent = new Intent();
-                    intent.setClass(mContext, ServicePermisionSetActivity.class);
-                    intent.putExtra("doctorStatus", mProvideDoctorSetServiceState.getFlagDoctorStatus());
-                    intent.putExtra("serviceType", 5);
-                    startActivity(intent);
+                    flagDoctorStatus = mApp.mViewSysUserDoctorInfoAndHospital.getFlagDoctorStatus();
+                    if(flagDoctorStatus ==1){
+                        intent = new Intent();
+                        intent.setClass(mContext, ServicePermisionSetActivity.class);
+                        intent.putExtra("doctorStatus", mProvideDoctorSetServiceState.getFlagDoctorStatus());
+                        intent.putExtra("serviceType", 5);
+                        startActivity(intent);
+                    }else{
+                        intent = new Intent();
+                        intent.setClass(mContext, UserAuthenticationActivity.class);
+                        startActivity(intent);
+                    }
                     break;
             }
         }

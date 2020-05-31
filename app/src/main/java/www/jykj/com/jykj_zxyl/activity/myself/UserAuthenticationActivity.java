@@ -132,12 +132,11 @@ public class UserAuthenticationActivity extends AppCompatActivity {
                     mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + str, Constant.SERVICEURL + "doctorPersonalSetControlle/getUserDoctorQualificationImg");
                     System.out.println("~~~~~~~~~~~~~返回~~~~~~~~~~~~~~" + mRetString);
                     NetRetEntity netRetEntity = new Gson().fromJson(mNetRetStr, NetRetEntity.class);
-
+                    Log.e("tag", "run:vvv "+mNetRetStr );
                     if (netRetEntity.getResCode() == 0) {
                         NetRetEntity retEntity = new NetRetEntity();
                         retEntity.setResCode(0);
                         retEntity.setResMsg("提交失败：" + netRetEntity.getResMsg());
-
                         mNetRetStr = new Gson().toJson(retEntity);
                         mHandler.sendEmptyMessage(1);
                         return;
@@ -348,7 +347,6 @@ public class UserAuthenticationActivity extends AppCompatActivity {
             mHandler.sendEmptyMessage(3);
             return;
         }
-
         mHandler.sendEmptyMessage(3);
 //            }
 //        }.start();

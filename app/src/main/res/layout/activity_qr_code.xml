@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:orientation="vertical"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     tools:ignore="MissingDefaultResource">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
@@ -45,115 +42,164 @@
             android:layout_marginRight="10dp"/>
 
     </RelativeLayout>
-    <LinearLayout
-        android:orientation="vertical"
-        android:background="#fff"
-        android:layout_width="match_parent"
-        android:layout_height="250dp">
 
-        <ImageView
-            android:id="@+id/iv_ew_code"
-            android:layout_width="180dp"
-            android:layout_height="182dp"
-            android:layout_gravity="center_horizontal" />
+
+     <ScrollView
+         android:layout_width="match_parent"
+         android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <LinearLayout
+            android:orientation="vertical"
+            android:background="#fff"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="20dp"
-            android:layout_marginLeft="20dp"
-            android:layout_gravity="center_horizontal"
-            >
+            android:layout_height="250dp">
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="35dp"
-                android:background="@drawable/shape_corner_button"
-                android:text="扫一扫"
-                android:paddingBottom="5dp"
-                android:paddingTop="5dp"
-                android:id="@+id/sys"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp"
-                android:textSize="15sp"
-                android:gravity="center"
-                android:drawableLeft="@mipmap/sao"
-                android:textColor="@color/writeColor"/>
+            <ImageView
+                android:id="@+id/iv_ew_code"
+                android:layout_width="180dp"
+                android:layout_height="182dp"
+                android:layout_gravity="center_horizontal" />
 
-            <TextView
-                android:id="@+id/tv_share"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="35dp"
-                android:background="@drawable/shape_corner_button"
-                android:text="分享"
-                android:paddingBottom="5dp"
-                android:paddingTop="5dp"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
-                android:gravity="center"
-                android:drawableLeft="@mipmap/share"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="20dp"
                 android:layout_marginLeft="20dp"
-                android:textColor="@color/writeColor"/>
+                android:layout_gravity="center_horizontal"
+                >
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="35dp"
+                    android:background="@drawable/shape_corner_button"
+                    android:text="扫一扫"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp"
+                    android:id="@+id/sys"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
+                    android:textSize="12sp"
+                    android:gravity="center"
+                    android:drawableLeft="@mipmap/sao"
+                    android:textColor="@color/writeColor"/>
+
+                <TextView
+                    android:layout_gravity="center_vertical"
+                    android:textSize="12sp"
+                    android:id="@+id/tv_share"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="35dp"
+                    android:background="@drawable/shape_corner_button"
+                    android:text="分享给医生"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:gravity="center"
+                    android:layout_marginLeft="20dp"
+                    android:textColor="@color/writeColor"/>
 
 
 
 
-            <TextView
-                android:id="@+id/qr_save"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="35dp"
-                android:background="@drawable/shape_corner_button"
-                android:text="保存"
-                android:paddingBottom="5dp"
-                android:paddingTop="5dp"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
-                android:gravity="center"
-                android:drawableLeft="@mipmap/download"
-                android:layout_marginLeft="20dp"
-                android:textColor="@color/writeColor"/>
+                <TextView
+                    android:layout_gravity="center_vertical"
+                    android:id="@+id/qr_save"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="35dp"
+                    android:background="@drawable/shape_corner_button"
+                    android:text="分享给患者"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:gravity="center"
+                    android:textSize="12sp"
+                    android:layout_marginLeft="20dp"
+                    android:textColor="@color/writeColor"/>
+            </LinearLayout>
+
         </LinearLayout>
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_marginTop="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/writeColor"
-        android:orientation="vertical">
         <LinearLayout
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/writeColor"
+            android:orientation="vertical">
+
+             <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginLeft="8dp"
             android:textSize="8pt"
             android:layout_marginRight="8dp">
             <TextView
+                android:layout_gravity="center"
+                android:textColor="@color/textColor_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:textSize="8pt"
-                android:layout_gravity="center"
-                android:textColor="#333333 "
-                android:text="医生姓名" />
+                android:text="认证状态" />
             <TextView
-                android:id="@+id/tv_userName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=""
+                android:id="@+id/tv_phoneNum"
                 android:layout_gravity="center"
                 android:textColor="@color/textColor_vt"
                 android:layout_marginRight="10dp"
                 android:textSize="8pt"
-               />
+                />
         </LinearLayout>
-  <View
-      android:background="#ffeeeeee"
-      android:layout_width="match_parent"
-      android:layout_height="2dp"></View>
+
+            <View
+                android:background="#ffeeeeee"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"></View>
+
+
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="8dp"
+                android:textSize="8pt"
+                android:layout_marginRight="8dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="8pt"
+                    android:layout_gravity="center"
+                    android:textColor="#333333 "
+                    android:text="医生姓名" />
+                <TextView
+                    android:id="@+id/tv_userName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:layout_gravity="center"
+                    android:textColor="@color/textColor_vt"
+                    android:layout_marginRight="10dp"
+                    android:textSize="8pt"
+                    />
+            </LinearLayout>
+            <View
+                android:background="#ffeeeeee"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"></View>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
@@ -180,130 +226,109 @@
                     />
             </LinearLayout>
 
-        <View
-            android:background="#ffeeeeee"
-            android:layout_width="match_parent"
-            android:layout_height="2dp"></View>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginLeft="8dp"
-            android:textSize="8pt"
-            android:layout_marginRight="8dp">
-            <TextView
-                android:layout_gravity="center"
-                android:textColor="@color/textColor_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="8pt"
-                android:text="电话" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:id="@+id/tv_phoneNum"
-                android:layout_gravity="center"
-                android:textColor="@color/textColor_vt"
-                android:layout_marginRight="10dp"
-                android:textSize="8pt"
-                />
-        </LinearLayout>
+            <View
+                android:background="#ffeeeeee"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"></View>
 
-        <View
-            android:background="#ffeeeeee"
-            android:layout_width="match_parent"
-            android:layout_height="2dp"></View>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginLeft="8dp"
-            android:textSize="8pt"
-            android:layout_marginRight="8dp">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="8dp"
                 android:textSize="8pt"
-                android:layout_gravity="center"
-                android:textColor="@color/textColor_text"
-                android:text="职称|科室" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/tv_useZC"
-                android:layout_gravity="center"
-                android:textColor="@color/textColor_vt"
-                android:layout_marginRight="10dp"
-                android:textSize="8pt"
-                android:text="" />
+                android:layout_marginRight="8dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="8pt"
+                    android:layout_gravity="center"
+                    android:textColor="@color/textColor_text"
+                    android:text="职称|科室" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tv_useZC"
+                    android:layout_gravity="center"
+                    android:textColor="@color/textColor_vt"
+                    android:layout_marginRight="10dp"
+                    android:textSize="8pt"
+                    android:text="" />
 
 
-        </LinearLayout>
-        <View
-            android:background="#ffeeeeee"
-            android:layout_width="match_parent"
-            android:layout_height="2dp"></View>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:textSize="8pt"
-            android:orientation="vertical"
-            android:layout_marginRight="8dp">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="8pt"
-                android:textColor="@color/textColor_text"
-                android:text="擅长领域" />
-            <TextView
-                android:layout_marginLeft="15dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/tv_userSCLY"
-                android:layout_marginRight="10dp"
-                android:textSize="8pt"
-                android:textColor="@color/textColor_vt"
-                android:text="3434" />
-
-        </LinearLayout>
-        <View
-            android:background="#ffeeeeee"
-            android:layout_width="match_parent"
-            android:layout_height="2dp"></View>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:orientation="vertical"
-            >
-            <TextView
-                android:textColor="@color/textColor_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="8pt"
-                android:text="个人简介" />
-            <TextView
-                android:textColor="@color/textColor_vt"
+            </LinearLayout>
+            <View
+                android:background="#ffeeeeee"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"></View>
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/tv_userGRJJ"
-                android:maxLines="100"
-                android:layout_marginRight="10dp"
-                android:layout_marginLeft="15dp"
+                android:layout_marginLeft="8dp"
                 android:textSize="8pt"
-                android:text="000fsfsdfsdvxvxvx" />
+                android:orientation="vertical"
+                android:layout_marginRight="8dp">
+                <TextView
+                    android:layout_marginTop="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="8pt"
+                    android:textColor="@color/textColor_text"
+                    android:text="擅长领域" />
+                <TextView
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tv_userSCLY"
+                    android:layout_marginRight="10dp"
+                    android:textSize="6pt"
+                    android:textColor="@color/textColor_vt"
+                    android:text="3434" />
+
+            </LinearLayout>
+            <View
+                android:background="#ffeeeeee"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"></View>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:orientation="vertical"
+                >
+                <TextView
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/textColor_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="8pt"
+                    android:text="个人简介" />
+                <TextView
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:textColor="@color/textColor_vt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tv_userGRJJ"
+                    android:maxLines="100"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="15dp"
+                    android:textSize="6pt"
+                    android:text="000fsfsdfsdvxvxvx" />
+
+
+            </LinearLayout>
+
+
+
 
 
         </LinearLayout>
-
-
-
-
-
     </LinearLayout>
-    </LinearLayout>
-</ScrollView>
+
+     </ScrollView>
+</LinearLayout>

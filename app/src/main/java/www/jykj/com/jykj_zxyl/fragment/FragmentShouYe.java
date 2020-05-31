@@ -161,7 +161,20 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
             }
         };
     }
-
+    /**
+     * 设置新消息提醒
+     *
+     * @param string
+     */
+    public void setNewMessageView(String string) {
+        if ("".equals(string))
+            mNewMessageLayout.setVisibility(View.GONE);
+        else {
+            mNewMessageLayout.setVisibility(View.VISIBLE);
+            mNewMessage.setText(string);
+            Log.e("ppp", "setNewMessageView: "+string );
+        }
+    }
     private void initView(View view) {
         mQrCode = view.findViewById(R.id.ll_qr_code);
         mNews = view.findViewById(R.id.ll_news);
@@ -415,18 +428,5 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
     }
 
 
-    /**
-     * 设置新消息提醒
-     *
-     * @param string
-     */
-    public void setNewMessageView(String string) {
-        if ("".equals(string))
-            mNewMessageLayout.setVisibility(View.GONE);
-        else {
-            mNewMessageLayout.setVisibility(View.VISIBLE);
-            mNewMessage.setText(string);
-            Log.e("ppp", "setNewMessageView: "+string );
-        }
-    }
+
 }

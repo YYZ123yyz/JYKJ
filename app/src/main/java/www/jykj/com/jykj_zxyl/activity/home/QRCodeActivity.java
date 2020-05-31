@@ -1,5 +1,6 @@
 package www.jykj.com.jykj_zxyl.activity.home;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -18,6 +19,7 @@ import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,15 +32,20 @@ import android.widget.Toast;
 
 
 import com.alibaba.fastjson.JSON;
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
+import com.xiaomi.clientreport.data.Config;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 
+import entity.mySelf.ProvideViewSysUserDoctorInfoAndHospital;
+import entity.patientInfo.ProvideViewSysUserPatientInfoAndRegion;
 import entity.shouye.OperScanQrCodeInside;
 import netService.HttpNetService;
 import netService.entity.NetRetEntity;
@@ -50,6 +57,7 @@ import www.jykj.com.jykj_zxyl.activity.hyhd.BindDoctorFriend;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.custom.MoreFeaturesPopupWindow;
 import www.jykj.com.jykj_zxyl.util.ActivityUtil;
+import www.jykj.com.jykj_zxyl.util.PhotoDialog;
 import yyz_exploit.activity.activity.OpinionActivity;
 import zxing.android.CaptureActivity;
 import zxing.common.Constant;
@@ -83,6 +91,18 @@ public class QRCodeActivity extends AppCompatActivity {
     private TextView tv_share;
     public WechatShareManager mShareManager;
     private TextView qr_save;
+    private ProvideViewSysUserDoctorInfoAndHospital mProvideViewSysUserPatientInfoAndRegion;
+    private String doctorShareUrl;
+    private String patientShareUrl;
+
+
+
+    private ImageView imageView;
+    private yyz_exploit.dialog.ImageView imageView1;
+    private String doctorShareTitle;
+    private String doctorShareContent;
+    private String patientShareTitle;
+    private String patientShareContent;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -95,10 +115,14 @@ public class QRCodeActivity extends AppCompatActivity {
         initView();
         initHandler();
         initListener();
+        Qrcode();
     }
 
+    @SuppressLint("HandlerLeak")
     private void initHandler() {
         mHandler = new Handler() {
+
+
             @Override
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
@@ -136,6 +160,23 @@ public class QRCodeActivity extends AppCompatActivity {
                         cacerProgress();
                         netRetEntity = JSON.parseObject(mNetRetStr, NetRetEntity.class);
                         Toast.makeText(context, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
+                        break;
+
+                    case 3:
+                        mProvideViewSysUserPatientInfoAndRegion = JSON.parseObject(JSON.parseObject(mNetRetStr, NetRetEntity.class).getResJsonData(), ProvideViewSysUserDoctorInfoAndHospital.class);
+                        //医生分享
+                        doctorShareUrl = mProvideViewSysUserPatientInfoAndRegion.getDoctorShareUrl();
+                        Log.e("tag", "handleMessage:yyyyyy " + doctorShareUrl);
+                        //患者分享
+                        patientShareUrl = mProvideViewSysUserPatientInfoAndRegion.getPatientShareUrl();
+                        //医生title
+                        doctorShareTitle = mProvideViewSysUserPatientInfoAndRegion.getDoctorShareTitle();
+                        //医生内容
+                        doctorShareContent = mProvideViewSysUserPatientInfoAndRegion.getDoctorShareContent();
+                        //患者title
+                        patientShareTitle = mProvideViewSysUserPatientInfoAndRegion.getPatientShareTitle();
+                        //患者内容
+                        patientShareContent = mProvideViewSysUserPatientInfoAndRegion.getPatientShareContent();
                         break;
                 }
             }
@@ -186,6 +227,7 @@ public class QRCodeActivity extends AppCompatActivity {
                 try {
                     String string = new Gson().toJson(operScanQrCodeInside);
                     mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + string, www.jykj.com.jykj_zxyl.application.Constant.SERVICEURL + "doctorDataControlle/operScanQrCodeInside");
+                    Log.e("tag", "run:444 " + mNetRetStr);
                 } catch (Exception e) {
                     NetRetEntity retEntity = new NetRetEntity();
                     retEntity.setResCode(0);
@@ -197,6 +239,35 @@ public class QRCodeActivity extends AppCompatActivity {
             }
         }.start();
     }
+
+    /*
+     * 二维码
+     *
+     * */
+    private void Qrcode() {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("loginDoctorPosition", mApp.loginDoctorPosition);
+        map.put("requestClientType", "1");
+        map.put("operDoctorCode", mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
+        map.put("operDoctorName", mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
+
+        new Thread() {
+            public void run() {
+                try {
+                    mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + new Gson().toJson(map), www.jykj.com.jykj_zxyl.application.Constant.SERVICEURL + "doctorDataControlle/searchDcotorIdentificationCode");
+                    Log.e("tag", "run: "+mNetRetStr );
+                } catch (Exception e) {
+                    NetRetEntity retEntity = new NetRetEntity();
+                    retEntity.setResCode(0);
+                    retEntity.setResMsg("网络连接异常，请联系管理员：" + e.getMessage());
+                    mNetRetStr = new Gson().toJson(retEntity);
+                    e.printStackTrace();
+                }
+                mHandler.sendEmptyMessage(3);
+            }
+        }.start();
+    }
+
 
     /**
      * 获取进度条
@@ -235,31 +306,44 @@ public class QRCodeActivity extends AppCompatActivity {
     }
 
     private void initView() {
+
+
         //保存相册
         qr_save = findViewById(R.id.qr_save);
         qr_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String userLogoUrl = mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl();
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Bitmap bitmap = NetWorkUtils.getHttpBitmap(userLogoUrl);
-                        Bitmap bm = QRCodeUtil.getImageBitmap(bitmap, "1111111", 360);
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                ivEwCode.setImageBitmap(bm);
-                                saveBmp2Gallery(context,bm,"");
-                            }
-                        });
-                    }
-                }).start();
-
-
+                wechatShare();
             }
         });
+        //保存相册
+//        qr_save.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                String userLogoUrl = mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl();
+//                new Thread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        Bitmap bitmap = NetWorkUtils.getHttpBitmap(userLogoUrl);
+//                        Bitmap bm = QRCodeUtil.getImageBitmap(bitmap, "1111111", 360);
+//                        runOnUiThread(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                ivEwCode.setImageBitmap(bm);
+//                                saveBmp2Gallery(context,bm,"");
+//                            }
+//                        });
+//                    }
+//                }).start();
+//
+//
+//            }
+//        });
+
+
+        //二维码
         ivEwCode = (ImageView) findViewById(R.id.iv_ew_code);
+
         mBack = (LinearLayout) findViewById(R.id.ll_back);
         ivAdd = (ImageView) findViewById(R.id.iv_add);
         String userLogoUrl = mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl();
@@ -267,11 +351,52 @@ public class QRCodeActivity extends AppCompatActivity {
             @Override
             public void run() {
                 Bitmap bitmap = NetWorkUtils.getHttpBitmap(userLogoUrl);
-                Bitmap bm = QRCodeUtil.getImageBitmap(bitmap, "1111111", 360);
+                Bitmap bm = QRCodeUtil.getImageBitmap(bitmap, mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(), 360);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         ivEwCode.setImageBitmap(bm);
+                        ivEwCode.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                imageView1 = new yyz_exploit.dialog.ImageView(QRCodeActivity.this);
+                                imageView1.show();
+                                ImageView im = imageView1.findViewById(R.id.img);
+                                im.setImageBitmap(bm);
+                                Log.e("TAG", "onClick: " + "000000000000000");
+                                //关闭
+                                imageView1.findViewById(R.id.im_back).setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        imageView1.dismiss();
+                                    }
+                                });
+
+                                //保存相册
+                                imageView1.findViewById(R.id.shar).setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        String userLogoUrl = mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl();
+                                        new Thread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                Bitmap bitmap = NetWorkUtils.getHttpBitmap(userLogoUrl);
+                                                Bitmap bm = QRCodeUtil.getImageBitmap(bitmap, mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(), 360);
+                                                runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        ivEwCode.setImageBitmap(bm);
+                                                        saveBmp2Gallery(context, bm, "");
+                                                    }
+                                                });
+                                            }
+                                        }).start();
+
+
+                                    }
+                                });
+                            }
+                        });
                     }
                 });
             }
@@ -298,24 +423,47 @@ public class QRCodeActivity extends AppCompatActivity {
         });
         userName.setText(mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
         userYY.setText(mApp.mViewSysUserDoctorInfoAndHospital.getHospitalInfoName());
-        userPhone.setText(mApp.mViewSysUserDoctorInfoAndHospital.getLinkPhone());
-        if(TextUtils.isEmpty(mApp.mViewSysUserDoctorInfoAndHospital.getDepartmentName())){
-            userZC.setText(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorTitleName());
-        }else{
-            userZC.setText(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorTitleName() + "|" + mApp.mViewSysUserDoctorInfoAndHospital.getDepartmentName());
+
+        Integer flagDoctorStatus = mApp.mViewSysUserDoctorInfoAndHospital.getFlagDoctorStatus();
+        if (flagDoctorStatus == 0) {
+            userPhone.setText("未认证");
+        } else {
+            userPhone.setText("已认证");
         }
 
-        userSCLY.setText(mApp.mViewSysUserDoctorInfoAndHospital.getGoodAtRealm());
-        userGRJJ.setText(mApp.mViewSysUserDoctorInfoAndHospital.getSynopsis());
+        if (TextUtils.isEmpty(mApp.mViewSysUserDoctorInfoAndHospital.getDepartmentName())) {
+            userZC.setText(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorTitleName());
+        } else {
+            userZC.setText(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorTitleName() + "|" + mApp.mViewSysUserDoctorInfoAndHospital.getDepartmentName());
+        }
+        if (mApp.mViewSysUserDoctorInfoAndHospital.getGoodAtRealm() == null) {
+            userSCLY.setText("暂无数据");
+        } else {
+            userSCLY.setText(mApp.mViewSysUserDoctorInfoAndHospital.getGoodAtRealm());
+        }
 
+        if (mApp.mViewSysUserDoctorInfoAndHospital.getSynopsis() == null) {
+            userGRJJ.setText("暂无数据");
+        } else {
+            userGRJJ.setText(mApp.mViewSysUserDoctorInfoAndHospital.getSynopsis());
+
+        }
+
+        //医生分享
         tv_share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 wechatShare();
             }
         });
-
-
+        //患者分享
+        qr_save = findViewById(R.id.qr_save);
+        qr_save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                patient();
+            }
+        });
     }
 
     private void initListener() {
@@ -356,6 +504,58 @@ public class QRCodeActivity extends AppCompatActivity {
         return false;
     }
 
+    // 患者分享
+    private void patient() {
+
+        final Dialog dialog = new Dialog(context, R.style.BottomDialog);
+        View view = LayoutInflater.from(context).inflate(R.layout.bottom_dialog_dynamic, null);
+        dialog.setContentView(view);
+        TextView tv1 = view.findViewById(R.id.tv1);
+        TextView tv2 = view.findViewById(R.id.tv2);
+        TextView tv3 = view.findViewById(R.id.tv3);
+        TextView tv4 = view.findViewById(R.id.tv4);
+        tv1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+        //分享好友
+        tv2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ToShare(SendMessageToWX.Req.WXSceneSession, patientShareTitle, patientShareContent, patientShareUrl, R.mipmap.logo);
+                dialog.dismiss();
+            }
+        });
+        //分享朋友圈
+        tv3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ToShare(SendMessageToWX.Req.WXSceneTimeline, patientShareTitle, patientShareContent, patientShareUrl, R.mipmap.logo);
+                dialog.dismiss();
+            }
+        });
+        tv4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
+        layoutParams.width = context.getResources().getDisplayMetrics().widthPixels;
+        view.setLayoutParams(layoutParams);
+        dialog.setCancelable(true);
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.getWindow().setGravity(Gravity.BOTTOM);
+        dialog.show();
+
+
+    }
+
+
+    //医生分享
     private void wechatShare() {
 
         final Dialog dialog = new Dialog(context, R.style.BottomDialog);
@@ -375,7 +575,7 @@ public class QRCodeActivity extends AppCompatActivity {
         tv2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ToShare(SendMessageToWX.Req.WXSceneSession, "北京鹫一科技有限公司", "北京鹫一科技有限公司", "http://www.bing.com/", R.mipmap.logo);
+                ToShare(SendMessageToWX.Req.WXSceneSession, doctorShareTitle, doctorShareContent, doctorShareUrl, R.mipmap.logo);
                 dialog.dismiss();
             }
         });
@@ -383,7 +583,7 @@ public class QRCodeActivity extends AppCompatActivity {
         tv3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ToShare(SendMessageToWX.Req.WXSceneTimeline, "北京鹫一科技有限公司", "北京鹫一科技有限公司", "http://www.bing.com/", R.mipmap.logo);
+                ToShare(SendMessageToWX.Req.WXSceneTimeline, doctorShareTitle, doctorShareContent, doctorShareUrl, R.mipmap.logo);
                 dialog.dismiss();
             }
         });
@@ -426,12 +626,13 @@ public class QRCodeActivity extends AppCompatActivity {
             Toast.makeText(context, "您还没有安装微信，请先安装微信客户端", Toast.LENGTH_SHORT).show();
         }
     }
+
     /**
-     * @param bmp 获取的bitmap数据
+     * @param bmp     获取的bitmap数据
      * @param picName 自定义的图片名
      */
-    public static void saveBmp2Gallery(Context context,Bitmap bmp, String picName) {
-        saveImageToGallery(bmp,picName);
+    public static void saveBmp2Gallery(Context context, Bitmap bmp, String picName) {
+        saveImageToGallery(bmp, picName);
         String fileName = null;
         //系统相册目录
         String galleryPath = Environment.getExternalStorageDirectory()
@@ -453,7 +654,7 @@ public class QRCodeActivity extends AppCompatActivity {
             if (null != outStream) {
                 bmp.compress(Bitmap.CompressFormat.JPEG, 90, outStream);
             }
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.getStackTrace();
         } finally {
             try {
@@ -465,20 +666,22 @@ public class QRCodeActivity extends AppCompatActivity {
             }
         }
 
-        MediaStore.Images.Media.insertImage(context.getContentResolver(),bmp,fileName,null);
+        MediaStore.Images.Media.insertImage(context.getContentResolver(), bmp, fileName, null);
         Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
         Uri uri = Uri.fromFile(file);
         intent.setData(uri);
         context.sendBroadcast(intent);
 
 
-        Toast.makeText(context,"图片保存成功",Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, "图片保存成功", Toast.LENGTH_SHORT).show();
     }
+
     /**
      * 保存图片到图库
+     *
      * @param bmp
      */
-    public static void saveImageToGallery(Bitmap bmp,String bitName ) {
+    public static void saveImageToGallery(Bitmap bmp, String bitName) {
         // 首先保存图片
         File appDir = new File(Environment.getExternalStorageDirectory(),
                 "yingtan");
@@ -502,9 +705,11 @@ public class QRCodeActivity extends AppCompatActivity {
 
         setPhotoFile(file);
     }
+
     //保存到相册
     private static File mPhotoFile = null;
-    public static void setPhotoFile(File photoFile){
+
+    public static void setPhotoFile(File photoFile) {
         mPhotoFile = photoFile;
     }
 }

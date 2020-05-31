@@ -20,6 +20,7 @@
             android:orientation="vertical">
 
             <ImageView
+                android:src="@mipmap/wdzs_twjz"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_gravity="center_horizontal"
@@ -97,7 +98,7 @@
                 android:layout_height="30dp"
                 android:layout_gravity="center_horizontal"
                 android:id="@+id/iv_qyfw"
-                android:src="@mipmap/wdzs_dhjz" />
+                android:src="@mipmap/qyjz" />
 
             <TextView
                 android:layout_width="wrap_content"

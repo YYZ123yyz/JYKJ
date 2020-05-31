@@ -33,7 +33,7 @@ public class ProvideViewSysUserDoctorInfoAndHospital  implements java.io.Seriali
 	private String areaName;//用户所在区(县)名称
 	private String address;//地址
 	private String nation;//民族
-	
+
 	private String hospitalInfoCode;//医院编码
 	private String hospitalInfoName;//医院名称
 	private String departmentId;//一级科室编码
@@ -42,12 +42,66 @@ public class ProvideViewSysUserDoctorInfoAndHospital  implements java.io.Seriali
 	private String departmentSecondName;//二级科室名称
 	private Integer doctorTitle;//医生职称编码
 	private String doctorTitleName;//医生职称名称
-	private String synopsis;
-	private String goodAtRealm;
-	private Integer flagDoctorStatus;
+	private String synopsis;//个人简介
+	private String goodAtRealm;//擅长领域
+	private Integer flagDoctorStatus;//医生认证状态.0:未认证;1:已认证;
 	private Date newLoginDate;//最近登录日期
 
+	private String doctorShareUrl;//分享出去链接地址（医生）
+	private String patientShareUrl;//分享出去链接地址（患者）
 
+	private String doctorShareContent;
+	private String doctorShareTitle;
+	private String patientShareContent;
+	private String  patientShareTitle;
+
+	public String getDoctorShareContent() {
+		return doctorShareContent;
+	}
+
+	public void setDoctorShareContent(String doctorShareContent) {
+		this.doctorShareContent = doctorShareContent;
+	}
+
+	public String getDoctorShareTitle() {
+		return doctorShareTitle;
+	}
+
+	public void setDoctorShareTitle(String doctorShareTitle) {
+		this.doctorShareTitle = doctorShareTitle;
+	}
+
+	public String getPatientShareContent() {
+		return patientShareContent;
+	}
+
+	public void setPatientShareContent(String patientShareContent) {
+		this.patientShareContent = patientShareContent;
+	}
+
+	public String getPatientShareTitle() {
+		return patientShareTitle;
+	}
+
+	public void setPatientShareTitle(String patientShareTitle) {
+		this.patientShareTitle = patientShareTitle;
+	}
+
+	public String getDoctorShareUrl() {
+		return doctorShareUrl;
+	}
+
+	public void setDoctorShareUrl(String doctorShareUrl) {
+		this.doctorShareUrl = doctorShareUrl;
+	}
+
+	public String getPatientShareUrl() {
+		return patientShareUrl;
+	}
+
+	public void setPatientShareUrl(String patientShareUrl) {
+		this.patientShareUrl = patientShareUrl;
+	}
 
 	//获取用户数据
 	private	String loginDoctorPosition;

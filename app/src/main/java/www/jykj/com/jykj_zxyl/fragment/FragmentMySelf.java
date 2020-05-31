@@ -139,9 +139,9 @@ public class FragmentMySelf extends Fragment {
                     break;
                 case R.id.li_fragmentMySelf_servicePermission:
                     //我的服务权限开通
-                    intent = new Intent();
-                    intent.setClass(mContext, ServicePermisionActivity.class);
-                    startActivity(intent);
+                        intent = new Intent();
+                        intent.setClass(mContext, ServicePermisionActivity.class);
+                        startActivity(intent);
                     break;
                 /*case R.id.li_fragmentMySelf_platformLicenses:
                     //我的服务权限设置

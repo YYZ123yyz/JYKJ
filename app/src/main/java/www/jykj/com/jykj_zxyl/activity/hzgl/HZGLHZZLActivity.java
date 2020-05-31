@@ -37,7 +37,7 @@ public class HZGLHZZLActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        ActivityUtil.setStatusBar(mActivity);
         setContentView(R.layout.activity_fragmenthzgl_hzzl);
         mContext = this;
         mActivity = this;

@@ -16,6 +16,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -139,8 +140,8 @@ public class AddPatientActivity extends AppCompatActivity {
         if (requestCode == REQUEST_CODE_SCAN && resultCode == RESULT_OK) {
             String qrCode = data.getStringExtra("codedContent");
             mQrCode = qrCode;
-//            String bitmapString = mApp.gBitMapString;
-//            setIDCardDate(bitmapString);
+     //      String bitmapString = mApp.gBitMapString;
+   //         setIDCardDate(bitmapString);
             if (qrCode != null && !"".equals(qrCode)) {
 //                //调用扫一扫功能，获取接口名称
                 getSysServiceName(qrCode);
@@ -323,6 +324,7 @@ public class AddPatientActivity extends AppCompatActivity {
                     break;
                 case R.id.bt_commit:
                     commit();
+                    finish();
                     break;
                 case R.id.tv_getVCodeText:
                     getVCode();
@@ -436,7 +438,7 @@ public class AddPatientActivity extends AppCompatActivity {
                     System.out.println("~~~~~~~~~~~~~返回~~~~~~~~~~~~~~" + mRetString);
                     NetRetEntity netRetEntity = new Gson().fromJson(mNetRetStr, NetRetEntity.class);
                     mProvideIdentityNumberInfo = JSON.parseObject(netRetEntity.getResJsonData(), ProvideIdentityNumberInfo.class);
-
+                    Log.e("tag", "run:提交 "+mNetRetStr );
                     if (netRetEntity.getResCode() == 0) {
                         NetRetEntity retEntity = new NetRetEntity();
                         retEntity.setResCode(0);

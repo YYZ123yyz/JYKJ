@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -120,6 +121,7 @@ public class GRXX_GRZK_HZBQActivity extends AppCompatActivity {
                     providePatientLabel.setRowNum(mRowNum+"");
                     providePatientLabel.setPageNum(mPageNum+"");
                     mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + new Gson().toJson(providePatientLabel), Constant.SERVICEURL + "patientDataControlle/searchDoctorManagePatientStateResLabel");
+                    Log.e("tag", "run:vvv "+mNetRetStr );
                     NetRetEntity netRetEntity = new Gson().fromJson(mNetRetStr, NetRetEntity.class);
                     if (netRetEntity.getResCode() == 0) {
                         NetRetEntity retEntity = new NetRetEntity();

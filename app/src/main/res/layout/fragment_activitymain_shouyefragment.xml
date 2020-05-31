@@ -5,19 +5,9 @@
     android:background="@color/pBackColor"
     android:orientation="vertical">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="60dp"
-            android:orientation="vertical">
-
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="80dp"
                 android:background="@color/groabColor">
 
                 <www.jykj.com.jykj_zxyl.util.CircleImageView
@@ -353,10 +343,20 @@
                 </LinearLayout>
             </LinearLayout>
 
+     <ScrollView
+         android:layout_width="match_parent"
+         android:layout_height="match_parent">
+    <!--滑动部分-->
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"       >
+
+
+
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:id="@+id/li_fragmentShouYe_newMessage"
+                android:layout_height="40dp" android:id="@+id/li_fragmentShouYe_newMessage"
                 android:layout_marginTop="15dp"
                 android:background="@color/writeColor"
                 android:orientation="horizontal">
@@ -379,13 +379,7 @@
                     android:textColor="@color/textColor_vo"
                     android:textSize="8pt" />
 
-                <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="20dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginRight="10dp"
-                    android:src="@mipmap/roww_right" />
-            </LinearLayout>/
+            </LinearLayout>
 
 
 
@@ -433,62 +427,62 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:layout_marginTop="1dp"
-                android:background="@color/writeColor"
-                android:orientation="horizontal">
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_marginTop="1dp"
+            android:background="@color/writeColor"
+            android:orientation="horizontal">
 
-                <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="10dp"
-                    android:src="@mipmap/mainpage_yhqtx" />
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="10dp"
+                android:src="@mipmap/mainpage_yhqtx" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="张名恩"
+                    android:textColor="@color/tabColor_nomal"
+                    android:textSize="8pt" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="10dp"
-                    android:orientation="vertical">
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_gravity="center_vertical"
+                        android:src="@mipmap/mainpage_location" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="张名恩"
-                        android:textColor="@color/tabColor_nomal"
-                        android:textSize="8pt" />
+                        android:text="上海"
+                        android:textColor="@color/textColor_vo"
+                        android:textSize="6pt" />
 
-                    <LinearLayout
+                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:layout_width="15dp"
-                            android:layout_height="15dp"
-                            android:layout_gravity="center_vertical"
-                            android:src="@mipmap/mainpage_location" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="上海"
-                            android:textColor="@color/textColor_vo"
-                            android:textSize="6pt" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:text="11-25 10:06"
-                            android:textColor="@color/textColor_vo"
-                            android:textSize="6pt" />
-                    </LinearLayout>
+                        android:layout_marginLeft="10dp"
+                        android:text="11-25 10:06"
+                        android:textColor="@color/textColor_vo"
+                        android:textSize="6pt" />
                 </LinearLayout>
             </LinearLayout>
+        </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -1157,6 +1151,6 @@
                     android:src="@mipmap/roww_right" />
             </LinearLayout>
             <!--</LinearLayout>-->
-        </LinearLayout>
-    </ScrollView>
+    </LinearLayout>
+     </ScrollView>
 </LinearLayout>

@@ -19,6 +19,7 @@
             android:orientation="vertical">
 
             <ImageView
+                android:src="@mipmap/wdzs_twjz"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_gravity="center_horizontal"

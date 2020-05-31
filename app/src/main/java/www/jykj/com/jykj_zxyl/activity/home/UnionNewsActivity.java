@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -34,30 +35,32 @@ import www.jykj.com.jykj_zxyl.application.Constant;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.util.ActivityUtil;
 
-public class UnionNewsActivity extends AppCompatActivity implements View.OnClickListener{
+public class UnionNewsActivity extends AppCompatActivity implements View.OnClickListener {
 
-    public ProgressDialog mDialogProgress =null;
+    public ProgressDialog mDialogProgress = null;
 
     private Context mContext;
-    private             UnionNewsActivity                mActivity;
+    private UnionNewsActivity mActivity;
     private Handler mHandler;
     private JYKJApplication mApp;
 
-    private             String                              mNetRetStr;                 //返回字符串
+    private String mNetRetStr;                 //返回字符串
 
-    private             int                                 mRowNum = 10;                    //
-    private             int                                 mPageNum = 1;
-    private             boolean                             loadDate = true;
+    private int mRowNum = 10;                    //
+    private int mPageNum = 1;
+    private boolean loadDate = true;
     private LinearLayout llBack;
     private RecyclerView mRecyclerView;
     private UnionNewsAdapter mAdapter;
-    private             boolean                             mLoadDate = true;              //是否加载数据
+    private boolean mLoadDate = true;              //是否加载数据
 
-    private             String                              mMessageType;               //消息类型
+    private String mMessageType;               //消息类型
 
-    private             TextView                            mTitle;
+    private TextView mTitle;
 
     private List<ProvideMsgPushReminder> mMsgPushReminders = new ArrayList<>();                 //获取到的消息
+
+    private TextView    Type;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,11 +102,10 @@ public class UnionNewsActivity extends AppCompatActivity implements View.OnClick
         mAdapter.notifyDataSetChanged();
     }
 
-    private void initView(){
+    private void initView() {
         llBack = (LinearLayout) findViewById(R.id.ll_back);
         mTitle = this.findViewById(R.id.title);
-        switch (Integer.parseInt(mMessageType))
-        {
+        switch (Integer.parseInt(mMessageType)) {
             case 4000101:
                 mTitle.setText("患者就诊");
                 break;
@@ -137,11 +139,18 @@ public class UnionNewsActivity extends AppCompatActivity implements View.OnClick
         mRecyclerView.setLayoutManager(manager);
         mAdapter = new UnionNewsAdapter(mContext);
         mRecyclerView.setAdapter(mAdapter);
+        //消息详情点击事件
         mAdapter.setOnItemClickListener(new UnionNewsAdapter.OnItemClickListener() {
             @Override
             public void onClick(int position) {
-                startActivity(new Intent(mContext,UnionNewsDetailActivity.class).putExtra("newMessage",mMsgPushReminders.get(position)));
-                mMsgPushReminders.get(position).setFlagMsgRead(1);
+                Intent intent = new Intent(mContext, UnionNewsDetailActivity.class);
+                intent.putExtra("newMessage", mMsgPushReminders.get(position));
+                String msgLookUrl = mMsgPushReminders.get(position).getMsgLookUrl();
+                intent.putExtra("URL", msgLookUrl);
+                String operCode = mMsgPushReminders.get(position).getOperCode();
+                Log.e("tag", "initLayout:fff "+operCode );
+                intent.putExtra("operCode", operCode);
+                startActivity(intent);
             }
 
             @Override
@@ -154,13 +163,11 @@ public class UnionNewsActivity extends AppCompatActivity implements View.OnClick
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                if(newState == RecyclerView.SCROLL_STATE_IDLE)
-                {
-                    if (mLoadDate){
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    if (mLoadDate) {
                         int lastVisiblePosition = manager.findLastVisibleItemPosition();
-                        if(lastVisiblePosition >= manager.getItemCount() - 1) {
-                            if (loadDate)
-                            {
+                        if (lastVisiblePosition >= manager.getItemCount() - 1) {
+                            if (loadDate) {
                                 mPageNum++;
                                 getDate();
                             }
@@ -172,14 +179,14 @@ public class UnionNewsActivity extends AppCompatActivity implements View.OnClick
 
     }
 
-    private void initListener(){
+    private void initListener() {
         llBack.setOnClickListener(this);
 
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.ll_back:
                 finish();
                 break;
@@ -195,14 +202,15 @@ public class UnionNewsActivity extends AppCompatActivity implements View.OnClick
             public void run() {
                 try {
                     GetNewsMessageParment getNewsMessageParment = new GetNewsMessageParment();
-                    getNewsMessageParment.setRowNum(mRowNum+"");
-                    getNewsMessageParment.setPageNum(mPageNum+"");
+                    getNewsMessageParment.setRowNum(mRowNum + "");
+                    getNewsMessageParment.setPageNum(mPageNum + "");
                     getNewsMessageParment.setLoginDoctorPosition(mApp.loginDoctorPosition);
                     getNewsMessageParment.setSearchDoctorCode(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
                     getNewsMessageParment.setMsgType(mMessageType);
                     getNewsMessageParment.setFlagMsgRead("-1");
                     String jsonString = JSON.toJSONString(getNewsMessageParment);
                     mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + jsonString, Constant.SERVICEURL + "msgDataControlle/searchMsgPushReminderListResAllData");
+                    Log.e("tag", "run: 666"+mNetRetStr );
                     NetRetEntity netRetEntity = new Gson().fromJson(mNetRetStr, NetRetEntity.class);
                     if (netRetEntity.getResCode() == 0) {
                         loadDate = false;
@@ -213,11 +221,9 @@ public class UnionNewsActivity extends AppCompatActivity implements View.OnClick
                         mHandler.sendEmptyMessage(0);
                         return;
                     }
-                    List<ProvideMsgPushReminder> list =  JSON.parseArray(netRetEntity.getResJsonData(),ProvideMsgPushReminder.class);
-                    if (list.size() > 0)
-                    {
-                        if (list.get(0).getMsgContent() == null || "".equals(list.get(0).getMsgContent()))
-                        {
+                    List<ProvideMsgPushReminder> list = JSON.parseArray(netRetEntity.getResJsonData(), ProvideMsgPushReminder.class);
+                    if (list.size() > 0) {
+                        if (list.get(0).getMsgLookUrl() == null || "".equals(list.get(0).getMsgLookUrl())) {
                             loadDate = false;
                             mHandler.sendEmptyMessage(0);
                         }
@@ -241,8 +247,8 @@ public class UnionNewsActivity extends AppCompatActivity implements View.OnClick
     }
 
     /**
-     *   获取进度条
-     *   获取进度条
+     * 获取进度条
+     * 获取进度条
      * 获取进度条
      */
 

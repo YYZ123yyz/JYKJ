@@ -69,19 +69,19 @@ public class Util {
      */
      public static String dateToStr(Date dateDate) {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-         String dateString = formatter.format(dateDate);
-        return dateString;
+         String dateStrings = formatter.format(dateDate);
+        return dateStrings;
         }
 
     /**
-     * 将长时间格式时间转换为字符串 yyyy-MM-dd HH:mm:ss
+     * 将长时间格式时间转换为字符串 yyyy-MM-dd
      *
-     * @param dateDate
+  //   * @param dateDate
      * @return
      */
-    public static String dateToStrNUR(Date dateDate) {
+    public static String dateToStrNUR(Date dateDates) {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        String dateString = formatter.format(dateDate);
+        String dateString = formatter.format(dateDates);
         return dateString;
     }
 

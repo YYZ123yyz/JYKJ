@@ -36,10 +36,9 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="李飞"
+                        android:text=""
                         android:gravity="end"
-                        android:textSize="10pt"
-                        android:id="@+id/tv_fragmentMySelf_nameText"
+                        android:textSize="10pt" android:id="@+id/tv_fragmentMySelf_nameText"
                         android:layout_marginRight="10dp"
                         android:textColor="@color/writeColor"/>
                     <ImageView
@@ -113,6 +112,104 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="10dp"/>
             </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/writeColor"
+                android:layout_marginTop="1dp"
+                android:id="@+id/li_fragmentMySelf_servicePermission"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:src="@mipmap/fragmentmyself_fwqxkt"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="15dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="服务权限开通"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="10dp"
+                    android:textSize="8pt"
+                    android:textColor="@color/textColor_vo"/>
+                <ImageView
+                    android:layout_width="12dp"
+                    android:layout_height="18dp"
+                    android:layout_marginRight="15dp"
+                    android:src="@mipmap/fragmentmyself_jt_r"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp"/>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/writeColor"
+                android:layout_marginTop="1dp"
+                android:id="@+id/lin_Notice"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:src="@mipmap/my_notice"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="15dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="直播预告"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="10dp"
+                    android:textSize="8pt"
+                    android:textColor="@color/textColor_vo"/>
+                <ImageView
+                    android:layout_width="12dp"
+                    android:layout_height="18dp"
+                    android:layout_marginRight="15dp"
+                    android:src="@mipmap/fragmentmyself_jt_r"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp"/>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/writeColor"
+                android:layout_marginTop="1dp"
+                android:id="@+id/lin_Lecture"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:src="@mipmap/my_lecture"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="15dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="专题讲座"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="10dp"
+                    android:textSize="8pt"
+                    android:textColor="@color/textColor_vo"/>
+                <ImageView
+                    android:layout_width="12dp"
+                    android:layout_height="18dp"
+                    android:layout_marginRight="15dp"
+                    android:src="@mipmap/fragmentmyself_jt_r"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp"/>
+            </LinearLayout>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -146,37 +243,6 @@
                     android:layout_marginLeft="10dp"/>
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@color/writeColor"
-                android:layout_marginTop="1dp"
-                android:id="@+id/li_fragmentMySelf_servicePermission"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="22dp"
-                    android:layout_height="22dp"
-                    android:src="@mipmap/fragmentmyself_fwqxkt"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="15dp"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="服务权限开通"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
-                    android:layout_marginLeft="10dp"
-                    android:textSize="8pt"
-                    android:textColor="@color/textColor_vo"/>
-                <ImageView
-                    android:layout_width="12dp"
-                    android:layout_height="18dp"
-                    android:layout_marginRight="15dp"
-                    android:src="@mipmap/fragmentmyself_jt_r"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="10dp"/>
-            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/myself_service"
@@ -196,6 +262,38 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="我的服务历史"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="10dp"
+                    android:textSize="8pt"
+                    android:textColor="@color/textColor_vo"/>
+                <ImageView
+                    android:layout_width="12dp"
+                    android:layout_height="18dp"
+                    android:layout_marginRight="15dp"
+                    android:src="@mipmap/fragmentmyself_jt_r"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/lin_invite"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/writeColor"
+                android:layout_marginTop="1dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:src="@mipmap/invite"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="15dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="邀请同行"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
                     android:layout_marginLeft="10dp"

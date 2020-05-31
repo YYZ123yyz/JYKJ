@@ -118,7 +118,6 @@ public class MainActivity extends AppCompatActivity {
 
         //启动定时器轮询未读消息数
         startMessageTimer();
-
     }
     Handler handler = new Handler() {
         @Override
@@ -154,24 +153,25 @@ public class MainActivity extends AppCompatActivity {
                         if (mProvideMsgPushReminderCount != null) {
                             String string = "";
                             if (mProvideMsgPushReminderCount.getMsgTypeCount01() > 0)
-                                string = "您有" + mProvideMsgPushReminderCount.getMsgTypeCount01() + "条患者就诊消息";
+                                string = "您有" + mProvideMsgPushReminderCount.getMsgTypeCount01() + "条患者就诊消息!";
                             else if (mProvideMsgPushReminderCount.getMsgTypeCount02() > 0)
-                                string = "您有" + mProvideMsgPushReminderCount.getMsgTypeCount02() + "条诊后留言消息";
+                                string = "您有" + mProvideMsgPushReminderCount.getMsgTypeCount02() + "条诊后留言消息!";
                             else if (mProvideMsgPushReminderCount.getMsgTypeCount03() > 0)
-                                string = "您有" + mProvideMsgPushReminderCount.getMsgTypeCount03() + "条添加患者消息";
+                                string = "您有" + mProvideMsgPushReminderCount.getMsgTypeCount03() + "条添加患者消息!";
                             else if (mProvideMsgPushReminderCount.getMsgTypeCount04() > 0)
-                                string = "您有" + mProvideMsgPushReminderCount.getMsgTypeCount04() + "条医生联盟消息";
+                                string = "您有" + mProvideMsgPushReminderCount.getMsgTypeCount04() + "条医生联盟消息!";
                             else if (mProvideMsgPushReminderCount.getMsgTypeCount05() > 0)
-                                string = "您有" + mProvideMsgPushReminderCount.getMsgTypeCount05() + "条医患圈消息";
+                                string = "您有" + mProvideMsgPushReminderCount.getMsgTypeCount05() + "条医患圈消息!";
                             else if (mProvideMsgPushReminderCount.getMsgTypeCount06() > 0)
-                                string = "您有" + mProvideMsgPushReminderCount.getMsgTypeCount06() + "条紧急提醒";
+                                string = "您有" + mProvideMsgPushReminderCount.getMsgTypeCount06() + "条紧急提醒!";
                             else if (mProvideMsgPushReminderCount.getMsgTypeCount07() > 0)
-                                string = "您有" + mProvideMsgPushReminderCount.getMsgTypeCount07() + "条患者签约消息";
+                                string = "您有" + mProvideMsgPushReminderCount.getMsgTypeCount07() + "条患者签约消息!";
                             else if (mProvideMsgPushReminderCount.getMsgTypeCount08() > 0)
-                                string = "您有" + mProvideMsgPushReminderCount.getMsgTypeCount08() + "条系统消息";
+                                string = "您有" + mProvideMsgPushReminderCount.getMsgTypeCount08() + "条系统消息!";
                             mFragmentShouYe.setNewMessageView(string);
-                        } else
-                            mFragmentShouYe.setNewMessageView("");
+                        }
+//                        else
+//                            mFragmentShouYe.setNewMessageView("");
 
                         break;
                 }

@@ -67,7 +67,6 @@ import static android.widget.Toast.LENGTH_SHORT;
 
 public class LoginActivity extends AppCompatActivity {
 
-
     public ProgressDialog mDialogProgress = null;
     private Handler mHandler;
     private String mNetRegionRetStr;                 //获取返回字符串
@@ -326,6 +325,7 @@ public class LoginActivity extends AppCompatActivity {
             public void run() {
                 try {
                     mNetLoginRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + new Gson().toJson(userInfo), Constant.SERVICEURL + "doctorLoginController/loginDoctorPwd");
+                    Log.e("tag", "run:6666 "+mNetLoginRetStr );
                     mLoadingDialog.dismiss();
                 } catch (Exception e) {
                     NetRetEntity retEntity = new NetRetEntity();
@@ -581,12 +581,14 @@ public class LoginActivity extends AppCompatActivity {
                                         public void run() {
                                             if (resBean.getResCode() == 0) {
                                                 Toast.makeText(getApplication(), "授权失败，需要重新授权", Toast.LENGTH_SHORT).show();
-                                            } else if (resBean.getResCode() == 1 && resBean.getResData().equals("1")) {
+                                            }
+                                            if (resBean.getResCode() == 1 && resBean.getResData().equals("1")) {
                                                 //進行綁定
                                                 Intent intent = new Intent(LoginActivity.this, ResActivity.class);
                                                 intent.putExtra("openid", openid1);
                                                 startActivity(intent);
-                                            } else if (resBean.getResCode() == 1 && resBean.getResData().equals("2")) {
+                                            }
+                                            else {
                                                 UserInfo userInfo = new UserInfo();
                                                 ViewSysUserDoctorInfoAndHospital viewSysUserDoctorInfoAndHospital = new Gson().fromJson(resBean.getResJsonData(), ViewSysUserDoctorInfoAndHospital.class);
                                                 mApp.mViewSysUserDoctorInfoAndHospital = viewSysUserDoctorInfoAndHospital;
