@@ -42,7 +42,6 @@ public class MyClinicActivity extends AppCompatActivity {
 //    private LinearLayout llTwjz;
 //    private LinearLayout liDHJZ;                    //电话就诊
 //    private LinearLayout liSPJZ;                    //视频就诊
-
     private LinearLayout llBack;
     private ViewPager pager;
     private FragmentAdapter fragmentAdapter;
