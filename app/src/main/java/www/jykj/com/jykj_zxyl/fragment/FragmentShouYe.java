@@ -29,6 +29,9 @@ import com.google.gson.Gson;
 import com.tbruyelle.rxpermissions.RxPermissions;
 
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import entity.home.newsMessage.ProvideMsgPushReminderCount;
 import entity.shouye.OperScanQrCodeInside;
 import netService.HttpNetService;
@@ -82,20 +85,11 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
     private LinearLayout mNewMessageLayout;          //新消息提醒
     private LinearLayout llQuickApplication;//快应用
     private MoreFeaturesPopupWindow mPopupWindow;
-
-
     private FragmentShouYe mFragment;
-
     public ProgressDialog mDialogProgress = null;
-
     private String qrCode;                         //需要绑定的二维码
-
-
     private ImageView mUserHead;
-
     private TextView home_Tv;
-
-
     public ProvideMsgPushReminderCount mProvideMsgPushReminderCount = new ProvideMsgPushReminderCount();
     private LinearLayout home_certification;
 
@@ -112,10 +106,23 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
         initHandler();
         initView(v);
         initListener();
-
+        startMessageTimer();
         return v;
     }
 
+    /**
+     * 启动定时器，轮询获取未读消息数
+     */
+    private void startMessageTimer() {
+        Timer timer = new Timer();
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                   getMessageCount();
+            }
+        };
+        timer.schedule(task, 0, mApp.mMsgTimeInterval * 60 * 1000);
+    }
 
     private void initHandler() {
         mHandler = new Handler() {
@@ -157,24 +164,94 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
                         netRetEntity = JSON.parseObject(mNetRetStr, NetRetEntity.class);
                         Toast.makeText(mContext, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
                         break;
+                    case 2:
+                         netRetEntity = JSON.parseObject(mNetRetStr, NetRetEntity.class);
+                        mProvideMsgPushReminderCount = JSON.parseObject(netRetEntity.getResJsonData(), ProvideMsgPushReminderCount.class);
+                   //     mApp.mMsgTimeInterval = mProvideMsgPushReminderCount.getMsgTimeInterval();
+                        if (mProvideMsgPushReminderCount.getMsgTypeCountSum() != null) {
+                            String string = "";
+                            if (mProvideMsgPushReminderCount.getMsgTypeCount01() > 0)
+                                string = "您有" + mProvideMsgPushReminderCount.getMsgTypeCount01() + "条患者就诊消息!";
+                            else if (mProvideMsgPushReminderCount.getMsgTypeCount02() > 0)
+                                string = "您有" + mProvideMsgPushReminderCount.getMsgTypeCount02() + "条诊后留言消息!";
+                            else if (mProvideMsgPushReminderCount.getMsgTypeCount03() > 0)
+                                string = "您有" + mProvideMsgPushReminderCount.getMsgTypeCount03() + "条添加患者消息!";
+                            else if (mProvideMsgPushReminderCount.getMsgTypeCount04() > 0)
+                                string = "您有" + mProvideMsgPushReminderCount.getMsgTypeCount04() + "条医生联盟消息!";
+                            else if (mProvideMsgPushReminderCount.getMsgTypeCount05() > 0)
+                                string = "您有" + mProvideMsgPushReminderCount.getMsgTypeCount05() + "条医患圈消息!";
+                            else if (mProvideMsgPushReminderCount.getMsgTypeCount06() > 0)
+                                string = "您有" + mProvideMsgPushReminderCount.getMsgTypeCount06() + "条紧急提醒!";
+                            else if (mProvideMsgPushReminderCount.getMsgTypeCount07() > 0)
+                                string = "您有" + mProvideMsgPushReminderCount.getMsgTypeCount07() + "条患者签约消息!";
+                            else if (mProvideMsgPushReminderCount.getMsgTypeCount08() > 0)
+                                string = "您有" + mProvideMsgPushReminderCount.getMsgTypeCount08() + "条系统消息!";
+
+                                if (string.equals(""))
+                                    mNewMessageLayout.setVisibility(View.GONE);
+                                else {
+                                    mNewMessageLayout.setVisibility(View.VISIBLE);
+                                    mNewMessage.setText(string);
+                                    Log.e("ppp", "setNewMessageView: "+string );
+                            }
+                        }
+                        break;
                 }
             }
         };
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        //启动程序，查询是否有未读消息
+           getMessageCount();
+        //   getAppData();
+    }
+
+    /**
+     * 获取未读消息数量
+     */
+    private void getMessageCount() {
+        ProvideMsgPushReminderCount provideMsgPushReminderCount = new ProvideMsgPushReminderCount();
+        if(mApp.mViewSysUserDoctorInfoAndHospital!=null){
+            provideMsgPushReminderCount.setLoginDoctorPosition(mApp.loginDoctorPosition);
+            provideMsgPushReminderCount.setSearchDoctorCode(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
+            new Thread() {
+                public void run() {
+                    try {
+                        String string = new Gson().toJson(provideMsgPushReminderCount);
+                        mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + string, www.jykj.com.jykj_zxyl.application.Constant.SERVICEURL + "msgDataControlle/searchMsgPushReminderAllCount");
+                        String string01 = www.jykj.com.jykj_zxyl.application.Constant.SERVICEURL + "msgDataControlle/searchMsgPushReminderAllCount";
+                        System.out.println(string + string01);
+                    } catch (Exception e) {
+                        NetRetEntity retEntity = new NetRetEntity();
+                        retEntity.setResCode(0);
+                        retEntity.setResMsg("网络连接异常，请联系管理员：" + e.getMessage());
+                        mNetRetStr = new Gson().toJson(retEntity);
+                        e.printStackTrace();
+                    }
+                    mHandler.sendEmptyMessage(2);
+                }
+            }.start();
+        }
+    }
+
+
     /**
      * 设置新消息提醒
      *
-     * @param string
+     * @param //string
      */
-    public void setNewMessageView(String string) {
-        if ("".equals(string))
-            mNewMessageLayout.setVisibility(View.GONE);
-        else {
-            mNewMessageLayout.setVisibility(View.VISIBLE);
-            mNewMessage.setText(string);
-            Log.e("ppp", "setNewMessageView: "+string );
-        }
-    }
+//    public void setNewMessageView(String string) {
+//        if ("".equals(string))
+//            mNewMessageLayout.setVisibility(View.GONE);
+//        else {
+//            mNewMessageLayout.setVisibility(View.VISIBLE);
+//            mNewMessage.setText(string);
+//            Log.e("ppp", "setNewMessageView: "+string );
+//        }
+//    }
     private void initView(View view) {
         mQrCode = view.findViewById(R.id.ll_qr_code);
         mNews = view.findViewById(R.id.ll_news);
@@ -264,10 +341,10 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
                 startActivity(new Intent(getActivity(), QRCodeActivity.class));
                 break;
             case R.id.ll_news:
-                startActivity(new Intent(getActivity(), NewsActivity.class).putExtra("newMessage", mActivity.mProvideMsgPushReminderCount));
+                startActivity(new Intent(getActivity(), NewsActivity.class).putExtra("newMessage", mActivity.mProvideMsgPushReminderCount.getMsgTypeCountSum()));
                 break;
             case R.id.li_fragmentShouYe_newMessage:
-                startActivity(new Intent(getActivity(), NewsActivity.class).putExtra("newMessage", mActivity.mProvideMsgPushReminderCount));
+                startActivity(new Intent(getActivity(), NewsActivity.class).putExtra("newMessage", mActivity.mProvideMsgPushReminderCount.getMsgTypeCountSum()));
                 break;
             case R.id.ll_doctor_union:
                 startActivity(new Intent(getActivity(), DoctorsUnionActivity.class));

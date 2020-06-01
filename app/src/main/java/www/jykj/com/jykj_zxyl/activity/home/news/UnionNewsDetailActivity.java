@@ -48,19 +48,8 @@ import static org.jsoup.nodes.Document.OutputSettings.Syntax.html;
 public class UnionNewsDetailActivity extends AppCompatActivity {
 
     private Context mContext;
-    private ProvideMsgPushReminder mProvideMsgPushReminder;            //消息
-
-    private TextView mApplyUserNameText;                     //申请者姓名
-    private TextView mApplyTitleText;                     //申请提示
-
-    private TextView mAgreeBt;                           //通过按钮
-    private TextView mReasonTitle;                     //拒绝理由标题
-    private EditText mReasonEdit;                     //拒绝理由
-    private TextView mRefundBt;                          //拒绝按钮
-
     public ProgressDialog mDialogProgress = null;
 
-    private UnionNewsDetailActivity mActivity;
     private JYKJApplication mApp;
 
     private String mNetRetStr;                 //返回字符串
@@ -97,10 +86,8 @@ public class UnionNewsDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_messageunion_detail);
         ActivityUtil.setStatusBarMain(UnionNewsDetailActivity.this);
-
         mApp = (JYKJApplication) getApplication();
         mContext = this;
-
         initLayout();
         initHandler();
         setMsgReadState();
@@ -114,10 +101,9 @@ public class UnionNewsDetailActivity extends AppCompatActivity {
             public void handleMessage(Message msg) {
                 switch (msg.what) {
                     case 1:
-//                        cacerProgress();
-//                        retEntity = new Gson().fromJson(mNetRetStr, NetRetEntity.class);
-//                        Toast.makeText(mContext, retEntity.getResMsg(), Toast.LENGTH_SHORT).show();
-//                        initLayout();
+                        cacerProgress();
+                        retEntity = new Gson().fromJson(mNetRetStr, NetRetEntity.class);
+                        initLayout();
                         break;
                 }
             }
@@ -142,16 +128,12 @@ public class UnionNewsDetailActivity extends AppCompatActivity {
         @Override
         public void onClick(View view) {
             switch (view.getId()) {
-
                 case R.id.mess_back:
                     finish();
                     break;
-
             }
         }
     }
-
-
     /**
      * 审核
      *
@@ -159,12 +141,12 @@ public class UnionNewsDetailActivity extends AppCompatActivity {
      */
     private void data() {
         HashMap<String, String> map = new HashMap<>();
-        map.put("loginDoctorPosition", "108.93425^34.23053");
+        map.put("loginDoctorPosition",mApp.loginDoctorPosition);
         map.put("operDoctorCode", mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
         map.put("operDoctorName", mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
-        operCode = intent.getStringExtra("operCode");
-        map.put("reminderId",operCode );
-        Log.e("tag", "data: "+map.toString() );
+        int reminderId = intent.getIntExtra("reminderId", 0);
+        map.put("reminderId",reminderId+"");
+        Log.e("tag", "data: "+reminderId );
         new Thread() {
             public void run() {
                 try {
@@ -176,7 +158,6 @@ public class UnionNewsDetailActivity extends AppCompatActivity {
                     retEntity.setResMsg("网络连接异常，请联系管理员：" + e.getMessage());
                     mNetLoginRetStr = new Gson().toJson(retEntity);
                     e.printStackTrace();
-
                 }
 
                 mHandler.sendEmptyMessage(1);

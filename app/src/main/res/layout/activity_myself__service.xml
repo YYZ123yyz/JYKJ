@@ -8,6 +8,9 @@
     tools:context="yyz_exploit.activity.Myself_Service">
     <include layout="@layout/new_layout"></include>
     <LinearLayout
+        android:background="#f3f3f3"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">

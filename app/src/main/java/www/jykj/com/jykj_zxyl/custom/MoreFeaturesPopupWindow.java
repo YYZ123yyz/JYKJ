@@ -115,6 +115,7 @@ public class MoreFeaturesPopupWindow extends PopupWindow implements View.OnClick
                 break;
             case R.id.tv_wdzs:
                 mContext.startActivity(new Intent(mContext,MyClinicActivity.class));
+
                 break;
             case R.id.tv_wdxx:
                 mContext.startActivity(new Intent(mContext,NewsActivity.class));

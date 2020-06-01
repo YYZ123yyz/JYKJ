@@ -299,7 +299,6 @@ public class CaptureActivity extends AppCompatActivity implements SurfaceHolder.
         cameraManager.closeDriver();
 
         if (!hasSurface) {
-
             surfaceHolder.removeCallback(this);
         }
         super.onPause();

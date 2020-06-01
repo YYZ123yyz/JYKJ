@@ -132,7 +132,6 @@ public class UnionNewsActivity extends AppCompatActivity implements View.OnClick
                 break;
         }
 
-
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         LinearLayoutManager manager = new LinearLayoutManager(this);
         manager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -147,9 +146,9 @@ public class UnionNewsActivity extends AppCompatActivity implements View.OnClick
                 intent.putExtra("newMessage", mMsgPushReminders.get(position));
                 String msgLookUrl = mMsgPushReminders.get(position).getMsgLookUrl();
                 intent.putExtra("URL", msgLookUrl);
-                String operCode = mMsgPushReminders.get(position).getOperCode();
-                Log.e("tag", "initLayout:fff "+operCode );
-                intent.putExtra("operCode", operCode);
+                Integer reminderId = mMsgPushReminders.get(position).getReminderId();
+                intent.putExtra("reminderId", reminderId);
+                mMsgPushReminders.get(position).setFlagMsgRead(1);
                 startActivity(intent);
             }
 

@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -134,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
-                getMessageCount();
+             //   getMessageCount();
             }
         };
         timer.schedule(task, 0, mApp.mMsgTimeInterval * 60 * 1000);
@@ -146,34 +147,34 @@ public class MainActivity extends AppCompatActivity {
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
                 switch (msg.what) {
-                    case 0:
-                        NetRetEntity netRetEntity = JSON.parseObject(mNetRetStr, NetRetEntity.class);
-                        mProvideMsgPushReminderCount = JSON.parseObject(netRetEntity.getResJsonData(), ProvideMsgPushReminderCount.class);
-                        mApp.mMsgTimeInterval = mProvideMsgPushReminderCount.getMsgTimeInterval();
-                        if (mProvideMsgPushReminderCount != null) {
-                            String string = "";
-                            if (mProvideMsgPushReminderCount.getMsgTypeCount01() > 0)
-                                string = "您有" + mProvideMsgPushReminderCount.getMsgTypeCount01() + "条患者就诊消息!";
-                            else if (mProvideMsgPushReminderCount.getMsgTypeCount02() > 0)
-                                string = "您有" + mProvideMsgPushReminderCount.getMsgTypeCount02() + "条诊后留言消息!";
-                            else if (mProvideMsgPushReminderCount.getMsgTypeCount03() > 0)
-                                string = "您有" + mProvideMsgPushReminderCount.getMsgTypeCount03() + "条添加患者消息!";
-                            else if (mProvideMsgPushReminderCount.getMsgTypeCount04() > 0)
-                                string = "您有" + mProvideMsgPushReminderCount.getMsgTypeCount04() + "条医生联盟消息!";
-                            else if (mProvideMsgPushReminderCount.getMsgTypeCount05() > 0)
-                                string = "您有" + mProvideMsgPushReminderCount.getMsgTypeCount05() + "条医患圈消息!";
-                            else if (mProvideMsgPushReminderCount.getMsgTypeCount06() > 0)
-                                string = "您有" + mProvideMsgPushReminderCount.getMsgTypeCount06() + "条紧急提醒!";
-                            else if (mProvideMsgPushReminderCount.getMsgTypeCount07() > 0)
-                                string = "您有" + mProvideMsgPushReminderCount.getMsgTypeCount07() + "条患者签约消息!";
-                            else if (mProvideMsgPushReminderCount.getMsgTypeCount08() > 0)
-                                string = "您有" + mProvideMsgPushReminderCount.getMsgTypeCount08() + "条系统消息!";
-                            mFragmentShouYe.setNewMessageView(string);
-                        }
-//                        else
-//                            mFragmentShouYe.setNewMessageView("");
-
-                        break;
+//                    case 0:
+//                        NetRetEntity netRetEntity = JSON.parseObject(mNetRetStr, NetRetEntity.class);
+//                        mProvideMsgPushReminderCount = JSON.parseObject(netRetEntity.getResJsonData(), ProvideMsgPushReminderCount.class);
+//                        mApp.mMsgTimeInterval = mProvideMsgPushReminderCount.getMsgTimeInterval();
+//                        if (mProvideMsgPushReminderCount != null) {
+//                            String string = "";
+//                            if (mProvideMsgPushReminderCount.getMsgTypeCount01() > 0)
+//                                string = "您有" + mProvideMsgPushReminderCount.getMsgTypeCount01() + "条患者就诊消息!";
+//                            else if (mProvideMsgPushReminderCount.getMsgTypeCount02() > 0)
+//                                string = "您有" + mProvideMsgPushReminderCount.getMsgTypeCount02() + "条诊后留言消息!";
+//                            else if (mProvideMsgPushReminderCount.getMsgTypeCount03() > 0)
+//                                string = "您有" + mProvideMsgPushReminderCount.getMsgTypeCount03() + "条添加患者消息!";
+//                            else if (mProvideMsgPushReminderCount.getMsgTypeCount04() > 0)
+//                                string = "您有" + mProvideMsgPushReminderCount.getMsgTypeCount04() + "条医生联盟消息!";
+//                            else if (mProvideMsgPushReminderCount.getMsgTypeCount05() > 0)
+//                                string = "您有" + mProvideMsgPushReminderCount.getMsgTypeCount05() + "条医患圈消息!";
+//                            else if (mProvideMsgPushReminderCount.getMsgTypeCount06() > 0)
+//                                string = "您有" + mProvideMsgPushReminderCount.getMsgTypeCount06() + "条紧急提醒!";
+//                            else if (mProvideMsgPushReminderCount.getMsgTypeCount07() > 0)
+//                                string = "您有" + mProvideMsgPushReminderCount.getMsgTypeCount07() + "条患者签约消息!";
+//                            else if (mProvideMsgPushReminderCount.getMsgTypeCount08() > 0)
+//                                string = "您有" + mProvideMsgPushReminderCount.getMsgTypeCount08() + "条系统消息!";
+//                            mFragmentShouYe.setNewMessageView(string);
+//                        }
+////                        else
+////                            mFragmentShouYe.setNewMessageView("");
+//
+//                        break;
                 }
             }
         };
@@ -182,42 +183,43 @@ public class MainActivity extends AppCompatActivity {
     /**
      * 获取未读消息数量
      */
-    private void getMessageCount() {
-        ProvideMsgPushReminderCount provideMsgPushReminderCount = new ProvideMsgPushReminderCount();
-
-        if(mApp.mViewSysUserDoctorInfoAndHospital!=null){
-            provideMsgPushReminderCount.setLoginDoctorPosition(mApp.loginDoctorPosition);
-            provideMsgPushReminderCount.setSearchDoctorCode(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
-            new Thread() {
-                public void run() {
-                    try {
-                        String string = new Gson().toJson(provideMsgPushReminderCount);
-                        mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + string, Constant.SERVICEURL + "msgDataControlle/searchMsgPushReminderAllCount");
-                        String string01 = Constant.SERVICEURL + "msgDataControlle/searchMsgPushReminderAllCount";
-                        System.out.println(string + string01);
-                    } catch (Exception e) {
-                        NetRetEntity retEntity = new NetRetEntity();
-                        retEntity.setResCode(0);
-                        retEntity.setResMsg("网络连接异常，请联系管理员：" + e.getMessage());
-                        mNetRetStr = new Gson().toJson(retEntity);
-                        e.printStackTrace();
-                    }
-                    mHandler.sendEmptyMessage(0);
-                }
-            }.start();
-        }
-
-
-
-
-    }
+//    private void getMessageCount() {
+//        ProvideMsgPushReminderCount provideMsgPushReminderCount = new ProvideMsgPushReminderCount();
+//
+//        if(mApp.mViewSysUserDoctorInfoAndHospital!=null){
+//            provideMsgPushReminderCount.setLoginDoctorPosition(mApp.loginDoctorPosition);
+//            provideMsgPushReminderCount.setSearchDoctorCode(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
+//            new Thread() {
+//                public void run() {
+//                    try {
+//                        String string = new Gson().toJson(provideMsgPushReminderCount);
+//                        mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + string, Constant.SERVICEURL + "msgDataControlle/searchMsgPushReminderAllCount");
+//                        Log.e("tag", "run:首页 "+mNetRetStr );
+//                        String string01 = Constant.SERVICEURL + "msgDataControlle/searchMsgPushReminderAllCount";
+//                        System.out.println(string + string01);
+//                    } catch (Exception e) {
+//                        NetRetEntity retEntity = new NetRetEntity();
+//                        retEntity.setResCode(0);
+//                        retEntity.setResMsg("网络连接异常，请联系管理员：" + e.getMessage());
+//                        mNetRetStr = new Gson().toJson(retEntity);
+//                        e.printStackTrace();
+//                    }
+//                    mHandler.sendEmptyMessage(0);
+//                }
+//            }.start();
+//        }
+//
+//
+//
+//
+//    }
 
 
     @Override
     protected void onResume() {
         super.onResume();
         //启动程序，查询是否有未读消息
-        getMessageCount();
+     //   getMessageCount();
         //   getAppData();
     }
 
@@ -263,6 +265,7 @@ public class MainActivity extends AppCompatActivity {
 //            mFragmentHZGL  = new FragmentHZGL();
 //            mListFragment.add(mFragmentHZGL);
 //        }
+
 
         if (mFragmentYHHD == null) {
             mFragmentYHHD = new FragmentYHHD();

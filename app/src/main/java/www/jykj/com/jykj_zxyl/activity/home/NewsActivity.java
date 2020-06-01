@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -27,7 +28,6 @@ import www.jykj.com.jykj_zxyl.util.ActivityUtil;
  * 消息
  */
 public class NewsActivity extends AppCompatActivity implements View.OnClickListener {
-
 
     public ProgressDialog mDialogProgress = null;
 
