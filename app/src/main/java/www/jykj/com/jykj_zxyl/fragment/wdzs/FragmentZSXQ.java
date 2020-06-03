@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -24,6 +25,10 @@ import com.google.gson.Gson;
 import com.hyphenate.easeui.EaseConstant;
 import com.hyphenate.easeui.hyhd.VideoCallActivity;
 import com.hyphenate.easeui.hyhd.VoiceCallActivity;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -90,6 +95,7 @@ public class FragmentZSXQ extends Fragment {
     private ImageView mDHJZImage;                 //电话就诊
 
     private RecyclerView mRecycleView;              //列表
+    private SmartRefreshLayout refreshLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -133,6 +139,8 @@ public class FragmentZSXQ extends Fragment {
         mSPJZImage = (ImageView) view.findViewById(R.id.iv_spjz);
         mQYFWImage = (ImageView) view.findViewById(R.id.iv_qyfw);
         mDHJZImage = (ImageView) view.findViewById(R.id.iv_dhjz);
+
+        refreshLayout = view.findViewById(R.id.refreshLayout);
 
         mNoFinishRecycleView = (RecyclerView) view.findViewById(R.id.wdzs_recycleView);
         //创建默认的线性LayoutManager
@@ -248,9 +256,15 @@ public class FragmentZSXQ extends Fragment {
         @Override
         public void onClick(View view) {
             switch (view.getId()) {
+//                private ImageView mTWJZImage;                 //图文就诊
+//                private ImageView mYPJZImage;                 //音频就诊
+//                private ImageView mSPJZImage;                 //视频就诊
+//                private ImageView mQYFWImage;                 //签约服务
+//                private ImageView mDHJZImage;                 //电话就诊
+
                 case R.id.tv_wwc:
                     mModel = 1;
-                    getWWCData();
+                    getWWCData(0);
                     mWWC.setTextColor(getResources().getColor(R.color.groabColor));
                     mYWC.setTextColor(getResources().getColor(R.color.textColor_vo));
                     break;
@@ -262,45 +276,145 @@ public class FragmentZSXQ extends Fragment {
                     break;
                 case R.id.ll_twjz:
                     mType = 1;
-                    if (mProvideDoctorSetServiceState.getFlagImgText() == 0) {
-                        Toast.makeText(mContext, "暂未开通此权限", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                    getWWCData();
+
+                    mTWJZImage.setImageResource(R.mipmap.wdzs_twjz);
+                    if (mProvideDoctorSetServiceState.getFlagAudio() == 1)
+                        mYPJZImage.setImageResource(R.mipmap.yy_no);
+                    else
+                        mYPJZImage.setImageResource(R.mipmap.yyy_no);
+                    if (mProvideDoctorSetServiceState.getFlagVideo() == 1)
+                        mSPJZImage.setImageResource(R.mipmap.sp_no);
+                    else
+                        mSPJZImage.setImageResource(R.mipmap.video_no);
+                    if (mProvideDoctorSetServiceState.getFlagSigning() == 1)
+                        mQYFWImage.setImageResource(R.mipmap.qy_no);
+                    else
+                        mQYFWImage.setImageResource(R.mipmap.sign_no);
+                    if (mProvideDoctorSetServiceState.getFlagPhone() == 1)
+                        mDHJZImage.setImageResource(R.mipmap.dh_no);
+                    else
+                        mDHJZImage.setImageResource(R.mipmap.phone_no);
+                    getWWCData(1);
                     break;
                 case R.id.li_ypjz:
                     if (mProvideDoctorSetServiceState.getFlagAudio() == 0) {
                         Toast.makeText(mContext, "暂未开通此权限", Toast.LENGTH_SHORT).show();
                         return;
                     }
+                    else{
+                        mYPJZImage.setImageResource(R.mipmap.yyjz);
+
+                        if (mProvideDoctorSetServiceState.getFlagImgText() == 1)
+                            mTWJZImage.setImageResource(R.mipmap.tw_no);
+                        else
+                        mTWJZImage.setImageResource(R.mipmap.image_no);
+                        if (mProvideDoctorSetServiceState.getFlagVideo() == 1)
+                            mSPJZImage.setImageResource(R.mipmap.sp_no);
+                        else
+                            mSPJZImage.setImageResource(R.mipmap.video_no);
+                        if (mProvideDoctorSetServiceState.getFlagSigning() == 1)
+                            mQYFWImage.setImageResource(R.mipmap.qy_no);
+                        else
+                            mQYFWImage.setImageResource(R.mipmap.sign_no);
+                        if (mProvideDoctorSetServiceState.getFlagPhone() == 1)
+                            mDHJZImage.setImageResource(R.mipmap.dh_no);
+                        else
+                            mDHJZImage.setImageResource(R.mipmap.phone_no);
+                    }
                     mType = 2;
-                    getWWCData();
+                    getWWCData(1);
                     break;
                 case R.id.li_spjz:
                     if (mProvideDoctorSetServiceState.getFlagVideo() == 0) {
                         Toast.makeText(mContext, "暂未开通此权限", Toast.LENGTH_SHORT).show();
                         return;
                     }
+                    else{
+                        mSPJZImage.setImageResource(R.mipmap.wdzs_spjz);
+                        if (mProvideDoctorSetServiceState.getFlagAudio() == 1)
+                            mYPJZImage.setImageResource(R.mipmap.yy_no);
+                        else
+                            mYPJZImage.setImageResource(R.mipmap.yyy_no);
+                        if (mProvideDoctorSetServiceState.getFlagImgText() == 1)
+                            mTWJZImage.setImageResource(R.mipmap.tw_no);
+                        else
+                            mTWJZImage.setImageResource(R.mipmap.image_no);
+                        if (mProvideDoctorSetServiceState.getFlagSigning() == 1)
+                            mQYFWImage.setImageResource(R.mipmap.qy_no);
+                        else
+                            mQYFWImage.setImageResource(R.mipmap.sign_no);
+                        if (mProvideDoctorSetServiceState.getFlagPhone() == 1)
+                            mDHJZImage.setImageResource(R.mipmap.dh_no);
+                        else
+                            mDHJZImage.setImageResource(R.mipmap.phone_no);
+                    }
                     mType = 3;
-                    getWWCData();
+                    getWWCData(1);
                     break;
                 case R.id.li_qyfw:
                     if (mProvideDoctorSetServiceState.getFlagSigning() == 0) {
                         Toast.makeText(mContext, "暂未开通此权限", Toast.LENGTH_SHORT).show();
                         return;
                     }
+                    else{
+                        mQYFWImage.setImageResource(R.mipmap.qyjz);
+
+                        if (mProvideDoctorSetServiceState.getFlagImgText() == 1)
+                            mTWJZImage.setImageResource(R.mipmap.tw_no);
+                        else
+                        mTWJZImage.setImageResource(R.mipmap.image_no);
+                        if (mProvideDoctorSetServiceState.getFlagAudio() == 1)
+                            mYPJZImage.setImageResource(R.mipmap.yy_no);
+                        else
+                            mYPJZImage.setImageResource(R.mipmap.yyy_no);
+                        if (mProvideDoctorSetServiceState.getFlagVideo() == 1)
+                            mSPJZImage.setImageResource(R.mipmap.sp_no);
+                        else
+                            mSPJZImage.setImageResource(R.mipmap.video_no);
+//                        if (mProvideDoctorSetServiceState.getFlagSigning() == 1)
+//                            mQYFWImage.setImageResource(R.mipmap.qy_no);
+//                        else
+//                            mQYFWImage.setImageResource(R.mipmap.sign_no);
+                        if (mProvideDoctorSetServiceState.getFlagPhone() == 1)
+                            mDHJZImage.setImageResource(R.mipmap.dh_no);
+                        else
+                            mDHJZImage.setImageResource(R.mipmap.phone_no);
+                    }
                     mType = 4;
-                    getWWCData();
+                    getWWCData(1);
                     break;
                 case R.id.li_dhjz:
                     if (mProvideDoctorSetServiceState.getFlagPhone() == 0) {
                         Toast.makeText(mContext, "暂未开通此权限", Toast.LENGTH_SHORT).show();
                         return;
                     }
-                    mType = 5;
-                    getWWCData();
-                    break;
+                    else{
+                        mDHJZImage.setImageResource(R.mipmap.wdzs_dhjz);
 
+                        if (mProvideDoctorSetServiceState.getFlagImgText() == 1)
+                            mTWJZImage.setImageResource(R.mipmap.tw_no);
+                        else
+                            mTWJZImage.setImageResource(R.mipmap.image_no);
+                        if (mProvideDoctorSetServiceState.getFlagAudio() == 1)
+                            mYPJZImage.setImageResource(R.mipmap.yy_no);
+                        else
+                            mYPJZImage.setImageResource(R.mipmap.yyy_no);
+                        if (mProvideDoctorSetServiceState.getFlagVideo() == 1)
+                            mSPJZImage.setImageResource(R.mipmap.sp_no);
+                        else
+                            mSPJZImage.setImageResource(R.mipmap.video_no);
+                        if (mProvideDoctorSetServiceState.getFlagSigning() == 1)
+                            mQYFWImage.setImageResource(R.mipmap.qy_no);
+                        else
+                            mQYFWImage.setImageResource(R.mipmap.sign_no);
+//                        if (mProvideDoctorSetServiceState.getFlagPhone() == 1)
+//                            mDHJZImage.setImageResource(R.mipmap.dh_no);
+//                        else
+//                            mDHJZImage.setImageResource(R.mipmap.phone_no);
+                    }
+                    mType = 5;
+                    getWWCData(1);
+                    break;
             }
         }
     }
@@ -349,7 +463,7 @@ public class FragmentZSXQ extends Fragment {
                             mProvideDoctorSetServiceState = JSON.parseObject(netRetEntity.getResJsonData(), ProvideDoctorSetServiceState.class);
                             if (mProvideDoctorSetServiceState != null)
                                 setLayoutDate();
-                            getWWCData();
+                            getWWCData(1);
                         }
 
                         break;
@@ -360,8 +474,30 @@ public class FragmentZSXQ extends Fragment {
                             Toast.makeText(mContext, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
                         } else {
                             provideViewInteractOrderTreatmentAndPatientInterrogations = JSON.parseArray(netRetEntity.getResJsonData(), ProvideViewInteractOrderTreatmentAndPatientInterrogation.class);
+
                             mTWJZNoFinishRecycleAdapter.setDate(provideViewInteractOrderTreatmentAndPatientInterrogations);
                             mTWJZNoFinishRecycleAdapter.notifyDataSetChanged();
+
+                            //加载更多
+                            refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+                                @Override
+                                public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+                                    mPageNum++;
+                                    getWWCData(mPageNum);
+                                    mTWJZNoFinishRecycleAdapter.notifyDataSetChanged();
+                                    refreshLayout.finishLoadMore(true);//加载完成
+                                }
+                            });
+                            //刷新
+                            refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+                                @Override
+                                    public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                                    provideViewInteractOrderTreatmentAndPatientInterrogations.clear();
+                                    getWWCData(1);
+                                    mTWJZNoFinishRecycleAdapter.notifyDataSetChanged();
+                                    refreshLayout.finishRefresh(true);//刷新完成
+                                }
+                            });
                         }
                         break;
                 }
@@ -375,36 +511,32 @@ public class FragmentZSXQ extends Fragment {
     private void setLayoutDate() {
         if (mProvideDoctorSetServiceState.getFlagImgText() == 1)
             mTWJZImage.setImageResource(R.mipmap.wdzs_twjz);
-        else
-            mTWJZImage.setImageResource(R.mipmap.tw_no);
-
+//        else
+//            mTWJZImage.setImageResource(R.mipmap.image_no);
         if (mProvideDoctorSetServiceState.getFlagAudio() == 1)
-            mYPJZImage.setImageResource(R.mipmap.yyjz);
-        else
             mYPJZImage.setImageResource(R.mipmap.yy_no);
-
+        else
+            mYPJZImage.setImageResource(R.mipmap.yyy_no);
         if (mProvideDoctorSetServiceState.getFlagVideo() == 1)
-            mSPJZImage.setImageResource(R.mipmap.wdzs_spjz);
-        else
             mSPJZImage.setImageResource(R.mipmap.sp_no);
-
+        else
+            mSPJZImage.setImageResource(R.mipmap.video_no);
         if (mProvideDoctorSetServiceState.getFlagSigning() == 1)
-            mQYFWImage.setImageResource(R.mipmap.qyjz);
-        else
             mQYFWImage.setImageResource(R.mipmap.qy_no);
-
-        if (mProvideDoctorSetServiceState.getFlagPhone() == 1)
-            mDHJZImage.setImageResource(R.mipmap.wdzs_dhjz);
         else
+            mQYFWImage.setImageResource(R.mipmap.sign_no);
+        if (mProvideDoctorSetServiceState.getFlagPhone() == 1)
             mDHJZImage.setImageResource(R.mipmap.dh_no);
+        else
+            mDHJZImage.setImageResource(R.mipmap.phone_no);
     }
 
 
     /**
      * 获取未完成数据
      */
-    private void getWWCData() {
-        getProgressBar("请稍候", "正在获取数据。。。");
+    private void getWWCData(int mPageNum) {
+        getProgressBar("请稍候", "正在获取数据...");
         ProvideViewInteractOrderTreatmentAndPatientInterrogation provideViewInteractOrderTreatmentAndPatientInterrogation = new ProvideViewInteractOrderTreatmentAndPatientInterrogation();
         provideViewInteractOrderTreatmentAndPatientInterrogation.setLoginDoctorPosition(mApp.loginDoctorPosition);
         provideViewInteractOrderTreatmentAndPatientInterrogation.setOperDoctorCode(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
@@ -418,7 +550,6 @@ public class FragmentZSXQ extends Fragment {
                 try {
                     String string = new Gson().toJson(provideViewInteractOrderTreatmentAndPatientInterrogation);
                     mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + string, Constant.SERVICEURL + "doctorInteractDataControlle/searchMyClinicDetailResTreatmentRecord");
-                    Log.e("bbbb", "run: "+string );
                     String string01 = Constant.SERVICEURL + "msgDataControlle/searchMsgPushReminderAllCount";
                     System.out.println(string + string01);
                 } catch (Exception e) {
@@ -451,7 +582,6 @@ public class FragmentZSXQ extends Fragment {
                 try {
                     String string = new Gson().toJson(provideViewInteractOrderTreatmentAndPatientInterrogation);
                     mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + string, Constant.SERVICEURL + "doctorInteractDataControlle/searchMyClinicDetailResTreatmentRecord");
-                    Log.e("bbbb", "run: "+string );
                     String string01 = Constant.SERVICEURL + "msgDataControlle/searchMsgPushReminderAllCount";
                     System.out.println(string + string01);
                 } catch (Exception e) {

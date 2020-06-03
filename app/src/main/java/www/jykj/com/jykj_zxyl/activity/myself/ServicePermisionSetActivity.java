@@ -199,8 +199,8 @@ public class ServicePermisionSetActivity extends AppCompatActivity {
     private void setLayoutDate() {
         if (mProvideDoctorSetService.getFlagOpening() == 1)
             mServiceSetStateImg.setImageResource(R.mipmap.sharedataset_close);
-        else
-            mServiceSetStateImg.setImageResource(R.mipmap.sharedataset_open);
+//        else
+//            mServiceSetStateImg.setImageResource(R.mipmap.sharedataset_open);
         if (mProvideDoctorSetService.getPriceBasics() == 0.0)
             mBasePriceEdit.setHint("请输入");
         else
@@ -299,8 +299,7 @@ public class ServicePermisionSetActivity extends AppCompatActivity {
                         mProvideDoctorSetService.setFlagOpening(0);
                     if (mProvideDoctorSetService.getFlagOpening() == 1)
                         mServiceSetStateImg.setImageResource(R.mipmap.sharedataset_close);
-                    else
-                        mServiceSetStateImg.setImageResource(R.mipmap.sharedataset_open);
+
                     break;
 
                 case R.id.commit:

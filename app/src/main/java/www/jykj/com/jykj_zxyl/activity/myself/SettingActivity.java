@@ -22,6 +22,7 @@ import www.jykj.com.jykj_zxyl.activity.myself.setting.ServiceHotlineActivity;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.util.ActivityUtil;
 import yyz_exploit.activity.activity.OpinionActivity;
+import yyz_exploit.activity.activity.VersionActivity;
 
 /**
  * 设置
@@ -38,7 +39,7 @@ public class SettingActivity extends AppCompatActivity {
     private ImageView myself_back;
     private LinearLayout myself_vt;
     private TextView myself_cache;
-    private LinearLayout setting_opinion;
+    private LinearLayout setting_opinion,myself_Update;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,8 +66,8 @@ public class SettingActivity extends AppCompatActivity {
         mAboutLayout = (LinearLayout) this.findViewById(R.id.li_activitySetting_aboutLayout);
         mAboutLayout.setOnClickListener(new ButtonClick());
 
-        mServiceHolting = (LinearLayout) this.findViewById(R.id.li_activitySetting_serviceHolting);
-        mServiceHolting.setOnClickListener(new ButtonClick());
+      //  mServiceHolting = (LinearLayout) this.findViewById(R.id.li_activitySetting_serviceHolting);
+      //  mServiceHolting.setOnClickListener(new ButtonClick());
 
         mOperPassWord = (LinearLayout) this.findViewById(R.id.li_activitySetting_operPassWord);
         mOperPassWord.setOnClickListener(new ButtonClick());
@@ -88,6 +89,10 @@ public class SettingActivity extends AppCompatActivity {
         //意见反馈
         setting_opinion = findViewById(R.id.setting_opinion);
         setting_opinion.setOnClickListener(new ButtonClick());
+
+        //版本更新说明
+        myself_Update=findViewById(R.id.myself_Update);
+        myself_Update.setOnClickListener(new ButtonClick());
     }
     //获取系统缓存
     private void clearData() {
@@ -119,9 +124,9 @@ public class SettingActivity extends AppCompatActivity {
                 case R.id.li_activitySetting_aboutLayout:
                     startActivity(new Intent(SettingActivity.this, AboutActivity.class));
                     break;
-                case R.id.li_activitySetting_serviceHolting:
-                    startActivity(new Intent(SettingActivity.this, ServiceHotlineActivity.class));
-                    break;
+//                case R.id.li_activitySetting_serviceHolting:
+//                    startActivity(new Intent(SettingActivity.this, ServiceHotlineActivity.class));
+//                    break;
                 case R.id.li_activitySetting_operPassWord:
                     startActivity(new Intent(SettingActivity.this, OpeaPassWordActivity.class));
                     break;
@@ -142,6 +147,10 @@ public class SettingActivity extends AppCompatActivity {
                 case  R.id.setting_opinion:
                     Intent intent = new Intent(SettingActivity.this, OpinionActivity.class);
                     startActivity(intent);
+                    break;
+                case R.id.myself_Update:
+                    Intent intent2 = new Intent(SettingActivity.this, VersionActivity.class);
+                    startActivity(intent2);
                     break;
             }
         }

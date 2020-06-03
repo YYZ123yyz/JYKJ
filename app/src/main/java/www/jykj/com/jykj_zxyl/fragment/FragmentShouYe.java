@@ -192,7 +192,6 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
                                 else {
                                     mNewMessageLayout.setVisibility(View.VISIBLE);
                                     mNewMessage.setText(string);
-                                    Log.e("ppp", "setNewMessageView: "+string );
                             }
                         }
                         break;
@@ -318,7 +317,7 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
     private void initListener() {
         mQrCode.setOnClickListener(this);
         mNews.setOnClickListener(this);
-        mDoctorUnion.setOnClickListener(this);
+    //    mDoctorUnion.setOnClickListener(this);
 //        mTWJZ.setOnClickListener(this);
         mYQTH.setOnClickListener(this);
         mMyComments.setOnClickListener(this);
@@ -346,9 +345,9 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
             case R.id.li_fragmentShouYe_newMessage:
                 startActivity(new Intent(getActivity(), NewsActivity.class).putExtra("newMessage", mActivity.mProvideMsgPushReminderCount.getMsgTypeCountSum()));
                 break;
-            case R.id.ll_doctor_union:
-                startActivity(new Intent(getActivity(), DoctorsUnionActivity.class));
-                break;
+//            case R.id.ll_doctor_union:
+//                startActivity(new Intent(getActivity(), DoctorsUnionActivity.class));
+//                break;
 
             case R.id.ll_yqth:
 //                startActivity(new Intent(getActivity(),InvitepeersActivity.class));

@@ -31,18 +31,6 @@
             android:textColor="@color/textColor_black"
             android:drawableLeft="@mipmap/pop_sys"/>
         <TextView
-            android:id="@+id/tv_yqth"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="邀请同行"
-            android:textSize="16sp"
-            android:paddingLeft="35dp"
-            android:paddingRight="35dp"
-            android:paddingTop="15dp"
-            android:drawablePadding="10dp"
-            android:textColor="@color/textColor_black"
-            android:drawableLeft="@mipmap/pop_yqth"/>
-        <TextView
             android:id="@+id/tv_tjhz"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -55,6 +43,18 @@
             android:textColor="@color/textColor_black"
             android:drawableLeft="@mipmap/pop_tjhz"/>
         <TextView
+            android:id="@+id/tv_wdhz"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="我的患者"
+            android:textSize="16sp"
+            android:paddingLeft="35dp"
+            android:paddingRight="35dp"
+            android:paddingTop="15dp"
+            android:drawablePadding="10dp"
+            android:textColor="@color/textColor_black"
+            android:drawableLeft="@mipmap/pop_wdhz"/>
+        <TextView
             android:id="@+id/tv_wdzs"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -66,43 +66,31 @@
             android:drawablePadding="10dp"
             android:textColor="@color/textColor_black"
             android:drawableLeft="@mipmap/pop_wdzs"/>
-        <TextView
-            android:id="@+id/tv_wdxx"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="我的消息"
-            android:textSize="16sp"
-            android:paddingLeft="35dp"
-            android:paddingRight="35dp"
-            android:paddingTop="15dp"
-            android:drawablePadding="10dp"
-            android:textColor="@color/textColor_black"
-            android:drawableLeft="@mipmap/pop_wdxx"/>
 
         <TextView
-            android:id="@+id/tv_fqhz"
+            android:id="@+id/tv_wdzbj"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="发起会诊"
+            android:text="我的直播间"
             android:textSize="16sp"
             android:paddingLeft="35dp"
             android:paddingRight="35dp"
             android:paddingTop="15dp"
             android:drawablePadding="10dp"
             android:textColor="@color/textColor_black"
-            android:drawableLeft="@mipmap/pop_fqhz"/>
+            android:drawableLeft="@mipmap/pop_wdzbj"/>
         <TextView
-            android:id="@+id/tv_wdbb"
+            android:id="@+id/tv_yqth"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="我的报表"
+            android:text="邀请同行"
             android:textSize="16sp"
             android:paddingLeft="35dp"
             android:paddingRight="35dp"
             android:paddingTop="15dp"
             android:drawablePadding="10dp"
             android:textColor="@color/textColor_black"
-            android:drawableLeft="@mipmap/pop_wdbb"/>
+            android:drawableLeft="@mipmap/pop_yqth"/>
         <TextView
             android:id="@+id/tv_bzfk"
             android:layout_width="wrap_content"

@@ -41,41 +41,40 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/pBackColor"/>
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="40dp"
-
             android:orientation="horizontal">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="患者姓名：李患者"
+                android:text="李患者"
                 android:textSize="8pt"
                 android:id="@+id/tv_username"
-                android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
                 android:textColor="@color/tabColor_nomal"/>
 
             <TextView
+                android:layout_marginLeft="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="性别：男"
+                android:text="男"
                 android:id="@+id/tv_sex"
                 android:textSize="8pt"
                 android:layout_centerInParent="true"
                 android:textColor="@color/tabColor_nomal"/>
 
             <TextView
+                android:layout_marginLeft="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="年龄：55"
+                android:text="55"
                 android:id="@+id/tv_age"
                 android:textSize="8pt"
                 android:layout_centerVertical="true"
-                android:layout_alignParentRight="true"
                 android:layout_marginRight="10dp"
                 android:textColor="@color/tabColor_nomal"/>
-        </RelativeLayout>
+        </LinearLayout>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

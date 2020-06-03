@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,6 +19,10 @@ import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.google.gson.Gson;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,6 +66,8 @@ public class UnionNewsActivity extends AppCompatActivity implements View.OnClick
     private List<ProvideMsgPushReminder> mMsgPushReminders = new ArrayList<>();                 //获取到的消息
 
     private TextView    Type;
+    private SmartRefreshLayout refreshLayout;
+ private int page=0;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,24 +92,63 @@ public class UnionNewsActivity extends AppCompatActivity implements View.OnClick
                 switch (msg.what) {
                     case 0:
                         cacerProgress();
-                        if (loadDate == false)
-                            return;
-                        mAdapter.setdate(mMsgPushReminders);
-                        mAdapter.notifyDataSetChanged();
+                        mAdapter = new UnionNewsAdapter(mMsgPushReminders,mContext);
+                        mRecyclerView.setAdapter(mAdapter);
+                        //加载更多
+                        refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+                            @Override
+                            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+                                page ++ ;
+                              //  getDate();
+                                mAdapter.notifyDataSetChanged();
+                                refreshLayout.finishLoadMore(2000);//加载完成
+                            }
+                        });
+                        //刷新
+                        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+                            @Override
+                            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                                mMsgPushReminders.clear();
+                                getDate();
+                                mAdapter.notifyDataSetChanged();
+                                refreshLayout.finishRefresh(true);//刷新完成
+                            }
+                        });
+                        //消息详情点击事件
+                        mAdapter.setOnItemClickListener(new UnionNewsAdapter.OnItemClickListener() {
+                            @Override
+                            public void onClick(int position) {
+                                Intent intent = new Intent(mContext, UnionNewsDetailActivity.class);
+                                intent.putExtra("newMessage", mMsgPushReminders.get(position));
+                                String msgLookUrl = mMsgPushReminders.get(position).getMsgLookUrl();
+                                intent.putExtra("URL", msgLookUrl);
+                                Integer reminderId = mMsgPushReminders.get(position).getReminderId();
+                                intent.putExtra("reminderId", reminderId);
+                                mMsgPushReminders.get(position).setFlagMsgRead(1);
+                                startActivity(intent);
+                            }
+
+                            @Override
+                            public void onLongClick(int position) {
+
+                            }
+                        });
+
                         break;
                 }
             }
         };
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        mAdapter.setdate(mMsgPushReminders);
-        mAdapter.notifyDataSetChanged();
-    }
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        mAdapter.setdate(mMsgPushReminders);
+//        mAdapter.notifyDataSetChanged();
+//    }
 
     private void initView() {
+        refreshLayout = findViewById(R.id.refreshLayout);
         llBack = (LinearLayout) findViewById(R.id.ll_back);
         mTitle = this.findViewById(R.id.title);
         switch (Integer.parseInt(mMessageType)) {
@@ -136,45 +182,23 @@ public class UnionNewsActivity extends AppCompatActivity implements View.OnClick
         LinearLayoutManager manager = new LinearLayoutManager(this);
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(manager);
-        mAdapter = new UnionNewsAdapter(mContext);
-        mRecyclerView.setAdapter(mAdapter);
-        //消息详情点击事件
-        mAdapter.setOnItemClickListener(new UnionNewsAdapter.OnItemClickListener() {
-            @Override
-            public void onClick(int position) {
-                Intent intent = new Intent(mContext, UnionNewsDetailActivity.class);
-                intent.putExtra("newMessage", mMsgPushReminders.get(position));
-                String msgLookUrl = mMsgPushReminders.get(position).getMsgLookUrl();
-                intent.putExtra("URL", msgLookUrl);
-                Integer reminderId = mMsgPushReminders.get(position).getReminderId();
-                intent.putExtra("reminderId", reminderId);
-                mMsgPushReminders.get(position).setFlagMsgRead(1);
-                startActivity(intent);
-            }
-
-            @Override
-            public void onLongClick(int position) {
-
-            }
-        });
-
-        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                    if (mLoadDate) {
-                        int lastVisiblePosition = manager.findLastVisibleItemPosition();
-                        if (lastVisiblePosition >= manager.getItemCount() - 1) {
-                            if (loadDate) {
-                                mPageNum++;
-                                getDate();
-                            }
-                        }
-                    }
-                }
-            }
-        });
+//        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+//            @Override
+//            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+//                super.onScrollStateChanged(recyclerView, newState);
+//                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+//                    if (mLoadDate) {
+//                        int lastVisiblePosition = manager.findLastVisibleItemPosition();
+//                        if (lastVisiblePosition >= manager.getItemCount() - 1) {
+//                            if (loadDate) {
+//                                mPageNum++;
+//                                getDate();
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        });
 
     }
 

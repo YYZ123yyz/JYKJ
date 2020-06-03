@@ -12,7 +12,7 @@
          android:layout_marginTop="30dp"
          android:layout_alignParentRight="true"
          android:layout_marginRight="30dp"
-         android:text="跳过"
+         android:background="@mipmap/pass"
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"/>
     <!--<LinearLayout

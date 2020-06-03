@@ -63,7 +63,6 @@ public class ServicePermisionActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_myself_servicepermision);
         mContext = this;
         mActivity = this;
@@ -108,7 +107,6 @@ public class ServicePermisionActivity extends AppCompatActivity {
         if (mProvideDoctorSetServiceState.getFlagImgText() != null && mProvideDoctorSetServiceState.getFlagImgText() == 1) {
             mTWJZText.setText("已开通");
             mTWJZText.setTextColor(getResources().getColor(R.color.groabColor));
-
         } else {
             mTWJZText.setText("未开通");
             mTWJZText.setTextColor(getResources().getColor(R.color.textColor_vo));

@@ -27,6 +27,12 @@ import www.jykj.com.jykj_zxyl.activity.home.HzyqActivity;
 public class UnionNewsAdapter extends RecyclerView.Adapter<UnionNewsAdapter.ViewHolder>{
 
     private         List<ProvideMsgPushReminder>   mDate = new ArrayList<>();
+
+    public UnionNewsAdapter(List<ProvideMsgPushReminder> mDate, Context mContext) {
+        this.mDate = mDate;
+        this.mContext = mContext;
+    }
+
     private         Context                         mContext;
     private         OnItemClickListener mOnItemClickListener;
     private String mMessageType;               //消息类型
@@ -38,9 +44,6 @@ public class UnionNewsAdapter extends RecyclerView.Adapter<UnionNewsAdapter.View
         return vh;
     }
 
-    public UnionNewsAdapter(Context context){
-        mContext = context;
-    }
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         if (mDate.get(position).getFlagMsgRead() == null)

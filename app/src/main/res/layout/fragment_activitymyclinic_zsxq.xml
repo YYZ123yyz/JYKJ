@@ -47,7 +47,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:layout_gravity="center_horizontal"
-                android:src="@mipmap/mainpae_ypjz" />
+                android:src="@mipmap/yy_no" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -70,7 +70,7 @@
                 android:layout_height="30dp"
                 android:layout_gravity="center_horizontal"
                 android:id="@+id/iv_spjz"
-                android:src="@mipmap/wdzs_spjz" />
+                android:src="@mipmap/sp_no" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -97,7 +97,7 @@
                 android:layout_height="30dp"
                 android:layout_gravity="center_horizontal"
                 android:id="@+id/iv_qyfw"
-                android:src="@mipmap/wdzs_dhjz" />
+                android:src="@mipmap/qy_no" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -120,7 +120,7 @@
                 android:layout_height="30dp"
                 android:layout_gravity="center_horizontal"
                 android:id="@+id/iv_dhjz"
-                android:src="@mipmap/wdzs_dhjz" />
+                android:src="@mipmap/dh_no" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -158,9 +158,13 @@
             android:id="@+id/tv_ywc"
             android:text="已完成"/>
     </LinearLayout>
-
+  <com.scwang.smartrefresh.layout.SmartRefreshLayout
+      android:id="@+id/refreshLayout"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent">
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/wdzs_recycleView"/>
+  </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 </LinearLayout>

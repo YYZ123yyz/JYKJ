@@ -16,6 +16,7 @@ import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.activity.MainActivity;
 import www.jykj.com.jykj_zxyl.activity.home.DoctorsUnionActivity;
 import www.jykj.com.jykj_zxyl.activity.home.MyClinicActivity;
+import www.jykj.com.jykj_zxyl.activity.home.MyLiveRoomActivity;
 import www.jykj.com.jykj_zxyl.activity.home.MyPatientActivity;
 import www.jykj.com.jykj_zxyl.activity.home.NewsActivity;
 import www.jykj.com.jykj_zxyl.activity.home.tjhz.AddPatientActivity;
@@ -38,6 +39,8 @@ public class MoreFeaturesPopupWindow extends PopupWindow implements View.OnClick
     private TextView tvFqhz;
     private TextView tvWdbb;
     private TextView tvBzfk;
+    private TextView tv_wdhz;
+    private TextView tv_wdzbj;
 
     public MoreFeaturesPopupWindow(Activity context) {
         super(context);
@@ -49,11 +52,14 @@ public class MoreFeaturesPopupWindow extends PopupWindow implements View.OnClick
         tvYqth.setOnClickListener(this);
         tvTjhz.setOnClickListener(this);
         tvWdzs.setOnClickListener(this);
-        tvWdxx.setOnClickListener(this);
+     //   tvWdxx.setOnClickListener(this);
       //  tvCjlm.setOnClickListener(this);
-        tvFqhz.setOnClickListener(this);
-        tvWdbb.setOnClickListener(this);
+     //   tvFqhz.setOnClickListener(this);
+      //  tvWdbb.setOnClickListener(this);
         tvBzfk.setOnClickListener(this);
+
+        tv_wdhz.setOnClickListener(this);
+        tv_wdzbj.setOnClickListener(this);
     }
 
     private void init(Activity context) {
@@ -63,12 +69,15 @@ public class MoreFeaturesPopupWindow extends PopupWindow implements View.OnClick
         tvYqth = mPopView.findViewById(R.id.tv_yqth);
         tvTjhz = mPopView.findViewById(R.id.tv_tjhz);
         tvWdzs = mPopView.findViewById(R.id.tv_wdzs);
-        tvWdxx = mPopView.findViewById(R.id.tv_wdxx);
+    //    tvWdxx = mPopView.findViewById(R.id.tv_wdxx);
       //  tvCjlm = mPopView.findViewById(R.id.tv_cjlm);
-        tvFqhz = mPopView.findViewById(R.id.tv_fqhz);
-        tvWdbb = mPopView.findViewById(R.id.tv_wdbb);
+    //    tvFqhz = mPopView.findViewById(R.id.tv_fqhz);
+      //  tvWdbb = mPopView.findViewById(R.id.tv_wdbb);
         tvBzfk = mPopView.findViewById(R.id.tv_bzfk);
-
+        //我的患者
+        tv_wdhz = mPopView.findViewById(R.id.tv_wdhz);
+        //我的直播间
+        tv_wdzbj = mPopView.findViewById(R.id.tv_wdzbj);
     }
 
     /**
@@ -100,6 +109,10 @@ public class MoreFeaturesPopupWindow extends PopupWindow implements View.OnClick
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.tv_wdhz:
+                mContext. startActivity(new Intent(mContext, MyPatientActivity.class));
+                break;
+
             case R.id.tv_sys:
                 Intent intent = new Intent(mContext, CaptureActivity.class);
                 if (fragmentShouYe != null)
@@ -117,18 +130,14 @@ public class MoreFeaturesPopupWindow extends PopupWindow implements View.OnClick
                 mContext.startActivity(new Intent(mContext,MyClinicActivity.class));
 
                 break;
-            case R.id.tv_wdxx:
-                mContext.startActivity(new Intent(mContext,NewsActivity.class));
-                break;
+
 //            case R.id.tv_cjlm:
 //                mContext.startActivity(new Intent(mContext,DoctorsUnionActivity.class));
 //                break;
-            case R.id.tv_fqhz:
-
+            case R.id.tv_wdzbj:
+                mContext.startActivity(new Intent(mContext, MyLiveRoomActivity.class));
                 break;
-            case R.id.tv_wdbb:
 
-                break;
                 //帮助与反馈
             case R.id.tv_bzfk:
                 mContext.startActivity(new Intent(mContext, HelpActivity.class));
