@@ -2,6 +2,7 @@ package www.jykj.com.jykj_zxyl.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,30 +10,35 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import org.jsoup.helper.DataUtil;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import entity.HZIfno;
 import www.jykj.com.jykj_zxyl.R;
+import www.jykj.com.jykj_zxyl.util.DateUtils;
+import www.jykj.com.jykj_zxyl.util.Util;
+import yyz_exploit.bean.YyBean;
 
 /**
  * 患者管理用药信息适配器
  */
 public class HZGL_YYXX_RecycleAdapter extends RecyclerView.Adapter<HZGL_YYXX_RecycleAdapter.ViewHolder> {
-    public List<HZIfno> datas = new ArrayList<>();
+    public List<YyBean.PatientConditionTakingRecordListBean> datas;
     private OnItemClickListener mOnItemClickListener;           //用户资料点击事件
 
 
     private Context mContext;
 
 
-    public HZGL_YYXX_RecycleAdapter(List<HZIfno> list, Context context) {
+    public HZGL_YYXX_RecycleAdapter(List<YyBean.PatientConditionTakingRecordListBean> list, Context context) {
         mContext = context;
         datas = list;
     }
 
     //重新设置数据
-    public void setDate(List<HZIfno> list) {
+    public void setDate(List<YyBean.PatientConditionTakingRecordListBean> list) {
         datas = list;
     }
 
@@ -53,20 +59,20 @@ public class HZGL_YYXX_RecycleAdapter extends RecyclerView.Adapter<HZGL_YYXX_Rec
      */
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
-        HZIfno hzIfno = datas.get(position);
-        viewHolder.tvDrugName.setText(hzIfno.getDrugName());
-        if(hzIfno.getFlagTakingMedicineUserType()==1) {
-            viewHolder.tvUserType.setText("由患者本人添加");
+        viewHolder.tvDrugName.setText(datas.get(position).getDrugName());
+        viewHolder.data.setText(DateUtils.getStringTimeOfYMD(datas.get(position).getRemindDate()));
+        if(datas.get(position).getFlagTakingMedicineUserType()==1) {
+            viewHolder.tvUserType.setText("患者本人添加");
         }else{
-            viewHolder.tvUserType.setText("由患者亲属添加");
+            viewHolder.tvUserType.setText("患者亲属添加");
         }
-        if(hzIfno.getFlagTakingMedicine()==1){
+        if(datas.get(position).getFlagTakingMedicine()==1){
             viewHolder.tvMedicine.setText("未服用");
         }else {
             viewHolder.tvMedicine.setText("已服用");
         }
 
-        viewHolder.tvUseFrequency.setText(hzIfno.getUseNum()+"/"+hzIfno.getUseUnit());
+     //   viewHolder.tvUseFrequency.setText(hzIfno.getUseNum()+"/"+hzIfno.getUseUnit());
 
 
     }
@@ -74,8 +80,7 @@ public class HZGL_YYXX_RecycleAdapter extends RecyclerView.Adapter<HZGL_YYXX_Rec
     //获取数据的数量
     @Override
     public int getItemCount() {
-
-        return datas.size();
+        return datas==null ? 0 :datas.size();
     }
 
 
@@ -88,6 +93,7 @@ public class HZGL_YYXX_RecycleAdapter extends RecyclerView.Adapter<HZGL_YYXX_Rec
         private TextView tvMedicine;
         private TextView tvTime;
         private TextView tvUseFrequency;
+        private TextView data;
 
 
         public ViewHolder(View view) {
@@ -97,7 +103,8 @@ public class HZGL_YYXX_RecycleAdapter extends RecyclerView.Adapter<HZGL_YYXX_Rec
             tvUserType = (TextView)view.findViewById(R.id.tv_uesr_type);
             tvMedicine = (TextView)view.findViewById(R.id.tv_medicine);
             tvTime = (TextView)view.findViewById(R.id.tv_time);
-            tvUseFrequency = (TextView)view.findViewById(R.id.tv_use_frequency);
+            data=view.findViewById(R.id.data);
+          //  tvUseFrequency = (TextView)view.findViewById(R.id.tv_use_frequency);
         }
     }
 

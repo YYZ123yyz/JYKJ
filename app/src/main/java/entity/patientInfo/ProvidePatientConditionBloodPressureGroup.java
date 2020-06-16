@@ -1,6 +1,8 @@
 package entity.patientInfo;
 
 
+import java.util.Collection;
+
 /**
  * 患者个人状况-血压记录(血压记录统计数据)
  * 
@@ -8,16 +10,16 @@ package entity.patientInfo;
  */
 
 public class ProvidePatientConditionBloodPressureGroup implements java.io.Serializable {
-	
+
 	private String groupRecordDate;//血压记录日期
-	
+
 	/* 全天均压 */
-	private int dayAvgHighPressureNum;//【全天】【平均值】收缩压(高压mmHg)
-	private int dayAvgLowPressureNum;//【全天】【平均值】舒张压(低压mmHg)
-	private int dayAvgHeartRateNum;//【全天】【平均值】心率(次/分钟)
+	private String dayAvgHighPressureNum;//【全天】【平均值】收缩压(高压mmHg)
+	private String dayAvgLowPressureNum;//【全天】【平均值】舒张压(低压mmHg)
+	private String dayAvgHeartRateNum;//【全天】【平均值】心率(次/分钟)
 	private Integer dayBloodTypeSecond;//【全天】血压类型小类
 	private String dayBloodTypeSecondName;//【全天】血压类型小类名称
-	
+
 	/* 晨间均压 */
 	private String morningAvgHighPressureNum;//【晨间】【平均值】收缩压(高压mmHg)
 	private String morningAvgLowPressureNum;//【晨间】【平均值】舒张压(低压mmHg)
@@ -32,6 +34,14 @@ public class ProvidePatientConditionBloodPressureGroup implements java.io.Serial
 	private Integer nightBloodTypeSecond;//【夜间】血压类型小类
 	private String nightBloodTypeSecondName;//【夜间】血压类型小类名称
 
+	/**
+	 * 【新版】根据【患者编码】获取【患者打卡记录】【血压记录】【周期数据】
+	 */
+	private String[] groupRecordDateArray;//血压记录日期
+	private String[] dayAvgHighPressureNumArray;//【全天】【平均值】收缩压(高压mmHg)
+	private String[] dayAvgLowPressureNumArray;//【全天】【平均值】舒张压(低压mmHg)
+	private String[] dayAvgHeartRateNumArray;//【全天】【平均值】心率(次/分钟)
+
 	public String getGroupRecordDate() {
 		return groupRecordDate;
 	}
@@ -40,27 +50,27 @@ public class ProvidePatientConditionBloodPressureGroup implements java.io.Serial
 		this.groupRecordDate = groupRecordDate;
 	}
 
-	public int getDayAvgHighPressureNum() {
+	public String getDayAvgHighPressureNum() {
 		return dayAvgHighPressureNum;
 	}
 
-	public void setDayAvgHighPressureNum(int dayAvgHighPressureNum) {
+	public void setDayAvgHighPressureNum(String dayAvgHighPressureNum) {
 		this.dayAvgHighPressureNum = dayAvgHighPressureNum;
 	}
 
-	public int getDayAvgLowPressureNum() {
+	public String getDayAvgLowPressureNum() {
 		return dayAvgLowPressureNum;
 	}
 
-	public void setDayAvgLowPressureNum(int dayAvgLowPressureNum) {
+	public void setDayAvgLowPressureNum(String dayAvgLowPressureNum) {
 		this.dayAvgLowPressureNum = dayAvgLowPressureNum;
 	}
 
-	public int getDayAvgHeartRateNum() {
+	public String getDayAvgHeartRateNum() {
 		return dayAvgHeartRateNum;
 	}
 
-	public void setDayAvgHeartRateNum(int dayAvgHeartRateNum) {
+	public void setDayAvgHeartRateNum(String dayAvgHeartRateNum) {
 		this.dayAvgHeartRateNum = dayAvgHeartRateNum;
 	}
 
@@ -158,5 +168,34 @@ public class ProvidePatientConditionBloodPressureGroup implements java.io.Serial
 
 	public void setNightBloodTypeSecondName(String nightBloodTypeSecondName) {
 		this.nightBloodTypeSecondName = nightBloodTypeSecondName;
+	}
+
+	public String[] getGroupRecordDateArray() {
+		return groupRecordDateArray;
+	}
+
+	public void setGroupRecordDateArray(String[] groupRecordDateArray) {
+		this.groupRecordDateArray = groupRecordDateArray;
+	}
+
+	public String[] getDayAvgHighPressureNumArray() {
+		return dayAvgHighPressureNumArray;
+	}
+
+	public void setDayAvgHighPressureNumArray(String[] dayAvgHighPressureNumArray) {
+		this.dayAvgHighPressureNumArray = dayAvgHighPressureNumArray;
+	}
+
+	public String[] getDayAvgLowPressureNumArray() {
+		return dayAvgLowPressureNumArray;
+	}
+
+	public void setDayAvgLowPressureNumArray(String[] dayAvgLowPressureNumArray) {
+		this.dayAvgLowPressureNumArray = dayAvgLowPressureNumArray;
+	}
+
+
+	public void setDayAvgHeartRateNumArray(String[] dayAvgHeartRateNumArray) {
+		this.dayAvgHeartRateNumArray = dayAvgHeartRateNumArray;
 	}
 }

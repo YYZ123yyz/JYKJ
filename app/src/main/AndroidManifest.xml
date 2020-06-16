@@ -3,6 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="www.jykj.com.jykj_zxyl">
 
+    <!-- 这个权限用于进行网络定位 -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- for mta statistics -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -26,14 +34,20 @@
     <application
         android:name=".application.JYKJApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/logo"
+        android:icon="@drawable/applogo"
         android:label="@string/app_name"
         android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name="yyz_exploit.activity.activity.VersionActivity"></activity>
+        <activity android:name="yyz_exploit.activity.activity.Home_FeaturedActivity"></activity>
+        <activity android:name="yyz_exploit.activity.activity.Home_DetailsActivity" />
+        <activity android:name="yyz_exploit.activity.activity.AddActivity" />
+        <activity android:name="yyz_exploit.activity.activity.SupplementActivity" />
+        <activity android:name="yyz_exploit.activity.activity.DiseaseAddActivity" />
+        <activity android:name="yyz_exploit.activity.activity.HelpDetailsActivity" />
+        <activity android:name="yyz_exploit.activity.activity.VersionActivity" />
         <activity android:name="yyz_exploit.activity.activity.PrivacyActivity" />
         <activity android:name="yyz_exploit.activity.activity.Login_protocolActivity" />
         <activity android:name="yyz_exploit.activity.activity.CustomizeActivity" />
@@ -88,6 +102,11 @@
         <activity android:name=".activity.myself.setting.AboutActivity" /> <!-- 设置 == > 修改密码 -->
         <activity android:name=".activity.myself.setting.OpeaPassWordActivity" /> <!-- 设置 == > 客服热线 -->
         <activity android:name=".activity.myself.setting.ServiceHotlineActivity" /> <!-- 个人资料 -->
+        <!-- 微信支付 -->
+        <activity
+            android:name=".wxapi.WXPayEntryActivity"
+            android:exported="true"
+            android:launchMode="singleTop" />
         <activity
             android:name=".activity.myself.UserCenterActivity"
             android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 用户认证 -->

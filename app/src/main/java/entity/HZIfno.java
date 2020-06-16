@@ -3,14 +3,12 @@ package entity;
 import java.util.Date;
 
 public class HZIfno implements java.io.Serializable {
-    private             String              hzName;         //患者姓名
-    private             String              hzAge;          //患者年龄
-    private             int                 hzSex;          //患者性别
-    private             int                 state;          //状态
-    private             String              laber;          //患者标签
-
-
-    private             int                 twjzZT;          //图文就诊（状态）
+    private String hzName;         //患者姓名
+    private String hzAge;          //患者年龄
+    private int hzSex;          //患者性别
+    private int state;          //状态
+    private String laber;          //患者标签
+    private int twjzZT;          //图文就诊（状态）
 
     private Integer takingRecordId;//服药记录编号
     private String patientCode;//患者编码

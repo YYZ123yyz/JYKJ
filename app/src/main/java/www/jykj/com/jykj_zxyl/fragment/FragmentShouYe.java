@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -15,6 +16,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -27,6 +29,9 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.gson.Gson;
 import com.tbruyelle.rxpermissions.RxPermissions;
+import com.tencent.mm.opensdk.modelpay.PayReq;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 
 import java.util.Timer;
@@ -50,6 +55,9 @@ import www.jykj.com.jykj_zxyl.activity.hyhd.BindDoctorFriend;
 import www.jykj.com.jykj_zxyl.activity.myself.UserAuthenticationActivity;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.custom.MoreFeaturesPopupWindow;
+import yyz_exploit.Utils.MyImageView;
+import yyz_exploit.activity.activity.Home_DetailsActivity;
+import yyz_exploit.activity.activity.Home_FeaturedActivity;
 import zxing.android.CaptureActivity;
 import zxing.common.Constant;
 
@@ -94,7 +102,15 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
     private LinearLayout home_certification;
 
     private SharedPreferences sp;
-
+    private Button button;
+    private LinearLayout home_lin;
+    private LinearLayout lin;
+    private LinearLayout lin_featured,lin_featured2;
+    private MyImageView img_one,img_two,img_three;
+    private MyImageView imgs_one,imgs_two,imgs_three;
+    private MyImageView img_ones,img_twos,img_threes;
+    private yyz_exploit.dialog.Home_imageDialog imageView1;
+    private ImageView back;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_activitymain_shouyefragment, container, false);
@@ -251,7 +267,121 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
 //            Log.e("ppp", "setNewMessageView: "+string );
 //        }
 //    }
+
+  //  private String WX_APP_ID = "wxaf6f64f6a5878261";
+
     private void initView(View view) {
+        //第一张图片
+        img_one = view.findViewById(R.id.img_one);
+        img_one.setImageURL("http://jiuyihtn.com/AppAssembly/img/doctor1.png");
+        img_one.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                imageView1 = new yyz_exploit.dialog.Home_imageDialog(getContext());
+                imageView1.show();
+                MyImageView im = imageView1.findViewById(R.id.img);
+                im.setImageURL("http://jiuyihtn.com/AppAssembly/img/doctor1.png");
+
+                back = imageView1.findViewById(R.id.im_back);
+                back.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        imageView1.dismiss();
+                    }
+                });
+            }
+        });
+        //第er张图片
+        img_two = view.findViewById(R.id.img_two);
+        img_two.setImageURL("http://jiuyihtn.com/AppAssembly/img/doctor2.png");
+        img_two.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                img_two();
+            }
+        });
+        //第三张图片
+        img_three = view.findViewById(R.id.img_three);
+        img_three.setImageURL("http://jiuyihtn.com/AppAssembly/img/doctor3.png");
+        img_three.setOnClickListener(new View.OnClickListener() {
+                                         @Override
+                                         public void onClick(View v) {
+                                             img_three();
+                                         }
+                                     }
+        );
+        imgs_one = view.findViewById(R.id.imgs_one);
+        imgs_one.setImageURL("http://jiuyihtn.com/AppAssembly/img/fakeFriends3.jpg");
+        imgs_one.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                imgs_one();
+            }
+        });
+        imgs_two = view.findViewById(R.id.imgs_two);
+        imgs_two.setImageURL("http://jiuyihtn.com/AppAssembly/img/logo2.png");
+        imgs_two.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                imageView1 = new yyz_exploit.dialog.Home_imageDialog(getContext());
+                imageView1.show();
+                MyImageView im = imageView1.findViewById(R.id.img);
+                im.setImageURL("http://jiuyihtn.com/AppAssembly/img/logo2.png");
+
+                back = imageView1.findViewById(R.id.im_back);
+                back.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        imageView1.dismiss();
+                    }
+                });
+            }
+        });
+        imgs_three = view.findViewById(R.id.imgs_three);
+        imgs_three.setImageURL("http://jiuyihtn.com/AppAssembly/img/fakeFriends4.jpg");
+
+
+        img_ones = view.findViewById(R.id.img_ones);
+        img_ones.setImageURL("http://jiuyihtn.com/AppAssembly/img/main1.png");
+        img_twos = view.findViewById(R.id.img_twos);
+        img_twos.setImageURL("http://jiuyihtn.com/AppAssembly/img/main3.jpg");
+        img_threes = view.findViewById(R.id.img_threes);
+        img_threes.setImageURL("http://jiuyihtn.com/AppAssembly/img/main2.jpg");
+
+        lin = view.findViewById(R.id.lin);
+        lin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent1 = new Intent(getContext(), Home_DetailsActivity.class);
+                startActivity(intent1);
+            }
+        });
+        home_lin = view.findViewById(R.id.home_lin);
+        home_lin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), Home_DetailsActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        lin_featured = view.findViewById(R.id.lin_featured);
+        lin_featured2 = view.findViewById(R.id.lin_featured2);
+        lin_featured.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent3 = new Intent(getContext(), Home_FeaturedActivity.class);
+                startActivity(intent3);
+            }
+        });
+        lin_featured2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent4 = new Intent(getContext(), Home_FeaturedActivity.class);
+                startActivity(intent4);
+            }
+        });
         mQrCode = view.findViewById(R.id.ll_qr_code);
         mNews = view.findViewById(R.id.ll_news);
         mDoctorUnion = view.findViewById(R.id.ll_doctor_union);
@@ -314,6 +444,51 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
 
     }
 
+    private void imgs_one() {
+        imageView1 = new yyz_exploit.dialog.Home_imageDialog(getContext());
+        imageView1.show();
+        MyImageView im = imageView1.findViewById(R.id.img);
+        im.setImageURL("http://jiuyihtn.com/AppAssembly/img/fakeFriends3.jpg");
+
+        back = imageView1.findViewById(R.id.im_back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                imageView1.dismiss();
+            }
+        });
+    }
+
+    private void img_three() {
+        imageView1 = new yyz_exploit.dialog.Home_imageDialog(getContext());
+        imageView1.show();
+        MyImageView im = imageView1.findViewById(R.id.img);
+        im.setImageURL("http://jiuyihtn.com/AppAssembly/img/doctor3.png");
+
+        back = imageView1.findViewById(R.id.im_back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                imageView1.dismiss();
+            }
+        });
+    }
+
+    private void img_two() {
+        imageView1 = new yyz_exploit.dialog.Home_imageDialog(getContext());
+        imageView1.show();
+        MyImageView im = imageView1.findViewById(R.id.img);
+        im.setImageURL("http://jiuyihtn.com/AppAssembly/img/doctor2.png");
+
+        back = imageView1.findViewById(R.id.im_back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                imageView1.dismiss();
+            }
+        });
+    }
+
     private void initListener() {
         mQrCode.setOnClickListener(this);
         mNews.setOnClickListener(this);
@@ -331,11 +506,42 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
         llQuickApplication.setOnClickListener(this);
         //医师资格认证
         home_certification.setOnClickListener(this);
+
+
+//        imgs_three = view.findViewById(R.id.imgs_three);
+//        imgs_three.setImageURL("http://jiuyihtn.com/AppAssembly/img/fakeFriends4.jpg");
+//
+//
+//        img_ones = view.findViewById(R.id.img_ones);
+//        img_ones.setImageURL("http://jiuyihtn.com/AppAssembly/img/main1.png");
+//        img_twos = view.findViewById(R.id.img_twos);
+//        img_twos.setImageURL("http://jiuyihtn.com/AppAssembly/img/main3.jpg");
+//        img_threes = view.findViewById(R.id.img_threes);
+//        img_threes.setImageURL("http://jiuyihtn.com/AppAssembly/img/main2.jpg");
+
+        imgs_three.setOnClickListener(this);
+        img_ones.setOnClickListener(this);
+        img_twos.setOnClickListener(this);
+        img_threes.setOnClickListener(this);
+
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.imgs_three:
+                imgs_three();
+                break;
+                case R.id.img_ones:
+                    img_ones();
+                break;
+                case R.id.img_twos:
+                    img_twos();
+                break;
+                case R.id.img_threes:
+                    img_threes();
+                break;
+
             case R.id.ll_qr_code:
                 startActivity(new Intent(getActivity(), QRCodeActivity.class));
                 break;
@@ -377,7 +583,8 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
                 mPopupWindow.setSouYeFragment(mFragment);
                 if (mPopupWindow != null && !mPopupWindow.isShowing()) {
                     mPopupWindow.showAsDropDown(llQuickApplication, 0, 0);
-                }
+                }else
+                    mPopupWindow.dismiss();
                 break;
             //医师资格认证
             case R.id.home_certification:
@@ -389,6 +596,67 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
                 mContext.startActivity(new Intent(mContext, AddPatientActivity.class));
                 break;
         }
+    }
+
+    private void img_threes() {
+        imageView1 = new yyz_exploit.dialog.Home_imageDialog(getContext());
+        imageView1.show();
+        MyImageView im = imageView1.findViewById(R.id.img);
+        im.setImageURL("http://jiuyihtn.com/AppAssembly/img/main2.jpg");
+
+        back = imageView1.findViewById(R.id.im_back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                imageView1.dismiss();
+            }
+        });
+    }
+
+    private void img_twos() {
+
+        imageView1 = new yyz_exploit.dialog.Home_imageDialog(getContext());
+        imageView1.show();
+        MyImageView im = imageView1.findViewById(R.id.img);
+        im.setImageURL("http://jiuyihtn.com/AppAssembly/img/main3.jpg");
+
+        back = imageView1.findViewById(R.id.im_back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                imageView1.dismiss();
+            }
+        });
+    }
+
+    private void img_ones() {
+        imageView1 = new yyz_exploit.dialog.Home_imageDialog(getContext());
+        imageView1.show();
+        MyImageView im = imageView1.findViewById(R.id.img);
+        im.setImageURL("http://jiuyihtn.com/AppAssembly/img/main1.png");
+
+        back = imageView1.findViewById(R.id.im_back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                imageView1.dismiss();
+            }
+        });
+    }
+
+    private void imgs_three() {
+        imageView1 = new yyz_exploit.dialog.Home_imageDialog(getContext());
+        imageView1.show();
+        MyImageView im = imageView1.findViewById(R.id.img);
+        im.setImageURL("http://jiuyihtn.com/AppAssembly/img/fakeFriends4.jpg");
+
+        back = imageView1.findViewById(R.id.im_back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                imageView1.dismiss();
+            }
+        });
     }
 
     /**

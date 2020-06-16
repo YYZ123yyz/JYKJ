@@ -34,6 +34,24 @@ public class ProvideInteractPatientMessage implements java.io.Serializable {
 	private String loginDoctorPosition;
 	private String operDoctorCode;
 	private String operDoctorName;
+	private String replyType;
+	private String patientPhone;
+
+	public String getPatientPhone() {
+		return patientPhone;
+	}
+
+	public void setPatientPhone(String patientPhone) {
+		this.patientPhone = patientPhone;
+	}
+
+	public String getReplyType() {
+		return replyType;
+	}
+
+	public void setReplyType(String replyType) {
+		this.replyType = replyType;
+	}
 
 	public Integer getMessageId() {
 		return messageId;

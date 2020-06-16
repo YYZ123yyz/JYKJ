@@ -22,6 +22,24 @@ public class ProvideInteractClinicRecordWriteState implements java.io.Serializab
 	private String operDoctorCode;
 	private String operDoctorName;
 	private String orderCode;
+    private String  flagReplyType;
+    private String  flagReplyTypeName;
+
+	public String getFlagReplyTypeName() {
+		return flagReplyTypeName;
+	}
+
+	public void setFlagReplyTypeName(String flagReplyTypeName) {
+		this.flagReplyTypeName = flagReplyTypeName;
+	}
+
+	public String getFlagReplyType() {
+		return flagReplyType;
+	}
+
+	public void setFlagReplyType(String flagReplyType) {
+		this.flagReplyType = flagReplyType;
+	}
 
 	public Integer getTotalityState() {
 		return totalityState;

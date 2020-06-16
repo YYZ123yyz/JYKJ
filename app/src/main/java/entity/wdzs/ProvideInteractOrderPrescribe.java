@@ -40,7 +40,28 @@ public class ProvideInteractOrderPrescribe implements java.io.Serializable {
 	private String loginDoctorPosition;
 	private String operDoctorCode;
 	private String operDoctorName;
+	private String drugAmountName;
+
+	public String getDrugAmountName() {
+		return drugAmountName;
+	}
+
+	public void setDrugAmountName(String drugAmountName) {
+		this.drugAmountName = drugAmountName;
+	}
+
+	public String getUseNumName() {
+		return useNumName;
+	}
+
+	public void setUseNumName(String useNumName) {
+		this.useNumName = useNumName;
+	}
+
+	private String useNumName;
+
 //	private String orderCode;
+
 
 
 	public Integer getPrescribeId() {

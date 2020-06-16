@@ -283,6 +283,7 @@ public class MyPatientFragment extends Fragment {
                     String jsonString = JSON.toJSONString(provideViewPatientInfo);
                     mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + jsonString, Constant.SERVICEURL + "bindingDoctorPatientControlle/searchDoctorManagePatientDataByParam");
                     NetRetEntity netRetEntity = new Gson().fromJson(mNetRetStr, NetRetEntity.class);
+                    Log.e("tag", "run: 患者"+ mNetRetStr);
                     if (netRetEntity.getResCode() == 0) {
                         loadDate = false;
                         NetRetEntity retEntity = new NetRetEntity();

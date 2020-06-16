@@ -11,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -46,43 +47,43 @@ import www.jykj.com.jykj_zxyl.util.Util;
 public class GRXX_GRZK_ZZXXActivity extends AppCompatActivity {
 
 
-    private         Context                 mContext;
-    private         TWJZ_CFQActivity        mActivity;
-    private         Handler                 mHandler;
-    private         JYKJApplication         mApp;
-    private         RecyclerView            mRecycleView;
+    private Context mContext;
+    private TWJZ_CFQActivity mActivity;
+    private Handler mHandler;
+    private JYKJApplication mApp;
+    private RecyclerView mRecycleView;
 
-    private         LinearLayoutManager     layoutManager;
-    private         JYZL_GRZLRecycleAdapter       mJYZL_GRZLRecycleAdapter;      //适配器
-    private         List<HZIfno>            mHZEntyties = new ArrayList<>();            //所有数据
-    private         LinearLayout            mJBXX;                                  //基本信息
-    private         String                  mPatientCode;                       //患者code
+    private LinearLayoutManager layoutManager;
+    private JYZL_GRZLRecycleAdapter mJYZL_GRZLRecycleAdapter;      //适配器
+    private List<HZIfno> mHZEntyties = new ArrayList<>();            //所有数据
+    private LinearLayout mJBXX;                                  //基本信息
+    private String mPatientCode;                       //患者code
 
-    public                  ProgressDialog              mDialogProgress =null;
-    private                 String                      mNetRetStr;                 //获取返回字符串
+    public ProgressDialog mDialogProgress = null;
+    private String mNetRetStr;                 //获取返回字符串
     private ProvidePatientConditionHealthy mProvidePatientConditionHealthy;
 
-    private         TextView                mSG;                         //身高
-    private         TextView                mYW;                         //腰围
-    private         TextView                mTZ;                         //体重
-    private         TextView                mSFXY;                         //是否吸烟
-    private         TextView                mSFXJ;                         //是否酗酒
-    private         TextView                mSFAY;                         //是否熬夜
+    private TextView mSG;                         //身高
+    private TextView mYW;                         //腰围
+    private TextView mTZ;                         //体重
+    private TextView mSFXY;                         //是否吸烟
+    private TextView mSFXJ;                         //是否酗酒
+    private TextView mSFAY;                         //是否熬夜
 
-    private         TextView                mUserAuth;                         //认证状态
-    private         TextView                mUserName;                         //姓名
-    private         TextView                mUserSex;                         //性别
-    private         TextView                mUserMZ;                         //民族
-    private         TextView                mUserJG;                         //籍贯
-    private         TextView                mUserBirthDay;                         //出生日期
-    private         TextView                mUserIDCardNum;                         //身份证号
-    private         TextView                mUserLinkPhone;                         //电话
-    private         TextView                mUserRegion;                         //所在区域
+    private TextView mUserAuth;                         //认证状态
+    private TextView mUserName;                         //姓名
+    private TextView mUserSex;                         //性别
+    private TextView mUserMZ;                         //民族
+    private TextView mUserJG;                         //籍贯
+    private TextView mUserBirthDay;                         //出生日期
+    private TextView mUserIDCardNum;                         //身份证号
+    private TextView mUserLinkPhone;                         //电话
+    private TextView mUserRegion;                         //所在区域
 
-    private         TextView                mMQZLFA;                        //目前治疗方案
+    private TextView mMQZLFA;                        //目前治疗方案
 
-    private         TextView                mBQZS;                          //病情自述
-    private         LinearLayout            mBack;
+    private TextView mBQZS;                          //病情自述
+    private LinearLayout mBack;
 
 
     @Override
@@ -100,17 +101,16 @@ public class GRXX_GRZK_ZZXXActivity extends AppCompatActivity {
     }
 
     private void initHandler() {
-        mHandler = new Handler(){
+        mHandler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
-                switch (msg.what)
-                {
+                switch (msg.what) {
                     case 0:
                         cacerProgress();
                         break;
                     case 1:
                         cacerProgress();
-                        mProvidePatientConditionHealthy = JSON.parseObject(JSON.parseObject(mNetRetStr,NetRetEntity.class).getResJsonData(),ProvidePatientConditionHealthy.class);
+                        mProvidePatientConditionHealthy = JSON.parseObject(JSON.parseObject(mNetRetStr, NetRetEntity.class).getResJsonData(), ProvidePatientConditionHealthy.class);
                         showViewDate();
                         break;
                     case 2:
@@ -124,31 +124,31 @@ public class GRXX_GRZK_ZZXXActivity extends AppCompatActivity {
      * 初始化布局
      */
     private void initLayout() {
-        mBack = (LinearLayout)this.findViewById(R.id.li_back);
+        mBack = (LinearLayout) this.findViewById(R.id.li_back);
         mBack.setOnClickListener(new ButtonClick());
 
-        mUserAuth = (TextView)this.findViewById(R.id.tv_activityHZZL_userAuthState);
+        mUserAuth = (TextView) this.findViewById(R.id.tv_activityHZZL_userAuthState);
 
-        mUserAuth = (TextView)this.findViewById(R.id.tv_activityHZZL_userAuthState);
-        mUserName = (TextView)this.findViewById(R.id.tv_activityHZZL_userName);
-        mUserSex = (TextView)this.findViewById(R.id.tv_activityHZZL_sex);
-        mUserMZ = (TextView)this.findViewById(R.id.tv_activityHZZL_MZ);
-        mUserJG = (TextView)this.findViewById(R.id.tv_activityHZZL_JG);
-        mUserBirthDay = (TextView)this.findViewById(R.id.tv_activityHZZL_BirthDay);
-        mUserIDCardNum = (TextView)this.findViewById(R.id.tv_activityHZZL_idCardNum);
-        mUserLinkPhone = (TextView)this.findViewById(R.id.tv_activityHZZL_linkPhone);
+        mUserAuth = (TextView) this.findViewById(R.id.tv_activityHZZL_userAuthState);
+        mUserName = (TextView) this.findViewById(R.id.tv_activityHZZL_userName);
+        mUserSex = (TextView) this.findViewById(R.id.tv_activityHZZL_sex);
+        mUserMZ = (TextView) this.findViewById(R.id.tv_activityHZZL_MZ);
+        mUserJG = (TextView) this.findViewById(R.id.tv_activityHZZL_JG);
+        mUserBirthDay = (TextView) this.findViewById(R.id.tv_activityHZZL_BirthDay);
+        mUserIDCardNum = (TextView) this.findViewById(R.id.tv_activityHZZL_idCardNum);
+        mUserLinkPhone = (TextView) this.findViewById(R.id.tv_activityHZZL_linkPhone);
 
-        mUserRegion = (TextView)this.findViewById(R.id.tv_activityHZZL_region);
+        mUserRegion = (TextView) this.findViewById(R.id.tv_activityHZZL_region);
 
-        mSG = (TextView)this.findViewById(R.id.tv_activityHZZL_userSG);
-        mYW = (TextView)this.findViewById(R.id.tv_activityHZZL_userYW);
-        mTZ = (TextView)this.findViewById(R.id.tv_activityHZZL_userTZ);
-        mSFXY = (TextView)this.findViewById(R.id.tv_activityHZZL_userSFXY);
-        mSFXJ = (TextView)this.findViewById(R.id.tv_activityHZZL_userSFXJ);
-        mSFAY = (TextView)this.findViewById(R.id.tv_activityHZZL_userSFAY);
+        mSG = (TextView) this.findViewById(R.id.tv_activityHZZL_userSG);
+        mYW = (TextView) this.findViewById(R.id.tv_activityHZZL_userYW);
+        mTZ = (TextView) this.findViewById(R.id.tv_activityHZZL_userTZ);
+        mSFXY = (TextView) this.findViewById(R.id.tv_activityHZZL_userSFXY);
+        mSFXJ = (TextView) this.findViewById(R.id.tv_activityHZZL_userSFXJ);
+        mSFAY = (TextView) this.findViewById(R.id.tv_activityHZZL_userSFAY);
 
-        mMQZLFA = (TextView)this.findViewById(R.id.tv_activityHZZL_mqzlfa);
-        mBQZS = (TextView)this.findViewById(R.id.tv_activityHZZL_bqzs);
+        mMQZLFA = (TextView) this.findViewById(R.id.tv_activityHZZL_mqzlfa);
+        mBQZS = (TextView) this.findViewById(R.id.tv_activityHZZL_bqzs);
     }
 
     /**
@@ -158,18 +158,19 @@ public class GRXX_GRZK_ZZXXActivity extends AppCompatActivity {
 
         if (mProvidePatientConditionHealthy.getHeight() == null || "".equals(mProvidePatientConditionHealthy.getHeight()))
             mSG.setText("未设置");
-        else
-            mSG.setText(mProvidePatientConditionHealthy.getHeight());
+        else{
+            mSG.setText(mProvidePatientConditionHealthy.getHeight()+"");
+        }
 
         if (mProvidePatientConditionHealthy.getWaistline() == null || "".equals(mProvidePatientConditionHealthy.getWaistline()))
             mYW.setText("未设置");
         else
-            mYW.setText(mProvidePatientConditionHealthy.getWaistline());
+            mYW.setText(mProvidePatientConditionHealthy.getWaistline()+"");
 
         if (mProvidePatientConditionHealthy.getWeight() == null || "".equals(mProvidePatientConditionHealthy.getWeight()))
             mTZ.setText("未设置");
         else
-            mTZ.setText(mProvidePatientConditionHealthy.getWeight());
+            mTZ.setText(mProvidePatientConditionHealthy.getWeight()+"");
 
         if (mProvidePatientConditionHealthy.getFlagSmoking() == null || "".equals(mProvidePatientConditionHealthy.getBloodPressureAbnormalDate()))
             mSFXY.setText("未设置");
@@ -226,7 +227,6 @@ public class GRXX_GRZK_ZZXXActivity extends AppCompatActivity {
             mUserBirthDay.setText(mProvidePatientConditionHealthy.getOnsetSymptoms());
 
 
-
         if (mProvidePatientConditionHealthy.getCurrentSymptoms() == null || "".equals(mProvidePatientConditionHealthy.getCurrentSymptoms()))
             mUserIDCardNum.setText("未设置");
         else
@@ -238,17 +238,17 @@ public class GRXX_GRZK_ZZXXActivity extends AppCompatActivity {
             mUserLinkPhone.setText(mProvidePatientConditionHealthy.getComplication());
 
         if (mProvidePatientConditionHealthy.getCombinedDisease() != null || !"".equals(mProvidePatientConditionHealthy.getCombinedDisease()))
-            mUserRegion .setText("未设置");
+            mUserRegion.setText("未设置");
         else
             mUserRegion.setText(mProvidePatientConditionHealthy.getCombinedDisease());
 
         if (mProvidePatientConditionHealthy.getCurrentTreatmentPlan() != null || !"".equals(mProvidePatientConditionHealthy.getCurrentTreatmentPlan()))
-            mMQZLFA .setText("未设置");
+            mMQZLFA.setText("未设置");
         else
             mMQZLFA.setText(mProvidePatientConditionHealthy.getCurrentTreatmentPlan());
 
         if (mProvidePatientConditionHealthy.getStateOfIllness() != null || !"".equals(mProvidePatientConditionHealthy.getStateOfIllness()))
-            mBQZS .setText("未设置");
+            mBQZS.setText("未设置");
         else
             mBQZS.setText(mProvidePatientConditionHealthy.getStateOfIllness());
     }
@@ -269,6 +269,7 @@ public class GRXX_GRZK_ZZXXActivity extends AppCompatActivity {
                     provideViewSysUserPatientInfoAndRegion.setSearchPatientCode(mPatientCode);
 
                     mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + new Gson().toJson(provideViewSysUserPatientInfoAndRegion), Constant.SERVICEURL + "patientDataControlle/searchDoctorManagePatientStateResHealthy");
+                    Log.e("tag", "健康信息 "+mNetRetStr );
                     NetRetEntity netRetEntity = new Gson().fromJson(mNetRetStr, NetRetEntity.class);
                     if (netRetEntity.getResCode() == 0) {
                         NetRetEntity retEntity = new NetRetEntity();
@@ -291,14 +292,13 @@ public class GRXX_GRZK_ZZXXActivity extends AppCompatActivity {
     }
 
 
-
-    class   ButtonClick implements View.OnClickListener {
+    class ButtonClick implements View.OnClickListener {
         @Override
         public void onClick(View view) {
             switch (view.getId()) {
 
                 case R.id.li_activityGRZK_JBXX:
-                    startActivity(new Intent(mContext,GRXX_GRZK_ZZXXActivity.class));
+                    startActivity(new Intent(mContext, GRXX_GRZK_ZZXXActivity.class));
                     break;
                 case R.id.li_back:
                     finish();
@@ -308,12 +308,11 @@ public class GRXX_GRZK_ZZXXActivity extends AppCompatActivity {
     }
 
 
-
     /**
-     *   获取进度条
+     * 获取进度条
      */
 
-    public void getProgressBar(String title,String progressPrompt){
+    public void getProgressBar(String title, String progressPrompt) {
         if (mDialogProgress == null) {
             mDialogProgress = new ProgressDialog(this);
         }
@@ -326,7 +325,7 @@ public class GRXX_GRZK_ZZXXActivity extends AppCompatActivity {
     /**
      * 取消进度条
      */
-    public void cacerProgress(){
+    public void cacerProgress() {
         if (mDialogProgress != null) {
             mDialogProgress.dismiss();
         }

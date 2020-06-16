@@ -21,6 +21,8 @@ import www.jykj.com.jykj_zxyl.activity.myself.setting.OpeaPassWordActivity;
 import www.jykj.com.jykj_zxyl.activity.myself.setting.ServiceHotlineActivity;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.util.ActivityUtil;
+import yyz_exploit.activity.activity.FeedbackActivity;
+import yyz_exploit.activity.activity.HelpActivity;
 import yyz_exploit.activity.activity.OpinionActivity;
 import yyz_exploit.activity.activity.VersionActivity;
 
@@ -145,7 +147,7 @@ public class SettingActivity extends AppCompatActivity {
                     }
                     break;
                 case  R.id.setting_opinion:
-                    Intent intent = new Intent(SettingActivity.this, OpinionActivity.class);
+                    Intent intent = new Intent(SettingActivity.this, FeedbackActivity.class);
                     startActivity(intent);
                     break;
                 case R.id.myself_Update:

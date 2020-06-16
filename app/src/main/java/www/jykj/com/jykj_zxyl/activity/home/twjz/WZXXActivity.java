@@ -2,6 +2,8 @@ package www.jykj.com.jykj_zxyl.activity.home.twjz;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -11,14 +13,19 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.google.gson.Gson;
 
+import java.security.GeneralSecurityException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +35,10 @@ import entity.wdzs.ProvideBasicsImg;
 import entity.wdzs.ProvideInteractPatientInterrogation;
 import netService.HttpNetService;
 import netService.entity.NetRetEntity;
+import util.NetWorkUtils;
+import util.QRCodeUtil;
 import www.jykj.com.jykj_zxyl.R;
+import www.jykj.com.jykj_zxyl.activity.home.QRCodeActivity;
 import www.jykj.com.jykj_zxyl.activity.home.wdzs.ProvideDoctorSetServiceState;
 import www.jykj.com.jykj_zxyl.activity.home.wdzs.ProvideViewInteractOrderTreatmentAndPatientInterrogation;
 import www.jykj.com.jykj_zxyl.activity.myself.couponFragment.FragmentAdapter;
@@ -83,10 +93,19 @@ public class WZXXActivity extends AppCompatActivity {
     private List<ProvideBasicsImg> mProvideBasicsImg = new ArrayList<>();
     private LinearLayout mBack;
 
+    private yyz_exploit.dialog.ImageView imageView1;
+    private TextView tv;
+    private TextView tv_yes;
+    private ScrollView wzxx_sc;
 
     private void setLayoutDate() {
-        mJZLX.setText(mProvideInteractPatientInterrogations.get(0).getTreatmentTypeName());
-        mYSXM.setText(mProvideInteractPatientInterrogations.get(0).getDoctorName());
+        if(TextUtils.isEmpty(mProvideInteractPatientInterrogations.get(0).getTreatmentTypeName())){
+            mJZLX.setText("未知");
+        }else{
+            mJZLX.setText(mProvideInteractPatientInterrogations.get(0).getTreatmentTypeName());
+        }
+
+     //   mYSXM.setText(mProvideInteractPatientInterrogations.get(0).getDoctorName());
         mHZXM.setText(mProvideInteractPatientInterrogations.get(0).getPatientName());
         mHZSJ.setText(mProvideInteractPatientInterrogations.get(0).getPatientLinkPhone());
         if (mProvideInteractPatientInterrogations.get(0).getGender() == 0)
@@ -105,19 +124,27 @@ public class WZXXActivity extends AppCompatActivity {
             mJZHZ.setText("否");
         if (mProvideInteractPatientInterrogations.get(0).getFlagFamilyHtn() == 1)
             mJZHZ.setText("是");
-        mSSY.setText(mProvideInteractPatientInterrogations.get(0).getHighPressureNum() + "");
-        mSZY.setText(mProvideInteractPatientInterrogations.get(0).getLowPressureNum() + "");
-        mXL.setText(mProvideInteractPatientInterrogations.get(0).getHeartRateNum() + "");
+        mSSY.setText(mProvideInteractPatientInterrogations.get(0).getHighPressureNum() + "mmHg");
+        mSZY.setText(mProvideInteractPatientInterrogations.get(0).getLowPressureNum() + "mmHg");
+        mXL.setText(mProvideInteractPatientInterrogations.get(0).getHeartRateNum() + "次/分钟");
         mCLYQ.setText(mProvideInteractPatientInterrogations.get(0).getMeasureInstrumentName());
         mCLFF.setText(mProvideInteractPatientInterrogations.get(0).getMeasureModeName());
         mGXYBS.setText(mProvideInteractPatientInterrogations.get(0).getHtnHistory());
         mBQZS.setText(mProvideInteractPatientInterrogations.get(0).getStateOfIllness());
+        if(mProvideInteractPatientInterrogations.get(0).getFlagFamilyHtn()==1){
+            tv_yes.setText("是");
+        }if(mProvideInteractPatientInterrogations.get(0).getFlagFamilyHtn()==0){
+            tv_yes.setText("否");
+        }
     }
+
 
     /**
      * 初始化布局
      */
     private void initLayout() {
+        wzxx_sc = findViewById(R.id.wzxx_sc);
+        tv_yes = findViewById(R.id.tv_yes);
         mBack = (LinearLayout) this.findViewById(R.id.iv_back_left);
         mBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,7 +153,7 @@ public class WZXXActivity extends AppCompatActivity {
             }
         });
         mJZLX = (TextView) this.findViewById(R.id.tv_activityHZZL_userYW);
-        mYSXM = (TextView) this.findViewById(R.id.tv_activityHZZL_userTZ);
+     //   mYSXM = (TextView) this.findViewById(R.id.tv_activityHZZL_userTZ);
         mHZXM = (TextView) this.findViewById(R.id.tv_activityHZZL_userSFXY);
         mHZSJ = (TextView) this.findViewById(R.id.tv_activityHZZL_userSFXJ);
         mXB = (TextView) this.findViewById(R.id.tv_activityHZZL_userSFAY);
@@ -141,6 +168,7 @@ public class WZXXActivity extends AppCompatActivity {
         mGXYBS = (TextView) this.findViewById(R.id.tv_activityHZZL_BirthDay);
         mBQZS = (TextView) this.findViewById(R.id.tv_activityHZZL_idCardNum);
 
+        tv = findViewById(R.id.tv);
         mImageRecycleView = (RecyclerView) this.findViewById(R.id.rv_imageView);
         //创建默认的线性LayoutManager
         mGridLayoutManager = new FullyGridLayoutManager(mContext, 3);
@@ -192,17 +220,38 @@ public class WZXXActivity extends AppCompatActivity {
                 super.handleMessage(msg);
                 switch (msg.what) {
                     case 0:
-
                         NetRetEntity netRetEntity = JSON.parseObject(mNetRetStr, NetRetEntity.class);
                         if (netRetEntity.getResCode() == 0) {
+
                             Toast.makeText(mContext, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
                             cacerProgress();
                         } else {
 
                             mProvideInteractPatientInterrogations = JSON.parseArray(netRetEntity.getResJsonData(), ProvideInteractPatientInterrogation.class);
-                            if (mProvideInteractPatientInterrogations != null && mProvideInteractPatientInterrogations.size() > 0)
-                                setLayoutDate();
-                            getImgData();
+                            if (mProvideInteractPatientInterrogations == null && mProvideInteractPatientInterrogations.size() ==0&&mProvideInteractPatientInterrogations.get(0).getImgCode().equals("")&&mProvideInteractPatientInterrogations.get(0).getImgCode()==null){
+                                wzxx_sc.setVisibility(View.GONE);
+                              //  mJZLX.setVisibility(View.GONE);
+                             //   mYSXM .setVisibility(View.GONE);
+//                                mHZXM .setVisibility(View.GONE);
+//                                mHZSJ .setVisibility(View.GONE);
+//                                mXB  .setVisibility(View.GONE);
+//                                mNL  .setVisibility(View.GONE);
+//                                mYCRQ .setVisibility(View.GONE);
+//                                mJZHZ .setVisibility(View.GONE);
+//                                mSSY .setVisibility(View.GONE);
+//                                mSZY .setVisibility(View.GONE);
+//                                mXL.setVisibility(View.GONE);
+//                                mCLYQ.setVisibility(View.GONE);
+//                                mCLFF.setVisibility(View.GONE);
+//                                mGXYBS .setVisibility(View.GONE);
+//                                mBQZS .setVisibility(View.GONE);
+                             //   tv.setVisibility(View.GONE);
+                            }else{
+                               setLayoutDate();
+                               getImgData();
+
+                            }
+
                         }
 
                         break;
@@ -210,9 +259,24 @@ public class WZXXActivity extends AppCompatActivity {
                         cacerProgress();
                         netRetEntity = JSON.parseObject(mGetImgNetRetStr, NetRetEntity.class);
                         if (netRetEntity.getResCode() == 0) {
-                            Toast.makeText(mContext, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
+//                            tv_yes.setVisibility(View.INVISIBLE);
+//                            mJZLX.setVisibility(View.INVISIBLE);
+//                          //  mYSXM .setVisibility(View.INVISIBLE);
+//                            mHZXM .setVisibility(View.INVISIBLE);
+//                            mHZSJ .setVisibility(View.INVISIBLE);
+//                            mXB  .setVisibility(View.INVISIBLE);
+//                            mNL  .setVisibility(View.INVISIBLE);
+//                            mYCRQ .setVisibility(View.INVISIBLE);
+//                            mJZHZ .setVisibility(View.INVISIBLE);
+//                            mSSY .setVisibility(View.INVISIBLE);
+//                            mSZY .setVisibility(View.INVISIBLE);
+//                            mXL.setVisibility(View.INVISIBLE);
+//                            mCLYQ.setVisibility(View.INVISIBLE);
+//                            mCLFF.setVisibility(View.INVISIBLE);
+//                            mGXYBS .setVisibility(View.INVISIBLE);
+//                            mBQZS .setVisibility(View.INVISIBLE);
+                       //     Toast.makeText(mContext, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
                         } else {
-
                             mProvideBasicsImg = JSON.parseArray(netRetEntity.getResJsonData(), ProvideBasicsImg.class);
                             if (mProvideBasicsImg != null && mProvideBasicsImg.size() > 0) {
                                 mAdapter.setDate(mProvideBasicsImg);
@@ -231,11 +295,10 @@ public class WZXXActivity extends AppCompatActivity {
      * 设置数据
      */
     private void getData() {
-        getProgressBar("请稍候", "正在获取数据。。。");
         ProvideInteractPatientInterrogation provideInteractPatientInterrogation = new ProvideInteractPatientInterrogation();
         provideInteractPatientInterrogation.setLoginDoctorPosition(mApp.loginDoctorPosition);
         provideInteractPatientInterrogation.setOperDoctorCode(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
-        provideInteractPatientInterrogation.setOperDoctorName(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
+        provideInteractPatientInterrogation.setOperDoctorName(mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
         provideInteractPatientInterrogation.setOrderCode(mProvideViewInteractOrderTreatmentAndPatientInterrogation.getOrderCode());
         provideInteractPatientInterrogation.setPatientCode(mProvideViewInteractOrderTreatmentAndPatientInterrogation.getPatientCode());
 
@@ -246,6 +309,7 @@ public class WZXXActivity extends AppCompatActivity {
                     mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + string, Constant.SERVICEURL + "doctorInteractDataControlle/searchMyClinicDetailResPatientInterrogationText");
                     String string01 = Constant.SERVICEURL + "msgDataControlle/searchMsgPushReminderAllCount";
                     System.out.println(string + string01);
+                    Log.e("文字", "run:文字 "+mNetRetStr );
                 } catch (Exception e) {
                     NetRetEntity retEntity = new NetRetEntity();
                     retEntity.setResCode(0);
@@ -265,10 +329,19 @@ public class WZXXActivity extends AppCompatActivity {
         ProvideBasicsImg provideBasicsImg = new ProvideBasicsImg();
         provideBasicsImg.setLoginDoctorPosition(mApp.loginDoctorPosition);
         provideBasicsImg.setOperDoctorCode(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
-        provideBasicsImg.setOperDoctorName(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
+        provideBasicsImg.setOperDoctorName(mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
         provideBasicsImg.setOrderCode(mProvideViewInteractOrderTreatmentAndPatientInterrogation.getOrderCode());
-        provideBasicsImg.setImgCode(mProvideInteractPatientInterrogations.get(0).getImgCode());
-
+        if(TextUtils.isEmpty(mProvideViewInteractOrderTreatmentAndPatientInterrogation.getImgCode())){
+            provideBasicsImg.setImgCode(mProvideViewInteractOrderTreatmentAndPatientInterrogation.getImgCode());
+        }
+        else{
+            provideBasicsImg.setImgCode("");
+        }
+        Log.e("tag", "getImgData: "+mApp.loginDoctorPosition );
+        Log.e("tag", "getImgData: "+mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode() );
+        Log.e("tag", "getImgData: "+mApp.mViewSysUserDoctorInfoAndHospital.getUserName() );
+        Log.e("tag", "getImgData: "+mProvideViewInteractOrderTreatmentAndPatientInterrogation.getOrderCode());
+        Log.e("tag", "getImgData: "+mProvideViewInteractOrderTreatmentAndPatientInterrogation.getImgCode() );
         new Thread() {
             public void run() {
                 try {
@@ -276,6 +349,7 @@ public class WZXXActivity extends AppCompatActivity {
                     mGetImgNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + string, Constant.SERVICEURL + "doctorInteractDataControlle/searchMyClinicDetailResPatientInterrogationImg");
                     String string01 = Constant.SERVICEURL + "msgDataControlle/searchMsgPushReminderAllCount";
                     System.out.println(string + string01);
+                    Log.e("图片", "图片 "+mGetImgNetRetStr );
                 } catch (Exception e) {
                     NetRetEntity retEntity = new NetRetEntity();
                     retEntity.setResCode(0);

@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:id="@+id/tv_patientName"
-            android:text="[白小童]诊后留言"
+            android:text="诊后留言"
             android:textColor="@color/writeColor"
             android:textSize="10pt" />
 
@@ -74,7 +74,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:layout_marginTop="10dp"
-                        android:text="诊后留言(一)"
+                        android:text="图文就诊"
                         android:id="@+id/tv_msgType"
                         android:textColor="@color/textColor_black" />
 
@@ -83,7 +83,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:layout_marginTop="10dp"
-                        android:text="(50字以内)"
+                        android:text="未提交"
                         android:id="@+id/tv_msgDate"
                         android:textColor="@color/textColor_black"
                         android:textSize="12sp" />
@@ -94,17 +94,30 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
-
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:layout_marginTop="10dp"
-                        android:text="联系电话："
+                        android:text="联系电话"
+                        android:textColor="@color/textColor_black" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="10dp"
+                        android:text="未提交"
                         android:id="@+id/tv_linkPhone"
                         android:textColor="@color/textColor_black" />
-                </LinearLayout>
 
+                </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:text="诊后留言"
+                    android:textColor="@color/textColor_black" />
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="80dp"
@@ -113,6 +126,7 @@
                     android:layout_marginRight="10dp"
                     android:background="@drawable/shape_edittext_bg"
                     android:gravity="top"
+                    android:text="未提交"
                     android:id="@+id/content"
                     android:padding="10dp"
                     android:textSize="14sp" />
@@ -142,11 +156,18 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:layout_marginTop="10dp"
-                        android:text="(检查检验单等)"
-                        android:textColor="@color/textColor_black"
+                        android:text="(检查、检验单等)"
+                        android:textColor="@color/result_minor_text"
                         android:textSize="12sp" />
 
                 </LinearLayout>
+                <TextView
+                    android:textColor="@color/colorRed"
+                    android:layout_marginLeft="10dp"
+                    android:id="@+id/no_commit"
+                    android:text="患者暂未上传图片"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1px"
@@ -166,15 +187,24 @@
                 android:background="@color/writeColor"
                 android:orientation="vertical">
 
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="10dp"
-                    android:text="回复患者（200字以内）"
-                    android:textColor="@color/textColor_black"
-                    android:textSize="12sp" />
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:text="回复患者"
+            android:textColor="@color/textColor_black"
+            android:textSize="12sp" />
+          <TextView
+              android:layout_marginTop="10dp"
+              android:text="（200字以内）"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"/>
+    </LinearLayout>
 
 
                 <EditText
@@ -192,10 +222,40 @@
                     android:textSize="14sp" />
             </LinearLayout>
 
+           <LinearLayout
+               android:id="@+id/lin_status"
+               android:background="#ffff"
+               android:orientation="horizontal"
+               android:layout_width="match_parent"
+               android:layout_height="40dp">
+               <TextView
+                   android:layout_weight="1"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_marginLeft="10dp"
+                   android:layout_marginTop="10dp"
+                   android:text="消息类型"
+                   android:textColor="@color/textColor_black" />
+
+               <TextView
+                   android:id="@+id/zhli_status"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_gravity="center_vertical"
+                   android:layout_marginRight="20dp"
+                   android:gravity="center_vertical"
+                   android:text="请选择" />
+               <ImageView
+                   android:layout_width="8dp"
+                   android:layout_height="8dp"
+                   android:background="@mipmap/roww_right"
+                   android:layout_gravity="center_vertical"
+                   android:layout_marginRight="10dp"/>
+           </LinearLayout>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="回复"
+                android:text="提交"
                 android:background="@drawable/shape_corner_button1"
                 android:textColor="@color/writeColor"
                 android:gravity="center"

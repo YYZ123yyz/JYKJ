@@ -54,8 +54,8 @@ public class WDZS_YPXXAdapter extends RecyclerView.Adapter<WDZS_YPXXAdapter.View
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
         viewHolder.mJB1.setText(datas.get(position).getDrugName());
-        viewHolder.mTV1.setText("规格："+datas.get(position).getDrugSpec());
-        viewHolder.mTV2.setText("单位"+datas.get(position).getDrugUnit());
+        viewHolder.mTV1.setText("["+datas.get(position).getDrugSpec()+"]");
+    //    viewHolder.mTV2.setText("单位"+datas.get(position).getDrugUnit());
         if (mOnItemClickListener != null)
         {
             viewHolder.mClickLinearLayout.setOnClickListener(new View.OnClickListener() {
@@ -87,7 +87,7 @@ public class WDZS_YPXXAdapter extends RecyclerView.Adapter<WDZS_YPXXAdapter.View
 
 
 
-    //自定义的ViewHolder，持有每个Item的的所有界面元素
+    //自定义的ViewHoltv1der，持有每个Item的的所有界面元素
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
         public LinearLayout mClickLinearLayout;                     //整个布局，用来监听点击事件
@@ -102,7 +102,7 @@ public class WDZS_YPXXAdapter extends RecyclerView.Adapter<WDZS_YPXXAdapter.View
             mClickLinearLayout = (LinearLayout) view.findViewById(R.id.li_clickLayout);
             mJB1 = (TextView)view.findViewById(R.id.jbmc);
             mTV1 = (TextView)view.findViewById(R.id.tv1);
-            mTV2 = (TextView)view.findViewById(R.id.tv2);
+          //-  mTV2 = (TextView)view.findViewById(R.id.tv2);
 
         }
     }

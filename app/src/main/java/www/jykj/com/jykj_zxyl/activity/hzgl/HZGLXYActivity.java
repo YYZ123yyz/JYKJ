@@ -24,19 +24,18 @@ import www.jykj.com.jykj_zxyl.util.ActivityUtil;
 
 public class HZGLXYActivity extends AppCompatActivity {
 
-    private                 Context                     mContext;
-    private                 HZGLXYActivity              mActivity;
-    private                 TextView                    mXYQST;            //血压趋势图
-    private                 TextView                    mXYRZ;              //血压日志
-    private                 TextView                    mXYGZ;              //血压规则
+    private Context mContext;
+    private HZGLXYActivity mActivity;
+    private TextView mXYQST;            //血压趋势图
+    private TextView mXYRZ;              //血压日志
+    private TextView mXYGZ;              //血压规则
 
     private FragmentManager fragmentManager;
     private TrendFragment trendFragment;
     private BloodLogFragment bloodLogFragment;
     private BloodRulesFragment bloodRulesFragment;
     private ProvideViewPatientLablePunchClockState mData;
-
-
+    private LinearLayout ll_back;
 
 
     @Override
@@ -46,7 +45,7 @@ public class HZGLXYActivity extends AppCompatActivity {
         setContentView(R.layout.activity_fragmenthzgl_xy);
         mContext = this;
         mActivity = this;
-        ActivityUtil.setStatusBar(mActivity);
+        ActivityUtil.setStatusBarMain(mActivity);
         initLayout();
         setIndex(0);
 
@@ -56,16 +55,23 @@ public class HZGLXYActivity extends AppCompatActivity {
      * 初始化布局
      */
     private void initLayout() {
-        mXYQST = (TextView)this.findViewById(R.id.tv_activityHZGLXY_xyQST);
-        mXYRZ = (TextView)this.findViewById(R.id.tv_activityHZGLXY_xyRZ);
-        mXYGZ = (TextView)this.findViewById(R.id.tv_activityHZGLXY_xygz);
+        ll_back = findViewById(R.id.ll_back);
+        ll_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        mXYQST = (TextView) this.findViewById(R.id.tv_activityHZGLXY_xyQST);
+        mXYRZ = (TextView) this.findViewById(R.id.tv_activityHZGLXY_xyRZ);
+        mXYGZ = (TextView) this.findViewById(R.id.tv_activityHZGLXY_xygz);
         fragmentManager = getFragmentManager();
 
         mXYQST.setOnClickListener(new ButtonClick());
         mXYRZ.setOnClickListener(new ButtonClick());
         mXYGZ.setOnClickListener(new ButtonClick());
-        if(getIntent()!=null){
-            mData = (ProvideViewPatientLablePunchClockState)getIntent().getSerializableExtra("patientLable");
+        if (getIntent() != null) {
+            mData = (ProvideViewPatientLablePunchClockState) getIntent().getSerializableExtra("patientLable");
         }
 
     }
@@ -74,7 +80,7 @@ public class HZGLXYActivity extends AppCompatActivity {
     /**
      * 点击事件
      */
-    class   ButtonClick implements View.OnClickListener {
+    class ButtonClick implements View.OnClickListener {
         @Override
         public void onClick(View view) {
             switch (view.getId()) {
@@ -116,8 +122,6 @@ public class HZGLXYActivity extends AppCompatActivity {
     }
 
 
-
-
     private void setIndex(int index) {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         hideFragments(transaction);
@@ -128,7 +132,7 @@ public class HZGLXYActivity extends AppCompatActivity {
                     trendFragment = new TrendFragment();
                     transaction.add(R.id.content, trendFragment);
                     Bundle bundle = new Bundle();
-                    bundle.putSerializable("patientLable",mData);
+                    bundle.putSerializable("patientLable", mData);
                     trendFragment.setArguments(bundle);
                 } else {
                     transaction.show(trendFragment);
@@ -139,7 +143,7 @@ public class HZGLXYActivity extends AppCompatActivity {
                     bloodLogFragment = new BloodLogFragment();
                     transaction.add(R.id.content, bloodLogFragment);
                     Bundle bundle = new Bundle();
-                    bundle.putSerializable("patientLable",mData);
+                    bundle.putSerializable("patientLable", mData);
                     bloodLogFragment.setArguments(bundle);
                 } else {
                     transaction.show(bloodLogFragment);
@@ -173,9 +177,6 @@ public class HZGLXYActivity extends AppCompatActivity {
         }
 
     }
-
-
-
 
 
 }

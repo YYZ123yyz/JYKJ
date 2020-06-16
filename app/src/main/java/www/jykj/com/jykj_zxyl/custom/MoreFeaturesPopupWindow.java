@@ -19,6 +19,7 @@ import www.jykj.com.jykj_zxyl.activity.home.MyClinicActivity;
 import www.jykj.com.jykj_zxyl.activity.home.MyLiveRoomActivity;
 import www.jykj.com.jykj_zxyl.activity.home.MyPatientActivity;
 import www.jykj.com.jykj_zxyl.activity.home.NewsActivity;
+import www.jykj.com.jykj_zxyl.activity.home.QRCodeActivity;
 import www.jykj.com.jykj_zxyl.activity.home.tjhz.AddPatientActivity;
 import www.jykj.com.jykj_zxyl.fragment.FragmentShouYe;
 import yyz_exploit.activity.activity.HelpActivity;
@@ -41,7 +42,8 @@ public class MoreFeaturesPopupWindow extends PopupWindow implements View.OnClick
     private TextView tvBzfk;
     private TextView tv_wdhz;
     private TextView tv_wdzbj;
-
+    private HelpActivity helpActivity;
+    private QRCodeActivity qrCodeActivity;
     public MoreFeaturesPopupWindow(Activity context) {
         super(context);
         mContext = context;
@@ -159,5 +161,21 @@ public class MoreFeaturesPopupWindow extends PopupWindow implements View.OnClick
      */
     public void setMyPatientActivity(MyPatientActivity mActivity) {
         mMyPatientActivity = mActivity;
+    }
+
+    /**
+     * 设置入口为帮助与反馈
+     * @param mActivity
+     */
+    public void setHelpActivity(HelpActivity mActivity) {
+        helpActivity = mActivity;
+    }
+
+    /**
+     * 设置入口为我的识别码
+     * @param mActivity
+     */
+    public void setQRCodeActivity(QRCodeActivity mActivity) {
+        qrCodeActivity = mActivity;
     }
 }

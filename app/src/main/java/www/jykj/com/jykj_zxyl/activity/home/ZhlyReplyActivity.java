@@ -1,8 +1,11 @@
 package www.jykj.com.jykj_zxyl.activity.home;
 
+import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
@@ -10,9 +13,13 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -25,6 +32,8 @@ import com.google.gson.Gson;
 import com.previewlibrary.GPreviewBuilder;
 import com.previewlibrary.ZoomMediaLoader;
 import com.previewlibrary.enitity.ThumbViewInfo;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,6 +86,11 @@ public class ZhlyReplyActivity extends AppCompatActivity {
     private  boolean photo=true;
 
     private PhotoDialog photoDialog;
+    private TextView no_commit;
+    private LinearLayout lin_status;
+    private TextView zhli_status;
+    private String replyTyp;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,9 +101,39 @@ public class ZhlyReplyActivity extends AppCompatActivity {
         mActivity = this;
         mApp = (JYKJApplication) getApplication();
         mProvideViewInteractOrderTreatmentAndPatientInterrogation = (ProvideViewInteractOrderTreatmentAndPatientInterrogation) getIntent().getSerializableExtra("wzxx");
+        initView();
         initListener();
-        initHandler();
         getData();
+        initHandler();
+
+    }
+
+    private void initView() {
+        lin_status = findViewById(R.id.lin_status);
+        lin_status.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog();
+            }
+
+        });
+        zhli_status = findViewById(R.id.zhli_status);
+        //是否上传了图片
+        no_commit = findViewById(R.id.no_commit);
+        //   mNameTitle = (TextView) this.findViewById(R.id.tv_patientName);
+        mMessageType = (TextView) this.findViewById(R.id.tv_msgType);
+        mMessageDate = (TextView) this.findViewById(R.id.tv_msgDate);
+        mMessageContent = (TextView) this.findViewById(R.id.content);
+        mMessageLinkPhone = (TextView) this.findViewById(R.id.tv_linkPhone);
+        mMessageReply = (EditText) this.findViewById(R.id.tv_messageReply);
+     //   mMessageReply.setText(mProvideInteractPatientMessage.getReplyContent());
+        mCommit = (TextView) this.findViewById(R.id.tv_commit);
+        mCommit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                commit();
+            }
+        });
     }
 
     private void initHandler() {
@@ -106,6 +150,19 @@ public class ZhlyReplyActivity extends AppCompatActivity {
                             mProvideInteractPatientMessage = JSON.parseObject(netRetEntity.getResJsonData(), ProvideInteractPatientMessage.class);
                             if (mProvideInteractPatientMessage != null) {
                                 showLayoutDate();
+                                if(mProvideInteractPatientMessage.getMessageDate()==null){
+                                    Log.e("tag", "handleMessage: "+mProvideInteractPatientMessage.getMessageDate().toString() );
+                                    mMessageDate.setText("未提交");
+                                }
+                                mMessageDate.setText(Util.dateToStr(mProvideInteractPatientMessage.getMessageDate()));
+                                if(mProvideInteractPatientMessage.getMessageContent()==null&&mProvideInteractPatientMessage.getMessageContent().equals("")){       Log.e("tag", "handleMessage: "+mProvideInteractPatientMessage.getMessageContent() );
+                                    mMessageContent.setText("未提交");
+                                }
+                                mMessageContent.setText(mProvideInteractPatientMessage.getMessageContent());
+                                if(mProvideInteractPatientMessage.getPatientLinkPhone()==null&&mProvideInteractPatientMessage.getPatientLinkPhone().equals("")){  Log.e("tag", "handleMessage: "+mProvideInteractPatientMessage.getPatientLinkPhone() );
+                                    mMessageLinkPhone.setText("未提交");
+                                }
+                                mMessageLinkPhone.setText(mProvideInteractPatientMessage.getPatientLinkPhone());
                                 getImgData();
                             }
 
@@ -118,12 +175,26 @@ public class ZhlyReplyActivity extends AppCompatActivity {
                         if (netRetEntity.getResCode() == 0) {
                             Toast.makeText(mContext, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
                         } else {
-
                             mProvideBasicsImg = JSON.parseArray(netRetEntity.getResJsonData(), ProvideBasicsImg.class);
                             if (mProvideBasicsImg != null && mProvideBasicsImg.size() > 0) {
+                                if(mProvideInteractPatientMessage.getMessageDate()==null){
+                                    Log.e("tag", "handleMessage: "+mProvideInteractPatientMessage.getMessageDate().toString() );
+                                    mMessageDate.setText("未提交");
+                                }
+                                mMessageDate.setText(Util.dateToStr(mProvideInteractPatientMessage.getMessageDate()));
+                                if(mProvideInteractPatientMessage.getMessageContent()==null&&mProvideInteractPatientMessage.getMessageContent().equals("")){       Log.e("tag", "handleMessage: "+mProvideInteractPatientMessage.getMessageContent() );
+                                    mMessageContent.setText("未提交");
+                                }
+                                mMessageContent.setText(mProvideInteractPatientMessage.getMessageContent());
+                                if(mProvideInteractPatientMessage.getPatientLinkPhone()==null&&mProvideInteractPatientMessage.getPatientLinkPhone().equals("")){  Log.e("tag", "handleMessage: "+mProvideInteractPatientMessage.getPatientLinkPhone() );
+                                    mMessageLinkPhone.setText("未提交");
+                                }
+                                mMessageLinkPhone.setText( mProvideInteractPatientMessage.getPatientLinkPhone());
+                                no_commit.setVisibility(View.GONE);
                                 mAdapter.setDate(mProvideBasicsImg);
                                 mAdapter.notifyDataSetChanged();
                             }
+
                         }
 
                         break;
@@ -131,7 +202,14 @@ public class ZhlyReplyActivity extends AppCompatActivity {
                     case 2:
                         cacerProgress();
                         netRetEntity = JSON.parseObject(mNetRetStr, NetRetEntity.class);
-                        Toast.makeText(mContext, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
+                        if (netRetEntity.getResCode() == 0) {
+                            Toast.makeText(mContext, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
+                        }
+                        else{
+                            Toast.makeText(mContext, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
+                            finish();
+                        }
+
                         break;
                 }
             }
@@ -170,12 +248,25 @@ public class ZhlyReplyActivity extends AppCompatActivity {
 
 
     private void showLayoutDate() {
-        mNameTitle = (TextView) this.findViewById(R.id.tv_patientName);
+
+        lin_status = findViewById(R.id.lin_status);
+        lin_status.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog();
+            }
+
+        });
+        zhli_status = findViewById(R.id.zhli_status);
+        //是否上传了图片
+        no_commit = findViewById(R.id.no_commit);
+     //   mNameTitle = (TextView) this.findViewById(R.id.tv_patientName);
         mMessageType = (TextView) this.findViewById(R.id.tv_msgType);
         mMessageDate = (TextView) this.findViewById(R.id.tv_msgDate);
         mMessageContent = (TextView) this.findViewById(R.id.content);
         mMessageLinkPhone = (TextView) this.findViewById(R.id.tv_linkPhone);
         mMessageReply = (EditText) this.findViewById(R.id.tv_messageReply);
+        mMessageReply.setText(mProvideInteractPatientMessage.getReplyContent());
         mCommit = (TextView) this.findViewById(R.id.tv_commit);
         mCommit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -184,11 +275,21 @@ public class ZhlyReplyActivity extends AppCompatActivity {
             }
         });
 
-        mNameTitle.setText("【" + mProvideInteractPatientMessage.getPatientName() + "】诊后留言");
+      //  mNameTitle.setText("【" + mProvideInteractPatientMessage.getPatientName() + "】诊后留言");
         mMessageType.setText(mProvideInteractPatientMessage.getTreatmentTypeName());
+        if(mProvideInteractPatientMessage.getMessageDate()==null){
+            Log.e("tag", "handleMessage:111 "+mProvideInteractPatientMessage.getMessageDate().toString() );
+            mMessageDate.setText("未提交");
+        }
         mMessageDate.setText(Util.dateToStr(mProvideInteractPatientMessage.getMessageDate()));
+        if(mProvideInteractPatientMessage.getMessageContent()==null&&mProvideInteractPatientMessage.getMessageContent().equals("")){       Log.e("tag", "handleMessage:111 "+mProvideInteractPatientMessage.getMessageContent() );
+            mMessageContent.setText("未提交");
+        }
         mMessageContent.setText(mProvideInteractPatientMessage.getMessageContent());
-        mMessageLinkPhone.setText("联系电话：" + mProvideInteractPatientMessage.getPatientLinkPhone());
+        if(mProvideInteractPatientMessage.getPatientLinkPhone()==null&&mProvideInteractPatientMessage.getPatientLinkPhone().equals("")){  Log.e("tag", "handleMessage:111 "+mProvideInteractPatientMessage.getPatientLinkPhone() );
+            mMessageLinkPhone.setText("未提交");
+        }
+        mMessageLinkPhone.setText(mProvideInteractPatientMessage.getPatientLinkPhone());
 
         mImageRecycleView = (RecyclerView) this.findViewById(R.id.rv_imageView);
         //创建默认的线性LayoutManager
@@ -218,6 +319,60 @@ public class ZhlyReplyActivity extends AppCompatActivity {
         });
 
     }
+    @SuppressLint("ResourceAsColor")
+    private void dialog() {
+        final Dialog dialog = new Dialog(ZhlyReplyActivity.this, R.style.BottomDialog);
+        View view = LayoutInflater.from(ZhlyReplyActivity.this).inflate(R.layout.bottom_dialog_nocommit, null);
+        dialog.setContentView(view);
+        TextView tv1 = view.findViewById(R.id.tv1);
+        TextView tv2 = view.findViewById(R.id.tv2);
+        TextView tv3 = view.findViewById(R.id.tv3);
+        TextView tv4 = view.findViewById(R.id.tv4);
+        tv1.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                zhli_status.setText("重大紧急");
+                zhli_status.setTextColor(ZhlyReplyActivity.this.getResources().getColor(R.color.tv1));
+                replyTyp = "1";
+                dialog.dismiss();
+            }
+        });
+        tv2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                zhli_status.setText("紧急");
+                zhli_status.setTextColor(ZhlyReplyActivity.this.getResources().getColor(R.color.tv2));
+                replyTyp = "2";
+                dialog.dismiss();
+            }
+        });
+        tv3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                zhli_status.setText("一般");
+                zhli_status.setTextColor(ZhlyReplyActivity.this.getResources().getColor(R.color.tv3));
+                replyTyp = "3";
+                dialog.dismiss();
+            }
+        });
+        tv4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                zhli_status.setText("正常");
+                zhli_status.setTextColor(ZhlyReplyActivity.this.getResources().getColor(R.color.tv4));
+                replyTyp = "4";
+                dialog.dismiss();
+            }
+        });
+        ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
+        layoutParams.width = ZhlyReplyActivity.this.getResources().getDisplayMetrics().widthPixels;
+        view.setLayoutParams(layoutParams);
+        dialog.setCancelable(true);
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.getWindow().setGravity(Gravity.BOTTOM);
+        dialog.show();
+    }
 
     /**
      * 提交
@@ -226,12 +381,38 @@ public class ZhlyReplyActivity extends AppCompatActivity {
         getProgressBar("请稍候", "正在获取数据。。。");
         ProvideInteractPatientMessage provideInteractPatientMessage = new ProvideInteractPatientMessage();
         provideInteractPatientMessage.setLoginDoctorPosition(mApp.loginDoctorPosition);
+      //  Log.e("tag", "commit: "+ mApp.loginDoctorPosition);
         provideInteractPatientMessage.setOperDoctorCode(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
-        provideInteractPatientMessage.setOperDoctorName(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
+      //  Log.e("tag", "commit: "+mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
+        provideInteractPatientMessage.setOperDoctorName(mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
+    //    Log.e("tag", "commit: "+mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
+        if(mProvideInteractPatientMessage==null){
+            provideInteractPatientMessage.setMessageId(0);
+        }else{
+            provideInteractPatientMessage.setMessageId(mProvideInteractPatientMessage.getMessageId());
+        }
         provideInteractPatientMessage.setOrderCode(mProvideViewInteractOrderTreatmentAndPatientInterrogation.getOrderCode());
-        provideInteractPatientMessage.setPatientCode(mProvideViewInteractOrderTreatmentAndPatientInterrogation.getPatientCode());
-        provideInteractPatientMessage.setPatientName(mProvideViewInteractOrderTreatmentAndPatientInterrogation.getPatientName());
+      //  Log.e("tag", "commit: "+mProvideViewInteractOrderTreatmentAndPatientInterrogation.getOrderCode());
+        provideInteractPatientMessage.setTreatmentType(mProvideViewInteractOrderTreatmentAndPatientInterrogation.getTreatmentType());
+      //  Log.e("tag", "commit: "+mProvideViewInteractOrderTreatmentAndPatientInterrogation.getTreatmentType());
         provideInteractPatientMessage.setReplyContent(mMessageReply.getText().toString());
+     //   Log.e("tag", "commit:输入框 "+mMessageReply.getText().toString());
+        provideInteractPatientMessage.setReplyType(replyTyp);
+    //    Log.e("tag", "commit: "+replyTyp);
+        provideInteractPatientMessage.setPatientCode(mProvideViewInteractOrderTreatmentAndPatientInterrogation.getPatientCode());
+     //   Log.e("tag", "commit: "+mProvideViewInteractOrderTreatmentAndPatientInterrogation.getPatientCode());
+        provideInteractPatientMessage.setPatientName(mProvideViewInteractOrderTreatmentAndPatientInterrogation.getPatientName());
+     //   Log.e("tag", "commit: "+mProvideViewInteractOrderTreatmentAndPatientInterrogation.getPatientName());
+
+        if(mProvideViewInteractOrderTreatmentAndPatientInterrogation.getTreatmentLinkPhone()==null&&mProvideViewInteractOrderTreatmentAndPatientInterrogation.getTreatmentLinkPhone().equals("")){
+            provideInteractPatientMessage.setPatientPhone("");
+        }
+        else {
+            provideInteractPatientMessage.setPatientPhone(mProvideViewInteractOrderTreatmentAndPatientInterrogation.getTreatmentLinkPhone());
+        }
+    //    Log.e("tag", "commit: "+mProvideViewInteractOrderTreatmentAndPatientInterrogation.getTreatmentLinkPhone());
+
+
 
         new Thread() {
             public void run() {
@@ -240,6 +421,7 @@ public class ZhlyReplyActivity extends AppCompatActivity {
                     mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + string, Constant.SERVICEURL + "doctorInteractDataControlle/operUpdMyClinicDetailByOrderPatientMessage");
                     String string01 = Constant.SERVICEURL + "doctorInteractDataControlle/operUpdMyClinicDetailByOrderPatientMessage";
                     System.out.println(string + string01);
+                    Log.e("tag", "提交 "+mNetRetStr );
                 } catch (Exception e) {
                     NetRetEntity retEntity = new NetRetEntity();
                     retEntity.setResCode(0);
@@ -280,6 +462,7 @@ public class ZhlyReplyActivity extends AppCompatActivity {
                     mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + string, Constant.SERVICEURL + "doctorInteractDataControlle/searchMyClinicDetailResPatientMessageContent");
                     String string01 = Constant.SERVICEURL + "doctorInteractDataControlle/searchMyClinicDetailResPatientMessageContent";
                     System.out.println(string + string01);
+                    Log.e("", "文字 "+mNetRetStr );
                 } catch (Exception e) {
                     NetRetEntity retEntity = new NetRetEntity();
                     retEntity.setResCode(0);

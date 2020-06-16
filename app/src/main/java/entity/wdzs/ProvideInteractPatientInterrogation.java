@@ -42,6 +42,15 @@ public class ProvideInteractPatientInterrogation implements java.io.Serializable
 	private String operDoctorCode;
 	private String operDoctorName;
 
+	public Integer getFlagHtnHistory() {
+		return flagHtnHistory;
+	}
+
+	public void setFlagHtnHistory(Integer flagHtnHistory) {
+		this.flagHtnHistory = flagHtnHistory;
+	}
+
+	private Integer flagHtnHistory;//是否有高血压病史.1:是;0:否;[操作方式:单选按钮]
 
 	public String getLoginDoctorPosition() {
 		return loginDoctorPosition;

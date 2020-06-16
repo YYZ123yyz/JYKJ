@@ -53,37 +53,37 @@ import www.jykj.com.jykj_zxyl.util.Util;
 public class GRXX_GRZK_JBXXActivity extends AppCompatActivity {
 
 
-    private         Context                 mContext;
-    private         TWJZ_CFQActivity        mActivity;
-    private         Handler                 mHandler;
-    private         JYKJApplication         mApp;
-    private         RecyclerView            mRecycleView;
+    private Context mContext;
+    private TWJZ_CFQActivity mActivity;
+    private Handler mHandler;
+    private JYKJApplication mApp;
+    private RecyclerView mRecycleView;
 
-    private         LinearLayoutManager     layoutManager;
-    private         JYZL_GRZLRecycleAdapter       mJYZL_GRZLRecycleAdapter;      //适配器
-    private         List<HZIfno>            mHZEntyties = new ArrayList<>();            //所有数据
-    private         LinearLayout            mJBXX;                                  //基本信息
-    private         String                  mPatientCode;                       //患者code
+    private LinearLayoutManager layoutManager;
+    private JYZL_GRZLRecycleAdapter mJYZL_GRZLRecycleAdapter;      //适配器
+    private List<HZIfno> mHZEntyties = new ArrayList<>();            //所有数据
+    private LinearLayout mJBXX;                                  //基本信息
+    private String mPatientCode;                       //患者code
 
-    public                  ProgressDialog              mDialogProgress =null;
-    private                 String                      mNetRetStr;                 //获取返回字符串
-    private             ProvideViewSysUserPatientInfoAndRegion  mProvideViewSysUserPatientInfoAndRegion;
+    public ProgressDialog mDialogProgress = null;
+    private String mNetRetStr;                 //获取返回字符串
+    private ProvideViewSysUserPatientInfoAndRegion mProvideViewSysUserPatientInfoAndRegion;
 
-    private         ImageView               mUserPhoto;                         //用户头像
-    private         ImageView               mUserQrCode;                         //二维码
-    private         TextView                mUserAuth;                         //认证状态
-    private         TextView                mUserName;                         //姓名
-    private         TextView                mUserSex;                         //性别
-    private         TextView                mUserMZ;                         //民族
-    private         TextView                mUserJG;                         //籍贯
-    private         TextView                mUserBirthDay;                         //出生日期
-    private         TextView                mUserIDCardNum;                         //身份证号
-    private         TextView                mUserLinkPhone;                         //电话
-    private         TextView                mUserRegion;                         //所在区域
-    private         TextView                mUserAddress;                         //现居地
-    private         TextView                mNewLoginDate;                      //最近一次登录时间
+    private ImageView mUserPhoto;                         //用户头像
+    private ImageView mUserQrCode;                         //二维码
+    private TextView mUserAuth;                         //认证状态
+    private TextView mUserName;                         //姓名
+    private TextView mUserSex;                         //性别
+    private TextView mUserMZ;                         //民族
+    private TextView mUserJG;                         //籍贯
+    private TextView mUserBirthDay;                         //出生日期
+    private TextView mUserIDCardNum;                         //身份证号
+    private TextView mUserLinkPhone;                         //电话
+    private TextView mUserRegion;                         //所在区域
+    private TextView mUserAddress;                         //现居地
+    private TextView mNewLoginDate;                      //最近一次登录时间
 
-    private         LinearLayout            mBack;
+    private LinearLayout mBack;
 
 
     @Override
@@ -101,17 +101,16 @@ public class GRXX_GRZK_JBXXActivity extends AppCompatActivity {
     }
 
     private void initHandler() {
-        mHandler = new Handler(){
+        mHandler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
-                switch (msg.what)
-                {
+                switch (msg.what) {
                     case 0:
                         cacerProgress();
                         break;
                     case 1:
                         cacerProgress();
-                        mProvideViewSysUserPatientInfoAndRegion = JSON.parseObject(JSON.parseObject(mNetRetStr,NetRetEntity.class).getResJsonData(),ProvideViewSysUserPatientInfoAndRegion.class);
+                        mProvideViewSysUserPatientInfoAndRegion = JSON.parseObject(JSON.parseObject(mNetRetStr, NetRetEntity.class).getResJsonData(), ProvideViewSysUserPatientInfoAndRegion.class);
                         showViewDate();
                         break;
                     case 2:
@@ -125,25 +124,25 @@ public class GRXX_GRZK_JBXXActivity extends AppCompatActivity {
      * 初始化布局
      */
     private void initLayout() {
-        mBack = (LinearLayout)this.findViewById(R.id.li_back);
+        mBack = (LinearLayout) this.findViewById(R.id.li_back);
         mBack.setOnClickListener(new ButtonClick());
-        mUserPhoto = (ImageView)this.findViewById(R.id.iv_activityHZZL_userPhoto);
-        mUserQrCode = (ImageView)this.findViewById(R.id.iv_activityHZZL_userQrCode);
-        mUserAuth = (TextView)this.findViewById(R.id.tv_activityHZZL_userAuthState);
+        mUserPhoto = (ImageView) this.findViewById(R.id.iv_activityHZZL_userPhoto);
+        mUserQrCode = (ImageView) this.findViewById(R.id.iv_activityHZZL_userQrCode);
+        mUserAuth = (TextView) this.findViewById(R.id.tv_activityHZZL_userAuthState);
 
-        mUserAuth = (TextView)this.findViewById(R.id.tv_activityHZZL_userAuthState);
-        mUserName = (TextView)this.findViewById(R.id.tv_activityHZZL_userName);
-        mUserSex = (TextView)this.findViewById(R.id.tv_activityHZZL_sex);
-        mUserMZ = (TextView)this.findViewById(R.id.tv_activityHZZL_MZ);
-        mUserJG = (TextView)this.findViewById(R.id.tv_activityHZZL_JG);
-        mUserBirthDay = (TextView)this.findViewById(R.id.tv_activityHZZL_BirthDay);
-        mUserIDCardNum = (TextView)this.findViewById(R.id.tv_activityHZZL_idCardNum);
-        mUserLinkPhone = (TextView)this.findViewById(R.id.tv_activityHZZL_linkPhone);
+        mUserAuth = (TextView) this.findViewById(R.id.tv_activityHZZL_userAuthState);
+        mUserName = (TextView) this.findViewById(R.id.tv_activityHZZL_userName);
+        mUserSex = (TextView) this.findViewById(R.id.tv_activityHZZL_sex);
+        mUserMZ = (TextView) this.findViewById(R.id.tv_activityHZZL_MZ);
+        mUserJG = (TextView) this.findViewById(R.id.tv_activityHZZL_JG);
+        mUserBirthDay = (TextView) this.findViewById(R.id.tv_activityHZZL_BirthDay);
+        mUserIDCardNum = (TextView) this.findViewById(R.id.tv_activityHZZL_idCardNum);
+        mUserLinkPhone = (TextView) this.findViewById(R.id.tv_activityHZZL_linkPhone);
 
-        mUserRegion = (TextView)this.findViewById(R.id.tv_activityHZZL_region);
-        mUserAddress = (TextView)this.findViewById(R.id.tv_activityHZZL_address);
+        mUserRegion = (TextView) this.findViewById(R.id.tv_activityHZZL_region);
+        mUserAddress = (TextView) this.findViewById(R.id.tv_activityHZZL_address);
 
-        mNewLoginDate = (TextView)this.findViewById(R.id.tv_activityHZZL_newLoginDate);
+        mNewLoginDate = (TextView) this.findViewById(R.id.tv_activityHZZL_newLoginDate);
 
     }
 
@@ -195,7 +194,7 @@ public class GRXX_GRZK_JBXXActivity extends AppCompatActivity {
         if (mProvideViewSysUserPatientInfoAndRegion.getBirthday() == null || "".equals(mProvideViewSysUserPatientInfoAndRegion.getBirthday()))
             mUserBirthDay.setText("未设置");
         else
-            mUserBirthDay.setText(Util.dateToStr(mProvideViewSysUserPatientInfoAndRegion.getBirthday()));
+            mUserBirthDay.setText(Util.dateToStrNUR(mProvideViewSysUserPatientInfoAndRegion.getBirthday()));
 
         if (mProvideViewSysUserPatientInfoAndRegion.getNewLoginDate() == null || "".equals(mProvideViewSysUserPatientInfoAndRegion.getNewLoginDate()))
             mNewLoginDate.setText("未设置");
@@ -213,24 +212,17 @@ public class GRXX_GRZK_JBXXActivity extends AppCompatActivity {
             mUserLinkPhone.setText(mProvideViewSysUserPatientInfoAndRegion.getLinkPhone());
 
         String region = "";
-        if(TextUtils.isEmpty(mProvideViewSysUserPatientInfoAndRegion.getProvinceName())&&TextUtils.isEmpty( mProvideViewSysUserPatientInfoAndRegion.getCityName())&&TextUtils.isEmpty(mProvideViewSysUserPatientInfoAndRegion.getAreaName())){
-            region="未设置";
-        }
-        else  if(TextUtils.isEmpty(mProvideViewSysUserPatientInfoAndRegion.getCityName())){
-            region=mProvideViewSysUserPatientInfoAndRegion.getProvinceName();
-        }
-        else if (TextUtils.isEmpty(mProvideViewSysUserPatientInfoAndRegion.getAreaName())) {
+        if (TextUtils.isEmpty(mProvideViewSysUserPatientInfoAndRegion.getProvinceName()) && TextUtils.isEmpty(mProvideViewSysUserPatientInfoAndRegion.getCityName()) && TextUtils.isEmpty(mProvideViewSysUserPatientInfoAndRegion.getAreaName())) {
+            region = "未设置";
+        } else if (TextUtils.isEmpty(mProvideViewSysUserPatientInfoAndRegion.getCityName())) {
+            region = mProvideViewSysUserPatientInfoAndRegion.getProvinceName();
+        } else if (TextUtils.isEmpty(mProvideViewSysUserPatientInfoAndRegion.getAreaName())) {
             region = mProvideViewSysUserPatientInfoAndRegion.getProvinceName() + mProvideViewSysUserPatientInfoAndRegion.getCityName();
         } else {
             region = mProvideViewSysUserPatientInfoAndRegion.getProvinceName() + mProvideViewSysUserPatientInfoAndRegion.getCityName() + mProvideViewSysUserPatientInfoAndRegion.getAreaName();
         }
 
         mUserRegion.setText(region);
-
-
-
-
-
 
 
 //        if (mProvideViewSysUserPatientInfoAndRegion.getProvinceName() != null || !"".equals(mProvideViewSysUserPatientInfoAndRegion.getProvinceName()))
@@ -288,14 +280,13 @@ public class GRXX_GRZK_JBXXActivity extends AppCompatActivity {
     }
 
 
-
-    class   ButtonClick implements View.OnClickListener {
+    class ButtonClick implements View.OnClickListener {
         @Override
         public void onClick(View view) {
             switch (view.getId()) {
 
                 case R.id.li_activityGRZK_JBXX:
-                    startActivity(new Intent(mContext,GRXX_GRZK_JBXXActivity.class));
+                    startActivity(new Intent(mContext, GRXX_GRZK_JBXXActivity.class));
                     break;
                 case R.id.li_back:
                     finish();
@@ -305,12 +296,11 @@ public class GRXX_GRZK_JBXXActivity extends AppCompatActivity {
     }
 
 
-
     /**
-     *   获取进度条
+     * 获取进度条
      */
 
-    public void getProgressBar(String title,String progressPrompt){
+    public void getProgressBar(String title, String progressPrompt) {
         if (mDialogProgress == null) {
             mDialogProgress = new ProgressDialog(this);
         }
@@ -323,7 +313,7 @@ public class GRXX_GRZK_JBXXActivity extends AppCompatActivity {
     /**
      * 取消进度条
      */
-    public void cacerProgress(){
+    public void cacerProgress() {
         if (mDialogProgress != null) {
             mDialogProgress.dismiss();
         }

@@ -29,6 +29,7 @@ public class ProvideInteractOrderMedical implements java.io.Serializable {
 	private String operDoctorCode;
 	private String operDoctorName;
 
+
 	public Integer getMedicalId() {
 		return medicalId;
 	}

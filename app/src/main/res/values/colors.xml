@@ -24,6 +24,8 @@
     <color name="textColor_hzgltabzc">#3ed045</color>
     <color name="textColor_black">#333333</color>
 
+    <color name="textColor_red">#D80000</color>
+
 
     <color name="color">#ff00ff</color>
     <!--zxing-->
@@ -39,6 +41,10 @@
     <color name="react">#5FB3F1</color>
     <color name="scanLineColor">#5FB3F1</color>
     <color name="defaultColor">#ffffff</color>
+    <color name="tv1">#D70000</color>
+    <color name="tv2">#FF6600</color>
+    <color name="tv3">#00C017</color>
+    <color name="tv4">#999999</color>
 
     <color name="province_line_border">#C7C7C7</color>
     <color name="color_f7">#f7f7f7</color>

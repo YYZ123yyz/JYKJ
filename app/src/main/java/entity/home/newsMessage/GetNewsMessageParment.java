@@ -5,15 +5,24 @@ package entity.home.newsMessage;
  */
 public class GetNewsMessageParment {
 
-    private             String              rowNum;
-    private             String              pageNum;
-    private             String              loginDoctorPosition;
-    private             String              searchDoctorCode;
-    private             String              msgType;
-    private             String              flagMsgRead;
+    private String rowNum;
+    private String pageNum;
+    private String loginDoctorPosition;
+    private String searchDoctorCode;
+    private String msgType;
+    private String flagMsgRead;
 
-    private             String              doctorCode;
+    private String doctorCode;
 
+    private String searchDoctorName;
+
+    public String getSearchDoctorName() {
+        return searchDoctorName;
+    }
+
+    public void setSearchDoctorName(String searchDoctorName) {
+        this.searchDoctorName = searchDoctorName;
+    }
 
     public String getDoctorCode() {
         return doctorCode;

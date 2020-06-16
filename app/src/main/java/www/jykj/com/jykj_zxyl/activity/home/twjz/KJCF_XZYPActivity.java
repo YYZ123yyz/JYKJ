@@ -12,6 +12,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,6 +33,7 @@ import www.jykj.com.jykj_zxyl.adapter.WDZS_YPXXAdapter;
 import www.jykj.com.jykj_zxyl.application.Constant;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.util.ActivityUtil;
+import yyz_exploit.activity.activity.AddActivity;
 
 
 /**
@@ -61,8 +63,9 @@ public class KJCF_XZYPActivity extends AppCompatActivity {
     private LinearLayout mSearchLayout;                  //搜索布局
 
     private LinearLayout mBack;
+    private ImageView iv_add;
 
-
+    private static final int mAdd = 1;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,6 +81,16 @@ public class KJCF_XZYPActivity extends AppCompatActivity {
     }
 
     private void initLayout() {
+        iv_add = findViewById(R.id.iv_add);
+        iv_add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, AddActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
         mBack = (LinearLayout) this.findViewById(R.id.li_back);
         mBack.setOnClickListener(new View.OnClickListener() {
             @Override

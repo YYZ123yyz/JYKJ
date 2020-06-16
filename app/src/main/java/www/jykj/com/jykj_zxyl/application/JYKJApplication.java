@@ -212,6 +212,8 @@ public class JYKJApplication extends Application {
         saveIMNumInfo();
         getIMNumInfo();
         initLitesmat();
+
+
     }
 
     void initLitesmat(){

@@ -10,6 +10,8 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +43,7 @@ public class FragmentYLZX extends Fragment {
     private List<Fragment> fragmentList;
     private TabLayout tabLayout;
     private List<String> mTitles;
-
+    private WebView web;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_ylzx, container, false);
@@ -49,7 +51,7 @@ public class FragmentYLZX extends Fragment {
         mActivity = (MainActivity) getActivity();
         mApp = (JYKJApplication) getActivity().getApplication();
         initLayout(v);
-        initHandler();
+      //  initHandler();
         return v;
     }
 
@@ -57,37 +59,49 @@ public class FragmentYLZX extends Fragment {
      * 初始化布局
      */
     private void initLayout(View view) {
-        pager = view.findViewById(R.id.page);
-        tabLayout = view.findViewById(R.id.tab_layout);
 
-        fragmentList = new ArrayList<>();
-        mTitles = new ArrayList<>();
-        mTitles.add("热门精选");
-        mTitles.add("医学新闻");
-        mTitles.add("医学文献");
-        mTitles.add("医学指南");
-        mTitles.add("我的收藏");
-        fragmentList.add(new FragmentRMJX());
-        fragmentList.add(new FragmentYXXW());
-        fragmentList.add(new FragmentYXWX());
-        fragmentList.add(new FragmentYXZN());
-        fragmentList.add(new FragmentWDSC());
-
-        fragmentAdapter = new FragmentAdapter(mActivity.getSupportFragmentManager(), fragmentList, mTitles);
-        pager.setAdapter(fragmentAdapter);
-        tabLayout.setupWithViewPager(pager);//与ViewPage建立关系
-    }
-
-
-    private void initHandler() {
-        mHandler = new Handler() {
+        web = view.findViewById(R.id.web);
+        web.getSettings().setJavaScriptEnabled(true);
+        web.loadUrl("http://jiuyihtn.com/AppAssembly/medicalAdvice.html");
+        web.setWebViewClient(new WebViewClient(){
             @Override
-            public void handleMessage(Message msg) {
-                super.handleMessage(msg);
-                switch (msg.what) {
-
-                }
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                view.loadUrl(url);
+                return super.shouldOverrideUrlLoading(view, url);
             }
-        };
+        });
+
+//        pager = view.findViewById(R.id.page);
+//        tabLayout = view.findViewById(R.id.tab_layout);
+//
+//        fragmentList = new ArrayList<>();
+//        mTitles = new ArrayList<>();
+//        mTitles.add("热门精选");
+//        mTitles.add("医学新闻");
+//        mTitles.add("医学文献");
+//        mTitles.add("医学指南");
+//        mTitles.add("我的收藏");
+//        fragmentList.add(new FragmentRMJX());
+//        fragmentList.add(new FragmentYXXW());
+//        fragmentList.add(new FragmentYXWX());
+//        fragmentList.add(new FragmentYXZN());
+//        fragmentList.add(new FragmentWDSC());
+//
+//        fragmentAdapter = new FragmentAdapter(mActivity.getSupportFragmentManager(), fragmentList, mTitles);
+//        pager.setAdapter(fragmentAdapter);
+//        tabLayout.setupWithViewPager(pager);//与ViewPage建立关系
     }
+
+
+//    private void initHandler() {
+//        mHandler = new Handler() {
+//            @Override
+//            public void handleMessage(Message msg) {
+//                super.handleMessage(msg);
+//                switch (msg.what) {
+//
+//                }
+//            }
+//        };
+//    }
 }

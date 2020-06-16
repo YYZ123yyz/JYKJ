@@ -156,7 +156,7 @@
             android:layout_weight="1"
             android:textSize="8pt"
             android:id="@+id/tv_ywc"
-            android:text="已完成"/>
+            android:text="历史记录"/>
     </LinearLayout>
   <com.scwang.smartrefresh.layout.SmartRefreshLayout
       android:id="@+id/refreshLayout"

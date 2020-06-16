@@ -1,21 +1,29 @@
 package www.jykj.com.jykj_zxyl.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import entity.HZIfno;
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.activity.home.wdzs.ProvideViewInteractOrderTreatmentAndPatientInterrogation;
 import www.jykj.com.jykj_zxyl.util.Util;
+
+import static www.jykj.com.jykj_zxyl.R.drawable.female;
+import static www.jykj.com.jykj_zxyl.R.drawable.text_color1;
 
 /**
  *  图文就诊未完成
@@ -59,79 +67,103 @@ public class TWJZNoFinishRecycleAdapter extends RecyclerView.Adapter<TWJZNoFinis
      * @param viewHolder
      * @param position
      */
+    @SuppressLint("ResourceAsColor")
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
-        viewHolder.mDate.setText(Util.dateToStr(datas.get(position).getTreatmentDateStart()));
+        viewHolder.mDate.setText(Util.dateToStr(datas.get(position).getOrderDate()));
         viewHolder.mUserName.setText(datas.get(position).getPatientName());
         if (datas.get(position).getInterrogationGender() == 0)
-            viewHolder.mSex.setText("未知");
+
         if (datas.get(position).getInterrogationGender() == 1)
-            viewHolder.mSex.setText("男");
-        if (datas.get(position).getInterrogationGender() == 2)
-            viewHolder.mSex.setText("女");
+            viewHolder.mSex.setImageResource(R.mipmap.male);
+
+        //    viewHolder.lin_gender.setBackground(R.drawable.female);
+        if (datas.get(position).getInterrogationGender() == 2) {
+            viewHolder.lin_gender.setBackgroundResource(R.drawable.female);
+            viewHolder.mSex.setImageResource(R.mipmap.female);
+        }
+        //    viewHolder.mSex.setText("女");
         viewHolder.mAge.setText(datas.get(position).getInterrogationBirthday());
-        viewHolder.mJD.setText(datas.get(position).getFlagTreatmentStateName());
-        viewHolder.mType.setText(datas.get(position).getTreatmentTypeName());
+      //  viewHolder.mJD.setText(datas.get(position).getFlagTreatmentStateName());
+        viewHolder.mType.setText(datas.get(position).getDoctorReceiveShow());
+        Log.e("tag", "onBindViewHolder: "+datas.get(position).getFlagColor().toString());
+        if(datas.get(position).getFlagColor()==0){
+            viewHolder.mType.setTextColor(Color.parseColor("#999999"));
+            viewHolder.rela.setVisibility(View.GONE);
+        }
+       else if(datas.get(position).getFlagColor()==1){
+            viewHolder.mType.setTextColor(Color.parseColor("#D80000"));
+            viewHolder.rela.setVisibility(View.GONE);
+        }
         if (datas.get(position).getTreatmentType() == 1)
         {
+            viewHolder.mYHHD.setText("图文互动");
             viewHolder.mText01.setVisibility(View.VISIBLE);
             viewHolder.mText02.setVisibility(View.VISIBLE);
-            viewHolder.mText03.setVisibility(View.GONE);
+            viewHolder.mText03.setVisibility(View.VISIBLE);
             viewHolder.mText04.setVisibility(View.GONE);
             viewHolder.mText05.setVisibility(View.GONE);
             viewHolder.mText06.setVisibility(View.GONE);
-            if (datas.get(position).getTreatmentDateEnd() != null)
-                viewHolder.mText01.setText("服务截止时间："+Util.dateToStr(datas.get(position).getTreatmentDateEnd()));
+            if (datas.get(position).getTreatmentDateStart() != null)
+                viewHolder.mText01.setText("服务开始时间："+Util.dateToStr(datas.get(position).getTreatmentDateStart()));
             else
                 viewHolder.mText01.setVisibility(View.GONE);
-            if (datas.get(position).getLimitImgText() == -1)
-                viewHolder.mText02.setText("剩余图文消息数量：无限制");
+            if (datas.get(position).getTreatmentDateEnd() != null)
+                viewHolder.mText02.setText("服务截止时间："+Util.dateToStr(datas.get(position).getTreatmentDateEnd()));
             else
-                viewHolder.mText02.setText("剩余图文消息数量："+datas.get(position).getLimitImgText()+"(条)");
+                viewHolder.mText02.setVisibility(View.GONE);
+            if (datas.get(position).getLimitImgTextShow() == -1)
+                viewHolder.mText03.setText("剩余图文消息数量：无限制");
+            else
+                viewHolder.mText03.setText("剩余图文消息数量："+datas.get(position).getLimitImgTextShow()+"(条)");
         }
         if (datas.get(position).getTreatmentType() == 2)
         {
+            viewHolder.mYHHD.setText("音频互动");
             viewHolder.mText01.setVisibility(View.VISIBLE);
             viewHolder.mText02.setVisibility(View.VISIBLE);
             viewHolder.mText03.setVisibility(View.GONE);
             viewHolder.mText04.setVisibility(View.GONE);
             viewHolder.mText05.setVisibility(View.GONE);
             viewHolder.mText06.setVisibility(View.GONE);
-            viewHolder.mText01.setText("预约服务时间："+datas.get(position).getTreatmentTimeSlotName());
-            viewHolder.mText02.setText("剩余音频时长："+datas.get(position).getLimitAudio()+"(分钟)");
+            viewHolder.mText01.setText("预约服务时间："+datas.get(position).getTreatmentDate());
+            viewHolder.mText02.setText("剩余音频时长："+datas.get(position).getLimitAudioShow()+"(分钟)");
         }
         if (datas.get(position).getTreatmentType() == 3)
         {
+            viewHolder.mYHHD.setText("视频互动");
             viewHolder.mText01.setVisibility(View.VISIBLE);
             viewHolder.mText02.setVisibility(View.VISIBLE);
             viewHolder.mText03.setVisibility(View.GONE);
             viewHolder.mText04.setVisibility(View.GONE);
             viewHolder.mText05.setVisibility(View.GONE);
             viewHolder.mText06.setVisibility(View.GONE);
-            viewHolder.mText01.setText("预约服务时间："+datas.get(position).getTreatmentTimeSlotName());
-            viewHolder.mText02.setText("剩余视频时长："+datas.get(position).getLimitVideo()+"(分钟)");
+            viewHolder.mText01.setText("预约服务时间："+datas.get(position).getTreatmentDate());
+            viewHolder.mText02.setText("剩余视频时长："+datas.get(position).getLimitVideoShow()+"(分钟)");
         }
         if (datas.get(position).getTreatmentType() == 4)
         {
+            viewHolder.mYHHD.setText("医患互动");
             viewHolder.mText01.setVisibility(View.VISIBLE);
             viewHolder.mText02.setVisibility(View.VISIBLE);
             viewHolder.mText03.setVisibility(View.VISIBLE);
             viewHolder.mText04.setVisibility(View.VISIBLE);
             viewHolder.mText05.setVisibility(View.VISIBLE);
             viewHolder.mText06.setVisibility(View.VISIBLE);
-            viewHolder.mText01.setText("服务天数："+datas.get(position).getLimitSigning()+"(天)");
+            viewHolder.mText01.setText("服务开始时间："+ Util.dateToStr(datas.get(position).getLimitSigningStartDate()));
             viewHolder.mText02.setText("服务截止时间："+Util.dateToStr(datas.get(position).getLimitSigningExpireDate()));
-            if (datas.get(position).getLimitImgText() == -1)
+            if (datas.get(position).getLimitImgTextShow() == -1)
                 viewHolder.mText03.setText("剩余图文消息数量：无限制");
             else
-                viewHolder.mText03.setText("剩余图文消息数量："+datas.get(position).getLimitImgText()+"(条)");
-            viewHolder.mText04.setText("剩余通话时长："+datas.get(position).getLimitPhone()+"(分钟)");
-            viewHolder.mText05.setText("预约音频时长："+datas.get(position).getLimitAudio()+"(分钟)");
-            viewHolder.mText06.setText("剩余视频时长："+datas.get(position).getLimitVideo()+"(分钟)");
+                viewHolder.mText03.setText("剩余图文消息数量："+datas.get(position).getLimitImgTextShow()+"(条)");
+            viewHolder.mText04.setText("剩余通话时长："+datas.get(position).getLimitPhoneShow()+"(分钟)");
+            viewHolder.mText05.setText("剩余音频时长："+datas.get(position).getLimitAudioShow()+"(分钟)");
+            viewHolder.mText06.setText("剩余视频时长："+datas.get(position).getLimitVideoShow()+"(分钟)");
 
         }
         if (datas.get(position).getTreatmentType() == 5)
         {
+            viewHolder.mYHHD.setText("电话互动");
             viewHolder.mText01.setVisibility(View.VISIBLE);
             viewHolder.mText02.setVisibility(View.VISIBLE);
             viewHolder.mText03.setVisibility(View.VISIBLE);
@@ -139,8 +171,8 @@ public class TWJZNoFinishRecycleAdapter extends RecyclerView.Adapter<TWJZNoFinis
             viewHolder.mText05.setVisibility(View.GONE);
             viewHolder.mText06.setVisibility(View.GONE);
             viewHolder.mText01.setText("接听电话："+datas.get(position).getTreatmentLinkPhone());
-            viewHolder.mText02.setText("预约服务时间："+datas.get(position).getTreatmentTimeSlotName());
-            viewHolder.mText03.setText("剩余通话时长："+datas.get(position).getLimitPhone());
+            viewHolder.mText02.setText("预约服务时间："+datas.get(position).getTreatmentDate());
+            viewHolder.mText03.setText("剩余通话时长："+datas.get(position).getLimitPhoneShow());
         }
         if (mOnItemClickListener != null)
         {
@@ -289,8 +321,7 @@ public class TWJZNoFinishRecycleAdapter extends RecyclerView.Adapter<TWJZNoFinis
         @Override
         public int getItemCount(){
 
-        return datas.size();
-//            return 10;
+            return datas==null ? 0:datas.size();
         }
 
 
@@ -304,7 +335,7 @@ public class TWJZNoFinishRecycleAdapter extends RecyclerView.Adapter<TWJZNoFinis
             private TextView    mDate;                                  //时间
             private TextView    mType;                                  //就诊类型
             private TextView    mUserName;                                  // 姓名
-            private TextView    mSex;                                  //性别
+            private ImageView mSex;                                  //性别
             private TextView    mAge;                                  //年龄
             private TextView    mJD;                                  //当前进度
             private TextView    mText01;                                  //截止时间
@@ -318,9 +349,10 @@ public class TWJZNoFinishRecycleAdapter extends RecyclerView.Adapter<TWJZNoFinis
             public TextView     mYHHD;                                  //医患互动
             public TextView     mKJCF;                                  //开具处方
             public TextView     mZHLY;                                  //诊后留言
-            public TextView     mCFQ;                                  //处方签
+            public TextView     mCFQ,dealwith_time;                                  //处方签
+            public LinearLayout     lin_gender;                                  //处方签
 
-
+            private RelativeLayout rela;
             public ViewHolder(View view){
                 super(view);
                 mClickLinearLayout = (LinearLayout) view.findViewById(R.id.li_itemActivityTWJZ_hzxx);
@@ -328,9 +360,9 @@ public class TWJZNoFinishRecycleAdapter extends RecyclerView.Adapter<TWJZNoFinis
                 mType = (TextView)view.findViewById(R.id.tv_type);
                 mDate = (TextView)view.findViewById(R.id.tv_date);
                 mUserName = (TextView)view.findViewById(R.id.tv_username);
-                mSex = (TextView)view.findViewById(R.id.tv_sex);
+                mSex = (ImageView) view.findViewById(R.id.tv_sex);
                 mAge = (TextView)view.findViewById(R.id.tv_age);
-                mJD = (TextView)view.findViewById(R.id.tv_jd);
+            //    mJD = (TextView)view.findViewById(R.id.tv_jd);
                 mText01 = (TextView)view.findViewById(R.id.tv_test01);
                 mText02 = (TextView)view.findViewById(R.id.tv_test02);
                 mText03 = (TextView)view.findViewById(R.id.tv_test03);
@@ -344,6 +376,11 @@ public class TWJZNoFinishRecycleAdapter extends RecyclerView.Adapter<TWJZNoFinis
                 mZHLY = (TextView)view.findViewById(R.id.item_fragmentTWJX_zhly);
                 mCFQ = (TextView)view.findViewById(R.id.item_fragmentTWJX_cfq);
 
+                lin_gender=view.findViewById(R.id.lin_gender);
+
+                dealwith_time=view.findViewById(R.id.dealwith_time);
+
+                rela=view.findViewById(R.id.rela);
             }
         }
 

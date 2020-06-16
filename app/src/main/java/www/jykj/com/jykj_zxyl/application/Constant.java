@@ -7,7 +7,7 @@ public class Constant {
     *
     * 服务器地址
      */
-    public final static String SERVICEURL = "http://114.215.137.171:28080/";
+    public final static String SERVICEURL = "https://www.jiuyihtn.com:28081/";
 
     /**
      *

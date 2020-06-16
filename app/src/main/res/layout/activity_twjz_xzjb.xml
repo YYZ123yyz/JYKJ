@@ -2,15 +2,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/pBackColor"
+    android:background="#ffff"
     android:orientation="vertical">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:background="@color/groabColor">
         <LinearLayout
-            android:layout_width="60dp"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:orientation="horizontal"
             android:id="@+id/li_back">
@@ -24,15 +25,39 @@
             android:src="@mipmap/arrow_left" />
         </LinearLayout>
         <TextView
+            android:layout_gravity="center"
+            android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="选择疾病"
             android:textColor="@color/writeColor"
             android:textSize="10pt" />
-    </RelativeLayout>
+        <ImageView
+            android:layout_marginRight="10dp"
+            android:layout_gravity="center"
+            android:id="@+id/twjz_add"
+            android:src="@mipmap/twjz_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
 
-    <LinearLayout
+          <EditText
+              android:layout_gravity="center"
+              android:layout_marginTop="20dp"
+              android:paddingLeft="80dp"
+              android:drawableLeft="@mipmap/search2"
+              android:layout_width="250dp"
+              android:layout_height="30dp"
+              android:background="@drawable/ed_bg"
+              android:textSize="7pt"
+              android:id="@+id/et_patientName"
+              android:textColor="@color/hintTextColor"
+              android:hint="输入臆断名称"
+              />
+
+
+    <!--<LinearLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:background="@color/writeColor"
@@ -52,21 +77,17 @@
                 android:src="@mipmap/search2" />
         </LinearLayout>
         <EditText
-            android:layout_width="match_parent"
+            android:layout_width="50dp"
             android:layout_height="match_parent"
             android:background="@null"
             android:textSize="7pt"
             android:id="@+id/et_patientName"
             android:textColor="@color/hintTextColor"
             android:layout_marginRight="20dp"
-            android:hint="请输入诊断名称"
+            android:hint="输入臆断名称"
             android:layout_weight="1"/>
 
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/pBackColor"/>
+    </LinearLayout>-->
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"

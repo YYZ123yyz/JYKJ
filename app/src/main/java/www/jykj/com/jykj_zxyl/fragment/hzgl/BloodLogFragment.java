@@ -75,23 +75,13 @@ public class BloodLogFragment extends Fragment {
 
     private void initView() {
         mRcyclerview = view.findViewById(R.id.log_list);
-        mPatientUser = view.findViewById(R.id.tv_patient_user_info);
     }
 
     private void initData() {
         if (isAdded()) {
             mData = (ProvideViewPatientLablePunchClockState) getArguments().getSerializable("patientLable");
         }
-        String name = mData.getUserName();
-        String sex;
-        String age;
-        if (mData.getGender() == 1) {
-            sex = "男";
-        } else {
-            sex = "女";
-        }
-        age = DateUtils.getAgeFromBirthDate(mData.getBirthday()) + "岁";
-        mPatientUser.setText(name + " " + sex + " " + age);
+
         pressureGroupsList = new ArrayList<>();
         setData();
 

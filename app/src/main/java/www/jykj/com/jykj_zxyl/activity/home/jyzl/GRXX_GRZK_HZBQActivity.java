@@ -43,27 +43,27 @@ import www.jykj.com.jykj_zxyl.util.ActivityUtil;
 public class GRXX_GRZK_HZBQActivity extends AppCompatActivity {
 
 
-    private         Context                 mContext;
-    private         TWJZ_CFQActivity        mActivity;
-    private         Handler                 mHandler;
-    private         JYKJApplication         mApp;
-    private         RecyclerView            mRecycleView;
+    private Context mContext;
+    private TWJZ_CFQActivity mActivity;
+    private Handler mHandler;
+    private JYKJApplication mApp;
+    private RecyclerView mRecycleView;
 
-    private         LinearLayoutManager     layoutManager;
-    private         JYZL_GRZLRecycleAdapter       mJYZL_GRZLRecycleAdapter;      //适配器
-    private         List<HZIfno>            mHZEntyties = new ArrayList<>();            //所有数据
-    private         LinearLayout            mJBXX;                                  //基本信息
-    public                  ProgressDialog              mDialogProgress =null;
-    private                 String                      mNetRetStr;                 //获取返回字符串
-    private         String                  mPatientCode;
-    private         int                     mRowNum = 10;                            //每页行数
-    private         int                     mPageNum = 1;                           //页数
+    private LinearLayoutManager layoutManager;
+    private JYZL_GRZLRecycleAdapter mJYZL_GRZLRecycleAdapter;      //适配器
+    private List<HZIfno> mHZEntyties = new ArrayList<>();            //所有数据
+    private LinearLayout mJBXX;                                  //基本信息
+    public ProgressDialog mDialogProgress = null;
+    private String mNetRetStr;                 //获取返回字符串
+    private String mPatientCode;
+    private int mRowNum = 10;                            //每页行数
+    private int mPageNum = 1;                           //页数
 
-    private         List<ProvidePatientLabel> providePatientLabels = new ArrayList<>();
+    private List<ProvidePatientLabel> providePatientLabels = new ArrayList<>();
 
-    private         PatientLaberAdapter    mPatientLaberAdapter;
+    private PatientLaberAdapter mPatientLaberAdapter;
 
-    private RelativeLayout          mBack;
+    private RelativeLayout mBack;
 
 
     @Override
@@ -81,17 +81,16 @@ public class GRXX_GRZK_HZBQActivity extends AppCompatActivity {
     }
 
     private void initHandler() {
-        mHandler = new Handler(){
+        mHandler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
-                switch (msg.what)
-                {
+                switch (msg.what) {
                     case 0:
                         cacerProgress();
                         break;
                     case 1:
                         cacerProgress();
-                        providePatientLabels = JSON.parseArray(JSON.parseObject(mNetRetStr,NetRetEntity.class).getResJsonData(),ProvidePatientLabel.class);
+                        providePatientLabels = JSON.parseArray(JSON.parseObject(mNetRetStr, NetRetEntity.class).getResJsonData(), ProvidePatientLabel.class);
 //                        showViewDate();
                         mPatientLaberAdapter.setDate(providePatientLabels);
                         mPatientLaberAdapter.notifyDataSetChanged();
@@ -109,7 +108,7 @@ public class GRXX_GRZK_HZBQActivity extends AppCompatActivity {
      */
     private void getDate() {
         //连接网络，登录
-        getProgressBar("请稍候。。。。", "正在加载数据");
+        getProgressBar("请稍候...", "正在加载数据");
         new Thread() {
             public void run() {
                 try {
@@ -118,10 +117,10 @@ public class GRXX_GRZK_HZBQActivity extends AppCompatActivity {
                     providePatientLabel.setOperDoctorCode(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
                     providePatientLabel.setOperDoctorName(mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
                     providePatientLabel.setSearchPatientCode(mPatientCode);
-                    providePatientLabel.setRowNum(mRowNum+"");
-                    providePatientLabel.setPageNum(mPageNum+"");
+                    providePatientLabel.setRowNum(mRowNum + "");
+                    providePatientLabel.setPageNum(mPageNum + "");
                     mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + new Gson().toJson(providePatientLabel), Constant.SERVICEURL + "patientDataControlle/searchDoctorManagePatientStateResLabel");
-                    Log.e("tag", "run:vvv "+mNetRetStr );
+                    Log.e("tag", "run:vvv " + mNetRetStr);
                     NetRetEntity netRetEntity = new Gson().fromJson(mNetRetStr, NetRetEntity.class);
                     if (netRetEntity.getResCode() == 0) {
                         NetRetEntity retEntity = new NetRetEntity();
@@ -149,7 +148,7 @@ public class GRXX_GRZK_HZBQActivity extends AppCompatActivity {
     private void initLayout() {
         mBack = (RelativeLayout) this.findViewById(R.id.back);
         mBack.setOnClickListener(new ButtonClick());
-        mRecycleView = (RecyclerView)this.findViewById(R.id.rv_activityPatientLaber_patientLaber);
+        mRecycleView = (RecyclerView) this.findViewById(R.id.rv_activityPatientLaber_patientLaber);
 
         //创建默认的线性LayoutManager
         layoutManager = new LinearLayoutManager(mContext);
@@ -158,11 +157,11 @@ public class GRXX_GRZK_HZBQActivity extends AppCompatActivity {
         //如果可以确定每个item的高度是固定的，设置这个选项可以提高性能
         mRecycleView.setHasFixedSize(true);
         //创建并设置Adapter
-        mPatientLaberAdapter = new PatientLaberAdapter(providePatientLabels,mContext);
+        mPatientLaberAdapter = new PatientLaberAdapter(providePatientLabels, mContext);
         mRecycleView.setAdapter(mPatientLaberAdapter);
     }
 
-    class   ButtonClick implements View.OnClickListener {
+    class ButtonClick implements View.OnClickListener {
         @Override
         public void onClick(View view) {
             switch (view.getId()) {
@@ -170,17 +169,17 @@ public class GRXX_GRZK_HZBQActivity extends AppCompatActivity {
                     finish();
                     break;
                 case R.id.li_activityGRZK_JBXX:
-                    startActivity(new Intent(mContext,GRXX_GRZK_HZBQActivity.class));
+                    startActivity(new Intent(mContext, GRXX_GRZK_HZBQActivity.class));
                     break;
             }
         }
     }
 
     /**
-     *   获取进度条
+     * 获取进度条
      */
 
-    public void getProgressBar(String title,String progressPrompt){
+    public void getProgressBar(String title, String progressPrompt) {
         if (mDialogProgress == null) {
             mDialogProgress = new ProgressDialog(this);
         }
@@ -193,7 +192,7 @@ public class GRXX_GRZK_HZBQActivity extends AppCompatActivity {
     /**
      * 取消进度条
      */
-    public void cacerProgress(){
+    public void cacerProgress() {
         if (mDialogProgress != null) {
             mDialogProgress.dismiss();
         }

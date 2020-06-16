@@ -3,6 +3,7 @@ package www.jykj.com.jykj_zxyl.activity.home.twjz;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -10,13 +11,22 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.google.gson.Gson;
+import com.yanzhenjie.recyclerview.OnItemMenuClickListener;
+import com.yanzhenjie.recyclerview.SwipeMenu;
+import com.yanzhenjie.recyclerview.SwipeMenuBridge;
+import com.yanzhenjie.recyclerview.SwipeMenuCreator;
+import com.yanzhenjie.recyclerview.SwipeMenuItem;
+import com.yanzhenjie.recyclerview.SwipeRecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,31 +53,31 @@ import www.jykj.com.jykj_zxyl.util.NestedExpandaleListView;
  */
 public class TWJZ_KJCFActivity extends AppCompatActivity {
 
-    public ProgressDialog mDialogProgress =null;
+    public ProgressDialog mDialogProgress = null;
 
-    private             Context                                 mContext;
-    private             Handler                                 mHandler;
+    private Context mContext;
+    private Handler mHandler;
 
-    private             String                              mNetRetStr;                 //返回字符串
+    private String mNetRetStr;                 //返回字符串
 
     private TWJZ_KJCFActivity mActivity;
-    private                 JYKJApplication         mApp;
-    private                 LinearLayout            mCFYP;          //处方药品
+    private JYKJApplication mApp;
+    private LinearLayout mCFYP;          //处方药品
 
-    private                 NestedExpandaleListView                mCFXX;                              //医生好友
-    private                 TextView                        mAddYP;                             //添加用药
-    private   static final  int                             mAddYPRequst = 1;
-    private                 TextView                                mWTJText;
+    private NestedExpandaleListView mCFXX;                              //医生好友
+    private TextView mAddYP;                             //添加用药
+    private static final int mAddYPRequst = 1;
+    private TextView mWTJText;
     private ProvideViewInteractOrderTreatmentAndPatientInterrogation mProvideViewInteractOrderTreatmentAndPatientInterrogation;
     private List<ProvideInteractOrderPrescribe> mProvideInteractOrderPrescribes = new ArrayList<>();
-    private                 int                             mDeleteIndex;
+    private int mDeleteIndex;
 
 
-    private         RecyclerView            mRecycleView;
+    private SwipeRecyclerView mRecycleView;
 
-    private         LinearLayoutManager     layoutManager;
-    private         TWJZ_CFQRecycleAdapter mAdapter;       //适配器
-
+    private LinearLayoutManager layoutManager;
+    private TWJZ_CFQRecycleAdapter mAdapter;       //适配器
+    private ImageView iv_back_left;
 
 
     @Override
@@ -97,12 +107,18 @@ public class TWJZ_KJCFActivity extends AppCompatActivity {
     private void initLayout() {
 //        mCFYP = (LinearLayout)this.findViewById(R.id.li_activityTWJZKJCF_cfyp);
 //        mCFYP.setOnClickListener(new ButtonClick());
-//
-        mAddYP = (TextView)this.findViewById(R.id.tv_addYP);
+        iv_back_left = findViewById(R.id.iv_back_left);
+        iv_back_left.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        mAddYP = (TextView) this.findViewById(R.id.tv_addYP);
         mAddYP.setOnClickListener(new ButtonClick());
-        mWTJText = (TextView)this.findViewById(R.id.tv_wtj);
+        mWTJText = (TextView) this.findViewById(R.id.tv_wtj);
 
-        mRecycleView = (RecyclerView) this.findViewById(R.id.tv_recycelView);
+        mRecycleView = (SwipeRecyclerView) this.findViewById(R.id.tv_recycelView);
         //创建默认的线性LayoutManager
         layoutManager = new LinearLayoutManager(mContext);
         layoutManager.setOrientation(LinearLayout.VERTICAL);
@@ -110,31 +126,57 @@ public class TWJZ_KJCFActivity extends AppCompatActivity {
         //如果可以确定每个item的高度是固定的，设置这个选项可以提高性能
         mRecycleView.setHasFixedSize(true);
         //创建并设置Adapter
-        mAdapter = new TWJZ_CFQRecycleAdapter(mProvideInteractOrderPrescribes,mContext);
-        mRecycleView.setAdapter(mAdapter);
-        mAdapter.setOnItemClickListener(new TWJZ_CFQRecycleAdapter.OnItemClickListener() {
-            @Override
-            public void onClick(int position) {
-                startActivityForResult(new Intent(mContext,KJCF_CFYPActivity.class).putExtra("cfyp",mProvideInteractOrderPrescribes.get(position)),mAddYPRequst);
-            }
+        mAdapter = new TWJZ_CFQRecycleAdapter(mProvideInteractOrderPrescribes, mContext);
 
+        mRecycleView.setSwipeMenuCreator(new SwipeMenuCreator() {
             @Override
-            public void onLongClick(int position) {
+            public void onCreateMenu(SwipeMenu leftMenu, SwipeMenu rightMenu, int position) {
+                SwipeMenuItem deleteItem = new SwipeMenuItem(TWJZ_KJCFActivity.this);
+                deleteItem.setBackgroundColor(Color.parseColor("#FF3D39"))
+                        .setText("删除")
+                        .setTextColor(Color.WHITE)
+                        .setHeight(ViewGroup.LayoutParams.MATCH_PARENT)
+                        .setWidth(170);
+
+                rightMenu.addMenuItem(deleteItem);
 
             }
         });
-        mAdapter.setOnDeleteItemClickListener(new TWJZ_CFQRecycleAdapter.OnItemDeleteClickListener() {
+
+        //菜单点击监听
+        mRecycleView.setOnItemMenuClickListener(new OnItemMenuClickListener() {
             @Override
-            public void onClick(int position) {
-                mDeleteIndex = position;
+            public void onItemClick(SwipeMenuBridge menuBridge, int adapterPosition) {
+                menuBridge.closeMenu();
+                mDeleteIndex = adapterPosition;
                 deleteYP();
             }
-
-            @Override
-            public void onLongClick(int position) {
-
-            }
         });
+        mRecycleView.setAdapter(mAdapter);
+
+//        mAdapter.setOnItemClickListener(new TWJZ_CFQRecycleAdapter.OnItemClickListener() {
+//            @Override
+//            public void onClick(int position) {
+//                startActivityForResult(new Intent(mContext, KJCF_CFYPActivity.class).putExtra("cfyp", mProvideInteractOrderPrescribes.get(position)), mAddYPRequst);
+//            }
+//
+//            @Override
+//            public void onLongClick(int position) {
+//
+//            }
+//        });
+//        mAdapter.setOnDeleteItemClickListener(new TWJZ_CFQRecycleAdapter.OnItemDeleteClickListener() {
+//            @Override
+//            public void onClick(int position) {
+//                mDeleteIndex = position;
+//                deleteYP();
+//            }
+//
+//            @Override
+//            public void onLongClick(int position) {
+//
+//            }
+//        });
 
     }
 
@@ -142,7 +184,7 @@ public class TWJZ_KJCFActivity extends AppCompatActivity {
      * 删除药品
      */
     private void deleteYP() {
-        getProgressBar("请稍候","正在提交。。。");
+        getProgressBar("请稍候", "正在提交。。。");
         new Thread() {
             public void run() {
 //                          //提交数据
@@ -178,29 +220,21 @@ public class TWJZ_KJCFActivity extends AppCompatActivity {
 
 
     private void initHandler() {
-        mHandler = new Handler(){
+        mHandler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
-                switch (msg.what)
-                {
+                switch (msg.what) {
                     case 0:
                         cacerProgress();
-                        NetRetEntity netRetEntity = JSON.parseObject(mNetRetStr,NetRetEntity.class);
-                        if (netRetEntity.getResCode() == 0)
-                        {
-                            Toast.makeText(mContext,netRetEntity.getResMsg(),Toast.LENGTH_SHORT).show();
-                        }
-                        else
-                        {
-                            mProvideInteractOrderPrescribes = JSON.parseArray(netRetEntity.getResJsonData(),ProvideInteractOrderPrescribe.class);
-                            if (mProvideInteractOrderPrescribes != null)
-                            {
-                                if (mProvideInteractOrderPrescribes.size() > 0)
-                                {
+                        NetRetEntity netRetEntity = JSON.parseObject(mNetRetStr, NetRetEntity.class);
+                        if (netRetEntity.getResCode() == 0) {
+                            Toast.makeText(mContext, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
+                        } else {
+                            mProvideInteractOrderPrescribes = JSON.parseArray(netRetEntity.getResJsonData(), ProvideInteractOrderPrescribe.class);
+                            if (mProvideInteractOrderPrescribes != null) {
+                                if (mProvideInteractOrderPrescribes.size() > 0) {
                                     mWTJText.setVisibility(View.GONE);
-                                }
-                                else
-                                {
+                                } else {
                                     mWTJText.setVisibility(View.VISIBLE);
                                 }
                                 mAdapter.setDate(mProvideInteractOrderPrescribes);
@@ -227,19 +261,18 @@ public class TWJZ_KJCFActivity extends AppCompatActivity {
 
                     case 2:
                         cacerProgress();
-                        netRetEntity = JSON.parseObject(mNetRetStr,NetRetEntity.class);
-                        Toast.makeText(mContext,netRetEntity.getResMsg(),Toast.LENGTH_SHORT).show();
+                        netRetEntity = JSON.parseObject(mNetRetStr, NetRetEntity.class);
+                        Toast.makeText(mContext, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
                         break;
                     case 6:
                         cacerProgress();
-                        netRetEntity = JSON.parseObject(mNetRetStr,NetRetEntity.class);
-                        if (netRetEntity.getResCode() == 1)
-                        {
+                        netRetEntity = JSON.parseObject(mNetRetStr, NetRetEntity.class);
+                        if (netRetEntity.getResCode() == 1) {
                             mProvideInteractOrderPrescribes.remove(mDeleteIndex);
                             mAdapter.setDate(mProvideInteractOrderPrescribes);
                             mAdapter.notifyDataSetChanged();
                         }
-                        Toast.makeText(mContext,netRetEntity.getResMsg(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mContext, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
                         break;
                 }
             }
@@ -250,24 +283,25 @@ public class TWJZ_KJCFActivity extends AppCompatActivity {
      * 设置数据
      */
     private void getData() {
-        getProgressBar("请稍后","正在获取数据。。。");
+        getProgressBar("请稍后", "正在获取数据。。。");
         ProvideInteractOrderPrescribe provideInteractOrderPrescribe = new ProvideInteractOrderPrescribe();
         provideInteractOrderPrescribe.setLoginDoctorPosition(mApp.loginDoctorPosition);
         provideInteractOrderPrescribe.setOperDoctorCode(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
         provideInteractOrderPrescribe.setOperDoctorName(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
         provideInteractOrderPrescribe.setOrderCode(mProvideViewInteractOrderTreatmentAndPatientInterrogation.getOrderCode());
 
-        new Thread(){
-            public void run(){
+        new Thread() {
+            public void run() {
                 try {
                     String string = new Gson().toJson(provideInteractOrderPrescribe);
-                    mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo="+string,Constant.SERVICEURL+"doctorInteractDataControlle/searchMyClinicDetailResPrescribe");
-                    String string01 = Constant.SERVICEURL+"doctorInteractDataControlle/searchMyClinicDetailResPrescribe";
-                    System.out.println(string+string01);
+                    mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + string, Constant.SERVICEURL + "doctorInteractDataControlle/searchMyClinicDetailResPrescribe");
+                    String string01 = Constant.SERVICEURL + "doctorInteractDataControlle/searchMyClinicDetailResPrescribe";
+                    System.out.println(string + string01);
+                    Log.e("tag", "run: 开具处方"+mNetRetStr );
                 } catch (Exception e) {
                     NetRetEntity retEntity = new NetRetEntity();
                     retEntity.setResCode(0);
-                    retEntity.setResMsg("网络连接异常，请联系管理员："+e.getMessage());
+                    retEntity.setResMsg("网络连接异常，请联系管理员：" + e.getMessage());
                     mNetRetStr = new Gson().toJson(retEntity);
                     e.printStackTrace();
                 }
@@ -277,7 +311,7 @@ public class TWJZ_KJCFActivity extends AppCompatActivity {
     }
 
 
-    class   ButtonClick implements View.OnClickListener {
+    class ButtonClick implements View.OnClickListener {
         @Override
         public void onClick(View view) {
             switch (view.getId()) {
@@ -285,12 +319,13 @@ public class TWJZ_KJCFActivity extends AppCompatActivity {
                     commit();
                     break;
                 case R.id.tv_addYP:
-                    startActivityForResult(new Intent(mContext,KJCF_CFYPActivity.class).putExtra("xzyp",mProvideViewInteractOrderTreatmentAndPatientInterrogation),mAddYPRequst);
+                    startActivityForResult(new Intent(mContext, KJCF_CFYPActivity.class).putExtra("xzyp", mProvideViewInteractOrderTreatmentAndPatientInterrogation), mAddYPRequst);
                     break;
 
             }
         }
     }
+
     private void showLayoutDate() {
 
     }
@@ -342,13 +377,11 @@ public class TWJZ_KJCFActivity extends AppCompatActivity {
     }
 
 
-
-
     /**
-     *   获取进度条
+     * 获取进度条
      */
 
-    public void getProgressBar(String title,String progressPrompt){
+    public void getProgressBar(String title, String progressPrompt) {
         if (mDialogProgress == null) {
             mDialogProgress = new ProgressDialog(mContext);
         }
@@ -361,13 +394,11 @@ public class TWJZ_KJCFActivity extends AppCompatActivity {
     /**
      * 取消进度条
      */
-    public void cacerProgress(){
+    public void cacerProgress() {
         if (mDialogProgress != null) {
             mDialogProgress.dismiss();
         }
     }
-
-
 
 
 }

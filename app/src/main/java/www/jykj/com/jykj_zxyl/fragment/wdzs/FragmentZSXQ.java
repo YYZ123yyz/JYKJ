@@ -152,6 +152,7 @@ public class FragmentZSXQ extends Fragment {
         //创建并设置Adapter
         mTWJZNoFinishRecycleAdapter = new TWJZNoFinishRecycleAdapter(provideViewInteractOrderTreatmentAndPatientInterrogations, mContext);
         mNoFinishRecycleView.setAdapter(mTWJZNoFinishRecycleAdapter);
+        //问诊信息
         mTWJZNoFinishRecycleAdapter.setOnWZXXItemClickListener(new TWJZNoFinishRecycleAdapter.OnWZXXItemClickListener() {
             @Override
             public void onClick(int position) {
@@ -179,13 +180,13 @@ public class FragmentZSXQ extends Fragment {
                         intent.putExtra("operDoctorName", mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
                         intent.putExtra("orderCode", provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getOrderCode());
 
-                        intent.putExtra(EaseConstant.EXTRA_MESSAGE_NUM, provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getLimitImgText());           //消息数量
-                        intent.putExtra(EaseConstant.EXTRA_VOICE_NUM, provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getLimitAudio());           //音频时长（单位：秒）
-                        intent.putExtra(EaseConstant.EXTRA_VEDIO_NUM, provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getLimitVideo());           //视频时长（单位：秒）
+                        intent.putExtra(EaseConstant.EXTRA_MESSAGE_NUM, provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getLimitImgTextShow());           //消息数量
+                        intent.putExtra(EaseConstant.EXTRA_VOICE_NUM, provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getLimitAudioShow());           //音频时长（单位：秒）
+                        intent.putExtra(EaseConstant.EXTRA_VEDIO_NUM, provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getLimitVideoShow());           //视频时长（单位：秒）
                         startActivity(intent);
                         break;
                     case 2:
-                        if (provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getLimitAudio() <= 0) {
+                        if (provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getLimitAudioShow() <= 0) {
                             Toast.makeText(getContext(), "语音时长已用尽", Toast.LENGTH_LONG).show();
                             return;
                         }
@@ -193,18 +194,18 @@ public class FragmentZSXQ extends Fragment {
                                 .putExtra("username", provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getPatientCode())
                                 .putExtra("isComingCall", false)
                                 .putExtra("nickName", provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getPatientName())
-                                .putExtra("voiceNum", provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getLimitAudio()));
+                                .putExtra("voiceNum", provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getLimitAudioShow()));
                         break;
                     case 3:
-                        if (provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getLimitVideo() <= 0) {
+                        if (provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getLimitVideoShow() <= 0) {
                             Toast.makeText(getContext(), "视频时长已用尽", Toast.LENGTH_LONG).show();
                             return;
                         }
-                        int time = provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getLimitVideo();
+                        int time = provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getLimitVideoShow();
                         startActivity(new Intent(getActivity(), VideoCallActivity.class)
                                 .putExtra("username", provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getPatientCode())
                                 .putExtra("isComingCall", false)
-                                .putExtra("vedioNum", provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getLimitVideo()));
+                                .putExtra("vedioNum", provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getLimitVideoShow()));
                         break;
                     case 4:
                         intent = new Intent();
@@ -217,9 +218,9 @@ public class FragmentZSXQ extends Fragment {
                         intent.putExtra("operDoctorName", mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
                         intent.putExtra("orderCode", provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getOrderCode());
 
-                        intent.putExtra(EaseConstant.EXTRA_MESSAGE_NUM, provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getLimitImgText());           //消息数量
-                        intent.putExtra(EaseConstant.EXTRA_VOICE_NUM, provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getLimitAudio());           //音频时长（单位：秒）
-                        intent.putExtra(EaseConstant.EXTRA_VEDIO_NUM, provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getLimitVideo());           //视频时长（单位：秒）
+                        intent.putExtra(EaseConstant.EXTRA_MESSAGE_NUM, provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getLimitImgTextShow());           //消息数量
+                        intent.putExtra(EaseConstant.EXTRA_VOICE_NUM, provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getLimitAudioShow());           //音频时长（单位：秒）
+                        intent.putExtra(EaseConstant.EXTRA_VEDIO_NUM, provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getLimitVideoShow());           //视频时长（单位：秒）
                         startActivity(intent);
                         break;
                     case 5:
@@ -238,6 +239,7 @@ public class FragmentZSXQ extends Fragment {
 
             }
         });
+        //病例详情
         mTWJZNoFinishRecycleAdapter.setOnKJCFItemClickListener(new TWJZNoFinishRecycleAdapter.OnKJCFItemClickListener() {
             @Override
             public void onClick(int position) {
@@ -264,7 +266,7 @@ public class FragmentZSXQ extends Fragment {
 
                 case R.id.tv_wwc:
                     mModel = 1;
-                    getWWCData(0);
+                    getWWCData();
                     mWWC.setTextColor(getResources().getColor(R.color.groabColor));
                     mYWC.setTextColor(getResources().getColor(R.color.textColor_vo));
                     break;
@@ -276,7 +278,6 @@ public class FragmentZSXQ extends Fragment {
                     break;
                 case R.id.ll_twjz:
                     mType = 1;
-
                     mTWJZImage.setImageResource(R.mipmap.wdzs_twjz);
                     if (mProvideDoctorSetServiceState.getFlagAudio() == 1)
                         mYPJZImage.setImageResource(R.mipmap.yy_no);
@@ -294,20 +295,19 @@ public class FragmentZSXQ extends Fragment {
                         mDHJZImage.setImageResource(R.mipmap.dh_no);
                     else
                         mDHJZImage.setImageResource(R.mipmap.phone_no);
-                    getWWCData(1);
+                    getWWCData();
                     break;
                 case R.id.li_ypjz:
                     if (mProvideDoctorSetServiceState.getFlagAudio() == 0) {
                         Toast.makeText(mContext, "暂未开通此权限", Toast.LENGTH_SHORT).show();
                         return;
-                    }
-                    else{
+                    } else {
                         mYPJZImage.setImageResource(R.mipmap.yyjz);
 
                         if (mProvideDoctorSetServiceState.getFlagImgText() == 1)
                             mTWJZImage.setImageResource(R.mipmap.tw_no);
                         else
-                        mTWJZImage.setImageResource(R.mipmap.image_no);
+                            mTWJZImage.setImageResource(R.mipmap.image_no);
                         if (mProvideDoctorSetServiceState.getFlagVideo() == 1)
                             mSPJZImage.setImageResource(R.mipmap.sp_no);
                         else
@@ -322,14 +322,13 @@ public class FragmentZSXQ extends Fragment {
                             mDHJZImage.setImageResource(R.mipmap.phone_no);
                     }
                     mType = 2;
-                    getWWCData(1);
+                    getWWCData();
                     break;
                 case R.id.li_spjz:
                     if (mProvideDoctorSetServiceState.getFlagVideo() == 0) {
                         Toast.makeText(mContext, "暂未开通此权限", Toast.LENGTH_SHORT).show();
                         return;
-                    }
-                    else{
+                    } else {
                         mSPJZImage.setImageResource(R.mipmap.wdzs_spjz);
                         if (mProvideDoctorSetServiceState.getFlagAudio() == 1)
                             mYPJZImage.setImageResource(R.mipmap.yy_no);
@@ -349,20 +348,19 @@ public class FragmentZSXQ extends Fragment {
                             mDHJZImage.setImageResource(R.mipmap.phone_no);
                     }
                     mType = 3;
-                    getWWCData(1);
+                    getWWCData();
                     break;
                 case R.id.li_qyfw:
                     if (mProvideDoctorSetServiceState.getFlagSigning() == 0) {
                         Toast.makeText(mContext, "暂未开通此权限", Toast.LENGTH_SHORT).show();
                         return;
-                    }
-                    else{
+                    } else {
                         mQYFWImage.setImageResource(R.mipmap.qyjz);
 
                         if (mProvideDoctorSetServiceState.getFlagImgText() == 1)
                             mTWJZImage.setImageResource(R.mipmap.tw_no);
                         else
-                        mTWJZImage.setImageResource(R.mipmap.image_no);
+                            mTWJZImage.setImageResource(R.mipmap.image_no);
                         if (mProvideDoctorSetServiceState.getFlagAudio() == 1)
                             mYPJZImage.setImageResource(R.mipmap.yy_no);
                         else
@@ -381,14 +379,13 @@ public class FragmentZSXQ extends Fragment {
                             mDHJZImage.setImageResource(R.mipmap.phone_no);
                     }
                     mType = 4;
-                    getWWCData(1);
+                    getWWCData();
                     break;
                 case R.id.li_dhjz:
                     if (mProvideDoctorSetServiceState.getFlagPhone() == 0) {
                         Toast.makeText(mContext, "暂未开通此权限", Toast.LENGTH_SHORT).show();
                         return;
-                    }
-                    else{
+                    } else {
                         mDHJZImage.setImageResource(R.mipmap.wdzs_dhjz);
 
                         if (mProvideDoctorSetServiceState.getFlagImgText() == 1)
@@ -413,7 +410,7 @@ public class FragmentZSXQ extends Fragment {
 //                            mDHJZImage.setImageResource(R.mipmap.phone_no);
                     }
                     mType = 5;
-                    getWWCData(1);
+                    getWWCData();
                     break;
             }
         }
@@ -463,7 +460,7 @@ public class FragmentZSXQ extends Fragment {
                             mProvideDoctorSetServiceState = JSON.parseObject(netRetEntity.getResJsonData(), ProvideDoctorSetServiceState.class);
                             if (mProvideDoctorSetServiceState != null)
                                 setLayoutDate();
-                            getWWCData(1);
+                            getWWCData();
                         }
 
                         break;
@@ -478,26 +475,27 @@ public class FragmentZSXQ extends Fragment {
                             mTWJZNoFinishRecycleAdapter.setDate(provideViewInteractOrderTreatmentAndPatientInterrogations);
                             mTWJZNoFinishRecycleAdapter.notifyDataSetChanged();
 
+
                             //加载更多
-                            refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
-                                @Override
-                                public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
-                                    mPageNum++;
-                                    getWWCData(mPageNum);
-                                    mTWJZNoFinishRecycleAdapter.notifyDataSetChanged();
-                                    refreshLayout.finishLoadMore(true);//加载完成
-                                }
-                            });
-                            //刷新
-                            refreshLayout.setOnRefreshListener(new OnRefreshListener() {
-                                @Override
-                                    public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                                    provideViewInteractOrderTreatmentAndPatientInterrogations.clear();
-                                    getWWCData(1);
-                                    mTWJZNoFinishRecycleAdapter.notifyDataSetChanged();
-                                    refreshLayout.finishRefresh(true);//刷新完成
-                                }
-                            });
+//                            refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+//                                @Override
+//                                public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+//                                    mPageNum++;
+//                                    getWWCData();
+//                                    mTWJZNoFinishRecycleAdapter.notifyDataSetChanged();
+//                                    refreshLayout.finishLoadMore(true);//加载完成
+//                                }
+//                            });
+//                            //刷新
+//                            refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+//                                @Override
+//                                    public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+//                                    provideViewInteractOrderTreatmentAndPatientInterrogations.clear();
+//                                    getWWCData();
+//                                    mTWJZNoFinishRecycleAdapter.notifyDataSetChanged();
+//                                    refreshLayout.finishRefresh(true);//刷新完成
+//                                }
+//                            });
                         }
                         break;
                 }
@@ -535,7 +533,7 @@ public class FragmentZSXQ extends Fragment {
     /**
      * 获取未完成数据
      */
-    private void getWWCData(int mPageNum) {
+    private void getWWCData() {
         getProgressBar("请稍候", "正在获取数据...");
         ProvideViewInteractOrderTreatmentAndPatientInterrogation provideViewInteractOrderTreatmentAndPatientInterrogation = new ProvideViewInteractOrderTreatmentAndPatientInterrogation();
         provideViewInteractOrderTreatmentAndPatientInterrogation.setLoginDoctorPosition(mApp.loginDoctorPosition);
@@ -544,12 +542,16 @@ public class FragmentZSXQ extends Fragment {
         provideViewInteractOrderTreatmentAndPatientInterrogation.setPageNum(mPageNum + "");
         provideViewInteractOrderTreatmentAndPatientInterrogation.setRowNum(mRowNum + "");
         provideViewInteractOrderTreatmentAndPatientInterrogation.setTreatmentType(mType);
+        provideViewInteractOrderTreatmentAndPatientInterrogation.setOrderState("1");
+        provideViewInteractOrderTreatmentAndPatientInterrogation.setSearchPatientName("");
+
 
         new Thread() {
             public void run() {
                 try {
                     String string = new Gson().toJson(provideViewInteractOrderTreatmentAndPatientInterrogation);
                     mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + string, Constant.SERVICEURL + "doctorInteractDataControlle/searchMyClinicDetailResTreatmentRecord");
+                    Log.e("tag", "run:111 " + mNetRetStr);
                     String string01 = Constant.SERVICEURL + "msgDataControlle/searchMsgPushReminderAllCount";
                     System.out.println(string + string01);
                 } catch (Exception e) {
@@ -576,6 +578,8 @@ public class FragmentZSXQ extends Fragment {
         provideViewInteractOrderTreatmentAndPatientInterrogation.setPageNum(mPageNum + "");
         provideViewInteractOrderTreatmentAndPatientInterrogation.setRowNum(mRowNum + "");
         provideViewInteractOrderTreatmentAndPatientInterrogation.setTreatmentType(mType);
+        provideViewInteractOrderTreatmentAndPatientInterrogation.setOrderState("2");
+        provideViewInteractOrderTreatmentAndPatientInterrogation.setSearchPatientName("");
 
         new Thread() {
             public void run() {

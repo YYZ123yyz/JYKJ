@@ -34,21 +34,34 @@
                         android:id="@+id/tv_linkPhone"
                         android:textColor="@color/textColor_black" />
                 </LinearLayout>
-
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="70dp">
                 <EditText
+                    android:maxLength="200"
+                   android:background="@drawable/edittext_bg"
                     android:layout_width="match_parent"
                     android:layout_height="70dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginRight="10dp"
-                    android:background="@drawable/edittext_bg"
                     android:gravity="top"
                     android:hint="您好，请简要描述您的问题或建议"
-                    android:id="@+id/tv_opinion"
+                    android:id="@+id/id_editor_detail"
                     android:padding="10dp"
                     android:layout_marginBottom="10dp"
                     android:textSize="14sp" />
-
+            <TextView
+                android:id="@+id/id_editor_detail_font_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+              android:layout_alignParentBottom="true"
+                android:paddingBottom="5dp"
+                android:paddingRight="15dp"
+                android:text="0/300"
+                android:textSize="14sp"/>
+        </RelativeLayout>
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1px"
@@ -66,30 +79,20 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:layout_marginTop="10dp"
-                        android:text="上传问题截图"
+                        android:text="选择故障日期"
                         android:textColor="@color/textColor_black" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="10dp"
-                        android:text="(选填)"
-                        android:textColor="#999999"
-                        android:textSize="12sp" />
-
                 </LinearLayout>
-                <ImageView
-                    android:layout_marginLeft="20dp"
-                    android:id="@+id/add_img"
-                    android:src="@mipmap/image"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-                <android.support.v7.widget.RecyclerView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/rv_imageView"/>
-
+             <TextView
+                 android:id="@+id/tv_time"
+                android:gravity="center"
+                 android:textColor="#000"
+                 android:text="选择故障日期"
+                 android:layout_marginLeft="40dp"
+                 android:layout_marginRight="40dp"
+                 android:background="@drawable/edittext_bg"
+                 android:layout_width="match_parent"
+                 android:layout_height="40dp"/>
             </LinearLayout>
 
             <LinearLayout
@@ -99,20 +102,18 @@
                 android:background="@color/writeColor"
                 android:orientation="vertical">
 
-
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="10dp"
-                    android:text="联系方式（选填）"
-                    android:textColor="#999999"
+                    android:text="联系方式"
+                    android:textColor="#000"
                     android:textSize="12sp" />
-
 
                 <EditText
                     android:layout_width="match_parent"
-                    android:layout_height="70dp"
+                    android:layout_height="40dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginRight="10dp"
@@ -127,12 +128,12 @@
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="40dp"
                 android:text="提交"
                 android:background="@drawable/shape_corner_button1"
                 android:textColor="@color/writeColor"
                 android:gravity="center"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="40dp"
                 android:id="@+id/tv_commit"
                 android:layout_marginBottom="10dp"
                 android:layout_marginLeft="70dp"

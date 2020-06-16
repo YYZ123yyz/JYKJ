@@ -8,6 +8,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -52,56 +54,12 @@ public class WDZS_WZXQActivity extends AppCompatActivity {
     private TextView mZHLYHFText;                //诊后留言
     private TextView mZDMSText;                //诊断描述
     private TextView mJZXJText;                //就诊小结
-    private TextView mKJCFText;                //开具处方
+    private TextView mKJCFText,wzxq_status;                //开具处方
     private TextView mJZJLText;                //就诊记录
 
     private ProvideInteractClinicRecordWriteState mProvideInteractClinicRecordWriteState;
 
-    private void setLayoutDate() {
-        if (mProvideInteractClinicRecordWriteState.getMessageState() == null || mProvideInteractClinicRecordWriteState.getMessageState() == 0) {
-            mZHLYHFText.setText("问诊人未提交");
-            mZHLYHFText.setTextColor(getResources().getColor(R.color.colorRed));
-        } else if (mProvideInteractClinicRecordWriteState.getMessageState() == 1) {
-            mZHLYHFText.setText("问诊人已提交");
-            mZHLYHFText.setTextColor(getResources().getColor(R.color.textColor_vo));
-        } else if (mProvideInteractClinicRecordWriteState.getMessageState() == 0) {
-            mZHLYHFText.setText("已回复");
-            mZHLYHFText.setTextColor(getResources().getColor(R.color.groabColor));
-        }
 
-        if (mProvideInteractClinicRecordWriteState.getDiagState() == null || mProvideInteractClinicRecordWriteState.getDiagState() == 0) {
-            mZDMSText.setText("未填写");
-            mZDMSText.setTextColor(getResources().getColor(R.color.colorRed));
-        } else if (mProvideInteractClinicRecordWriteState.getDiagState() == 1) {
-            mZDMSText.setText("已填写");
-            mZDMSText.setTextColor(getResources().getColor(R.color.groabColor));
-        }
-
-        if (mProvideInteractClinicRecordWriteState.getTreatmentState() == null || mProvideInteractClinicRecordWriteState.getTreatmentState() == 0) {
-            mJZXJText.setText("未填写");
-            mJZXJText.setTextColor(getResources().getColor(R.color.colorRed));
-        } else if (mProvideInteractClinicRecordWriteState.getTreatmentState() == 1) {
-            mJZXJText.setText("已填写");
-            mJZXJText.setTextColor(getResources().getColor(R.color.groabColor));
-        }
-
-
-        if (mProvideInteractClinicRecordWriteState.getPrescribeState() == null || mProvideInteractClinicRecordWriteState.getPrescribeState() == 0) {
-            mKJCFText.setText("未填写");
-            mKJCFText.setTextColor(getResources().getColor(R.color.colorRed));
-        } else if (mProvideInteractClinicRecordWriteState.getPrescribeState() == 1) {
-            mKJCFText.setText("已填写");
-            mKJCFText.setTextColor(getResources().getColor(R.color.groabColor));
-        }
-
-        if (mProvideInteractClinicRecordWriteState.getMedicalState() == null || mProvideInteractClinicRecordWriteState.getMedicalState() == 0) {
-            mJZJLText.setText("未填写");
-            mJZJLText.setTextColor(getResources().getColor(R.color.colorRed));
-        } else if (mProvideInteractClinicRecordWriteState.getMedicalState() == 1) {
-            mJZJLText.setText("已填写");
-            mJZJLText.setTextColor(getResources().getColor(R.color.groabColor));
-        }
-    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -116,12 +74,76 @@ public class WDZS_WZXQActivity extends AppCompatActivity {
         initLayout();
         initHandler();
         getData();
+     //   setLayoutDate();
     }
+    private void setLayoutDate() {
+        if(TextUtils.isEmpty(mProvideInteractClinicRecordWriteState.getFlagReplyType())){
+            wzxq_status.setVisibility(View.INVISIBLE);
+        }else if(mProvideInteractClinicRecordWriteState.getFlagReplyType().equals("1")){
+            wzxq_status.setText("重大紧急");
+            wzxq_status.setTextColor(WDZS_WZXQActivity.this.getResources().getColor(R.color.tv1));
+        }else  if(mProvideInteractClinicRecordWriteState.getFlagReplyType().equals("2")){
+            wzxq_status.setText("紧急");
+            wzxq_status.setTextColor(WDZS_WZXQActivity.this.getResources().getColor(R.color.tv2));
+        }else  if(mProvideInteractClinicRecordWriteState.getFlagReplyType().equals("3")){
+            wzxq_status.setText("一般");
+            wzxq_status.setTextColor(WDZS_WZXQActivity.this.getResources().getColor(R.color.tv3));
+        }else  if(mProvideInteractClinicRecordWriteState.getFlagReplyType().equals("4")){
+            wzxq_status.setText("正常");
+            wzxq_status.setTextColor(WDZS_WZXQActivity.this.getResources().getColor(R.color.tv4));
+        }
+        if (mProvideInteractClinicRecordWriteState.getMessageState() == null || mProvideInteractClinicRecordWriteState.getMessageState() == 0) {
+            mZHLYHFText.setText("问诊人未提交");
+            mZHLYHFText.setTextColor(getResources().getColor(R.color.colorRed));
+        } else if (mProvideInteractClinicRecordWriteState.getMessageState() == 1) {
+            mZHLYHFText.setText("问诊人已提交");
+            mZHLYHFText.setTextColor(getResources().getColor(R.color.textColor_vo));
+        } else if (mProvideInteractClinicRecordWriteState.getMessageState() == 0) {
+            mZHLYHFText.setText("问诊人未提交");
+            mZHLYHFText.setTextColor(getResources().getColor(R.color.textColor_vt));
+        }else if(mProvideInteractClinicRecordWriteState.getMessageState() == 2){
+            mZHLYHFText.setText("医生已回复");
+            mZHLYHFText.setTextColor(getResources().getColor(R.color.textColor_vt));
+        }
 
+        if (mProvideInteractClinicRecordWriteState.getDiagState() == null || mProvideInteractClinicRecordWriteState.getDiagState() == 0) {
+            mZDMSText.setText("未填写");
+            mZDMSText.setTextColor(getResources().getColor(R.color.colorRed));
+        } else if (mProvideInteractClinicRecordWriteState.getDiagState() == 1) {
+            mZDMSText.setText("已填写");
+            mZDMSText.setTextColor(getResources().getColor(R.color.textColor_vt));
+        }
+
+        if (mProvideInteractClinicRecordWriteState.getTreatmentState() == null || mProvideInteractClinicRecordWriteState.getTreatmentState() == 0) {
+            mJZXJText.setText("未填写");
+            mJZXJText.setTextColor(getResources().getColor(R.color.colorRed));
+        } else if (mProvideInteractClinicRecordWriteState.getTreatmentState() == 1) {
+            mJZXJText.setText("已填写");
+            mJZXJText.setTextColor(getResources().getColor(R.color.textColor_vt));
+        }
+
+
+        if (mProvideInteractClinicRecordWriteState.getPrescribeState() == null || mProvideInteractClinicRecordWriteState.getPrescribeState() == 0) {
+            mKJCFText.setText("未填写");
+            mKJCFText.setTextColor(getResources().getColor(R.color.colorRed));
+        } else if (mProvideInteractClinicRecordWriteState.getPrescribeState() == 1) {
+            mKJCFText.setText("已填写");
+            mKJCFText.setTextColor(getResources().getColor(R.color.textColor_vt));
+        }
+
+//        if (mProvideInteractClinicRecordWriteState.getMedicalState() == null || mProvideInteractClinicRecordWriteState.getMedicalState() == 0) {
+//            mJZJLText.setText("未填写");
+//            mJZJLText.setTextColor(getResources().getColor(R.color.colorRed));
+//        } else if (mProvideInteractClinicRecordWriteState.getMedicalState() == 1) {
+//            mJZJLText.setText("已填写");
+//            mJZJLText.setTextColor(getResources().getColor(R.color.groabColor));
+//        }
+    }
     /**
      * 初始化布局
      */
     private void initLayout() {
+        wzxq_status=findViewById(R.id.wzxq_status);
         mBack = (LinearLayout) this.findViewById(R.id.iv_back_left);
         mBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -143,6 +165,7 @@ public class WDZS_WZXQActivity extends AppCompatActivity {
                 startActivity(new Intent(mContext, TWJZ_ZDMSActivity.class).putExtra("wzxx", mProvideViewInteractOrderTreatmentAndPatientInterrogation));
             }
         });
+        //病历小结
         mJZXJ = (LinearLayout) this.findViewById(R.id.jzxj);
         mJZXJ.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -157,19 +180,19 @@ public class WDZS_WZXQActivity extends AppCompatActivity {
                 startActivity(new Intent(mContext, TWJZ_KJCFActivity.class).putExtra("wzxx", mProvideViewInteractOrderTreatmentAndPatientInterrogation));
             }
         });
-        mJZJL = (LinearLayout) this.findViewById(R.id.jzjl);
-        mJZJL.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(mContext, TWJZ_JZJLActivity.class).putExtra("wzxx", mProvideViewInteractOrderTreatmentAndPatientInterrogation));
-            }
-        });
+  //      mJZJL = (LinearLayout) this.findViewById(R.id.jzjl);
+//        mJZJL.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                startActivity(new Intent(mContext, TWJZ_JZJLActivity.class).putExtra("wzxx", mProvideViewInteractOrderTreatmentAndPatientInterrogation));
+//            }
+//        });
 
         mZHLYHFText = (TextView) this.findViewById(R.id.tv_zhlyhf);
         mZDMSText = (TextView) this.findViewById(R.id.tv_zdms);
         mJZXJText = (TextView) this.findViewById(R.id.tv_jzxj);
         mKJCFText = (TextView) this.findViewById(R.id.tv_kjcf);
-        mJZJLText = (TextView) this.findViewById(R.id.tv_jzjl);
+      //  mJZJLText = (TextView) this.findViewById(R.id.tv_jzjl);
     }
 
 
@@ -185,7 +208,6 @@ public class WDZS_WZXQActivity extends AppCompatActivity {
                         if (netRetEntity.getResCode() == 0) {
                             Toast.makeText(mContext, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
                         } else {
-
                             mProvideInteractClinicRecordWriteState = JSON.parseObject(netRetEntity.getResJsonData(), ProvideInteractClinicRecordWriteState.class);
                             if (mProvideInteractClinicRecordWriteState != null)
                                 setLayoutDate();
@@ -215,6 +237,7 @@ public class WDZS_WZXQActivity extends AppCompatActivity {
                     mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + string, Constant.SERVICEURL + "doctorInteractDataControlle/searchMyClinicDetailResRecordWriteState");
                     String string01 = Constant.SERVICEURL + "msgDataControlle/searchMsgPushReminderAllCount";
                     System.out.println(string + string01);
+                    Log.e("tag", "run: 设置"+mNetRetStr );
                 } catch (Exception e) {
                     NetRetEntity retEntity = new NetRetEntity();
                     retEntity.setResCode(0);

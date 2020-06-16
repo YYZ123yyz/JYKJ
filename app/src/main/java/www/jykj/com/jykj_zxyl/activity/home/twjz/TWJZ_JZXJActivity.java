@@ -73,7 +73,7 @@ public class TWJZ_JZXJActivity extends AppCompatActivity {
     private ProvideInteractOrderMedical mProvideInteractOrderMedical;
 
     private TextView mTitleName;
-    private TextView mJZXJContent;
+    private TextView mJZXJContent,mJZXJContent1,mJZXJContent2,mJZXJContent3,mJZXJContent4;
 
 
     @Override
@@ -95,6 +95,10 @@ public class TWJZ_JZXJActivity extends AppCompatActivity {
     private void initLayout() {
         mTitleName = (TextView) this.findViewById(R.id.tv_userNameTitle);
         mJZXJContent = (TextView) this.findViewById(R.id.tv_jzxjContent);
+        mJZXJContent1 = (TextView) this.findViewById(R.id.tv_jzxjContent1);
+        mJZXJContent2 = (TextView) this.findViewById(R.id.tv_jzxjContent2);
+        mJZXJContent3 = (TextView) this.findViewById(R.id.tv_jzxjContent3);
+        mJZXJContent4 = (TextView) this.findViewById(R.id.tv_jzxjContent4);
         mCommit = (TextView) this.findViewById(R.id.tv_commit);
         mCommit.setOnClickListener(new ButtonClick());
 
@@ -135,7 +139,14 @@ public class TWJZ_JZXJActivity extends AppCompatActivity {
                     case 2:
                         cacerProgress();
                         netRetEntity = JSON.parseObject(mNetRetStr, NetRetEntity.class);
-                        Toast.makeText(mContext, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
+                        if(netRetEntity.getResCode()==0){
+                            Toast.makeText(mContext, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
+                        }else{
+                            Toast.makeText(mContext, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
+                            finish();
+                        }
+
+
                         break;
                 }
             }
@@ -157,7 +168,7 @@ public class TWJZ_JZXJActivity extends AppCompatActivity {
             public void run() {
                 try {
                     String string = new Gson().toJson(provideInteractOrderMedical);
-                    mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + string, Constant.SERVICEURL + "doctorInteractDataControlle/searchMyClinicDetailResMedicalContent");
+                    mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + string, Constant.SERVICEURL + "doctorInteractDataControlle/searchMyClinicDetailResMedicalRecord");
                     String string01 = Constant.SERVICEURL + "doctorInteractDataControlle/searchMyClinicDetailResOrderDiag";
                     System.out.println(string + string01);
                 } catch (Exception e) {
@@ -189,34 +200,81 @@ public class TWJZ_JZXJActivity extends AppCompatActivity {
         mTitleName = (TextView) this.findViewById(R.id.tv_userNameTitle);
 
         mTitleName.setText("【" + mProvideInteractOrderMedical.getPatientName() + "】就诊小结");
-        if (mProvideInteractOrderMedical.getTreatmentContent() == null || "".equals(mProvideInteractOrderMedical.getTreatmentContent()))
-            mJZXJContent.setHint("请填写就诊小结");
-        else
-            mJZXJContent.setText(mProvideInteractOrderMedical.getTreatmentContent());
+        if (mProvideInteractOrderMedical.getChiefComplaint() == null || "".equals(mProvideInteractOrderMedical.getChiefComplaint()))
+            mJZXJContent.setHint("请填写主诉");
+        else{
+            mJZXJContent.setText(mProvideInteractOrderMedical.getChiefComplaint());
+        }
+
+        if (mProvideInteractOrderMedical.getMedicalExamination() == null || "".equals(mProvideInteractOrderMedical.getMedicalExamination()))
+            mJZXJContent1.setHint("请填写体征");
+        else{
+            mJZXJContent1.setText(mProvideInteractOrderMedical.getMedicalExamination());
+        }
+
+        if (mProvideInteractOrderMedical.getPresentIllness() == null || "".equals(mProvideInteractOrderMedical.getPresentIllness()))
+            mJZXJContent2.setHint("请填写既往史");
+        else{
+            mJZXJContent2.setText(mProvideInteractOrderMedical.getPresentIllness());
+        }
+
+
+        if (mProvideInteractOrderMedical.getAuxiliaryCheck() == null || "".equals(mProvideInteractOrderMedical.getAuxiliaryCheck()))
+            mJZXJContent3.setHint("请填写辅助诊断");
+        else{
+            mJZXJContent3.setText(mProvideInteractOrderMedical.getAuxiliaryCheck());
+        }
+
+
+        if (mProvideInteractOrderMedical.getTreatmentPlanCode() == null || "".equals(mProvideInteractOrderMedical.getTreatmentPlanCode()))
+            mJZXJContent4.setHint("请填写初步臆断");
+        else{
+            mJZXJContent4.setText(mProvideInteractOrderMedical.getTreatmentPlanCode());
+        }
+
+
+
+
     }
+
+
 
     /**
      * 提交rang
      */
     private void commit() {
 
-
         ProvideInteractOrderMedical provideInteractOrderMedical = new ProvideInteractOrderMedical();
         provideInteractOrderMedical.setLoginDoctorPosition(mApp.loginDoctorPosition);
         provideInteractOrderMedical.setOperDoctorCode(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
         provideInteractOrderMedical.setOperDoctorName(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
         provideInteractOrderMedical.setOrderCode(mProvideViewInteractOrderTreatmentAndPatientInterrogation.getOrderCode());
-        provideInteractOrderMedical.setTreatmentContent(mJZXJContent.getText().toString());
-        if (provideInteractOrderMedical.getTreatmentContent() == null || "".equals(mProvideInteractOrderMedical.getTreatmentContent())) {
-            Toast.makeText(mContext, "请先填写就诊小结", Toast.LENGTH_SHORT).show();
-            return;
+        if(mProvideInteractOrderMedical.getMedicalId()==null){
+            provideInteractOrderMedical.setMedicalId(0);
+        }else{
+            provideInteractOrderMedical.setMedicalId(mProvideInteractOrderMedical.getMedicalId());
+            Log.e("tag", "commit:pppp "+provideInteractOrderMedical.getMedicalId());
         }
+
+        provideInteractOrderMedical.setPatientCode(mProvideViewInteractOrderTreatmentAndPatientInterrogation.getPatientCode());
+        provideInteractOrderMedical.setPatientName(mProvideViewInteractOrderTreatmentAndPatientInterrogation.getPatientName());
+        provideInteractOrderMedical.setChiefComplaint(mJZXJContent.getText().toString());
+        provideInteractOrderMedical.setPresentIllness(mJZXJContent1.getText().toString());
+        provideInteractOrderMedical.setMedicalExamination(mJZXJContent2.getText().toString());
+        provideInteractOrderMedical.setAuxiliaryCheck(mJZXJContent3.getText().toString());
+        provideInteractOrderMedical.setTreatmentPlanCode(mJZXJContent4.getText().toString());
+
+
+//        if (provideInteractOrderMedical.getTreatmentContent() == null || "".equals(mProvideInteractOrderMedical.getTreatmentContent())) {
+//            Toast.makeText(mContext, "请先填写就诊小结", Toast.LENGTH_SHORT).show();
+//            return;
+//        }
         getProgressBar("请稍候", "正在提交数据。。。");
         new Thread() {
             public void run() {
                 try {
                     String string = new Gson().toJson(provideInteractOrderMedical);
-                    mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + string, Constant.SERVICEURL + "doctorInteractDataControlle/operUpdMyClinicDetailByMedicalContent");
+                    mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + string, Constant.SERVICEURL + "doctorInteractDataControlle/operUpdMyClinicDetailByMedicalRecord");
                     String string01 = Constant.SERVICEURL + "doctorInteractDataControlle/operUpdMyClinicDetailByMedicalContent";
                     System.out.println(string + string01);
                 } catch (Exception e) {

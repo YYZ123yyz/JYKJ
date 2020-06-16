@@ -5,15 +5,19 @@
     android:layout_height="match_parent"
     android:background="@color/pBackColor"
     android:orientation="vertical">
-    <ImageView
+    <WebView
+        android:id="@+id/web"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:background="@mipmap/tu"/>
-    <android.support.v7.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/rv_fragmentYLZX_rmjxRecycleView"/>
+        android:layout_height="match_parent"/>
+<!--    <ImageView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="80dp"-->
+<!--        android:layout_marginTop="15dp"-->
+<!--        android:layout_marginLeft="10dp"-->
+<!--        android:layout_marginRight="10dp"-->
+<!--        android:background="@mipmap/tu"/>-->
+<!--    <android.support.v7.widget.RecyclerView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:id="@+id/rv_fragmentYLZX_rmjxRecycleView"/>-->
 </LinearLayout>

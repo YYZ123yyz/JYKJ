@@ -117,7 +117,7 @@ public class BloodLogListAdapter extends RecyclerView.Adapter<BloodLogListAdapte
 
     @Override
     public int getItemCount() {
-        return datas.size();
+        return datas==null ? 0 :datas.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

@@ -231,6 +231,7 @@ public class UnionNewsActivity extends AppCompatActivity implements View.OnClick
                     getNewsMessageParment.setSearchDoctorCode(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
                     getNewsMessageParment.setMsgType(mMessageType);
                     getNewsMessageParment.setFlagMsgRead("-1");
+                    getNewsMessageParment.setSearchDoctorName(mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
                     String jsonString = JSON.toJSONString(getNewsMessageParment);
                     mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + jsonString, Constant.SERVICEURL + "msgDataControlle/searchMsgPushReminderListResAllData");
                     Log.e("tag", "run: 666"+mNetRetStr );

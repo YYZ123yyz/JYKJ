@@ -27,9 +27,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="选择药品"
+            android:text="选择药物"
             android:textColor="@color/writeColor"
             android:textSize="10pt" />
+        <ImageView
+            android:id="@+id/iv_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/twjz_add"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"/>
+
     </RelativeLayout>
 
     <LinearLayout
