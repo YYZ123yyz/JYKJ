@@ -313,7 +313,6 @@ import yyz_exploit.bean.ProvidePatientConditionBlood;
         dataSet3.setCircleRadius(3f);
         dataSet3.setDrawCircleHole(true);
 
-
         LineData lineData = new LineData(dataSet1, dataSet2, dataSet3);
         mLineChart.setData(lineData);
     }

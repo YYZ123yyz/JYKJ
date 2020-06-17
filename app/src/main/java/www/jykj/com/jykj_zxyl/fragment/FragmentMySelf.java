@@ -30,6 +30,8 @@ import www.jykj.com.jykj_zxyl.activity.myself.UserCenterActivity;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.util.ImageViewUtil;
 import yyz_exploit.activity.Myself_Service;
+import yyz_exploit.activity.activity.LectureActivity;
+import yyz_exploit.activity.activity.NoticeActivity;
 
 
 /**
@@ -51,6 +53,8 @@ public class FragmentMySelf extends Fragment {
     private TextView mNameText;                          //姓名
     private ImageView mUserAuthentication;                //用户认证
     private LinearLayout myself_service;
+    private LinearLayout lin_notice;
+    private LinearLayout lin_lecture;
 
 
     @Override
@@ -96,6 +100,15 @@ public class FragmentMySelf extends Fragment {
         //我的服务历史
         myself_service = v.findViewById(R.id.myself_service);
         myself_service.setOnClickListener(new ButtonClick());
+
+        lin_notice = v.findViewById(R.id.lin_Notice);
+        lin_notice.setOnClickListener(new ButtonClick());
+
+
+        lin_lecture = v.findViewById(R.id.lin_Lecture);
+        lin_lecture.setOnClickListener(new ButtonClick());
+
+
     }
 
 
@@ -119,6 +132,17 @@ public class FragmentMySelf extends Fragment {
         @Override
         public void onClick(View view) {
             switch (view.getId()) {
+                //直播预告
+                case R.id.lin_Notice:
+                    Intent intent2 = new Intent(getContext(), NoticeActivity.class);
+                    startActivity(intent2);
+                    break;
+                //专题讲座
+                case R.id.lin_Lecture:
+                    Intent intent3 = new Intent(getContext(), LectureActivity.class);
+                    startActivity(intent3);
+                    break;
+
                 case R.id.li_fragmentMySelf_MyAccount:
                     //我的账户
                     Intent intent = new Intent();
@@ -139,9 +163,9 @@ public class FragmentMySelf extends Fragment {
                     break;
                 case R.id.li_fragmentMySelf_servicePermission:
                     //我的服务权限开通
-                        intent = new Intent();
-                        intent.setClass(mContext, ServicePermisionActivity.class);
-                        startActivity(intent);
+                    intent = new Intent();
+                    intent.setClass(mContext, ServicePermisionActivity.class);
+                    startActivity(intent);
                     break;
                 /*case R.id.li_fragmentMySelf_platformLicenses:
                     //我的服务权限设置

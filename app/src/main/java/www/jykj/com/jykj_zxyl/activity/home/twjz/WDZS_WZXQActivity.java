@@ -59,8 +59,6 @@ public class WDZS_WZXQActivity extends AppCompatActivity {
 
     private ProvideInteractClinicRecordWriteState mProvideInteractClinicRecordWriteState;
 
-
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

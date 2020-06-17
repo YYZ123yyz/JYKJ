@@ -182,7 +182,7 @@
         android:layout_height="1px"
         android:layout_marginLeft="60dp"
         android:background="@color/hintTextColor" />
-    <!--<RelativeLayout
+    <RelativeLayout
         android:id="@+id/rl_lmxx"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -228,7 +228,7 @@
             android:layout_marginRight="20dp"/>
 
 
-    </RelativeLayout>-->
+    </RelativeLayout>
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"

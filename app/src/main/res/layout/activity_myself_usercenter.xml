@@ -12,13 +12,19 @@
         android:layout_height="60dp"
         android:background="@color/groabColor"
         >
-        <ImageView
-            android:id="@+id/usercenter_back"
-            android:layout_width="10dp"
-            android:layout_height="20dp"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="15dp"
-            android:src="@mipmap/arrow_left"/>
+        <LinearLayout
+            android:layout_width="61dp"
+            android:layout_height="match_parent"
+            android:id="@+id/back"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="10dp"
+                android:layout_height="20dp"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="15dp"
+                android:src="@mipmap/arrow_left"/>
+        </LinearLayout>
         <TextView
             android:text="个人资料"
             android:textSize="10pt"

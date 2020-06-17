@@ -122,6 +122,7 @@ public class UnionNewsActivity extends AppCompatActivity implements View.OnClick
                                 intent.putExtra("newMessage", mMsgPushReminders.get(position));
                                 String msgLookUrl = mMsgPushReminders.get(position).getMsgLookUrl();
                                 intent.putExtra("URL", msgLookUrl);
+                                Log.e("tag", "链接"+msgLookUrl);
                                 Integer reminderId = mMsgPushReminders.get(position).getReminderId();
                                 intent.putExtra("reminderId", reminderId);
                                 mMsgPushReminders.get(position).setFlagMsgRead(1);

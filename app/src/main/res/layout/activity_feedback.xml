@@ -6,7 +6,32 @@
     android:orientation="vertical"
     android:layout_height="match_parent"
     tools:context= "yyz_exploit.activity.activity.FeedbackActivity">
-    <include layout="@layout/new_layout"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/groabColor"
+        >
+        <LinearLayout
+            android:id="@+id/ll_back"
+            android:layout_width="60dp"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="10dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="15dp"
+                android:src="@mipmap/arrow_left" />
+        </LinearLayout>
+        <TextView
+            android:text="帮助与反馈"
+            android:textSize="10pt"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:textColor="@color/writeColor"
+            android:layout_height="wrap_content"/>
+
+    </RelativeLayout>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/feed_recy"
         android:layout_width="match_parent"

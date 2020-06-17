@@ -68,6 +68,7 @@ public class MyLiveRoomActivity extends AppCompatActivity implements View.OnClic
 
     private RelativeLayout parentView;
     private DragFloatActionButton live;
+    private TextView room_lecture;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -77,8 +78,24 @@ public class MyLiveRoomActivity extends AppCompatActivity implements View.OnClic
         initView();
 
     }
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.live:
+                Intent intent = new Intent(MyLiveRoomActivity.this, BeforesettingActivity.class);
+                startActivity(intent);
 
+                break;
+            case R.id.room_Lecture:
+                Intent intent3 = new Intent(this, LectureActivity.class);
+                startActivity(intent3);
+                break;
+        }
+    }
     private void initView(){
+        //专题讲座
+        room_lecture = findViewById(R.id.room_Lecture);
+        room_lecture.setOnClickListener(this);
         //我主讲
         room_my = findViewById(R.id.room_my);
         room_my.setOnClickListener(new View.OnClickListener() {
@@ -214,15 +231,7 @@ public class MyLiveRoomActivity extends AppCompatActivity implements View.OnClic
 
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.live:
-                Intent intent = new Intent(MyLiveRoomActivity.this, BeforesettingActivity.class);
-                startActivity(intent);
-                break;
-        }
-    }
+
 
     //自定义的图片加载器
 

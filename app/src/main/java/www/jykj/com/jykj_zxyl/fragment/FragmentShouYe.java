@@ -186,23 +186,8 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
                    //     mApp.mMsgTimeInterval = mProvideMsgPushReminderCount.getMsgTimeInterval();
                         if (mProvideMsgPushReminderCount.getMsgTypeCountSum() != null) {
                             String string = "";
-                            if (mProvideMsgPushReminderCount.getMsgTypeCount01() > 0)
-                                string = "您有" + mProvideMsgPushReminderCount.getMsgTypeCount01() + "条患者就诊消息!";
-                            else if (mProvideMsgPushReminderCount.getMsgTypeCount02() > 0)
-                                string = "您有" + mProvideMsgPushReminderCount.getMsgTypeCount02() + "条诊后留言消息!";
-                            else if (mProvideMsgPushReminderCount.getMsgTypeCount03() > 0)
-                                string = "您有" + mProvideMsgPushReminderCount.getMsgTypeCount03() + "条添加患者消息!";
-                            else if (mProvideMsgPushReminderCount.getMsgTypeCount04() > 0)
-                                string = "您有" + mProvideMsgPushReminderCount.getMsgTypeCount04() + "条医生联盟消息!";
-                            else if (mProvideMsgPushReminderCount.getMsgTypeCount05() > 0)
-                                string = "您有" + mProvideMsgPushReminderCount.getMsgTypeCount05() + "条医患圈消息!";
-                            else if (mProvideMsgPushReminderCount.getMsgTypeCount06() > 0)
-                                string = "您有" + mProvideMsgPushReminderCount.getMsgTypeCount06() + "条紧急提醒!";
-                            else if (mProvideMsgPushReminderCount.getMsgTypeCount07() > 0)
-                                string = "您有" + mProvideMsgPushReminderCount.getMsgTypeCount07() + "条患者签约消息!";
-                            else if (mProvideMsgPushReminderCount.getMsgTypeCount08() > 0)
-                                string = "您有" + mProvideMsgPushReminderCount.getMsgTypeCount08() + "条系统消息!";
 
+                            string = "您有" + mProvideMsgPushReminderCount.getMsgTypeCountSum() + "条系统消息!";
                                 if (string.equals(""))
                                     mNewMessageLayout.setVisibility(View.GONE);
                                 else {
@@ -258,17 +243,6 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
      *
      * @param //string
      */
-//    public void setNewMessageView(String string) {
-//        if ("".equals(string))
-//            mNewMessageLayout.setVisibility(View.GONE);
-//        else {
-//            mNewMessageLayout.setVisibility(View.VISIBLE);
-//            mNewMessage.setText(string);
-//            Log.e("ppp", "setNewMessageView: "+string );
-//        }
-//    }
-
-  //  private String WX_APP_ID = "wxaf6f64f6a5878261";
 
     private void initView(View view) {
         //第一张图片
@@ -398,8 +372,6 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
 
         mUserNameText = (TextView) view.findViewById(R.id.tv_fragmentShouYe_userNameText);
 
-//        mUserNameText = (TextView) view.findViewById(R.id.tv_fragmentShouYe_userNameText);
-
         mUserTitleText = (TextView) view.findViewById(R.id.tv_fragmentShouYe_userTitleText);
         mMyPatient = view.findViewById(R.id.ll_wdhz);
         mNewMessage = (TextView) view.findViewById(R.id.tv_fragmentShouYe_NewMessage);
@@ -413,16 +385,6 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
         //用户头像
         mUserHead = (ImageView) view.findViewById(R.id.iv_userhead);
 
-
-//        //消息条数
-//        ProvideMsgPushReminderCount provideMsgPushReminderCount = new ProvideMsgPushReminderCount();
-//        Integer msgTypeCountSum = provideMsgPushReminderCount.getMsgTypeCountSum();
-//
-//        //有新消息
-//        if (msgTypeCountSum != null && msgTypeCountSum != 0) {
-//            String str = Integer.toString(msgTypeCountSum);
-//            setNewMessageView(str);
-//        }
         //医师资格认证
         home_certification = view.findViewById(R.id.home_certification);
 
@@ -492,8 +454,6 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
     private void initListener() {
         mQrCode.setOnClickListener(this);
         mNews.setOnClickListener(this);
-    //    mDoctorUnion.setOnClickListener(this);
-//        mTWJZ.setOnClickListener(this);
         mYQTH.setOnClickListener(this);
         mMyComments.setOnClickListener(this);
         //添加患者
@@ -506,18 +466,6 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
         llQuickApplication.setOnClickListener(this);
         //医师资格认证
         home_certification.setOnClickListener(this);
-
-
-//        imgs_three = view.findViewById(R.id.imgs_three);
-//        imgs_three.setImageURL("http://jiuyihtn.com/AppAssembly/img/fakeFriends4.jpg");
-//
-//
-//        img_ones = view.findViewById(R.id.img_ones);
-//        img_ones.setImageURL("http://jiuyihtn.com/AppAssembly/img/main1.png");
-//        img_twos = view.findViewById(R.id.img_twos);
-//        img_twos.setImageURL("http://jiuyihtn.com/AppAssembly/img/main3.jpg");
-//        img_threes = view.findViewById(R.id.img_threes);
-//        img_threes.setImageURL("http://jiuyihtn.com/AppAssembly/img/main2.jpg");
 
         imgs_three.setOnClickListener(this);
         img_ones.setOnClickListener(this);

@@ -66,10 +66,15 @@ public class HZGL_YYXX_RecycleAdapter extends RecyclerView.Adapter<HZGL_YYXX_Rec
         }else{
             viewHolder.tvUserType.setText("患者亲属添加");
         }
+
         if(datas.get(position).getFlagTakingMedicine()==1){
             viewHolder.tvMedicine.setText("未服用");
-        }else {
+        }else if(datas.get(position).getFlagTakingMedicine()==3) {
             viewHolder.tvMedicine.setText("已服用");
+        }else if(datas.get(position).getFlagTakingMedicine()==0) {
+            viewHolder.tvMedicine.setText("暂未操作");
+        }else if(datas.get(position).getFlagTakingMedicine()==2) {
+            viewHolder.tvMedicine.setText("操作过期");
         }
 
      //   viewHolder.tvUseFrequency.setText(hzIfno.getUseNum()+"/"+hzIfno.getUseUnit());

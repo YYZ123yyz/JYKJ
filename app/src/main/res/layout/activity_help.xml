@@ -6,7 +6,39 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="yyz_exploit.activity.activity.HelpActivity">
-           <include layout="@layout/new_layout" ></include>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/groabColor"
+        >
+        <LinearLayout
+            android:id="@+id/ll_back"
+            android:layout_width="60dp"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="10dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="15dp"
+                android:src="@mipmap/arrow_left" />
+        </LinearLayout>
+        <TextView
+            android:text="帮助与反馈"
+            android:textSize="10pt"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:textColor="@color/writeColor"
+            android:layout_height="wrap_content"/>
+        <ImageView
+            android:id="@+id/iv_add"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@mipmap/icon_add_small"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"/>
+    </RelativeLayout>
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:id="@+id/refreshLayout"
         android:layout_weight="1"
@@ -23,6 +55,7 @@
          android:layout_width="match_parent"
          android:layout_height="150dp">
          <LinearLayout
+             android:id="@+id/Customer"
              android:orientation="horizontal"
              android:layout_weight="1"
              android:layout_gravity="center"

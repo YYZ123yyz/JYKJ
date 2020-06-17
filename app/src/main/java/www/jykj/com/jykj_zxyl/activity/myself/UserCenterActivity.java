@@ -138,6 +138,7 @@ public class UserCenterActivity extends AppCompatActivity {
 
     private ProvideViewSysUserDoctorInfoAndHospital mProvideViewSysUserDoctorInfoAndHospital = new ProvideViewSysUserDoctorInfoAndHospital();  //医生信息
     private ImageView usercenter_back;
+    private LinearLayout usercenterBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -318,8 +319,8 @@ public class UserCenterActivity extends AppCompatActivity {
         mChocieDepartmentSecondText = (TextView) this.findViewById(R.id.tv_activityUserCenter_choiceDepartmentSecondText);
 
         //返回
-        usercenter_back = findViewById(R.id.usercenter_back);
-        usercenter_back.setOnClickListener(new ButtonClick());
+        usercenterBack = findViewById(R.id.back);
+        usercenterBack.setOnClickListener(new ButtonClick());
     }
 
 
@@ -416,7 +417,7 @@ public class UserCenterActivity extends AppCompatActivity {
                     commit();
                     break;
                 //返回
-                case R.id.usercenter_back:
+                case R.id.back:
                     finish();
                     break;
             }

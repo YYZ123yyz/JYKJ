@@ -252,11 +252,6 @@ public class LoginActivity extends AppCompatActivity {
                 case R.id.button_activityLogin_LoginButton:
                     userLogin();
                     break;
-//                case R.id.iv_activityLogin_agreeImg:
-//                    //取反
-//                    mAgree = !mAgree;
-//                    setAgreeImg();
-//                    break;
                 //微信登录
                 case R.id.login_WeChat:
                     weChatLogin();
@@ -303,11 +298,6 @@ public class LoginActivity extends AppCompatActivity {
      * 用户登录
      */
     private void userLogin() {
-        //登录
-//        if (!mAgree) {
-//            Toast.makeText(mContext, "请先同意用户服务协议", LENGTH_SHORT).show();
-//            return;
-//        }
         if (mAccountEdit.getText().toString() == null || "".equals(mAccountEdit.getText().toString())) {
             Toast.makeText(mContext, "帐号不能为空", LENGTH_SHORT).show();
             return;
@@ -319,7 +309,6 @@ public class LoginActivity extends AppCompatActivity {
         UserInfo userInfo = new UserInfo();
         userInfo.setUserPhone(mAccountEdit.getText().toString());
         userInfo.setUserPwd(mPassWordEdit.getText().toString());
-        //   showLoadingDialog("正在登录");
         //连接网络，登录
         new Thread() {
             public void run() {
@@ -449,7 +438,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     public void onDestroy() {
         super.onDestroy();
-//        getApplication().unregisterReceiver(receiveBroadCast);
+        getApplication().unregisterReceiver(receiveBroadCast);
 
     }
 
@@ -458,15 +447,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onPause();
 
     }
-    //    private void weChatAuth() {
-//        if (api == null) {
-//            api = WXAPIFactory.createWXAPI(LoginActivity.this, WX_APP_ID, true);
-//        }
-//        SendAuth.Req req = new SendAuth.Req();
-//        req.scope = "snsapi_userinfo";
-//        req.state = "wx_login_duzun";
-//        api.sendReq(req);
-//    }
+
 
 
     public void getAccessToken() {
@@ -649,14 +630,5 @@ public class LoginActivity extends AppCompatActivity {
         }
         return false;
     }
-//
-//    @Override
-//    public void onDetachedFromWindow() {
-//        try {
-//            super.onDetachedFromWindow();
-//        }
-//        catch (IllegalArgumentException e) {
-//            stopFlipping();
-//        }
-//    }
+
 }

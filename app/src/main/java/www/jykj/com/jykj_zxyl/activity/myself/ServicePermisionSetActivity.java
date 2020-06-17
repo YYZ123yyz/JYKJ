@@ -199,8 +199,8 @@ public class ServicePermisionSetActivity extends AppCompatActivity {
     private void setLayoutDate() {
         if (mProvideDoctorSetService.getFlagOpening() == 1)
             mServiceSetStateImg.setImageResource(R.mipmap.sharedataset_close);
-//        else
-//            mServiceSetStateImg.setImageResource(R.mipmap.sharedataset_open);
+        else
+            mServiceSetStateImg.setImageResource(R.mipmap.sharedataset_open);
         if (mProvideDoctorSetService.getPriceBasics() == 0.0)
             mBasePriceEdit.setHint("请输入");
         else
@@ -222,10 +222,11 @@ public class ServicePermisionSetActivity extends AppCompatActivity {
         else
             mMFHYPriceEdit.setText(mProvideDoctorSetService.getSourceNumFree() + "");
 
-        switch (mServiceType) {
+            switch (mServiceType) {
             case 1:
                 if (mProvideDoctorSetService.getServiceDateStr() != null && !"".equals(mProvideDoctorSetService.getServiceDateStr()))
                     mFWSHText.setText(mProvideDoctorSetService.getServiceDateStr());
+
                 else
                     mFWSHText.setText("0");
                 if (mProvideDoctorSetService.getLimitNumStr() != null && !"".equals(mProvideDoctorSetService.getLimitNumStr()))
@@ -293,12 +294,25 @@ public class ServicePermisionSetActivity extends AppCompatActivity {
         public void onClick(View view) {
             switch (view.getId()) {
                 case R.id.iv_activityServicePermisionSet_serviceSet:
-                    if (mProvideDoctorSetService.getFlagOpening() == 0)
-                        mProvideDoctorSetService.setFlagOpening(1);
-                    else
-                        mProvideDoctorSetService.setFlagOpening(0);
-                    if (mProvideDoctorSetService.getFlagOpening() == 1)
-                        mServiceSetStateImg.setImageResource(R.mipmap.sharedataset_close);
+                    if(mServiceType==1){
+                        if (mProvideDoctorSetService.getFlagOpening() == 0)
+                            mProvideDoctorSetService.setFlagOpening(1);
+                        else
+                            mProvideDoctorSetService.setFlagOpening(0);
+                        if (mProvideDoctorSetService.getFlagOpening() == 1)
+                            mServiceSetStateImg.setImageResource(R.mipmap.sharedataset_close);
+                        else
+                            mServiceSetStateImg.setImageResource(R.mipmap.sharedataset_close);
+                    }else{
+                        if (mProvideDoctorSetService.getFlagOpening() == 0)
+                            mProvideDoctorSetService.setFlagOpening(1);
+                        else
+                            mProvideDoctorSetService.setFlagOpening(0);
+                        if (mProvideDoctorSetService.getFlagOpening() == 1)
+                            mServiceSetStateImg.setImageResource(R.mipmap.sharedataset_close);
+                        else
+                            mServiceSetStateImg.setImageResource(R.mipmap.sharedataset_open);
+                    }
 
                     break;
 

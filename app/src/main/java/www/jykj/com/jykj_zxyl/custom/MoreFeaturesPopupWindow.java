@@ -71,10 +71,7 @@ public class MoreFeaturesPopupWindow extends PopupWindow implements View.OnClick
         tvYqth = mPopView.findViewById(R.id.tv_yqth);
         tvTjhz = mPopView.findViewById(R.id.tv_tjhz);
         tvWdzs = mPopView.findViewById(R.id.tv_wdzs);
-    //    tvWdxx = mPopView.findViewById(R.id.tv_wdxx);
-      //  tvCjlm = mPopView.findViewById(R.id.tv_cjlm);
-    //    tvFqhz = mPopView.findViewById(R.id.tv_fqhz);
-      //  tvWdbb = mPopView.findViewById(R.id.tv_wdbb);
+
         tvBzfk = mPopView.findViewById(R.id.tv_bzfk);
         //我的患者
         tv_wdhz = mPopView.findViewById(R.id.tv_wdhz);

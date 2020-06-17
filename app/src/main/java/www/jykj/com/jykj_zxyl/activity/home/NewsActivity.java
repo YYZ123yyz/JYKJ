@@ -87,6 +87,7 @@ public class NewsActivity extends AppCompatActivity implements View.OnClickListe
                 try {
                     String string = new Gson().toJson(provideMsgPushReminderCount);
                     mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + string, Constant.SERVICEURL + "msgDataControlle/searchMsgPushReminderAllCount");
+                    Log.e("tag", "消息 "+mNetRetStr );
                 } catch (Exception e) {
                     NetRetEntity retEntity = new NetRetEntity();
                     retEntity.setResCode(0);
@@ -131,12 +132,12 @@ public class NewsActivity extends AppCompatActivity implements View.OnClickListe
                                 mTJHZMessageNum.setVisibility(View.GONE);
                             }
 
-//                            if (mProvideMsgPushReminderCount.getMsgTypeCount04() > 0) {
-//                                mUnionMessageNum.setVisibility(View.VISIBLE);
-//                                mUnionMessageNum.setText(mProvideMsgPushReminderCount.getMsgTypeCount04() + "");
-//                            } else {
-//                                mUnionMessageNum.setVisibility(View.GONE);
-//                            }
+                            if (mProvideMsgPushReminderCount.getMsgTypeCount04() > 0) {
+                                mUnionMessageNum.setVisibility(View.VISIBLE);
+                                mUnionMessageNum.setText(mProvideMsgPushReminderCount.getMsgTypeCount04() + "");
+                            } else {
+                                mUnionMessageNum.setVisibility(View.GONE);
+                            }
 
                             if (mProvideMsgPushReminderCount.getMsgTypeCount05() > 0) {
                                 mYHQMessageNum.setVisibility(View.VISIBLE);
@@ -174,8 +175,8 @@ public class NewsActivity extends AppCompatActivity implements View.OnClickListe
 
 
     private void initView() {
-   //     mLMXXLayout = (RelativeLayout) this.findViewById(R.id.rl_lmxx);
-     //   mUnionMessageNum = (TextView) this.findViewById(R.id.tv_lmxx);
+        mLMXXLayout = (RelativeLayout) this.findViewById(R.id.rl_lmxx);
+        mUnionMessageNum = (TextView) this.findViewById(R.id.tv_lmxx);
 
         mHZJZLayout = (RelativeLayout) this.findViewById(R.id.rl_hzjz);
         mHZJZMessageNum = (TextView) this.findViewById(R.id.tv_hzjz);
