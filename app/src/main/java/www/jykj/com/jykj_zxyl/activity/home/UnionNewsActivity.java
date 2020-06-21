@@ -79,8 +79,15 @@ public class UnionNewsActivity extends AppCompatActivity implements View.OnClick
         mMessageType = getIntent().getStringExtra("messageType");
         mApp = (JYKJApplication) getApplication();
         initView();
+        getDate();
         initListener();
         initHandler();
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         getDate();
     }
 
@@ -141,12 +148,6 @@ public class UnionNewsActivity extends AppCompatActivity implements View.OnClick
         };
     }
 
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        mAdapter.setdate(mMsgPushReminders);
-//        mAdapter.notifyDataSetChanged();
-//    }
 
     private void initView() {
         refreshLayout = findViewById(R.id.refreshLayout);

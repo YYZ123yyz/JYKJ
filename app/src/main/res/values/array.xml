@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <declare-styleable name="RatioImageView">
+        <attr name="ratio" format="float"/>
+    </declare-styleable>
     <string-array name="permissions">
         <!--<item>@string/permission_recode_audio_hint</item>-->
         <!--<item>@string/permission_get_accounts_hint</item>-->
@@ -11,5 +14,10 @@
         <!--<item>@string/permission_read_external_hint</item>-->
         <!--<item>@string/permission_white_external_hint</item>-->
     </string-array>
-
+    <declare-styleable name="NineGridLayout">
+        <attr name="sapcing" format="dimension"/>
+        <attr name="oneImageWidth" format="dimension"/>
+        <attr name="oneImageHeight" format="dimension"/>
+        <attr name="image_ratio" format="float"/>
+    </declare-styleable>
 </resources>

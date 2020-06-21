@@ -12,6 +12,7 @@ import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -243,13 +244,13 @@ public class FragmentYHHD extends Fragment {
                     clickIndex = position;
                     getUserIdentification(mClickInteractPatient.getPatientCode());
                 } else {
-
                     mInteractPatient.get(position).setNoRead(false);
                     Intent intent = new Intent();
                     intent.setClass(mContext, ChatActivity.class);
                     intent.putExtra("userCode", mClickInteractPatient.getPatientCode());
                     intent.putExtra("userName", mClickInteractPatient.getPatientUserName());
-
+                    intent.putExtra("usersName", mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
+                    intent.putExtra("userUrl", mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl());
                     startActivity(intent);
                 }
             }
@@ -293,6 +294,8 @@ public class FragmentYHHD extends Fragment {
                 intent.putExtra("userName", mInteractDoctorUnionInfo.get(i).getDoctorGoodFriendInfoList().get(i1).getDoctorUserName());
                 intent.putExtra("vedioNum", 1000000);
                 intent.putExtra("voiceNum", 1000000);
+                intent.putExtra("usersName", mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
+                intent.putExtra("userUrl", mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl());
                 startActivity(intent);
                 return false;
             }
@@ -445,6 +448,8 @@ public class FragmentYHHD extends Fragment {
                                     intent.putExtra("userName", mClickInteractPatient.getPatientUserName());
                                     intent.putExtra("chatType", "twjz");
                                     intent.putExtra("chatType", "twjz");
+                                    intent.putExtra("usersName", mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
+                                    intent.putExtra("userUrl", mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl());
                                     String date = Util.dateToStr(provideGroupConsultationUserInfo.getServiceStopDate());
                                     intent.putExtra("date", date);
                                     startActivity(intent);
@@ -457,6 +462,8 @@ public class FragmentYHHD extends Fragment {
                                     intent.putExtra("userName", mClickInteractPatient.getPatientUserName());
                                     intent.putExtra("vedioNum", 1000000);
                                     intent.putExtra("voiceNum", 1000000);
+                                    intent.putExtra("usersName", mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
+                                    intent.putExtra("userUrl", mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl());
                                     startActivity(intent);
                                 }
 

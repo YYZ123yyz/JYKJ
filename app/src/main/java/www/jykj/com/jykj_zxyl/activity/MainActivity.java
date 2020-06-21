@@ -1,7 +1,10 @@
 package www.jykj.com.jykj_zxyl.activity;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -28,6 +31,9 @@ import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.google.gson.Gson;
+import com.hyphenate.EMConnectionListener;
+import com.hyphenate.EMError;
+import com.hyphenate.chat.EMClient;
 import com.hyphenate.easeui.model.EaseNotifier;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.Request;
@@ -36,11 +42,14 @@ import com.squareup.okhttp.Response;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import androidx.annotation.RequiresApi;
+import entity.mySelf.DataCleanManager;
 import util.VersionsUpdata;
+import www.jykj.com.jykj_zxyl.activity.myself.SettingActivity;
 import yyz_exploit.Utils.HttpUtils;
 import yyz_exploit.bean.AppVersionBean;
 import entity.home.newsMessage.ProvideMsgPushReminderCount;
@@ -56,6 +65,7 @@ import www.jykj.com.jykj_zxyl.fragment.FragmentYHHD;
 import www.jykj.com.jykj_zxyl.fragment.FragmentYLZX;
 import www.jykj.com.jykj_zxyl.service.MessageReciveService;
 import www.jykj.com.jykj_zxyl.util.ActivityUtil;
+import yyz_exploit.dialog.ErrorDialog;
 
 public class MainActivity extends AppCompatActivity {
     private Context mContext;
@@ -104,7 +114,12 @@ public class MainActivity extends AppCompatActivity {
     private EaseNotifier notifier = null;
 
 
+
     private AppVersionBean appVersionBean;
+    private EMConnectionListener connectionListener;
+    private EMConnectionListener emConnectionListener;
+    private ErrorDialog errorDialog;
+
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,20 +129,62 @@ public class MainActivity extends AppCompatActivity {
         mainActivity = this;
         ActivityUtil.setStatusBarMain(mainActivity);
         mApp = (JYKJApplication) getApplication();
+
         mApp.gMainActivity = this;
         mApp.gActivityList.add(this);
         //判断是否有新消息
         mApp.setNewsMessage();
+     //   data();
         initLayout();               //初始化布局
         initHandler();
         //开启监听服务
         Intent intent = new Intent(this, MessageReciveService.class);
         startService(intent);
+        mApp.gNetWorkTextView = true;
+        data();
 
         //启动定时器轮询未读消息数
         startMessageTimer();
 
         getLocation();
+
+    }
+    /**
+     * 设置环信网络状态
+     *
+     * @param gNetConnectionHX
+     */
+    public void setHXNetWorkState(boolean gNetConnectionHX) {
+        if (mHandler != null)
+            mHandler.sendEmptyMessage(10);
+
+    }
+
+    private void data() {
+        emConnectionListener = new EMConnectionListener() {
+            @Override
+            public void onDisconnected(int error) {
+
+                if (error == EMError.USER_REMOVED || error == EMError.USER_LOGIN_ANOTHER_DEVICE || error == EMError.SERVER_SERVICE_RESTRICTED) {
+
+                    new Thread() {
+                        public void run() {
+                            mHandler.sendEmptyMessage(1);
+                        }
+                    }.start();
+
+                } else {
+
+                    Log.e("tag", "onDisconnected: "+"00000");
+                }
+            }
+
+            @Override
+            public void onConnected() {
+
+            }
+        };
+        EMClient.getInstance().addConnectionListener(emConnectionListener);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -240,78 +297,22 @@ public class MainActivity extends AppCompatActivity {
         timer.schedule(task, 0, mApp.mMsgTimeInterval * 60 * 1000);
     }
 
+    @SuppressLint("HandlerLeak")
     private void initHandler() {
         mHandler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
                 switch (msg.what) {
-//                    case 0:
-//                        NetRetEntity netRetEntity = JSON.parseObject(mNetRetStr, NetRetEntity.class);
-//                        mProvideMsgPushReminderCount = JSON.parseObject(netRetEntity.getResJsonData(), ProvideMsgPushReminderCount.class);
-//                        mApp.mMsgTimeInterval = mProvideMsgPushReminderCount.getMsgTimeInterval();
-//                        if (mProvideMsgPushReminderCount != null) {
-//                            String string = "";
-//                            if (mProvideMsgPushReminderCount.getMsgTypeCount01() > 0)
-//                                string = "您有" + mProvideMsgPushReminderCount.getMsgTypeCount01() + "条患者就诊消息!";
-//                            else if (mProvideMsgPushReminderCount.getMsgTypeCount02() > 0)
-//                                string = "您有" + mProvideMsgPushReminderCount.getMsgTypeCount02() + "条诊后留言消息!";
-//                            else if (mProvideMsgPushReminderCount.getMsgTypeCount03() > 0)
-//                                string = "您有" + mProvideMsgPushReminderCount.getMsgTypeCount03() + "条添加患者消息!";
-//                            else if (mProvideMsgPushReminderCount.getMsgTypeCount04() > 0)
-//                                string = "您有" + mProvideMsgPushReminderCount.getMsgTypeCount04() + "条医生联盟消息!";
-//                            else if (mProvideMsgPushReminderCount.getMsgTypeCount05() > 0)
-//                                string = "您有" + mProvideMsgPushReminderCount.getMsgTypeCount05() + "条医患圈消息!";
-//                            else if (mProvideMsgPushReminderCount.getMsgTypeCount06() > 0)
-//                                string = "您有" + mProvideMsgPushReminderCount.getMsgTypeCount06() + "条紧急提醒!";
-//                            else if (mProvideMsgPushReminderCount.getMsgTypeCount07() > 0)
-//                                string = "您有" + mProvideMsgPushReminderCount.getMsgTypeCount07() + "条患者签约消息!";
-//                            else if (mProvideMsgPushReminderCount.getMsgTypeCount08() > 0)
-//                                string = "您有" + mProvideMsgPushReminderCount.getMsgTypeCount08() + "条系统消息!";
-//                            mFragmentShouYe.setNewMessageView(string);
-//                        }
-////                        else
-////                            mFragmentShouYe.setNewMessageView("");
-//
-//                        break;
+                    case 1:
+                        showComplexDialog();
+                        break;
                 }
             }
         };
     }
 
-    /**
-     * 获取未读消息数量
-     */
-//    private void getMessageCount() {
-//        ProvideMsgPushReminderCount provideMsgPushReminderCount = new ProvideMsgPushReminderCount();
-//
-//        if(mApp.mViewSysUserDoctorInfoAndHospital!=null){
-//            provideMsgPushReminderCount.setLoginDoctorPosition(mApp.loginDoctorPosition);
-//            provideMsgPushReminderCount.setSearchDoctorCode(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
-//            new Thread() {
-//                public void run() {
-//                    try {
-//                        String string = new Gson().toJson(provideMsgPushReminderCount);
-//                        mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + string, Constant.SERVICEURL + "msgDataControlle/searchMsgPushReminderAllCount");
-//                        Log.e("tag", "run:首页 "+mNetRetStr );
-//                        String string01 = Constant.SERVICEURL + "msgDataControlle/searchMsgPushReminderAllCount";
-//                        System.out.println(string + string01);
-//                    } catch (Exception e) {
-//                        NetRetEntity retEntity = new NetRetEntity();
-//                        retEntity.setResCode(0);
-//                        retEntity.setResMsg("网络连接异常，请联系管理员：" + e.getMessage());
-//                        mNetRetStr = new Gson().toJson(retEntity);
-//                        e.printStackTrace();
-//                    }
-//                    mHandler.sendEmptyMessage(0);
-//                }
-//            }.start();
-//        }
-//
-//
-//
-//
-//    }
+
 
 
     @Override
@@ -437,6 +438,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+
     /**
      * 默认布局
      */
@@ -495,9 +497,52 @@ public class MainActivity extends AppCompatActivity {
      * 设置环信网络状态
      */
     public void setHXNetWorkState() {
-        if (mApp.gNetWorkTextView)
+        if (mApp.gNetWorkTextView){
             mFragmentYHHD.setHXNetWorkState(mApp.gNetConnectionHX);
+
+        }
+
     }
+
+    void showComplexDialog() {
+        //    通过AlertDialog.Builder这个类来实例化我们的一个AlertDialog的对象
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        //    设置Content来显示一个信息
+        builder.setTitle("异地登录");
+        builder.setMessage("您的账号已在其他地方登陆！");
+        //    设置一个PositiveButton
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener()
+        {
+            @Override
+            public void onClick(DialogInterface dialog, int which)
+            {
+                try {
+                    mApp.cleanPersistence();
+                    mApp.LoginOut(MainActivity.this);
+                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        //    设置一个NegativeButton
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener()
+        {
+            @Override
+            public void onClick(DialogInterface dialog, int which)
+            {
+                mApp.cleanPersistence();
+                mApp.LoginOut(MainActivity.this);
+                startActivity(new Intent(MainActivity.this, LoginActivity.class));
+            }
+        });
+
+        //    显示出该对话框
+        builder.show();
+
+    }
+
+
 
     /**
      * fragmnent显示新消息

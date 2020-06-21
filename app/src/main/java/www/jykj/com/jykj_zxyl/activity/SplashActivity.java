@@ -49,33 +49,16 @@ public class SplashActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = this.getSharedPreferences("share", MODE_PRIVATE);
         boolean isFirstRun = sharedPreferences.getBoolean("isFirstRun", true);
         SharedPreferences.Editor editor = sharedPreferences.edit();
+
         if (isFirstRun) {
             editor.putBoolean("isFirstRun", false);
             editor.commit();
             jumpToWelcomeActivity();
         } else {
-//            Intent intent = new Intent(SplashActivity.this, MainActivity.class);
-//            startActivity(intent);
+
             jumpToLoginActivity();
         }
 
-
-
-//        SharedPreferences sharedPreferences = this.getSharedPreferences("share", MODE_PRIVATE);
-//        int isFirstRun = sharedPreferences.getInt("isFirstRun", 0);
-//        SharedPreferences.Editor editor = sharedPreferences.edit();
-//        if (isFirstRun<1) {
-//            editor.putInt("isFirstRun", 1);
-//            editor.commit();
-//            jumpToWelcomeActivity();
-//        //    Log.e("tag", "onCreate:vvv "+isFirstRun );
-//        } else {
-//       //     jumpToLoginActivity();
-//            Intent intent = new Intent(SplashActivity.this, MainActivity.class);
-//            mApp.saveUserInfo();
-//            startActivity(intent);
-//            Log.e("tag", "onCreate:mmm "+isFirstRun );
-//        }
         initHandler();
 
     }
@@ -107,12 +90,11 @@ public class SplashActivity extends AppCompatActivity {
     private void autoLogin() {
 
 
-        if (mApp.mLoginUserInfo != null && mApp.mLoginUserInfo.getUserPhone() != null &&
-                mApp.mLoginUserInfo.getUserPwd() != null && !"".equals(mApp.mLoginUserInfo.getUserPhone())
-                && !"".equals(mApp.mLoginUserInfo.getUserPhone())) {
-            mApp.saveUserInfo();
-            userLogin();
-        } else {
+        if (mApp.mViewSysUserDoctorInfoAndHospital != null) {
+            Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        }else{
             Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
             startActivity(intent);
             finish();

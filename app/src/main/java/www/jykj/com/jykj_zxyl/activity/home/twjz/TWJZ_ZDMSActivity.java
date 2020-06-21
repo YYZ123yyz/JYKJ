@@ -35,6 +35,7 @@ import www.jykj.com.jykj_zxyl.activity.myself.hzgl.HZGLSearchActivity;
 import www.jykj.com.jykj_zxyl.adapter.WZZXImageViewRecycleAdapter;
 import www.jykj.com.jykj_zxyl.application.Constant;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
+import www.jykj.com.jykj_zxyl.util.ActivityUtil;
 import www.jykj.com.jykj_zxyl.util.BitmapUtil;
 import www.jykj.com.jykj_zxyl.util.FullyGridLayoutManager;
 import www.jykj.com.jykj_zxyl.util.Util;
@@ -85,14 +86,19 @@ public class TWJZ_ZDMSActivity extends AppCompatActivity {
     private static final int mCHOICEJB2 = 2;
     private static final int mCHOICEJB3 = 3;
 
-    private static final int zdsm1 = 1;
-    private static final int zdsm2 = 2;
-    private static final int zdsm3 = 3;
+    private static final int zdsm1 = 4;
+    private static final int zdsm2 = 5;
+    private static final int zdsm3 = 6;
+    private String ed;
+    private String ed3;
+    private String ed2;
+    private String xzjb;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_twjz_zdms);
+        ActivityUtil.setStatusBarMain(TWJZ_ZDMSActivity.this);
         mContext = this;
         mActivity = this;
         mApp = (JYKJApplication) getApplication();
@@ -134,12 +140,17 @@ public class TWJZ_ZDMSActivity extends AppCompatActivity {
             // 诊断一
             if (requestCode == mCHOICEJB1
                     && resultCode == RESULT_OK
-                    && data != null) {
+            ) {
                 ProvideBasicsDisease provideBasicsDisease = (ProvideBasicsDisease) data.getSerializableExtra("jkxx");
-                if (provideBasicsDisease != null) {
+                if (provideBasicsDisease.getDiseaseCode() == null || "".equals(provideBasicsDisease.getDiseaseCode())){
+                    mProvideInteractOrderDiag.setDiagDiseaseCode1("0");
+                }else{
                     mProvideInteractOrderDiag.setDiagDiseaseCode1(provideBasicsDisease.getDiseaseCode());
+                }
+                if (provideBasicsDisease.getDiseaseName()!=null&&!"".equals(provideBasicsDisease.getDiseaseName())) {
                     mProvideInteractOrderDiag.setDiagDiseaseName1(provideBasicsDisease.getDiseaseName());
                     mZDMC1.setText(provideBasicsDisease.getDiseaseName());
+                    Log.e("tag", "臆断 "+mZDMC1.getText().toString() );
                 }
 
 
@@ -172,25 +183,25 @@ public class TWJZ_ZDMSActivity extends AppCompatActivity {
             if( requestCode == zdsm1
                     && resultCode == RESULT_OK
                     && data != null){
-                String ed = data.getStringExtra("ed");
-                Log.e("tag", "onActivityResult: "+ed );
+                ed = data.getStringExtra("ed");
+                mProvideInteractOrderDiag.setDiagDiseaseNameAlias1(ed);
                 mZDBM1.setText(ed);
             }
             //补充说明2
             if( requestCode == zdsm2
                     && resultCode == RESULT_OK
                     && data != null){
-                String ed = data.getStringExtra("ed");
-                Log.e("tag", "onActivityResult: "+ed );
-                mZDBM2.setText(ed);
+                ed2 = data.getStringExtra("ed");
+                mProvideInteractOrderDiag.setDiagDiseaseNameAlias2(ed2);
+                mZDBM2.setText(ed2);
             }
             //补充说明1
             if( requestCode == zdsm3
                     && resultCode == RESULT_OK
                     && data != null){
-                String ed = data.getStringExtra("ed");
-                Log.e("tag", "onActivityResult: "+ed );
-                mZDBM3.setText(ed);
+                ed3 = data.getStringExtra("ed");
+                mProvideInteractOrderDiag.setDiagDiseaseNameAlias3(ed3);
+                mZDBM3.setText(ed3);
             }
 
         } catch (Exception e) {
@@ -211,10 +222,10 @@ public class TWJZ_ZDMSActivity extends AppCompatActivity {
                             Toast.makeText(mContext, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
                         } else {
                             mProvideInteractOrderDiag = JSON.parseObject(netRetEntity.getResJsonData(), ProvideInteractOrderDiag.class);
-                            if (mProvideInteractOrderDiag != null) {
+                            if (mProvideInteractOrderDiag != null)
+                            {
                                 showLayoutDate();
                             }
-
                         }
                         break;
 
@@ -263,6 +274,7 @@ public class TWJZ_ZDMSActivity extends AppCompatActivity {
                     mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + string, Constant.SERVICEURL + "doctorInteractDataControlle/searchMyClinicDetailResOrderDiag");
                     String string01 = Constant.SERVICEURL + "doctorInteractDataControlle/searchMyClinicDetailResOrderDiag";
                     System.out.println(string + string01);
+                    Log.e("tag", "基础数据 "+mNetRetStr );
                 } catch (Exception e) {
                     NetRetEntity retEntity = new NetRetEntity();
                     retEntity.setResCode(0);
@@ -347,36 +359,6 @@ public class TWJZ_ZDMSActivity extends AppCompatActivity {
         else
             mZDMS.setText(mProvideInteractOrderDiag.getDiagDiseaseDesc());
 
-//        mNameTitle.setText("【"+mProvideInteractPatientMessage.getPatientName()+"】诊后留言");
-//        mMessageType.setText(mProvideInteractPatientMessage.getTreatmentTypeName());
-//        mMessageDate.setText(Util.dateToStr(mProvideInteractPatientMessage.getMessageDate()));
-//        mMessageContent.setText(mProvideInteractPatientMessage.getMessageContent());
-//        mMessageLinkPhone.setText("联系电话："+mProvideInteractPatientMessage.getPatientLinkPhone());
-//
-//        mImageRecycleView = (RecyclerView)this.findViewById(R.id.rv_imageView);
-//        //创建默认的线性LayoutManager
-//        mGridLayoutManager = new FullyGridLayoutManager(mContext,3);
-//        mGridLayoutManager.setOrientation(LinearLayout.VERTICAL);
-//        mImageRecycleView.setLayoutManager(mGridLayoutManager);
-//        //如果可以确定每个item的高度是固定的，设置这个选项可以提高性能
-//        mImageRecycleView.setHasFixedSize(true);
-//
-//        //创建并设置Adapter
-//        mAdapter = new WZZXImageViewRecycleAdapter(mProvideBasicsImg,mContext);
-//        mImageRecycleView.setAdapter(mAdapter);
-//        mAdapter.setOnItemClickListener(new WZZXImageViewRecycleAdapter.OnItemClickListener() {
-//            @Override
-//            public void onClick(int position) {
-////                PhotoDialog photoDialog = new PhotoDialog(mContext,R.style.PhotoDialog);
-////                photoDialog.setDate(mContext,mApp,mCommodity.getCommodityPicture(),position);
-////                photoDialog.show();
-//            }
-//
-//            @Override
-//            public void onLongClick(int position) {
-//
-//            }
-//        });
 
     }
 
@@ -388,20 +370,24 @@ public class TWJZ_ZDMSActivity extends AppCompatActivity {
         mProvideInteractOrderDiag.setDiagDiseaseNameAlias2(mZDBM2.getText().toString());
         mProvideInteractOrderDiag.setDiagDiseaseNameAlias3(mZDBM3.getText().toString());
         mProvideInteractOrderDiag.setDiagDiseaseDesc(mZDMS.getText().toString());
-        if (mProvideInteractOrderDiag.getDiagDiseaseDesc() == null || "".equals(mProvideInteractOrderDiag.getDiagDiseaseDesc())) {
-            Toast.makeText(mContext, "请填写诊断描述", Toast.LENGTH_SHORT).show();
+        if (mProvideInteractOrderDiag.getDiagDiseaseDesc() == null || "".equals(mProvideInteractOrderDiag.getDiagDiseaseDesc()))
+        {
+            Toast.makeText(mContext,"请填写诊断描述",Toast.LENGTH_SHORT).show();
             return;
         }
-        if (mProvideInteractOrderDiag.getDiagDiseaseCode1() == null || "".equals(mProvideInteractOrderDiag.getDiagDiseaseCode1())) {
-            Toast.makeText(mContext, "诊断一必填", Toast.LENGTH_SHORT).show();
+        if (mProvideInteractOrderDiag.getDiagDiseaseCode1() == null || "".equals(mProvideInteractOrderDiag.getDiagDiseaseCode1()))
+        {
+            Toast.makeText(mContext,"诊断一必填",Toast.LENGTH_SHORT).show();
             return;
         }
         mProvideInteractOrderDiag.setLoginDoctorPosition(mApp.loginDoctorPosition);
         mProvideInteractOrderDiag.setOperDoctorCode(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
-        mProvideInteractOrderDiag.setOperDoctorName(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
+        mProvideInteractOrderDiag.setOperDoctorName(mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
         mProvideInteractOrderDiag.setOrderCode(mProvideViewInteractOrderTreatmentAndPatientInterrogation.getOrderCode());
         mProvideInteractOrderDiag.setPatientCode(mProvideViewInteractOrderTreatmentAndPatientInterrogation.getPatientCode());
         mProvideInteractOrderDiag.setPatientName(mProvideViewInteractOrderTreatmentAndPatientInterrogation.getPatientName());
+
+
         getProgressBar("请稍候", "正在提交数据。。。");
         new Thread() {
             public void run() {
@@ -410,6 +396,7 @@ public class TWJZ_ZDMSActivity extends AppCompatActivity {
                     mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + string, Constant.SERVICEURL + "doctorInteractDataControlle/operUpdMyClinicDetailByOrderDiag");
                     String string01 = Constant.SERVICEURL + "doctorInteractDataControlle/operUpdMyClinicDetailByOrderPatientMessage";
                     System.out.println(string + string01);
+
                 } catch (Exception e) {
                     NetRetEntity retEntity = new NetRetEntity();
                     retEntity.setResCode(0);

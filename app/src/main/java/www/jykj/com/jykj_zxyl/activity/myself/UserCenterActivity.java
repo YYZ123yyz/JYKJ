@@ -38,6 +38,7 @@ import org.w3c.dom.Text;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -45,6 +46,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import entity.basicDate.ProvideBasicsDomain;
 import entity.basicDate.ProvideBasicsRegion;
@@ -86,6 +89,8 @@ public class UserCenterActivity extends AppCompatActivity {
     private int mChoiceRegionLevel;                                       //选择的区域级别
     private String mChoiceRegionID;                                       //选择的区域ID
 
+    public static Pattern p =
+            Pattern.compile("\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*");
 
     private Handler mHandler;
 
@@ -100,8 +105,8 @@ public class UserCenterActivity extends AppCompatActivity {
 
     private LinearLayout mChoiceHospitalLayout;              //选择医院布局
     private TextView mChoiceHospitalText;                //选择医院text
-
-    private File mTempFile;              //声明一个拍照结果的临时文件
+    String path = Environment.getExternalStorageDirectory() + "";
+    private File mTempFile= createFileIfNeed("UserIcon.png");         //声明一个拍照结果的临时文件
     private ImageView mUserHeadImage;                 //用户头像显示
 
     private List<ProvideHospitalInfo> mProvideHospitalInfos = new ArrayList<>();              //获取到的医院列表
@@ -140,6 +145,9 @@ public class UserCenterActivity extends AppCompatActivity {
     private ImageView usercenter_back;
     private LinearLayout usercenterBack;
 
+    public UserCenterActivity() throws IOException {
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -156,7 +164,19 @@ public class UserCenterActivity extends AppCompatActivity {
         getBasicDate();//   获取医院职称
     }
 
-
+    // 在sd卡中创建一保存图片（原图和缩略图共用的）文件夹
+    private File createFileIfNeed(String fileName) throws IOException {
+        String fileA = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath() + "/nbinpic";
+        File fileJA = new File(fileA);
+        if (!fileJA.exists()) {
+            fileJA.mkdirs();
+        }
+        File file = new File(fileA, fileName);
+        if (!file.exists()) {
+            file.createNewFile();
+        }
+        return file;
+    }
     private void initHandler() {
         mHandler = new Handler() {
             @Override
@@ -196,6 +216,7 @@ public class UserCenterActivity extends AppCompatActivity {
             }
         };
     }
+
 
 
     /**
@@ -250,7 +271,10 @@ public class UserCenterActivity extends AppCompatActivity {
             mAddressEdit.setText(mProvideViewSysUserDoctorInfoAndHospital.getAddress());
         //邮箱
         if (mProvideViewSysUserDoctorInfoAndHospital.getEmail() != null && !"".equals(mProvideViewSysUserDoctorInfoAndHospital.getEmail()))
+
             mEmalEdit.setText(mProvideViewSysUserDoctorInfoAndHospital.getEmail());
+
+
         //个人简介
         if (mProvideViewSysUserDoctorInfoAndHospital.getSynopsis() != null && !"".equals(mProvideViewSysUserDoctorInfoAndHospital.getSynopsis()))
             mSynopsisEdit.setText(mProvideViewSysUserDoctorInfoAndHospital.getSynopsis());
@@ -345,10 +369,12 @@ public class UserCenterActivity extends AppCompatActivity {
                                             builder.detectFileUriExposure();
                                             // 添加Action类型：MediaStore.ACTION_IMAGE_CAPTURE
                                             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
                                             // 指定调用相机拍照后照片(结果)的储存路径
                                             intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(mTempFile));
                                             // 等待返回结果
                                             startActivityForResult(intent, Constant.SELECT_PIC_BY_TACK_PHOTO);
+
                                             break;
                                         case 1:
                                             BitmapUtil.selectAlbum(mActivity);//从相册选择
@@ -423,21 +449,17 @@ public class UserCenterActivity extends AppCompatActivity {
             }
         }
     }
+    //验证函数优化版
+    public static boolean isEmail(String email){
+        if (null==email || "".equals(email)) return false;
+        Matcher m = p.matcher(email);
+        return m.matches();
+    }
 
     /**
      * 提交
      */
     private void commit() {
-        mProvideViewSysUserDoctorInfoAndHospital.setLoginDoctorPosition(mApp.loginDoctorPosition);
-        mProvideViewSysUserDoctorInfoAndHospital.setOperDoctorCode(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
-        mProvideViewSysUserDoctorInfoAndHospital.setOperDoctorName(mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
-
-        mProvideViewSysUserDoctorInfoAndHospital.setUserName(mUserNameText.getText().toString());
-
-        mProvideViewSysUserDoctorInfoAndHospital.setAddress(mAddressEdit.getText().toString());
-        mProvideViewSysUserDoctorInfoAndHospital.setEmail(mEmalEdit.getText().toString());
-        mProvideViewSysUserDoctorInfoAndHospital.setSynopsis(mSynopsisEdit.getText().toString());
-        mProvideViewSysUserDoctorInfoAndHospital.setGoodAtRealm(mGoodAtRealmEdit.getText().toString());
 
         //判断为空
         if (mProvideViewSysUserDoctorInfoAndHospital.getUserName() == null || "".equals(mProvideViewSysUserDoctorInfoAndHospital.getUserName())) {
@@ -451,10 +473,11 @@ public class UserCenterActivity extends AppCompatActivity {
             return;
         }
 
-        if (mProvideViewSysUserDoctorInfoAndHospital.getBirthdayStr() == null || "".equals(mProvideViewSysUserDoctorInfoAndHospital.getBirthdayStr())) {
+        if (mProvideViewSysUserDoctorInfoAndHospital.getBirthday() == null ) {
             Toast.makeText(mContext, "请选择出生日期", Toast.LENGTH_SHORT).show();
             return;
         }
+
         if (mProvideViewSysUserDoctorInfoAndHospital.getHospitalInfoCode() == null || "".equals(mProvideViewSysUserDoctorInfoAndHospital.getHospitalInfoCode())) {
             Toast.makeText(mContext, "请选择医院", Toast.LENGTH_SHORT).show();
             return;
@@ -476,7 +499,31 @@ public class UserCenterActivity extends AppCompatActivity {
             return;
         }
 
-        getProgressBar("请稍候。。。。", "正在提交");
+        mProvideViewSysUserDoctorInfoAndHospital.setLoginDoctorPosition(mApp.loginDoctorPosition);
+        mProvideViewSysUserDoctorInfoAndHospital.setOperDoctorCode(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
+        mProvideViewSysUserDoctorInfoAndHospital.setOperDoctorName(mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
+
+        mProvideViewSysUserDoctorInfoAndHospital.setUserName(mUserNameText.getText().toString());
+
+        mProvideViewSysUserDoctorInfoAndHospital.setAddress(mAddressEdit.getText().toString());
+        if(TextUtils.isEmpty(mEmalEdit.getText().toString())){
+            mProvideViewSysUserDoctorInfoAndHospital.setEmail("");
+        }else{
+            if (isEmail(mEmalEdit.getText().toString().trim()) && mEmalEdit.getText().toString().trim().length()<=31){
+                Toast.makeText(UserCenterActivity.this,"邮箱验证成功",Toast.LENGTH_SHORT).show();
+            }else {
+                Toast.makeText(UserCenterActivity.this,"邮箱格式错误",Toast.LENGTH_SHORT).show();
+                return;
+            }
+            mProvideViewSysUserDoctorInfoAndHospital.setEmail(mEmalEdit.getText().toString());
+        }
+
+
+        mProvideViewSysUserDoctorInfoAndHospital.setSynopsis(mSynopsisEdit.getText().toString());
+        mProvideViewSysUserDoctorInfoAndHospital.setGoodAtRealm(mGoodAtRealmEdit.getText().toString());
+
+        getProgressBar("请稍候", "正在提交数据...");
+        Log.e("tag", "commit: "+mProvideViewSysUserDoctorInfoAndHospital.getBirthday().toString() );
         new Thread() {
             public void run() {
                 try {
@@ -484,6 +531,7 @@ public class UserCenterActivity extends AppCompatActivity {
                         mProvideViewSysUserDoctorInfoAndHospital.setBase64ImgData((URLEncoder.encode("data:image/jpg;base64," + BitmapUtil.bitmaptoString(mUserHeadBitmap))));
                     String str = new Gson().toJson(mProvideViewSysUserDoctorInfoAndHospital);
                     mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + str, Constant.SERVICEURL + "doctorPersonalSetControlle/operUserDoctorInfo");
+                    Log.e("tag", "修改"+mNetRetStr );
                     NetRetEntity netRetEntity = new Gson().fromJson(mNetRetStr, NetRetEntity.class);
                     if (netRetEntity.getResCode() == 0) {
                         NetRetEntity retEntity = new NetRetEntity();
@@ -778,18 +826,18 @@ public class UserCenterActivity extends AppCompatActivity {
         builder3.show();// 让弹出框显示
     }
 
-    /**
-     * 创建临时文件夹 _tempphoto
-     */
-    private void initDir() {
-        // 声明目录
-        File tempDir = new File(Environment.getExternalStorageDirectory().getAbsolutePath()
-                + "/_tempphoto");
-        if (!tempDir.exists()) {
-            tempDir.mkdirs();// 创建目录
-        }
-        mTempFile = new File(tempDir, BitmapUtil.getPhotoFileName());// 生成临时文件
-    }
+//    /**
+//     * 创建临时文件夹 _tempphoto
+//     */
+//    private void initDir() {
+//        // 声明目录
+//        File tempDir = new File(Environment.getExternalStorageDirectory().getAbsolutePath()
+//                + "/_tempphoto");
+//        if (!tempDir.exists()) {
+//            tempDir.mkdirs();// 创建目录
+//        }
+//        mTempFile = new File(tempDir, BitmapUtil.getPhotoFileName());// 生成临时文件
+//    }
 
 
     @Override
@@ -834,9 +882,11 @@ public class UserCenterActivity extends AppCompatActivity {
                 photo = BitmapFactory.decodeStream(getContentResolver().openInputStream(data.getData()));//将imageUri对象的图片加载到内存
             } else {
                 System.out.println("进来了");
+                Log.e("tag", "setPicToView: "+ "进来了");
                 photo = BitmapFactory.decodeStream(getContentResolver().openInputStream(Uri.fromFile(new File(Environment.getExternalStorageDirectory(), "test.jpg"))));//将imageUri对象的图片加载到内存
             }
             System.out.println("图片：" + photo);
+            Log.e("tag", "setPicToView: "+ photo);
             mUserHeadBitmap = photo;
 
             //显示图片

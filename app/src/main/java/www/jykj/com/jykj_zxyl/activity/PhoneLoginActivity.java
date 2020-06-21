@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -88,6 +89,8 @@ public class PhoneLoginActivity extends AppCompatActivity {
     private static IWXAPI WXapi;
     private String WX_APP_ID = "wxaf6f64f6a5878261";
     private ImageView phome_back;
+
+    String telRegex = "^((13[0-9])|(14[5,7,9])|(15[^4])|(18[0-9])|(17[0,1,3,5,6,7,8]))\\d{8}$";
 
     private TextView login_protocol,privacy;
     private String WX_APPSecret = "7cac79aab0a527e47eb7f68eeddd265f";
@@ -281,6 +284,25 @@ public class PhoneLoginActivity extends AppCompatActivity {
 
 
     }
+
+
+    public static boolean isMobileNO(String mobileNums) {
+        /**
+         * 判断字符串是否符合手机号码格式
+         * 移动号段: 134,135,136,137,138,139,147,150,151,152,157,158,159,170,178,182,183,184,187,188
+         * 联通号段: 130,131,132,145,155,156,170,171,175,176,185,186
+         * 电信号段: 133,149,153,170,173,177,180,181,189
+         * @param str
+         * @return 待检测的字符串
+         */
+        String telRegex = "^((13[0-9])|(14[5,7,9])|(15[^4])|(18[0-9])|(17[0,1,3,5,6,7,8]))\\d{8}$";// "[1]"代表下一位为数字可以是几，"[0-9]"代表可以为0-9中的一个，"[5,7,9]"表示可以是5,7,9中的任意一位,[^4]表示除4以外的任何一个,\\d{9}"代表后面是可以是0～9的数字，有9位。
+        if (TextUtils.isEmpty(mobileNums))
+            return false;
+        else
+            return mobileNums.matches(telRegex);
+    }
+
+
     /**
      * 登录
      */
@@ -292,6 +314,9 @@ public class PhoneLoginActivity extends AppCompatActivity {
         if (mVCode.getText().toString() == null || "".equals(mVCode.getText().toString())) {
             Toast.makeText(mContext, "请输入验证码", Toast.LENGTH_SHORT).show();
             return;
+        }
+        if(isMobileNO(mPhoneNum.getText().toString())){
+            Toast.makeText(mContext, "请输入正确手机号", Toast.LENGTH_SHORT).show();
         }
         UserInfo userInfo = new UserInfo();
         userInfo.setUserPhone(mPhoneNum.getText().toString());
@@ -395,6 +420,12 @@ public class PhoneLoginActivity extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
             getAccessToken();
         }
+    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        //    getApplication().unregisterReceiver(receiveBroadCast);
+
     }
     public void getAccessToken() {
         SharedPreferences WxSp = getApplicationContext()

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="20dp">
+
+    <ImageView
+        android:id="@+id/user_icon"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/user_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@+id/user_icon"
+        android:text="梁超杰"
+        android:visibility="gone" />
+
+    <yyz_exploit.view.NineGridTestLayout
+        android:id="@+id/nineTestlayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/user_name"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="30dp"
+        android:layout_toRightOf="@+id/user_icon"
+        android:nestedScrollingEnabled="true"
+        app:oneImageHeight="340dp"
+        app:oneImageWidth="200dp"></yyz_exploit.view.NineGridTestLayout>
+</RelativeLayout>

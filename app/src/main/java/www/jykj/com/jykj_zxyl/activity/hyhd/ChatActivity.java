@@ -54,6 +54,10 @@ public class ChatActivity extends AppCompatActivity {
         EaseChatFragment chatFragment = new EaseChatFragment();
         String userCode = getIntent().getStringExtra("userCode");
         String userName = getIntent().getStringExtra("userName");
+
+        String usersName = getIntent().getStringExtra("usersName");
+        String userUrl = getIntent().getStringExtra("userUrl");
+
         String loginDoctorPosition = getIntent().getStringExtra("loginDoctorPosition");
         String operDoctorCode = getIntent().getStringExtra("operDoctorCode");
         String operDoctorName = getIntent().getStringExtra("operDoctorName");
@@ -68,6 +72,9 @@ public class ChatActivity extends AppCompatActivity {
         args.putString("operDoctorCode", operDoctorCode);
         args.putString("operDoctorName", operDoctorName);
         args.putString("orderCode", orderCode);
+        args.putString("usersName", usersName);
+        args.putString("userUrl", userUrl);
+
 
         args.putInt(EaseConstant.EXTRA_MESSAGE_NUM, getIntent().getIntExtra(EaseConstant.EXTRA_MESSAGE_NUM, 0));
         args.putLong(EaseConstant.EXTRA_VOICE_NUM, getIntent().getIntExtra(EaseConstant.EXTRA_VOICE_NUM, 0));

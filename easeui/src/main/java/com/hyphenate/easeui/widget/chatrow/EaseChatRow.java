@@ -2,6 +2,10 @@ package com.hyphenate.easeui.widget.chatrow;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseAdapter;
@@ -27,6 +31,9 @@ import com.hyphenate.util.DateUtils;
 import java.util.Date;
 
 public abstract class EaseChatRow extends LinearLayout {
+
+    private String userUrl;
+
     public interface EaseChatRowActionCallback {
         void onResendClick(EMMessage message);
 
@@ -61,6 +68,7 @@ public abstract class EaseChatRow extends LinearLayout {
 
     private EaseChatRowActionCallback itemActionCallback;
 
+    protected Bundle fragmentArgs;
     public EaseChatRow(Context context, EMMessage message, int position, BaseAdapter adapter) {
         super(context);
         this.context = context;
@@ -92,6 +100,7 @@ public abstract class EaseChatRow extends LinearLayout {
         onInflateView();
         timeStampView = (TextView) findViewById(R.id.timestamp);
         userAvatarView = (ImageView) findViewById(R.id.iv_userhead);
+
         bubbleLayout = findViewById(R.id.bubble);
         usernickView = (TextView) findViewById(R.id.tv_userid);
 
@@ -127,6 +136,7 @@ public abstract class EaseChatRow extends LinearLayout {
     private void setUpBaseView() {
     	// set nickname, avatar and background of bubble
         TextView timestamp = (TextView) findViewById(R.id.timestamp);
+        userAvatarView=findViewById(R.id.iv_userhead);
         if (timestamp != null) {
             if (position == 0) {
                 timestamp.setText(DateUtils.getTimestampString(new Date(message.getMsgTime())));

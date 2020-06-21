@@ -3,9 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="www.jykj.com.jykj_zxyl">
 
-    <!-- 这个权限用于进行网络定位 -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" /> <!-- 这个权限用于进行网络定位 -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- for mta statistics -->
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -41,7 +40,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name="yyz_exploit.activity.activity.Home_FeaturedActivity"></activity>
+        <activity android:name="yyz_exploit.activity.activity.AddTextActivity"></activity>
+        <activity android:name="yyz_exploit.activity.activity.Home_FeaturedActivity" />
         <activity android:name="yyz_exploit.activity.activity.Home_DetailsActivity" />
         <activity android:name="yyz_exploit.activity.activity.AddActivity" />
         <activity android:name="yyz_exploit.activity.activity.SupplementActivity" />

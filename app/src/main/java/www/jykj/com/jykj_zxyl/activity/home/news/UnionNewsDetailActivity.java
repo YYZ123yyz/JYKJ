@@ -129,6 +129,8 @@ public class UnionNewsDetailActivity extends AppCompatActivity {
         public void onClick(View view) {
             switch (view.getId()) {
                 case R.id.mess_back:
+                    Intent intent = new Intent(UnionNewsDetailActivity.this, UnionNewsActivity.class);
+                    startActivity(intent);
                     finish();
                     break;
             }

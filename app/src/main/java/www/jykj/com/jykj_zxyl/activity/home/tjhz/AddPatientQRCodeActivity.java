@@ -55,34 +55,33 @@ import static orcameralib.CameraActivity.KEY_OUTPUT_FILE_PATH;
  */
 public class AddPatientQRCodeActivity extends AppCompatActivity {
 
-    private             Context                         mContext;
+    private Context mContext;
     private AddPatientQRCodeActivity mActivity;
-    private             LinearLayout                    mApplicationAudit;                  //申请审核
-    private             LinearLayout                    mSMSFZ;                             //扫描身份证\
-    private             JYKJApplication                 mApp;
-
+    private LinearLayout mApplicationAudit;                  //申请审核
+    private LinearLayout mSMSFZ;                             //扫描身份证\
+    private JYKJApplication mApp;
 
 
     private Handler mHandler;
 
 
-    public              ProgressDialog                              mDialogProgress =null;                                  //进度条
-    public              String              mRetString;
+    public ProgressDialog mDialogProgress = null;                                  //进度条
+    public String mRetString;
 
-    private                 String                      mNetRetStr;                 //返回字符串
+    private String mNetRetStr;                 //返回字符串
 
 
-    private             LinearLayout                    mHZBQLayout;                        //患者标签
+    private LinearLayout mHZBQLayout;                        //患者标签
 
-    private             TextView                        mHZBQText;                          //患者标签
+    private TextView mHZBQText;                          //患者标签
 
-    private             List<ProvideBasicsDomain>       mList = new ArrayList<>();              //患者标签数据
+    private List<ProvideBasicsDomain> mList = new ArrayList<>();              //患者标签数据
 
-    private             Button                          mCommitButton;                          //提交
+    private Button mCommitButton;                          //提交
 
-    private             BindPatientParment              mBindPatientParment;
-    private             String                          mQrCode;                            //二维码值
-    private             String                          mServiceName;                       //服务名称
+    private BindPatientParment mBindPatientParment;
+    private String mQrCode;                            //二维码值
+    private String mServiceName;                       //服务名称
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -118,14 +117,12 @@ public class AddPatientQRCodeActivity extends AppCompatActivity {
                 switch (msg.what) {
                     case 1:
                         cacerProgress();
-                        NetRetEntity netRetEntity = JSON.parseObject(mNetRetStr,NetRetEntity.class);
-                        if (netRetEntity.getResCode() == 1)
-                        {
-                            Toast.makeText(mContext,netRetEntity.getResMsg(),Toast.LENGTH_SHORT).show();
+                        NetRetEntity netRetEntity = JSON.parseObject(mNetRetStr, NetRetEntity.class);
+                        if (netRetEntity.getResCode() == 1) {
+                            Toast.makeText(mContext, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
                             finish();
-                        }
-                        else
-                            Toast.makeText(mContext,netRetEntity.getResMsg(),Toast.LENGTH_SHORT).show();
+                        } else
+                            Toast.makeText(mContext, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
                         break;
 
                     case 2:
@@ -138,26 +135,22 @@ public class AddPatientQRCodeActivity extends AppCompatActivity {
     }
 
 
-
-
     /**
      * 初始化界面
      */
     private void initLayout() {
 
-        mHZBQLayout = (LinearLayout)this.findViewById(R.id.li_hzbqLayout);
-        mHZBQText = (TextView)this.findViewById(R.id.tv_hzbqText);
+        mHZBQLayout = (LinearLayout) this.findViewById(R.id.li_hzbqLayout);
+        mHZBQText = (TextView) this.findViewById(R.id.tv_hzbqText);
         mHZBQLayout.setOnClickListener(new ButtonClick());
 
 
-        mCommitButton = (Button)this.findViewById(R.id.bt_commit);
+        mCommitButton = (Button) this.findViewById(R.id.bt_commit);
         mCommitButton.setOnClickListener(new ButtonClick());
     }
 
 
-
-
-    class   ButtonClick implements View.OnClickListener {
+    class ButtonClick implements View.OnClickListener {
         @Override
         public void onClick(View view) {
             switch (view.getId()) {
@@ -172,15 +165,12 @@ public class AddPatientQRCodeActivity extends AppCompatActivity {
     }
 
 
-
-
     /**
      * 患者标签选择框
      */
     private void showHZBQDialog() {
         final String[] items = new String[mList.size()];
-        for (int i = 0; i < mList.size(); i++)
-        {
+        for (int i = 0; i < mList.size(); i++) {
             items[i] = mList.get(i).getAttrName();
         }
 
@@ -192,7 +182,7 @@ public class AddPatientQRCodeActivity extends AppCompatActivity {
             public void onClick(DialogInterface arg0, int arg1) {
                 // TODO Auto-generated method stub
                 mHZBQText.setText(items[arg1]);
-                mBindPatientParment.setPatientLabelId(mList.get(arg1).getAttrCode()+"");
+                mBindPatientParment.setPatientLabelId(mList.get(arg1).getAttrCode() + "");
                 mBindPatientParment.setPatientLabelName(mList.get(arg1).getAttrName());
             }
         });
@@ -202,8 +192,8 @@ public class AddPatientQRCodeActivity extends AppCompatActivity {
 
 
     //获取患者标签
-    public void getBasicDate(){
-        getProgressBar("请稍候","正在获取数据。。。");
+    public void getBasicDate() {
+        getProgressBar("请稍候", "正在获取数据。。。");
         //开始识别
         new Thread() {
             public void run() {
@@ -215,7 +205,7 @@ public class AddPatientQRCodeActivity extends AppCompatActivity {
                     String str = new Gson().toJson(provideBasicsDomain);
                     mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + str, Constant.SERVICEURL + "basicDataController/getBasicsDomain");
                     NetRetEntity netRetEntity = new Gson().fromJson(mNetRetStr, NetRetEntity.class);
-                    mList = JSON.parseArray(netRetEntity.getResJsonData(),ProvideBasicsDomain.class);
+                    mList = JSON.parseArray(netRetEntity.getResJsonData(), ProvideBasicsDomain.class);
 
                     if (netRetEntity.getResCode() == 0) {
                         NetRetEntity retEntity = new NetRetEntity();
@@ -243,11 +233,10 @@ public class AddPatientQRCodeActivity extends AppCompatActivity {
      * 提交
      */
     private void commit() {
-        getProgressBar("请稍候","正在提交。。。");
+        getProgressBar("请稍候", "正在提交。。。");
 
-        if (mBindPatientParment.getPatientLabelId() == null || "".equals(mBindPatientParment.getPatientLabelId() == null))
-        {
-            Toast.makeText(mContext,"请选择患者标签",Toast.LENGTH_SHORT).show();
+        if (mBindPatientParment.getPatientLabelId() == null || "".equals(mBindPatientParment.getPatientLabelId() == null)) {
+            Toast.makeText(mContext, "请选择患者标签", Toast.LENGTH_SHORT).show();
             return;
         }
 

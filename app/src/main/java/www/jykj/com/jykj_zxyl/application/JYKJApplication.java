@@ -2,9 +2,11 @@ package www.jykj.com.jykj_zxyl.application;
 
 import android.app.Activity;
 import android.app.ActivityManager;
+import android.app.AlertDialog;
 import android.app.Application;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Build;
@@ -15,6 +17,7 @@ import android.support.multidex.MultiDex;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -54,6 +57,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshFooterCreator;
@@ -68,6 +72,7 @@ import entity.DoctorInfo.InteractPatient;
 import entity.basicDate.EMMessageEntity;
 import entity.basicDate.ProvideBasicsRegion;
 import entity.basicDate.ProvideDoctorPatientUserInfo;
+import entity.mySelf.DataCleanManager;
 import entity.service.ViewSysUserDoctorInfoAndHospital;
 import entity.unionInfo.ProvideUnionDoctorOrg;
 import entity.user.ProvideDoctorQualification;
@@ -75,8 +80,12 @@ import entity.user.UserInfo;
 import netService.HttpNetService;
 import netService.entity.NetRetEntity;
 import www.jykj.com.jykj_zxyl.R;
+import www.jykj.com.jykj_zxyl.activity.LoginActivity;
 import www.jykj.com.jykj_zxyl.activity.MainActivity;
 import www.jykj.com.jykj_zxyl.service.MessageReciveService;
+import yyz_exploit.dialog.AuthorityDialog;
+import yyz_exploit.dialog.ErrorDialog;
+
 import com.tencent.bugly.crashreport.CrashReport;
 import com.tencent.rtmp.TXLiveBase;
 
@@ -152,16 +161,25 @@ public class JYKJApplication extends Application {
                     });
                     break;
             }
+
+
+
+
         }
     };
+    private EMConnectionListener connectionListener;
 
 
     public void loginIM() {
         new Thread() {
+            private EMConnectionListener connectionListener;
+
             public void run() {
                 //注册
                 try {
                     EMClient.getInstance().createAccount(mViewSysUserDoctorInfoAndHospital.getDoctorCode(), mViewSysUserDoctorInfoAndHospital.getQrCode());
+                    EMClient.getInstance().addConnectionListener(connectionListener);
+
                     gHandler.sendEmptyMessage(1);
                 } catch (HyphenateException e) {
                     e.printStackTrace();
@@ -171,6 +189,41 @@ public class JYKJApplication extends Application {
             }
         }.start();
     }
+
+
+    /**
+     * 退出登录
+     */
+    public  void LoginOut(final Activity activity) {
+        EMClient.getInstance().logout(true, new EMCallBack() {
+
+            @Override
+            public void onSuccess() {
+                activity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.e("tag", "run: "+"您已退出登录!" );
+                    }
+                });
+            }
+
+            @Override
+            public void onProgress(int progress, String status) {
+            }
+
+            @Override
+            public void onError(int code, final String message) {
+                activity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+
+                    }
+                });
+            }
+        });
+    }
+
+
 
     @Override
     public void onCreate() {
@@ -212,9 +265,31 @@ public class JYKJApplication extends Application {
         saveIMNumInfo();
         getIMNumInfo();
         initLitesmat();
-
+     //   login();
 
     }
+
+     void  login(){
+         connectionListener = new EMConnectionListener() {
+
+             @Override
+             public void onDisconnected(int error) {
+                if(error==EMError.USER_LOGIN_ANOTHER_DEVICE){
+
+
+                }
+             }
+
+             @Override
+             public void onConnected() {
+                 // in case group and contact were already synced, we supposed to
+                 // notify sdk we are ready to receive the events
+             }
+         };
+         EMClient.getInstance().addConnectionListener(connectionListener);
+         }
+
+
 
     void initLitesmat(){
         String licenceURL = "http://license.vod2.myqcloud.com/license/v1/6803be91c7f78640a122154f66452db8/TXLiveSDK.licence"; // 获取到的 licence url

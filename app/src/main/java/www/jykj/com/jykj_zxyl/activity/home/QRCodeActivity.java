@@ -152,6 +152,7 @@ public class QRCodeActivity extends AppCompatActivity {
                             }
                             if ("3".equals(netRetEntity.getResMsg())) {
                                 //医生扫患者二维码
+
                             }
 
                         }
@@ -316,29 +317,6 @@ public class QRCodeActivity extends AppCompatActivity {
                 wechatShare();
             }
         });
-        //保存相册
-//        qr_save.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                String userLogoUrl = mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl();
-//                new Thread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        Bitmap bitmap = NetWorkUtils.getHttpBitmap(userLogoUrl);
-//                        Bitmap bm = QRCodeUtil.getImageBitmap(bitmap, "1111111", 360);
-//                        runOnUiThread(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                ivEwCode.setImageBitmap(bm);
-//                                saveBmp2Gallery(context,bm,"");
-//                            }
-//                        });
-//                    }
-//                }).start();
-//
-//
-//            }
-//        });
 
 
         //二维码
@@ -351,7 +329,7 @@ public class QRCodeActivity extends AppCompatActivity {
             @Override
             public void run() {
                 Bitmap bitmap = NetWorkUtils.getHttpBitmap(userLogoUrl);
-                Bitmap bm = QRCodeUtil.getImageBitmap(bitmap, mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(), 360);
+                Bitmap bm = QRCodeUtil.getImageBitmap(bitmap, mApp.mViewSysUserDoctorInfoAndHospital.getQrCode(), 360);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {

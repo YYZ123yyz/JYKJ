@@ -1,5 +1,6 @@
 package www.jykj.com.jykj_zxyl.activity.home.twjz;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -10,14 +11,18 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.google.gson.Gson;
+
+import org.w3c.dom.Text;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -39,7 +44,9 @@ import www.jykj.com.jykj_zxyl.adapter.WDZS_XZJBAdapter;
 import www.jykj.com.jykj_zxyl.adapter.WZZXImageViewRecycleAdapter;
 import www.jykj.com.jykj_zxyl.application.Constant;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
+import www.jykj.com.jykj_zxyl.util.ActivityUtil;
 import www.jykj.com.jykj_zxyl.util.FullyGridLayoutManager;
+import yyz_exploit.activity.activity.AddTextActivity;
 
 
 /**
@@ -53,7 +60,7 @@ public class WDZS_XZJBActivity extends AppCompatActivity {
     private int mRowNum = 10;                  //每页加载10条
 
     public ProgressDialog mDialogProgress = null;
-
+    private boolean mLoadDate = true;
     private Context mContext;
     private Handler mHandler;
     private WDZS_XZJBActivity mActivity;
@@ -67,6 +74,11 @@ public class WDZS_XZJBActivity extends AppCompatActivity {
     private boolean loadDate = true;                //是否加载数据
     private EditText mSearchEdit;
     private LinearLayout mSearchLayout;                  //搜索布局
+    private ImageView twjz_add;
+    private LinearLayout li_back;
+    private ProvideBasicsDisease mProvideDrugInfo;
+    private TextView mNoDun;
+    private TextView mSearch;
 
 
     @Override
@@ -75,6 +87,7 @@ public class WDZS_XZJBActivity extends AppCompatActivity {
         setContentView(R.layout.activity_twjz_xzjb);
         mContext = this;
         mActivity = this;
+        ActivityUtil.setStatusBarMain(WDZS_XZJBActivity.this);
         mApp = (JYKJApplication) getApplication();
         initLayout();
         initHandler();
@@ -82,7 +95,34 @@ public class WDZS_XZJBActivity extends AppCompatActivity {
     }
 
     private void initLayout() {
+        li_back = findViewById(R.id.li_back);
+        li_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        twjz_add = findViewById(R.id.twjz_add);
+        twjz_add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                startActivityForResult(new Intent(mContext, AddTextActivity.class), 1);
+
+            }
+        });
+        mNoDun = (TextView)this.findViewById(R.id.noDun);
+        mSearch = (TextView) this.findViewById(R.id.searchDuName);
+        mSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mNumPage = 1;
+                mProvideBasicsDiseases.clear();
+                getData();
+            }
+        });
         mSearchEdit = (EditText) this.findViewById(R.id.et_patientName);
+
 //        mSearchLayout = (LinearLayout) this.findViewById(R.id.li_searcLayout);
 //        mSearchLayout.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -104,7 +144,7 @@ public class WDZS_XZJBActivity extends AppCompatActivity {
             public void onClick(int position) {
                 Intent intent = new Intent();
                 intent.putExtra("jkxx", mProvideBasicsDiseases.get(position));
-                setResult(RESULT_OK, intent);
+                setResult(-1, intent);
                 finish();
             }
 
@@ -133,6 +173,24 @@ public class WDZS_XZJBActivity extends AppCompatActivity {
 
     }
 
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK && requestCode == 1) {
+            mProvideDrugInfo = new ProvideBasicsDisease();
+            mProvideDrugInfo.setDiseaseName(data.getStringExtra("medicName"));
+//            mProvideDrugInfo.setDrugCode("0");
+            Intent intent = new Intent();
+            intent.putExtra("jkxx", mProvideDrugInfo);
+            setResult(-1,intent);
+            finish();
+        }
+    }
+
+
+
+
     private void initHandler() {
         mHandler = new Handler() {
             @Override
@@ -141,20 +199,30 @@ public class WDZS_XZJBActivity extends AppCompatActivity {
                     case 0:
                         cacerProgress();
                         NetRetEntity netRetEntity = JSON.parseObject(mNetRetStr, NetRetEntity.class);
-                        if (netRetEntity.getResCode() == 0) {
-                            loadDate = false;
-                            Toast.makeText(mContext, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
-                        } else {
+                        if (netRetEntity.getResCode() == 1) {
+
                             List<ProvideBasicsDisease> list = JSON.parseArray(netRetEntity.getResJsonData(), ProvideBasicsDisease.class);
-                            mProvideBasicsDiseases.addAll(list);
-                            if (mProvideBasicsDiseases != null) {
-                                mAdapter.setDate(mProvideBasicsDiseases);
-                                mAdapter.notifyDataSetChanged();
+                            if (list.size() < mRowNum) {
+                                mNoDun.setVisibility(View.VISIBLE);
+                                mLoadDate = false;
+                            } else {
+                                mNoDun.setVisibility(View.GONE);
                             }
-                            if (list.size() < mRowNum)
-                                loadDate = false;
+
+                            if (mNumPage == 1)
+                                mProvideBasicsDiseases = list;
+                            else
+                                mProvideBasicsDiseases.addAll(list);
+                            mAdapter.setDate(mProvideBasicsDiseases);
+                            mAdapter.notifyDataSetChanged();
 
                         }
+                        else
+                        {
+                            mNoDun.setVisibility(View.VISIBLE);
+                            mLoadDate = false;
+                        }
+
                         break;
 
                     case 1:
@@ -174,13 +242,13 @@ public class WDZS_XZJBActivity extends AppCompatActivity {
      * 设置数据
      */
     private void getData() {
-        getProgressBar("请稍后", "正在获取数据。。。");
+        getProgressBar("请稍后", "正在获取数据...");
         ProvideBasicsDisease provideBasicsDisease = new ProvideBasicsDisease();
         provideBasicsDisease.setPageNum(mNumPage + "");
         provideBasicsDisease.setRowNum(mRowNum + "");
         provideBasicsDisease.setLoginDoctorPosition(mApp.loginDoctorPosition);
         provideBasicsDisease.setOperDoctorCode(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
-        provideBasicsDisease.setOperDoctorName(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
+        provideBasicsDisease.setOperDoctorName(mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
         provideBasicsDisease.setSrarchDiseaseName(mSearchEdit.getText().toString());
 //        provideInteractOrderDiag.setOrderCode(mProvideViewInteractOrderTreatmentAndPatientInterrogation.getOrderCode());
 
@@ -191,6 +259,7 @@ public class WDZS_XZJBActivity extends AppCompatActivity {
                     mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + string, Constant.SERVICEURL + "doctorInteractDataControlle/searchMyClinicDetailResOrderDiagInfo");
                     String string01 = Constant.SERVICEURL + "doctorInteractDataControlle/searchMyClinicDetailResOrderDiag";
                     System.out.println(string + string01);
+                    Log.e("tag", "信息 "+mNetRetStr );
                 } catch (Exception e) {
                     NetRetEntity retEntity = new NetRetEntity();
                     retEntity.setResCode(0);

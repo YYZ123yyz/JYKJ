@@ -14,6 +14,7 @@
 
 package com.hyphenate.easeui.hyhd;
 
+import android.content.IntentFilter;
 import android.media.AudioManager;
 import android.media.RingtoneManager;
 import android.media.SoundPool;
@@ -80,7 +81,7 @@ public class VoiceCallActivity extends CallActivity implements OnClickListener {
     @Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		if(savedInstanceState != null){
+        if(savedInstanceState != null){
         	finish();
         	return;
         }
@@ -199,8 +200,9 @@ public class VoiceCallActivity extends CallActivity implements OnClickListener {
 
                         @Override
                         public void run() {
-//                            String st3 = "已经和对方建立连接";
-//                            callStateTextView.setText(st3);
+                            String st3 = "已经和对方建立连接";
+                            callStateTextView.setText(st3);
+
                         }
                     });
                     break;
@@ -529,12 +531,12 @@ public class VoiceCallActivity extends CallActivity implements OnClickListener {
             public void run() {
                 runOnUiThread(new Runnable() {
                     public void run() {
-//                        String status = getApplicationContext().getString(EMClient.getInstance().callManager().isDirectCall()
-//                                ? R.string.direct_call : R.string.relay_call);
-//                        status += " record? " + isRecord;
-//                        status += " id: " + serverRecordId;
-//
-//                        ((TextView)findViewById(R.id.tv_is_p2p)).setText(status);
+                        String status = getApplicationContext().getString(EMClient.getInstance().callManager().isDirectCall()
+                                ? R.string.direct_call : R.string.relay_call);
+                        status += " record? " + isRecord;
+                        status += " id: " + serverRecordId;
+
+                        ((TextView)findViewById(R.id.tv_is_p2p)).setText(status);
                     }
                 });
                 while(monitor){

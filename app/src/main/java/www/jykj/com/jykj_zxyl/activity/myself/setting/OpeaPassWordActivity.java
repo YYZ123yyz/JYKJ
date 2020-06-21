@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -202,8 +203,8 @@ public class OpeaPassWordActivity extends AppCompatActivity {
             Toast.makeText(mContext, "请填写新密码", Toast.LENGTH_SHORT).show();
             return;
         }
-        if (!mOldPassWordEdit.getText().toString().equals(mNewPassWordEdit.getText().toString())) {
-            Toast.makeText(mContext, "两次输入的密码不一致", Toast.LENGTH_SHORT).show();
+        if (mOldPassWordEdit.getText().toString().equals(mNewPassWordEdit.getText().toString())) {
+            Toast.makeText(mContext, "两次输入的不一致", Toast.LENGTH_SHORT).show();
             return;
         }
         if (mVCodeEdit.getText().toString() == null || "".equals(mVCodeEdit.getText().toString())) {
@@ -219,6 +220,7 @@ public class OpeaPassWordActivity extends AppCompatActivity {
                     //获取用户数据
                     mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + str, Constant.SERVICEURL + "/doctorPersonalSetControlle/operUpdUserPassWord");
                     NetRetEntity netRetEntity = new Gson().fromJson(mNetRetStr, NetRetEntity.class);
+                    Log.e("tag", "提交 "+mNetRetStr );
                     if (netRetEntity.getResCode() == 0) {
                         NetRetEntity retEntity = new NetRetEntity();
                         retEntity.setResCode(0);

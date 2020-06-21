@@ -3,6 +3,7 @@ package www.jykj.com.jykj_zxyl.fragment.wdzs;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -22,9 +23,11 @@ import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.google.gson.Gson;
+import com.hyphenate.chat.EMClient;
 import com.hyphenate.easeui.EaseConstant;
 import com.hyphenate.easeui.hyhd.VideoCallActivity;
 import com.hyphenate.easeui.hyhd.VoiceCallActivity;
+import com.hyphenate.easeui.hyhd.model.CallReceiver;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
@@ -96,11 +99,17 @@ public class FragmentZSXQ extends Fragment {
 
     private RecyclerView mRecycleView;              //列表
     private SmartRefreshLayout refreshLayout;
-
+    private CallReceiver callReceiver;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_activitymyclinic_zsxq, container, false);
         mContext = getContext();
+        IntentFilter callFilter = new IntentFilter(EMClient.getInstance().callManager().getIncomingCallBroadcastAction());
+        if(callReceiver == null){
+            callReceiver = new CallReceiver();
+        }
+        //register incoming call receiver
+        mContext.registerReceiver(callReceiver, callFilter);
         mActivity = (MyClinicActivity) getActivity();
         mApp = (JYKJApplication) getActivity().getApplication();
         initLayout(v);

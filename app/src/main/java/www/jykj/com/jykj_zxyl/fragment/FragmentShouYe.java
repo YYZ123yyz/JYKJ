@@ -134,7 +134,7 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
-                   getMessageCount();
+                getMessageCount();
             }
         };
         timer.schedule(task, 0, mApp.mMsgTimeInterval * 60 * 1000);
@@ -181,18 +181,18 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
                         Toast.makeText(mContext, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
                         break;
                     case 2:
-                         netRetEntity = JSON.parseObject(mNetRetStr, NetRetEntity.class);
+                        netRetEntity = JSON.parseObject(mNetRetStr, NetRetEntity.class);
                         mProvideMsgPushReminderCount = JSON.parseObject(netRetEntity.getResJsonData(), ProvideMsgPushReminderCount.class);
-                   //     mApp.mMsgTimeInterval = mProvideMsgPushReminderCount.getMsgTimeInterval();
+                        //     mApp.mMsgTimeInterval = mProvideMsgPushReminderCount.getMsgTimeInterval();
                         if (mProvideMsgPushReminderCount.getMsgTypeCountSum() != null) {
                             String string = "";
 
                             string = "您有" + mProvideMsgPushReminderCount.getMsgTypeCountSum() + "条系统消息!";
-                                if (string.equals(""))
-                                    mNewMessageLayout.setVisibility(View.GONE);
-                                else {
-                                    mNewMessageLayout.setVisibility(View.VISIBLE);
-                                    mNewMessage.setText(string);
+                            if (string.equals(""))
+                                mNewMessageLayout.setVisibility(View.GONE);
+                            else {
+                                mNewMessageLayout.setVisibility(View.VISIBLE);
+                                mNewMessage.setText(string);
                             }
                         }
                         break;
@@ -205,7 +205,7 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
     public void onResume() {
         super.onResume();
         //启动程序，查询是否有未读消息
-           getMessageCount();
+        getMessageCount();
         //   getAppData();
     }
 
@@ -480,14 +480,14 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
             case R.id.imgs_three:
                 imgs_three();
                 break;
-                case R.id.img_ones:
-                    img_ones();
+            case R.id.img_ones:
+                img_ones();
                 break;
-                case R.id.img_twos:
-                    img_twos();
+            case R.id.img_twos:
+                img_twos();
                 break;
-                case R.id.img_threes:
-                    img_threes();
+            case R.id.img_threes:
+                img_threes();
                 break;
 
             case R.id.ll_qr_code:

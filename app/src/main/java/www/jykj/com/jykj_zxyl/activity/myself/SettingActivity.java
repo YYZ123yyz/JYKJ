@@ -14,19 +14,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Objects;
-import java.util.Set;
 
 import entity.mySelf.DataCleanManager;
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.activity.LoginActivity;
 import www.jykj.com.jykj_zxyl.activity.myself.setting.AboutActivity;
 import www.jykj.com.jykj_zxyl.activity.myself.setting.OpeaPassWordActivity;
-import www.jykj.com.jykj_zxyl.activity.myself.setting.ServiceHotlineActivity;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.util.ActivityUtil;
 import yyz_exploit.activity.activity.FeedbackActivity;
-import yyz_exploit.activity.activity.HelpActivity;
-import yyz_exploit.activity.activity.OpinionActivity;
 import yyz_exploit.activity.activity.VersionActivity;
 
 /**
@@ -46,6 +42,7 @@ public class SettingActivity extends AppCompatActivity {
     private TextView myself_cache;
     private LinearLayout setting_opinion,myself_Update;
     private LinearLayout myselfBack;
+    private String totalCacheSize;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,7 +99,7 @@ public class SettingActivity extends AppCompatActivity {
     private void clearData() {
 
         try {
-            String totalCacheSize = DataCleanManager.getTotalCacheSize(Objects.requireNonNull(SettingActivity.this));
+            totalCacheSize = DataCleanManager.getTotalCacheSize(Objects.requireNonNull(SettingActivity.this));
             myself_cache.setText(totalCacheSize);
         } catch (Exception e) {
             e.printStackTrace();
@@ -119,6 +116,7 @@ public class SettingActivity extends AppCompatActivity {
             switch (view.getId()) {
                 case R.id.bt_activityMySelfSetting_exitButton:
                     mApp.cleanPersistence();
+                    mApp.LoginOut(mActivity);
                     startActivity(new Intent(SettingActivity.this, LoginActivity.class));
                     break;
                 case R.id.li_activitySetting_aboutLayout:
@@ -147,38 +145,38 @@ public class SettingActivity extends AppCompatActivity {
     }
 
     private void showComplexDialog() {
-                //    通过AlertDialog.Builder这个类来实例化我们的一个AlertDialog的对象
-                AlertDialog.Builder builder = new AlertDialog.Builder(SettingActivity.this);
-                //    设置Content来显示一个信息
-                builder.setMessage("确定删除缓存吗？");
-                //    设置一个PositiveButton
-                builder.setPositiveButton("确定", new DialogInterface.OnClickListener()
-                {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which)
-                    {
-                        DataCleanManager.clearAllCache(Objects.requireNonNull(SettingActivity.this));
-                        String   clearSize = null;
-                        try {
-                            clearSize = DataCleanManager.getTotalCacheSize(Objects.requireNonNull(SettingActivity.this));
-                            myself_cache.setText(clearSize);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });
-                //    设置一个NegativeButton
-                builder.setNegativeButton("取消", new DialogInterface.OnClickListener()
-                {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which)
-                    {
-                        Toast.makeText(SettingActivity.this, "negative: " + which, Toast.LENGTH_SHORT).show();
-                    }
-                });
+        //    通过AlertDialog.Builder这个类来实例化我们的一个AlertDialog的对象
+        AlertDialog.Builder builder = new AlertDialog.Builder(SettingActivity.this);
+        //    设置Content来显示一个信息
+        builder.setMessage("确定删除缓存吗？");
+        //    设置一个PositiveButton
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener()
+        {
+            @Override
+            public void onClick(DialogInterface dialog, int which)
+            {
+                DataCleanManager.clearAllCache(Objects.requireNonNull(SettingActivity.this));
+                String   clearSize = null;
+                try {
+                    clearSize = DataCleanManager.getTotalCacheSize(Objects.requireNonNull(SettingActivity.this));
+                    myself_cache.setText(clearSize);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        //    设置一个NegativeButton
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener()
+        {
+            @Override
+            public void onClick(DialogInterface dialog, int which)
+            {
+                Toast.makeText(SettingActivity.this, "negative: " + which, Toast.LENGTH_SHORT).show();
+            }
+        });
 
-                //    显示出该对话框
-                builder.show();
+        //    显示出该对话框
+        builder.show();
 
     }
     /**

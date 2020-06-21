@@ -431,14 +431,14 @@ public class LoginActivity extends AppCompatActivity {
         receiveBroadCast = new LoginActivity.ReceiveBroadCast();
         IntentFilter filter = new IntentFilter();
         filter.addAction("authlogin");
-        getBaseContext().registerReceiver(receiveBroadCast, filter);
+       // getBaseContext().registerReceiver(receiveBroadCast, filter);
     }
 
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        getApplication().unregisterReceiver(receiveBroadCast);
+        //    getApplication().unregisterReceiver(receiveBroadCast);
 
     }
 

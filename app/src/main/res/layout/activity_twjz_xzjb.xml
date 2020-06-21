@@ -42,19 +42,54 @@
             android:layout_height="wrap_content"/>
     </LinearLayout>
 
-          <EditText
-              android:layout_gravity="center"
-              android:layout_marginTop="20dp"
-              android:paddingLeft="80dp"
-              android:drawableLeft="@mipmap/search2"
-              android:layout_width="250dp"
-              android:layout_height="30dp"
-              android:background="@drawable/ed_bg"
-              android:textSize="7pt"
-              android:id="@+id/et_patientName"
-              android:textColor="@color/hintTextColor"
-              android:hint="输入臆断名称"
-              />
+
+
+    <LinearLayout
+        android:layout_width="250dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/ed_bg">
+        <ImageView
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:background="@mipmap/search2"
+            android:layout_marginLeft="50dp"
+            android:layout_gravity="center_vertical"/>
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:id="@+id/et_patientName"
+            android:textSize="16sp"
+            android:hint="输入臆断名称"
+            android:background="@null"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:id="@+id/searchDuName"
+            android:text="搜索"
+            android:textColor="@color/textColor_vt"
+            android:textSize="7pt"
+            />
+    </LinearLayout>
+
+
+<!--          <EditText-->
+<!--              android:layout_gravity="center"-->
+<!--              android:layout_marginTop="20dp"-->
+<!--              android:paddingLeft="80dp"-->
+<!--              android:drawableLeft="@mipmap/search2"-->
+<!--              android:layout_width="250dp"-->
+<!--              android:layout_height="30dp"-->
+<!--              android:background="@drawable/ed_bg"-->
+<!--              android:textSize="7pt"-->
+<!--              android:id="@+id/et_patientName"-->
+<!--              android:textColor="@color/hintTextColor"-->
+<!--              android:hint="输入臆断名称"-->
+<!--              />-->
 
 
     <!--<LinearLayout
@@ -93,8 +128,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/rv_recycleView"
-        android:layout_weight="1"/>
+       />
 
 
+    <TextView
+        android:layout_width="209dp"
+        android:layout_height="15dp"
+        android:text="暂时没有更多了，试试添加药物吧"
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/noDun"
+        android:visibility="gone"
+        android:layout_marginTop="20dp"
+        android:textColor="#ff999999"
+        android:textSize="14sp"
+        />
 
 </LinearLayout>

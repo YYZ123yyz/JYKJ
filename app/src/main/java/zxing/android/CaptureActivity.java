@@ -149,25 +149,6 @@ public class CaptureActivity extends AppCompatActivity implements SurfaceHolder.
         ivAdd.setOnClickListener(this);
         tvMyCode.setOnClickListener(this);
 
-//        flashLightLayout = findViewById(R.id.flashLightLayout);
-//        flashLightLayout.setOnClickListener(this);
-//        albumLayout = findViewById(R.id.albumLayout);
-//        albumLayout.setOnClickListener(this);
-//        bottomLayout = findViewById(R.id.bottomLayout);
-
-
-//        switchVisibility(bottomLayout, config.isShowbottomLayout());
-//        switchVisibility(flashLightLayout, config.isShowFlashLight());
-//        switchVisibility(albumLayout, config.isShowAlbum());
-
-
-        /*有闪光灯就显示手电筒按钮  否则不显示*/
-//        if (isSupportCameraLedFlash(getPackageManager())) {
-//            flashLightLayout.setVisibility(View.VISIBLE);
-//        } else {
-//            flashLightLayout.setVisibility(View.GONE);
-//        }
-
     }
 
 

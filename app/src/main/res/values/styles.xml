@@ -170,4 +170,16 @@
         <!-- 设置背景模糊的透明度-->
         <item name="android:backgroundDimAmount">1</item>
     </style>
+
+    <!-- 从底部弹出显示 -->
+    <style name="MyDialogStyleBottom" parent="android:Theme.Dialog">
+
+        <!-- 底部弹出动画 -->
+        <item name="android:windowAnimationStyle">@style/AnimBottom</item>
+        <!-- 无标题 -->
+        <item name="android:windowNoTitle">true</item>
+        <!-- 半透明 -->
+        <item name="android:backgroundDimAmount">0.5</item>
+    </style>
+
 </resources>
