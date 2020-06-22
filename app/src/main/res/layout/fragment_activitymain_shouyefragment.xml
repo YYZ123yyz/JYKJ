@@ -47,14 +47,14 @@
         <LinearLayout
             android:id="@+id/ll_sys"
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="20dp"
             android:orientation="vertical">
 
             <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:src="@mipmap/sys" />
@@ -66,20 +66,20 @@
                 android:layout_marginTop="5dp"
                 android:text="扫一扫"
                 android:textColor="@color/writeColor"
-                android:textSize="6pt" />
+                android:textSize="15sp" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/ll_qr_code"
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="20dp"
             android:orientation="vertical">
 
             <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:src="@mipmap/sbm" />
@@ -91,21 +91,21 @@
                 android:layout_marginTop="5dp"
                 android:text="识别码"
                 android:textColor="@color/writeColor"
-                android:textSize="6pt" />
+                android:textSize="13sp" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/ll_quick_application"
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="10dp"
             android:orientation="vertical">
 
             <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:src="@mipmap/icon_add_large" />
@@ -117,7 +117,7 @@
                 android:layout_marginTop="5dp"
                 android:text="快应用"
                 android:textColor="@color/writeColor"
-                android:textSize="6pt" />
+                android:textSize="15sp" />
         </LinearLayout>
     </LinearLayout>
 

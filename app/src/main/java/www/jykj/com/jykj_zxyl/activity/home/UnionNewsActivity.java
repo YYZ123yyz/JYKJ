@@ -85,12 +85,6 @@ public class UnionNewsActivity extends AppCompatActivity implements View.OnClick
 
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        getDate();
-    }
-
     private void initHandler() {
         mHandler = new Handler() {
             @Override
@@ -129,7 +123,6 @@ public class UnionNewsActivity extends AppCompatActivity implements View.OnClick
                                 intent.putExtra("newMessage", mMsgPushReminders.get(position));
                                 String msgLookUrl = mMsgPushReminders.get(position).getMsgLookUrl();
                                 intent.putExtra("URL", msgLookUrl);
-                                Log.e("tag", "链接"+msgLookUrl);
                                 Integer reminderId = mMsgPushReminders.get(position).getReminderId();
                                 intent.putExtra("reminderId", reminderId);
                                 mMsgPushReminders.get(position).setFlagMsgRead(1);
@@ -207,6 +200,11 @@ public class UnionNewsActivity extends AppCompatActivity implements View.OnClick
     private void initListener() {
         llBack.setOnClickListener(this);
 
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getDate();
     }
 
     @Override

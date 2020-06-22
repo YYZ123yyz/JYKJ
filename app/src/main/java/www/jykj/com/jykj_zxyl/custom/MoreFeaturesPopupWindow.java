@@ -120,7 +120,7 @@ public class MoreFeaturesPopupWindow extends PopupWindow implements View.OnClick
                     mMyPatientActivity.startActivityForResult(intent,fragmentShouYe.REQUEST_CODE_SCAN);
                 break;
             case R.id.tv_yqth:
-
+                mContext.startActivity(new Intent(mContext,QRCodeActivity.class));
                 break;
             case R.id.tv_tjhz:
                 mContext.startActivity(new Intent(mContext,AddPatientActivity.class));

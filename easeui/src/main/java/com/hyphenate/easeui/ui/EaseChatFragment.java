@@ -217,6 +217,11 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
         orderCode = fragmentArgs.getString("orderCode", "");
 
 
+        Constant.doctorUrl=fragmentArgs.getString("userUrl");
+        Constant.patientUrl=fragmentArgs.getString("doctorUrl");
+
+
+
         // userId you are chat with or group id
         toChatUsername = fragmentArgs.getString(EaseConstant.EXTRA_USER_ID);
         toChatUsernameName = fragmentArgs.getString(EaseConstant.EXTRA_USER_NAME);

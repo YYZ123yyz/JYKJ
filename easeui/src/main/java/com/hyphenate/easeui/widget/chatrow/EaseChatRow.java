@@ -14,6 +14,9 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.chat.EMMessage.Direct;
@@ -21,6 +24,7 @@ import com.hyphenate.easeui.EaseUI;
 import com.hyphenate.easeui.R;
 import com.hyphenate.easeui.adapter.EaseMessageAdapter;
 import com.hyphenate.easeui.domain.EaseAvatarOptions;
+import com.hyphenate.easeui.hyhd.model.Constant;
 import com.hyphenate.easeui.model.styles.EaseMessageListItemStyle;
 import com.hyphenate.easeui.utils.EaseUserUtils;
 import com.hyphenate.easeui.widget.EaseChatMessageList;
@@ -155,10 +159,33 @@ public abstract class EaseChatRow extends LinearLayout {
         if(userAvatarView != null) {
             //set nickname and avatar
             if (message.direct() == Direct.SEND) {
-                EaseUserUtils.setUserAvatar(context, EMClient.getInstance().getCurrentUser(), userAvatarView);
+//                EaseUserUtils.setUserAvatar(context, EMClient.getInstance().getCurrentUser(), userAvatarView);
+                try {
+
+                    int avatarResId = Integer.parseInt(Constant.doctorUrl);
+                    Glide.with(context).load(avatarResId).into(userAvatarView);
+                    Log.e(TAG, "setUpBaseView: "+userAvatarView.toString());
+                } catch (Exception e) {
+                    //use default avatar
+                    Glide.with(context).load(Constant.doctorUrl)
+                            .apply(RequestOptions.placeholderOf(R.mipmap.docter_heard)
+                                    .diskCacheStrategy(DiskCacheStrategy.ALL))
+                            .into(userAvatarView);
+                }
             } else {
-                EaseUserUtils.setUserAvatar(context, message.getFrom(), userAvatarView);
+//                EaseUserUtils.setUserAvatar(context, message.getFrom(), userAvatarView);
                 EaseUserUtils.setUserNick(message.getFrom(), usernickView);
+                try {
+                    int avatarResId = Integer.parseInt(Constant.patientUrl);
+                    Glide.with(context).load(avatarResId).into(userAvatarView);
+                    Log.e(TAG, "setUpBaseView: "+userAvatarView.toString());
+                } catch (Exception e) {
+                    //use default avatar
+                    Glide.with(context).load(Constant.patientUrl)
+                            .apply(RequestOptions.placeholderOf(R.mipmap.docter_heard)
+                                    .diskCacheStrategy(DiskCacheStrategy.ALL))
+                            .into(userAvatarView);
+                }
             }
         }
         if (EMClient.getInstance().getOptions().getRequireDeliveryAck()) {

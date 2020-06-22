@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="wrap_content"
+    android:orientation="vertical"
+    android:background="#ffff"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="300dp"
+        android:layout_height="200dp">
+        <TextView
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:textColor="#000000"
+            android:text="好友申请描述"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <LinearLayout
+            android:paddingLeft="10dp"
+            android:background="#EEEEEE "
+            android:layout_marginTop="15dp"
+           android:layout_gravity="center_horizontal"
+            android:layout_width="270dp"
+            android:layout_height="30dp">
+         <EditText
+             android:textSize="15sp"
+             android:textColor="#666666"
+             android:hint="请输入申请内容"
+             android:id="@+id/app_content"
+             android:background="@null"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/Lin_label"
+            android:paddingRight="10dp"
+            android:paddingLeft="10dp"
+            android:background="#EEEEEE "
+            android:layout_marginTop="15dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="270dp"
+            android:layout_height="30dp">
+     <TextView
+         android:layout_gravity="center"
+         android:layout_weight="1"
+         android:text="患者标签"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/tv_label"
+                android:layout_gravity="center"
+                android:text="未选择"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+        <RelativeLayout
+            android:layout_gravity="center_horizontal"
+            android:paddingRight="10dp"
+            android:paddingLeft="13dp"
+            android:layout_marginTop="15dp"
+            android:orientation="horizontal"
+            android:layout_width="270dp"
+            android:layout_height="wrap_content">
+            <Button
+                android:id="@+id/bt_pass"
+                android:textColor="#000"
+                android:background="#EEEEEE"
+                android:text="取消"
+                android:layout_width="80dp"
+                android:layout_height="33dp"/>
+            <Button
+                android:id="@+id/bt_commit"
+                android:layout_alignParentRight="true"
+                android:textColor="#fff"
+                android:background="#799DFE"
+                android:text="确定"
+                android:layout_width="80dp"
+                android:layout_height="33dp"/>
+        </RelativeLayout>
+    </LinearLayout>
+
+
+
+</LinearLayout>

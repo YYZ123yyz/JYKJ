@@ -3,6 +3,7 @@ package www.jykj.com.jykj_zxyl.activity.hyhd;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -62,6 +63,11 @@ public class ChatActivity extends AppCompatActivity {
         String operDoctorCode = getIntent().getStringExtra("operDoctorCode");
         String operDoctorName = getIntent().getStringExtra("operDoctorName");
         String orderCode = getIntent().getStringExtra("orderCode");
+
+        String doctorUrl = getIntent().getStringExtra("doctorUrl");
+       String  patientUrl=mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl();
+
+
         //传入参数
         Bundle args = new Bundle();
         args.putInt(EaseConstant.EXTRA_CHAT_TYPE, EaseConstant.CHATTYPE_SINGLE);
@@ -74,6 +80,9 @@ public class ChatActivity extends AppCompatActivity {
         args.putString("orderCode", orderCode);
         args.putString("usersName", usersName);
         args.putString("userUrl", userUrl);
+
+        args.putString("doctorUrl", doctorUrl);
+        args.putString("Url", mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl());
 
 
         args.putInt(EaseConstant.EXTRA_MESSAGE_NUM, getIntent().getIntExtra(EaseConstant.EXTRA_MESSAGE_NUM, 0));

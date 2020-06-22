@@ -83,6 +83,7 @@ public class FragmentYHHD extends Fragment {
     private MessageInfoRecycleAdapter mMessageInfoRecycleAdapter;       //适配器
     private List<InteractPatient> mInteractPatient = new ArrayList<>();            //所有数据
     private List<ProvideDoctorGoodFriendGroup> mInteractDoctorUnionInfo = new ArrayList<>();            //医生联盟数据
+
     private List<HZIfno> mHZEntytiesClick = new ArrayList<>();            //点击之后的数据
     private TextView mMessageList;                       //消息列表
     private TextView mAll;                               //全部患者
@@ -107,7 +108,7 @@ public class FragmentYHHD extends Fragment {
 
     private int clickIndex;                         //点击列表下标
 
-
+    private InteractPatient interactPatient;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_activitymain_hyhdfragment, container, false);
@@ -251,6 +252,7 @@ public class FragmentYHHD extends Fragment {
                     intent.putExtra("userName", mClickInteractPatient.getPatientUserName());
                     intent.putExtra("usersName", mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
                     intent.putExtra("userUrl", mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl());
+                    intent.putExtra("doctorUrl", mClickInteractPatient.getPatientUserLogoUrl());
                     startActivity(intent);
                 }
             }
@@ -296,13 +298,14 @@ public class FragmentYHHD extends Fragment {
                 intent.putExtra("voiceNum", 1000000);
                 intent.putExtra("usersName", mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
                 intent.putExtra("userUrl", mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl());
+                intent.putExtra("doctorUrl",mInteractDoctorUnionInfo.get(i).getGroupLogoUrl() );
                 startActivity(intent);
                 return false;
             }
         });
 
-      //  mJQImage = (ImageView) v.findViewById(R.id.iv_fragmentHYHD_jqImage);
-     //   mJQImage.setOnClickListener(new ButtonClick());
+        //  mJQImage = (ImageView) v.findViewById(R.id.iv_fragmentHYHD_jqImage);
+        //   mJQImage.setOnClickListener(new ButtonClick());
         mYSHY.setVisibility(View.GONE);
         mMessageRecycleView.setVisibility(View.VISIBLE);
 //        mJQImage.setVisibility(View.VISIBLE);
@@ -391,6 +394,7 @@ public class FragmentYHHD extends Fragment {
                             NetRetEntity netRetEntity = new Gson().fromJson(mNetRetStr, NetRetEntity.class);
                             if (netRetEntity.getResCode() == 1) {
                                 mInteractDoctorUnionInfo = JSON.parseArray(netRetEntity.getResJsonData(), ProvideDoctorGoodFriendGroup.class);
+                                Log.e("tag", "handleMessage: " + mInteractDoctorUnionInfo.get(0));
                                 mDorcerFriendExpandableListViewAdapter.setDate(mInteractDoctorUnionInfo);
                                 mDorcerFriendExpandableListViewAdapter.notifyDataSetChanged();
 
@@ -450,6 +454,7 @@ public class FragmentYHHD extends Fragment {
                                     intent.putExtra("chatType", "twjz");
                                     intent.putExtra("usersName", mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
                                     intent.putExtra("userUrl", mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl());
+                                    intent.putExtra("doctorUrl", mClickInteractPatient.getPatientUserLogoUrl());
                                     String date = Util.dateToStr(provideGroupConsultationUserInfo.getServiceStopDate());
                                     intent.putExtra("date", date);
                                     startActivity(intent);
@@ -464,6 +469,7 @@ public class FragmentYHHD extends Fragment {
                                     intent.putExtra("voiceNum", 1000000);
                                     intent.putExtra("usersName", mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
                                     intent.putExtra("userUrl", mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl());
+                                    intent.putExtra("doctorUrl", mClickInteractPatient.getPatientUserLogoUrl());
                                     startActivity(intent);
                                 }
 
@@ -518,7 +524,7 @@ public class FragmentYHHD extends Fragment {
                     defaultLayout();
                     mYSHY.setVisibility(View.GONE);
                     mMessageRecycleView.setVisibility(View.VISIBLE);
-                 //   mJQImage.setVisibility(View.VISIBLE);
+                    //   mJQImage.setVisibility(View.VISIBLE);
                     mHYSQText.setVisibility(View.GONE);
                     mMessageList.setBackgroundResource(R.mipmap.pg_messagetitle);
                     mMessageList.setTextColor(mActivity.getResources().getColor(R.color.tabColor_nomal));
@@ -530,7 +536,7 @@ public class FragmentYHHD extends Fragment {
                     mYSHY.setVisibility(View.GONE);
                     mHYSQText.setVisibility(View.GONE);
                     mMessageRecycleView.setVisibility(View.VISIBLE);
-                 //   mJQImage.setVisibility(View.VISIBLE);
+                    //   mJQImage.setVisibility(View.VISIBLE);
                     mAll.setBackgroundResource(R.mipmap.pg_messagetitle);
                     mAll.setTextColor(mActivity.getResources().getColor(R.color.tabColor_nomal));
                     //获取数据
@@ -540,7 +546,7 @@ public class FragmentYHHD extends Fragment {
                     mCurrent = 2;
                     defaultLayout();
                     mYSHY.setVisibility(View.GONE);
-                 //   mJQImage.setVisibility(View.VISIBLE);
+                    //   mJQImage.setVisibility(View.VISIBLE);
                     mHYSQText.setVisibility(View.GONE);
                     mPay.setBackgroundResource(R.mipmap.pg_messagetitle);
                     mPay.setTextColor(mActivity.getResources().getColor(R.color.tabColor_nomal));
@@ -553,7 +559,7 @@ public class FragmentYHHD extends Fragment {
                     defaultLayout();
                     mYSHY.setVisibility(View.VISIBLE);
                     mMessageRecycleView.setVisibility(View.GONE);
-               //     mJQImage.setVisibility(View.GONE);
+                    //     mJQImage.setVisibility(View.GONE);
                     mHYSQText.setVisibility(View.VISIBLE);
                     mFriend.setBackgroundResource(R.mipmap.pg_messagetitle);
                     mFriend.setTextColor(mActivity.getResources().getColor(R.color.tabColor_nomal));
@@ -585,6 +591,7 @@ public class FragmentYHHD extends Fragment {
                 try {
                     mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + new Gson().toJson(interactDoctorDetailInfo), Constant.SERVICEURL + "doctorManagePatient/interactDoctorUnionAllList");
                 } catch (Exception e) {
+                    Log.e("tag", "好友 " + mNetRetStr);
                     NetRetEntity retEntity = new NetRetEntity();
                     retEntity.setResCode(0);
                     retEntity.setResMsg("网络连接异常，请联系管理员：" + e.getMessage());

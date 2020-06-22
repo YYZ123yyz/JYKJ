@@ -1,6 +1,7 @@
 package www.jykj.com.jykj_zxyl.fragment;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -12,6 +13,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,10 +36,14 @@ import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import entity.basicDate.ProvideBasicsDomain;
 import entity.home.newsMessage.ProvideMsgPushReminderCount;
+import entity.hzgl.BindPatientParment;
 import entity.shouye.OperScanQrCodeInside;
 import netService.HttpNetService;
 import netService.entity.NetRetEntity;
@@ -58,6 +64,7 @@ import www.jykj.com.jykj_zxyl.custom.MoreFeaturesPopupWindow;
 import yyz_exploit.Utils.MyImageView;
 import yyz_exploit.activity.activity.Home_DetailsActivity;
 import yyz_exploit.activity.activity.Home_FeaturedActivity;
+import yyz_exploit.dialog.AddPatientAcitvityDialog;
 import zxing.android.CaptureActivity;
 import zxing.common.Constant;
 
@@ -99,6 +106,7 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
     private ImageView mUserHead;
     private TextView home_Tv;
     public ProvideMsgPushReminderCount mProvideMsgPushReminderCount = new ProvideMsgPushReminderCount();
+
     private LinearLayout home_certification;
 
     private SharedPreferences sp;
@@ -111,6 +119,11 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
     private MyImageView img_ones,img_twos,img_threes;
     private yyz_exploit.dialog.Home_imageDialog imageView1;
     private ImageView back;
+    private AddPatientAcitvityDialog addPatientAcitvityDialog;
+
+    private List<ProvideBasicsDomain> mList = new ArrayList<>();
+
+    private BindPatientParment mBindPatientParment;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_activitymain_shouyefragment, container, false);
@@ -119,8 +132,10 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
         mActivity = (MainActivity) getActivity();
         mFragment = this;
         mApp = (JYKJApplication) getActivity().getApplication();
+        mBindPatientParment = new BindPatientParment();
         initHandler();
         initView(v);
+        getBasicDate();
         initListener();
         startMessageTimer();
         return v;
@@ -140,6 +155,7 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
         timer.schedule(task, 0, mApp.mMsgTimeInterval * 60 * 1000);
     }
 
+    @SuppressLint("HandlerLeak")
     private void initHandler() {
         mHandler = new Handler() {
             @Override
@@ -153,6 +169,7 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
                             Toast.makeText(mContext, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
                         else {
                             if ("1".equals(netRetEntity.getResData())) {
+                                Log.e("tag", "handleMessage: "+"走了" );
                                 //医生扫医生二维码，绑定医生好友
                                 final EditText et = new EditText(mContext);
                                 new AlertDialog.Builder(mContext).setTitle("请输入申请描述")
@@ -171,6 +188,29 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
                             }
                             if ("3".equals(netRetEntity.getResMsg())) {
                                 //医生扫患者二维码
+                                addPatientAcitvityDialog = new AddPatientAcitvityDialog(getContext());
+                                addPatientAcitvityDialog.show();
+                                EditText app_content = addPatientAcitvityDialog.findViewById(R.id.app_content);
+                                //输入的值
+                                String ed = app_content.getText().toString();
+                                addPatientAcitvityDialog.findViewById(R.id.Lin_label).setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        showHZBQDialog();
+                                    }
+                                });
+                                addPatientAcitvityDialog.findViewById(R.id.bt_pass).setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        addPatientAcitvityDialog.dismiss();
+                                    }
+                                });
+                                addPatientAcitvityDialog.findViewById(R.id.bt_commit).setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        bindPatientFriend(netRetEntity.getResMsg(), ed, qrCode,mBindPatientParment.getPatientLabelId(), mBindPatientParment.getPatientLabelName());
+                                    }
+                                });
                             }
 
                         }
@@ -181,25 +221,101 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
                         Toast.makeText(mContext, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
                         break;
                     case 2:
+//                        if(TextUtils.isEmpty(mNetRetStr)){
+//
+//                        }else{
+//                            netRetEntity = JSON.parseObject(mNetRetStr, NetRetEntity.class);
+//                            mProvideMsgPushReminderCount = JSON.parseObject(netRetEntity.getResJsonData(), ProvideMsgPushReminderCount.class);
+//                            if(netRetEntity.getResCode()==0){
+//                                return;
+//                            }else if(netRetEntity.getResCode()==1&& TextUtils.isEmpty(netRetEntity.getResData())){
+//                                mNewMessageLayout.setVisibility(View.GONE);
+//                            }
+//                            else{
+//                                if(mProvideMsgPushReminderCount.getMsgTypeCountSum() == null){
+//                                    mNewMessageLayout.setVisibility(View.GONE);
+//                                    return;
+//                                }else{
+//                                    String string = "";
+//                                    string = "您有" + mProvideMsgPushReminderCount.getMsgTypeCountSum() + "条系统消息!";
+//                                    if (string.equals(""))
+//                                        mNewMessageLayout.setVisibility(View.GONE);
+//                                    else {
+//                                        mNewMessageLayout.setVisibility(View.VISIBLE);
+//                                        mNewMessage.setText(string);
+//                                    }
+//                                }
+//                            }
+//                        }
                         netRetEntity = JSON.parseObject(mNetRetStr, NetRetEntity.class);
                         mProvideMsgPushReminderCount = JSON.parseObject(netRetEntity.getResJsonData(), ProvideMsgPushReminderCount.class);
-                        //     mApp.mMsgTimeInterval = mProvideMsgPushReminderCount.getMsgTimeInterval();
-                        if (mProvideMsgPushReminderCount.getMsgTypeCountSum() != null) {
+                             mApp.mMsgTimeInterval = mProvideMsgPushReminderCount.getMsgTimeInterval();
+                        Log.e("tag", "未读消息数量 "+ mProvideMsgPushReminderCount.getMsgTypeCountSum().toString());
+                        if (mProvideMsgPushReminderCount.getMsgTypeCountSum() != 0&&mProvideMsgPushReminderCount.getMsgTypeCountSum() != null) {
                             String string = "";
 
                             string = "您有" + mProvideMsgPushReminderCount.getMsgTypeCountSum() + "条系统消息!";
-                            if (string.equals(""))
-                                mNewMessageLayout.setVisibility(View.GONE);
-                            else {
+
                                 mNewMessageLayout.setVisibility(View.VISIBLE);
                                 mNewMessage.setText(string);
-                            }
+
+                        }else{
+                            mNewMessageLayout.setVisibility(View.GONE);
                         }
+                        break;
+                    case 3:
+                        cacerProgress();
+                        netRetEntity = JSON.parseObject(mNetRetStr, NetRetEntity.class);
+                        Toast.makeText(mContext, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
+                        break;
+                    case 10:
+                        cacerProgress();
                         break;
                 }
             }
         };
     }
+
+    //获取患者标签
+    public void getBasicDate() {
+        getProgressBar("请稍候", "正在获取数据。。。");
+        //开始识别
+        new Thread() {
+            public void run() {
+//                //提交数据
+                try {
+                    ProvideBasicsDomain provideBasicsDomain = new ProvideBasicsDomain();
+                    provideBasicsDomain.setBaseCode(30001);
+
+                    String str = new Gson().toJson(provideBasicsDomain);
+                    mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + str, www.jykj.com.jykj_zxyl.application.Constant.SERVICEURL + "basicDataController/getBasicsDomain");
+                    NetRetEntity netRetEntity = new Gson().fromJson(mNetRetStr, NetRetEntity.class);
+                    mList = JSON.parseArray(netRetEntity.getResJsonData(), ProvideBasicsDomain.class);
+
+                    if (netRetEntity.getResCode() == 0) {
+                        NetRetEntity retEntity = new NetRetEntity();
+                        retEntity.setResCode(0);
+                        retEntity.setResMsg("获取失败：" + netRetEntity.getResMsg());
+                        mNetRetStr = new Gson().toJson(retEntity);
+                        mHandler.sendEmptyMessage(10);
+                        return;
+                    }
+
+                } catch (Exception e) {
+                    NetRetEntity retEntity = new NetRetEntity();
+                    retEntity.setResCode(0);
+                    retEntity.setResMsg("网络连接异常，请联系管理员：" + e.getMessage());
+                    mNetRetStr = new Gson().toJson(retEntity);
+                    mHandler.sendEmptyMessage(10);
+                    return;
+                }
+
+                mHandler.sendEmptyMessage(10);
+            }
+        }.start();
+    }
+
+
 
     @Override
     public void onResume() {
@@ -224,6 +340,7 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
                         mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + string, www.jykj.com.jykj_zxyl.application.Constant.SERVICEURL + "msgDataControlle/searchMsgPushReminderAllCount");
                         String string01 = www.jykj.com.jykj_zxyl.application.Constant.SERVICEURL + "msgDataControlle/searchMsgPushReminderAllCount";
                         System.out.println(string + string01);
+                        Log.e("tag", "未读消息的数量 "+mNetRetStr );
                     } catch (Exception e) {
                         NetRetEntity retEntity = new NetRetEntity();
                         retEntity.setResCode(0);
@@ -405,6 +522,35 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
         }
 
     }
+
+
+        /**
+         * 患者标签选择框
+         */
+        private void showHZBQDialog() {
+            final String[] items = new String[mList.size()];
+            for (int i = 0; i < mList.size(); i++) {
+                items[i] = mList.get(i).getAttrName();
+            }
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+            builder.setTitle("请选择患者标签");
+            builder.setItems(items, new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface arg0, int arg1) {
+                    // TODO Auto-generated method stub
+                    TextView tv_label = addPatientAcitvityDialog.findViewById(R.id.tv_label);
+                    tv_label .setText(items[arg1]);
+                    mBindPatientParment.setPatientLabelId(mList.get(arg1).getAttrCode() + "");
+                    mBindPatientParment.setPatientLabelName(mList.get(arg1).getAttrName());
+                }
+            });
+            builder.create().show();
+
+        }
+
+
 
     private void imgs_one() {
         imageView1 = new yyz_exploit.dialog.Home_imageDialog(getContext());
@@ -654,6 +800,7 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
                 try {
                     String string = new Gson().toJson(operScanQrCodeInside);
                     mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + string, www.jykj.com.jykj_zxyl.application.Constant.SERVICEURL + "doctorDataControlle/operScanQrCodeInside");
+                    Log.e("tag", "添加 "+mNetRetStr );
                 } catch (Exception e) {
                     NetRetEntity retEntity = new NetRetEntity();
                     retEntity.setResCode(0);
@@ -695,6 +842,40 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
             }
         }.start();
     }
+
+    /**
+     * 医患绑定
+     */
+    private void bindPatientFriend(String url, String reason, String qrCode,String patientLabel,String patientLabelName) {
+        getProgressBar("请稍候", "正在处理");
+        BindDoctorFriend bindDoctorFriend = new BindDoctorFriend();
+        bindDoctorFriend.setLoginDoctorPosition(mApp.loginDoctorPosition);
+        bindDoctorFriend.setBindingDoctorQrCode(qrCode);
+        bindDoctorFriend.setOperDoctorCode(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
+        bindDoctorFriend.setOperDoctorName(mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
+        bindDoctorFriend.setPatientLabelId(patientLabel);
+        bindDoctorFriend.setPatientLabelName(patientLabelName);
+
+        bindDoctorFriend.setApplyReason(reason);
+
+        new Thread() {
+            public void run() {
+                try {
+                    String string = new Gson().toJson(bindDoctorFriend);
+                    mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + string, www.jykj.com.jykj_zxyl.application.Constant.SERVICEURL + "/" + url);
+
+                } catch (Exception e) {
+                    NetRetEntity retEntity = new NetRetEntity();
+                    retEntity.setResCode(0);
+                    retEntity.setResMsg("网络连接异常，请联系管理员：" + e.getMessage());
+                    mNetRetStr = new Gson().toJson(retEntity);
+                    e.printStackTrace();
+                }
+                mHandler.sendEmptyMessage(3);
+            }
+        }.start();
+    }
+
 
     /**
      * 获取进度条

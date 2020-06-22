@@ -6,6 +6,24 @@ public class BindDoctorFriend {
     private         String              operDoctorName;
     private         String              bindingDoctorQrCode;
     private         String              applyReason;
+    private         String              patientLabelId;
+    private         String              patientLabelName;
+
+    public String getPatientLabelId() {
+        return patientLabelId;
+    }
+
+    public void setPatientLabelId(String patientLabelId) {
+        this.patientLabelId = patientLabelId;
+    }
+
+    public String getPatientLabelName() {
+        return patientLabelName;
+    }
+
+    public void setPatientLabelName(String patientLabelName) {
+        this.patientLabelName = patientLabelName;
+    }
 
     public String getLoginDoctorPosition() {
         return loginDoctorPosition;

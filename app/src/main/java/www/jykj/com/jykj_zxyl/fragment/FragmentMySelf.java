@@ -18,6 +18,7 @@ import www.jykj.com.jykj_zxyl.activity.MainActivity;
 import www.jykj.com.jykj_zxyl.activity.PhoneLoginActivity;
 import www.jykj.com.jykj_zxyl.activity.UseRegistActivity;
 import www.jykj.com.jykj_zxyl.activity.home.MyClinicActivity;
+import www.jykj.com.jykj_zxyl.activity.home.QRCodeActivity;
 import www.jykj.com.jykj_zxyl.activity.myself.ExitAllianceActivity;
 import www.jykj.com.jykj_zxyl.activity.myself.MyAccountActivity;
 import www.jykj.com.jykj_zxyl.activity.myself.MyPBActivity;
@@ -55,6 +56,7 @@ public class FragmentMySelf extends Fragment {
     private LinearLayout myself_service;
     private LinearLayout lin_notice;
     private LinearLayout lin_lecture;
+    private LinearLayout lin_invite;
 
 
     @Override
@@ -68,6 +70,14 @@ public class FragmentMySelf extends Fragment {
     }
 
     private void initLayout(View v) {
+        lin_invite = v.findViewById(R.id.lin_invite);
+        lin_invite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), QRCodeActivity.class);
+                startActivity(intent);
+            }
+        });
         mMyAccountLinearLayout = (LinearLayout) v.findViewById(R.id.li_fragmentMySelf_MyAccount);
         mPBLinearLayout = (LinearLayout) v.findViewById(R.id.li_fragmentMySelf_PB);
         mShareDataSetLinearLayout = (LinearLayout) v.findViewById(R.id.li_fragmentMySelf_shareDataSet);

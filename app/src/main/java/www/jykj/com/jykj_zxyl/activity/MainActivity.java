@@ -525,17 +525,17 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-        //    设置一个NegativeButton
-        builder.setNegativeButton("取消", new DialogInterface.OnClickListener()
-        {
-            @Override
-            public void onClick(DialogInterface dialog, int which)
-            {
-                mApp.cleanPersistence();
-                mApp.LoginOut(MainActivity.this);
-                startActivity(new Intent(MainActivity.this, LoginActivity.class));
-            }
-        });
+//        //    设置一个NegativeButton
+//        builder.setNegativeButton("取消", new DialogInterface.OnClickListener()
+//        {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which)
+//            {
+//                mApp.cleanPersistence();
+//                mApp.LoginOut(MainActivity.this);
+//                startActivity(new Intent(MainActivity.this, LoginActivity.class));
+//            }
+//        });
 
         //    显示出该对话框
         builder.show();

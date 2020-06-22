@@ -3,6 +3,8 @@ package www.jykj.com.jykj_zxyl.activity.home.news;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.net.http.SslError;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -12,6 +14,8 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
+import android.webkit.SslErrorHandler;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -103,7 +107,6 @@ public class UnionNewsDetailActivity extends AppCompatActivity {
                     case 1:
                         cacerProgress();
                         retEntity = new Gson().fromJson(mNetRetStr, NetRetEntity.class);
-                        initLayout();
                         break;
                 }
             }
@@ -119,18 +122,24 @@ public class UnionNewsDetailActivity extends AppCompatActivity {
 
         intent = getIntent();
         url = intent.getStringExtra("URL");
+
         mess_wb = findViewById(R.id.mess_wb);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mess_wb.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+        }
+        mess_wb.getSettings().setDomStorageEnabled(true);
         mess_wb.loadUrl(url);
-
+        Log.e("tag" , "initLayout: "+url.toString() );
     }
-
+    public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+        handler.proceed();  // 接受所有网站的证书
+//        super.onReceivedSslError(view, handler, error);
+    }
     class ButtonClick implements View.OnClickListener {
         @Override
         public void onClick(View view) {
             switch (view.getId()) {
                 case R.id.mess_back:
-                    Intent intent = new Intent(UnionNewsDetailActivity.this, UnionNewsActivity.class);
-                    startActivity(intent);
                     finish();
                     break;
             }
