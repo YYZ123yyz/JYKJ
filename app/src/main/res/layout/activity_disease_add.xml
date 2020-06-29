@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    tools:context="yyz_exploit.activity.activity.DiseaseAddActivity">
+    <include layout="@layout/new_layout"></include>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="200dp">
+        <EditText
+            android:gravity="left|top"
+            android:paddingTop="20dp"
+            android:background="@null"
+            android:id="@+id/dis_ed"
+            android:hint="请输入臆断名称(最多不得超过20字)"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"/>
+        <LinearLayout
+            android:gravity="center|center_horizontal|center_vertical"
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+            <Button
+                android:layout_gravity="center_vertical"
+                android:id="@+id/dis_bt"
+                android:text="确定"
+                android:background="@drawable/bt_bg"
+                android:textColor="#fff"
+                android:layout_width="232dp"
+                android:layout_height="30dp"/>
+        </LinearLayout>
+
+    </RelativeLayout>
+</LinearLayout>

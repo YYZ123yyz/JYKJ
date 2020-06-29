@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dp_10"
+        android:background="@drawable/dynamic_background"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv1"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_65"
+            android:autoLink="web"
+            android:gravity="center"
+            android:text="重大紧急"
+            android:textColor="#D70000"
+            android:textStyle="bold" />
+
+        <include layout="@layout/include_line" />
+
+        <TextView
+            android:id="@+id/tv2"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_50"
+            android:autoLink="web"
+            android:gravity="center"
+            android:text="紧急"
+            android:textColor="#FF6600"
+             />
+
+        <include layout="@layout/include_line" />
+
+        <TextView
+            android:id="@+id/tv3"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_50"
+            android:autoLink="web"
+            android:gravity="center"
+            android:text="一般"
+            android:textColor="#00C017"
+          />
+        <TextView
+            android:id="@+id/tv4"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_50"
+            android:autoLink="web"
+            android:gravity="center"
+            android:text="正常"
+            android:textColor="#999999" />
+
+    </LinearLayout>
+
+</LinearLayout>

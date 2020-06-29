@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    tools:context="yyz_exploit.activity.activity.AddActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/layout">
+        <LinearLayout
+            android:id="@+id/li_back"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true">
+            <ImageView
+                android:id="@+id/iv_back_left"
+                android:layout_width="10dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="15dp"
+                android:layout_gravity="center_vertical"
+                android:src="@mipmap/arrow_left" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/layout_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="输入添加药物"
+            android:textColor="@color/writeColor"
+            android:textSize="19sp" />
+
+    </RelativeLayout>
+    <LinearLayout
+        android:paddingLeft="10dp"
+        android:paddingTop="15dp"
+        android:paddingRight="10dp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:textColor="#333333"
+            android:text="请输入药物名称"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <EditText
+            android:layout_marginTop="10dp"
+            android:paddingTop="10dp"
+            android:paddingLeft="15dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:gravity="top|left"
+            android:layout_width="match_parent"
+            android:layout_height="39dp"
+            android:layout_gravity="center_vertical"
+            android:hint="请输入药物名称"
+            android:id="@+id/et_name"
+            android:background="#ffeeeeee"
+            android:textColor="#999999"
+            android:textSize="15sp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:orientation="horizontal"
+            android:layout_marginTop="1dp"
+            android:id="@+id/li_activityTWJZKJCF_cfyp"
+            android:background="@color/writeColor">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginLeft="10dp"
+                android:layout_gravity="center_vertical"
+
+                android:text="单位"
+                android:textColor="@color/tabColor_nomal"
+                android:textSize="15sp" />
+
+
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_gravity="center_vertical"
+                android:hint="请填写"
+                android:gravity="right"
+                android:id="@+id/et_unit"
+                android:inputType="numberDecimal"
+                android:layout_marginRight="10dp"
+                android:background="@null"
+                android:textColor="@color/textColor_vt"
+                android:textSize="15sp" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:orientation="horizontal"
+            android:layout_marginTop="1dp"
+            android:background="@color/writeColor">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginLeft="10dp"
+                android:layout_gravity="center_vertical"
+
+                android:text="规格"
+                android:textColor="@color/tabColor_nomal"
+                android:textSize="15sp" />
+
+
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_gravity="center_vertical"
+                android:hint="请输入"
+                android:gravity="right"
+                android:id="@+id/et_num"
+                android:inputType="numberDecimal"
+                android:layout_marginRight="10dp"
+                android:background="@null"
+                android:textColor="@color/textColor_vt"
+                android:textSize="15sp" />
+        </LinearLayout>
+
+
+
+
+    </LinearLayout>
+
+    <Button
+        android:layout_gravity="center"
+        android:layout_width="230dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="80dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:background="@mipmap/login"
+        android:textColor="@color/writeColor"
+        android:id="@+id/button_xz"
+        android:textSize="15sp"
+        android:text="新增用药"/>
+
+</LinearLayout>
