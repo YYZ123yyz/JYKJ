@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="www.jykj.com.jykj_zxyl">
 
+
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" /> <!-- 这个权限用于进行网络定位 -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
