@@ -318,12 +318,15 @@ public class FragmentYHHD extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        getYSLMDate();
         if (mMessageInfoRecycleAdapter != null) {
             mMessageInfoRecycleAdapter.setDate(mInteractPatient);
             mMessageInfoRecycleAdapter.notifyDataSetChanged();
         }
-        if (mCurrent == 0)
+        if (mCurrent == 0){
             getMessageList();
+        }
+
     }
 
     private void initHandler() {
@@ -563,7 +566,6 @@ public class FragmentYHHD extends Fragment {
                     mHYSQText.setVisibility(View.VISIBLE);
                     mFriend.setBackgroundResource(R.mipmap.pg_messagetitle);
                     mFriend.setTextColor(mActivity.getResources().getColor(R.color.tabColor_nomal));
-
                     //获取数据
                     getYSLMDate();
 
@@ -577,6 +579,7 @@ public class FragmentYHHD extends Fragment {
             }
         }
     }
+
 
     /**
      * 获取医生好友联盟数据

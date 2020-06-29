@@ -347,13 +347,14 @@
         android:layout_height="match_parent">
         <!--滑动部分-->
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"       >
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
             <LinearLayout
+                android:id="@+id/li_fragmentShouYe_newMessage"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:id="@+id/li_fragmentShouYe_newMessage"
                 android:layout_marginTop="15dp"
                 android:background="@color/writeColor"
                 android:orientation="horizontal">
@@ -366,19 +367,17 @@
                     android:src="@mipmap/mainpage_zyxx" />
 
                 <TextView
+                    android:id="@+id/tv_fragmentShouYe_NewMessage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="20dp"
                     android:layout_weight="1"
                     android:text=""
-                    android:id="@+id/tv_fragmentShouYe_NewMessage"
                     android:textColor="@color/textColor_vo"
                     android:textSize="8pt" />
 
             </LinearLayout>
-
-
 
 
             <ImageView
@@ -398,7 +397,6 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:textSize="15sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -406,7 +404,7 @@
                     android:layout_weight="1"
                     android:text="医患圈"
                     android:textColor="@color/tabColor_nomal"
-                    />
+                    android:textSize="15sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -414,8 +412,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginRight="10dp"
                     android:text="进入医患圈"
-                    android:textColor="@color/textColor_vo"
-                    />
+                    android:textColor="@color/textColor_vo" />
 
                 <ImageView
                     android:layout_width="15dp"
@@ -451,8 +448,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="西安鹫一卓越软件科技有限公司"
-                        android:textColor="@color/tabColor_nomal"
-                        />
+                        android:textColor="@color/tabColor_nomal" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -485,7 +481,6 @@
             </LinearLayout>
 
 
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -499,8 +494,7 @@
                     android:layout_marginRight="10dp"
                     android:lineSpacingExtra="5dp"
                     android:text="欢迎使用西安鹫一卓越软件科技有限公司"
-                    android:textColor="@color/textColor_vo"
-                    />
+                    android:textColor="@color/textColor_vo" />
             </LinearLayout>
 
             <LinearLayout
@@ -520,33 +514,30 @@
                     android:layout_width="110dp"
                     android:layout_height="100dp"
                     android:layout_gravity="center"
-                    android:scaleType="centerCrop"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="5dp"
                     android:layout_weight="1"
-                    />
+                    android:scaleType="centerCrop" />
 
                 <yyz_exploit.Utils.MyImageView
                     android:id="@+id/img_two"
                     android:layout_width="110dp"
                     android:layout_height="100dp"
                     android:layout_gravity="center"
-                    android:scaleType="centerCrop"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
                     android:layout_weight="1"
-                    />
+                    android:scaleType="centerCrop" />
 
                 <yyz_exploit.Utils.MyImageView
                     android:id="@+id/img_three"
                     android:layout_width="110dp"
                     android:layout_height="100dp"
                     android:layout_gravity="center"
-                    android:scaleType="centerCrop"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="10dp"
                     android:layout_weight="1"
-                    />
+                    android:scaleType="centerCrop" />
             </LinearLayout>
 
 
@@ -561,33 +552,30 @@
                     android:layout_width="110dp"
                     android:layout_height="100dp"
                     android:layout_gravity="center"
-                    android:scaleType="centerCrop"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="5dp"
                     android:layout_weight="1"
-                    />
+                    android:scaleType="centerCrop" />
 
                 <yyz_exploit.Utils.MyImageView
                     android:id="@+id/imgs_two"
                     android:layout_width="110dp"
                     android:layout_height="100dp"
                     android:layout_gravity="center"
-                    android:scaleType="centerCrop"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
                     android:layout_weight="1"
-                    />
+                    android:scaleType="centerCrop" />
 
                 <yyz_exploit.Utils.MyImageView
                     android:id="@+id/imgs_three"
                     android:layout_width="110dp"
                     android:layout_height="100dp"
                     android:layout_gravity="center"
-                    android:scaleType="centerCrop"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="10dp"
                     android:layout_weight="1"
-                    />
+                    android:scaleType="centerCrop" />
             </LinearLayout>
 
             <LinearLayout
@@ -601,40 +589,31 @@
                     android:layout_width="110dp"
                     android:layout_height="100dp"
                     android:layout_gravity="center"
-                    android:scaleType="centerCrop"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="5dp"
                     android:layout_weight="1"
-                    />
+                    android:scaleType="centerCrop" />
 
                 <yyz_exploit.Utils.MyImageView
                     android:id="@+id/img_twos"
                     android:layout_width="110dp"
                     android:layout_height="100dp"
                     android:layout_gravity="center"
-                    android:scaleType="centerCrop"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
                     android:layout_weight="1"
-                    />
+                    android:scaleType="centerCrop" />
 
                 <yyz_exploit.Utils.MyImageView
                     android:id="@+id/img_threes"
                     android:layout_width="110dp"
                     android:layout_height="100dp"
                     android:layout_gravity="center"
-                    android:scaleType="centerCrop"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="10dp"
                     android:layout_weight="1"
-                    />
+                    android:scaleType="centerCrop" />
             </LinearLayout>
-
-
-
-
-
-
 
 
             <LinearLayout
@@ -660,8 +639,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_weight="1"
                     android:text="热门精选"
-                    android:textColor="@color/tabColor_nomal"
-                    />
+                    android:textColor="@color/tabColor_nomal" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -723,11 +701,11 @@
 
                         <TextView
                             android:layout_width="wrap_content"
-                            android:textSize="12sp" android:layout_height="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
                             android:text="2019-11-06"
                             android:textColor="@color/textColor_vo"
-                            />
+                            android:textSize="12sp" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -752,8 +730,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="10dp"
                     android:text="完成任务赚积分"
-                    android:textColor="#999999"
-                    />
+                    android:textColor="#999999" />
             </LinearLayout>
             <!--<LinearLayout-->
             <!--android:layout_width="match_parent"-->
@@ -790,8 +767,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="认证医师资格"
-                        android:textColor="@color/tabColor_nomal"
-                        />
+                        android:textColor="@color/tabColor_nomal" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -864,8 +840,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="添加患者"
-                        android:textColor="@color/tabColor_nomal"
-                        />
+                        android:textColor="@color/tabColor_nomal" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -937,8 +912,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="回复患者消息"
-                        android:textColor="@color/tabColor_nomal"
-                        />
+                        android:textColor="@color/tabColor_nomal" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -1012,8 +986,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="发表新动态"
-                        android:textColor="@color/tabColor_nomal"
-                        />
+                        android:textColor="@color/tabColor_nomal" />
 
                     <TextView
                         android:layout_width="wrap_content"

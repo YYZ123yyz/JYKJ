@@ -200,12 +200,12 @@ public class NewsActivity extends AppCompatActivity implements View.OnClickListe
         mXTXXMessageNum = (TextView) this.findViewById(R.id.tv_xtxx);
         //联盟消息
         if (mProvideMsgPushReminderCount != null) {
-//            if (mProvideMsgPushReminderCount.getMsgTypeCount04() > 0) {
-//                mUnionMessageNum.setVisibility(View.VISIBLE);
-//                mUnionMessageNum.setText(mProvideMsgPushReminderCount.getMsgTypeCount04() + "");
-//            } else {
-//                mUnionMessageNum.setVisibility(View.GONE);
-//            }
+            if (mProvideMsgPushReminderCount.getMsgTypeCount04() > 0) {
+                mUnionMessageNum.setVisibility(View.VISIBLE);
+                mUnionMessageNum.setText(mProvideMsgPushReminderCount.getMsgTypeCount04() + "");
+            } else {
+                mUnionMessageNum.setVisibility(View.GONE);
+            }
             //患者就诊
             if (mProvideMsgPushReminderCount.getMsgTypeCount01() > 0) {
                 mHZJZMessageNum.setVisibility(View.VISIBLE);
@@ -286,9 +286,9 @@ public class NewsActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.rl_add_patient:
                 startActivity(new Intent(this, UnionNewsActivity.class).putExtra("messageType", "4000103"));
                 break;
-//            case R.id.rl_lmxx:
-//                startActivity(new Intent(this, UnionNewsActivity.class).putExtra("messageType", "4000104"));
-//                break;
+            case R.id.rl_lmxx:
+                startActivity(new Intent(this, UnionNewsActivity.class).putExtra("messageType", "4000104"));
+                break;
             case R.id.ri_yjq:
                 startActivity(new Intent(this, UnionNewsActivity.class).putExtra("messageType", "4000105"));
                 break;

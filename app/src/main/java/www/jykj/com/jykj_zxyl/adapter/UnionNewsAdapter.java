@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 
+import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -101,7 +102,11 @@ public class UnionNewsAdapter extends RecyclerView.Adapter<UnionNewsAdapter.View
             holder.mClickLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    mOnItemClickListener.onClick(position);
+                    try {
+                        mOnItemClickListener.onClick(position);
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
                 }
             });
 
@@ -151,7 +156,7 @@ public class UnionNewsAdapter extends RecyclerView.Adapter<UnionNewsAdapter.View
     }
 
     public interface OnItemClickListener{
-        void onClick(int position);
+        void onClick(int position) throws UnsupportedEncodingException;
         void onLongClick(int position);
     }
 

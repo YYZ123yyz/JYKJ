@@ -82,6 +82,7 @@
         <activity android:name="yyz_exploit.Forget_activity" />
         <activity android:name=".activity.WelcomeActivity" /> <!-- 闪屏页 -->
         <activity android:name=".activity.SplashActivity">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -417,7 +417,7 @@ public class MainActivity extends AppCompatActivity {
                     case 2:
                         mCurrentFragment = 2;
                         setDefaultLayout();
-                        mImageViewYLZX.setBackgroundResource(R.mipmap.yhq_press);
+                        mImageViewYLZX.setBackgroundResource(R.mipmap.yhq_presss);
                         mTextViewYLZX.setTextColor(getResources().getColor(R.color.tabColor_press));
                         break;
                     case 3:
@@ -449,7 +449,7 @@ public class MainActivity extends AppCompatActivity {
             mImageViewYHHD.setBackgroundResource(R.mipmap.hyhdnews_nomal);
         else
             mImageViewYHHD.setBackgroundResource(R.mipmap.hz_nomal);
-        mImageViewYLZX.setBackgroundResource(R.mipmap.yhq_normal);
+        mImageViewYLZX.setBackgroundResource(R.mipmap.class_img);
         mImageViewMySelf.setBackgroundResource(R.mipmap.grzx_nomal);
 
         mTextViewShouYE.setTextColor(getResources().getColor(R.color.tabColor_nomal));
@@ -541,7 +541,6 @@ public class MainActivity extends AppCompatActivity {
         builder.show();
 
     }
-
 
 
     /**

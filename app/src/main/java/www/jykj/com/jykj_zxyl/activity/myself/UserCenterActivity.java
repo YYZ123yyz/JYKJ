@@ -40,6 +40,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -67,6 +69,7 @@ import www.jykj.com.jykj_zxyl.application.Constant;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.util.ActivityUtil;
 import www.jykj.com.jykj_zxyl.util.BitmapUtil;
+import www.jykj.com.jykj_zxyl.util.DateUtils;
 import www.jykj.com.jykj_zxyl.util.ProvincePicker;
 import www.jykj.com.jykj_zxyl.util.Util;
 
@@ -192,8 +195,8 @@ public class UserCenterActivity extends AppCompatActivity {
                         break;
                     case 3:
                         cacerProgress();
-                        if (mNetLoginRetStr != null && !mNetLoginRetStr.equals("")) {
-                            NetRetEntity netRetEntity = new Gson().fromJson(mNetLoginRetStr, NetRetEntity.class);
+                        if (mNetRetStr != null && !mNetRetStr.equals("")) {
+                            NetRetEntity netRetEntity = new Gson().fromJson(mNetRetStr, NetRetEntity.class);
                             if (netRetEntity.getResCode() == 1) {
                                 mApp.mViewSysUserDoctorInfoAndHospital = new Gson().fromJson(netRetEntity.getResJsonData(), ViewSysUserDoctorInfoAndHospital.class);
                                 mApp.saveUserInfo();
@@ -201,8 +204,10 @@ public class UserCenterActivity extends AppCompatActivity {
                                 //登录IM
                                 mApp.loginIM();
                                 finish();
-                            } else {
-                                Toast.makeText(mContext, "提交失败" + netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                            else {
+                                Toast.makeText(mContext, "提交失败" , Toast.LENGTH_SHORT).show();
                             }
                         } else {
                             Toast.makeText(mContext, "网络异常，请联系管理员", Toast.LENGTH_SHORT).show();
@@ -236,6 +241,7 @@ public class UserCenterActivity extends AppCompatActivity {
         else
             mUserSexText.setHint("请选择性别");
 
+        Log.e("tag", "setLayoutDate: "+ mProvideViewSysUserDoctorInfoAndHospital.getBirthday().toString());
         //出生日期
         if (mProvideViewSysUserDoctorInfoAndHospital.getBirthday() != null && !"".equals(mProvideViewSysUserDoctorInfoAndHospital.getBirthday()))
             mUserBirthDayText.setText(Util.dateToStrNUR(mProvideViewSysUserDoctorInfoAndHospital.getBirthday()));
@@ -460,45 +466,6 @@ public class UserCenterActivity extends AppCompatActivity {
      * 提交
      */
     private void commit() {
-
-        //判断为空
-        if (mProvideViewSysUserDoctorInfoAndHospital.getUserName() == null || "".equals(mProvideViewSysUserDoctorInfoAndHospital.getUserName())) {
-            Toast.makeText(mContext, "请选择姓名", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        if (mProvideViewSysUserDoctorInfoAndHospital.getGender() == 1 || mProvideViewSysUserDoctorInfoAndHospital.getGender() == 2) {
-
-        } else {
-            Toast.makeText(mContext, "请选择性别", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        if (mProvideViewSysUserDoctorInfoAndHospital.getBirthday() == null ) {
-            Toast.makeText(mContext, "请选择出生日期", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        if (mProvideViewSysUserDoctorInfoAndHospital.getHospitalInfoCode() == null || "".equals(mProvideViewSysUserDoctorInfoAndHospital.getHospitalInfoCode())) {
-            Toast.makeText(mContext, "请选择医院", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        if (mProvideViewSysUserDoctorInfoAndHospital.getDepartmentId() == null || "".equals(mProvideViewSysUserDoctorInfoAndHospital.getDepartmentId())) {
-            Toast.makeText(mContext, "请选择科室", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        if (mProvideViewSysUserDoctorInfoAndHospital.getDepartmentSecondId() == null || "".equals(mProvideViewSysUserDoctorInfoAndHospital.getDepartmentSecondId())) {
-            Toast.makeText(mContext, "请选择二级科室", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        if (mProvideViewSysUserDoctorInfoAndHospital.getDoctorTitle() == null || "".equals(mProvideViewSysUserDoctorInfoAndHospital.getDoctorTitle())) {
-            Toast.makeText(mContext, "请选择医生职称", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        if (mProvideViewSysUserDoctorInfoAndHospital.getProvince() == null || "".equals(mProvideViewSysUserDoctorInfoAndHospital.getProvince())) {
-            Toast.makeText(mContext, "请选择省份", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
         mProvideViewSysUserDoctorInfoAndHospital.setLoginDoctorPosition(mApp.loginDoctorPosition);
         mProvideViewSysUserDoctorInfoAndHospital.setOperDoctorCode(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
         mProvideViewSysUserDoctorInfoAndHospital.setOperDoctorName(mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
@@ -506,26 +473,61 @@ public class UserCenterActivity extends AppCompatActivity {
         mProvideViewSysUserDoctorInfoAndHospital.setUserName(mUserNameText.getText().toString());
 
         mProvideViewSysUserDoctorInfoAndHospital.setAddress(mAddressEdit.getText().toString());
-        if(TextUtils.isEmpty(mEmalEdit.getText().toString())){
-            mProvideViewSysUserDoctorInfoAndHospital.setEmail("");
-        }else{
-            if (isEmail(mEmalEdit.getText().toString().trim()) && mEmalEdit.getText().toString().trim().length()<=31){
-                Toast.makeText(UserCenterActivity.this,"邮箱验证成功",Toast.LENGTH_SHORT).show();
-            }else {
-                Toast.makeText(UserCenterActivity.this,"邮箱格式错误",Toast.LENGTH_SHORT).show();
-                return;
-            }
-            mProvideViewSysUserDoctorInfoAndHospital.setEmail(mEmalEdit.getText().toString());
-        }
-
-
+        mProvideViewSysUserDoctorInfoAndHospital.setEmail(mEmalEdit.getText().toString());
         mProvideViewSysUserDoctorInfoAndHospital.setSynopsis(mSynopsisEdit.getText().toString());
         mProvideViewSysUserDoctorInfoAndHospital.setGoodAtRealm(mGoodAtRealmEdit.getText().toString());
 
+        //判断为空
+        if (mProvideViewSysUserDoctorInfoAndHospital.getUserName() == null || "".equals(mProvideViewSysUserDoctorInfoAndHospital.getUserName()))
+        {
+            Toast.makeText(mContext,"请选择姓名",Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (mProvideViewSysUserDoctorInfoAndHospital.getGender() == 1 || mProvideViewSysUserDoctorInfoAndHospital.getGender() == 2)
+        {
+
+        }
+        else
+        {
+            Toast.makeText(mContext,"请选择性别",Toast.LENGTH_SHORT).show();
+            return;
+        }
+        Log.e("tag", "提交 " +mProvideViewSysUserDoctorInfoAndHospital.getBirthdayStr() );
+
+        if (mProvideViewSysUserDoctorInfoAndHospital.getBirthdayStr() == null || "".equals(mProvideViewSysUserDoctorInfoAndHospital.getBirthdayStr()))
+        {
+            Toast.makeText(mContext,"请选择出生日期",Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (mProvideViewSysUserDoctorInfoAndHospital.getHospitalInfoCode() == null || "".equals(mProvideViewSysUserDoctorInfoAndHospital.getHospitalInfoCode()))
+        {
+            Toast.makeText(mContext,"请选择医院",Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (mProvideViewSysUserDoctorInfoAndHospital.getDepartmentId() == null || "".equals(mProvideViewSysUserDoctorInfoAndHospital.getDepartmentId()))
+        {
+            Toast.makeText(mContext,"请选择科室",Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (mProvideViewSysUserDoctorInfoAndHospital.getDepartmentSecondId() == null || "".equals(mProvideViewSysUserDoctorInfoAndHospital.getDepartmentSecondId()))
+        {
+            Toast.makeText(mContext,"请选择二级科室",Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (mProvideViewSysUserDoctorInfoAndHospital.getDoctorTitle() == null || "".equals(mProvideViewSysUserDoctorInfoAndHospital.getDoctorTitle()))
+        {
+            Toast.makeText(mContext,"请选择医生职称",Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (mProvideViewSysUserDoctorInfoAndHospital.getProvince() == null || "".equals(mProvideViewSysUserDoctorInfoAndHospital.getProvince()))
+        {
+            Toast.makeText(mContext,"请选择省份",Toast.LENGTH_SHORT).show();
+            return;
+        }
         getProgressBar("请稍候", "正在提交数据...");
-        Log.e("tag", "commit: "+mProvideViewSysUserDoctorInfoAndHospital.getBirthday().toString() );
         new Thread() {
             public void run() {
+                boolean isupsuccess = false;
                 try {
                     if (mUserHeadBitmap != null)
                         mProvideViewSysUserDoctorInfoAndHospital.setBase64ImgData((URLEncoder.encode("data:image/jpg;base64," + BitmapUtil.bitmaptoString(mUserHeadBitmap))));
@@ -533,13 +535,10 @@ public class UserCenterActivity extends AppCompatActivity {
                     mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + str, Constant.SERVICEURL + "doctorPersonalSetControlle/operUserDoctorInfo");
                     Log.e("tag", "修改"+mNetRetStr );
                     NetRetEntity netRetEntity = new Gson().fromJson(mNetRetStr, NetRetEntity.class);
-                    if (netRetEntity.getResCode() == 0) {
-                        NetRetEntity retEntity = new NetRetEntity();
-                        retEntity.setResCode(0);
-                        retEntity.setResMsg("获取提交失败：" + netRetEntity.getResMsg());
-                        mNetRetStr = new Gson().toJson(retEntity);
-                        mHandler.sendEmptyMessage(3);
-                        return;
+                    if (netRetEntity.getResCode() == 1) {
+                        isupsuccess = true;
+                        mNetRetStr = new Gson().toJson(netRetEntity);
+
                     }
                 } catch (Exception e) {
                     NetRetEntity retEntity = new NetRetEntity();
@@ -549,19 +548,19 @@ public class UserCenterActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 //重新登录，刷新用户信息
-                UserInfo userInfo = new UserInfo();
-                userInfo.setUserPhone(mApp.mLoginUserInfo.getUserPhone());
-                userInfo.setUserPwd(mApp.mLoginUserInfo.getUserPwd());
-                try {
-                    mNetLoginRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + new Gson().toJson(userInfo), Constant.SERVICEURL + "doctorLoginController/loginDoctorPwd");
-                } catch (Exception e) {
-                    NetRetEntity retEntity = new NetRetEntity();
-                    retEntity.setResCode(0);
-                    retEntity.setResMsg("网络连接异常，请联系管理员：" + e.getMessage());
-                    mNetLoginRetStr = new Gson().toJson(retEntity);
-                    e.printStackTrace();
-                }
-
+                    UserInfo userInfo = new UserInfo();
+                    userInfo.setUserPhone(mApp.mLoginUserInfo.getUserPhone());
+                    userInfo.setUserPwd(mApp.mLoginUserInfo.getUserPwd());
+                    try {
+                        mNetLoginRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + new Gson().toJson(userInfo), Constant.SERVICEURL + "doctorLoginController/loginDoctorPwd");
+                        Log.e("tag", "用户信息 "+mNetLoginRetStr );
+                    } catch (Exception e) {
+                        NetRetEntity retEntity = new NetRetEntity();
+                        retEntity.setResCode(0);
+                        retEntity.setResMsg("网络连接异常，请联系管理员：" + e.getMessage());
+                        mNetLoginRetStr = new Gson().toJson(retEntity);
+                        e.printStackTrace();
+                    }
                 mHandler.sendEmptyMessage(3);
             }
         }.start();
@@ -754,6 +753,8 @@ public class UserCenterActivity extends AppCompatActivity {
 
     private DatePickerDialog.OnDateSetListener onDateSetListener = new DatePickerDialog.OnDateSetListener() {
 
+        private Date d;
+
         @Override
         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
             int mYear = year;
@@ -771,9 +772,9 @@ public class UserCenterActivity extends AppCompatActivity {
                 day = "0" + mDay;
             else
                 day = mDay + "";
-            mUserBirthDayText.setText(mYear + "-" + month + "-" + day);
-            mProvideViewSysUserDoctorInfoAndHospital.setBirthdayStr(mYear + "-" + month + "-" + day);
-            System.out.println();
+            mUserBirthDayText.setText(mYear+"-"+month+"-"+day);
+            mProvideViewSysUserDoctorInfoAndHospital.setBirthdayStr(mYear+"-"+month+"-"+day);
+            Log.e("tag", "onDateSet: " +mProvideViewSysUserDoctorInfoAndHospital.getBirthdayStr() );
         }
     };
 
@@ -826,19 +827,6 @@ public class UserCenterActivity extends AppCompatActivity {
         builder3.show();// 让弹出框显示
     }
 
-//    /**
-//     * 创建临时文件夹 _tempphoto
-//     */
-//    private void initDir() {
-//        // 声明目录
-//        File tempDir = new File(Environment.getExternalStorageDirectory().getAbsolutePath()
-//                + "/_tempphoto");
-//        if (!tempDir.exists()) {
-//            tempDir.mkdirs();// 创建目录
-//        }
-//        mTempFile = new File(tempDir, BitmapUtil.getPhotoFileName());// 生成临时文件
-//    }
-
 
     @Override
     protected void onActivityResult(
@@ -881,16 +869,10 @@ public class UserCenterActivity extends AppCompatActivity {
             if (u != null) {
                 photo = BitmapFactory.decodeStream(getContentResolver().openInputStream(data.getData()));//将imageUri对象的图片加载到内存
             } else {
-                System.out.println("进来了");
-                Log.e("tag", "setPicToView: "+ "进来了");
                 photo = BitmapFactory.decodeStream(getContentResolver().openInputStream(Uri.fromFile(new File(Environment.getExternalStorageDirectory(), "test.jpg"))));//将imageUri对象的图片加载到内存
             }
-            System.out.println("图片：" + photo);
-            Log.e("tag", "setPicToView: "+ photo);
             mUserHeadBitmap = photo;
 
-            //显示图片
-//            mUserHeadImage.setImageBitmap(photo);
             Glide.with(this).load(photo).into(mUserHeadImage);
 
         } catch (FileNotFoundException e) {
@@ -1006,6 +988,7 @@ public class UserCenterActivity extends AppCompatActivity {
                     //获取用户数据
                     mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + str, Constant.SERVICEURL + "/doctorPersonalSetControlle/getUserDoctorInfo");
                     NetRetEntity netRetEntity = new Gson().fromJson(mNetRetStr, NetRetEntity.class);
+                    Log.e("tag", "获取用户数据 "+mNetRetStr );
                     if (netRetEntity.getResCode() == 0) {
                         NetRetEntity retEntity = new NetRetEntity();
                         retEntity.setResCode(0);

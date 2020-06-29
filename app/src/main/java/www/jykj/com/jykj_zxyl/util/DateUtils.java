@@ -21,6 +21,11 @@ import java.util.Locale;
 public class DateUtils {
 
 
+    public static String getDateToString(long milSecond) {
+        Date date = new Date(milSecond* 1000);
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        return format.format(date);
+    }
 
 
     /*

@@ -75,7 +75,7 @@ public class HYHD_HYSQActivity extends AppCompatActivity {
         mContext = this;
         mActivity = this;
         mApp = (JYKJApplication) getApplication();
-        ActivityUtil.setStatusBar(mActivity);
+        ActivityUtil.setStatusBarMain(mActivity);
         initLayout();
         initHandler();
         getDate();
@@ -216,9 +216,9 @@ public class HYHD_HYSQActivity extends AppCompatActivity {
             @Override
             public void onClick(int position) {
                 Toast.makeText(mContext, "同意", Toast.LENGTH_SHORT).show();
-                mOperaType = 3;
                 getmOperaIndex = position;
                 OperApprovalBindingDoctorDoctor();
+                finish();
             }
 
             @Override

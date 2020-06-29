@@ -99,11 +99,11 @@
                     android:layout_height="22dp"
                     android:id="@+id/iv_activityMain_ImageYLZX"
                     android:layout_gravity="center_horizontal"
-                    android:background="@mipmap/yhq_normal"/>
+                    android:background="@mipmap/class_img"/>
                 <TextView
                     android:layout_width="80dp"
                     android:layout_height="wrap_content"
-                    android:text="医患圈"
+                    android:text="医疗资讯"
                     android:gravity="center"
                     android:id="@+id/tv_activityMain_TextYLZX"
                     android:layout_marginTop="5dp"

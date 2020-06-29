@@ -33,6 +33,7 @@
             android:layout_marginLeft="30dp"
             android:src="@mipmap/loginaccount"/>
         <EditText
+            android:maxLength="11"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginRight="30dp"

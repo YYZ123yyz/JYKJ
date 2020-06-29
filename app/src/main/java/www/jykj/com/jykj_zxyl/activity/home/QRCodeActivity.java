@@ -41,9 +41,12 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import entity.basicDate.ProvideBasicsDomain;
+import entity.hzgl.BindPatientParment;
 import entity.mySelf.ProvideViewSysUserDoctorInfoAndHospital;
 import entity.patientInfo.ProvideViewSysUserPatientInfoAndRegion;
 import entity.shouye.OperScanQrCodeInside;
@@ -59,6 +62,8 @@ import www.jykj.com.jykj_zxyl.custom.MoreFeaturesPopupWindow;
 import www.jykj.com.jykj_zxyl.util.ActivityUtil;
 import www.jykj.com.jykj_zxyl.util.PhotoDialog;
 import yyz_exploit.activity.activity.OpinionActivity;
+import yyz_exploit.bean.BindPatient;
+import yyz_exploit.dialog.AddPatientAcitvityDialog;
 import zxing.android.CaptureActivity;
 import zxing.common.Constant;
 import zxing.encode.CodeCreator;
@@ -104,6 +109,10 @@ public class QRCodeActivity extends AppCompatActivity {
     private String patientShareTitle;
     private String patientShareContent;
 
+    private List<ProvideBasicsDomain> mList = new ArrayList<>();
+    private AddPatientAcitvityDialog addPatientAcitvityDialog;
+
+    private BindPatientParment mBindPatientParment;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -147,12 +156,35 @@ public class QRCodeActivity extends AppCompatActivity {
                                         }).setNegativeButton("取消", null).show();
 //
                             }
-                            if ("2".equals(netRetEntity.getResMsg())) {
+                            if ("2".equals(netRetEntity.getResData())) {
                                 //医生扫医生联盟二维码
                             }
-                            if ("3".equals(netRetEntity.getResMsg())) {
+                            if ("3".equals(netRetEntity.getResData())) {
                                 //医生扫患者二维码
-
+                                //医生扫患者二维码
+                                addPatientAcitvityDialog = new AddPatientAcitvityDialog(QRCodeActivity.this);
+                                addPatientAcitvityDialog.show();
+                                EditText app_content = addPatientAcitvityDialog.findViewById(R.id.app_content);
+                                //输入的值
+                                String ed = app_content.getText().toString();
+                                addPatientAcitvityDialog.findViewById(R.id.Lin_label).setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        showHZBQDialog();
+                                    }
+                                });
+                                addPatientAcitvityDialog.findViewById(R.id.bt_pass).setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        addPatientAcitvityDialog.dismiss();
+                                    }
+                                });
+                                addPatientAcitvityDialog.findViewById(R.id.bt_commit).setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        bindPatientFriend(netRetEntity.getResMsg(), ed, qrCode,mBindPatientParment.getPatientLabelId(), mBindPatientParment.getPatientLabelName());
+                                    }
+                                });
                             }
 
                         }
@@ -214,6 +246,44 @@ public class QRCodeActivity extends AppCompatActivity {
         }.start();
     }
 
+
+    /**
+     * 医患绑定
+     */
+    private void bindPatientFriend(String url, String reason, String qrCode,String patientLabel,String patientLabelName) {
+        getProgressBar("请稍候", "正在处理");
+        BindPatient bindDoctorFriend = new BindPatient();
+        bindDoctorFriend.setLoginDoctorPosition(mApp.loginDoctorPosition);
+        bindDoctorFriend.setPatientQrCode(qrCode);
+        bindDoctorFriend.setOperDoctorCode(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
+        bindDoctorFriend.setOperDoctorName(mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
+        bindDoctorFriend.setPatientLabelId(patientLabel);
+        bindDoctorFriend.setPatientLabelName(patientLabelName);
+        bindDoctorFriend.setApplyReason(reason);
+
+        new Thread() {
+            public void run() {
+                try {
+                    String string = new Gson().toJson(bindDoctorFriend);
+                    mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + string, www.jykj.com.jykj_zxyl.application.Constant.SERVICEURL + "/" + url);
+                    Log.e("tag", "医患绑定 "+mNetRetStr );
+                } catch (Exception e) {
+                    NetRetEntity retEntity = new NetRetEntity();
+                    retEntity.setResCode(0);
+                    retEntity.setResMsg("网络连接异常，请联系管理员：" + e.getMessage());
+                    mNetRetStr = new Gson().toJson(retEntity);
+                    e.printStackTrace();
+                }
+                mHandler.sendEmptyMessage(3);
+            }
+        }.start();
+    }
+
+
+
+
+
+
     private void operScanQrCodeInside(String content) {
         getProgressBar("请稍候", "正在处理");
         OperScanQrCodeInside operScanQrCodeInside = new OperScanQrCodeInside();
@@ -240,6 +310,35 @@ public class QRCodeActivity extends AppCompatActivity {
             }
         }.start();
     }
+
+
+    /**
+     * 患者标签选择框
+     */
+    private void showHZBQDialog() {
+        final String[] items = new String[mList.size()];
+        for (int i = 0; i < mList.size(); i++) {
+            items[i] = mList.get(i).getAttrName();
+        }
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(QRCodeActivity.this);
+        builder.setTitle("请选择患者标签");
+        builder.setItems(items, new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface arg0, int arg1) {
+                // TODO Auto-generated method stub
+                TextView tv_label = addPatientAcitvityDialog.findViewById(R.id.tv_label);
+                tv_label .setText(items[arg1]);
+                mBindPatientParment.setPatientLabelId(mList.get(arg1).getAttrCode() + "");
+                mBindPatientParment.setPatientLabelName(mList.get(arg1).getAttrName());
+            }
+        });
+        builder.create().show();
+
+    }
+
+
 
     /*
      * 二维码
@@ -690,4 +789,47 @@ public class QRCodeActivity extends AppCompatActivity {
     public static void setPhotoFile(File photoFile) {
         mPhotoFile = photoFile;
     }
+
+
+
+    //获取患者标签
+    public void getBasicDate() {
+        getProgressBar("请稍候", "正在获取数据。。。");
+        //开始识别
+        new Thread() {
+            public void run() {
+//                //提交数据
+                try {
+                    ProvideBasicsDomain provideBasicsDomain = new ProvideBasicsDomain();
+                    provideBasicsDomain.setBaseCode(30001);
+
+                    String str = new Gson().toJson(provideBasicsDomain);
+                    mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + str, www.jykj.com.jykj_zxyl.application.Constant.SERVICEURL + "basicDataController/getBasicsDomain");
+                    NetRetEntity netRetEntity = new Gson().fromJson(mNetRetStr, NetRetEntity.class);
+                    mList = JSON.parseArray(netRetEntity.getResJsonData(), ProvideBasicsDomain.class);
+
+                    if (netRetEntity.getResCode() == 0) {
+                        NetRetEntity retEntity = new NetRetEntity();
+                        retEntity.setResCode(0);
+                        retEntity.setResMsg("获取失败：" + netRetEntity.getResMsg());
+                        mNetRetStr = new Gson().toJson(retEntity);
+                        mHandler.sendEmptyMessage(10);
+                        return;
+                    }
+
+                } catch (Exception e) {
+                    NetRetEntity retEntity = new NetRetEntity();
+                    retEntity.setResCode(0);
+                    retEntity.setResMsg("网络连接异常，请联系管理员：" + e.getMessage());
+                    mNetRetStr = new Gson().toJson(retEntity);
+                    mHandler.sendEmptyMessage(10);
+                    return;
+                }
+
+                mHandler.sendEmptyMessage(10);
+            }
+        }.start();
+    }
+
+
 }

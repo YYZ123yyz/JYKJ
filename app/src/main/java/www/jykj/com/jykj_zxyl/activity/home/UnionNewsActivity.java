@@ -24,6 +24,8 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -79,7 +81,6 @@ public class UnionNewsActivity extends AppCompatActivity implements View.OnClick
         mMessageType = getIntent().getStringExtra("messageType");
         mApp = (JYKJApplication) getApplication();
         initView();
-        getDate();
         initListener();
         initHandler();
 
@@ -95,34 +96,15 @@ public class UnionNewsActivity extends AppCompatActivity implements View.OnClick
                         cacerProgress();
                         mAdapter = new UnionNewsAdapter(mMsgPushReminders,mContext);
                         mRecyclerView.setAdapter(mAdapter);
-                        //加载更多
-                        refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
-                            @Override
-                            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
-                                page ++ ;
-                              //  getDate();
-                                mAdapter.notifyDataSetChanged();
-                                refreshLayout.finishLoadMore(2000);//加载完成
-                            }
-                        });
-                        //刷新
-                        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
-                            @Override
-                            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                                mMsgPushReminders.clear();
-                                getDate();
-                                mAdapter.notifyDataSetChanged();
-                                refreshLayout.finishRefresh(true);//刷新完成
-                            }
-                        });
                         //消息详情点击事件
                         mAdapter.setOnItemClickListener(new UnionNewsAdapter.OnItemClickListener() {
                             @Override
-                            public void onClick(int position) {
+                            public void onClick(int position)  {
                                 Intent intent = new Intent(mContext, UnionNewsDetailActivity.class);
                                 intent.putExtra("newMessage", mMsgPushReminders.get(position));
                                 String msgLookUrl = mMsgPushReminders.get(position).getMsgLookUrl();
                                 intent.putExtra("URL", msgLookUrl);
+                                Log.e("tag", "onClick: "+msgLookUrl );
                                 Integer reminderId = mMsgPushReminders.get(position).getReminderId();
                                 intent.putExtra("reminderId", reminderId);
                                 mMsgPushReminders.get(position).setFlagMsgRead(1);
@@ -177,23 +159,23 @@ public class UnionNewsActivity extends AppCompatActivity implements View.OnClick
         LinearLayoutManager manager = new LinearLayoutManager(this);
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(manager);
-//        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-//            @Override
-//            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-//                super.onScrollStateChanged(recyclerView, newState);
-//                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-//                    if (mLoadDate) {
-//                        int lastVisiblePosition = manager.findLastVisibleItemPosition();
-//                        if (lastVisiblePosition >= manager.getItemCount() - 1) {
-//                            if (loadDate) {
-//                                mPageNum++;
-//                                getDate();
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//        });
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    if (mLoadDate) {
+                        int lastVisiblePosition = manager.findLastVisibleItemPosition();
+                        if (lastVisiblePosition >= manager.getItemCount() - 1) {
+                            if (loadDate) {
+                                mPageNum++;
+                             //   getDate();
+                            }
+                        }
+                    }
+                }
+            }
+        });
 
     }
 
@@ -204,6 +186,7 @@ public class UnionNewsActivity extends AppCompatActivity implements View.OnClick
     @Override
     protected void onResume() {
         super.onResume();
+        mMsgPushReminders.clear();
         getDate();
     }
 
@@ -225,7 +208,7 @@ public class UnionNewsActivity extends AppCompatActivity implements View.OnClick
             public void run() {
                 try {
                     GetNewsMessageParment getNewsMessageParment = new GetNewsMessageParment();
-                    getNewsMessageParment.setRowNum(mRowNum + "");
+                    getNewsMessageParment.setRowNum(100 + "");
                     getNewsMessageParment.setPageNum(mPageNum + "");
                     getNewsMessageParment.setLoginDoctorPosition(mApp.loginDoctorPosition);
                     getNewsMessageParment.setSearchDoctorCode(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
