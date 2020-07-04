@@ -583,7 +583,9 @@ public class LoginActivity extends AppCompatActivity {
                                                 mApp.saveUserInfo(viewSysUserDoctorInfoAndHospital);
                                                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                                 startActivity(intent);
-
+                                                for (int i = 0; i < mApp.gActivityList.size(); i++) {
+                                                    mApp.gActivityList.get(i).finish();
+                                                }
                                             }
                                         }
                                     }, 100

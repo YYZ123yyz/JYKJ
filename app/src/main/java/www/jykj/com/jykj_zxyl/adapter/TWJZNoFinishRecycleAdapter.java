@@ -23,7 +23,7 @@ import www.jykj.com.jykj_zxyl.activity.home.wdzs.ProvideViewInteractOrderTreatme
 import www.jykj.com.jykj_zxyl.util.Util;
 
 import static www.jykj.com.jykj_zxyl.R.drawable.female;
-import static www.jykj.com.jykj_zxyl.R.drawable.text_color1;
+//import static www.jykj.com.jykj_zxyl.R.drawable.text_color1;
 
 /**
  *  图文就诊未完成

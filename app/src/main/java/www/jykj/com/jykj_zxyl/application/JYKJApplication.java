@@ -9,10 +9,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.Build;
-import android.os.Handler;
-import android.os.Message;
-import android.os.StrictMode;
+import android.os.*;
 import android.support.multidex.MultiDex;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
@@ -20,6 +17,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.hyphenate.EMCallBack;
@@ -38,6 +36,7 @@ import com.hyphenate.easeui.hyhd.model.DbOpenHelper;
 import com.hyphenate.easeui.hyhd.model.DemoDBManager;
 import com.hyphenate.easeui.hyhd.model.HMSPushHelper;
 import com.hyphenate.easeui.ui.EaseContactListFragment;
+import com.hyphenate.easeui.utils.ExtEaseUtils;
 import com.hyphenate.exceptions.HyphenateException;
 import com.hyphenate.push.EMPushHelper;
 import com.hyphenate.push.EMPushType;
@@ -72,6 +71,7 @@ import entity.DoctorInfo.InteractPatient;
 import entity.basicDate.EMMessageEntity;
 import entity.basicDate.ProvideBasicsRegion;
 import entity.basicDate.ProvideDoctorPatientUserInfo;
+import entity.liveroom.CloseRoomInfo;
 import entity.mySelf.DataCleanManager;
 import entity.service.ViewSysUserDoctorInfoAndHospital;
 import entity.unionInfo.ProvideUnionDoctorOrg;
@@ -83,6 +83,7 @@ import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.activity.LoginActivity;
 import www.jykj.com.jykj_zxyl.activity.MainActivity;
 import www.jykj.com.jykj_zxyl.service.MessageReciveService;
+import www.jykj.com.jykj_zxyl.util.StrUtils;
 import yyz_exploit.dialog.AuthorityDialog;
 import yyz_exploit.dialog.ErrorDialog;
 
@@ -126,7 +127,7 @@ public class JYKJApplication extends Application {
     public int gMessageNum = 10;                //可发送的消息数量
     public long gVoiceTime = 20;                 //可拨打语音消息时长（单位：秒）
     public long gVedioTime = 30;                 //可拨打视频消息时长（单位：秒）
-
+    public String curdetailcode = "";
 
     public Handler gHandler = new Handler() {
         @Override
@@ -169,9 +170,9 @@ public class JYKJApplication extends Application {
     };
     private EMConnectionListener connectionListener;
 
-
+    static final String IMTAG = "imlog";
     public void loginIM() {
-        new Thread() {
+        /*new Thread() {
             private EMConnectionListener connectionListener;
 
             public void run() {
@@ -187,9 +188,104 @@ public class JYKJApplication extends Application {
                     System.out.println("~~~~~~~注册失败~~~~~~~~" + e.getDescription());
                 }
             }
-        }.start();
+        }.start();*/
+        new Thread() {
+            public void run() {
+                //注册
+                try {
+                    EMClient.getInstance().login(mViewSysUserDoctorInfoAndHospital.getDoctorCode(),mViewSysUserDoctorInfoAndHospital.getQrCode(),new EMCallBack() {
+                        @Override
+                        public void onSuccess() {
+                            Log.d(IMTAG, "登录成功");
+
+                            // ** manually load all local groups and conversation
+                            EMClient.getInstance().groupManager().loadAllGroups();
+                            EMClient.getInstance().chatManager().loadAllConversations();
+
+                            // update current user's display name for APNs
+                            boolean updatenick = EMClient.getInstance().pushManager().updatePushNickname(ExtEaseUtils.getInstance().getNickName());
+                            if (!updatenick) {
+                                Log.e(IMTAG, "更新用户昵称");
+                            }
+                            DemoHelper.getInstance().getUserProfileManager().asyncGetCurrentUserInfo();
+                            String retuser = EMClient.getInstance().getCurrentUser();
+                            setNewsMessage();
+                            Log.e("iis",retuser);
+                        }
+
+                        @Override
+                        public void onProgress(int progress, String status) {
+                            Log.d(IMTAG, "登录中...");
+                        }
+
+                        @Override
+                        public void onError(final int code, final String message) {
+                            if (code == 101) {
+                                try {
+                                    EMClient.getInstance().createAccount(mViewSysUserDoctorInfoAndHospital.getDoctorCode(), mViewSysUserDoctorInfoAndHospital.getQrCode());
+                                    gHandler.sendEmptyMessage(1);
+                                } catch (Exception logex) {
+                                    Log.e(IMTAG, "登录失败: " + code);
+                                }
+                            }
+                            Log.d(IMTAG, "登录失败: " + code);
+                        }
+                    });
+                }catch (Exception ex){
+                    Log.e(IMTAG,ex.getMessage());
+                }
+            }}.start();
     }
 
+
+    @Override
+    public void onTerminate() {
+        super.onTerminate();
+        if(StrUtils.defaulObjToStr(curdetailcode).length()>0){
+            CloseRoomInfo subinfo = new CloseRoomInfo();
+            subinfo.setDetailsCode(curdetailcode);
+            subinfo.setLoginUserPosition(loginDoctorPosition);
+            subinfo.setOperUserCode(mViewSysUserDoctorInfoAndHospital.getDoctorCode());
+            subinfo.setOperUserName(mViewSysUserDoctorInfoAndHospital.getUserName());
+            subinfo.setRequestClientType("1");
+            CloseLiveRoomTask closeLiveRoomTask = new CloseLiveRoomTask(subinfo);
+            closeLiveRoomTask.execute();
+        }
+    }
+
+    class CloseLiveRoomTask extends AsyncTask<Void,Void,Boolean> {
+        CloseRoomInfo subinfo;
+        String retmsg = "";
+        CloseLiveRoomTask(CloseRoomInfo subinfo){
+            this.subinfo =  subinfo;
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+            try {
+                String retstr = HttpNetService.urlConnectionService("jsonDataInfo="+new Gson().toJson(subinfo),"https://www.jiuyihtn.com:41041/broadcastLiveDataControlle/operLiveRoomDetailsNoticeResCloseBroadcasting");
+                NetRetEntity retEntity = JSON.parseObject(retstr,NetRetEntity.class);
+                if(1==retEntity.getResCode()){
+                    retmsg = retEntity.getResMsg();
+                    return true;
+                }else{
+                    retmsg = retEntity.getResMsg();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                retmsg = "数据存储异常";
+            }
+
+            return false;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            if(!aBoolean){
+                Toast.makeText(gContext,retmsg,Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
 
     /**
      * 退出登录
@@ -230,6 +326,7 @@ public class JYKJApplication extends Application {
         super.onCreate();
         //初始化IM聊天界面
         gContext = getApplicationContext();
+        DemoHelper.getInstance().init(gContext);
         //获取本地缓存
         getPersistence();
         EMOptions options = new EMOptions();
@@ -333,8 +430,14 @@ public class JYKJApplication extends Application {
         //数据存储,以json字符串的格式保存
         m_persist = new SharedPreferences_DataSave(this, "JYKJDOCTER");
         m_persist.putString("loginUserInfo", new Gson().toJson(mLoginUserInfo));
+        ExtEaseUtils.getInstance().setNickName(mViewSysUserDoctorInfoAndHospital.getUserName());
+        ExtEaseUtils.getInstance().setImageUrl(mViewSysUserDoctorInfoAndHospital.getUserLogoUrl());
+        ExtEaseUtils.getInstance().setUserId(mViewSysUserDoctorInfoAndHospital.getDoctorCode());
         m_persist.putString("viewSysUserDoctorInfoAndHospital", new Gson().toJson(mViewSysUserDoctorInfoAndHospital));
         m_persist.commit();
+        DemoHelper.getInstance().getUserProfileManager().updateCurrentUserNickName(mViewSysUserDoctorInfoAndHospital.getUserName());
+        DemoHelper.getInstance().getUserProfileManager().setCurrentUserAvatar(mViewSysUserDoctorInfoAndHospital.getUserLogoUrl());
+        DemoHelper.getInstance().setCurrentUserName(mViewSysUserDoctorInfoAndHospital.getDoctorCode()); // 环信Id
         Log.e("tag", "run: "+"ccccccccccccccccc" );
     }
 

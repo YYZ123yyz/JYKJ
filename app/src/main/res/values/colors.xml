@@ -54,4 +54,11 @@
     <color name="color_00000000">#00000000</color>
     <color name="color_FF555555">#FF555555</color>
     <color name="color_ff434343">#FF434343</color>
+    <color name="colorGray4">#787878</color>
+    <color name="btn_red">#D63F41</color>
+    <color name="background_gray1">#EBEBEB</color>
+    <color name="c8">#FFFFFF</color>
+    <color name="transparent">#00000000</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
 </resources>
