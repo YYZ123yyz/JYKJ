@@ -104,13 +104,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
-    <com.jcodecraeer.xrecyclerview.XRecyclerView
+    <!--<com.jcodecraeer.xrecyclerview.XRecyclerView
         android:layout_below="@+id/room_text"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:id="@+id/room_recy"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"/>-->
+    <android.support.v4.view.ViewPager
+            android:id="@+id/roompager"
+            android:layout_below="@+id/room_text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+    </android.support.v4.view.ViewPager>
     <com.barnettwong.dragfloatactionbuttonlibrary.view.DragFloatActionButton
         android:id="@+id/live"
         android:layout_width="48dp"

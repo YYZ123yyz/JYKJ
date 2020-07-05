@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@color/groabColor" android:id="@+id/room_det_nav">
+        <RelativeLayout
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                android:id="@+id/back"
+        >
+            <ImageView
+                    android:layout_width="10dp"
+                    android:layout_height="20dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:src="@mipmap/arrow_left" />
+        </RelativeLayout>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="直播详情"
+                android:textColor="@color/writeColor"
+                android:textSize="10pt" />
+    </RelativeLayout>
+    <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:layout_margin="5dp" android:layout_below="@+id/room_det_nav">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="65dp" android:orientation="horizontal">
+            <ImageView android:layout_width="65dp" android:layout_height="65dp" android:src="@mipmap/liveroom_head" android:id="@+id/liveroom_det_head_pic"></ImageView>
+            <RelativeLayout android:layout_width="match_parent" android:layout_height="match_parent" android:layout_weight="1" android:layout_marginLeft="10dp">
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                          android:textColor="@color/tv2" android:text="授课专家" android:id="@+id/doctor_head_tit"></TextView>
+                <TextView android:layout_width="50dp" android:layout_height="wrap_content" android:layout_below="@+id/doctor_head_tit"
+                          android:text="某某某" android:id="@+id/live_doctor_name"></TextView>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/live_doctor_education"
+                          android:layout_below="@+id/doctor_head_tit" android:text="博士、研究员"></TextView>
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_below="@+id/live_doctor_name"
+                          android:text="中国营养学会常务理事" android:id="@+id/live_doctor_dep"></TextView>
+            </RelativeLayout>
+            <RelativeLayout android:layout_width="50dp" android:layout_height="match_parent" android:id="@+id/liveroom_share_holder">
+                <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@mipmap/store" android:id="@+id/liveroom_store_btn" android:layout_centerInParent="true"></ImageView>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="想看" android:layout_below="@+id/liveroom_store_btn" android:layout_centerInParent="true"></TextView>
+            </RelativeLayout>
+        </LinearLayout>
+        <ImageView android:layout_width="match_parent" android:layout_height="wrap_content" android:background="@mipmap/room_det_cover"></ImageView>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical">
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                      android:text="高血压患者、和健康人群的干预方法" android:id="@+id/det_live_tit"></TextView>
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                      android:textColor="@color/textColor_vo" android:text="营养学专家教你如何吃出健康血压"
+                      android:id="@+id/det_room_key"></TextView>
+            <RelativeLayout android:layout_width="match_parent" android:layout_height="50dp">
+                <TextView android:layout_width="80dp" android:layout_height="wrap_content"
+                          android:textSize="12dp" android:text="直播类目：高血压预防" android:id="@+id/det_room_type" android:textColor="@color/textColor_vo"></TextView>
+                <TextView android:layout_width="50dp" android:layout_height="wrap_content" android:text="|" android:textSize="16dp" android:gravity="center" android:textColor="@color/textColor_vo" android:layout_toRightOf="@+id/det_room_type" android:id="@+id/det_split_char"></TextView>
+                <TextView android:layout_width="100dp" android:layout_height="wrap_content" android:text="30人想看" android:textSize="12dp" android:id="@+id/det_room_watchnum" android:textColor="@color/textColor_vo" android:layout_toRightOf="@+id/det_split_char" android:gravity="center_vertical"></TextView>
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="2020-5-9 18:00 开始"
+                          android:textSize="12dp" android:id="@+id/det_live_time" android:textColor="@color/textColor_vo" android:layout_below="@+id/det_room_type"></TextView>
+                <Button android:layout_width="80dp" android:layout_height="30dp" android:text="进入直播"
+                        android:background="@color/groabColor" android:layout_alignParentBottom="true"
+                        android:layout_alignParentRight="true" android:id="@+id/go_liveroom_btn"></Button>
+            </RelativeLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+    <com.barnettwong.dragfloatactionbuttonlibrary.view.DragFloatActionButton
+            android:id="@+id/room_det_live"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="50dp"
+            android:layout_marginRight="20dp"
+            android:clickable="true"
+            android:src="@mipmap/live" />
+</RelativeLayout>

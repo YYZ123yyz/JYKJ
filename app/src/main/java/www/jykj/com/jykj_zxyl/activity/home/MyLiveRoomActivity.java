@@ -40,6 +40,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import www.jykj.com.jykj_zxyl.R;
+import www.jykj.com.jykj_zxyl.activity.myself.couponFragment.FragmentAdapter;
+import www.jykj.com.jykj_zxyl.fragment.liveroom.HotRoomFragment;
+import www.jykj.com.jykj_zxyl.fragment.liveroom.PreRoomFragment;
+import www.jykj.com.jykj_zxyl.fragment.liveroom.SubjectRoomFragment;
 import www.jykj.com.jykj_zxyl.util.ActivityUtil;
 import yyz_exploit.activity.LivePushActivity;
 
@@ -57,7 +61,7 @@ public class MyLiveRoomActivity extends AppCompatActivity implements View.OnClic
     private List<Fragment> fs1 = new ArrayList<>();
     private LinearLayout lin_room;
     private TextView live_tv;
-    private XRecyclerView room_recy;
+    //private XRecyclerView room_recy;
 
     //数据集合
     private List<String >list=new ArrayList<>();
@@ -69,6 +73,10 @@ public class MyLiveRoomActivity extends AppCompatActivity implements View.OnClic
     private RelativeLayout parentView;
     private DragFloatActionButton live;
     private TextView room_lecture;
+    private ViewPager roompager;
+    private List<Fragment> fragmentList;
+    private FragmentAdapter fragmentAdapter;
+    private List<String> mTitles;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -105,6 +113,17 @@ public class MyLiveRoomActivity extends AppCompatActivity implements View.OnClic
                 startActivity(intent);
             }
         });
+
+        fragmentList = new ArrayList();
+        fragmentList.add(new PreRoomFragment());
+        fragmentList.add(new HotRoomFragment());
+        fragmentList.add(new SubjectRoomFragment());
+        mTitles = new ArrayList();
+        mTitles.add("直播预报");
+        mTitles.add("正在热播");
+        mTitles.add("专题讲座");
+
+        fragmentAdapter = new FragmentAdapter(getSupportFragmentManager(),fragmentList,mTitles);
 
         live_banner = findViewById(R.id.live_banner);
         List imgs=new ArrayList<>();
@@ -155,9 +174,16 @@ public class MyLiveRoomActivity extends AppCompatActivity implements View.OnClic
 //必须最后调用的方法，启动轮播图。
 
                 .start();
+        roompager = findViewById(R.id.roompager);
+        roompager.setAdapter(fragmentAdapter);
+        live_banner.setOnBannerListener(new OnBannerListener() {
+            @Override
+            public void OnBannerClick(int position) {
+                roompager.setCurrentItem(position);
+            }
+        });
 
-
-        room_recy = findViewById(R.id.room_recy);
+        /*room_recy = findViewById(R.id.room_recy);
         LinearLayoutManager layoutManager=new LinearLayoutManager(MyLiveRoomActivity.this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         room_recy.setLayoutManager(layoutManager);
@@ -184,7 +210,7 @@ public class MyLiveRoomActivity extends AppCompatActivity implements View.OnClic
                 getData(curr);
                 room_recy.refreshComplete();
             }
-        });
+        });*/
 
 
 
