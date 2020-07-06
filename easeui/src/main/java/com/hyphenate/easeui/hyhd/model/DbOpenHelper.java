@@ -21,7 +21,7 @@ import com.hyphenate.easeui.hyhd.DemoHelper;
 
 
 public class DbOpenHelper extends SQLiteOpenHelper{
-	private 	static 	Context		mContext;
+	//private 	static 	Context		mContext;
 	private static final int DATABASE_VERSION = 6;
 	private static DbOpenHelper instance;
 
@@ -61,7 +61,7 @@ public class DbOpenHelper extends SQLiteOpenHelper{
 	
 	public static DbOpenHelper getInstance(Context context) {
 		if (instance == null) {
-			instance = new DbOpenHelper(mContext);
+			instance = new DbOpenHelper(context);
 		}
 		return instance;
 	}
@@ -70,9 +70,9 @@ public class DbOpenHelper extends SQLiteOpenHelper{
         return  DemoHelper.getInstance().getCurrentUsernName() + "_demo.db";
     }
 
-	public static void setContext(Context applicationContext) {
+	/*public void setContext(Context applicationContext) {
 		mContext = applicationContext;
-	}
+	}*/
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {

@@ -18,8 +18,8 @@ import java.util.Map;
 
 public class DemoDBManager {
     static private DemoDBManager dbMgr = new DemoDBManager();
-    private static DbOpenHelper dbHelper;
-    public static Context     mContext;
+    private DbOpenHelper dbHelper;
+    private  Context     mContext;
     
     private DemoDBManager(){
 
@@ -32,7 +32,7 @@ public class DemoDBManager {
         return dbMgr;
     }
 
-    public static void setContext(Context applicationContext) {
+    public void setContext(Context applicationContext) {
         mContext = applicationContext;
         dbHelper = DbOpenHelper.getInstance(mContext);
     }

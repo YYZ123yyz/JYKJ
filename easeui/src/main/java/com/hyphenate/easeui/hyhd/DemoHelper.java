@@ -186,7 +186,8 @@ public class DemoHelper {
 //        options.setRestServer("a1-hsb.easemob.com");
 //        options.setIMServer("39.107.54.56");
 //        options.setImPort(6717);
-
+        //DemoDBManager.getInstance();
+        //DemoDBManager.setContext(context);
 	    //use default options if options is null
 		if (EaseUI.getInstance().init(context, options)) {
 		    appContext = context;
@@ -1310,6 +1311,28 @@ public class DemoHelper {
 			public void onMessageReceived(List<EMMessage> messages) {
 			    for (EMMessage message : messages) {
                     EMLog.d(TAG, "onMessageReceived id : " + message.getMsgId());
+                    String nickName = message.getStringAttribute("nickName", "");
+                    String imageUrl = message.getStringAttribute("imageUrl", "");
+                    String hxIdFrom = message.getFrom();
+                    EaseUser easeUser = new EaseUser(hxIdFrom);
+                    easeUser.setAvatar(imageUrl);
+                    easeUser.setNickname(nickName);
+                    // 存入内存
+                    getContactList();
+                    contactList.put(hxIdFrom, easeUser);
+                    // 存入db
+                    UserDao dao = new UserDao(appContext);
+                    List<EaseUser> users = new ArrayList<EaseUser>();
+                    users.add(easeUser);
+                    dao.saveContactList(users);
+
+                    getModel().setContactSynced(true);
+
+                    // 通知listeners联系人同步完毕
+                    notifyContactsSyncListener(true);
+                    if (isGroupsSyncedWithServer()) {
+                        noitifyGroupSyncListeners(true);
+                    }
                     // 判断一下是否是会议邀请
                     String confId = message.getStringAttribute(Constant.MSG_ATTR_CONF_ID, "");
                     if(!"".equals(confId)){
