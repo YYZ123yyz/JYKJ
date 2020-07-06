@@ -77,6 +77,10 @@ public class MyLiveRoomActivity extends AppCompatActivity implements View.OnClic
     private List<Fragment> fragmentList;
     private FragmentAdapter fragmentAdapter;
     private List<String> mTitles;
+    private TextView room_forecast;
+    private TextView room_Hit;
+    private TextView room_Lecture;
+    private TextView room_text;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -94,16 +98,31 @@ public class MyLiveRoomActivity extends AppCompatActivity implements View.OnClic
                 startActivity(intent);
 
                 break;
+            case R.id.room_forecast:
+                roompager.setCurrentItem(0);
+                room_text.setText("直播预报");
+                break;
+            case R.id.room_Hit:
+                roompager.setCurrentItem(1);
+                room_text.setText("正在热播");
+                break;
             case R.id.room_Lecture:
-                Intent intent3 = new Intent(this, LectureActivity.class);
-                startActivity(intent3);
+                /*Intent intent3 = new Intent(this, LectureActivity.class);
+                startActivity(intent3);*/
+                roompager.setCurrentItem(2);
+                room_text.setText("专题讲座");
                 break;
         }
     }
     private void initView(){
+        room_text = findViewById(R.id.room_text);
         //专题讲座
         room_lecture = findViewById(R.id.room_Lecture);
         room_lecture.setOnClickListener(this);
+        room_Hit = findViewById(R.id.room_Hit);
+        room_Hit.setOnClickListener(this);
+        room_forecast = findViewById(R.id.room_forecast);
+        room_forecast.setOnClickListener(this);
         //我主讲
         room_my = findViewById(R.id.room_my);
         room_my.setOnClickListener(new View.OnClickListener() {
@@ -268,7 +287,12 @@ public class MyLiveRoomActivity extends AppCompatActivity implements View.OnClic
         public void displayImage(Context context, Object path, ImageView imageView) {
 
             Glide.with(context).load((String) path).into(imageView);
-
+           /* imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.i("imgv",String.valueOf(v.getId()));
+                }
+            });*/
         }
 
     }
