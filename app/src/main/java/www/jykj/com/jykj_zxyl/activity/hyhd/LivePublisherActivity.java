@@ -345,6 +345,9 @@ public class LivePublisherActivity extends ChatPopDialogActivity implements View
             Toast.makeText(getApplicationContext(), "推流地址不合法，目前支持rtmp推流!", Toast.LENGTH_SHORT).show();
             return false;
         }
+        if(mVideoSrc != VIDEO_SRC_SCREEN){
+            mCaptureView.setVisibility(View.VISIBLE);
+        }
         int customModeType = 0;
         onActivityRotation();
         mLivePushConfig.setCustomModeType(customModeType);
