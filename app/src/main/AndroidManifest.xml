@@ -341,13 +341,17 @@
             android:name="orcameralib.CameraActivity"
             android:screenOrientation="portrait" /> <!-- 设置环信应用的AppKey -->
         <!-- <meta-data android:name="EASEMOB_APPKEY"  android:value="Your AppKey" /> -->
-        <activity
+        <!--<activity
             android:name="com.jykj.live.lvb.camerapush.CameraPusherActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:windowSoftInputMode="adjustPan|stateHidden" />
+            android:windowSoftInputMode="adjustPan|stateHidden" />-->
         <activity
-            android:name="com.jykj.live.lvb.liveplayer.LivePlayerActivity"
+            android:name="www.jykj.com.jykj_zxyl.activity.hyhd.LivePublisherActivity"
             android:screenOrientation="portrait" />
+        <activity
+                android:name="www.jykj.com.jykj_zxyl.activity.liveroom.LiveroomDetailActivity"
+                android:screenOrientation="portrait" />
+
         <activity
             android:name="com.tencent.rtmp.video.TXScreenCapture$TXScreenCaptureAssistantActivity"
             android:theme="@android:style/Theme.Translucent" />
@@ -365,14 +369,6 @@
         <meta-data
             android:name="BUGLY_ENABLE_DEBUG"
             android:value="true" />
-
-        <activity
-            android:name="com.jykj.live.lvb.liveroom.ui.LiveRoomActivity"
-            android:label="@string/title_activity_rtmp_room_demo"
-            android:screenOrientation="portrait"
-            android:theme="@style/RtmproomActivityTheme"
-            android:windowSoftInputMode="adjustNothing" />
-
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="***.fileProvider"

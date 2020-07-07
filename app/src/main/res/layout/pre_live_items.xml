@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical"
+              android:background="@color/pBackColor">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                  android:layout_margin="3dp" android:orientation="horizontal" android:layout_marginLeft="10dp" android:layout_marginRight="10dp">
+        <RelativeLayout android:layout_width="135dp" android:layout_height="80dp">
+            <ImageView android:layout_width="match_parent" android:layout_height="match_parent" android:src="@mipmap/cover_demo" android:id="@+id/pre_live_btn">
+            </ImageView>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:layout_alignParentRight="true" android:layout_alignParentBottom="true" android:layout_marginBottom="2dp" android:layout_marginRight="5dp"
+                      android:textColor="@color/writeColor" android:text="视频直播" android:background="@color/textColor_vo"></TextView>
+        </RelativeLayout>
+        <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_weight="1">
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:id="@+id/pre_live_title" android:text="高血压患者、和健康人群的干预 方法">
+            </TextView>
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_below="@+id/pre_live_title" android:id="@+id/pre_live_desc" android:text="营养学专家教你如何吃出健康血压" android:textColor="@color/textColor_vo">
+            </TextView>
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_below="@+id/pre_live_desc" android:text="类目：高血压预防" android:id="@+id/pre_live_catalog" android:textColor="@color/textColor_vo"></TextView>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_below="@+id/pre_live_catalog" android:text="观看人数：200" android:layout_alignParentLeft="true" android:id="@+id/pre_watch_num" android:textColor="@color/textColor_vo"></TextView>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_below="@+id/pre_live_catalog" android:layout_marginRight="10dp" android:text="￥40.00" android:id="@+id/pre_live_price" android:textColor="@color/btn_red" android:layout_alignParentRight="true"></TextView>
+        </RelativeLayout>
+    </LinearLayout>
+</LinearLayout>

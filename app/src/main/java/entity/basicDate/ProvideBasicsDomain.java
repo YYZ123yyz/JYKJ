@@ -14,6 +14,7 @@ public class ProvideBasicsDomain implements java.io.Serializable {
 	private String baseName;//基础名称
 	private Integer attrCode;//属性编码
 	private String attrName;//属性名称
+	private String selectState = "0";
 
 
 	public Integer getBasicsDomainId() {
@@ -54,5 +55,13 @@ public class ProvideBasicsDomain implements java.io.Serializable {
 
 	public void setAttrName(String attrName) {
 		this.attrName = attrName;
+	}
+
+	public String getSelectState() {
+		return selectState;
+	}
+
+	public void setSelectState(String selectState) {
+		this.selectState = selectState;
 	}
 }

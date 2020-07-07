@@ -1,4 +1,4 @@
-//package com.hyphenate.easeui;
+package com.hyphenate.easeui;//package com.hyphenate.easeui;
 //
 //import android.app.Activity;
 //import android.content.ContentValues;

@@ -5,14 +5,14 @@ android {
         debug {
             keyAlias 'JYKJ'
             keyPassword 'JYKJ123456'
-            storeFile file('F:/yangyunze/JYKJcode/app/src/main/yyz.jks')
+            storeFile file('E:/tmpwork/git/doctorcode/Doctor/app/src/main/yyz.jks')
             storePassword 'JYKJ123456'
         }
 
         release {
             keyAlias 'JYKJ'
             keyPassword 'JYKJ123456'
-            storeFile file('F:/yangyunze/JYKJcode/app/src/main/yyz.jks')
+            storeFile file('E:/tmpwork/git/doctorcode/Doctor/app/src/main/yyz.jks')
             storePassword 'JYKJ123456'
             v2SigningEnabled false
         }
@@ -99,7 +99,7 @@ dependencies {
     implementation files('libs/universal-image-loader-1.8.6-with-sources.jar')
     implementation files('libs/mi_push_v3.6.12.jar')
     implementation files('libs/core-3.3.3.jar')
-    implementation files('libs/fastjson-1.2.49.jar')
+    //implementation files('libs/fastjson-1.2.49.jar')
     implementation 'com.github.bumptech.glide:glide:3.7.0'
     implementation files('libs/jsoup-1.12.2.jar')
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
@@ -118,7 +118,9 @@ dependencies {
 
     //直播SDK
     //implementation 'com.tencent.liteavsdk:LiteAVSDK_Smart:latest.release'
-
+    //直播SDK
+    implementation 'com.tencent.liteavsdk:LiteAVSDK_Smart:latest.release'      // LiteAV SDK
+    implementation 'com.tencent.imsdk:imsdk:4.4.900'
     //Fresco
     implementation 'com.facebook.fresco:fresco:1.9.0'
     //Banner轮播图
@@ -129,7 +131,7 @@ dependencies {
     //直播SDK
     implementation 'com.tencent.bugly:crashreport:3.1.0'
     implementation 'com.tencent.bugly:nativecrashreport:3.7.0'
-    compile project(':lvb')
+    //compile project(':lvb')
     configurations {
         implementation.exclude group: 'com.google.zxing'
     }

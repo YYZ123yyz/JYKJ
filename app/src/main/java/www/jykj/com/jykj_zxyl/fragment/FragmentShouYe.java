@@ -223,7 +223,8 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
                         break;
                     case 2:
                         netRetEntity = JSON.parseObject(mNetRetStr, NetRetEntity.class);
-                        ProvideMsgPushReminderCount mProvideMsgPushReminderCount = JSON.parseObject(netRetEntity.getResJsonData(), ProvideMsgPushReminderCount.class);
+                        ProvideMsgPushReminderCount mProvideMsgPushReminderCount = null;
+                        //ProvideMsgPushReminderCount mProvideMsgPushReminderCount = JSON.parseObject(netRetEntity.getResJsonData(), ProvideMsgPushReminderCount.class);
                         if(mProvideMsgPushReminderCount==null){
                            mNewMessageLayout.setVisibility(View.GONE);
                        }
