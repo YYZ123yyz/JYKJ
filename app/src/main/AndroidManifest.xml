@@ -61,7 +61,6 @@
         <activity android:name="yyz_exploit.activity.activity.DetailsActivity" />
         <activity android:name="yyz_exploit.activity.activity.UntieActivity" />
         <activity android:name="yyz_exploit.activity.activity.HelpActivity" /> <!-- 帮助与反馈页面 -->
-        <activity android:name="yyz_exploit.activity.activity.LivefAudienceActivity" />
         <activity android:name="yyz_exploit.activity.activity.ResActivity" />
         <activity android:name="yyz_exploit.activity.Myself_Service" /> <!-- 用户登录 -->
         <activity android:name=".activity.LoginActivity" /> <!-- 手机号登录 -->

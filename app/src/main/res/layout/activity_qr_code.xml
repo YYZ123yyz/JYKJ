@@ -61,8 +61,8 @@
 
             <ImageView
                 android:id="@+id/iv_ew_code"
-                android:layout_width="180dp"
-                android:layout_height="182dp"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
                 android:layout_gravity="center_horizontal" />
 
             <LinearLayout

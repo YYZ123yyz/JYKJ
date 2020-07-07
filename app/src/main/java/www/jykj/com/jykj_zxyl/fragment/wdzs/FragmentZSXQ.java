@@ -1,5 +1,6 @@
 package www.jykj.com.jykj_zxyl.fragment.wdzs;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -55,6 +56,7 @@ import www.jykj.com.jykj_zxyl.adapter.MyClinicZSZKZLAdapter;
 import www.jykj.com.jykj_zxyl.adapter.TWJZNoFinishRecycleAdapter;
 import www.jykj.com.jykj_zxyl.application.Constant;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
+import yyz_exploit.adapter.FinishRecycleAdapter;
 
 
 /**
@@ -74,6 +76,8 @@ public class FragmentZSXQ extends Fragment {
     private RecyclerView mNoFinishRecycleView;              //未完成列表
     private LinearLayoutManager layoutManager;
     private TWJZNoFinishRecycleAdapter mTWJZNoFinishRecycleAdapter;       //适配器
+    private FinishRecycleAdapter mFinishRecycleAdapter;       //适配器
+
     private List<HZIfno> mHZEntyties = new ArrayList<>();            //所有数据
     private ProvideDoctorSetServiceState mProvideDoctorSetServiceState;
 
@@ -158,108 +162,6 @@ public class FragmentZSXQ extends Fragment {
         mNoFinishRecycleView.setLayoutManager(layoutManager);
         //如果可以确定每个item的高度是固定的，设置这个选项可以提高性能
         mNoFinishRecycleView.setHasFixedSize(true);
-        //创建并设置Adapter
-        mTWJZNoFinishRecycleAdapter = new TWJZNoFinishRecycleAdapter(provideViewInteractOrderTreatmentAndPatientInterrogations, mContext);
-        mNoFinishRecycleView.setAdapter(mTWJZNoFinishRecycleAdapter);
-        //问诊信息
-        mTWJZNoFinishRecycleAdapter.setOnWZXXItemClickListener(new TWJZNoFinishRecycleAdapter.OnWZXXItemClickListener() {
-            @Override
-            public void onClick(int position) {
-                startActivity(new Intent(mContext, WZXXActivity.class).putExtra("wzxx", provideViewInteractOrderTreatmentAndPatientInterrogations.get(position)));
-            }
-
-            @Override
-            public void onLongClick(int position) {
-
-            }
-        });
-        mTWJZNoFinishRecycleAdapter.setOnHYHDItemClickListener(new TWJZNoFinishRecycleAdapter.OnHYHDItemClickListener() {
-            @Override
-            public void onClick(int position) {
-                switch (mType) {
-                    case 1:
-                        Intent intent = new Intent();
-                        intent.setClass(mContext, ChatActivity.class);
-                        intent.putExtra("userCode", provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getPatientCode());
-                        intent.putExtra("userName", provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getPatientName());
-                        intent.putExtra("chatType", "twjz");
-
-                        intent.putExtra("loginDoctorPosition", mApp.loginDoctorPosition);
-                        intent.putExtra("operDoctorCode", mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
-                        intent.putExtra("operDoctorName", mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
-                        intent.putExtra("orderCode", provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getOrderCode());
-
-                        intent.putExtra(EaseConstant.EXTRA_MESSAGE_NUM, provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getLimitImgTextShow());           //消息数量
-                        intent.putExtra(EaseConstant.EXTRA_VOICE_NUM, provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getLimitAudioShow());           //音频时长（单位：秒）
-                        intent.putExtra(EaseConstant.EXTRA_VEDIO_NUM, provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getLimitVideoShow());           //视频时长（单位：秒）
-                        startActivity(intent);
-                        break;
-                    case 2:
-                        if (provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getLimitAudioShow() <= 0) {
-                            Toast.makeText(getContext(), "语音时长已用尽", Toast.LENGTH_LONG).show();
-                            return;
-                        }
-                        startActivity(new Intent(getActivity(), VoiceCallActivity.class)
-                                .putExtra("username", provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getPatientCode())
-                                .putExtra("isComingCall", false)
-                                .putExtra("nickName", provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getPatientName())
-                                .putExtra("voiceNum", provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getLimitAudioShow()));
-                        break;
-                    case 3:
-                        if (provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getLimitVideoShow() <= 0) {
-                            Toast.makeText(getContext(), "视频时长已用尽", Toast.LENGTH_LONG).show();
-                            return;
-                        }
-                        int time = provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getLimitVideoShow();
-                        startActivity(new Intent(getActivity(), VideoCallActivity.class)
-                                .putExtra("username", provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getPatientCode())
-                                .putExtra("isComingCall", false)
-                                .putExtra("vedioNum", provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getLimitVideoShow()));
-                        break;
-                    case 4:
-                        intent = new Intent();
-                        intent.setClass(mContext, ChatActivity.class);
-                        intent.putExtra("userCode", provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getPatientCode());
-                        intent.putExtra("userName", provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getPatientName());
-
-                        intent.putExtra("loginDoctorPosition", mApp.loginDoctorPosition);
-                        intent.putExtra("operDoctorCode", mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
-                        intent.putExtra("operDoctorName", mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
-                        intent.putExtra("orderCode", provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getOrderCode());
-
-                        intent.putExtra(EaseConstant.EXTRA_MESSAGE_NUM, provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getLimitImgTextShow());           //消息数量
-                        intent.putExtra(EaseConstant.EXTRA_VOICE_NUM, provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getLimitAudioShow());           //音频时长（单位：秒）
-                        intent.putExtra(EaseConstant.EXTRA_VEDIO_NUM, provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getLimitVideoShow());           //视频时长（单位：秒）
-                        startActivity(intent);
-                        break;
-                    case 5:
-                        intent = new Intent(Intent.ACTION_CALL);
-                        Uri data = Uri.parse("tel:" + provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getInterrogationPatientLinkPhone());
-                        intent.setData(data);
-                        startActivity(intent);
-
-                }
-
-
-            }
-
-            @Override
-            public void onLongClick(int position) {
-
-            }
-        });
-        //病例详情
-        mTWJZNoFinishRecycleAdapter.setOnKJCFItemClickListener(new TWJZNoFinishRecycleAdapter.OnKJCFItemClickListener() {
-            @Override
-            public void onClick(int position) {
-                startActivity(new Intent(mContext, WDZS_WZXQActivity.class).putExtra("wzxx", provideViewInteractOrderTreatmentAndPatientInterrogations.get(position)));
-            }
-
-            @Override
-            public void onLongClick(int position) {
-
-            }
-        });
 
     }
 
@@ -304,7 +206,12 @@ public class FragmentZSXQ extends Fragment {
                         mDHJZImage.setImageResource(R.mipmap.dh_no);
                     else
                         mDHJZImage.setImageResource(R.mipmap.phone_no);
-                    getWWCData();
+                    if(mModel==1){
+                        getWWCData();
+                    }else if(mModel==2){
+                        getYWCData();
+                    }
+
                     break;
                 case R.id.li_ypjz:
                     if (mProvideDoctorSetServiceState.getFlagAudio() == 0) {
@@ -331,7 +238,12 @@ public class FragmentZSXQ extends Fragment {
                             mDHJZImage.setImageResource(R.mipmap.phone_no);
                     }
                     mType = 2;
-                    getWWCData();
+                    if(mModel==1){
+                        getWWCData();
+                    }else if(mModel==2){
+                        getYWCData();
+                    }
+
                     break;
                 case R.id.li_spjz:
                     if (mProvideDoctorSetServiceState.getFlagVideo() == 0) {
@@ -357,7 +269,12 @@ public class FragmentZSXQ extends Fragment {
                             mDHJZImage.setImageResource(R.mipmap.phone_no);
                     }
                     mType = 3;
-                    getWWCData();
+                    if(mModel==1){
+                        getWWCData();
+                    }else if(mModel==2){
+                        getYWCData();
+                    }
+
                     break;
                 case R.id.li_qyfw:
                     if (mProvideDoctorSetServiceState.getFlagSigning() == 0) {
@@ -388,7 +305,12 @@ public class FragmentZSXQ extends Fragment {
                             mDHJZImage.setImageResource(R.mipmap.phone_no);
                     }
                     mType = 4;
-                    getWWCData();
+                    if(mModel==1){
+                        getWWCData();
+                    }else if(mModel==2){
+                        getYWCData();
+                    }
+
                     break;
                 case R.id.li_dhjz:
                     if (mProvideDoctorSetServiceState.getFlagPhone() == 0) {
@@ -419,7 +341,12 @@ public class FragmentZSXQ extends Fragment {
 //                            mDHJZImage.setImageResource(R.mipmap.phone_no);
                     }
                     mType = 5;
-                    getWWCData();
+                    if(mModel==1){
+                        getWWCData();
+                    }else if(mModel==2){
+                        getYWCData();
+                    }
+
                     break;
             }
         }
@@ -455,6 +382,7 @@ public class FragmentZSXQ extends Fragment {
     }
 
 
+    @SuppressLint("HandlerLeak")
     private void initHandler() {
         mHandler = new Handler() {
             @Override
@@ -480,31 +408,148 @@ public class FragmentZSXQ extends Fragment {
                             Toast.makeText(mContext, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
                         } else {
                             provideViewInteractOrderTreatmentAndPatientInterrogations = JSON.parseArray(netRetEntity.getResJsonData(), ProvideViewInteractOrderTreatmentAndPatientInterrogation.class);
+                            //创建并设置Adapter
+                            mTWJZNoFinishRecycleAdapter = new TWJZNoFinishRecycleAdapter(provideViewInteractOrderTreatmentAndPatientInterrogations, mContext);
+                            mNoFinishRecycleView.setAdapter(mTWJZNoFinishRecycleAdapter);
+                            //问诊信息
+                            mTWJZNoFinishRecycleAdapter.setOnWZXXItemClickListener(new TWJZNoFinishRecycleAdapter.OnWZXXItemClickListener() {
+                                @Override
+                                public void onClick(int position) {
+                                    startActivity(new Intent(mContext, WZXXActivity.class).putExtra("wzxx", provideViewInteractOrderTreatmentAndPatientInterrogations.get(position)));
+                                }
 
+                                @Override
+                                public void onLongClick(int position) {
+
+                                }
+                            });
+                            mTWJZNoFinishRecycleAdapter.setOnHYHDItemClickListener(new TWJZNoFinishRecycleAdapter.OnHYHDItemClickListener() {
+                                @Override
+                                public void onClick(int position) {
+                                    switch (mType) {
+                                        case 1:
+                                            Intent intent = new Intent();
+                                            intent.setClass(mContext, ChatActivity.class);
+                                            intent.putExtra("userCode", provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getPatientCode());
+                                            intent.putExtra("userName", provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getPatientName());
+                                            intent.putExtra("chatType", "twjz");
+
+                                            intent.putExtra("loginDoctorPosition", mApp.loginDoctorPosition);
+                                            intent.putExtra("operDoctorCode", mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
+                                            intent.putExtra("operDoctorName", mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
+                                            intent.putExtra("orderCode", provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getOrderCode());
+
+                                            intent.putExtra(EaseConstant.EXTRA_MESSAGE_NUM, provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getLimitImgTextShow());           //消息数量
+                                            intent.putExtra(EaseConstant.EXTRA_VOICE_NUM, provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getLimitAudioShow());           //音频时长（单位：秒）
+                                            intent.putExtra(EaseConstant.EXTRA_VEDIO_NUM, provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getLimitVideoShow());           //视频时长（单位：秒）
+                                            startActivity(intent);
+                                            break;
+                                        case 2:
+                                            if (provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getLimitAudioShow() <= 0) {
+                                                Toast.makeText(getContext(), "语音时长已用尽", Toast.LENGTH_LONG).show();
+                                                return;
+                                            }
+                                            startActivity(new Intent(getActivity(), VoiceCallActivity.class)
+                                                    .putExtra("username", provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getPatientCode())
+                                                    .putExtra("isComingCall", false)
+                                                    .putExtra("nickName", provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getPatientName())
+                                                    .putExtra("voiceNum", provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getLimitAudioShow()));
+                                            break;
+                                        case 3:
+                                            if (provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getLimitVideoShow() <= 0) {
+                                                Toast.makeText(getContext(), "视频时长已用尽", Toast.LENGTH_LONG).show();
+                                                return;
+                                            }
+                                            int time = provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getLimitVideoShow();
+                                            startActivity(new Intent(getActivity(), VideoCallActivity.class)
+                                                    .putExtra("username", provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getPatientCode())
+                                                    .putExtra("isComingCall", false)
+                                                    .putExtra("vedioNum", provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getLimitVideoShow()));
+                                            break;
+                                        case 4:
+                                            intent = new Intent();
+                                            intent.setClass(mContext, ChatActivity.class);
+                                            intent.putExtra("userCode", provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getPatientCode());
+                                            intent.putExtra("userName", provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getPatientName());
+
+                                            intent.putExtra("loginDoctorPosition", mApp.loginDoctorPosition);
+                                            intent.putExtra("operDoctorCode", mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
+                                            intent.putExtra("operDoctorName", mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
+                                            intent.putExtra("orderCode", provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getOrderCode());
+
+                                            intent.putExtra(EaseConstant.EXTRA_MESSAGE_NUM, provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getLimitImgTextShow());           //消息数量
+                                            intent.putExtra(EaseConstant.EXTRA_VOICE_NUM, provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getLimitAudioShow());           //音频时长（单位：秒）
+                                            intent.putExtra(EaseConstant.EXTRA_VEDIO_NUM, provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getLimitVideoShow());           //视频时长（单位：秒）
+                                            startActivity(intent);
+                                            break;
+                                        case 5:
+                                            intent = new Intent(Intent.ACTION_CALL);
+                                            Uri data = Uri.parse("tel:" + provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getInterrogationPatientLinkPhone());
+                                            intent.setData(data);
+                                            startActivity(intent);
+
+                                    }
+
+
+                                }
+
+                                @Override
+                                public void onLongClick(int position) {
+
+                                }
+                            });
+                            //病例详情
+                            mTWJZNoFinishRecycleAdapter.setOnKJCFItemClickListener(new TWJZNoFinishRecycleAdapter.OnKJCFItemClickListener() {
+                                @Override
+                                public void onClick(int position) {
+                                    startActivity(new Intent(mContext, WDZS_WZXQActivity.class).putExtra("wzxx", provideViewInteractOrderTreatmentAndPatientInterrogations.get(position)));
+                                }
+
+                                @Override
+                                public void onLongClick(int position) {
+
+                                }
+                            });
                             mTWJZNoFinishRecycleAdapter.setDate(provideViewInteractOrderTreatmentAndPatientInterrogations);
                             mTWJZNoFinishRecycleAdapter.notifyDataSetChanged();
+                        }
+                        break;
+                    case 2:
+                        cacerProgress();
+                        netRetEntity = JSON.parseObject(mNetRetStr, NetRetEntity.class);
+                        if (netRetEntity.getResCode() == 0) {
+                            Toast.makeText(mContext, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
+                        } else {
+                            provideViewInteractOrderTreatmentAndPatientInterrogations = JSON.parseArray(netRetEntity.getResJsonData(), ProvideViewInteractOrderTreatmentAndPatientInterrogation.class);
+                            //创建并设置Adapter
+                            mFinishRecycleAdapter = new FinishRecycleAdapter(provideViewInteractOrderTreatmentAndPatientInterrogations, mContext);
+                            mNoFinishRecycleView.setAdapter(mFinishRecycleAdapter);
+                            //问诊信息
+                            mFinishRecycleAdapter.setOnWZXXItemClickListener(new FinishRecycleAdapter.OnWZXXItemClickListener() {
+                                @Override
+                                public void onClick(int position) {
+                                    startActivity(new Intent(mContext, WZXXActivity.class).putExtra("wzxx", provideViewInteractOrderTreatmentAndPatientInterrogations.get(position)));
+                                }
 
+                                @Override
+                                public void onLongClick(int position) {
 
-                            //加载更多
-//                            refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
-//                                @Override
-//                                public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
-//                                    mPageNum++;
-//                                    getWWCData();
-//                                    mTWJZNoFinishRecycleAdapter.notifyDataSetChanged();
-//                                    refreshLayout.finishLoadMore(true);//加载完成
-//                                }
-//                            });
-//                            //刷新
-//                            refreshLayout.setOnRefreshListener(new OnRefreshListener() {
-//                                @Override
-//                                    public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-//                                    provideViewInteractOrderTreatmentAndPatientInterrogations.clear();
-//                                    getWWCData();
-//                                    mTWJZNoFinishRecycleAdapter.notifyDataSetChanged();
-//                                    refreshLayout.finishRefresh(true);//刷新完成
-//                                }
-//                            });
+                                }
+                            });
+                            //病例详情
+                            mFinishRecycleAdapter.setOnKJCFItemClickListener(new FinishRecycleAdapter.OnKJCFItemClickListener() {
+                                @Override
+                                public void onClick(int position) {
+                                    startActivity(new Intent(mContext, WDZS_WZXQActivity.class).putExtra("wzxx", provideViewInteractOrderTreatmentAndPatientInterrogations.get(position)));
+                                }
+
+                                @Override
+                                public void onLongClick(int position) {
+
+                                }
+                            });
+                            mFinishRecycleAdapter.setDate(provideViewInteractOrderTreatmentAndPatientInterrogations);
+                            mFinishRecycleAdapter.notifyDataSetChanged();
                         }
                         break;
                 }
@@ -604,7 +649,7 @@ public class FragmentZSXQ extends Fragment {
                     mNetRetStr = new Gson().toJson(retEntity);
                     e.printStackTrace();
                 }
-                mHandler.sendEmptyMessage(1);
+                mHandler.sendEmptyMessage(2);
             }
         }.start();
     }
