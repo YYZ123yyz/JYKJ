@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import com.bumptech.glide.Glide;
 import entity.liveroom.HotLiveInfo;
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.util.StrUtils;
@@ -31,11 +32,14 @@ public class HotLiveAdapter extends RecyclerView.Adapter<HotLiveAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         HotLiveInfo parinfo = datas.get(i);
-        viewHolder.live_catalog.setText("类目:"+StrUtils.defaulObjToStr(parinfo.getBroadcastTypeName()));
+        viewHolder.live_catalog.setText("类目:"+StrUtils.defaulObjToStr(parinfo.getClassName()));
         viewHolder.live_desc.setText(StrUtils.defaulObjToStr(parinfo.getKeywordsName()));
         viewHolder.live_price.setText(StrUtils.defaulObjToStr(parinfo.getExtendBroadcastPriceShow()));
         viewHolder.live_title.setText(StrUtils.defaulObjToStr(parinfo.getBroadcastTitle()));
-        viewHolder.watch_num.setText(StrUtils.defaulObjToStr(parinfo.getExtendBroadcastWatchNum()));
+        viewHolder.watch_num.setText("想看人数："+StrUtils.defaulObjToStr(parinfo.getExtendBroadcastWatchNum()));
+        if(StrUtils.defaulObjToStr(parinfo.getBroadcastCoverImgUrl()).length()>0){
+            Glide.with(viewHolder.hot_live_cover.getContext()).load(parinfo.getBroadcastCoverImgUrl()).into(viewHolder.hot_live_cover);
+        }
         viewHolder.play_live_btn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -57,6 +61,7 @@ public class HotLiveAdapter extends RecyclerView.Adapter<HotLiveAdapter.ViewHold
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
+        public ImageView hot_live_cover;
         public ImageView play_live_btn;
         public TextView live_title;
         public TextView live_desc;
@@ -65,6 +70,7 @@ public class HotLiveAdapter extends RecyclerView.Adapter<HotLiveAdapter.ViewHold
         public TextView live_price;
         public ViewHolder(View view){
             super(view);
+            hot_live_cover = view.findViewById(R.id.hot_live_cover);
             play_live_btn = view.findViewById(R.id.play_live_btn);
             live_title = view.findViewById(R.id.live_title);
             live_desc = view.findViewById(R.id.live_desc);

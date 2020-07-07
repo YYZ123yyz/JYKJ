@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import com.bumptech.glide.Glide;
 import entity.liveroom.PreLiveInfo;
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.util.StrUtils;
@@ -31,11 +32,14 @@ public class PreLiveAdapter extends RecyclerView.Adapter<PreLiveAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         PreLiveInfo parinfo = datas.get(i);
-        viewHolder.pre_live_catalog.setText("类目:"+ StrUtils.defaulObjToStr(parinfo.getBroadcastTypeName()));
+        viewHolder.pre_live_catalog.setText("类目:"+ StrUtils.defaulObjToStr(parinfo.getClassName()));
         viewHolder.pre_live_desc.setText(StrUtils.defaulObjToStr(parinfo.getKeywordsName()));
         viewHolder.pre_live_price.setText(StrUtils.defaulObjToStr(parinfo.getExtendBroadcastPriceShow()));
         viewHolder.pre_live_title.setText(StrUtils.defaulObjToStr(parinfo.getBroadcastTitle()));
-        viewHolder.pre_watch_num.setText(StrUtils.defaulObjToStr(parinfo.getExtendBroadcastFollowNum()));
+        viewHolder.pre_watch_num.setText("想看人数："+StrUtils.defaulObjToStr(parinfo.getExtendBroadcastFollowNum()));
+        if(StrUtils.defaulObjToStr(parinfo.getBroadcastCoverImgUrl()).length()>0){
+            Glide.with(viewHolder.pre_live_btn.getContext()).load(parinfo.getBroadcastCoverImgUrl()).into(viewHolder.pre_live_btn);
+        }
         viewHolder.pre_live_btn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {

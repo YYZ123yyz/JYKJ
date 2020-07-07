@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import com.bumptech.glide.Glide;
 import entity.liveroom.HotLiveInfo;
 import entity.liveroom.SubjectLiveInfo;
 import www.jykj.com.jykj_zxyl.R;
@@ -32,11 +33,14 @@ public class SubtitleLiveAdapter extends RecyclerView.Adapter<SubtitleLiveAdapte
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         SubjectLiveInfo parinfo = datas.get(i);
-        viewHolder.subject_live_catalog.setText("类目:"+ StrUtils.defaulObjToStr(parinfo.getBroadcastTypeName()));
+        viewHolder.subject_live_catalog.setText("类目:"+ StrUtils.defaulObjToStr(parinfo.getClassName()));
         viewHolder.subject_live_desc.setText(StrUtils.defaulObjToStr(parinfo.getKeywordsName()));
         viewHolder.subject_live_price.setText(StrUtils.defaulObjToStr(parinfo.getExtendBroadcastPriceShow()));
         viewHolder.subject_live_title.setText(StrUtils.defaulObjToStr(parinfo.getBroadcastTitle()));
-        viewHolder.subject_watch_num.setText(StrUtils.defaulObjToStr(parinfo.getExtendBroadcastViewsNum()));
+        viewHolder.subject_watch_num.setText("想看人数："+StrUtils.defaulObjToStr(parinfo.getExtendBroadcastViewsNum()));
+        if(StrUtils.defaulObjToStr(parinfo.getBroadcastCoverImgUrl()).length()>0){
+            Glide.with(viewHolder.subject_live_cover.getContext()).load(parinfo.getBroadcastCoverImgUrl()).into(viewHolder.subject_live_cover);
+        }
         viewHolder.play_subject_live_btn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -58,6 +62,7 @@ public class SubtitleLiveAdapter extends RecyclerView.Adapter<SubtitleLiveAdapte
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
+        public ImageView subject_live_cover;
         public ImageView play_subject_live_btn;
         public TextView subject_live_title;
         public TextView subject_live_desc;
@@ -66,6 +71,7 @@ public class SubtitleLiveAdapter extends RecyclerView.Adapter<SubtitleLiveAdapte
         public TextView subject_live_price;
         public ViewHolder(View view){
             super(view);
+            subject_live_cover = view.findViewById(R.id.subject_live_cover);
             play_subject_live_btn = view.findViewById(R.id.play_subject_live_btn);
             subject_live_title = view.findViewById(R.id.subject_live_title);
             subject_live_desc = view.findViewById(R.id.subject_live_desc);

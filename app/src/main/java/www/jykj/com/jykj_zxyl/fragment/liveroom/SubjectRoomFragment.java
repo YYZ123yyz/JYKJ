@@ -121,7 +121,7 @@ public class SubjectRoomFragment extends Fragment {
             List<SubjectLiveInfo> retlist = new ArrayList();
             try {
                 queryCond.setPageNum(String.valueOf(pageno));
-                String retstr = HttpNetService.urlConnectionService("jsonDataInfo="+new Gson().toJson(queryCond),"https://www.jiuyihtn.com:41041/broadcastLiveDataControlle/searchLiveRoomDetailsByBroadcastStateResHotPlayList");
+                String retstr = HttpNetService.urlConnectionService("jsonDataInfo="+new Gson().toJson(queryCond),"https://www.jiuyihtn.com:41041/broadcastLiveDataControlle/searchLiveRoomDetailsByBroadcastStateResSpecialList");
                 NetRetEntity retEntity = JSON.parseObject(retstr,NetRetEntity.class);
                 if(1==retEntity.getResCode() && StrUtils.defaulObjToStr(retEntity.getResJsonData()).length()>3){
                     retlist = JSON.parseArray(retEntity.getResJsonData(),SubjectLiveInfo.class);
