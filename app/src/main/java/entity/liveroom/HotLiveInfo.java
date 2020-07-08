@@ -11,7 +11,7 @@ public class HotLiveInfo implements Serializable {
     private String broadcastTypeName;
     private String broadcastTitle;
     private String broadcastCoverImgUrl;
-    private String keywordsName;
+    private String attrName;
     private String className;
     private String pullUrl;
     private String chatRoomCode;
@@ -82,12 +82,12 @@ public class HotLiveInfo implements Serializable {
         this.broadcastCoverImgUrl = broadcastCoverImgUrl;
     }
 
-    public String getKeywordsName() {
-        return keywordsName;
+    public String getAttrName() {
+        return attrName;
     }
 
-    public void setKeywordsName(String keywordsName) {
-        this.keywordsName = keywordsName;
+    public void setAttrName(String attrName) {
+        this.attrName = attrName;
     }
 
     public String getClassName() {

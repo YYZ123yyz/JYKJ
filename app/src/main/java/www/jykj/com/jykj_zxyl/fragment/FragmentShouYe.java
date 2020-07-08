@@ -303,7 +303,7 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
     public void onResume() {
         super.onResume();
         //启动程序，查询是否有未读消息
-        getMessageCount();
+        //getMessageCount();
         //   getAppData();
     }
 

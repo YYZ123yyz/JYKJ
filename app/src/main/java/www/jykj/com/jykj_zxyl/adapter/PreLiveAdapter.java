@@ -33,7 +33,7 @@ public class PreLiveAdapter extends RecyclerView.Adapter<PreLiveAdapter.ViewHold
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         PreLiveInfo parinfo = datas.get(i);
         viewHolder.pre_live_catalog.setText("类目:"+ StrUtils.defaulObjToStr(parinfo.getClassName()));
-        viewHolder.pre_live_desc.setText(StrUtils.defaulObjToStr(parinfo.getKeywordsName()));
+        viewHolder.pre_live_desc.setText(StrUtils.defaulObjToStr(parinfo.getAttrName()));
         viewHolder.pre_live_price.setText(StrUtils.defaulObjToStr(parinfo.getExtendBroadcastPriceShow()));
         viewHolder.pre_live_title.setText(StrUtils.defaulObjToStr(parinfo.getBroadcastTitle()));
         viewHolder.pre_watch_num.setText("想看人数："+StrUtils.defaulObjToStr(parinfo.getExtendBroadcastFollowNum()));

@@ -101,11 +101,13 @@ public class MyLiveRoomActivity extends AppCompatActivity implements View.OnClic
 
                 break;
             case R.id.room_forecast:
+                live.setVisibility(View.VISIBLE);
                 roompager.setCurrentItem(0);
                 room_text.setText("直播预报");
                 live_type = LivePublisherActivity.LIVE_TYPE_PRELIVE;
                 break;
             case R.id.room_Hit:
+                live.setVisibility(View.VISIBLE);
                 roompager.setCurrentItem(1);
                 room_text.setText("正在热播");
                 live_type = LivePublisherActivity.LIVE_TYPE_HOTLIVE;
@@ -113,6 +115,7 @@ public class MyLiveRoomActivity extends AppCompatActivity implements View.OnClic
             case R.id.room_Lecture:
                 /*Intent intent3 = new Intent(this, LectureActivity.class);
                 startActivity(intent3);*/
+                live.setVisibility(View.GONE);
                 roompager.setCurrentItem(2);
                 room_text.setText("专题讲座");
                 live_type = LivePublisherActivity.LIVE_TYPE_SUBJECTLIVE;

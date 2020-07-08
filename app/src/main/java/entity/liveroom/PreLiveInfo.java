@@ -3,20 +3,28 @@ package entity.liveroom;
 import java.io.Serializable;
 
 public class PreLiveInfo implements Serializable {
-    private String detailsId;
-    private String detailsCode;
-    private String userCode;
+    private String attrName;
+    private String broadcastCoverImgUrl;
+    private String broadcastTitle;
+    private String broadcastTypeName;
     private String broadcastUserLogoUrl;
     private String broadcastUserName;
-    private String broadcastTypeName;
-    private String broadcastTitle;
-    private String broadcastCoverImgUrl;
-    private String keywordsName;
-    private String className;
-    private String pullUrl;
     private String chatRoomCode;
+    private String className;
+    private String detailsCode;
+    private String detailsId;
     private String extendBroadcastFollowNum;
     private String extendBroadcastPriceShow;
+    private String pullUrl;
+    private String userCode;
+
+    public String getAttrName() {
+        return attrName;
+    }
+
+    public void setAttrName(String attrName) {
+        this.attrName = attrName;
+    }
 
     public String getDetailsId() {
         return detailsId;
@@ -80,14 +88,6 @@ public class PreLiveInfo implements Serializable {
 
     public void setBroadcastCoverImgUrl(String broadcastCoverImgUrl) {
         this.broadcastCoverImgUrl = broadcastCoverImgUrl;
-    }
-
-    public String getKeywordsName() {
-        return keywordsName;
-    }
-
-    public void setKeywordsName(String keywordsName) {
-        this.keywordsName = keywordsName;
     }
 
     public String getClassName() {
