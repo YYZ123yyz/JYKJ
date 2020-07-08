@@ -397,7 +397,6 @@ public class FragmentYHHD extends Fragment {
                             NetRetEntity netRetEntity = new Gson().fromJson(mNetRetStr, NetRetEntity.class);
                             if (netRetEntity.getResCode() == 1) {
                                 mInteractDoctorUnionInfo = JSON.parseArray(netRetEntity.getResJsonData(), ProvideDoctorGoodFriendGroup.class);
-                                Log.e("tag", "handleMessage: " + mInteractDoctorUnionInfo.get(0));
                                 mDorcerFriendExpandableListViewAdapter.setDate(mInteractDoctorUnionInfo);
                                 mDorcerFriendExpandableListViewAdapter.notifyDataSetChanged();
 
@@ -594,7 +593,7 @@ public class FragmentYHHD extends Fragment {
                 try {
                     mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + new Gson().toJson(interactDoctorDetailInfo), Constant.SERVICEURL + "doctorManagePatient/interactDoctorUnionAllList");
                 } catch (Exception e) {
-                    Log.e("tag", "好友 " + mNetRetStr);
+                    Log.e("tag", "run: "+mNetRetStr );
                     NetRetEntity retEntity = new NetRetEntity();
                     retEntity.setResCode(0);
                     retEntity.setResMsg("网络连接异常，请联系管理员：" + e.getMessage());

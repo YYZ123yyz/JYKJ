@@ -65,7 +65,7 @@ public class ChatActivity extends AppCompatActivity {
         String orderCode = getIntent().getStringExtra("orderCode");
 
         String doctorUrl = getIntent().getStringExtra("doctorUrl");
-       String  patientUrl=mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl();
+        String  patientUrl=mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl();
 
 
         //传入参数
@@ -165,7 +165,7 @@ public class ChatActivity extends AppCompatActivity {
             @Override
             public void onSendMessage(String content) {
                 // 发送文本消息
-             //   sendTextMessage(content);
+                //   sendTextMessage(content);
             }
 
             @Override

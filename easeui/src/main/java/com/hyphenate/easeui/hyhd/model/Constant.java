@@ -56,5 +56,7 @@ public class Constant extends EaseConstant{
 	 */
 	public final static String SERVICEURL = "http://114.215.137.171:28080/";
 
+	public static String doctorUrl;
+	public static String patientUrl;
 
 }

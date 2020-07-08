@@ -129,7 +129,6 @@ public class MainActivity extends AppCompatActivity {
         mainActivity = this;
         ActivityUtil.setStatusBarMain(mainActivity);
         mApp = (JYKJApplication) getApplication();
-
         mApp.gMainActivity = this;
         mApp.gActivityList.add(this);
         //判断是否有新消息
@@ -142,10 +141,6 @@ public class MainActivity extends AppCompatActivity {
         startService(intent);
         mApp.gNetWorkTextView = true;
         data();
-
-        //启动定时器轮询未读消息数
-        startMessageTimer();
-
         getLocation();
 
     }
@@ -203,8 +198,6 @@ public class MainActivity extends AppCompatActivity {
             getLocationLL();
         } else {//没有权限，获取定位权限
             requestPermissions(permissions.toArray(new String[permissions.size()]), 2);
-
-            Log.e("tag", "getLocation: "+"没有定位权限" );
         }
 
     }
@@ -311,18 +304,6 @@ public class MainActivity extends AppCompatActivity {
             }
         };
     }
-
-
-
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        //启动程序，查询是否有未读消息
-     //   getMessageCount();
-        //   getAppData();
-    }
-
     /**
      * 初始化布局
      */
@@ -618,26 +599,6 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onKeyDown(keyCode, event);
     }
-
-
-
-
-
-
-
-
-
-
-
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        //  getAppData();
-    }
-
-
-
     /**
      * 获取版本跟新的数据
      */

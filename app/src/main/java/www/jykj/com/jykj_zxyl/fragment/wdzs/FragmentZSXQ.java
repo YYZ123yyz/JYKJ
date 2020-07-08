@@ -484,8 +484,9 @@ public class FragmentZSXQ extends Fragment {
                                             break;
                                         case 5:
                                             intent = new Intent(Intent.ACTION_CALL);
-                                            Uri data = Uri.parse("tel:" + provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getInterrogationPatientLinkPhone());
+                                            Uri data = Uri.parse("tel:" + provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getTreatmentLinkPhone());
                                             intent.setData(data);
+                                            Log.e("tag", "onClick: "+provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getTreatmentLinkPhone() );
                                             startActivity(intent);
 
                                     }
