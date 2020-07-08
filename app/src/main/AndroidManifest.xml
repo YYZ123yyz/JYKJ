@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="www.jykj.com.jykj_zxyl">
 
+
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" /> <!-- 这个权限用于进行网络定位 -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
@@ -60,7 +61,6 @@
         <activity android:name="yyz_exploit.activity.activity.DetailsActivity" />
         <activity android:name="yyz_exploit.activity.activity.UntieActivity" />
         <activity android:name="yyz_exploit.activity.activity.HelpActivity" /> <!-- 帮助与反馈页面 -->
-        <activity android:name="yyz_exploit.activity.activity.LivefAudienceActivity" />
         <activity android:name="yyz_exploit.activity.activity.ResActivity" />
         <activity android:name="yyz_exploit.activity.Myself_Service" /> <!-- 用户登录 -->
         <activity android:name=".activity.LoginActivity" /> <!-- 手机号登录 -->

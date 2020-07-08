@@ -153,7 +153,7 @@ public class DorcerFriendExpandableListViewAdapter extends BaseExpandableListAda
          * 参数3：显示图片的设置
          * 参数4：监听器
          */
-        mApp.imageLoader.displayImage(mDatas.get(i).getGroupLogoUrl(), childViewHolder.mImageView, mApp.mImageOptions, animateFirstListener);
+        mApp.imageLoader.displayImage(mDatas.get(i).getDoctorGoodFriendInfoList().get(i1).getDoctorUserLogoUrl(), childViewHolder.mImageView, mApp.mImageOptions, animateFirstListener);
         childViewHolder.userName.setText(mDatas.get(i).getDoctorGoodFriendInfoList().get(i1).getDoctorUserName());
         childViewHolder.userSSY.setText(mDatas.get(i).getDoctorGoodFriendInfoList().get(i1).getDoctorTitleName());
         childViewHolder.unionName.setText(mDatas.get(i).getDoctorGoodFriendInfoList().get(i1).getDoctorHospitalInfo());

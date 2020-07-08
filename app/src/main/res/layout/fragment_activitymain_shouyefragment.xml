@@ -32,7 +32,7 @@
                 android:text=""
                 android:id="@+id/tv_fragmentShouYe_userNameText"
                 android:textColor="@color/writeColor"
-                android:textSize="10pt" />
+                android:textSize="8pt" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -91,7 +91,7 @@
                 android:layout_marginTop="5dp"
                 android:text="识别码"
                 android:textColor="@color/writeColor"
-                android:textSize="13sp" />
+                android:textSize="15sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -430,12 +430,12 @@
                 android:background="@color/writeColor"
                 android:orientation="horizontal">
 
-                <ImageView
+                <www.jykj.com.jykj_zxyl.util.CircleImageView
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="10dp"
-                    android:src="@mipmap/mainpage_yhqtx" />
+                    android:src="@mipmap/logo" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"

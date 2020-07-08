@@ -97,15 +97,28 @@ public class WZXXActivity extends AppCompatActivity {
     private TextView tv;
     private TextView tv_yes;
     private ScrollView wzxx_sc;
+    private TextView tv_gson;
 
     private void setLayoutDate() {
-        if(TextUtils.isEmpty(mProvideInteractPatientInterrogations.get(0).getTreatmentTypeName())){
+        if(mProvideViewInteractOrderTreatmentAndPatientInterrogation.getTreatmentType()==0){
             mJZLX.setText("未知");
-        }else{
-            mJZLX.setText(mProvideInteractPatientInterrogations.get(0).getTreatmentTypeName());
+        }else if(mProvideViewInteractOrderTreatmentAndPatientInterrogation.getTreatmentType()==1){
+            mJZLX.setText("图文就诊");
+        }
+        else if(mProvideViewInteractOrderTreatmentAndPatientInterrogation.getTreatmentType()==2){
+            mJZLX.setText("音频就诊");
+        }
+        else if(mProvideViewInteractOrderTreatmentAndPatientInterrogation.getTreatmentType()==3){
+            mJZLX.setText("视频就诊");
+        }
+        else if(mProvideViewInteractOrderTreatmentAndPatientInterrogation.getTreatmentType()==4){
+            mJZLX.setText("签约就诊");
+        }
+        else if(mProvideViewInteractOrderTreatmentAndPatientInterrogation.getTreatmentType()==5){
+            mJZLX.setText("电话就诊");
         }
 
-     //   mYSXM.setText(mProvideInteractPatientInterrogations.get(0).getDoctorName());
+        //   mYSXM.setText(mProvideInteractPatientInterrogations.get(0).getDoctorName());
         mHZXM.setText(mProvideInteractPatientInterrogations.get(0).getPatientName());
         mHZSJ.setText(mProvideInteractPatientInterrogations.get(0).getPatientLinkPhone());
         if (mProvideInteractPatientInterrogations.get(0).getGender() == 0)
@@ -117,7 +130,7 @@ public class WZXXActivity extends AppCompatActivity {
         mNL.setText(mProvideInteractPatientInterrogations.get(0).getBirthday());
 
         //最早日期
-       // new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        // new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         mYCRQ.setText(Util.dateToStrNUR(mProvideInteractPatientInterrogations.get(0).getBloodPressureAbnormalDate()));
 
         if (mProvideInteractPatientInterrogations.get(0).getFlagFamilyHtn() == 0)
@@ -143,6 +156,7 @@ public class WZXXActivity extends AppCompatActivity {
      * 初始化布局
      */
     private void initLayout() {
+        tv_gson = findViewById(R.id.tv_gson);
         wzxx_sc = findViewById(R.id.wzxx_sc);
         tv_yes = findViewById(R.id.tv_yes);
         mBack = (LinearLayout) this.findViewById(R.id.iv_back_left);
@@ -153,7 +167,7 @@ public class WZXXActivity extends AppCompatActivity {
             }
         });
         mJZLX = (TextView) this.findViewById(R.id.tv_activityHZZL_userYW);
-     //   mYSXM = (TextView) this.findViewById(R.id.tv_activityHZZL_userTZ);
+        //   mYSXM = (TextView) this.findViewById(R.id.tv_activityHZZL_userTZ);
         mHZXM = (TextView) this.findViewById(R.id.tv_activityHZZL_userSFXY);
         mHZSJ = (TextView) this.findViewById(R.id.tv_activityHZZL_userSFXJ);
         mXB = (TextView) this.findViewById(R.id.tv_activityHZZL_userSFAY);
@@ -222,33 +236,17 @@ public class WZXXActivity extends AppCompatActivity {
                     case 0:
                         NetRetEntity netRetEntity = JSON.parseObject(mNetRetStr, NetRetEntity.class);
                         if (netRetEntity.getResCode() == 0) {
-
-                            Toast.makeText(mContext, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
+                            wzxx_sc.setVisibility(View.GONE);
+                            tv_gson.setVisibility(View.VISIBLE);
                             cacerProgress();
                         } else {
-
                             mProvideInteractPatientInterrogations = JSON.parseArray(netRetEntity.getResJsonData(), ProvideInteractPatientInterrogation.class);
                             if (mProvideInteractPatientInterrogations == null && mProvideInteractPatientInterrogations.size() ==0&&mProvideInteractPatientInterrogations.get(0).getImgCode().equals("")&&mProvideInteractPatientInterrogations.get(0).getImgCode()==null){
                                 wzxx_sc.setVisibility(View.GONE);
-                              //  mJZLX.setVisibility(View.GONE);
-                             //   mYSXM .setVisibility(View.GONE);
-//                                mHZXM .setVisibility(View.GONE);
-//                                mHZSJ .setVisibility(View.GONE);
-//                                mXB  .setVisibility(View.GONE);
-//                                mNL  .setVisibility(View.GONE);
-//                                mYCRQ .setVisibility(View.GONE);
-//                                mJZHZ .setVisibility(View.GONE);
-//                                mSSY .setVisibility(View.GONE);
-//                                mSZY .setVisibility(View.GONE);
-//                                mXL.setVisibility(View.GONE);
-//                                mCLYQ.setVisibility(View.GONE);
-//                                mCLFF.setVisibility(View.GONE);
-//                                mGXYBS .setVisibility(View.GONE);
-//                                mBQZS .setVisibility(View.GONE);
-                             //   tv.setVisibility(View.GONE);
+
                             }else{
-                               setLayoutDate();
-                               getImgData();
+                                setLayoutDate();
+                                getImgData();
 
                             }
 
@@ -259,26 +257,11 @@ public class WZXXActivity extends AppCompatActivity {
                         cacerProgress();
                         netRetEntity = JSON.parseObject(mGetImgNetRetStr, NetRetEntity.class);
                         if (netRetEntity.getResCode() == 0) {
-//                            tv_yes.setVisibility(View.INVISIBLE);
-//                            mJZLX.setVisibility(View.INVISIBLE);
-//                          //  mYSXM .setVisibility(View.INVISIBLE);
-//                            mHZXM .setVisibility(View.INVISIBLE);
-//                            mHZSJ .setVisibility(View.INVISIBLE);
-//                            mXB  .setVisibility(View.INVISIBLE);
-//                            mNL  .setVisibility(View.INVISIBLE);
-//                            mYCRQ .setVisibility(View.INVISIBLE);
-//                            mJZHZ .setVisibility(View.INVISIBLE);
-//                            mSSY .setVisibility(View.INVISIBLE);
-//                            mSZY .setVisibility(View.INVISIBLE);
-//                            mXL.setVisibility(View.INVISIBLE);
-//                            mCLYQ.setVisibility(View.INVISIBLE);
-//                            mCLFF.setVisibility(View.INVISIBLE);
-//                            mGXYBS .setVisibility(View.INVISIBLE);
-//                            mBQZS .setVisibility(View.INVISIBLE);
-                       //     Toast.makeText(mContext, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
+
                         } else {
                             mProvideBasicsImg = JSON.parseArray(netRetEntity.getResJsonData(), ProvideBasicsImg.class);
                             if (mProvideBasicsImg != null && mProvideBasicsImg.size() > 0) {
+                                tv.setText("图片仅本人和咨询医生可见");
                                 mAdapter.setDate(mProvideBasicsImg);
                                 mAdapter.notifyDataSetChanged();
                             }
@@ -307,8 +290,6 @@ public class WZXXActivity extends AppCompatActivity {
                 try {
                     String string = new Gson().toJson(provideInteractPatientInterrogation);
                     mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + string, Constant.SERVICEURL + "doctorInteractDataControlle/searchMyClinicDetailResPatientInterrogationText");
-                    String string01 = Constant.SERVICEURL + "msgDataControlle/searchMsgPushReminderAllCount";
-                    System.out.println(string + string01);
                     Log.e("文字", "run:文字 "+mNetRetStr );
                 } catch (Exception e) {
                     NetRetEntity retEntity = new NetRetEntity();
@@ -321,7 +302,6 @@ public class WZXXActivity extends AppCompatActivity {
             }
         }.start();
     }
-
     /**
      * 设置数据
      */
@@ -331,17 +311,13 @@ public class WZXXActivity extends AppCompatActivity {
         provideBasicsImg.setOperDoctorCode(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
         provideBasicsImg.setOperDoctorName(mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
         provideBasicsImg.setOrderCode(mProvideViewInteractOrderTreatmentAndPatientInterrogation.getOrderCode());
+        Log.e("tag", "图片编码 "+mProvideInteractPatientInterrogations.get(0).getImgCode() );
         if(TextUtils.isEmpty(mProvideViewInteractOrderTreatmentAndPatientInterrogation.getImgCode())){
-            provideBasicsImg.setImgCode(mProvideViewInteractOrderTreatmentAndPatientInterrogation.getImgCode());
+            provideBasicsImg.setImgCode(mProvideInteractPatientInterrogations.get(0).getImgCode());
         }
         else{
             provideBasicsImg.setImgCode("");
         }
-        Log.e("tag", "getImgData: "+mApp.loginDoctorPosition );
-        Log.e("tag", "getImgData: "+mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode() );
-        Log.e("tag", "getImgData: "+mApp.mViewSysUserDoctorInfoAndHospital.getUserName() );
-        Log.e("tag", "getImgData: "+mProvideViewInteractOrderTreatmentAndPatientInterrogation.getOrderCode());
-        Log.e("tag", "getImgData: "+mProvideViewInteractOrderTreatmentAndPatientInterrogation.getImgCode() );
         new Thread() {
             public void run() {
                 try {
