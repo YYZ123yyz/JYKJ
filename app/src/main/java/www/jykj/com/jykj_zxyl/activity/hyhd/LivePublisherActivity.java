@@ -78,6 +78,9 @@ public class LivePublisherActivity extends ChatPopDialogActivity implements View
     private boolean          mPortrait = true;         //手动切换，横竖屏推流
     String rtmpUrl = "";
     String mdetailcode = "";
+    public static final String LIVE_TYPE_PRELIVE = "1";
+    public static final String LIVE_TYPE_HOTLIVE = "2";
+    public static final String LIVE_TYPE_SUBJECTLIVE = "3";
     private Bitmap decodeResource(Resources resources, int id) {
         TypedValue value = new TypedValue();
         resources.openRawResource(id, value);

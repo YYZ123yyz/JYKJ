@@ -40,6 +40,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import www.jykj.com.jykj_zxyl.R;
+import www.jykj.com.jykj_zxyl.activity.hyhd.LivePublisherActivity;
 import www.jykj.com.jykj_zxyl.activity.myself.couponFragment.FragmentAdapter;
 import www.jykj.com.jykj_zxyl.fragment.liveroom.HotRoomFragment;
 import www.jykj.com.jykj_zxyl.fragment.liveroom.PreRoomFragment;
@@ -81,7 +82,7 @@ public class MyLiveRoomActivity extends AppCompatActivity implements View.OnClic
     private TextView room_Hit;
     private TextView room_Lecture;
     private TextView room_text;
-
+    String live_type = LivePublisherActivity.LIVE_TYPE_PRELIVE;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,22 +96,26 @@ public class MyLiveRoomActivity extends AppCompatActivity implements View.OnClic
         switch (v.getId()){
             case R.id.live:
                 Intent intent = new Intent(MyLiveRoomActivity.this, BeforesettingActivity.class);
+                intent.putExtra("live_type",live_type);
                 startActivity(intent);
 
                 break;
             case R.id.room_forecast:
                 roompager.setCurrentItem(0);
                 room_text.setText("直播预报");
+                live_type = LivePublisherActivity.LIVE_TYPE_PRELIVE;
                 break;
             case R.id.room_Hit:
                 roompager.setCurrentItem(1);
                 room_text.setText("正在热播");
+                live_type = LivePublisherActivity.LIVE_TYPE_HOTLIVE;
                 break;
             case R.id.room_Lecture:
                 /*Intent intent3 = new Intent(this, LectureActivity.class);
                 startActivity(intent3);*/
                 roompager.setCurrentItem(2);
                 room_text.setText("专题讲座");
+                live_type = LivePublisherActivity.LIVE_TYPE_SUBJECTLIVE;
                 break;
         }
     }
