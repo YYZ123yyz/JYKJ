@@ -131,7 +131,11 @@ public class WZXXActivity extends AppCompatActivity {
 
         //最早日期
         // new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-        mYCRQ.setText(Util.dateToStrNUR(mProvideInteractPatientInterrogations.get(0).getBloodPressureAbnormalDate()));
+        if(mProvideInteractPatientInterrogations.get(0).getBloodPressureAbnormalDate()==null){
+            mYCRQ.setText("");
+        }else{
+            mYCRQ.setText(Util.dateToStrNUR(mProvideInteractPatientInterrogations.get(0).getBloodPressureAbnormalDate()));
+        }
 
         if (mProvideInteractPatientInterrogations.get(0).getFlagFamilyHtn() == 0)
             mJZHZ.setText("否");

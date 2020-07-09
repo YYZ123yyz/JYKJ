@@ -384,7 +384,7 @@ public class FragmentYHHD extends Fragment {
 
 
                             } else {
-                                Toast.makeText(mContext, "获取失败，" + netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
+                              //  Toast.makeText(mContext, "获取失败，" + netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
                             }
                         } else {
                             Toast.makeText(mContext, "网络异常，请联系管理员", Toast.LENGTH_SHORT).show();
@@ -401,7 +401,7 @@ public class FragmentYHHD extends Fragment {
                                 mDorcerFriendExpandableListViewAdapter.notifyDataSetChanged();
 
                             } else {
-                                Toast.makeText(mContext, "获取失败，" + netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
+                           //     Toast.makeText(mContext, "获取失败，" + netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
                             }
                         } else {
                             Toast.makeText(mContext, "网络异常，请联系管理员", Toast.LENGTH_SHORT).show();
@@ -477,7 +477,7 @@ public class FragmentYHHD extends Fragment {
 
 
                             } else {
-                                Toast.makeText(mContext, "用户类型获取失败" + netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
+                          //      Toast.makeText(mContext, "用户类型获取失败" + netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
                             }
                         } else {
                             Toast.makeText(mContext, "网络异常，请联系管理员", Toast.LENGTH_SHORT).show();

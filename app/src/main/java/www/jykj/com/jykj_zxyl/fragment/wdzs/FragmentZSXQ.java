@@ -1,6 +1,7 @@
 package www.jykj.com.jykj_zxyl.fragment.wdzs;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -14,6 +15,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +35,7 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -483,11 +486,33 @@ public class FragmentZSXQ extends Fragment {
                                             startActivity(intent);
                                             break;
                                         case 5:
-                                            intent = new Intent(Intent.ACTION_CALL);
-                                            Uri data = Uri.parse("tel:" + provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getTreatmentLinkPhone());
-                                            intent.setData(data);
-                                            Log.e("tag", "onClick: "+provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getTreatmentLinkPhone() );
-                                            startActivity(intent);
+
+                                            final Dialog dialog = new Dialog(getContext(), R.style.BottomDialog);
+                                            View view = LayoutInflater.from(getContext()).inflate(R.layout.phone_layout, null);
+                                            dialog.setContentView(view);
+                                            TextView tv1 = view.findViewById(R.id.tv1);
+                                            tv1.setText("呼叫"+provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getTreatmentLinkPhone());
+
+                                            tv1.setOnClickListener(new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View view) {
+                                                   Intent intent = new Intent(Intent.ACTION_CALL);
+                                                    Uri data = Uri.parse("tel:" + provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getTreatmentLinkPhone());
+                                                    intent.setData(data);
+                                                    Log.e("tag", "onClick: "+provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getTreatmentLinkPhone() );
+                                                    startActivity(intent);
+                                                    dialog.dismiss();
+                                                }
+                                            });
+
+                                            ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
+                                            layoutParams.width = getContext().getResources().getDisplayMetrics().widthPixels;
+                                            view.setLayoutParams(layoutParams);
+                                            dialog.setCancelable(true);
+                                            dialog.setCanceledOnTouchOutside(true);
+                                            dialog.getWindow().setGravity(Gravity.BOTTOM);
+                                            dialog.show();
+
 
                                     }
 
@@ -558,6 +583,15 @@ public class FragmentZSXQ extends Fragment {
         };
     }
 
+    //医生分享
+    private void phone() {
+
+    }
+
+
+
+
+
     /**
      * 设置显示
      */
@@ -606,7 +640,6 @@ public class FragmentZSXQ extends Fragment {
                 try {
                     String string = new Gson().toJson(provideViewInteractOrderTreatmentAndPatientInterrogation);
                     mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + string, Constant.SERVICEURL + "doctorInteractDataControlle/searchMyClinicDetailResTreatmentRecord");
-                    Log.e("tag", "run:111 " + mNetRetStr);
                     String string01 = Constant.SERVICEURL + "msgDataControlle/searchMsgPushReminderAllCount";
                     System.out.println(string + string01);
                 } catch (Exception e) {

@@ -492,7 +492,6 @@ public class UserCenterActivity extends AppCompatActivity {
             Toast.makeText(mContext,"请选择性别",Toast.LENGTH_SHORT).show();
             return;
         }
-        Log.e("tag", "提交 " +mProvideViewSysUserDoctorInfoAndHospital.getBirthdayStr() );
 
         if (mProvideViewSysUserDoctorInfoAndHospital.getBirthdayStr() == null || "".equals(mProvideViewSysUserDoctorInfoAndHospital.getBirthdayStr()))
         {
@@ -523,6 +522,17 @@ public class UserCenterActivity extends AppCompatActivity {
         {
             Toast.makeText(mContext,"请选择省份",Toast.LENGTH_SHORT).show();
             return;
+        }
+        if(TextUtils.isEmpty(mEmalEdit.getText().toString())){
+            mProvideViewSysUserDoctorInfoAndHospital.setEmail("");
+        }else{
+            if (isEmail(mEmalEdit.getText().toString().trim()) && mEmalEdit.getText().toString().trim().length()<=31){
+                //   Toast.makeText(UserCenterActivity.this,"邮箱验证成功",Toast.LENGTH_SHORT).show();
+            }else {
+                Toast.makeText(UserCenterActivity.this,"邮箱格式错误",Toast.LENGTH_SHORT).show();
+                return;
+            }
+            mProvideViewSysUserDoctorInfoAndHospital.setEmail(mEmalEdit.getText().toString());
         }
         getProgressBar("请稍候", "正在提交数据...");
         new Thread() {

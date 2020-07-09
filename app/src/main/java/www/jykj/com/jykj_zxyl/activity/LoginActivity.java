@@ -1,6 +1,7 @@
 package www.jykj.com.jykj_zxyl.activity;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -13,6 +14,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -100,6 +102,7 @@ public class LoginActivity extends AppCompatActivity {
     private IWXAPI api;
     private SharedPreferences sp;
     private    Handler  handler= new  Handler();
+    private SharedPreferences sp1;
 
 
     @Override
@@ -158,11 +161,10 @@ public class LoginActivity extends AppCompatActivity {
                                 mApp.mViewSysUserDoctorInfoAndHospital.getUserRoleId();
                                 //登录IM
                                 mApp.loginIM();
+                                Log.e("tag", "handleMessage: "+"zoule" );
                                 mLoadingDialog.dismiss();
                                 startActivity(new Intent(mContext, MainActivity.class));
-                                for (int i = 0; i < mApp.gActivityList.size(); i++) {
-                                    mApp.gActivityList.get(i).finish();
-                                }
+                               finish();
                             } else {
                                 Toast.makeText(mContext, "登录失败，" + netRetEntity.getResMsg(), LENGTH_SHORT).show();
                                 mLoadingDialog.dismiss();
@@ -188,12 +190,15 @@ public class LoginActivity extends AppCompatActivity {
         mUseRegist = (TextView) this.findViewById(R.id.textView_activityLogin_userRegistTextView);
 
         mAccountEdit = (EditText) this.findViewById(R.id.tv_activityLogin_accountEdit);
+        //response为后台返回的json数据
+        sp1 = getSharedPreferences("SP_Data_List",Activity.MODE_PRIVATE);//创建sp对象,如果有key为"SP_PEOPLE"的sp就取出
+        String peopleListJson = sp1.getString("KEY_Data_List_DATA","");  //取出key为"KEY_PEOPLE_DATA"的值，如果值为空，则将第二个参数作为默认值赋值
+        if(sp1==null){
+            Log.e("tag", "DataList: "+"zoule " );
+        }else{
+            mAccountEdit.setText(peopleListJson);
+        }
         mPassWordEdit = (EditText) this.findViewById(R.id.tv_activityLogin_passWordEdit);
-
-      //  mAgreeImg = (ImageView) this.findViewById(R.id.iv_activityLogin_agreeImg);
-        //设置是否同意协议图标
-       // setAgreeImg();
-      //  mAgreeImg.setOnClickListener(new ButtonClick());
 
         mLogin = (Button) this.findViewById(R.id.button_activityLogin_LoginButton);
         mLogin.setOnClickListener(new ButtonClick());
@@ -219,15 +224,6 @@ public class LoginActivity extends AppCompatActivity {
         privacy.setOnClickListener(new ButtonClick());
     }
 
-//    /**
-//     * 设置是否同意协议图标
-//     */
-//    private void setAgreeImg() {
-//        if (mAgree)
-//            mAgreeImg.setImageResource(R.mipmap.choice);
-//        else
-//            mAgreeImg.setImageResource(R.mipmap.nochoice);
-//    }
 
 
     /**
@@ -306,9 +302,15 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(mContext, "密码不能为空", LENGTH_SHORT).show();
             return;
         }
+
         UserInfo userInfo = new UserInfo();
         userInfo.setUserPhone(mAccountEdit.getText().toString());
         userInfo.setUserPwd(mPassWordEdit.getText().toString());
+//        //创建sp对象
+        sp1 = getSharedPreferences("SP_Data_List", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp1.edit() ;
+        editor.putString("KEY_Data_List_DATA", mAccountEdit.getText().toString()) ; //存入json串
+        editor.commit() ;//提交
         //连接网络，登录
         new Thread() {
             public void run() {
@@ -431,7 +433,7 @@ public class LoginActivity extends AppCompatActivity {
         receiveBroadCast = new LoginActivity.ReceiveBroadCast();
         IntentFilter filter = new IntentFilter();
         filter.addAction("authlogin");
-       // getBaseContext().registerReceiver(receiveBroadCast, filter);
+        getBaseContext().registerReceiver(receiveBroadCast, filter);
     }
 
 
@@ -554,7 +556,6 @@ public class LoginActivity extends AppCompatActivity {
                         @Override
                         public void onResponse(Response response) throws IOException {
                             String string = response.body().string();
-                            Log.d("tag111111111", string);
                             NetRetEntity resBean = new Gson().fromJson(string, NetRetEntity.class);
                             handler .postDelayed(
                                     new Runnable() {
@@ -583,9 +584,7 @@ public class LoginActivity extends AppCompatActivity {
                                                 mApp.saveUserInfo(viewSysUserDoctorInfoAndHospital);
                                                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                                 startActivity(intent);
-                                                for (int i = 0; i < mApp.gActivityList.size(); i++) {
-                                                    mApp.gActivityList.get(i).finish();
-                                                }
+                                               finish();
                                             }
                                         }
                                     }, 100

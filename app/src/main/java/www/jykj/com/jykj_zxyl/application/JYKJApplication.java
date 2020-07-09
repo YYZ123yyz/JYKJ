@@ -146,6 +146,21 @@ public class JYKJApplication extends Application {
 
                             System.out.println("登录成功");
                             setNewsMessage();
+                            // ** manually load all local groups and conversation
+                            EMClient.getInstance().groupManager().loadAllGroups();
+                            EMClient.getInstance().chatManager().loadAllConversations();
+
+                            // update current user's display name for APNs
+                            boolean updatenick = EMClient.getInstance().pushManager().updatePushNickname(ExtEaseUtils.getInstance().getNickName());
+                            if (!updatenick) {
+                                Log.e(IMTAG, "更新用户昵称");
+                            }
+                            DemoHelper.getInstance().getUserProfileManager().asyncGetCurrentUserInfo();
+                            String retuser = EMClient.getInstance().getCurrentUser();
+                            setNewsMessage();
+                            Log.e("iis",retuser);
+
+
 //                            Toast.makeText(getApplicationContext(),"登录成功",Toast.LENGTH_SHORT).show();
                         }
 
@@ -172,7 +187,8 @@ public class JYKJApplication extends Application {
 
     static final String IMTAG = "imlog";
     public void loginIM() {
-        /*new Thread() {
+        Log.e("tag", "handleMessage: "+"zoule环信" );
+        new Thread() {
             private EMConnectionListener connectionListener;
 
             public void run() {
@@ -188,53 +204,53 @@ public class JYKJApplication extends Application {
                     System.out.println("~~~~~~~注册失败~~~~~~~~" + e.getDescription());
                 }
             }
-        }.start();*/
-        new Thread() {
-            public void run() {
-                //注册
-                try {
-                    EMClient.getInstance().login(mViewSysUserDoctorInfoAndHospital.getDoctorCode(),mViewSysUserDoctorInfoAndHospital.getQrCode(),new EMCallBack() {
-                        @Override
-                        public void onSuccess() {
-                            Log.d(IMTAG, "登录成功");
-
-                            // ** manually load all local groups and conversation
-                            EMClient.getInstance().groupManager().loadAllGroups();
-                            EMClient.getInstance().chatManager().loadAllConversations();
-
-                            // update current user's display name for APNs
-                            boolean updatenick = EMClient.getInstance().pushManager().updatePushNickname(ExtEaseUtils.getInstance().getNickName());
-                            if (!updatenick) {
-                                Log.e(IMTAG, "更新用户昵称");
-                            }
-                            DemoHelper.getInstance().getUserProfileManager().asyncGetCurrentUserInfo();
-                            String retuser = EMClient.getInstance().getCurrentUser();
-                            setNewsMessage();
-                            Log.e("iis",retuser);
-                        }
-
-                        @Override
-                        public void onProgress(int progress, String status) {
-                            Log.d(IMTAG, "登录中...");
-                        }
-
-                        @Override
-                        public void onError(final int code, final String message) {
-                            if (code == 101) {
-                                try {
-                                    EMClient.getInstance().createAccount(mViewSysUserDoctorInfoAndHospital.getDoctorCode(), mViewSysUserDoctorInfoAndHospital.getQrCode());
-                                    gHandler.sendEmptyMessage(1);
-                                } catch (Exception logex) {
-                                    Log.e(IMTAG, "登录失败: " + code);
-                                }
-                            }
-                            Log.d(IMTAG, "登录失败: " + code);
-                        }
-                    });
-                }catch (Exception ex){
-                    Log.e(IMTAG,ex.getMessage());
-                }
-            }}.start();
+        }.start();
+//        new Thread() {
+//            public void run() {
+//                //注册
+//                try {
+//                    EMClient.getInstance().login(mViewSysUserDoctorInfoAndHospital.getDoctorCode(),mViewSysUserDoctorInfoAndHospital.getQrCode(),new EMCallBack() {
+//                        @Override
+//                        public void onSuccess() {
+//                            Log.e("tag", "handleMessage: "+"登录环信" );
+//
+//                            // ** manually load all local groups and conversation
+//                            EMClient.getInstance().groupManager().loadAllGroups();
+//                            EMClient.getInstance().chatManager().loadAllConversations();
+//
+//                            // update current user's display name for APNs
+//                            boolean updatenick = EMClient.getInstance().pushManager().updatePushNickname(ExtEaseUtils.getInstance().getNickName());
+//                            if (!updatenick) {
+//                                Log.e(IMTAG, "更新用户昵称");
+//                            }
+//                            DemoHelper.getInstance().getUserProfileManager().asyncGetCurrentUserInfo();
+//                            String retuser = EMClient.getInstance().getCurrentUser();
+//                            setNewsMessage();
+//                            Log.e("iis",retuser);
+//                        }
+//
+//                        @Override
+//                        public void onProgress(int progress, String status) {
+//                            Log.d(IMTAG, "登录中...");
+//                        }
+//
+//                        @Override
+//                        public void onError(final int code, final String message) {
+//                            if (code == 101) {
+//                                try {
+//                                    EMClient.getInstance().createAccount(mViewSysUserDoctorInfoAndHospital.getDoctorCode(), mViewSysUserDoctorInfoAndHospital.getQrCode());
+//                                    gHandler.sendEmptyMessage(1);
+//                                } catch (Exception logex) {
+//                                    Log.e(IMTAG, "登录失败: " + code);
+//                                }
+//                            }
+//                            Log.d(IMTAG, "登录失败: " + code);
+//                        }
+//                    });
+//                }catch (Exception ex){
+//                    Log.e(IMTAG,ex.getMessage());
+//                }
+//            }}.start();
     }
 
 
