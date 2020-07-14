@@ -121,7 +121,8 @@ public class PreRoomFragment extends Fragment {
             List<PreLiveInfo> retlist = new ArrayList();
             try {
                 queryCond.setPageNum(String.valueOf(pageno));
-                String retstr = HttpNetService.urlConnectionService("jsonDataInfo="+new Gson().toJson(queryCond),"https://www.jiuyihtn.com:41041/broadcastLiveDataControlle/searchLiveRoomDetailsByBroadcastStateResNoticeList");
+                String quejson = new Gson().toJson(queryCond);
+                String retstr = HttpNetService.urlConnectionService("jsonDataInfo="+quejson,"https://www.jiuyihtn.com:41041/broadcastLiveDataControlle/searchLiveRoomDetailsByBroadcastStateResNoticeList");
                 NetRetEntity retEntity = JSON.parseObject(retstr,NetRetEntity.class);
                 if(1==retEntity.getResCode() && StrUtils.defaulObjToStr(retEntity.getResJsonData()).length()>3){
                     retlist = JSON.parseArray(retEntity.getResJsonData(),PreLiveInfo.class);

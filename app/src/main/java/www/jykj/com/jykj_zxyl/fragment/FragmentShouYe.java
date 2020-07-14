@@ -135,10 +135,27 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
         mBindPatientParment = new BindPatientParment();
         initHandler();
         initView(v);
+        //  getMessageCount();
         getBasicDate();
         initListener();
         return v;
     }
+
+
+//    /**
+//     * 启动定时器，轮询获取未读消息数
+//     */
+//    private void startMessageTimer() {
+//        Timer timer = new Timer();
+//        TimerTask task = new TimerTask() {
+//            @Override
+//            public void run() {
+//                getMessageCount();
+//            }
+//        };
+//        timer.schedule(task, 0, mApp.mMsgTimeInterval * 60 * 1000);
+//    }
+
     @SuppressLint("HandlerLeak")
     private void initHandler() {
         mHandler = new Handler() {
@@ -154,6 +171,7 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
                         }
                         else {
                             if ("1".equals(netRetEntity.getResData())) {
+                                Log.e("tag", "handleMessage: "+"走了" );
                                 //医生扫医生二维码，绑定医生好友
                                 final EditText et = new EditText(mContext);
                                 new AlertDialog.Builder(mContext).setTitle("请输入申请描述")
@@ -210,19 +228,19 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
 
                         break;
                     case 2:
-                        netRetEntity = JSON.parseObject(mNetRetStr, NetRetEntity.class);
-                        if(netRetEntity.getResCode()==1){
-                            ProvideMsgPushReminderCount   mProvideMsgPushReminderCount = JSON.parseObject(netRetEntity.getResJsonData(), ProvideMsgPushReminderCount.class);
-                            if(mProvideMsgPushReminderCount.getMsgTypeCountSum()==0){
-                                mNewMessageLayout.setVisibility(View.GONE);
-                            }
-                            else  {
-                                mNewMessageLayout.setVisibility(View.VISIBLE);
-                                mNewMessage.setText( "您有" + mProvideMsgPushReminderCount.getMsgTypeCountSum() + "条未读消息!");
-                            }
-                        }else{
-                            mNewMessageLayout.setVisibility(View.GONE);
-                        }
+//                        netRetEntity = JSON.parseObject(mNetRetStr, NetRetEntity.class);
+//                        if(netRetEntity.getResCode()==1){
+//                            ProvideMsgPushReminderCount   mProvideMsgPushReminderCount = JSON.parseObject(netRetEntity.getResJsonData(), ProvideMsgPushReminderCount.class);
+//                            if(mProvideMsgPushReminderCount.getMsgTypeCountSum()==0){
+//                                mNewMessageLayout.setVisibility(View.GONE);
+//                            }
+//                            else  {
+//                                mNewMessageLayout.setVisibility(View.VISIBLE);
+//                                mNewMessage.setText( "您有" + mProvideMsgPushReminderCount.getMsgTypeCountSum() + "条未读消息!");
+//                            }
+//                        }else{
+//                            mNewMessageLayout.setVisibility(View.GONE);
+//                        }
                         break;
                     case 3:
                         cacerProgress();
@@ -259,6 +277,7 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
                     if (netRetEntity.getResCode() == 0) {
                         NetRetEntity retEntity = new NetRetEntity();
                         retEntity.setResCode(0);
+                        //   retEntity.setResMsg("获取失败：" + netRetEntity.getResMsg());
                         mNetRetStr = new Gson().toJson(retEntity);
                         mHandler.sendEmptyMessage(10);
                         return;
@@ -285,6 +304,7 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
         super.onResume();
         //启动程序，查询是否有未读消息
         getMessageCount();
+        //   getAppData();
     }
 
     /**

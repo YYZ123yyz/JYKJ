@@ -143,7 +143,6 @@ public class UserAuthenticationActivity extends AppCompatActivity {
                     upLoadImgParment.setOperDoctorCode(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
                     upLoadImgParment.setOperDoctorName(mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
                     String str = new Gson().toJson(upLoadImgParment);
-                    System.out.println("~~~~~~~~~~~~~开始提交了~~~~~~~~~~~~~~");
                     mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + str, Constant.SERVICEURL + "doctorPersonalSetControlle/getUserDoctorQualificationImg");
                     System.out.println("~~~~~~~~~~~~~返回~~~~~~~~~~~~~~" + mRetString);
                     NetRetEntity netRetEntity = new Gson().fromJson(mNetRetStr, NetRetEntity.class);

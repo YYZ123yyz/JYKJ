@@ -207,8 +207,7 @@ public class VideoCallActivity extends CallActivity implements OnClickListener {
             @Override
             public void handleMessage(Message msg) {
                 switch (msg.what)
-                {
-                    case 1:
+                {                    case 1:
                         /**
                          * 挂断通话
                          */

@@ -121,7 +121,11 @@ public class TWJZNoFinishRecycleAdapter extends RecyclerView.Adapter<TWJZNoFinis
             viewHolder.mText04.setVisibility(View.GONE);
             viewHolder.mText05.setVisibility(View.GONE);
             viewHolder.mText06.setVisibility(View.GONE);
-            viewHolder.mText01.setText("预约服务时间：" + Util.dateToStr(datas.get(position).getTreatmentDate()));
+            if(datas.get(position).getTreatmentDate()==null){
+                viewHolder.mText01.setText("");
+            }else{
+                viewHolder.mText01.setText("预约服务时间：" + Util.dateToStr(datas.get(position).getTreatmentDate()));
+            }
             viewHolder.mText02.setText("剩余音频时长：" + datas.get(position).getLimitAudioShow() + "(分钟)");
         }
         if (datas.get(position).getTreatmentType() == 3) {
@@ -132,8 +136,15 @@ public class TWJZNoFinishRecycleAdapter extends RecyclerView.Adapter<TWJZNoFinis
             viewHolder.mText04.setVisibility(View.GONE);
             viewHolder.mText05.setVisibility(View.GONE);
             viewHolder.mText06.setVisibility(View.GONE);
-            viewHolder.mText01.setText("预约服务时间：" + Util.dateToStr(datas.get(position).getTreatmentDate()));
-            viewHolder.mText02.setText("剩余视频时长：" + datas.get(position).getLimitVideoShow() + "(分钟)");
+            if(datas.get(position).getTreatmentDate()==null){
+                viewHolder.mText01.setText("");
+            }else{
+                viewHolder.mText01.setText("预约服务时间：" + Util.dateToStr(datas.get(position).getTreatmentDate()));
+            }
+            if(datas.get(position).getTreatmentDate()==null){
+                viewHolder.mText01.setText("");
+            }else{
+                viewHolder.mText02.setText("剩余视频时长：" + datas.get(position).getLimitVideoShow() + "(分钟)");            }
         }
         if (datas.get(position).getTreatmentType() == 4) {
             viewHolder.mYHHD.setText("医患互动");

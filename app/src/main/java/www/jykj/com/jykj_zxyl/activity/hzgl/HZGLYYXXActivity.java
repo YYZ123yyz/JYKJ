@@ -241,7 +241,6 @@ public class HZGLYYXXActivity extends AppCompatActivity implements  View.OnClick
                 mHZEntyties.clear();
                 searchDateType="4";
                 getResData(searchDateType,"","");
-                mHZGL_YYXX_RecycleAdapter.notifyDataSetChanged();
                 break;
             case R.id.tv_comfirm:
                 mHZEntyties.clear();
@@ -301,9 +300,15 @@ public class HZGLYYXXActivity extends AppCompatActivity implements  View.OnClick
                     provideViewPatientInfo.setSearchDateEnd(searchDateEnd);
                     String jsonString = JSON.toJSONString(provideViewPatientInfo);
                     mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + jsonString, Constant.SERVICEURL + "patientDataControlle/searchDoctorManagePatientStateResTakingMedicineRecord");
+                    Log.e("tag", "患者 "+mNetRetStr );
                     NetRetEntity netRetEntity = new Gson().fromJson(mNetRetStr, NetRetEntity.class);
                     list = JSON.parseArray(netRetEntity.getResJsonData(), YyBean.class);
-                    mHZEntyties.addAll(list.get(0).getPatientConditionTakingRecordList());
+                    int size = list.size();
+                    for (int i = 0; i < size; i++) {
+                        mHZEntyties.addAll(list.get(i).getPatientConditionTakingRecordList());
+                    }
+
+
 
                 } catch (Exception e) {
                     NetRetEntity retEntity = new NetRetEntity();
