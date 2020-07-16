@@ -89,7 +89,8 @@ public class FragmentZSXQ extends Fragment {
 
     private int mPageNum = 1;                               //页数
     private int mRowNum = 10;                               //每页行数
-    private int mType = 1;                               //就诊(治疗)类型.-1:全部;1:图文就诊;2:音频就诊;3:视频就诊;4:签约服务;5:电话就诊;
+    private int mType
+            = 1;                               //就诊(治疗)类型.-1:全部;1:图文就诊;2:音频就诊;3:视频就诊;4:签约服务;5:电话就诊;
     private TextView mWWC;
     private TextView mYWC;
     private int mModel = 1;                      //当前模式 1= 未完成 2=已完成
@@ -122,11 +123,16 @@ public class FragmentZSXQ extends Fragment {
         mApp = (JYKJApplication) getActivity().getApplication();
         initLayout(v);
         initHandler();
-        getData();
+
 
         return v;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        getData();
+    }
 
     /**
      * 初始化界面
@@ -597,33 +603,7 @@ public class FragmentZSXQ extends Fragment {
         };
     }
 
-    private void getTime(String orderCode,String treatmentType,String operType,String limitNum) {
-        HashMap<String, String> map = new HashMap<>();
-        map.put("loginDoctorPosition", "108.93425^34.23053");
-        map.put("operDoctorCode", mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
-        map.put("operDoctorName", mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
-        map.put("orderCode",orderCode );
-        map.put("treatmentType",treatmentType );
-        map.put("operType",operType );
-        map.put("limitNum",limitNum );
-        new Thread() {
-            public void run() {
-                try {
-                    mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + new Gson().toJson(map), Constant.SERVICEURL + "doctorInteractDataControlle/operUpdMyClinicDetailByOrderTreatmentLimitNum");
-                    Log.e("tag", "更新 "+mNetRetStr );
-                } catch (Exception e) {
-                    NetRetEntity retEntity = new NetRetEntity();
-                    retEntity.setResCode(0);
-                    retEntity.setResMsg("网络连接异常，请联系管理员：" + e.getMessage());
-                    mNetRetStr = new Gson().toJson(retEntity);
-                    e.printStackTrace();
 
-                }
-
-                mHandler.sendEmptyMessage(10);
-            }
-        }.start();
-    }
 
 
     /**
