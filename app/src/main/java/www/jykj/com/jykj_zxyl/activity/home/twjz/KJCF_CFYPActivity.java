@@ -13,6 +13,7 @@ import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -110,7 +111,7 @@ public class KJCF_CFYPActivity extends AppCompatActivity {
         if (mProvideInteractOrderPrescribe == null) {
             mProvideInteractOrderPrescribe = new ProvideInteractOrderPrescribe();
             mProvideInteractOrderPrescribe.setPrescribeId(0);
-            mProvideInteractOrderPrescribe.setOrderCode("0");
+            mProvideInteractOrderPrescribe.setOrderCode(mProvideViewInteractOrderTreatmentAndPatientInterrogation.getOrderCode());
             mProvideInteractOrderPrescribe.setPatientCode(mProvideViewInteractOrderTreatmentAndPatientInterrogation.getPatientCode());
             mProvideInteractOrderPrescribe.setPatientName(mProvideViewInteractOrderTreatmentAndPatientInterrogation.getPatientName());
         } else {
@@ -247,7 +248,7 @@ public class KJCF_CFYPActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {// which是被选中的位置
                 mPrescribeTypeText.setText(mList.get(which).getAttrName());
-                mProvideInteractOrderPrescribe.setPrescribeTypeName(mList.get(which).getAttrName());
+             //   mProvideInteractOrderPrescribe.setPrescribeTypeName(mList.get(which).getAttrName());
                 mProvideInteractOrderPrescribe.setPrescribeType(mList.get(which).getAttrCode());
 
 
@@ -295,8 +296,11 @@ public class KJCF_CFYPActivity extends AppCompatActivity {
                         Toast.makeText(mContext, "请填写服药周期", Toast.LENGTH_SHORT).show();
                         return;
                     }
+                   if(TextUtils.isEmpty(mYYBZ.getText().toString())){
+                       Toast.makeText(mContext, "请填写用药备注", Toast.LENGTH_SHORT).show();
+                       return;
+                   }
                     mProvideInteractOrderPrescribe.setDrugAmount(Float.parseFloat(mGMSL.getText().toString()));
-                    getIntent();
                     mProvideInteractOrderPrescribe.setUseNum(Integer.parseInt(mMCFYSL.getText().toString()));
                     mProvideInteractOrderPrescribe.setUseFrequency(Integer.parseInt(mYYPL.getText().toString()));
                     mProvideInteractOrderPrescribe.setUseCycle(Integer.parseInt(mFYZQ.getText().toString()));
@@ -313,16 +317,7 @@ public class KJCF_CFYPActivity extends AppCompatActivity {
                             try {
                                 String str = new Gson().toJson(mProvideInteractOrderPrescribe);
                                 mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + str, Constant.SERVICEURL + "doctorInteractDataControlle/operUpdMyClinicDetailByPrescribe");
-                                NetRetEntity netRetEntity = new Gson().fromJson(mNetRetStr, NetRetEntity.class);
-                                if (netRetEntity.getResCode() == 0) {
-                                    NetRetEntity retEntity = new NetRetEntity();
-                                    retEntity.setResCode(0);
-                                    retEntity.setResMsg("提交失败：" + netRetEntity.getResMsg());
-                                    mNetRetStr = new Gson().toJson(retEntity);
-                                    mHandler.sendEmptyMessage(6);
-                                    return;
-                                }
-
+                                Log.e("tag", "提交 "+mNetRetStr );
                             } catch (Exception e) {
                                 NetRetEntity retEntity = new NetRetEntity();
                                 retEntity.setResCode(0);

@@ -141,21 +141,6 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
         return v;
     }
 
-
-//    /**
-//     * 启动定时器，轮询获取未读消息数
-//     */
-//    private void startMessageTimer() {
-//        Timer timer = new Timer();
-//        TimerTask task = new TimerTask() {
-//            @Override
-//            public void run() {
-//                getMessageCount();
-//            }
-//        };
-//        timer.schedule(task, 0, mApp.mMsgTimeInterval * 60 * 1000);
-//    }
-
     @SuppressLint("HandlerLeak")
     private void initHandler() {
         mHandler = new Handler() {
@@ -220,36 +205,36 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
                     case 1:
                         cacerProgress();
                         netRetEntity = JSON.parseObject(mNetRetStr, NetRetEntity.class);
-//                        if(netRetEntity.getResCode()==0){
-//
-//                        }else{
-//                              Toast.makeText(mContext, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
-//                        }
+                        if(netRetEntity.getResCode()==0){
+
+                        }else{
+                              Toast.makeText(mContext, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
+                        }
 
                         break;
                     case 2:
-//                        netRetEntity = JSON.parseObject(mNetRetStr, NetRetEntity.class);
-//                        if(netRetEntity.getResCode()==1){
-//                            ProvideMsgPushReminderCount   mProvideMsgPushReminderCount = JSON.parseObject(netRetEntity.getResJsonData(), ProvideMsgPushReminderCount.class);
-//                            if(mProvideMsgPushReminderCount.getMsgTypeCountSum()==0){
-//                                mNewMessageLayout.setVisibility(View.GONE);
-//                            }
-//                            else  {
-//                                mNewMessageLayout.setVisibility(View.VISIBLE);
-//                                mNewMessage.setText( "您有" + mProvideMsgPushReminderCount.getMsgTypeCountSum() + "条未读消息!");
-//                            }
-//                        }else{
-//                            mNewMessageLayout.setVisibility(View.GONE);
-//                        }
+                        netRetEntity = JSON.parseObject(mNetRetStr, NetRetEntity.class);
+                        if(netRetEntity.getResCode()==1){
+                            ProvideMsgPushReminderCount   mProvideMsgPushReminderCount = JSON.parseObject(netRetEntity.getResJsonData(), ProvideMsgPushReminderCount.class);
+                            if(mProvideMsgPushReminderCount.getMsgTypeCountSum()==0){
+                                mNewMessageLayout.setVisibility(View.GONE);
+                            }
+                            else  {
+                                mNewMessageLayout.setVisibility(View.VISIBLE);
+                                mNewMessage.setText( "您有" + mProvideMsgPushReminderCount.getMsgTypeCountSum() + "条未读消息!");
+                            }
+                        }else{
+                            mNewMessageLayout.setVisibility(View.GONE);
+                        }
                         break;
                     case 3:
                         cacerProgress();
                         netRetEntity = JSON.parseObject(mNetRetStr, NetRetEntity.class);
-//                        if(netRetEntity.getResCode()==0){
-//
-//                        }else{
-//                            Toast.makeText(mContext, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
-//                        }
+                        if(netRetEntity.getResCode()==0){
+
+                        }else{
+                            Toast.makeText(mContext, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
+                        }
                         break;
                     case 10:
                         cacerProgress();

@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -171,6 +172,7 @@ public class TWJZ_JZXJActivity extends AppCompatActivity {
                     mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + string, Constant.SERVICEURL + "doctorInteractDataControlle/searchMyClinicDetailResMedicalRecord");
                     String string01 = Constant.SERVICEURL + "doctorInteractDataControlle/searchMyClinicDetailResOrderDiag";
                     System.out.println(string + string01);
+                    Log.e("tag", "病例小结"+mNetRetStr );
                 } catch (Exception e) {
                     NetRetEntity retEntity = new NetRetEntity();
                     retEntity.setResCode(0);
@@ -232,9 +234,6 @@ public class TWJZ_JZXJActivity extends AppCompatActivity {
             mJZXJContent4.setText(mProvideInteractOrderMedical.getTreatmentPlanCode());
         }
 
-
-
-
     }
 
 
@@ -247,13 +246,17 @@ public class TWJZ_JZXJActivity extends AppCompatActivity {
         ProvideInteractOrderMedical provideInteractOrderMedical = new ProvideInteractOrderMedical();
         provideInteractOrderMedical.setLoginDoctorPosition(mApp.loginDoctorPosition);
         provideInteractOrderMedical.setOperDoctorCode(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
-        provideInteractOrderMedical.setOperDoctorName(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
+        provideInteractOrderMedical.setOperDoctorName(mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
         provideInteractOrderMedical.setOrderCode(mProvideViewInteractOrderTreatmentAndPatientInterrogation.getOrderCode());
-        if(mProvideInteractOrderMedical.getMedicalId()==null){
+        if (TextUtils.isEmpty(mJZXJContent1.getText().toString())&&TextUtils.isEmpty(mJZXJContent.getText().toString())&&TextUtils.isEmpty(mJZXJContent2.getText().toString())&&TextUtils.isEmpty(mJZXJContent3.getText().toString())&&TextUtils.isEmpty(mJZXJContent4.getText().toString()))
+        {
+            Toast.makeText(mContext,"请先填写主诉",Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if(mProvideInteractOrderMedical==null){
             provideInteractOrderMedical.setMedicalId(0);
         }else{
             provideInteractOrderMedical.setMedicalId(mProvideInteractOrderMedical.getMedicalId());
-            Log.e("tag", "commit:pppp "+provideInteractOrderMedical.getMedicalId());
         }
 
         provideInteractOrderMedical.setPatientCode(mProvideViewInteractOrderTreatmentAndPatientInterrogation.getPatientCode());
@@ -263,20 +266,13 @@ public class TWJZ_JZXJActivity extends AppCompatActivity {
         provideInteractOrderMedical.setMedicalExamination(mJZXJContent2.getText().toString());
         provideInteractOrderMedical.setAuxiliaryCheck(mJZXJContent3.getText().toString());
         provideInteractOrderMedical.setTreatmentPlanCode(mJZXJContent4.getText().toString());
-
-
-//        if (provideInteractOrderMedical.getTreatmentContent() == null || "".equals(mProvideInteractOrderMedical.getTreatmentContent())) {
-//            Toast.makeText(mContext, "请先填写就诊小结", Toast.LENGTH_SHORT).show();
-//            return;
-//        }
         getProgressBar("请稍候", "正在提交数据。。。");
         new Thread() {
             public void run() {
                 try {
                     String string = new Gson().toJson(provideInteractOrderMedical);
                     mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + string, Constant.SERVICEURL + "doctorInteractDataControlle/operUpdMyClinicDetailByMedicalRecord");
-                    String string01 = Constant.SERVICEURL + "doctorInteractDataControlle/operUpdMyClinicDetailByMedicalContent";
-                    System.out.println(string + string01);
+                    Log.e("tag", "提交 "+ mNetRetStr);
                 } catch (Exception e) {
                     NetRetEntity retEntity = new NetRetEntity();
                     retEntity.setResCode(0);

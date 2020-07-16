@@ -154,30 +154,6 @@ public class TWJZ_KJCFActivity extends AppCompatActivity {
         });
         mRecycleView.setAdapter(mAdapter);
 
-//        mAdapter.setOnItemClickListener(new TWJZ_CFQRecycleAdapter.OnItemClickListener() {
-//            @Override
-//            public void onClick(int position) {
-//                startActivityForResult(new Intent(mContext, KJCF_CFYPActivity.class).putExtra("cfyp", mProvideInteractOrderPrescribes.get(position)), mAddYPRequst);
-//            }
-//
-//            @Override
-//            public void onLongClick(int position) {
-//
-//            }
-//        });
-//        mAdapter.setOnDeleteItemClickListener(new TWJZ_CFQRecycleAdapter.OnItemDeleteClickListener() {
-//            @Override
-//            public void onClick(int position) {
-//                mDeleteIndex = position;
-//                deleteYP();
-//            }
-//
-//            @Override
-//            public void onLongClick(int position) {
-//
-//            }
-//        });
-
     }
 
     /**
@@ -239,6 +215,7 @@ public class TWJZ_KJCFActivity extends AppCompatActivity {
                                 }
                                 mAdapter.setDate(mProvideInteractOrderPrescribes);
                                 mAdapter.notifyDataSetChanged();
+                                mRecycleView.setAdapter(mAdapter);
                             }
 
                         }
@@ -287,7 +264,7 @@ public class TWJZ_KJCFActivity extends AppCompatActivity {
         ProvideInteractOrderPrescribe provideInteractOrderPrescribe = new ProvideInteractOrderPrescribe();
         provideInteractOrderPrescribe.setLoginDoctorPosition(mApp.loginDoctorPosition);
         provideInteractOrderPrescribe.setOperDoctorCode(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
-        provideInteractOrderPrescribe.setOperDoctorName(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
+        provideInteractOrderPrescribe.setOperDoctorName(mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
         provideInteractOrderPrescribe.setOrderCode(mProvideViewInteractOrderTreatmentAndPatientInterrogation.getOrderCode());
 
         new Thread() {
@@ -295,9 +272,7 @@ public class TWJZ_KJCFActivity extends AppCompatActivity {
                 try {
                     String string = new Gson().toJson(provideInteractOrderPrescribe);
                     mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + string, Constant.SERVICEURL + "doctorInteractDataControlle/searchMyClinicDetailResPrescribe");
-                    String string01 = Constant.SERVICEURL + "doctorInteractDataControlle/searchMyClinicDetailResPrescribe";
-                    System.out.println(string + string01);
-                    Log.e("tag", "run: 开具处方"+mNetRetStr );
+                    Log.e("tag", " 开具处方"+mNetRetStr );
                 } catch (Exception e) {
                     NetRetEntity retEntity = new NetRetEntity();
                     retEntity.setResCode(0);

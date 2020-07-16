@@ -308,8 +308,6 @@ public class HZGLYYXXActivity extends AppCompatActivity implements  View.OnClick
                         mHZEntyties.addAll(list.get(i).getPatientConditionTakingRecordList());
                     }
 
-
-
                 } catch (Exception e) {
                     NetRetEntity retEntity = new NetRetEntity();
                     retEntity.setResCode(0);

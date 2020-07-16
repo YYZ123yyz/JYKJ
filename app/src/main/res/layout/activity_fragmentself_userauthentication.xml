@@ -147,7 +147,7 @@
                 android:background="@color/writeColor"
                 android:layout_gravity="center"
                 android:textColor="@color/colorRed"
-                android:text="(请保持证件号清晰可见，没想最多可上传4张照片)"
+                android:text="(请保持证件号清晰可见，最多可上传4张照片)"
                 android:paddingTop="5dp"
                 android:gravity="center_vertical"
                 android:textSize="6pt"

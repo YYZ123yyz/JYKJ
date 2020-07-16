@@ -88,21 +88,21 @@ public class HZGLXYActivity extends AppCompatActivity {
                     //还原默认
                     setTextDefault();
                     setIndex(0);
-                    mXYQST.setBackgroundResource(R.mipmap.pg_messagetitle);
+                 //   mXYQST.setBackgroundResource(R.mipmap.pg_messagetitle);
                     mXYQST.setTextColor(getResources().getColor(R.color.tabColor_nomal));
                     break;
                 case R.id.tv_activityHZGLXY_xyRZ:
                     //还原默认
                     setTextDefault();
                     setIndex(1);
-                    mXYRZ.setBackgroundResource(R.mipmap.pg_messagetitle);
+              //      mXYRZ.setBackgroundResource(R.mipmap.pg_messagetitle);
                     mXYRZ.setTextColor(getResources().getColor(R.color.tabColor_nomal));
                     break;
                 case R.id.tv_activityHZGLXY_xygz:
                     //还原默认
                     setTextDefault();
                     setIndex(2);
-                    mXYGZ.setBackgroundResource(R.mipmap.pg_messagetitle);
+               //     mXYGZ.setBackgroundResource(R.mipmap.pg_messagetitle);
                     mXYGZ.setTextColor(getResources().getColor(R.color.tabColor_nomal));
                     break;
             }

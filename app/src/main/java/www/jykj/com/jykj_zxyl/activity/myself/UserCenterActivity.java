@@ -541,6 +541,7 @@ public class UserCenterActivity extends AppCompatActivity {
                 try {
                     if (mUserHeadBitmap != null)
                         mProvideViewSysUserDoctorInfoAndHospital.setBase64ImgData((URLEncoder.encode("data:image/jpg;base64," + BitmapUtil.bitmaptoString(mUserHeadBitmap))));
+                    Log.e("tag", "头像 "+mProvideViewSysUserDoctorInfoAndHospital.getBase64ImgData().toString() );
                     String str = new Gson().toJson(mProvideViewSysUserDoctorInfoAndHospital);
                     mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + str, Constant.SERVICEURL + "doctorPersonalSetControlle/operUserDoctorInfo");
                     Log.e("tag", "修改"+mNetRetStr );

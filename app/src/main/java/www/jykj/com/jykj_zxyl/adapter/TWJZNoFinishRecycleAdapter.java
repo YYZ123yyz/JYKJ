@@ -80,11 +80,10 @@ public class TWJZNoFinishRecycleAdapter extends RecyclerView.Adapter<TWJZNoFinis
             viewHolder.lin_gender.setBackgroundResource(R.drawable.female);
             viewHolder.mSex.setImageResource(R.mipmap.female);
         }
-        //    viewHolder.mSex.setText("女");
         viewHolder.mAge.setText(datas.get(position).getInterrogationBirthday());
-        //  viewHolder.mJD.setText(datas.get(position).getFlagTreatmentStateName());
+
         viewHolder.mType.setText(datas.get(position).getDoctorReceiveShow());
-        Log.e("tag", "onBindViewHolder: " + datas.get(position).getFlagColor().toString());
+
         if (datas.get(position).getFlagColor() == 0) {
             viewHolder.mType.setTextColor(Color.parseColor("#999999"));
             viewHolder.rela.setVisibility(View.GONE);
