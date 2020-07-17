@@ -79,6 +79,12 @@ public class LiveroomDetailActivity extends AppCompatActivity {
         public void onClick(View v) {
             if(null!=mRoomDetailInfo){
                 Intent parint = new Intent(mActivity, LivePublisherActivity.class);
+                parint.putExtra("pushUrl",mRoomDetailInfo.getPullUrl());
+                parint.putExtra("chatRoomName",mRoomDetailInfo.getChatRoomCode());
+                parint.putExtra("chatId",mRoomDetailInfo.getChatRoomCode());
+                parint.putExtra("liveTitle",mRoomDetailInfo.getTitleMainShow());
+                parint.putExtra("detailCode",mRoomDetailInfo.getDetailsCode());
+                LiveroomDetailActivity.this.startActivity(parint);
             }
         }
     }

@@ -104,7 +104,7 @@ public class MyLiveRoomActivity extends AppCompatActivity implements View.OnClic
                 live.setVisibility(View.VISIBLE);
                 roompager.setCurrentItem(0);
                 room_text.setText("直播预报");
-                live_type = LivePublisherActivity.LIVE_TYPE_PRELIVE;
+                live_type = LivePublisherActivity.LIVE_TYPE_HOTLIVE;
                 break;
             case R.id.room_Hit:
                 live.setVisibility(View.VISIBLE);
