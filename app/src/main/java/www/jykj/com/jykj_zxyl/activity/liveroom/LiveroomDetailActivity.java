@@ -56,6 +56,7 @@ public class LiveroomDetailActivity extends AppCompatActivity {
         mContext = LiveroomDetailActivity.this;
         setContentView(R.layout.activity_liveroom_detail);
         initview();
+        loadData();
     }
 
     void initview(){
@@ -138,6 +139,7 @@ public class LiveroomDetailActivity extends AppCompatActivity {
                 det_room_type.setText(StrUtils.defaulObjToStr(roomDetailInfo.getClassName()));
                 det_live_time.setText("");
             }
+            cacerProgress();
         }
     }
 
