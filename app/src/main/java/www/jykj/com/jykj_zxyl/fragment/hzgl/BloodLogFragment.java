@@ -170,9 +170,9 @@ public class BloodLogFragment extends Fragment {
                     }
                     List<ProvidePatientConditionBloodPressureGroup> list = JSON.parseArray(netRetEntity.getResJsonData(), ProvidePatientConditionBloodPressureGroup.class);
                     pressureGroupsList.addAll(list);
-                    if (dialogUtil.isShow()) {
-                        dialogUtil.dismiss();
-                    }
+//                    if (dialogUtil.isShow()) {
+//                        dialogUtil.dismiss();
+//                    }
                 } catch (Exception e) {
                     NetRetEntity retEntity = new NetRetEntity();
                     retEntity.setResCode(0);

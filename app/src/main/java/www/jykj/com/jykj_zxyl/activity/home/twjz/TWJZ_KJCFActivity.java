@@ -294,7 +294,7 @@ public class TWJZ_KJCFActivity extends AppCompatActivity {
                     commit();
                     break;
                 case R.id.tv_addYP:
-                    startActivityForResult(new Intent(mContext, KJCF_CFYPActivity.class).putExtra("xzyp", mProvideViewInteractOrderTreatmentAndPatientInterrogation), mAddYPRequst);
+                    startActivityForResult(new Intent(mContext, KJCF_CFYPActivity.class).putExtra("wzxx", mProvideViewInteractOrderTreatmentAndPatientInterrogation), mAddYPRequst);
                     break;
 
             }

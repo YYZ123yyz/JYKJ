@@ -60,7 +60,7 @@ import yyz_exploit.bean.ProvidePatientConditionBlood;
 /**
  * 血压趋势图
  */
-    public class TrendFragment extends Fragment implements View.OnClickListener {
+public class TrendFragment extends Fragment implements View.OnClickListener {
     private int mRowNum = 100;                        //分页行数
     private int mPageNum = 1;                       //分页页码
     private JYKJApplication mApp;
@@ -109,10 +109,8 @@ import yyz_exploit.bean.ProvidePatientConditionBlood;
                     lin_date.setVisibility(View.VISIBLE );
                 }else {
                     lin_date.setVisibility(View.GONE );
-
                 }
                 data = !data;
-
             }
         });
         day_tv = v.findViewById(R.id.day_tv);
@@ -177,17 +175,12 @@ import yyz_exploit.bean.ProvidePatientConditionBlood;
         llBloodDayAverage.setOnClickListener(this);
         llBloodWeekAverage.setOnClickListener(this);
         llBloodMonthAverage.setOnClickListener(this);
-      //  getData("","","");
+        //  getData("","","");
 
     }
 
 
     private void getData(String searchDateType,String searchDateStart,String searchDateEnd) {
-        if(dialogUtil==null){
-            dialogUtil = new DialogUtil(getActivity());
-        }else{
-            dialogUtil.show();
-        }
         new Thread() {
             public void run() {
                 try {
@@ -226,15 +219,15 @@ import yyz_exploit.bean.ProvidePatientConditionBlood;
                     retEntity.setResCode(0);
                     retEntity.setResMsg("网络连接异常，请联系管理员：" + e.getMessage());
                     mNetRetStr = new Gson().toJson(retEntity);
-                    if(dialogUtil!=null){
-                        dialogUtil.dismiss();
-                    }
+//                    if(dialogUtil!=null){
+//                        dialogUtil.dismiss();
+//                    }
                     e.printStackTrace();
 
                 }
-                if(dialogUtil!=null){
-                    dialogUtil.dismiss();
-                }
+//                if(dialogUtil!=null){
+//                    dialogUtil.dismiss();
+//                }
                 mHandler.sendEmptyMessage(1);
             }
         }.start();
@@ -262,11 +255,11 @@ import yyz_exploit.bean.ProvidePatientConditionBlood;
     LineDataSet dataSet1,dataSet2,dataSet3,dataSet4;
     private void setLineChart() {
 
-            List<Entry> entries1 = new ArrayList<>();
+        List<Entry> entries1 = new ArrayList<>();
 
         for (int i = 0; i < dayAvgHeartRateNumArray.size(); i++) {
             String string = dayAvgHeartRateNumArray.get(i).toString();
-           int p=Integer.valueOf(string).intValue();
+            int p=Integer.valueOf(string).intValue();
             entries1.add(new Entry(i,p));
         }
         dataSet1 = new LineDataSet(entries1, "心率");
@@ -347,10 +340,10 @@ import yyz_exploit.bean.ProvidePatientConditionBlood;
 
         //设置从Y轴值
         yAxis.setAxisMinimum(50f);
-      //  xAxis.setSpaceBetweenLabels(int characters)
+        //  xAxis.setSpaceBetweenLabels(int characters)
         xAxis.setSpaceMax(4);
         mLineChart.setDragEnabled(true);
-     //   mLineChart.setPinchZoom(true);
+        //   mLineChart.setPinchZoom(true);
         mLineChart.notifyDataSetChanged();
         mLineChart.invalidate();
 //        mLineChart.setDragEnabled(true);

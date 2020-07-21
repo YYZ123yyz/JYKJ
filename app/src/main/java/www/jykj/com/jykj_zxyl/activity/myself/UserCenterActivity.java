@@ -195,8 +195,9 @@ public class UserCenterActivity extends AppCompatActivity {
                         break;
                     case 3:
                         cacerProgress();
-                        if (mNetRetStr != null && !mNetRetStr.equals("")) {
-                            NetRetEntity netRetEntity = new Gson().fromJson(mNetRetStr, NetRetEntity.class);
+                        if (mNetLoginRetStr != null && !mNetLoginRetStr.equals("")) {
+                            NetRetEntity netRetEntity = new Gson().fromJson(mNetLoginRetStr, NetRetEntity.class);
+                            Log.e("tag", "handleMessage: "+netRetEntity.getResCode() );
                             if (netRetEntity.getResCode() == 1) {
                                 mApp.mViewSysUserDoctorInfoAndHospital = new Gson().fromJson(netRetEntity.getResJsonData(), ViewSysUserDoctorInfoAndHospital.class);
                                 mApp.saveUserInfo();
@@ -240,8 +241,6 @@ public class UserCenterActivity extends AppCompatActivity {
             mUserSexText.setText("女");
         else
             mUserSexText.setHint("请选择性别");
-
-        Log.e("tag", "setLayoutDate: "+ mProvideViewSysUserDoctorInfoAndHospital.getBirthday().toString());
         //出生日期
         if (mProvideViewSysUserDoctorInfoAndHospital.getBirthday() != null && !"".equals(mProvideViewSysUserDoctorInfoAndHospital.getBirthday()))
             mUserBirthDayText.setText(Util.dateToStrNUR(mProvideViewSysUserDoctorInfoAndHospital.getBirthday()));
@@ -253,7 +252,7 @@ public class UserCenterActivity extends AppCompatActivity {
         else  if(TextUtils.isEmpty(mProvideViewSysUserDoctorInfoAndHospital.getCityName())){
             region=mProvideViewSysUserDoctorInfoAndHospital.getProvinceName();
         }
-       else if (TextUtils.isEmpty(mProvideViewSysUserDoctorInfoAndHospital.getAreaName())) {
+        else if (TextUtils.isEmpty(mProvideViewSysUserDoctorInfoAndHospital.getAreaName())) {
             region = mProvideViewSysUserDoctorInfoAndHospital.getProvinceName() + mProvideViewSysUserDoctorInfoAndHospital.getCityName();
         } else {
             region = mProvideViewSysUserDoctorInfoAndHospital.getProvinceName() + mProvideViewSysUserDoctorInfoAndHospital.getCityName() + mProvideViewSysUserDoctorInfoAndHospital.getAreaName();
@@ -493,11 +492,11 @@ public class UserCenterActivity extends AppCompatActivity {
             return;
         }
 
-        if (mProvideViewSysUserDoctorInfoAndHospital.getBirthdayStr() == null || "".equals(mProvideViewSysUserDoctorInfoAndHospital.getBirthdayStr()))
-        {
-            Toast.makeText(mContext,"请选择出生日期",Toast.LENGTH_SHORT).show();
-            return;
-        }
+//        if (mProvideViewSysUserDoctorInfoAndHospital.getBirthdayStr() == null || "".equals(mProvideViewSysUserDoctorInfoAndHospital.getBirthdayStr()))
+//        {
+//            Toast.makeText(mContext,"请选择出生日期",Toast.LENGTH_SHORT).show();
+//            return;
+//        }
         if (mProvideViewSysUserDoctorInfoAndHospital.getHospitalInfoCode() == null || "".equals(mProvideViewSysUserDoctorInfoAndHospital.getHospitalInfoCode()))
         {
             Toast.makeText(mContext,"请选择医院",Toast.LENGTH_SHORT).show();
@@ -523,17 +522,6 @@ public class UserCenterActivity extends AppCompatActivity {
             Toast.makeText(mContext,"请选择省份",Toast.LENGTH_SHORT).show();
             return;
         }
-        if(TextUtils.isEmpty(mEmalEdit.getText().toString())){
-            mProvideViewSysUserDoctorInfoAndHospital.setEmail("");
-        }else{
-            if (isEmail(mEmalEdit.getText().toString().trim()) && mEmalEdit.getText().toString().trim().length()<=31){
-                //   Toast.makeText(UserCenterActivity.this,"邮箱验证成功",Toast.LENGTH_SHORT).show();
-            }else {
-                Toast.makeText(UserCenterActivity.this,"邮箱格式错误",Toast.LENGTH_SHORT).show();
-                return;
-            }
-            mProvideViewSysUserDoctorInfoAndHospital.setEmail(mEmalEdit.getText().toString());
-        }
         getProgressBar("请稍候", "正在提交数据...");
         new Thread() {
             public void run() {
@@ -541,7 +529,6 @@ public class UserCenterActivity extends AppCompatActivity {
                 try {
                     if (mUserHeadBitmap != null)
                         mProvideViewSysUserDoctorInfoAndHospital.setBase64ImgData((URLEncoder.encode("data:image/jpg;base64," + BitmapUtil.bitmaptoString(mUserHeadBitmap))));
-                    Log.e("tag", "头像 "+mProvideViewSysUserDoctorInfoAndHospital.getBase64ImgData().toString() );
                     String str = new Gson().toJson(mProvideViewSysUserDoctorInfoAndHospital);
                     mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + str, Constant.SERVICEURL + "doctorPersonalSetControlle/operUserDoctorInfo");
                     Log.e("tag", "修改"+mNetRetStr );
@@ -559,19 +546,18 @@ public class UserCenterActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 //重新登录，刷新用户信息
-                    UserInfo userInfo = new UserInfo();
-                    userInfo.setUserPhone(mApp.mLoginUserInfo.getUserPhone());
-                    userInfo.setUserPwd(mApp.mLoginUserInfo.getUserPwd());
-                    try {
-                        mNetLoginRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + new Gson().toJson(userInfo), Constant.SERVICEURL + "doctorLoginController/loginDoctorPwd");
-                        Log.e("tag", "用户信息 "+mNetLoginRetStr );
-                    } catch (Exception e) {
-                        NetRetEntity retEntity = new NetRetEntity();
-                        retEntity.setResCode(0);
-                        retEntity.setResMsg("网络连接异常，请联系管理员：" + e.getMessage());
-                        mNetLoginRetStr = new Gson().toJson(retEntity);
-                        e.printStackTrace();
-                    }
+                UserInfo userInfo = new UserInfo();
+                userInfo.setUserPhone(mApp.mLoginUserInfo.getUserPhone());
+                userInfo.setUserPwd(mApp.mLoginUserInfo.getUserPwd());
+                try {
+                    mNetLoginRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + new Gson().toJson(userInfo), Constant.SERVICEURL + "doctorLoginController/loginDoctorPwd");
+                } catch (Exception e) {
+                    NetRetEntity retEntity = new NetRetEntity();
+                    retEntity.setResCode(0);
+                    retEntity.setResMsg("网络连接异常，请联系管理员：" + e.getMessage());
+                    mNetLoginRetStr = new Gson().toJson(retEntity);
+                    e.printStackTrace();
+                }
                 mHandler.sendEmptyMessage(3);
             }
         }.start();

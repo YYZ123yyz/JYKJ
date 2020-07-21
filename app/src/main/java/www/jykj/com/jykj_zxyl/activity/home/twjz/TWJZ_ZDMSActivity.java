@@ -375,7 +375,8 @@ public class TWJZ_ZDMSActivity extends AppCompatActivity {
         mProvideInteractOrderDiag.setDiagDiseaseNameAlias2(mZDBM2.getText().toString());
         mProvideInteractOrderDiag.setDiagDiseaseNameAlias3(mZDBM3.getText().toString());
         mProvideInteractOrderDiag.setDiagDiseaseDesc(mZDMS.getText().toString());
-        if (mProvideInteractOrderDiag.getDiagDiseaseDesc() == null || "".equals(mProvideInteractOrderDiag.getDiagDiseaseDesc()))
+        if (mZDMS.getText().toString() == null || "".equals(mZDMS.getText().toString()
+        ))
         {
             Toast.makeText(mContext,"请填写诊断描述",Toast.LENGTH_SHORT).show();
             return;
@@ -391,11 +392,11 @@ public class TWJZ_ZDMSActivity extends AppCompatActivity {
         mProvideInteractOrderDiag.setOrderCode(mProvideViewInteractOrderTreatmentAndPatientInterrogation.getOrderCode());
         mProvideInteractOrderDiag.setPatientCode(mProvideViewInteractOrderTreatmentAndPatientInterrogation.getPatientCode());
         mProvideInteractOrderDiag.setPatientName(mProvideViewInteractOrderTreatmentAndPatientInterrogation.getPatientName());
-       if(mProvideInteractOrderDiag.getDiagId()==null){
-           mProvideInteractOrderDiag.setDiagId(0);
-       }else{
-           mProvideInteractOrderDiag.setDiagId(mProvideInteractOrderDiag.getDiagId());
-       }
+        if(mProvideInteractOrderDiag.getDiagId()==null){
+            mProvideInteractOrderDiag.setDiagId(0);
+        }else{
+            mProvideInteractOrderDiag.setDiagId(mProvideInteractOrderDiag.getDiagId());
+        }
 
         getProgressBar("请稍候", "正在提交数据。。。");
         new Thread() {

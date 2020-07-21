@@ -107,7 +107,7 @@ public class KJCF_CFYPActivity extends AppCompatActivity {
 
         initLayout();
         mProvideInteractOrderPrescribe = (ProvideInteractOrderPrescribe) getIntent().getSerializableExtra("cfyp");
-        mProvideViewInteractOrderTreatmentAndPatientInterrogation = (ProvideViewInteractOrderTreatmentAndPatientInterrogation) getIntent().getSerializableExtra("xzyp");
+        mProvideViewInteractOrderTreatmentAndPatientInterrogation = (ProvideViewInteractOrderTreatmentAndPatientInterrogation) getIntent().getSerializableExtra("wzxx");
         if (mProvideInteractOrderPrescribe == null) {
             mProvideInteractOrderPrescribe = new ProvideInteractOrderPrescribe();
             mProvideInteractOrderPrescribe.setPrescribeId(0);
@@ -153,9 +153,11 @@ public class KJCF_CFYPActivity extends AppCompatActivity {
                     mYPGG.setText(mProvideDrugInfo.getDrugUnit());
                     mProvideInteractOrderPrescribe.setDrugCode(mProvideDrugInfo.getDrugCode());
                     mProvideInteractOrderPrescribe.setDrugName(mProvideDrugInfo.getDrugName());
-//                    provideInteractOrderPrescribeInfo.setProductBatchNumber(mProvideDrugInfo.get);
                     mProvideInteractOrderPrescribe.setSpecUnit(mProvideDrugInfo.getDrugUnit());
                     mProvideInteractOrderPrescribe.setSpecName(mProvideDrugInfo.getDrugSpec());
+                    Log.e("tag", "onActivityResult: "+mProvideInteractOrderPrescribe.getDrugCode() );
+                    Log.e("tag", "onActivityResult: "+mProvideInteractOrderPrescribe.getDrugName() );
+                    Log.e("tag", "onActivityResult: "+mProvideInteractOrderPrescribe.getSpecName() );
                 }
 //                else{
 //                    Intent intent = getIntent();
@@ -248,7 +250,7 @@ public class KJCF_CFYPActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {// which是被选中的位置
                 mPrescribeTypeText.setText(mList.get(which).getAttrName());
-             //   mProvideInteractOrderPrescribe.setPrescribeTypeName(mList.get(which).getAttrName());
+                //   mProvideInteractOrderPrescribe.setPrescribeTypeName(mList.get(which).getAttrName());
                 mProvideInteractOrderPrescribe.setPrescribeType(mList.get(which).getAttrCode());
 
 
@@ -296,10 +298,10 @@ public class KJCF_CFYPActivity extends AppCompatActivity {
                         Toast.makeText(mContext, "请填写服药周期", Toast.LENGTH_SHORT).show();
                         return;
                     }
-                   if(TextUtils.isEmpty(mYYBZ.getText().toString())){
-                       Toast.makeText(mContext, "请填写用药备注", Toast.LENGTH_SHORT).show();
-                       return;
-                   }
+                    if(TextUtils.isEmpty(mYYBZ.getText().toString())){
+                        Toast.makeText(mContext, "请填写用药备注", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
                     mProvideInteractOrderPrescribe.setDrugAmount(Float.parseFloat(mGMSL.getText().toString()));
                     mProvideInteractOrderPrescribe.setUseNum(Integer.parseInt(mMCFYSL.getText().toString()));
                     mProvideInteractOrderPrescribe.setUseFrequency(Integer.parseInt(mYYPL.getText().toString()));

@@ -1,5 +1,6 @@
 package www.jykj.com.jykj_zxyl.activity.home.twjz;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -34,6 +35,7 @@ import www.jykj.com.jykj_zxyl.application.Constant;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.util.ActivityUtil;
 import yyz_exploit.activity.activity.AddActivity;
+import yyz_exploit.activity.activity.AddTextActivity;
 
 
 /**
@@ -66,6 +68,8 @@ public class KJCF_XZYPActivity extends AppCompatActivity {
     private ImageView iv_add;
 
     private static final int mAdd = 1;
+    private ProvideDrugInfo mProvideDrugInfos1;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,9 +89,7 @@ public class KJCF_XZYPActivity extends AppCompatActivity {
         iv_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext, AddActivity.class);
-                startActivity(intent);
-                finish();
+                startActivityForResult(new Intent(mContext, AddActivity.class), 1);
             }
         });
 
@@ -219,6 +221,22 @@ public class KJCF_XZYPActivity extends AppCompatActivity {
         }.start();
     }
 
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK && requestCode == 1) {
+            mProvideDrugInfos1 = new ProvideDrugInfo();
+            mProvideDrugInfos1.setDrugName(data.getStringExtra("name"));
+            mProvideDrugInfos1.setDrugUnit(data.getStringExtra("unit"));
+            mProvideDrugInfos1.setDrugSpec(data.getStringExtra("num"));
+            mProvideDrugInfos1.setDrugCode("0");
+            Intent intent = new Intent();
+            intent.putExtra("jkxx", mProvideDrugInfos1);
+            setResult(-1,intent);
+            finish();
+        }
+    }
 
     /**
      * 获取进度条

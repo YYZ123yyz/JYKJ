@@ -43,6 +43,8 @@ import java.util.List;
 
 import entity.HZIfno;
 import entity.patientInfo.ProvideViewPatientLablePunchClockState;
+import entity.patientInfo.ProvideViewSysUserPatientInfoAndRegion;
+import entity.yhhd.ProvideGroupConsultationUserInfo;
 import netService.HttpNetService;
 import netService.entity.NetRetEntity;
 import www.jykj.com.jykj_zxyl.R;
@@ -109,6 +111,8 @@ public class FragmentZSXQ extends Fragment {
     private RecyclerView mRecycleView;              //列表
     private SmartRefreshLayout refreshLayout;
     private CallReceiver callReceiver;
+    private List<ProvideViewSysUserPatientInfoAndRegion> provideViewSysUserPatientInfoAndRegions;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_activitymyclinic_zsxq, container, false);
@@ -123,7 +127,7 @@ public class FragmentZSXQ extends Fragment {
         mApp = (JYKJApplication) getActivity().getApplication();
         initLayout(v);
         initHandler();
-
+        //  getUserIdentification();
 
         return v;
     }
@@ -438,10 +442,15 @@ public class FragmentZSXQ extends Fragment {
                                 public void onClick(int position) {
                                     switch (mType) {
                                         case 1:
+//                                            getPatient(provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getPatientCode());
+
                                             Intent intent = new Intent();
                                             intent.setClass(mContext, ChatActivity.class);
+//                                            intent.putExtra("usersName", mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
+                                            intent.putExtra("userUrl", mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl());
+                                            //   intent.putExtra("doctorUrl",provideViewSysUserPatientInfoAndRegions.get(position).getUserLogoUrl());
                                             intent.putExtra("userCode", provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getPatientCode());
-                                            intent.putExtra("userName", provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getPatientName());
+                                            intent.putExtra("usersName", provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getPatientName());
                                             intent.putExtra("chatType", "twjz");
 
                                             intent.putExtra("loginDoctorPosition", mApp.loginDoctorPosition);
@@ -453,8 +462,8 @@ public class FragmentZSXQ extends Fragment {
                                             intent.putExtra(EaseConstant.EXTRA_VOICE_NUM, provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getLimitAudioShow());           //音频时长（单位：秒）
                                             intent.putExtra(EaseConstant.EXTRA_VEDIO_NUM, provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getLimitVideoShow());           //视频时长（单位：秒）
                                             startActivity(intent);
-                                         //   private void getTime(String orderCode,String treatmentType,String operType,String limitNum) {
-                                        //    getTime(provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getOrderCode(),"1","1","1");
+                                            //   private void getTime(String orderCode,String treatmentType,String operType,String limitNum) {
+                                            //    getTime(provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getOrderCode(),"1","1","1");
                                             break;
                                         case 2:
                                             if (provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getLimitAudioShow() <= 0) {
@@ -598,11 +607,43 @@ public class FragmentZSXQ extends Fragment {
 
                         }
                         break;
+                    case 20:
+                        if (mNetRetStr != null && !mNetRetStr.equals("")) {
+                            // netRetEntity = new Gson().fromJson(mNetRetStr, NetRetEntity.class);
+                            //  if(netRetEntity.getResCode()==1){
+                            provideViewSysUserPatientInfoAndRegions = JSON.parseArray(JSON.parseObject(mNetRetStr, NetRetEntity.class).getResJsonData(), ProvideViewSysUserPatientInfoAndRegion.class);
+                            //      }
+                        }
+                        break;
                 }
             }
         };
     }
 
+    private void getPatient(String searchPatientCode) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("loginDoctorPosition", "108.93425^34.23053");
+        map.put("operDoctorCode", mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
+        map.put("operDoctorName", mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
+        map.put("searchPatientCode", searchPatientCode);
+
+        new Thread() {
+            public void run() {
+                try {
+
+                    mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + new Gson().toJson(map), Constant.SERVICEURL + "doctorGroupConsultationControlle/searchUserIdentificationByUserCode");
+                    Log.e("tag", "患者 "+mNetRetStr );
+                } catch (Exception e) {
+                    NetRetEntity retEntity = new NetRetEntity();
+                    retEntity.setResCode(0);
+                    retEntity.setResMsg("网络连接异常，请联系管理员：" + e.getMessage());
+                    mNetRetStr = new Gson().toJson(retEntity);
+                    e.printStackTrace();
+                }
+                mHandler.sendEmptyMessage(20);
+            }
+        }.start();
+    }
 
 
 
@@ -654,6 +695,7 @@ public class FragmentZSXQ extends Fragment {
                 try {
                     String string = new Gson().toJson(provideViewInteractOrderTreatmentAndPatientInterrogation);
                     mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + string, Constant.SERVICEURL + "doctorInteractDataControlle/searchMyClinicDetailResTreatmentRecord");
+                    Log.e("tag", "患者信息 "+mNetRetStr );
                     String string01 = Constant.SERVICEURL + "msgDataControlle/searchMsgPushReminderAllCount";
                     System.out.println(string + string01);
                 } catch (Exception e) {

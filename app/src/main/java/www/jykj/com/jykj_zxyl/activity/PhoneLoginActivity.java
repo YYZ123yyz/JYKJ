@@ -1,6 +1,7 @@
 package www.jykj.com.jykj_zxyl.activity;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -60,7 +61,7 @@ import yyz_exploit.activity.activity.ResActivity;
  */
 public class PhoneLoginActivity extends AppCompatActivity {
 
-
+    private SharedPreferences sp1;
     public ProgressDialog mDialogProgress = null;
 
     private TextView mPhoneLogin;                //手机号登录
@@ -165,10 +166,10 @@ public class PhoneLoginActivity extends AppCompatActivity {
                                 mApp.saveUserInfo();
                                 Toast.makeText(mContext, "恭喜，登录成功", Toast.LENGTH_SHORT).show();
                                 Log.d("登录ID====",mApp.mViewSysUserDoctorInfoAndHospital.getDoctorId()+"");
-                               SharedPreferences sp= getSharedPreferences("loginUser",MODE_PRIVATE);
-                               SharedPreferences.Editor editor=sp.edit();
-                               editor.putInt("doctorId",mApp.mViewSysUserDoctorInfoAndHospital.getDoctorId());
-                               editor.commit();
+                                SharedPreferences sp= getSharedPreferences("loginUser",MODE_PRIVATE);
+                                SharedPreferences.Editor editor=sp.edit();
+                                editor.putInt("doctorId",mApp.mViewSysUserDoctorInfoAndHospital.getDoctorId());
+                                editor.commit();
                                 //登录IM
                                 mApp.loginIM();
                                 startActivity(new Intent(mContext, MainActivity.class));
@@ -206,6 +207,14 @@ public class PhoneLoginActivity extends AppCompatActivity {
      */
     private void initLayout() {
         mPhoneNum = (EditText) this.findViewById(R.id.et_activityPhoneLogin_phoneNumEdit);
+        //response为后台返回的json数据
+        sp1 = getSharedPreferences("SP_Data_List", Activity.MODE_PRIVATE);//创建sp对象,如果有key为"SP_PEOPLE"的sp就取出
+        String peopleListJson = sp1.getString("KEY_Data_List_DATA","");  //取出key为"KEY_PEOPLE_DATA"的值，如果值为空，则将第二个参数作为默认值赋值
+        if(sp1==null){
+            Log.e("tag", "DataList: "+"zoule " );
+        }else{
+            mPhoneNum.setText(peopleListJson);
+        }
         mVCode = (EditText) this.findViewById(R.id.et_activityPhoneLogin_vCodeEdit);
         mUserRegist = (TextView) this.findViewById(R.id.textView_activityPhoneLogin_userRegistTextView);
         mLogin = (Button) this.findViewById(R.id.bt_activityPhoneLogin_loginBt);
@@ -322,6 +331,10 @@ public class PhoneLoginActivity extends AppCompatActivity {
         userInfo.setUserPhone(mPhoneNum.getText().toString());
         userInfo.setUserLoginSmsVerify(mVCode.getText().toString());
         userInfo.setTokenSmsVerify(mSmsToken);
+        sp1 = getSharedPreferences("SP_Data_List", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp1.edit() ;
+        editor.putString("KEY_Data_List_DATA", mPhoneNum.getText().toString()) ; //存入json串
+        editor.commit() ;//提交
         getProgressBar("请稍候", "正在登录");
         //连接网络，登录
         new Thread() {
