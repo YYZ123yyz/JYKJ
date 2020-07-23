@@ -221,6 +221,7 @@ public class FragmentYHHD extends Fragment {
      * @param v
      */
     private void initLayout(View v) {
+       ImageView img_ease=v.findViewById(R.id.img_ease);
         mHXNetWorkState = (TextView) v.findViewById(R.id.tv_hxNetWorkState);
         if (mApp.gNetConnectionHX)
             mHXNetWorkState.setVisibility(View.GONE);
@@ -528,7 +529,7 @@ public class FragmentYHHD extends Fragment {
                     mMessageRecycleView.setVisibility(View.VISIBLE);
                     //   mJQImage.setVisibility(View.VISIBLE);
                     mHYSQText.setVisibility(View.GONE);
-                    mMessageList.setBackgroundResource(R.mipmap.pg_messagetitle);
+               //     mMessageList.setBackgroundResource(R.mipmap.pg_messagetitle);
                     mMessageList.setTextColor(mActivity.getResources().getColor(R.color.tabColor_nomal));
                     getMessageList();
                     break;
@@ -539,7 +540,7 @@ public class FragmentYHHD extends Fragment {
                     mHYSQText.setVisibility(View.GONE);
                     mMessageRecycleView.setVisibility(View.VISIBLE);
                     //   mJQImage.setVisibility(View.VISIBLE);
-                    mAll.setBackgroundResource(R.mipmap.pg_messagetitle);
+              //      mAll.setBackgroundResource(R.mipmap.pg_messagetitle);
                     mAll.setTextColor(mActivity.getResources().getColor(R.color.tabColor_nomal));
                     //获取数据
                     getHZDate();
@@ -550,7 +551,7 @@ public class FragmentYHHD extends Fragment {
                     mYSHY.setVisibility(View.GONE);
                     //   mJQImage.setVisibility(View.VISIBLE);
                     mHYSQText.setVisibility(View.GONE);
-                    mPay.setBackgroundResource(R.mipmap.pg_messagetitle);
+                 //   mPay.setBackgroundResource(R.mipmap.pg_messagetitle);
                     mPay.setTextColor(mActivity.getResources().getColor(R.color.tabColor_nomal));
                     //获取数据
                     getQYHXDate();
@@ -563,7 +564,7 @@ public class FragmentYHHD extends Fragment {
                     mMessageRecycleView.setVisibility(View.GONE);
                     //     mJQImage.setVisibility(View.GONE);
                     mHYSQText.setVisibility(View.VISIBLE);
-                    mFriend.setBackgroundResource(R.mipmap.pg_messagetitle);
+                 //   mFriend.setBackgroundResource(R.mipmap.pg_messagetitle);
                     mFriend.setTextColor(mActivity.getResources().getColor(R.color.tabColor_nomal));
                     //获取数据
                     getYSLMDate();

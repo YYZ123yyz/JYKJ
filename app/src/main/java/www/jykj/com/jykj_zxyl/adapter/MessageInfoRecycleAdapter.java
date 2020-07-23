@@ -3,6 +3,7 @@ package www.jykj.com.jykj_zxyl.adapter;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMConversation;
 import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.assist.SimpleImageLoadingListener;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
@@ -96,13 +99,22 @@ public class MessageInfoRecycleAdapter extends RecyclerView.Adapter<MessageInfoR
         {
             if (datas.get(position).isNoRead())
             {
-                viewHolder.mMessage.setTextColor(mContext.getColor(R.color.textColor_hztltabyj));
+                viewHolder.mMessage.setTextColor(ContextCompat.getColor(mContext,R.color.textColor_hztltabyj));
                 viewHolder.mMessage.setText(datas.get(position).getLastMessage());
+                viewHolder.mTvReadIcon.setVisibility(View.VISIBLE);
+                String patientUserName = datas.get(position).getPatientCode();
+                EMConversation conversation = EMClient.getInstance().chatManager().getConversation(patientUserName);
+                if (conversation!=null) {
+                    int unreadMsgCount = conversation.getUnreadMsgCount();
+                    viewHolder.mTvReadIcon.setText(String.format("%d",unreadMsgCount));
+                }
+
             }
             else
             {
-                viewHolder.mMessage.setTextColor(mContext.getColor(R.color.textColor_vt));
+                viewHolder.mMessage.setTextColor(ContextCompat.getColor(mContext,R.color.textColor_vt));
                 viewHolder.mMessage.setText(datas.get(position).getLastMessage());
+                viewHolder.mTvReadIcon.setVisibility(View.GONE);
             }
         }
 
@@ -145,7 +157,7 @@ public class MessageInfoRecycleAdapter extends RecyclerView.Adapter<MessageInfoR
             public TextView     mSSY;
             public TextView     mMessage;
             public TextView     mDate;
-
+            public TextView mTvReadIcon;
             public ViewHolder(View view){
                 super(view);
                 mClickLinearLayout = (LinearLayout) view.findViewById(R.id.li_itemFragmentHYHD_clickLayout);
@@ -154,6 +166,7 @@ public class MessageInfoRecycleAdapter extends RecyclerView.Adapter<MessageInfoR
                 mDate = (TextView)view.findViewById(R.id.tv_itemMessageAdapter_userDateText);
                 mMessage = (TextView)view.findViewById(R.id.tv_itemMessageAdapter_userMessageText);
                 mImageView = (ImageView)view.findViewById(R.id.iv_itemMessageAdapter_head);
+                mTvReadIcon=view.findViewById(R.id.tv_unread_icon);
             }
         }
 

@@ -47,9 +47,13 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import androidx.annotation.RequiresApi;
+
+
+import de.greenrobot.event.EventBus;
 import entity.mySelf.DataCleanManager;
 import util.VersionsUpdata;
 import www.jykj.com.jykj_zxyl.activity.myself.SettingActivity;
+import yyz_exploit.Utils.BadgeUtil;
 import yyz_exploit.Utils.HttpUtils;
 import yyz_exploit.bean.AppVersionBean;
 import entity.home.newsMessage.ProvideMsgPushReminderCount;
@@ -119,6 +123,8 @@ public class MainActivity extends AppCompatActivity {
     private EMConnectionListener connectionListener;
     private EMConnectionListener emConnectionListener;
     private ErrorDialog errorDialog;
+    private TextView mTvUnreadBtn;
+    private int unreadMessageCount;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -127,10 +133,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mContext = this;
         mainActivity = this;
+   //     EventBus.getDefault().register(this);
         ActivityUtil.setStatusBarMain(mainActivity);
         mApp = (JYKJApplication) getApplication();
         mApp.gMainActivity = this;
-        mApp.gActivityList.add(this);
+//        mApp.gActivityList.add(this);
         //判断是否有新消息
         mApp.setNewsMessage();
      //   data();
@@ -142,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
         mApp.gNetWorkTextView = true;
         data();
         getLocation();
-
+        BadgeUtil.setBadgeCount(this,unreadMessageCount,R.drawable.bg_red_circle);
     }
     /**
      * 设置环信网络状态
@@ -304,10 +311,35 @@ public class MainActivity extends AppCompatActivity {
             }
         };
     }
+
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setUnReadMsgBtnStatus();
+        //启动程序，查询是否有未读消息
+//       getMessageCount();
+    }
+    /**
+     * 设置未读消息按钮状态
+     */
+    @SuppressLint("DefaultLocale")
+    private void setUnReadMsgBtnStatus(){
+        unreadMessageCount = EMClient.getInstance().chatManager().getUnreadMessageCount();
+        if(unreadMessageCount >0){
+            mTvUnreadBtn.setVisibility(View.VISIBLE);
+            mTvUnreadBtn.setText(String.format("%d", unreadMessageCount));
+        }else{
+            mTvUnreadBtn.setVisibility(View.GONE);
+        }
+    }
+
     /**
      * 初始化布局
      */
-    private void initLayout() {
+        private void initLayout() {
+        mTvUnreadBtn=this.findViewById(R.id.tv_unread_btn);
         mLinearLayoutShouYe = (LinearLayout) this.findViewById(R.id.l1_activityMain_ShouYeLayout);
 //        mLinearLayoutHZGuanLi = (LinearLayout)this.findViewById(R.id.l1_activityMain_HZGuanLiLayout);
         mLinearLayoutYHHD = (LinearLayout) this.findViewById(R.id.l1_activityMain_LayoutHYHD);
@@ -387,13 +419,13 @@ public class MainActivity extends AppCompatActivity {
                     case 1:
                         mCurrentFragment = 1;
                         setDefaultLayout();
-                        if (mApp.gNewMessageNum > 0) {
-                            mImageViewYHHD.setBackgroundResource(R.mipmap.hyhdnews_press);
-                            mTextViewYHHD.setTextColor(getResources().getColor(R.color.tabColor_press));
-                        } else {
+//                        if (mApp.gNewMessageNum > 0) {
+//                            mImageViewYHHD.setBackgroundResource(R.mipmap.hyhdnews_press);
+//                            mTextViewYHHD.setTextColor(getResources().getColor(R.color.tabColor_press));
+//                        } else {
                             mImageViewYHHD.setBackgroundResource(R.mipmap.hz_press);
                             mTextViewYHHD.setTextColor(getResources().getColor(R.color.tabColor_press));
-                        }
+                     //   }
                         break;
                     case 2:
                         mCurrentFragment = 2;
@@ -427,7 +459,7 @@ public class MainActivity extends AppCompatActivity {
         mImageViewShouYe.setBackgroundResource(R.mipmap.sy_nomal);
 //        mImageViewHZGuanLi.setBackgroundResource(R.mipmap.hzgl_nomal);
         if (mApp.gNewMessageNum > 0)
-            mImageViewYHHD.setBackgroundResource(R.mipmap.hyhdnews_nomal);
+            mImageViewYHHD.setBackgroundResource(R.mipmap.hz_nomal);
         else
             mImageViewYHHD.setBackgroundResource(R.mipmap.hz_nomal);
         mImageViewYLZX.setBackgroundResource(R.mipmap.class_img);
@@ -457,10 +489,10 @@ public class MainActivity extends AppCompatActivity {
     public void setHZTabView() {
         if (mApp.gNewMessageNum > 0) {
             if (mCurrentFragment == 1) {
-                mImageViewYHHD.setBackgroundResource(R.mipmap.hyhdnews_press);
+            //    mImageViewYHHD.setBackgroundResource(R.mipmap.hyhdnews_press);
                 mTextViewYHHD.setTextColor(getResources().getColor(R.color.tabColor_press));
             } else {
-                mImageViewYHHD.setBackgroundResource(R.mipmap.hyhdnews_nomal);
+                mImageViewYHHD.setBackgroundResource(R.mipmap.hz_nomal);
                 mTextViewYHHD.setTextColor(getResources().getColor(R.color.tabColor_nomal));
             }
         } else {

@@ -86,6 +86,7 @@ import www.jykj.com.jykj_zxyl.activity.LoginActivity;
 import www.jykj.com.jykj_zxyl.activity.MainActivity;
 import www.jykj.com.jykj_zxyl.service.MessageReciveService;
 import www.jykj.com.jykj_zxyl.util.StrUtils;
+import yyz_exploit.Utils.CrashHandler;
 import yyz_exploit.dialog.AuthorityDialog;
 import yyz_exploit.dialog.ErrorDialog;
 
@@ -303,6 +304,45 @@ public class JYKJApplication extends Application {
         });
     }
 
+//
+//    /**
+//     * 添加消息监听
+//     */
+//    private void addImMessageListener(){
+//        EMClient.getInstance().chatManager().addMessageListener(new EMMessageListener() {
+//            @Override
+//            public void onMessageReceived(List<EMMessage> list) {
+//                System.out.println(list);
+//            }
+//
+//            @Override
+//            public void onCmdMessageReceived(List<EMMessage> list) {
+//
+//            }
+//
+//            @Override
+//            public void onMessageRead(List<EMMessage> list) {
+//
+//            }
+//
+//            @Override
+//            public void onMessageDelivered(List<EMMessage> list) {
+//
+//            }
+//
+//            @Override
+//            public void onMessageRecalled(List<EMMessage> list) {
+//
+//            }
+//
+//            @Override
+//            public void onMessageChanged(EMMessage emMessage, Object o) {
+//
+//            }
+//        });
+//    }
+//
+//
 
 
     @Override
@@ -376,25 +416,25 @@ public class JYKJApplication extends Application {
         // 小米推送
     //    Constants.useOfficial(); // 使用正式环境。
       //   Constants.useSandbox(); // 使用测试环境。
-        LoggerInterface newLogger = new LoggerInterface() {
+//        LoggerInterface newLogger = new LoggerInterface() {
+//
+//            @Override
+//            public void setTag(String tag) {
+//                // ignore
+//            }
+//
+//            @Override
+//            public void log(String content, Throwable t) {
+//                Log.d("", content, t);
+//            }
+//
+//            @Override
+//            public void log(String content) {
+//                Log.d("", content);
+//            }
+//        };
 
-            @Override
-            public void setTag(String tag) {
-                // ignore
-            }
-
-            @Override
-            public void log(String content, Throwable t) {
-                Log.d("", content, t);
-            }
-
-            @Override
-            public void log(String content) {
-                Log.d("", content);
-            }
-        };
-
-        Logger.setLogger(this, newLogger);
+      //  Logger.setLogger(this, newLogger);
 //        if (handler == null)
 //            handler = new DemoHandler(getApplicationContext());
 //
@@ -405,7 +445,7 @@ public class JYKJApplication extends Application {
 //        }
 
 
-
+     //   CrashHandler.getInstance().init(this);
 
     }
     private boolean shouldInit() {
@@ -427,7 +467,6 @@ public class JYKJApplication extends Application {
              @Override
              public void onDisconnected(int error) {
                 if(error==EMError.USER_LOGIN_ANOTHER_DEVICE){
-
 
                 }
              }

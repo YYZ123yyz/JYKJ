@@ -105,7 +105,7 @@ public class ChatActivity extends AppCompatActivity {
         args.putString("chatType", chatType);
         chatFragment.setArguments(args);
         getSupportFragmentManager().beginTransaction().add(R.id.container, chatFragment).commit();
-
+     //   SavePreferences.setData("isNewMsg",false);
             getTime(orderCode,"1","1","1");
         initHandler();
     }
