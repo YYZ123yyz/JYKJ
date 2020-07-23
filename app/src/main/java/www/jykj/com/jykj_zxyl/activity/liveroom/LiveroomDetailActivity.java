@@ -56,6 +56,7 @@ public class LiveroomDetailActivity extends AppCompatActivity {
         mContext = LiveroomDetailActivity.this;
         setContentView(R.layout.activity_liveroom_detail);
         initview();
+        loadData();
     }
 
     void initview(){
@@ -79,6 +80,12 @@ public class LiveroomDetailActivity extends AppCompatActivity {
         public void onClick(View v) {
             if(null!=mRoomDetailInfo){
                 Intent parint = new Intent(mActivity, LivePublisherActivity.class);
+                parint.putExtra("pushUrl",mRoomDetailInfo.getPullUrl());
+                parint.putExtra("chatRoomName",mRoomDetailInfo.getChatRoomCode());
+                parint.putExtra("chatId",mRoomDetailInfo.getChatRoomCode());
+                parint.putExtra("liveTitle",mRoomDetailInfo.getTitleMainShow());
+                parint.putExtra("detailCode",mRoomDetailInfo.getDetailsCode());
+                LiveroomDetailActivity.this.startActivity(parint);
             }
         }
     }
@@ -132,6 +139,7 @@ public class LiveroomDetailActivity extends AppCompatActivity {
                 det_room_type.setText(StrUtils.defaulObjToStr(roomDetailInfo.getClassName()));
                 det_live_time.setText("");
             }
+            cacerProgress();
         }
     }
 

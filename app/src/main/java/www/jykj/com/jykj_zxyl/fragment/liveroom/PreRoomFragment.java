@@ -2,6 +2,7 @@ package www.jykj.com.jykj_zxyl.fragment.liveroom;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -20,6 +21,7 @@ import entity.liveroom.QueryLiveroomCond;
 import netService.HttpNetService;
 import netService.entity.NetRetEntity;
 import www.jykj.com.jykj_zxyl.R;
+import www.jykj.com.jykj_zxyl.activity.liveroom.LiveroomDetailActivity;
 import www.jykj.com.jykj_zxyl.adapter.PreLiveAdapter;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.util.IConstant;
@@ -79,6 +81,9 @@ public class PreRoomFragment extends Fragment {
                 switch (view.getId()){
                     case R.id.pre_live_btn:
                         PreLiveInfo parbean = mdatas.get(position);
+                        Intent parintent = new Intent(mActivity, LiveroomDetailActivity.class);
+                        parintent.putExtra("detailCode",parbean.getDetailsCode());
+                        mActivity.startActivity(parintent);
                         break;
                 }
 

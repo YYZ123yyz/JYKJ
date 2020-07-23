@@ -82,7 +82,7 @@ public class MyLiveRoomActivity extends AppCompatActivity implements View.OnClic
     private TextView room_Hit;
     private TextView room_Lecture;
     private TextView room_text;
-    String live_type = LivePublisherActivity.LIVE_TYPE_PRELIVE;
+    String live_type = LivePublisherActivity.LIVE_TYPE_HOTLIVE;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,13 +98,12 @@ public class MyLiveRoomActivity extends AppCompatActivity implements View.OnClic
                 Intent intent = new Intent(MyLiveRoomActivity.this, BeforesettingActivity.class);
                 intent.putExtra("live_type",live_type);
                 startActivity(intent);
-
                 break;
             case R.id.room_forecast:
                 live.setVisibility(View.VISIBLE);
                 roompager.setCurrentItem(0);
                 room_text.setText("直播预报");
-                live_type = LivePublisherActivity.LIVE_TYPE_PRELIVE;
+                live_type = LivePublisherActivity.LIVE_TYPE_HOTLIVE;
                 break;
             case R.id.room_Hit:
                 live.setVisibility(View.VISIBLE);

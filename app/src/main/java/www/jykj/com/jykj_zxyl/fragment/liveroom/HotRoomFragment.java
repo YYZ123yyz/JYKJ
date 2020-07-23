@@ -21,6 +21,7 @@ import entity.liveroom.QueryLiveroomCond;
 import netService.HttpNetService;
 import netService.entity.NetRetEntity;
 import www.jykj.com.jykj_zxyl.R;
+import www.jykj.com.jykj_zxyl.activity.hyhd.LivePublisherActivity;
 import www.jykj.com.jykj_zxyl.activity.liveroom.LiveroomDetailActivity;
 import www.jykj.com.jykj_zxyl.adapter.HotLiveAdapter;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
@@ -80,8 +81,13 @@ public class HotRoomFragment extends Fragment {
             public void onClick(int position, View view) {
                 switch (view.getId()){
                     case R.id.play_live_btn:
-                        Intent theintent = new Intent(mActivity, LiveroomDetailActivity.class);
+                        Intent theintent = new Intent(mActivity, LivePublisherActivity.class);
                         HotLiveInfo parben = mdatas.get(position);
+                        theintent.putExtra("detailCode",parben.getDetailsCode());
+                        theintent.putExtra("pushUrl",parben.getPullUrl());
+                        theintent.putExtra("chatRoomName",parben.getChatRoomCode());
+                        theintent.putExtra("chatId",parben.getChatRoomCode());
+                        theintent.putExtra("liveTitle",parben.getBroadcastTitle());
                         theintent.putExtra("detailCode",parben.getDetailsCode());
                         mActivity.startActivity(theintent);
                         break;
