@@ -35,6 +35,7 @@ import com.hyphenate.EMConnectionListener;
 import com.hyphenate.EMError;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.easeui.model.EaseNotifier;
+import com.hyphenate.easeui.utils.MainMessage;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
@@ -50,6 +51,8 @@ import androidx.annotation.RequiresApi;
 
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import entity.mySelf.DataCleanManager;
 import util.VersionsUpdata;
@@ -692,5 +695,19 @@ public class MainActivity extends AppCompatActivity {
 //        String downLoadUrl = appVersionBean.getVersion().getUpdateUrl();
         //downLoadUrl 是下载app的的网址
         new VersionsUpdata(this).initdata(message, true, "");
+    }
+
+    //主线程中执行
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMainEventBus(MainMessage msg) {
+        setUnReadMsgBtnStatus();
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }
