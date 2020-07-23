@@ -69,7 +69,7 @@ public class UnionNewsActivity extends AppCompatActivity implements View.OnClick
 
     private TextView    Type;
     private SmartRefreshLayout refreshLayout;
- private int page=0;
+    private int page=0;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -104,7 +104,6 @@ public class UnionNewsActivity extends AppCompatActivity implements View.OnClick
                                 intent.putExtra("newMessage", mMsgPushReminders.get(position));
                                 String msgLookUrl = mMsgPushReminders.get(position).getMsgLookUrl();
                                 intent.putExtra("URL", msgLookUrl);
-                                Log.e("tag", "onClick: "+msgLookUrl );
                                 Integer reminderId = mMsgPushReminders.get(position).getReminderId();
                                 intent.putExtra("reminderId", reminderId);
                                 mMsgPushReminders.get(position).setFlagMsgRead(1);
@@ -159,23 +158,23 @@ public class UnionNewsActivity extends AppCompatActivity implements View.OnClick
         LinearLayoutManager manager = new LinearLayoutManager(this);
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(manager);
-        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                    if (mLoadDate) {
-                        int lastVisiblePosition = manager.findLastVisibleItemPosition();
-                        if (lastVisiblePosition >= manager.getItemCount() - 1) {
-                            if (loadDate) {
-                                mPageNum++;
-                             //   getDate();
-                            }
-                        }
-                    }
-                }
-            }
-        });
+//        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+//            @Override
+//            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+//                super.onScrollStateChanged(recyclerView, newState);
+//                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+//                    if (mLoadDate) {
+//                        int lastVisiblePosition = manager.findLastVisibleItemPosition();
+//                        if (lastVisiblePosition >= manager.getItemCount() - 1) {
+//                            if (loadDate) {
+//                                mPageNum++;
+//                             //   getDate();
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        });
 
     }
 
@@ -217,7 +216,7 @@ public class UnionNewsActivity extends AppCompatActivity implements View.OnClick
                     getNewsMessageParment.setSearchDoctorName(mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
                     String jsonString = JSON.toJSONString(getNewsMessageParment);
                     mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + jsonString, Constant.SERVICEURL + "msgDataControlle/searchMsgPushReminderListResAllData");
-                    Log.e("tag", "run: 666"+mNetRetStr );
+                    Log.e("tag", "消息"+mNetRetStr );
                     NetRetEntity netRetEntity = new Gson().fromJson(mNetRetStr, NetRetEntity.class);
                     if (netRetEntity.getResCode() == 0) {
                         loadDate = false;

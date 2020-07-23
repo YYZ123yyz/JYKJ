@@ -106,7 +106,6 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
     private String qrCode;                         //需要绑定的二维码
     private ImageView mUserHead;
     private TextView home_Tv;
-    public ProvideMsgPushReminderCount mProvideMsgPushReminderCount = new ProvideMsgPushReminderCount();
 
     private LinearLayout home_certification;
 
@@ -136,25 +135,26 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
         mBindPatientParment = new BindPatientParment();
         initHandler();
         initView(v);
+        //  getMessageCount();
         getBasicDate();
         initListener();
         return v;
     }
 
 
-    /**
-     * 启动定时器，轮询获取未读消息数
-     */
-    private void startMessageTimer() {
-        Timer timer = new Timer();
-        TimerTask task = new TimerTask() {
-            @Override
-            public void run() {
-                getMessageCount();
-            }
-        };
-        timer.schedule(task, 0, mApp.mMsgTimeInterval * 60 * 1000);
-    }
+//    /**
+//     * 启动定时器，轮询获取未读消息数
+//     */
+//    private void startMessageTimer() {
+//        Timer timer = new Timer();
+//        TimerTask task = new TimerTask() {
+//            @Override
+//            public void run() {
+//                getMessageCount();
+//            }
+//        };
+//        timer.schedule(task, 0, mApp.mMsgTimeInterval * 60 * 1000);
+//    }
 
     @SuppressLint("HandlerLeak")
     private void initHandler() {
@@ -166,8 +166,9 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
                     case 0:
                         cacerProgress();
                         NetRetEntity netRetEntity = JSON.parseObject(mNetRetStr, NetRetEntity.class);
-                        if (netRetEntity.getResCode() == 0)
-                            Toast.makeText(mContext, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
+                        if (netRetEntity.getResCode() == 0){
+
+                        }
                         else {
                             if ("1".equals(netRetEntity.getResData())) {
                                 Log.e("tag", "handleMessage: "+"走了" );
@@ -219,32 +220,36 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
                     case 1:
                         cacerProgress();
                         netRetEntity = JSON.parseObject(mNetRetStr, NetRetEntity.class);
-                        Toast.makeText(mContext, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
+//                        if(netRetEntity.getResCode()==0){
+//
+//                        }else{
+//                              Toast.makeText(mContext, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
+//                        }
+
                         break;
                     case 2:
                         netRetEntity = JSON.parseObject(mNetRetStr, NetRetEntity.class);
-                        ProvideMsgPushReminderCount mProvideMsgPushReminderCount = null;
-                        //ProvideMsgPushReminderCount mProvideMsgPushReminderCount = JSON.parseObject(netRetEntity.getResJsonData(), ProvideMsgPushReminderCount.class);
-                        if(mProvideMsgPushReminderCount==null){
-                           mNewMessageLayout.setVisibility(View.GONE);
-                       }
-                       else  if (mProvideMsgPushReminderCount.getMsgTypeCountSum() != 0&&mProvideMsgPushReminderCount.getMsgTypeCountSum() != null) {
-                            Log.e("tag", "未读消息数量 "+ mProvideMsgPushReminderCount.getMsgTypeCountSum().toString());
-                           String string = "";
-
-                           string = "您有" + mProvideMsgPushReminderCount.getMsgTypeCountSum() + "条系统消息!";
-
-                           mNewMessageLayout.setVisibility(View.VISIBLE);
-                           mNewMessage.setText(string);
-
-                       }else{
-                           mNewMessageLayout.setVisibility(View.GONE);
-                       }
+                        if(netRetEntity.getResCode()==1){
+                            ProvideMsgPushReminderCount   mProvideMsgPushReminderCount = JSON.parseObject(netRetEntity.getResJsonData(), ProvideMsgPushReminderCount.class);
+                            if(mProvideMsgPushReminderCount.getMsgTypeCountSum()==0){
+                                mNewMessageLayout.setVisibility(View.GONE);
+                            }
+                            else  {
+                                mNewMessageLayout.setVisibility(View.VISIBLE);
+                                mNewMessage.setText( "您有" + mProvideMsgPushReminderCount.getMsgTypeCountSum() + "条未读消息!");
+                            }
+                        }else{
+                            mNewMessageLayout.setVisibility(View.GONE);
+                        }
                         break;
                     case 3:
                         cacerProgress();
                         netRetEntity = JSON.parseObject(mNetRetStr, NetRetEntity.class);
-                        Toast.makeText(mContext, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
+//                        if(netRetEntity.getResCode()==0){
+//
+//                        }else{
+//                            Toast.makeText(mContext, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
+//                        }
                         break;
                     case 10:
                         cacerProgress();
@@ -260,7 +265,6 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
         //开始识别
         new Thread() {
             public void run() {
-//                //提交数据
                 try {
                     ProvideBasicsDomain provideBasicsDomain = new ProvideBasicsDomain();
                     provideBasicsDomain.setBaseCode(30001);
@@ -273,7 +277,7 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
                     if (netRetEntity.getResCode() == 0) {
                         NetRetEntity retEntity = new NetRetEntity();
                         retEntity.setResCode(0);
-                        retEntity.setResMsg("获取失败：" + netRetEntity.getResMsg());
+                        //   retEntity.setResMsg("获取失败：" + netRetEntity.getResMsg());
                         mNetRetStr = new Gson().toJson(retEntity);
                         mHandler.sendEmptyMessage(10);
                         return;
@@ -299,7 +303,7 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
     public void onResume() {
         super.onResume();
         //启动程序，查询是否有未读消息
-        getMessageCount();
+        //getMessageCount();
         //   getAppData();
     }
 
@@ -316,9 +320,6 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
                     try {
                         String string = new Gson().toJson(provideMsgPushReminderCount);
                         mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + string, www.jykj.com.jykj_zxyl.application.Constant.SERVICEURL + "msgDataControlle/searchMsgPushReminderAllCount");
-                        String string01 = www.jykj.com.jykj_zxyl.application.Constant.SERVICEURL + "msgDataControlle/searchMsgPushReminderAllCount";
-                        System.out.println(string + string01);
-                        Log.e("tag", "未读消息的数量 "+mNetRetStr );
                     } catch (Exception e) {
                         NetRetEntity retEntity = new NetRetEntity();
                         retEntity.setResCode(0);
@@ -503,31 +504,31 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
     }
 
 
-        /**
-         * 患者标签选择框
-         */
-        private void showHZBQDialog() {
-            final String[] items = new String[mList.size()];
-            for (int i = 0; i < mList.size(); i++) {
-                items[i] = mList.get(i).getAttrName();
-            }
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-            builder.setTitle("请选择患者标签");
-            builder.setItems(items, new DialogInterface.OnClickListener() {
-
-                @Override
-                public void onClick(DialogInterface arg0, int arg1) {
-                    // TODO Auto-generated method stub
-                    TextView tv_label = addPatientAcitvityDialog.findViewById(R.id.tv_label);
-                    tv_label .setText(items[arg1]);
-                    mBindPatientParment.setPatientLabelId(mList.get(arg1).getAttrCode() + "");
-                    mBindPatientParment.setPatientLabelName(mList.get(arg1).getAttrName());
-                }
-            });
-            builder.create().show();
-
+    /**
+     * 患者标签选择框
+     */
+    private void showHZBQDialog() {
+        final String[] items = new String[mList.size()];
+        for (int i = 0; i < mList.size(); i++) {
+            items[i] = mList.get(i).getAttrName();
         }
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        builder.setTitle("请选择患者标签");
+        builder.setItems(items, new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface arg0, int arg1) {
+                // TODO Auto-generated method stub
+                TextView tv_label = addPatientAcitvityDialog.findViewById(R.id.tv_label);
+                tv_label .setText(items[arg1]);
+                mBindPatientParment.setPatientLabelId(mList.get(arg1).getAttrCode() + "");
+                mBindPatientParment.setPatientLabelName(mList.get(arg1).getAttrName());
+            }
+        });
+        builder.create().show();
+
+    }
 
 
 

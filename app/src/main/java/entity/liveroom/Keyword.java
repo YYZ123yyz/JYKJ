@@ -3,24 +3,24 @@ package entity.liveroom;
 import java.io.Serializable;
 
 public class Keyword implements Serializable {
-    private String keywordsCode;
-    private String keywordsName;
+    private String attrCode;
+    private String attrName;
     private String selectState = "0";
 
-    public String getKeywordsCode() {
-        return keywordsCode;
+    public String getAttrCode() {
+        return attrCode;
     }
 
-    public void setKeywordsCode(String keywordsCode) {
-        this.keywordsCode = keywordsCode;
+    public void setAttrCode(String attrCode) {
+        this.attrCode = attrCode;
     }
 
-    public String getKeywordsName() {
-        return keywordsName;
+    public String getAttrName() {
+        return attrName;
     }
 
-    public void setKeywordsName(String keywordsName) {
-        this.keywordsName = keywordsName;
+    public void setAttrName(String attrName) {
+        this.attrName = attrName;
     }
 
     public String getSelectState() {

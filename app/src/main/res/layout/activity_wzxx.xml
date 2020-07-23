@@ -1,10 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginBottom="20dp"
     android:background="@color/pBackColor"
-    android:orientation="vertical">
+    >
+    <TextView
+        android:textColor="#6666"
+        android:visibility="invisible"
+        android:id="@+id/tv_gson"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="无数据"
+        />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="60dp"
@@ -39,523 +53,523 @@
             android:background="#fffaf4da"
             android:layout_width="match_parent"
             android:layout_height="40dp">
-                    <TextView
-                        android:textSize="13sp"
-                        android:layout_marginRight="5dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginLeft="5dp"
-                        android:textColor="#BE5900"
-                        android:text="
+            <TextView
+                android:textSize="13sp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="5dp"
+                android:textColor="#BE5900"
+                android:text="
 重要：重急症不适合在网上咨询，如有不适请立即前往当地线下医院就诊。"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
         </LinearLayout>
-            <ScrollView
-                android:id="@+id/wzxx_sc"
+        <ScrollView
+            android:id="@+id/wzxx_sc"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:background="#fff"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
                 <LinearLayout
-                    android:background="#fff"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:background="@color/writeColor"
-                        android:layout_marginTop="1dp"
-                        android:orientation="horizontal">
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="询诊类型"
-                            android:textSize="15sp"
-                            android:layout_marginLeft="10dp"
-                            android:textColor="@color/tabColor_nomal"
-                            android:layout_gravity="center_vertical"
-                            android:layout_weight="1"
-                            />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text=""
-                            android:id="@+id/tv_activityHZZL_userYW"
-                            android:textSize="15sp"
-                            android:layout_marginRight="10dp"
-                            android:textColor="#999999"
-                            android:layout_gravity="center_vertical"
-                            />
-                    </LinearLayout>
-
-<!--                    <LinearLayout-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="50dp"-->
-<!--                        android:background="@color/writeColor"-->
-<!--                        android:layout_marginTop="1dp"-->
-<!--                        android:orientation="horizontal">-->
-<!--                        <TextView-->
-<!--                            android:layout_width="match_parent"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:text="医生姓名"-->
-<!--                            android:textSize="8pt"-->
-<!--                            android:layout_marginLeft="10dp"-->
-<!--                            android:textColor="@color/tabColor_nomal"-->
-<!--                            android:layout_gravity="center_vertical"-->
-<!--                            android:layout_weight="1"-->
-<!--                            />-->
-<!--                        <TextView-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:text=""-->
-<!--                            android:id="@+id/tv_activityHZZL_userTZ"-->
-<!--                            android:textSize="8pt"-->
-<!--                            android:layout_marginRight="10dp"-->
-<!--                            android:textColor="@color/tabColor_nomal"-->
-<!--                            android:layout_gravity="center_vertical"-->
-<!--                            />-->
-<!--                    </LinearLayout>-->
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:background="@color/writeColor"
-                        android:layout_marginTop="1dp"
-                        android:orientation="horizontal">
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="姓名"
-                            android:textSize="15sp"
-                            android:layout_marginLeft="10dp"
-                            android:textColor="@color/tabColor_nomal"
-                            android:layout_gravity="center_vertical"
-                            android:layout_weight="1"
-                            />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text=""
-                            android:id="@+id/tv_activityHZZL_userSFXY"
-                            android:textSize="15sp"
-                            android:layout_marginRight="10dp"
-                            android:textColor="#999999"
-                            android:layout_gravity="center_vertical"
-                            />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:background="@color/writeColor"
-                        android:layout_marginTop="1dp"
-                        android:orientation="horizontal">
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="电话"
-                            android:textSize="15sp"
-                            android:layout_marginLeft="10dp"
-                            android:textColor="@color/tabColor_nomal"
-                            android:layout_gravity="center_vertical"
-                            android:layout_weight="1"
-                            />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text=""
-                            android:id="@+id/tv_activityHZZL_userSFXJ"
-                            android:textSize="15sp"
-                            android:layout_marginRight="10dp"
-                            android:textColor="#999999"
-                            android:layout_gravity="center_vertical"
-                            />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:background="@color/writeColor"
-                        android:layout_marginTop="1dp"
-                        android:orientation="horizontal">
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="性别"
-                            android:textSize="15sp"
-                            android:layout_marginLeft="10dp"
-                            android:textColor="@color/tabColor_nomal"
-                            android:layout_gravity="center_vertical"
-                            android:layout_weight="1"
-                            />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text=""
-                            android:id="@+id/tv_activityHZZL_userSFAY"
-                            android:textSize="15sp"
-                            android:layout_marginRight="10dp"
-                            android:textColor="#999999"
-                            android:layout_gravity="center_vertical"
-                            />
-                    </LinearLayout>
-
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:background="@color/writeColor"
-                        android:layout_marginTop="1dp"
-                        android:orientation="horizontal">
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="年龄"
-                            android:textSize="15sp"
-                            android:layout_marginLeft="10dp"
-                            android:textColor="@color/tabColor_nomal"
-                            android:layout_gravity="center_vertical"
-                            android:layout_weight="1"
-                            />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text=""
-                            android:id="@+id/tv_activityHZZL_userAuthState"
-                            android:textSize="15sp"
-                            android:layout_marginRight="10dp"
-                            android:textColor="#999999"
-                            android:layout_gravity="center_vertical"
-                            />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:background="@color/writeColor"
-                        android:layout_marginTop="1dp"
-                        android:orientation="horizontal">
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="最早血压异常时间"
-                            android:textSize="15sp"
-                            android:layout_marginLeft="10dp"
-                            android:textColor="@color/tabColor_nomal"
-                            android:layout_gravity="center_vertical"
-                            android:layout_weight="1"
-                            />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text=""
-                            android:id="@+id/tv_activityHZZL_MZ"
-                            android:textSize="15sp"
-                            android:layout_marginRight="10dp"
-                            android:textColor="#999999"
-                            android:layout_gravity="center_vertical"
-                            />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:background="@color/writeColor"
-                        android:layout_marginTop="1dp"
-                        android:orientation="horizontal">
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="高血压病史"
-                            android:textSize="15sp"
-                            android:layout_marginLeft="10dp"
-                            android:textColor="@color/tabColor_nomal"
-                            android:layout_gravity="center_vertical"
-                            android:layout_weight="1"
-                            />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text=""
-                            android:textSize="15sp"
-                            android:id="@+id/tv_activityHZZL_userName"
-                            android:layout_marginRight="10dp"
-                            android:textColor="#999999"
-                            android:layout_gravity="center_vertical"
-                            />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:background="@color/writeColor"
-                        android:layout_marginTop="1dp"
-                        android:orientation="horizontal">
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="是否有家族病史"
-                            android:textSize="15sp"
-                            android:layout_marginLeft="10dp"
-                            android:textColor="@color/tabColor_nomal"
-                            android:layout_gravity="center_vertical"
-                            android:layout_weight="1"
-                            />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text=""
-                            android:textSize="15sp"
-                            android:id="@+id/tv_yes"
-                            android:layout_marginRight="10dp"
-                            android:textColor="#999999"
-                            android:layout_gravity="center_vertical"
-                            />
-                    </LinearLayout>
-
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:layout_marginTop="1dp"
-                        android:background="@color/writeColor"
-                        android:orientation="horizontal">
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="测量仪器"
-                            android:textSize="15sp"
-                            android:layout_marginLeft="10dp"
-                            android:textColor="@color/tabColor_nomal"
-                            android:layout_gravity="center_vertical"
-                            android:layout_weight="1"
-                            />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text=""
-                            android:textSize="15sp"
-                            android:id="@+id/tv_activityHZZL_clyq"
-                            android:layout_marginRight="10dp"
-                            android:textColor="#999999"
-                            android:layout_gravity="center_vertical"
-                            />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:layout_marginTop="1dp"
-                        android:background="@color/writeColor"
-                        android:orientation="horizontal">
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="测量方式"
-                            android:textSize="15sp"
-                            android:layout_marginLeft="10dp"
-                            android:textColor="@color/tabColor_nomal"
-                            android:layout_gravity="center_vertical"
-                            android:layout_weight="1"
-                            />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text=""
-                            android:textSize="15sp"
-                            android:id="@+id/tv_activityHZZL_clfs"
-                            android:layout_marginRight="10dp"
-                            android:textColor="#999999"
-                            android:layout_gravity="center_vertical"
-                            />
-                    </LinearLayout>
-
-
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:layout_marginTop="1dp"
-                        android:background="@color/writeColor"
-                        android:orientation="horizontal">
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="本次收缩压(高压)"
-                            android:textSize="15sp"
-                            android:layout_marginLeft="10dp"
-                            android:textColor="@color/tabColor_nomal"
-                            android:layout_gravity="center_vertical"
-                            android:layout_weight="1"
-                            />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text=""
-                            android:textSize="15sp"
-                            android:id="@+id/tv_activityHZZL_sex"
-                            android:layout_marginRight="10dp"
-                            android:textColor="#999999"
-                            android:layout_gravity="center_vertical"
-                            />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:layout_marginTop="1dp"
-                        android:background="@color/writeColor"
-                        android:orientation="horizontal">
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="本次收缩压(低压)"
-                            android:textSize="15sp"
-                            android:layout_marginLeft="10dp"
-                            android:textColor="@color/tabColor_nomal"
-                            android:layout_gravity="center_vertical"
-                            android:layout_weight="1"
-                            />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text=""
-                            android:textSize="15sp"
-                            android:id="@+id/tv_activityHZZL_szy"
-                            android:layout_marginRight="10dp"
-                            android:textColor="#999999"
-                            android:layout_gravity="center_vertical"
-                            />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:layout_marginTop="1dp"
-                        android:background="@color/writeColor"
-                        android:orientation="horizontal">
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="本次心率"
-                            android:textSize="15sp"
-                            android:layout_marginLeft="10dp"
-                            android:textColor="@color/tabColor_nomal"
-                            android:layout_gravity="center_vertical"
-                            android:layout_weight="1"
-                            />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text=""
-                            android:textSize="8pt"
-                            android:id="@+id/tv_activityHZZL_xl"
-                            android:layout_marginRight="10dp"
-                            android:textColor="#999999"
-                            android:layout_gravity="center_vertical"
-                            />
-                    </LinearLayout>
-
-
-
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:background="@color/writeColor"
-                        android:layout_marginTop="1dp"
-                        android:orientation="horizontal">
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="病情描述"
-                            android:textSize="15sp"
-                            android:layout_marginLeft="10dp"
-                            android:textColor="@color/tabColor_nomal"
-                            android:layout_gravity="center_vertical"
-
-                            />
-
-                    </LinearLayout>
-
+                    android:layout_height="50dp"
+                    android:background="@color/writeColor"
+                    android:layout_marginTop="1dp"
+                    android:orientation="horizontal">
                     <TextView
-                        android:id="@+id/tv_activityHZZL_BirthDay"
                         android:layout_width="match_parent"
-                        android:layout_height="35dp"
+                        android:layout_height="wrap_content"
+                        android:text="询诊类型"
+                        android:textSize="15sp"
+                        android:layout_marginLeft="10dp"
+                        android:textColor="@color/tabColor_nomal"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginTop="1dp"
-                        android:paddingTop="10dp"
-                        android:paddingLeft="10dp"
-                        android:background="@drawable/textview_border"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginRight="15dp"
-                        android:paddingBottom="10dp"
-                        android:text=""
-                        android:textColor="#999999"
-                        android:textSize="13sp" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:background="@color/writeColor"
-                        android:layout_marginTop="10dp"
-                        android:orientation="horizontal">
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="高血压病史描述"
-                            android:textSize="8pt"
-                            android:layout_marginLeft="10dp"
-                            android:textColor="@color/tabColor_nomal"
-                            android:layout_gravity="center_vertical"
-                            android:layout_weight="1"
-                            />
-
-                    </LinearLayout>
+                        android:layout_weight="1"
+                        />
                     <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="35dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:text=""
-                        android:textSize="13sp"
-                        android:layout_marginTop="1dp"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginRight="15dp"
-                        android:paddingTop="10dp"
-                        android:paddingLeft="10dp"
-                        android:background="@drawable/textview_border"
-                        android:id="@+id/tv_activityHZZL_idCardNum"
+                        android:id="@+id/tv_activityHZZL_userYW"
+                        android:textSize="15sp"
+                        android:layout_marginRight="10dp"
                         android:textColor="#999999"
                         android:layout_gravity="center_vertical"
                         />
+                </LinearLayout>
+
+                <!--                    <LinearLayout-->
+                <!--                        android:layout_width="match_parent"-->
+                <!--                        android:layout_height="50dp"-->
+                <!--                        android:background="@color/writeColor"-->
+                <!--                        android:layout_marginTop="1dp"-->
+                <!--                        android:orientation="horizontal">-->
+                <!--                        <TextView-->
+                <!--                            android:layout_width="match_parent"-->
+                <!--                            android:layout_height="wrap_content"-->
+                <!--                            android:text="医生姓名"-->
+                <!--                            android:textSize="8pt"-->
+                <!--                            android:layout_marginLeft="10dp"-->
+                <!--                            android:textColor="@color/tabColor_nomal"-->
+                <!--                            android:layout_gravity="center_vertical"-->
+                <!--                            android:layout_weight="1"-->
+                <!--                            />-->
+                <!--                        <TextView-->
+                <!--                            android:layout_width="wrap_content"-->
+                <!--                            android:layout_height="wrap_content"-->
+                <!--                            android:text=""-->
+                <!--                            android:id="@+id/tv_activityHZZL_userTZ"-->
+                <!--                            android:textSize="8pt"-->
+                <!--                            android:layout_marginRight="10dp"-->
+                <!--                            android:textColor="@color/tabColor_nomal"-->
+                <!--                            android:layout_gravity="center_vertical"-->
+                <!--                            />-->
+                <!--                    </LinearLayout>-->
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@color/writeColor"
+                    android:layout_marginTop="1dp"
+                    android:orientation="horizontal">
                     <TextView
-                        android:textColor="#000"
-                        android:layout_marginLeft="10dp"
-                        android:text="照片"
-                        android:textSize="15sp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-                    <TextView
-                        android:layout_marginLeft="10dp"
-                        android:text="上传的检查资料、病例照片、医院化验单、报告单、处方单等"
-                        android:textColor="#999999"
-                        android:textSize="12sp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-                     <TextView
-                         android:layout_marginLeft="10dp"
-                         android:id="@+id/tv"
-                         android:textColor="@color/colorRed"
-                         android:text="患者未上传图片"
-                         android:layout_width="wrap_content"
-                         android:layout_height="wrap_content"/>
-                    <android.support.v7.widget.RecyclerView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/rv_imageView"/>
+                        android:text="姓名"
+                        android:textSize="15sp"
+                        android:layout_marginLeft="10dp"
+                        android:textColor="@color/tabColor_nomal"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:id="@+id/tv_activityHZZL_userSFXY"
+                        android:textSize="15sp"
+                        android:layout_marginRight="10dp"
+                        android:textColor="#999999"
+                        android:layout_gravity="center_vertical"
+                        />
+                </LinearLayout>
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@color/writeColor"
+                    android:layout_marginTop="1dp"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="电话"
+                        android:textSize="15sp"
+                        android:layout_marginLeft="10dp"
+                        android:textColor="@color/tabColor_nomal"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:id="@+id/tv_activityHZZL_userSFXJ"
+                        android:textSize="15sp"
+                        android:layout_marginRight="10dp"
+                        android:textColor="#999999"
+                        android:layout_gravity="center_vertical"
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@color/writeColor"
+                    android:layout_marginTop="1dp"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="性别"
+                        android:textSize="15sp"
+                        android:layout_marginLeft="10dp"
+                        android:textColor="@color/tabColor_nomal"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:id="@+id/tv_activityHZZL_userSFAY"
+                        android:textSize="15sp"
+                        android:layout_marginRight="10dp"
+                        android:textColor="#999999"
+                        android:layout_gravity="center_vertical"
+                        />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@color/writeColor"
+                    android:layout_marginTop="1dp"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="年龄"
+                        android:textSize="15sp"
+                        android:layout_marginLeft="10dp"
+                        android:textColor="@color/tabColor_nomal"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:id="@+id/tv_activityHZZL_userAuthState"
+                        android:textSize="15sp"
+                        android:layout_marginRight="10dp"
+                        android:textColor="#999999"
+                        android:layout_gravity="center_vertical"
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@color/writeColor"
+                    android:layout_marginTop="1dp"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="最早血压异常时间"
+                        android:textSize="15sp"
+                        android:layout_marginLeft="10dp"
+                        android:textColor="@color/tabColor_nomal"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:id="@+id/tv_activityHZZL_MZ"
+                        android:textSize="15sp"
+                        android:layout_marginRight="10dp"
+                        android:textColor="#999999"
+                        android:layout_gravity="center_vertical"
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@color/writeColor"
+                    android:layout_marginTop="1dp"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="高血压病史"
+                        android:textSize="15sp"
+                        android:layout_marginLeft="10dp"
+                        android:textColor="@color/tabColor_nomal"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:textSize="15sp"
+                        android:id="@+id/tv_activityHZZL_userName"
+                        android:layout_marginRight="10dp"
+                        android:textColor="#999999"
+                        android:layout_gravity="center_vertical"
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@color/writeColor"
+                    android:layout_marginTop="1dp"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="是否有家族病史"
+                        android:textSize="15sp"
+                        android:layout_marginLeft="10dp"
+                        android:textColor="@color/tabColor_nomal"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:textSize="15sp"
+                        android:id="@+id/tv_yes"
+                        android:layout_marginRight="10dp"
+                        android:textColor="#999999"
+                        android:layout_gravity="center_vertical"
+                        />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="1dp"
+                    android:background="@color/writeColor"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="测量仪器"
+                        android:textSize="15sp"
+                        android:layout_marginLeft="10dp"
+                        android:textColor="@color/tabColor_nomal"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:textSize="15sp"
+                        android:id="@+id/tv_activityHZZL_clyq"
+                        android:layout_marginRight="10dp"
+                        android:textColor="#999999"
+                        android:layout_gravity="center_vertical"
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="1dp"
+                    android:background="@color/writeColor"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="测量方式"
+                        android:textSize="15sp"
+                        android:layout_marginLeft="10dp"
+                        android:textColor="@color/tabColor_nomal"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:textSize="15sp"
+                        android:id="@+id/tv_activityHZZL_clfs"
+                        android:layout_marginRight="10dp"
+                        android:textColor="#999999"
+                        android:layout_gravity="center_vertical"
+                        />
                 </LinearLayout>
 
 
 
-            </ScrollView>
-</LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="1dp"
+                    android:background="@color/writeColor"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="本次收缩压(高压)"
+                        android:textSize="15sp"
+                        android:layout_marginLeft="10dp"
+                        android:textColor="@color/tabColor_nomal"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:textSize="15sp"
+                        android:id="@+id/tv_activityHZZL_sex"
+                        android:layout_marginRight="10dp"
+                        android:textColor="#999999"
+                        android:layout_gravity="center_vertical"
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="1dp"
+                    android:background="@color/writeColor"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="本次收缩压(低压)"
+                        android:textSize="15sp"
+                        android:layout_marginLeft="10dp"
+                        android:textColor="@color/tabColor_nomal"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:textSize="15sp"
+                        android:id="@+id/tv_activityHZZL_szy"
+                        android:layout_marginRight="10dp"
+                        android:textColor="#999999"
+                        android:layout_gravity="center_vertical"
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="1dp"
+                    android:background="@color/writeColor"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="本次心率"
+                        android:textSize="15sp"
+                        android:layout_marginLeft="10dp"
+                        android:textColor="@color/tabColor_nomal"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:textSize="8pt"
+                        android:id="@+id/tv_activityHZZL_xl"
+                        android:layout_marginRight="10dp"
+                        android:textColor="#999999"
+                        android:layout_gravity="center_vertical"
+                        />
+                </LinearLayout>
+
+
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@color/writeColor"
+                    android:layout_marginTop="1dp"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="病情描述"
+                        android:textSize="15sp"
+                        android:layout_marginLeft="10dp"
+                        android:textColor="@color/tabColor_nomal"
+                        android:layout_gravity="center_vertical"
+
+                        />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_activityHZZL_BirthDay"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginTop="1dp"
+                    android:paddingTop="10dp"
+                    android:paddingLeft="10dp"
+                    android:background="@drawable/textview_border"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:paddingBottom="10dp"
+                    android:text=""
+                    android:textColor="#999999"
+                    android:textSize="13sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@color/writeColor"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="高血压病史描述"
+                        android:textSize="8pt"
+                        android:layout_marginLeft="10dp"
+                        android:textColor="@color/tabColor_nomal"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        />
+
+                </LinearLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:text=""
+                    android:textSize="13sp"
+                    android:layout_marginTop="1dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:paddingTop="10dp"
+                    android:paddingLeft="10dp"
+                    android:background="@drawable/textview_border"
+                    android:id="@+id/tv_activityHZZL_idCardNum"
+                    android:textColor="#999999"
+                    android:layout_gravity="center_vertical"
+                    />
+                <TextView
+                    android:textColor="#000"
+                    android:layout_marginLeft="10dp"
+                    android:text="照片"
+                    android:textSize="15sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:layout_marginLeft="10dp"
+                    android:text="上传的检查资料、病例照片、医院化验单、报告单、处方单等"
+                    android:textColor="#999999"
+                    android:textSize="12sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <android.support.v7.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/rv_imageView"/>
+
+                <TextView
+                    android:layout_marginLeft="10dp"
+                    android:id="@+id/tv"
+                    android:textSize="13sp"
+                    android:textColor="@color/colorRed"
+                    android:text="患者未上传图片"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+</RelativeLayout>

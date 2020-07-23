@@ -72,7 +72,7 @@
                 android:id="@+id/lin_add"
                 android:src="@mipmap/lin_back"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent" android:scaleType="fitXY"/>
             <TextView
                 android:layout_marginLeft="5dp"
                 android:text="请上传您的直播封面"
@@ -96,7 +96,7 @@
             android:gravity="center"
             android:text="直播时间"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" android:id="@+id/beforese_time_tit"/>
         <TextView
             android:id="@+id/beforese_time"
             android:gravity="center_vertical"

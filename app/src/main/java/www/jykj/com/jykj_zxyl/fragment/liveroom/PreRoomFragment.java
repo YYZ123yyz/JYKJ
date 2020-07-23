@@ -2,6 +2,7 @@ package www.jykj.com.jykj_zxyl.fragment.liveroom;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -20,6 +21,7 @@ import entity.liveroom.QueryLiveroomCond;
 import netService.HttpNetService;
 import netService.entity.NetRetEntity;
 import www.jykj.com.jykj_zxyl.R;
+import www.jykj.com.jykj_zxyl.activity.liveroom.LiveroomDetailActivity;
 import www.jykj.com.jykj_zxyl.adapter.PreLiveAdapter;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.util.IConstant;
@@ -79,6 +81,9 @@ public class PreRoomFragment extends Fragment {
                 switch (view.getId()){
                     case R.id.pre_live_btn:
                         PreLiveInfo parbean = mdatas.get(position);
+                        Intent parintent = new Intent(mActivity, LiveroomDetailActivity.class);
+                        parintent.putExtra("detailCode",parbean.getDetailsCode());
+                        mActivity.startActivity(parintent);
                         break;
                 }
 
@@ -121,7 +126,8 @@ public class PreRoomFragment extends Fragment {
             List<PreLiveInfo> retlist = new ArrayList();
             try {
                 queryCond.setPageNum(String.valueOf(pageno));
-                String retstr = HttpNetService.urlConnectionService("jsonDataInfo="+new Gson().toJson(queryCond),"https://www.jiuyihtn.com:41041/broadcastLiveDataControlle/searchLiveRoomDetailsByBroadcastStateResNoticeList");
+                String quejson = new Gson().toJson(queryCond);
+                String retstr = HttpNetService.urlConnectionService("jsonDataInfo="+quejson,"https://www.jiuyihtn.com:41041/broadcastLiveDataControlle/searchLiveRoomDetailsByBroadcastStateResNoticeList");
                 NetRetEntity retEntity = JSON.parseObject(retstr,NetRetEntity.class);
                 if(1==retEntity.getResCode() && StrUtils.defaulObjToStr(retEntity.getResJsonData()).length()>3){
                     retlist = JSON.parseArray(retEntity.getResJsonData(),PreLiveInfo.class);
