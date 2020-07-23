@@ -5,14 +5,14 @@ android {
         debug {
             keyAlias 'JYKJ'
             keyPassword 'JYKJ123456'
-            storeFile file('E:/tmpwork/git/doctorcode/Doctor/app/src/main/yyz.jks')
+            storeFile file("../yyz.jks")
             storePassword 'JYKJ123456'
         }
 
         release {
             keyAlias 'JYKJ'
             keyPassword 'JYKJ123456'
-            storeFile file('E:/tmpwork/git/doctorcode/Doctor/app/src/main/yyz.jks')
+            storeFile file("../yyz.jks")
             storePassword 'JYKJ123456'
             v2SigningEnabled false
         }
