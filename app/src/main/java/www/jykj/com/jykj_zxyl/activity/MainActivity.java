@@ -49,7 +49,8 @@ import java.util.TimerTask;
 import androidx.annotation.RequiresApi;
 
 
-import de.greenrobot.event.EventBus;
+import org.greenrobot.eventbus.EventBus;
+
 import entity.mySelf.DataCleanManager;
 import util.VersionsUpdata;
 import www.jykj.com.jykj_zxyl.activity.myself.SettingActivity;
@@ -133,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mContext = this;
         mainActivity = this;
-   //     EventBus.getDefault().register(this);
+        EventBus.getDefault().register(this);
         ActivityUtil.setStatusBarMain(mainActivity);
         mApp = (JYKJApplication) getApplication();
         mApp.gMainActivity = this;

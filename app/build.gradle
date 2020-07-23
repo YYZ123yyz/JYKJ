@@ -5,19 +5,17 @@ android {
         debug {
             keyAlias 'JYKJ'
             keyPassword 'JYKJ123456'
-            storeFile file('F:/yangyunze/JYKJcode/app/src/main/yyz.jks')
+            storeFile file("../yyz.jks")
             storePassword 'JYKJ123456'
-
         }
 
         release {
             keyAlias 'JYKJ'
             keyPassword 'JYKJ123456'
-            storeFile file('F:/yangyunze/JYKJcode/app/src/main/yyz.jks')
+            storeFile file("../yyz.jks")
             storePassword 'JYKJ123456'
             v2SigningEnabled false
         }
-
     }
 
     compileSdkVersion 28
@@ -157,11 +155,9 @@ dependencies {
 
     implementation 'com.bm.photoview:library:1.4.1'
     implementation 'com.squareup.picasso:picasso:2.5.2'
-
+    implementation  'org.greenrobot:eventbus:3.0.0'
 
     compile 'com.hyman:flowlayout-lib:1.1.2'
     compile 'com.zhy:base-adapter:2.0.1'
-
-    //EventBus
-    implementation 'de.greenrobot:eventbus:2.4.0'
+    implementation 'com.contrarywind:Android-PickerView:4.1.9'
 }

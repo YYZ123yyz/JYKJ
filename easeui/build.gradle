@@ -43,7 +43,7 @@ dependencies {
     //noinspection GradleCompatible
     implementation 'com.android.support:appcompat-v7:25.2.0'
     implementation 'com.google.code.gson:gson:2.8.2'
-
+    implementation  'org.greenrobot:eventbus:3.0.0'
     //EventBus
-    implementation 'de.greenrobot:eventbus:2.4.0'
+    //implementation 'de.greenrobot:eventbus:2.4.0'
 }

@@ -29,11 +29,12 @@ import com.hyphenate.easeui.model.EaseDingMessageHelper;
 import com.hyphenate.easeui.utils.MainMessage;
 import com.hyphenate.easeui.utils.EaseCommonUtils;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import de.greenrobot.event.EventBus;
 import entity.basicDate.EMMessageEntity;
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.activity.MainActivity;

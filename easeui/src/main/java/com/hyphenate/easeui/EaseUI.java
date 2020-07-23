@@ -19,12 +19,13 @@ import com.hyphenate.easeui.model.EaseNotifier;
 import com.hyphenate.easeui.model.EaseDingMessageHelper;
 import com.hyphenate.easeui.utils.MainMessage;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import de.greenrobot.event.EventBus;
 
 public final class EaseUI {
     private static final String TAG = EaseUI.class.getSimpleName();
