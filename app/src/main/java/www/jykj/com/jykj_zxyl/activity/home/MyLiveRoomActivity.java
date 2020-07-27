@@ -101,19 +101,16 @@ public class MyLiveRoomActivity extends AppCompatActivity implements View.OnClic
                 selectPageIndex=0;
                 roompager.setCurrentItem(selectPageIndex);
                 live_type = LivePublisherActivity.LIVE_TYPE_PRELIVE;
-                setChooseTableStatus();
                 break;
             case R.id.room_Hit:
                 selectPageIndex=1;
                 roompager.setCurrentItem(selectPageIndex);
                 live_type = LivePublisherActivity.LIVE_TYPE_HOTLIVE;
-                setChooseTableStatus();
                 break;
             case R.id.room_Lecture:
                 selectPageIndex=2;
                 roompager.setCurrentItem(selectPageIndex);
                 live_type = LivePublisherActivity.LIVE_TYPE_SUBJECTLIVE;
-                setChooseTableStatus();
                 break;
         }
     }

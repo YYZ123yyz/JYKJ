@@ -105,21 +105,23 @@ public class SubjectRoomFragment extends Fragment {
     }
 
     public void loadData(){
-        refreshLayout.autoRefresh();
-        QueryLiveroomCond queryCond = new QueryLiveroomCond();
-        queryCond.setLoginUserPosition(mApp.loginDoctorPosition);
-        queryCond.setOperUserCode(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
-        queryCond.setOperUserName(mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
-        queryCond.setPageNum(String.valueOf(pageNumber));
-        queryCond.setRowNum(String.valueOf(pageSize));
-        queryCond.setRequestClientType("1");
-        queryCond.setSearchBroadcastTitle("");
-        queryCond.setSearchClassCode("");
-        queryCond.setSearchKeywordsCode("");
-        queryCond.setSearchRiskCode("");
-        queryCond.setSearchUserName("");
-        loadDataTask = new LoadDataTask(queryCond);
-        loadDataTask.execute();
+        if (isAdded()&&refreshLayout!=null) {
+            refreshLayout.autoRefresh();
+            QueryLiveroomCond queryCond = new QueryLiveroomCond();
+            queryCond.setLoginUserPosition(mApp.loginDoctorPosition);
+            queryCond.setOperUserCode(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
+            queryCond.setOperUserName(mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
+            queryCond.setPageNum(String.valueOf(pageNumber));
+            queryCond.setRowNum(String.valueOf(pageSize));
+            queryCond.setRequestClientType("1");
+            queryCond.setSearchBroadcastTitle("");
+            queryCond.setSearchClassCode("");
+            queryCond.setSearchKeywordsCode("");
+            queryCond.setSearchRiskCode("");
+            queryCond.setSearchUserName("");
+            loadDataTask = new LoadDataTask(queryCond);
+            loadDataTask.execute();
+        }
     }
 
     class LoadDataTask extends AsyncTask<Void,Void,List<SubjectLiveInfo>> {
