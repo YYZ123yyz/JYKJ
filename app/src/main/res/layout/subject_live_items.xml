@@ -21,7 +21,7 @@
                 android:id="@+id/subject_live_cover"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="fitXY"
+                android:scaleType="centerCrop"
                 android:src="@mipmap/cover_demo" />
 
             <ImageView
@@ -49,7 +49,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
+            android:layout_marginStart="16dp"
             android:layout_weight="1">
 
             <TextView

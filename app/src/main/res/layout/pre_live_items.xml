@@ -22,7 +22,7 @@
                 android:id="@+id/pre_live_btn"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="fitXY"
+                android:scaleType="centerCrop"
                 android:src="@mipmap/cover_demo" />
 
             <TextView
