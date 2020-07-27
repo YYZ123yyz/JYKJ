@@ -180,12 +180,12 @@
                     android:id="@+id/go_liveroom_btn"
                     android:layout_width="80dp"
                     android:layout_height="30dp"
-                    android:gravity="center"
-                    android:textColor="@color/white"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentBottom="true"
                     android:background="@drawable/bg_round_799dfe_12"
-                    android:text="进入直播" />
+                    android:gravity="center"
+                    android:text="进入直播"
+                    android:textColor="@color/white" />
             </RelativeLayout>
         </LinearLayout>
 

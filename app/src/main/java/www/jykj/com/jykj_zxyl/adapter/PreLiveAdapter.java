@@ -1,5 +1,6 @@
 package www.jykj.com.jykj_zxyl.adapter;
 
+import android.annotation.SuppressLint;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -33,6 +34,7 @@ public class PreLiveAdapter extends RecyclerView.Adapter<PreLiveAdapter.ViewHold
         return new ViewHolder(view);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         PreLiveInfo parinfo = datas.get(i);
@@ -57,6 +59,12 @@ public class PreLiveAdapter extends RecyclerView.Adapter<PreLiveAdapter.ViewHold
                 return false;
             }
         });
+        viewHolder.rl_collection_root.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     @Override
@@ -72,6 +80,7 @@ public class PreLiveAdapter extends RecyclerView.Adapter<PreLiveAdapter.ViewHold
         private TextView pre_watch_num;
         private TextView pre_live_price;
         private LinearLayout ll_root;
+        private LinearLayout rl_collection_root;
 
         public ViewHolder(View view) {
             super(view);
@@ -82,6 +91,7 @@ public class PreLiveAdapter extends RecyclerView.Adapter<PreLiveAdapter.ViewHold
             pre_watch_num = view.findViewById(R.id.pre_watch_num);
             pre_live_price = view.findViewById(R.id.pre_live_price);
             ll_root=view.findViewById(R.id.ll_root);
+            rl_collection_root=view.findViewById(R.id.rl_collection_root);
         }
 
     }
@@ -98,6 +108,7 @@ public class PreLiveAdapter extends RecyclerView.Adapter<PreLiveAdapter.ViewHold
         void onClick(int position, View view);
 
         void onLongClick(int position, View view);
+
     }
 
     public void setData(List<PreLiveInfo> datas) {

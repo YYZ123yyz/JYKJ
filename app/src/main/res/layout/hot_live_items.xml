@@ -6,9 +6,9 @@
     android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/ll_root"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/ll_root"
         android:layout_margin="3dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
@@ -23,46 +23,53 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="fitXY"
-                android:src="@mipmap/cover_demo"/>
+                android:src="@mipmap/cover_demo" />
 
             <ImageView
                 android:id="@+id/play_live_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:src="@mipmap/playbtn"/>
+                android:src="@mipmap/playbtn" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentBottom="true"
-                android:layout_marginRight="5dp"
-                android:layout_marginBottom="2dp"
-                android:background="@color/textColor_vo"
+                android:background="@drawable/bg_round_4d666666_5"
+                android:paddingStart="9dp"
+                android:paddingTop="6dp"
+                android:paddingEnd="9dp"
+                android:paddingBottom="6dp"
                 android:text="视频直播"
-                android:textColor="@color/writeColor"/>
+                android:textColor="@color/writeColor"
+                android:textSize="12sp" />
         </RelativeLayout>
 
         <RelativeLayout
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
+            android:layout_marginStart="16dp"
             android:layout_weight="1">
 
             <TextView
                 android:id="@+id/live_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="高血压患者、和健康人群的干预 方法"/>
+                android:textColor="@color/blackColor"
+                android:textSize="15sp"
+                android:text="高血压患者、和健康人群的干预 方法" />
 
             <TextView
                 android:id="@+id/live_desc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:textSize="14sp"
                 android:layout_below="@+id/live_title"
                 android:text="营养学专家教你如何吃出健康血压"
-                android:textColor="@color/textColor_vo"/>
+                android:textColor="@color/color_666666" />
 
             <TextView
                 android:id="@+id/live_catalog"
@@ -70,7 +77,9 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/live_desc"
                 android:text="类目：高血压预防"
-                android:textColor="@color/textColor_vo"/>
+                android:layout_marginTop="8.5dp"
+                android:textSize="13sp"
+                android:textColor="@color/color_999999" />
 
             <TextView
                 android:id="@+id/watch_num"
@@ -79,17 +88,19 @@
                 android:layout_below="@+id/live_catalog"
                 android:layout_alignParentLeft="true"
                 android:text="观看人数：200"
-                android:textColor="@color/textColor_vo"/>
+                android:textSize="12sp"
+                android:textColor="@color/color_999999" />
 
             <TextView
                 android:id="@+id/live_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/live_catalog"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="10dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="10dp"
                 android:text="￥40.00"
-                android:textColor="@color/btn_red"/>
+                android:textSize="12sp"
+                android:textColor="@color/btn_red" />
         </RelativeLayout>
     </LinearLayout>
 </LinearLayout>

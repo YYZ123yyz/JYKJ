@@ -1,5 +1,6 @@
 package www.jykj.com.jykj_zxyl.adapter;
 
+import android.annotation.SuppressLint;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -30,6 +31,7 @@ public class HotLiveAdapter extends RecyclerView.Adapter<HotLiveAdapter.ViewHold
         return new ViewHolder(view);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         HotLiveInfo parinfo = datas.get(i);
