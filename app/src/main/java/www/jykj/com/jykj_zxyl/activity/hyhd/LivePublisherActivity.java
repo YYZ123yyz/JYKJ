@@ -343,7 +343,7 @@ public class LivePublisherActivity extends ChatPopDialogActivity implements View
         TelephonyManager tm = (TelephonyManager) getApplicationContext().getSystemService(Service.TELEPHONY_SERVICE);
         tm.listen(mPhoneListener, PhoneStateListener.LISTEN_NONE);
 
-        if(StrUtils.defaulObjToStr(mdetailcode).length()>0){
+        /*if(StrUtils.defaulObjToStr(mdetailcode).length()>0){
             CloseRoomInfo subinfo = new CloseRoomInfo();
             subinfo.setDetailsCode(mdetailcode);
             subinfo.setLoginUserPosition(mApp.loginDoctorPosition);
@@ -352,7 +352,7 @@ public class LivePublisherActivity extends ChatPopDialogActivity implements View
             subinfo.setRequestClientType("1");
             CloseLiveRoomTask closeLiveRoomTask = new CloseLiveRoomTask(subinfo);
             closeLiveRoomTask.execute();
-        }
+        }*/
     }
 
     class CloseLiveRoomTask extends AsyncTask<Void,Void,Boolean>{

@@ -241,7 +241,7 @@ public class JYKJApplication extends Application {
     @Override
     public void onTerminate() {
         super.onTerminate();
-        if(StrUtils.defaulObjToStr(curdetailcode).length()>0){
+        /*if(StrUtils.defaulObjToStr(curdetailcode).length()>0){
             CloseRoomInfo subinfo = new CloseRoomInfo();
             subinfo.setDetailsCode(curdetailcode);
             subinfo.setLoginUserPosition(loginDoctorPosition);
@@ -250,7 +250,7 @@ public class JYKJApplication extends Application {
             subinfo.setRequestClientType("1");
             CloseLiveRoomTask closeLiveRoomTask = new CloseLiveRoomTask(subinfo);
             closeLiveRoomTask.execute();
-        }
+        }*/
     }
 
     class CloseLiveRoomTask extends AsyncTask<Void,Void,Boolean> {
