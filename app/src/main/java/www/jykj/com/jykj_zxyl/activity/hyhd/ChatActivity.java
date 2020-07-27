@@ -1,14 +1,20 @@
 package www.jykj.com.jykj_zxyl.activity.hyhd;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
+import com.google.gson.Gson;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.easeui.EaseConstant;
 import com.hyphenate.easeui.domain.EaseEmojicon;
@@ -17,8 +23,14 @@ import com.hyphenate.easeui.widget.EaseChatInputMenu;
 import com.hyphenate.easeui.widget.EaseChatMessageList;
 import com.hyphenate.easeui.widget.EaseTitleBar;
 
+import java.util.HashMap;
+
+import netService.HttpNetService;
+import netService.entity.NetRetEntity;
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.activity.home.ZhlyReplyActivity;
+import www.jykj.com.jykj_zxyl.activity.home.wdzs.ProvideDoctorSetServiceState;
+import www.jykj.com.jykj_zxyl.application.Constant;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.util.ActivityUtil;
 
@@ -37,6 +49,8 @@ public class ChatActivity extends AppCompatActivity {
     private EaseChatInputMenu inputMenu;
     private JYKJApplication mApp;
 
+    private String mNetRetStr;
+    private Handler mHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +79,7 @@ public class ChatActivity extends AppCompatActivity {
         String orderCode = getIntent().getStringExtra("orderCode");
 
         String doctorUrl = getIntent().getStringExtra("doctorUrl");
-       String  patientUrl=mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl();
+        String patientUrl = mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl();
 
 
         //传入参数
@@ -91,6 +105,59 @@ public class ChatActivity extends AppCompatActivity {
         args.putString("chatType", chatType);
         chatFragment.setArguments(args);
         getSupportFragmentManager().beginTransaction().add(R.id.container, chatFragment).commit();
+     //   SavePreferences.setData("isNewMsg",false);
+            getTime(orderCode,"1","1","1");
+        initHandler();
+    }
+
+    private void getTime(String orderCode, String treatmentType, String operType, String limitNum) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("loginDoctorPosition", "108.93425^34.23053");
+        map.put("operDoctorCode", mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
+        map.put("operDoctorName", mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
+        map.put("orderCode", orderCode);
+        map.put("treatmentType", treatmentType);
+        map.put("operType", operType);
+        map.put("limitNum", limitNum);
+        new Thread() {
+            public void run() {
+                try {
+                    mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + new Gson().toJson(map), Constant.SERVICEURL + "doctorInteractDataControlle/operUpdMyClinicDetailByOrderTreatmentLimitNum");
+                    Log.e("tag", "更新 " + mNetRetStr);
+                } catch (Exception e) {
+                    NetRetEntity retEntity = new NetRetEntity();
+                    retEntity.setResCode(0);
+                    retEntity.setResMsg("网络连接异常，请联系管理员：" + e.getMessage());
+                    mNetRetStr = new Gson().toJson(retEntity);
+                    e.printStackTrace();
+
+                }
+
+                mHandler.sendEmptyMessage(10);
+            }
+        }.start();
+    }
+
+    @SuppressLint("HandlerLeak")
+    private void initHandler() {
+        mHandler=new Handler(){
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                switch (msg.what){
+                    case 10:
+                        NetRetEntity  netRetEntity = JSON.parseObject(mNetRetStr, NetRetEntity.class);
+                        if (netRetEntity.getResCode() == 0) {
+                        //    Toast.makeText(mContext, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
+
+                        }else{
+                       //     Toast.makeText(mContext, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
+
+                        }
+                        break;
+                }
+            }
+        };
     }
 
     /**
@@ -165,7 +232,7 @@ public class ChatActivity extends AppCompatActivity {
             @Override
             public void onSendMessage(String content) {
                 // 发送文本消息
-             //   sendTextMessage(content);
+                //   sendTextMessage(content);
             }
 
             @Override

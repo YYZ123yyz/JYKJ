@@ -9,7 +9,7 @@
     android:paddingLeft="20dp"
     android:paddingRight="20dp" >
 
-   <LinearLayout
+    <LinearLayout
         android:id="@+id/topLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -35,8 +35,8 @@
             android:layout_height="wrap_content"
             android:textColor="#fff"
             android:text="Chronometer" />
-        
-        <TextView 
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/tv_is_p2p"
@@ -66,15 +66,15 @@
             android:scaleType="fitXY"
             android:layout_marginTop="10dp"
             android:src="@mipmap/em_default_avatar" />
-        
+
         <TextView
             android:id="@+id/tv_nick"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-              android:textColor="@android:color/white"
-              android:textSize="20sp"
-              android:text="张三"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            android:text="张三"
             tools:ignore="HardcodedText" />
         <TextView
             android:id="@+id/tv_network_status"

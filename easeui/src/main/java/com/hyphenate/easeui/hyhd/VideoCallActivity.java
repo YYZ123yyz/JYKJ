@@ -146,7 +146,7 @@ public class VideoCallActivity extends CallActivity implements OnClickListener {
         isInComingCall = getIntent().getBooleanExtra("isComingCall", false);
         username = getIntent().getStringExtra("username");
         nickName = getIntent().getStringExtra("nickName");
-        nickTextView.setText(nickName);
+        nickTextView.setText(username);
 
         // local surfaceview
         localSurface = (EMCallSurfaceView) findViewById(R.id.local_surface);
@@ -207,8 +207,7 @@ public class VideoCallActivity extends CallActivity implements OnClickListener {
             @Override
             public void handleMessage(Message msg) {
                 switch (msg.what)
-                {
-                    case 1:
+                {                    case 1:
                         /**
                          * 挂断通话
                          */
@@ -678,13 +677,13 @@ public class VideoCallActivity extends CallActivity implements OnClickListener {
                 while(monitor){
                     runOnUiThread(new Runnable() {
                         public void run() {
-                            monitorTextView.setText("WidthxHeight："+callHelper.getVideoWidth()+"x"+callHelper.getVideoHeight()
-                                    + "\nDelay：" + callHelper.getVideoLatency()
-                                    + "\nFramerate：" + callHelper.getVideoFrameRate()
-                                    + "\nLost：" + callHelper.getVideoLostRate()
-                                    + "\nLocalBitrate：" + callHelper.getLocalBitrate()
-                                    + "\nRemoteBitrate：" + callHelper.getRemoteBitrate()
-                                    + "\n" + recordString);
+//                            monitorTextView.setText("WidthxHeight："+callHelper.getVideoWidth()+"x"+callHelper.getVideoHeight()
+//                                    + "\nDelay：" + callHelper.getVideoLatency()
+//                                    + "\nFramerate：" + callHelper.getVideoFrameRate()
+//                                    + "\nLost：" + callHelper.getVideoLostRate()
+//                                    + "\nLocalBitrate：" + callHelper.getLocalBitrate()
+//                                    + "\nRemoteBitrate：" + callHelper.getRemoteBitrate()
+//                                    + "\n" + recordString);
 
                             ((TextView)findViewById(R.id.tv_is_p2p)).setText(EMClient.getInstance().callManager().isDirectCall()
                                     ? R.string.direct_call : R.string.relay_call);

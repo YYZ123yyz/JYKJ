@@ -17,11 +17,15 @@ import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.model.EaseAtMessageHelper;
 import com.hyphenate.easeui.model.EaseNotifier;
 import com.hyphenate.easeui.model.EaseDingMessageHelper;
+import com.hyphenate.easeui.utils.MainMessage;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
 
 public final class EaseUI {
     private static final String TAG = EaseUI.class.getSimpleName();
@@ -31,7 +35,10 @@ public final class EaseUI {
      */
     private static EaseUI instance = null;
 
-    
+    /**
+     * 消息ID
+     */
+    private String lastMsgId="";
     /**
      * user profile provider
      */
@@ -118,7 +125,7 @@ public final class EaseUI {
         }
         
         initNotifier();
-//        registerMessageListener();
+        registerMessageListener();
         
         if(settingsProvider == null){
             settingsProvider = new DefaultSettingsProvider();
@@ -155,9 +162,14 @@ public final class EaseUI {
                 EaseAtMessageHelper.get().parseMessages(messages);
                 for (EMMessage message : messages) {
                     if (!instance.hasForegroundActivies()) {
-                        getNotifier().notify(message);
+                        if (!lastMsgId.equals(message.getMsgId())) {
+                            getNotifier().notify(message);
+
+                            lastMsgId=message.getMsgId();
+                        }
                     }
                 }
+                EventBus.getDefault().post(new MainMessage(messages.size()+""));
             }
             @Override
             public void onMessageRead(List<EMMessage> messages) {

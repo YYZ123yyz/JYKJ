@@ -16,6 +16,12 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import com.alibaba.fastjson.JSON;
 import com.google.gson.Gson;
+import com.scwang.smart.refresh.footer.ClassicsFooter;
+import com.scwang.smart.refresh.header.ClassicsHeader;
+import com.scwang.smart.refresh.layout.api.RefreshLayout;
+import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
+
 import entity.liveroom.PreLiveInfo;
 import entity.liveroom.QueryLiveroomCond;
 import netService.HttpNetService;
@@ -29,6 +35,7 @@ import www.jykj.com.jykj_zxyl.util.StrUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class PreRoomFragment extends Fragment {
     private JYKJApplication mApp;
@@ -38,10 +45,12 @@ public class PreRoomFragment extends Fragment {
     LinearLayoutManager mLayoutManager;
     PreLiveAdapter preLiveAdapter;
     List<PreLiveInfo> mdatas = new ArrayList();
-    private int pageno=1;
+    private int pageNumber=1;
+    private int pageSize=10;
     private int lastVisibleIndex = 0;
     private LoadDataTask loadDataTask;
     boolean mLoadDate = true;
+    private RefreshLayout refreshLayout;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,31 +64,18 @@ public class PreRoomFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View retV =  inflater.inflate(R.layout.pre_live_fragment,container,false);
         hot_live_rc = retV.findViewById(R.id.pre_live_rc);
+        refreshLayout =retV.findViewById(R.id.refreshLayout);
         mLayoutManager = new LinearLayoutManager(mContext);
         mLayoutManager.setOrientation(LinearLayout.VERTICAL);
         hot_live_rc.setLayoutManager(mLayoutManager);
         preLiveAdapter = new PreLiveAdapter(mdatas);
         hot_live_rc.setAdapter(preLiveAdapter);
-        hot_live_rc.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                    if (mLoadDate) {
-                        int lastVisiblePosition = mLayoutManager.findLastVisibleItemPosition();
-                        if (lastVisiblePosition >= mLayoutManager.getItemCount() - 1) {
-                            pageno++;
-                            loadData();
-                        }
-                    }
-                }
-            }
-        });
+        addListener();
         preLiveAdapter.setMyListener(new PreLiveAdapter.OnHotliveItemClickListener() {
             @Override
             public void onClick(int position, View view) {
                 switch (view.getId()){
-                    case R.id.pre_live_btn:
+                    case R.id.ll_root:
                         PreLiveInfo parbean = mdatas.get(position);
                         Intent parintent = new Intent(mActivity, LiveroomDetailActivity.class);
                         parintent.putExtra("detailCode",parbean.getDetailsCode());
@@ -98,21 +94,47 @@ public class PreRoomFragment extends Fragment {
         return retV;
     }
 
-    void loadData(){
-        QueryLiveroomCond queryCond = new QueryLiveroomCond();
-        queryCond.setLoginUserPosition(mApp.loginDoctorPosition);
-        queryCond.setOperUserCode(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
-        queryCond.setOperUserName(mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
-        queryCond.setPageNum(String.valueOf(pageno));
-        queryCond.setRowNum(String.valueOf(IConstant.PAGE_SIZE));
-        queryCond.setRequestClientType("1");
-        queryCond.setSearchBroadcastTitle("");
-        queryCond.setSearchClassCode("");
-        queryCond.setSearchKeywordsCode("");
-        queryCond.setSearchRiskCode("");
-        queryCond.setSearchUserName("");
-        loadDataTask = new LoadDataTask(queryCond);
-        loadDataTask.execute();
+    /**
+     * 添加监听
+     */
+    private void addListener(){
+        refreshLayout.setRefreshHeader(new ClassicsHeader(Objects.requireNonNull(this.getContext())));
+        refreshLayout.setRefreshFooter(new ClassicsFooter(this.getContext()));
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                pageNumber=1;
+                loadData();
+            }
+        });
+        refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore(RefreshLayout refreshlayout) {
+                pageNumber++;
+                loadData();
+            }
+        });
+    }
+
+    public void loadData() {
+        if (isAdded() && refreshLayout != null) {
+            refreshLayout.autoRefresh();
+            QueryLiveroomCond queryCond = new QueryLiveroomCond();
+            queryCond.setLoginUserPosition(mApp.loginDoctorPosition);
+            queryCond.setOperUserCode(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
+            queryCond.setOperUserName(mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
+            queryCond.setPageNum(String.valueOf(pageNumber));
+            queryCond.setRowNum(String.valueOf(pageSize));
+            queryCond.setRequestClientType("1");
+            queryCond.setSearchBroadcastTitle("");
+            queryCond.setSearchClassCode("");
+            queryCond.setSearchKeywordsCode("");
+            queryCond.setSearchRiskCode("");
+            queryCond.setSearchUserName("");
+            loadDataTask = new LoadDataTask(queryCond);
+            loadDataTask.execute();
+        }
+
     }
 
     class LoadDataTask extends AsyncTask<Void,Void,List<PreLiveInfo>> {
@@ -125,15 +147,19 @@ public class PreRoomFragment extends Fragment {
             mLoadDate = false;
             List<PreLiveInfo> retlist = new ArrayList();
             try {
-                queryCond.setPageNum(String.valueOf(pageno));
+                queryCond.setPageNum(String.valueOf(pageNumber));
                 String quejson = new Gson().toJson(queryCond);
                 String retstr = HttpNetService.urlConnectionService("jsonDataInfo="+quejson,"https://www.jiuyihtn.com:41041/broadcastLiveDataControlle/searchLiveRoomDetailsByBroadcastStateResNoticeList");
                 NetRetEntity retEntity = JSON.parseObject(retstr,NetRetEntity.class);
-                if(1==retEntity.getResCode() && StrUtils.defaulObjToStr(retEntity.getResJsonData()).length()>3){
+                if(1==retEntity.getResCode()
+                        && StrUtils.defaulObjToStr(retEntity.getResJsonData()).length()>3){
                     retlist = JSON.parseArray(retEntity.getResJsonData(),PreLiveInfo.class);
+                }else{
+                    refreshLayout.finishLoadMoreWithNoMoreData();
                 }
             } catch (Exception e) {
                 e.printStackTrace();
+               // refreshLayout.finishLoadMoreWithNoMoreData();
             }
 
             return retlist;
@@ -142,13 +168,22 @@ public class PreRoomFragment extends Fragment {
         @Override
         protected void onPostExecute(List<PreLiveInfo> hotLiveInfos) {
             if(hotLiveInfos.size()>0){
+               if(pageNumber==1){
+                   mdatas.clear();
+               }
                 mdatas.addAll(hotLiveInfos);
                 preLiveAdapter.setData(mdatas);
                 preLiveAdapter.notifyDataSetChanged();
+
             }else{
-                if(pageno>1){
-                    pageno = pageno - 1;
+                if(pageNumber>1){
+                    pageNumber = pageNumber - 1;
                 }
+            }
+            if(pageNumber==1){
+                refreshLayout.finishRefresh(1000);
+            }else{
+                refreshLayout.finishLoadMore();
             }
             mLoadDate = true;
         }

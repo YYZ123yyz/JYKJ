@@ -1,5 +1,6 @@
 package www.jykj.com.jykj_zxyl.activity.myself;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -15,6 +16,7 @@ import android.os.Message;
 import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -32,6 +34,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.net.URLEncoder;
 
+import entity.mySelf.ProvideViewSysUserDoctorInfoAndHospital;
 import entity.mySelf.UpLoadImgParment;
 import entity.patientmanager.ProvideIdentityNumberInfo;
 import netService.HttpNetService;
@@ -43,6 +46,9 @@ import www.jykj.com.jykj_zxyl.application.Constant;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.util.ActivityUtil;
 import www.jykj.com.jykj_zxyl.util.BitmapUtil;
+import www.jykj.com.jykj_zxyl.util.ImageViewUtil;
+import www.jykj.com.jykj_zxyl.util.Util;
+import yyz_exploit.bean.ProvideDoctorQualification;
 
 import static orcameralib.CameraActivity.KEY_CONTENT_TYPE;
 import static orcameralib.CameraActivity.KEY_OUTPUT_FILE_PATH;
@@ -81,6 +87,16 @@ public class UserAuthenticationActivity extends AppCompatActivity {
     private int mPhotoType;                 //图片类型  1、身份证正面   2、身份证反面  3、执业证  4、资格证  5、职称证
     private String mPhotoBitmapString;             //图片base64字符串
     private Button mCommit;
+    private ProvideDoctorQualification provideDoctorQualification;
+    private NetRetEntity netRetEntity;
+    private LinearLayout lin;
+    private TextView submit_state;
+    private TextView sumbit_data;
+    private TextView status;
+    private ImageView iv_zyz_img;
+    private ImageView iv_zgz_img;
+    private ImageView iv_zcz_img;
+    private LinearLayout lin_data;
 
 
     /**
@@ -128,7 +144,6 @@ public class UserAuthenticationActivity extends AppCompatActivity {
                     upLoadImgParment.setOperDoctorCode(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
                     upLoadImgParment.setOperDoctorName(mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
                     String str = new Gson().toJson(upLoadImgParment);
-                    System.out.println("~~~~~~~~~~~~~开始提交了~~~~~~~~~~~~~~");
                     mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + str, Constant.SERVICEURL + "doctorPersonalSetControlle/getUserDoctorQualificationImg");
                     System.out.println("~~~~~~~~~~~~~返回~~~~~~~~~~~~~~" + mRetString);
                     NetRetEntity netRetEntity = new Gson().fromJson(mNetRetStr, NetRetEntity.class);
@@ -159,6 +174,7 @@ public class UserAuthenticationActivity extends AppCompatActivity {
     /**
      *
      */
+    @SuppressLint("HandlerLeak")
     private void initHandler() {
         mHandler = new Handler() {
             @Override
@@ -167,19 +183,80 @@ public class UserAuthenticationActivity extends AppCompatActivity {
                 switch (msg.what) {
                     case 1:
                         cacerProgress();
+                        netRetEntity = JSON.parseObject(mNetRetStr, NetRetEntity.class);
+                        if(netRetEntity.getResCode()==0) {
+                            lin.setVisibility(View.GONE);
+                        }else{
+                            provideDoctorQualification = JSON.parseObject(JSON.parseObject(mNetRetStr, NetRetEntity.class).getResJsonData(), ProvideDoctorQualification.class);
+                            if(provideDoctorQualification.getFlagSubmitState()==1){
+                                submit_state.setText("已提交");
+                            }else{
+                                submit_state.setText("未提交");
+                            }
+                            if(provideDoctorQualification.getSubmitDate()!=null){
+                                sumbit_data.setText(Util.dateToStr(provideDoctorQualification.getSubmitDate()));
+                            }else{
+                                lin_data.setVisibility(View.GONE);
+                            }
+                            if(provideDoctorQualification.getFlagApplyState()==0){
+                                status.setText("待处理");
+                            }else if(provideDoctorQualification.getFlagApplyState()==1){
+                                status.setText("未通过");
+                            }else if(provideDoctorQualification.getFlagApplyState()==2){
+                                status.setText("已过期");
+                            }else if(provideDoctorQualification.getFlagApplyState()==0){
+                                status.setText("通过");
+                            }
+//                            mIDCardFont = (ImageView) this.findViewById(R.id.iv_idcardFont);
+//                            mIDCardBack = (ImageView) this.findViewById(R.id.iv_idcardBack);
+//                            iv_zyz_img = findViewById(R.id.iv_zyz_img);
+//                            iv_zgz_img = findViewById(R.id.iv_zgz_img);
+//                            iv_zcz_img = findViewById(R.id.iv_zcz_img);
+//                            mIDCardFont = (ImageView) this.findViewById(R.id.iv_idcardFont);
+//                            mIDCardBack = (ImageView) this.findViewById(R.id.iv_idcardBack);
+                            //
+                            if(!TextUtils.isEmpty(provideDoctorQualification.getIdNumberPositiveImgUrl())){
+                                ImageViewUtil.showImageView(mActivity, provideDoctorQualification.getIdNumberPositiveImgUrl(), mIDCardFont);
+                            }
+                            if(!TextUtils.isEmpty(provideDoctorQualification.getIdNumberSideImgUrl())){
+                                ImageViewUtil.showImageView(mActivity, provideDoctorQualification.getIdNumberSideImgUrl(), mIDCardBack);
+                            }
+                            if(!TextUtils.isEmpty(provideDoctorQualification.getPractisingImgUrl())){
+//                                Bitmap bm = BitmapFactory.decodeFile(provideDoctorQualification.getPractisingImgUrl());
+//                                mZYZImage.setImageBitmap(bm);
+                                ImageViewUtil.showImageView(mActivity, provideDoctorQualification.getPractisingImgUrl(), mZYZImage);
+                                iv_zyz_img.setVisibility(View.GONE);
+                            }
+                            if(!TextUtils.isEmpty(provideDoctorQualification.getProfessionalImgUrl())){
+//                                Bitmap bm = BitmapFactory.decodeFile(provideDoctorQualification.getProfessionalImgUrl());
+//                                mZGZImage.setImageBitmap(bm);
+                                ImageViewUtil.showImageView(mActivity, provideDoctorQualification.getProfessionalImgUrl(), mZGZImage);
+                                iv_zgz_img.setVisibility(View.GONE);
+                            }
+                            if(!TextUtils.isEmpty(provideDoctorQualification.getQualificationImgUrl())){
+//                                Bitmap bm = BitmapFactory.decodeFile(provideDoctorQualification.getQualificationImgUrl());
+//                                mZCZImage.setImageBitmap(bm);
+                                ImageViewUtil.showImageView(mActivity, provideDoctorQualification.getQualificationImgUrl(), mZCZImage);
+                                iv_zcz_img.setVisibility(View.GONE);
+                            }
+
+                        }
+
                         break;
                     case 2:
                         cacerProgress();
                         break;
                     case 3:
                         cacerProgress();
-                        NetRetEntity netRetEntity = JSON.parseObject(mNetRetStr, NetRetEntity.class);
+                        netRetEntity = JSON.parseObject(mNetRetStr, NetRetEntity.class);
                         if (netRetEntity.getResCode() == 0) {
+                            Log.e("tag", "handleMessage: "+"失败" );
                             Toast.makeText(mContext, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
                             return;
                         } else {
-
+                            Log.e("tag", "handleMessage: "+mPhotoType+"" );
                             switch (mPhotoType) {
+
                                 case 1:
                                     Glide.with(mContext).load(BitmapUtil.stringtoBitmap(mPhotoBitmapString)).into(mIDCardFont);
                                     break;
@@ -312,10 +389,10 @@ public class UserAuthenticationActivity extends AppCompatActivity {
 
         mPhotoType = type;
         mPhotoBitmapString = bitmapString;
-        //开始识别
+//        //开始识别
 //        new Thread() {
 //            public void run() {
-//                //提交数据
+                //提交数据
         try {
             UpLoadImgParment upLoadImgParment = new UpLoadImgParment();
             upLoadImgParment.setLoginDoctorPosition(mApp.loginDoctorPosition);
@@ -323,22 +400,12 @@ public class UserAuthenticationActivity extends AppCompatActivity {
             upLoadImgParment.setOperDoctorName(mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
             upLoadImgParment.setFlagImgType(type + "");
             upLoadImgParment.setImgBase64Data((URLEncoder.encode("data:image/jpg;base64," + bitmapString)));
+         //   Log.e("tag", "图片 "+upLoadImgParment.getImgBase64Data().toString() );
+         //   Log.e("tag", "图片 "+mPhotoBitmapString );
             String str = new Gson().toJson(upLoadImgParment);
             System.out.println("~~~~~~~~~~~~~开始提交了~~~~~~~~~~~~~~");
             mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + str, Constant.SERVICEURL + "doctorPersonalSetControlle/operUserDoctorStatus");
-            System.out.println("~~~~~~~~~~~~~返回~~~~~~~~~~~~~~" + mRetString);
-            NetRetEntity netRetEntity = new Gson().fromJson(mNetRetStr, NetRetEntity.class);
-
-            if (netRetEntity.getResCode() == 0) {
-                NetRetEntity retEntity = new NetRetEntity();
-                retEntity.setResCode(0);
-                retEntity.setResMsg("提交失败：" + netRetEntity.getResMsg());
-
-                mNetRetStr = new Gson().toJson(retEntity);
-                mHandler.sendEmptyMessage(3);
-                return;
-            }
-
+            Log.e("tag", "upLoadImg: "+mNetRetStr );
         } catch (Exception e) {
             NetRetEntity retEntity = new NetRetEntity();
             retEntity.setResCode(0);
@@ -380,6 +447,24 @@ public class UserAuthenticationActivity extends AppCompatActivity {
      * 初始化布局
      */
     private void initLayout() {
+        lin_data = findViewById(R.id.lin_data);
+        //提交状态的布局
+        lin = findViewById(R.id.lin);
+
+        //提交状态
+        submit_state = findViewById(R.id.submit_state);
+
+        //提交日期
+        sumbit_data = findViewById(R.id.sumbit_data);
+
+        //申请状态
+        status = findViewById(R.id.status);
+
+
+        iv_zyz_img = findViewById(R.id.iv_zyz_img);
+        iv_zgz_img = findViewById(R.id.iv_zgz_img);
+        iv_zcz_img = findViewById(R.id.iv_zcz_img);
+
         mBack = (LinearLayout) this.findViewById(R.id.li_activityAuthentication_back);
         mBack.setOnClickListener(new ButtonClick());
 
@@ -457,7 +542,7 @@ public class UserAuthenticationActivity extends AppCompatActivity {
                     mCurrentPhoto = 2;
                     String[] items2 = {"拍照", "从相册选择"};
                     Dialog dialog2 = new android.support.v7.app.AlertDialog.Builder(mContext)
-                            .setItems(items2, new DialogInterface.OnClickListener() {
+                             .setItems(items2, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
                                     switch (i) {

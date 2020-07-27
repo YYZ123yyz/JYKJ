@@ -83,7 +83,7 @@ public class BloodLogFragment extends Fragment {
         }
 
         pressureGroupsList = new ArrayList<>();
-        setData();
+        getLogTitle();
 
         LinearLayoutManager manager = new LinearLayoutManager(getActivity());
         manager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -100,7 +100,7 @@ public class BloodLogFragment extends Fragment {
                         int lastVisiblePosition = manager.findLastVisibleItemPosition();
                         if (lastVisiblePosition >= manager.getItemCount() - 1) {
                             mPageNum++;
-                            setData();
+                            getLogTitle();
                         }
                     }
                 }
@@ -133,16 +133,16 @@ public class BloodLogFragment extends Fragment {
         });
     }
 
-    private void setData() {
-        getLogTitle();
-    }
+//    private void setData() {
+//        getLogTitle();
+//    }
 
     private void getLogTitle() {
-        if (dialogUtil == null) {
-            dialogUtil = new DialogUtil(getActivity());
-        } else {
-            dialogUtil.show();
-        }
+//        if (dialogUtil == null) {
+//            dialogUtil = new DialogUtil(getActivity());
+//        } else {
+//            dialogUtil.show();
+//        }
         new Thread() {
             public void run() {
                 try {
@@ -162,26 +162,26 @@ public class BloodLogFragment extends Fragment {
                         retEntity.setResMsg("获取信息失败：" + netRetEntity.getResMsg());
                         mNetRetStr = new Gson().toJson(retEntity);
                         mHandler.sendEmptyMessage(1);
-                        if (dialogUtil.isShow()) {
-                            dialogUtil.dismiss();
-                        }
+//                        if (dialogUtil.isShow()) {
+//                            dialogUtil.dismiss();
+//                        }
                         mLoadDate = false;
                         return;
                     }
                     List<ProvidePatientConditionBloodPressureGroup> list = JSON.parseArray(netRetEntity.getResJsonData(), ProvidePatientConditionBloodPressureGroup.class);
                     pressureGroupsList.addAll(list);
-                    if (dialogUtil.isShow()) {
-                        dialogUtil.dismiss();
-                    }
+//                    if (dialogUtil.isShow()) {
+//                        dialogUtil.dismiss();
+//                    }
                 } catch (Exception e) {
                     NetRetEntity retEntity = new NetRetEntity();
                     retEntity.setResCode(0);
                     retEntity.setResMsg("网络连接异常，请联系管理员：" + e.getMessage());
                     mNetRetStr = new Gson().toJson(retEntity);
                     e.printStackTrace();
-                    if (dialogUtil.isShow()) {
-                        dialogUtil.dismiss();
-                    }
+//                    if (dialogUtil.isShow()) {
+//                        dialogUtil.dismiss();
+//                    }
                 }
 
                 mHandler.sendEmptyMessage(1);

@@ -267,6 +267,7 @@ public class AddPatientActivity extends AppCompatActivity {
         mGetVCodeText.setOnClickListener(new ButtonClick());
         mVCodeEdit = (EditText) this.findViewById(R.id.et_yzm);
         mIDCardEdit = (EditText) this.findViewById(R.id.et_activityAddpatient_idCardEdit);
+
         mUserNameEdit = (EditText) this.findViewById(R.id.et_activityAddpatient_userNameEdit);
         mSexEdit = (TextView) this.findViewById(R.id.et_activityAddpatient_sexEdit);
         mBirthDayEdit = (TextView) this.findViewById(R.id.et_activityAddpatient_birthDayEdit);
@@ -510,6 +511,10 @@ public class AddPatientActivity extends AppCompatActivity {
         mBindPatientParment.setLoginDoctorPosition(mApp.loginDoctorPosition);
         mBindPatientParment.setOperDoctorCode(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
         mBindPatientParment.setOperDoctorName(mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
+        if(mIDCardEdit.getText().toString().length()<18){
+            Toast.makeText(mContext, "身份证号不能少于18位", Toast.LENGTH_SHORT).show();
+            return;
+        }
         mBindPatientParment.setPatientIdNumber(mIDCardEdit.getText().toString());
         mBindPatientParment.setPatientUserName(mUserNameEdit.getText().toString());
         mBindPatientParment.setPatientGender(mSexEdit.getText().toString());

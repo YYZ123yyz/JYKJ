@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--默认背景-->
+    <item>
+        <shape>
+            <solid android:color="@color/white" />
+            <!-- 边缘线条颜色 -->
+            <stroke
+                android:width="0.5dp"
+                android:color="#EEEEEE" />
+            <corners
+                android:bottomRightRadius="7dp"
+                android:topRightRadius="7dp"
+                android:bottomLeftRadius="7dp"
+                android:topLeftRadius="7dp"
+                />
+        </shape>
+    </item>
+</selector>

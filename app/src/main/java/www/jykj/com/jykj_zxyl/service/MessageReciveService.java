@@ -26,6 +26,10 @@ import com.hyphenate.chat.EMMessage;
 import com.hyphenate.easeui.hyhd.model.CallReceiver;
 import com.hyphenate.easeui.model.EaseAtMessageHelper;
 import com.hyphenate.easeui.model.EaseDingMessageHelper;
+import com.hyphenate.easeui.utils.MainMessage;
+import com.hyphenate.easeui.utils.EaseCommonUtils;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 import java.util.Timer;
@@ -145,6 +149,7 @@ public class MessageReciveService extends Service {
                     //设置fragment显示新消息
                     application.gMainActivity.setNewsMessageView();
                 }
+                EventBus.getDefault().post(new MainMessage(messages.size()+""));
             }
             @Override
             public void onMessageRead(List<EMMessage> messages) {
@@ -206,11 +211,13 @@ public class MessageReciveService extends Service {
 //            if (progress == 1) {
 //                mBuilder.setDefaults(Notification.DEFAULT_SOUND);
 //            }
-            String str = "{"+messages.get(0).getBody().toString()+"}";
-            EMMessageEntity emMessageEntity = new Gson().fromJson(str,EMMessageEntity.class);
+//            String str = "{"+messages.get(0).getBody().toString()+"}";
+//            EMMessageEntity emMessageEntity = new Gson().fromJson(str,EMMessageEntity.class);
+
+            String ticker = EaseCommonUtils.getMessageDigest(messages.get(0), this);
             remoteViews.setImageViewResource(R.id.image, R.mipmap.logo);
             remoteViews.setTextViewText(R.id.title, "您有一条新消息");
-            remoteViews.setTextViewText(R.id.content, emMessageEntity.getTxt());
+            remoteViews.setTextViewText(R.id.content,ticker);
 //            remoteViews.setProgressBar(R.id.pBar, 10, progress, false);
 //            remoteViews.setTextViewText(R.id.proNum, progress + "/10");
             notificationManager.notify(20, mBuilder.build());

@@ -67,12 +67,41 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
                 android:orientation="vertical">
-                <ImageView
+               <!-- <ImageView
                     android:layout_width="22dp"
                     android:layout_height="22dp"
                     android:layout_gravity="center_horizontal"
                     android:id="@+id/iv_activityMain_ImageHYHD"
-                    android:background="@mipmap/yhhd_nomal"/>
+                    android:background="@mipmap/yhhd_nomal"/>-->
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    >
+                    <ImageView
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:layout_centerInParent="true"
+                        android:id="@+id/iv_activityMain_ImageHYHD"
+                        android:background="@mipmap/yhhd_nomal"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:textSize="12sp"
+                        android:visibility="gone"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginStart="15dp"
+                        android:gravity="center"
+                        android:layout_toEndOf="@+id/iv_activityMain_ImageHYHD"
+                        android:background="@drawable/ease_unread_count_bg"
+                        android:id="@+id/tv_unread_btn"
+                        >
+
+
+                    </TextView>
+                </RelativeLayout>
+
                 <TextView
                     android:layout_width="80dp"
                     android:layout_height="wrap_content"

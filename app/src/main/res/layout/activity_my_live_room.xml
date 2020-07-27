@@ -44,7 +44,7 @@
            android:layout_marginRight="10dp"
            android:id="@+id/live_banner"
            android:layout_width="match_parent"
-           android:layout_height="150dp"></com.youth.banner.Banner>
+           android:layout_height="150dp"/>
     <LinearLayout
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
@@ -101,6 +101,7 @@
         android:textColor="@color/tabColor_nomal"
         android:id="@+id/room_text"
         android:text="直播预报"
+        android:layout_marginBottom="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
@@ -122,10 +123,11 @@
         android:id="@+id/live"
         android:layout_width="48dp"
         android:layout_height="48dp"
+        android:padding="10dp"
+        android:focusable="false"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_marginBottom="50dp"
         android:layout_marginRight="20dp"
-        android:clickable="true"
         android:src="@mipmap/live" />
 </RelativeLayout>

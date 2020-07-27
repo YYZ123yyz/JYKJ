@@ -1,5 +1,6 @@
 package www.jykj.com.jykj_zxyl.application;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.AlertDialog;
@@ -10,6 +11,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.*;
+import android.os.Process;
 import android.support.multidex.MultiDex;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
@@ -38,6 +40,7 @@ import com.hyphenate.easeui.hyhd.model.HMSPushHelper;
 import com.hyphenate.easeui.ui.EaseContactListFragment;
 import com.hyphenate.easeui.utils.ExtEaseUtils;
 import com.hyphenate.exceptions.HyphenateException;
+import com.hyphenate.push.EMPushConfig;
 import com.hyphenate.push.EMPushHelper;
 import com.hyphenate.push.EMPushType;
 import com.hyphenate.push.PushListener;
@@ -84,11 +87,16 @@ import www.jykj.com.jykj_zxyl.activity.LoginActivity;
 import www.jykj.com.jykj_zxyl.activity.MainActivity;
 import www.jykj.com.jykj_zxyl.service.MessageReciveService;
 import www.jykj.com.jykj_zxyl.util.StrUtils;
+import yyz_exploit.Utils.CrashHandler;
 import yyz_exploit.dialog.AuthorityDialog;
 import yyz_exploit.dialog.ErrorDialog;
 
 import com.tencent.bugly.crashreport.CrashReport;
 import com.tencent.rtmp.TXLiveBase;
+import com.xiaomi.channel.commonutils.logger.LoggerInterface;
+import com.xiaomi.mipush.sdk.Constants;
+import com.xiaomi.mipush.sdk.Logger;
+import com.xiaomi.mipush.sdk.MiPushClient;
 
 public class JYKJApplication extends Application {
     private JYKJApplication instance;
@@ -129,6 +137,14 @@ public class JYKJApplication extends Application {
     public long gVedioTime = 30;                 //可拨打视频消息时长（单位：秒）
     public String curdetailcode = "";
 
+    public static final String APP_ID = "2882303761518339421";
+    // user your appid the key.
+    public static final String APP_KEY = "5821833929421";
+
+   // private static DemoHandler handler = null;
+
+
+    @SuppressLint("HandlerLeak")
     public Handler gHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -146,6 +162,21 @@ public class JYKJApplication extends Application {
 
                             System.out.println("登录成功");
                             setNewsMessage();
+                            // ** manually load all local groups and conversation
+                            EMClient.getInstance().groupManager().loadAllGroups();
+                            EMClient.getInstance().chatManager().loadAllConversations();
+
+                            // update current user's display name for APNs
+                            boolean updatenick = EMClient.getInstance().pushManager().updatePushNickname(ExtEaseUtils.getInstance().getNickName());
+                            if (!updatenick) {
+                                Log.e(IMTAG, "更新用户昵称");
+                            }
+                            DemoHelper.getInstance().getUserProfileManager().asyncGetCurrentUserInfo();
+                            String retuser = EMClient.getInstance().getCurrentUser();
+                            setNewsMessage();
+                            Log.e("iis",retuser);
+
+
 //                            Toast.makeText(getApplicationContext(),"登录成功",Toast.LENGTH_SHORT).show();
                         }
 
@@ -172,7 +203,8 @@ public class JYKJApplication extends Application {
 
     static final String IMTAG = "imlog";
     public void loginIM() {
-        /*new Thread() {
+        Log.e("tag", "handleMessage: "+"zoule环信" );
+        new Thread() {
             private EMConnectionListener connectionListener;
 
             public void run() {
@@ -188,53 +220,8 @@ public class JYKJApplication extends Application {
                     System.out.println("~~~~~~~注册失败~~~~~~~~" + e.getDescription());
                 }
             }
-        }.start();*/
-        new Thread() {
-            public void run() {
-                //注册
-                try {
-                    EMClient.getInstance().login(mViewSysUserDoctorInfoAndHospital.getDoctorCode(),mViewSysUserDoctorInfoAndHospital.getQrCode(),new EMCallBack() {
-                        @Override
-                        public void onSuccess() {
-                            Log.d(IMTAG, "登录成功");
+        }.start();
 
-                            // ** manually load all local groups and conversation
-                            EMClient.getInstance().groupManager().loadAllGroups();
-                            EMClient.getInstance().chatManager().loadAllConversations();
-
-                            // update current user's display name for APNs
-                            boolean updatenick = EMClient.getInstance().pushManager().updatePushNickname(ExtEaseUtils.getInstance().getNickName());
-                            if (!updatenick) {
-                                Log.e(IMTAG, "更新用户昵称");
-                            }
-                            DemoHelper.getInstance().getUserProfileManager().asyncGetCurrentUserInfo();
-                            String retuser = EMClient.getInstance().getCurrentUser();
-                            setNewsMessage();
-                            Log.e("iis",retuser);
-                        }
-
-                        @Override
-                        public void onProgress(int progress, String status) {
-                            Log.d(IMTAG, "登录中...");
-                        }
-
-                        @Override
-                        public void onError(final int code, final String message) {
-                            if (code == 101) {
-                                try {
-                                    EMClient.getInstance().createAccount(mViewSysUserDoctorInfoAndHospital.getDoctorCode(), mViewSysUserDoctorInfoAndHospital.getQrCode());
-                                    gHandler.sendEmptyMessage(1);
-                                } catch (Exception logex) {
-                                    Log.e(IMTAG, "登录失败: " + code);
-                                }
-                            }
-                            Log.d(IMTAG, "登录失败: " + code);
-                        }
-                    });
-                }catch (Exception ex){
-                    Log.e(IMTAG,ex.getMessage());
-                }
-            }}.start();
     }
 
 
@@ -319,6 +306,45 @@ public class JYKJApplication extends Application {
         });
     }
 
+//
+//    /**
+//     * 添加消息监听
+//     */
+//    private void addImMessageListener(){
+//        EMClient.getInstance().chatManager().addMessageListener(new EMMessageListener() {
+//            @Override
+//            public void onMessageReceived(List<EMMessage> list) {
+//                System.out.println(list);
+//            }
+//
+//            @Override
+//            public void onCmdMessageReceived(List<EMMessage> list) {
+//
+//            }
+//
+//            @Override
+//            public void onMessageRead(List<EMMessage> list) {
+//
+//            }
+//
+//            @Override
+//            public void onMessageDelivered(List<EMMessage> list) {
+//
+//            }
+//
+//            @Override
+//            public void onMessageRecalled(List<EMMessage> list) {
+//
+//            }
+//
+//            @Override
+//            public void onMessageChanged(EMMessage emMessage, Object o) {
+//
+//            }
+//        });
+//    }
+//
+//
 
 
     @Override
@@ -364,6 +390,77 @@ public class JYKJApplication extends Application {
         initLitesmat();
      //   login();
 
+        //消息推送
+        EMPushConfig.Builder builder = new EMPushConfig.Builder(gContext);
+        builder.enableVivoPush() // 推送证书相关信息配置在AndroidManifest.xml中
+                .enableMeiZuPush("", "")
+                .enableMiPush("2882303761518339421", "5821833929421")
+                .enableOppoPush("", "")
+                .enableHWPush() //开发者需要调用该方法来开启华为推送
+                .enableFCM(""); //开发者需要调用该方法来开启FCM推送
+
+        options.setPushConfig(builder.build());
+
+        EMPushHelper.getInstance().setPushListener(new PushListener() {
+            @Override
+            public void onError(EMPushType pushType, long errorCode) {
+                EMLog.e("PushClient", "Push client occur a error: " + pushType + " - " + errorCode);
+// TODO: 开发者会在这个回调中收到使用推送的相关错误信息，各推送类型的error code开发者可以自己去各推送平台官网查询错误原因。
+            }
+
+            @Override
+            public boolean isSupportPush(EMPushType pushType, EMPushConfig pushConfig) {
+                return super.isSupportPush(pushType, pushConfig);
+                // TODO：开发者可以复写该方法控制设备是否支持某推送的判断。
+            }
+        });
+
+        // 小米推送
+    //    Constants.useOfficial(); // 使用正式环境。
+      //   Constants.useSandbox(); // 使用测试环境。
+//        LoggerInterface newLogger = new LoggerInterface() {
+//
+//            @Override
+//            public void setTag(String tag) {
+//                // ignore
+//            }
+//
+//            @Override
+//            public void log(String content, Throwable t) {
+//                Log.d("", content, t);
+//            }
+//
+//            @Override
+//            public void log(String content) {
+//                Log.d("", content);
+//            }
+//        };
+
+      //  Logger.setLogger(this, newLogger);
+//        if (handler == null)
+//            handler = new DemoHandler(getApplicationContext());
+//
+//        // 注册push服务，注册成功后会向DemoMessageReceiver发送广播
+//        // 可以从DemoMessageReceiver的onCommandResult方法中MiPushCommandMessage对象参数中获取注册信息
+//        if (shouldInit()) {
+//            MiPushClient.registerPush(this, APP_ID, APP_KEY);
+//        }
+
+
+     //   CrashHandler.getInstance().init(this);
+
+    }
+    private boolean shouldInit() {
+        ActivityManager am = ((ActivityManager) getSystemService(Context.ACTIVITY_SERVICE));
+        List<ActivityManager.RunningAppProcessInfo> processInfos = am.getRunningAppProcesses();
+        String mainProcessName = getPackageName();
+        int myPid = Process.myPid();
+        for (ActivityManager.RunningAppProcessInfo info : processInfos) {
+            if (info.pid == myPid && mainProcessName.equals(info.processName)) {
+                return true;
+            }
+        }
+        return false;
     }
 
      void  login(){
@@ -372,7 +469,6 @@ public class JYKJApplication extends Application {
              @Override
              public void onDisconnected(int error) {
                 if(error==EMError.USER_LOGIN_ANOTHER_DEVICE){
-
 
                 }
              }

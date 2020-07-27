@@ -71,9 +71,16 @@ public class WDZS_WZXQActivity extends AppCompatActivity {
         mProvideViewInteractOrderTreatmentAndPatientInterrogation = (ProvideViewInteractOrderTreatmentAndPatientInterrogation) getIntent().getSerializableExtra("wzxx");
         initLayout();
         initHandler();
-        getData();
-     //   setLayoutDate();
+
+        //   setLayoutDate();
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getData();
+    }
+
     private void setLayoutDate() {
         if(TextUtils.isEmpty(mProvideInteractClinicRecordWriteState.getFlagReplyType())){
             wzxq_status.setVisibility(View.INVISIBLE);
@@ -178,7 +185,7 @@ public class WDZS_WZXQActivity extends AppCompatActivity {
                 startActivity(new Intent(mContext, TWJZ_KJCFActivity.class).putExtra("wzxx", mProvideViewInteractOrderTreatmentAndPatientInterrogation));
             }
         });
-  //      mJZJL = (LinearLayout) this.findViewById(R.id.jzjl);
+        //      mJZJL = (LinearLayout) this.findViewById(R.id.jzjl);
 //        mJZJL.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
@@ -190,7 +197,7 @@ public class WDZS_WZXQActivity extends AppCompatActivity {
         mZDMSText = (TextView) this.findViewById(R.id.tv_zdms);
         mJZXJText = (TextView) this.findViewById(R.id.tv_jzxj);
         mKJCFText = (TextView) this.findViewById(R.id.tv_kjcf);
-      //  mJZJLText = (TextView) this.findViewById(R.id.tv_jzjl);
+        //  mJZJLText = (TextView) this.findViewById(R.id.tv_jzjl);
     }
 
 

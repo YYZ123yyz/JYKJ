@@ -221,6 +221,7 @@ public class FragmentYHHD extends Fragment {
      * @param v
      */
     private void initLayout(View v) {
+       ImageView img_ease=v.findViewById(R.id.img_ease);
         mHXNetWorkState = (TextView) v.findViewById(R.id.tv_hxNetWorkState);
         if (mApp.gNetConnectionHX)
             mHXNetWorkState.setVisibility(View.GONE);
@@ -384,7 +385,7 @@ public class FragmentYHHD extends Fragment {
 
 
                             } else {
-                                Toast.makeText(mContext, "获取失败，" + netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
+                              //  Toast.makeText(mContext, "获取失败，" + netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
                             }
                         } else {
                             Toast.makeText(mContext, "网络异常，请联系管理员", Toast.LENGTH_SHORT).show();
@@ -397,12 +398,11 @@ public class FragmentYHHD extends Fragment {
                             NetRetEntity netRetEntity = new Gson().fromJson(mNetRetStr, NetRetEntity.class);
                             if (netRetEntity.getResCode() == 1) {
                                 mInteractDoctorUnionInfo = JSON.parseArray(netRetEntity.getResJsonData(), ProvideDoctorGoodFriendGroup.class);
-                                Log.e("tag", "handleMessage: " + mInteractDoctorUnionInfo.get(0));
                                 mDorcerFriendExpandableListViewAdapter.setDate(mInteractDoctorUnionInfo);
                                 mDorcerFriendExpandableListViewAdapter.notifyDataSetChanged();
 
                             } else {
-                                Toast.makeText(mContext, "获取失败，" + netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
+                           //     Toast.makeText(mContext, "获取失败，" + netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
                             }
                         } else {
                             Toast.makeText(mContext, "网络异常，请联系管理员", Toast.LENGTH_SHORT).show();
@@ -478,7 +478,7 @@ public class FragmentYHHD extends Fragment {
 
 
                             } else {
-                                Toast.makeText(mContext, "用户类型获取失败" + netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
+                          //      Toast.makeText(mContext, "用户类型获取失败" + netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
                             }
                         } else {
                             Toast.makeText(mContext, "网络异常，请联系管理员", Toast.LENGTH_SHORT).show();
@@ -529,7 +529,7 @@ public class FragmentYHHD extends Fragment {
                     mMessageRecycleView.setVisibility(View.VISIBLE);
                     //   mJQImage.setVisibility(View.VISIBLE);
                     mHYSQText.setVisibility(View.GONE);
-                    mMessageList.setBackgroundResource(R.mipmap.pg_messagetitle);
+               //     mMessageList.setBackgroundResource(R.mipmap.pg_messagetitle);
                     mMessageList.setTextColor(mActivity.getResources().getColor(R.color.tabColor_nomal));
                     getMessageList();
                     break;
@@ -540,7 +540,7 @@ public class FragmentYHHD extends Fragment {
                     mHYSQText.setVisibility(View.GONE);
                     mMessageRecycleView.setVisibility(View.VISIBLE);
                     //   mJQImage.setVisibility(View.VISIBLE);
-                    mAll.setBackgroundResource(R.mipmap.pg_messagetitle);
+              //      mAll.setBackgroundResource(R.mipmap.pg_messagetitle);
                     mAll.setTextColor(mActivity.getResources().getColor(R.color.tabColor_nomal));
                     //获取数据
                     getHZDate();
@@ -551,7 +551,7 @@ public class FragmentYHHD extends Fragment {
                     mYSHY.setVisibility(View.GONE);
                     //   mJQImage.setVisibility(View.VISIBLE);
                     mHYSQText.setVisibility(View.GONE);
-                    mPay.setBackgroundResource(R.mipmap.pg_messagetitle);
+                 //   mPay.setBackgroundResource(R.mipmap.pg_messagetitle);
                     mPay.setTextColor(mActivity.getResources().getColor(R.color.tabColor_nomal));
                     //获取数据
                     getQYHXDate();
@@ -564,7 +564,7 @@ public class FragmentYHHD extends Fragment {
                     mMessageRecycleView.setVisibility(View.GONE);
                     //     mJQImage.setVisibility(View.GONE);
                     mHYSQText.setVisibility(View.VISIBLE);
-                    mFriend.setBackgroundResource(R.mipmap.pg_messagetitle);
+                 //   mFriend.setBackgroundResource(R.mipmap.pg_messagetitle);
                     mFriend.setTextColor(mActivity.getResources().getColor(R.color.tabColor_nomal));
                     //获取数据
                     getYSLMDate();
@@ -594,7 +594,7 @@ public class FragmentYHHD extends Fragment {
                 try {
                     mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + new Gson().toJson(interactDoctorDetailInfo), Constant.SERVICEURL + "doctorManagePatient/interactDoctorUnionAllList");
                 } catch (Exception e) {
-                    Log.e("tag", "好友 " + mNetRetStr);
+                    Log.e("tag", "run: "+mNetRetStr );
                     NetRetEntity retEntity = new NetRetEntity();
                     retEntity.setResCode(0);
                     retEntity.setResMsg("网络连接异常，请联系管理员：" + e.getMessage());

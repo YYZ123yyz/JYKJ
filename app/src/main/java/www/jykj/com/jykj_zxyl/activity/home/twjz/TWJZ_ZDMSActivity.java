@@ -146,6 +146,7 @@ public class TWJZ_ZDMSActivity extends AppCompatActivity {
                     mProvideInteractOrderDiag.setDiagDiseaseCode1("0");
                 }else{
                     mProvideInteractOrderDiag.setDiagDiseaseCode1(provideBasicsDisease.getDiseaseCode());
+                    Log.e("tag", "臆断: "+mProvideInteractOrderDiag.getDiagDiseaseCode1() );
                 }
                 if (provideBasicsDisease.getDiseaseName()!=null&&!"".equals(provideBasicsDisease.getDiseaseName())) {
                     mProvideInteractOrderDiag.setDiagDiseaseName1(provideBasicsDisease.getDiseaseName());
@@ -195,7 +196,7 @@ public class TWJZ_ZDMSActivity extends AppCompatActivity {
                 mProvideInteractOrderDiag.setDiagDiseaseNameAlias2(ed2);
                 mZDBM2.setText(ed2);
             }
-            //补充说明1
+            //补充说明3
             if( requestCode == zdsm3
                     && resultCode == RESULT_OK
                     && data != null){
@@ -222,6 +223,9 @@ public class TWJZ_ZDMSActivity extends AppCompatActivity {
                             Toast.makeText(mContext, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
                         } else {
                             mProvideInteractOrderDiag = JSON.parseObject(netRetEntity.getResJsonData(), ProvideInteractOrderDiag.class);
+                            if (mProvideInteractOrderDiag==null) {
+                                mProvideInteractOrderDiag=new ProvideInteractOrderDiag();
+                            }
                             if (mProvideInteractOrderDiag != null)
                             {
                                 showLayoutDate();
@@ -308,10 +312,10 @@ public class TWJZ_ZDMSActivity extends AppCompatActivity {
                 case R.id.tv_zdbm1:
                     startActivityForResult(new Intent(mContext, SupplementActivity.class), zdsm1);
                     break;
-                    case R.id.tv_zdbm2:
+                case R.id.tv_zdbm2:
                     startActivityForResult(new Intent(mContext, SupplementActivity.class), zdsm2);
                     break;
-                    case R.id.tv_zdbm3:
+                case R.id.tv_zdbm3:
                     startActivityForResult(new Intent(mContext, SupplementActivity.class), zdsm3);
                     break;
 
@@ -354,8 +358,9 @@ public class TWJZ_ZDMSActivity extends AppCompatActivity {
         else
             mZDBM3.setText(mProvideInteractOrderDiag.getDiagDiseaseNameAlias3());
 
-        if (mProvideInteractOrderDiag.getDiagDiseaseDesc() == null || "".equals(mProvideInteractOrderDiag.getDiagDiseaseDesc()))
-            mZDMS.setText("请填写诊断描述");
+        if (mProvideInteractOrderDiag.getDiagDiseaseDesc() == null || "".equals(mProvideInteractOrderDiag.getDiagDiseaseDesc())){
+            //   mZDMS.setText("请填写诊断描述");
+        }
         else
             mZDMS.setText(mProvideInteractOrderDiag.getDiagDiseaseDesc());
 
@@ -370,7 +375,8 @@ public class TWJZ_ZDMSActivity extends AppCompatActivity {
         mProvideInteractOrderDiag.setDiagDiseaseNameAlias2(mZDBM2.getText().toString());
         mProvideInteractOrderDiag.setDiagDiseaseNameAlias3(mZDBM3.getText().toString());
         mProvideInteractOrderDiag.setDiagDiseaseDesc(mZDMS.getText().toString());
-        if (mProvideInteractOrderDiag.getDiagDiseaseDesc() == null || "".equals(mProvideInteractOrderDiag.getDiagDiseaseDesc()))
+        if (mZDMS.getText().toString() == null || "".equals(mZDMS.getText().toString()
+        ))
         {
             Toast.makeText(mContext,"请填写诊断描述",Toast.LENGTH_SHORT).show();
             return;
@@ -386,13 +392,18 @@ public class TWJZ_ZDMSActivity extends AppCompatActivity {
         mProvideInteractOrderDiag.setOrderCode(mProvideViewInteractOrderTreatmentAndPatientInterrogation.getOrderCode());
         mProvideInteractOrderDiag.setPatientCode(mProvideViewInteractOrderTreatmentAndPatientInterrogation.getPatientCode());
         mProvideInteractOrderDiag.setPatientName(mProvideViewInteractOrderTreatmentAndPatientInterrogation.getPatientName());
-
+        if(mProvideInteractOrderDiag.getDiagId()==null){
+            mProvideInteractOrderDiag.setDiagId(0);
+        }else{
+            mProvideInteractOrderDiag.setDiagId(mProvideInteractOrderDiag.getDiagId());
+        }
 
         getProgressBar("请稍候", "正在提交数据。。。");
         new Thread() {
             public void run() {
                 try {
                     String string = new Gson().toJson(mProvideInteractOrderDiag);
+                    Log.e("tag", "参数"+string );
                     mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + string, Constant.SERVICEURL + "doctorInteractDataControlle/operUpdMyClinicDetailByOrderDiag");
                     String string01 = Constant.SERVICEURL + "doctorInteractDataControlle/operUpdMyClinicDetailByOrderPatientMessage";
                     System.out.println(string + string01);

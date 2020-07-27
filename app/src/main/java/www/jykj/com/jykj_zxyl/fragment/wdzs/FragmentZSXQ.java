@@ -1,6 +1,7 @@
 package www.jykj.com.jykj_zxyl.fragment.wdzs;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -14,6 +15,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,12 +35,16 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import entity.HZIfno;
 import entity.patientInfo.ProvideViewPatientLablePunchClockState;
+import entity.patientInfo.ProvideViewSysUserPatientInfoAndRegion;
+import entity.yhhd.ProvideGroupConsultationUserInfo;
 import netService.HttpNetService;
 import netService.entity.NetRetEntity;
 import www.jykj.com.jykj_zxyl.R;
@@ -85,7 +91,8 @@ public class FragmentZSXQ extends Fragment {
 
     private int mPageNum = 1;                               //页数
     private int mRowNum = 10;                               //每页行数
-    private int mType = 1;                               //就诊(治疗)类型.-1:全部;1:图文就诊;2:音频就诊;3:视频就诊;4:签约服务;5:电话就诊;
+    private int mType
+            = 1;                               //就诊(治疗)类型.-1:全部;1:图文就诊;2:音频就诊;3:视频就诊;4:签约服务;5:电话就诊;
     private TextView mWWC;
     private TextView mYWC;
     private int mModel = 1;                      //当前模式 1= 未完成 2=已完成
@@ -104,6 +111,8 @@ public class FragmentZSXQ extends Fragment {
     private RecyclerView mRecycleView;              //列表
     private SmartRefreshLayout refreshLayout;
     private CallReceiver callReceiver;
+    private List<ProvideViewSysUserPatientInfoAndRegion> provideViewSysUserPatientInfoAndRegions;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_activitymyclinic_zsxq, container, false);
@@ -118,11 +127,16 @@ public class FragmentZSXQ extends Fragment {
         mApp = (JYKJApplication) getActivity().getApplication();
         initLayout(v);
         initHandler();
-        getData();
+        //  getUserIdentification();
 
         return v;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        getData();
+    }
 
     /**
      * 初始化界面
@@ -428,10 +442,15 @@ public class FragmentZSXQ extends Fragment {
                                 public void onClick(int position) {
                                     switch (mType) {
                                         case 1:
+//                                            getPatient(provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getPatientCode());
+
                                             Intent intent = new Intent();
                                             intent.setClass(mContext, ChatActivity.class);
+//                                            intent.putExtra("usersName", mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
+                                            intent.putExtra("userUrl", mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl());
+                                            //   intent.putExtra("doctorUrl",provideViewSysUserPatientInfoAndRegions.get(position).getUserLogoUrl());
                                             intent.putExtra("userCode", provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getPatientCode());
-                                            intent.putExtra("userName", provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getPatientName());
+                                            intent.putExtra("usersName", provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getPatientName());
                                             intent.putExtra("chatType", "twjz");
 
                                             intent.putExtra("loginDoctorPosition", mApp.loginDoctorPosition);
@@ -443,6 +462,8 @@ public class FragmentZSXQ extends Fragment {
                                             intent.putExtra(EaseConstant.EXTRA_VOICE_NUM, provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getLimitAudioShow());           //音频时长（单位：秒）
                                             intent.putExtra(EaseConstant.EXTRA_VEDIO_NUM, provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getLimitVideoShow());           //视频时长（单位：秒）
                                             startActivity(intent);
+                                            //   private void getTime(String orderCode,String treatmentType,String operType,String limitNum) {
+                                            //    getTime(provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getOrderCode(),"1","1","1");
                                             break;
                                         case 2:
                                             if (provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getLimitAudioShow() <= 0) {
@@ -450,7 +471,7 @@ public class FragmentZSXQ extends Fragment {
                                                 return;
                                             }
                                             startActivity(new Intent(getActivity(), VoiceCallActivity.class)
-                                                    .putExtra("username", provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getPatientCode())
+                                                    .putExtra("username", provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getPatientName())
                                                     .putExtra("isComingCall", false)
                                                     .putExtra("nickName", provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getPatientName())
                                                     .putExtra("voiceNum", provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getLimitAudioShow()));
@@ -462,7 +483,7 @@ public class FragmentZSXQ extends Fragment {
                                             }
                                             int time = provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getLimitVideoShow();
                                             startActivity(new Intent(getActivity(), VideoCallActivity.class)
-                                                    .putExtra("username", provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getPatientCode())
+                                                    .putExtra("username", provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getPatientName())
                                                     .putExtra("isComingCall", false)
                                                     .putExtra("vedioNum", provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getLimitVideoShow()));
                                             break;
@@ -483,10 +504,33 @@ public class FragmentZSXQ extends Fragment {
                                             startActivity(intent);
                                             break;
                                         case 5:
-                                            intent = new Intent(Intent.ACTION_CALL);
-                                            Uri data = Uri.parse("tel:" + provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getInterrogationPatientLinkPhone());
-                                            intent.setData(data);
-                                            startActivity(intent);
+
+                                            final Dialog dialog = new Dialog(getContext(), R.style.BottomDialog);
+                                            View view = LayoutInflater.from(getContext()).inflate(R.layout.phone_layout, null);
+                                            dialog.setContentView(view);
+                                            TextView tv1 = view.findViewById(R.id.tv1);
+                                            tv1.setText("呼叫"+provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getTreatmentLinkPhone());
+
+                                            tv1.setOnClickListener(new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View view) {
+                                                    Intent intent = new Intent(Intent.ACTION_CALL);
+                                                    Uri data = Uri.parse("tel:" + provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getTreatmentLinkPhone());
+                                                    intent.setData(data);
+                                                    Log.e("tag", "onClick: "+provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getTreatmentLinkPhone() );
+                                                    startActivity(intent);
+                                                    dialog.dismiss();
+                                                }
+                                            });
+
+                                            ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
+                                            layoutParams.width = getContext().getResources().getDisplayMetrics().widthPixels;
+                                            view.setLayoutParams(layoutParams);
+                                            dialog.setCancelable(true);
+                                            dialog.setCanceledOnTouchOutside(true);
+                                            dialog.getWindow().setGravity(Gravity.BOTTOM);
+                                            dialog.show();
+
 
                                     }
 
@@ -552,10 +596,56 @@ public class FragmentZSXQ extends Fragment {
                             mFinishRecycleAdapter.notifyDataSetChanged();
                         }
                         break;
+                    case 10:
+                        cacerProgress();
+                        netRetEntity = JSON.parseObject(mNetRetStr, NetRetEntity.class);
+                        if (netRetEntity.getResCode() == 0) {
+                            Toast.makeText(mContext, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
+
+                        }else{
+                            Toast.makeText(mContext, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
+
+                        }
+                        break;
+                    case 20:
+                        if (mNetRetStr != null && !mNetRetStr.equals("")) {
+                            // netRetEntity = new Gson().fromJson(mNetRetStr, NetRetEntity.class);
+                            //  if(netRetEntity.getResCode()==1){
+                            provideViewSysUserPatientInfoAndRegions = JSON.parseArray(JSON.parseObject(mNetRetStr, NetRetEntity.class).getResJsonData(), ProvideViewSysUserPatientInfoAndRegion.class);
+                            //      }
+                        }
+                        break;
                 }
             }
         };
     }
+
+    private void getPatient(String searchPatientCode) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("loginDoctorPosition", "108.93425^34.23053");
+        map.put("operDoctorCode", mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
+        map.put("operDoctorName", mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
+        map.put("searchPatientCode", searchPatientCode);
+
+        new Thread() {
+            public void run() {
+                try {
+
+                    mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + new Gson().toJson(map), Constant.SERVICEURL + "doctorGroupConsultationControlle/searchUserIdentificationByUserCode");
+                    Log.e("tag", "患者 "+mNetRetStr );
+                } catch (Exception e) {
+                    NetRetEntity retEntity = new NetRetEntity();
+                    retEntity.setResCode(0);
+                    retEntity.setResMsg("网络连接异常，请联系管理员：" + e.getMessage());
+                    mNetRetStr = new Gson().toJson(retEntity);
+                    e.printStackTrace();
+                }
+                mHandler.sendEmptyMessage(20);
+            }
+        }.start();
+    }
+
+
 
     /**
      * 设置显示
@@ -605,7 +695,7 @@ public class FragmentZSXQ extends Fragment {
                 try {
                     String string = new Gson().toJson(provideViewInteractOrderTreatmentAndPatientInterrogation);
                     mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + string, Constant.SERVICEURL + "doctorInteractDataControlle/searchMyClinicDetailResTreatmentRecord");
-                    Log.e("tag", "run:111 " + mNetRetStr);
+                    Log.e("tag", "患者信息 "+mNetRetStr );
                     String string01 = Constant.SERVICEURL + "msgDataControlle/searchMsgPushReminderAllCount";
                     System.out.println(string + string01);
                 } catch (Exception e) {
