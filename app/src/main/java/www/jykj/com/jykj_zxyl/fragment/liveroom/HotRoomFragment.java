@@ -88,7 +88,7 @@ public class HotRoomFragment extends Fragment {
                         theintent.putExtra("chatRoomName",parben.getChatRoomCode());
                         theintent.putExtra("chatId",parben.getChatRoomCode());
                         theintent.putExtra("liveTitle",parben.getBroadcastTitle());
-                        theintent.putExtra("detailCode",parben.getDetailsCode());
+                        theintent.putExtra("live_type", LivePublisherActivity.LIVE_TYPE_HOTLIVE);
                         mActivity.startActivity(theintent);
                         break;
                 }

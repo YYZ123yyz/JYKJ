@@ -14,22 +14,26 @@ import android.os.*;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
+import android.text.Spannable;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Surface;
 import android.view.View;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.*;
 import com.alibaba.fastjson.JSON;
 import com.google.gson.Gson;
 import com.hyphenate.chat.EMChatRoom;
 import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMMessage;
+import com.hyphenate.chat.EMTextMessageBody;
 import com.hyphenate.easeui.EaseConstant;
+import com.hyphenate.easeui.utils.EaseSmileUtils;
+import com.hyphenate.easeui.utils.ExtEaseUtils;
 import com.hyphenate.exceptions.HyphenateException;
 import com.tencent.rtmp.ITXLivePushListener;
 import com.tencent.rtmp.TXLiveConstants;
@@ -40,9 +44,14 @@ import entity.liveroom.CloseRoomInfo;
 import netService.HttpNetService;
 import netService.entity.NetRetEntity;
 import www.jykj.com.jykj_zxyl.R;
+import www.jykj.com.jykj_zxyl.adapter.HeadImageViewRecycleAdapter;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
+import www.jykj.com.jykj_zxyl.util.CircleImageView;
+import www.jykj.com.jykj_zxyl.util.FullyGridLayoutManager;
+import www.jykj.com.jykj_zxyl.util.ImageViewUtil;
 import www.jykj.com.jykj_zxyl.util.StrUtils;
 import yyz_exploit.activity.activity.BeforesettingActivity;
+import ztextviewlib.MarqueeTextView;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -81,6 +90,17 @@ public class LivePublisherActivity extends ChatPopDialogActivity implements View
     public static final String LIVE_TYPE_PRELIVE = "1";
     public static final String LIVE_TYPE_HOTLIVE = "2";
     public static final String LIVE_TYPE_SUBJECTLIVE = "3";
+    CircleImageView iv_live_user_head;
+    RecyclerView chat_head_imgs;
+    TextView tv_chat_num;
+    MarqueeTextView mv_chat_content;
+    LinearLayoutManager mLayoutManager;
+    HeadImageViewRecycleAdapter mImageViewRecycleAdapter;
+    List<String> headpics = new ArrayList();
+    TextView tv_head_tit;
+
+
+    //private ImageView close_video;
     private Bitmap decodeResource(Resources resources, int id) {
         TypedValue value = new TypedValue();
         resources.openRawResource(id, value);
@@ -148,6 +168,32 @@ public class LivePublisherActivity extends ChatPopDialogActivity implements View
         }
     };
 
+    StringBuffer msgnamesb = new StringBuffer();
+
+    @Override
+    public void showMessages(EMMessage paramMessage) {
+        try {
+            String parname = StrUtils.defaulObjToStr(paramMessage.getStringAttribute("nickName"));
+            String parhead = StrUtils.defaulObjToStr(paramMessage.getStringAttribute("imageUrl"));
+            if(parname.length()>0){
+                msgnamesb.append("&#160;&#160;&#160;&#160;");
+                EMTextMessageBody txtBody = (EMTextMessageBody) paramMessage.getBody();
+                //Spannable span = EaseSmileUtils.(mContext, txtBody.getMessage());
+                msgnamesb.append(txtBody.getMessage());
+                // 设置内容
+                mv_chat_content.setText(msgnamesb);
+            }
+            if(parhead.length()>0){
+                headpics.add(parhead);
+                mImageViewRecycleAdapter.setDate(headpics);
+                mImageViewRecycleAdapter.notifyDataSetChanged();
+                tv_chat_num.setText(String.valueOf(headpics.size())+"人");
+            }
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+    }
+
     public void setContentView() {
         setContentView(R.layout.activity_publish);
         mCaptureView = (TXCloudVideoView) findViewById(R.id.video_view);
@@ -157,6 +203,36 @@ public class LivePublisherActivity extends ChatPopDialogActivity implements View
         btnShare = findViewById(R.id.btnShare);
         btnShut = findViewById(R.id.btnShut);
         mBtnOrientation = findViewById(R.id.btnOriention);
+        //close_video = findViewById(R.id.close_video);
+        iv_live_user_head = findViewById(R.id.iv_live_user_head);
+        chat_head_imgs = findViewById(R.id.chat_head_imgs);
+        tv_chat_num = findViewById(R.id.tv_chat_num);
+        mv_chat_content = findViewById(R.id.mv_chat_content);
+        tv_head_tit = findViewById(R.id.tv_head_tit);
+        mLayoutManager = new LinearLayoutManager(mContext);
+        mLayoutManager.setOrientation(LinearLayout.HORIZONTAL);
+        chat_head_imgs.setLayoutManager(mLayoutManager);
+        chat_head_imgs.setHasFixedSize(true);
+        mImageViewRecycleAdapter = new HeadImageViewRecycleAdapter(headpics,mApp);
+        chat_head_imgs.setAdapter(mImageViewRecycleAdapter);
+
+        ImageViewUtil.showImageView(LivePublisherActivity.this, mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl(), iv_live_user_head);
+        String parnickname = ExtEaseUtils.getInstance().getNickName();
+        tv_head_tit.setText(parnickname);
+
+        btnShut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                shutVideo();
+            }
+        });
+
+        /*close_video.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                shutVideo();
+            }
+        });*/
 
         btnMessage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -178,6 +254,20 @@ public class LivePublisherActivity extends ChatPopDialogActivity implements View
             }
         });
 
+    }
+
+    void shutVideo(){
+        if(StrUtils.defaulObjToStr(mdetailcode).length()>0){
+            CloseRoomInfo subinfo = new CloseRoomInfo();
+            subinfo.setDetailsCode(mdetailcode);
+            subinfo.setLoginUserPosition(mApp.loginDoctorPosition);
+            subinfo.setOperUserCode(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
+            subinfo.setOperUserName(mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
+            subinfo.setRequestClientType("1");
+            CloseLiveRoomTask closeLiveRoomTask = new CloseLiveRoomTask(subinfo);
+            closeLiveRoomTask.execute();
+            this.finish();
+        }
     }
 
     boolean isopenchat = false;

@@ -85,6 +85,7 @@ public class LiveroomDetailActivity extends AppCompatActivity {
                 parint.putExtra("chatId",mRoomDetailInfo.getChatRoomCode());
                 parint.putExtra("liveTitle",mRoomDetailInfo.getTitleMainShow());
                 parint.putExtra("detailCode",mRoomDetailInfo.getDetailsCode());
+                parint.putExtra("live_type", LivePublisherActivity.LIVE_TYPE_HOTLIVE);
                 LiveroomDetailActivity.this.startActivity(parint);
             }
         }
