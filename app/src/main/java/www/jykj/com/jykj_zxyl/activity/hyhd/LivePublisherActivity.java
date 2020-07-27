@@ -170,25 +170,55 @@ public class LivePublisherActivity extends ChatPopDialogActivity implements View
 
     StringBuffer msgnamesb = new StringBuffer();
 
+    static final int SHOW_MESSAGE_FLAG = 101;
+
+    Handler myHandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what){
+                case SHOW_MESSAGE_FLAG:
+                    try {
+                        EMMessage paramMessage = (EMMessage) msg.obj;
+                        String parname = StrUtils.defaulObjToStr(paramMessage.getStringAttribute("nickName"));
+                        String parhead = StrUtils.defaulObjToStr(paramMessage.getStringAttribute("imageUrl"));
+                        if (null != parname && "" != parname) {
+                            if (!msgmap.containsKey(parname)) {
+                                msgmap.put(parname, "1");
+                                if (null != msgmap.keySet() && msgmap.keySet().size() > 0) {
+                                    tv_chat_num.setText(String.valueOf(msgmap.keySet().size()) + "人");
+                                }
+                                if (parhead.length() > 0) {
+                                    headpics.add(parhead);
+                                    mImageViewRecycleAdapter.setDate(headpics);
+                                    mImageViewRecycleAdapter.notifyDataSetChanged();
+                                }
+                            }
+                        }
+                        mv_chat_content.setText(msgnamesb);
+                    }catch (Exception ex){
+                        ex.printStackTrace();
+                    }
+                    break;
+            }
+            super.handleMessage(msg);
+        }
+    };
+
     @Override
     public void showMessages(EMMessage paramMessage) {
         try {
             String parname = StrUtils.defaulObjToStr(paramMessage.getStringAttribute("nickName"));
-            String parhead = StrUtils.defaulObjToStr(paramMessage.getStringAttribute("imageUrl"));
             if(parname.length()>0){
-                msgnamesb.append("&#160;&#160;&#160;&#160;");
+                msgnamesb.append("  ");
                 EMTextMessageBody txtBody = (EMTextMessageBody) paramMessage.getBody();
                 //Spannable span = EaseSmileUtils.(mContext, txtBody.getMessage());
                 msgnamesb.append(txtBody.getMessage());
                 // 设置内容
-                mv_chat_content.setText(msgnamesb);
             }
-            if(parhead.length()>0){
-                headpics.add(parhead);
-                mImageViewRecycleAdapter.setDate(headpics);
-                mImageViewRecycleAdapter.notifyDataSetChanged();
-                tv_chat_num.setText(String.valueOf(headpics.size())+"人");
-            }
+            Message parmsg = new Message();
+            parmsg.what = SHOW_MESSAGE_FLAG;
+            parmsg.obj = paramMessage;
+            myHandler.sendMessage(parmsg);
         }catch (Exception ex){
             ex.printStackTrace();
         }

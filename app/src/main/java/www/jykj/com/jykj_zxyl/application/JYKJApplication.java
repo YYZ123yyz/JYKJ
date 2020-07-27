@@ -220,7 +220,7 @@ public class JYKJApplication extends Application {
 
                         @Override
                         public void onError(final int code, final String message) {
-                            if (code == 101) {
+                            if (code == 101 || code==204) {
                                 try {
                                     EMClient.getInstance().createAccount(mViewSysUserDoctorInfoAndHospital.getDoctorCode(), mViewSysUserDoctorInfoAndHospital.getQrCode());
                                     gHandler.sendEmptyMessage(1);
@@ -451,8 +451,14 @@ public class JYKJApplication extends Application {
         m_persist.putString("userID",mLoginUserInfo.getUserPhone());
         m_persist.putString("userName",mLoginUserInfo.getUserPhone());
         m_persist.putString("loginUserInfo", new Gson().toJson(mLoginUserInfo));
+        ExtEaseUtils.getInstance().setNickName(mViewSysUserDoctorInfoAndHospital.getUserName());
+        ExtEaseUtils.getInstance().setImageUrl(mViewSysUserDoctorInfoAndHospital.getUserLogoUrl());
+        ExtEaseUtils.getInstance().setUserId(mViewSysUserDoctorInfoAndHospital.getDoctorCode());
         m_persist.putString("viewSysUserDoctorInfoAndHospital", new Gson().toJson(mViewSysUserDoctorInfoAndHospital));
         m_persist.commit();
+        DemoHelper.getInstance().getUserProfileManager().updateCurrentUserNickName(mViewSysUserDoctorInfoAndHospital.getUserName());
+        DemoHelper.getInstance().getUserProfileManager().setCurrentUserAvatar(mViewSysUserDoctorInfoAndHospital.getUserLogoUrl());
+        DemoHelper.getInstance().setCurrentUserName(mViewSysUserDoctorInfoAndHospital.getDoctorCode()); // 环信Id
         Log.e("tag", "run: "+"ccccccccccccccccc" );
     }
 
