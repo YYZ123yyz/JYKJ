@@ -45,13 +45,15 @@ import static com.hyphenate.util.EasyUtils.TAG;
  */
 public class HttpNetService {
 
-    public         static         String                  requestClientVerify = "878e805913c5468da6d033ca5072071b";
-    public         static         String                  requestLoginTokenValue = "eyJ0eXAiOiJKV1QiLCJ0eXBlIjoiSldUIiwiZW5jcnlwdGlvbiI6IkhTMjU2IiwiYWxnIjoiSFMyNTYifQ.eyJ1c2VyUGhvbmUiOiIxODk4NzkzNTIyOCIsIk5vd0RhdGVUaW1lIjoxNTc4OTM1MDQ2Njg5LCJleHAiOjE1Nzg5ODUxMTJ9.v43YSbgk1KfkK9lVORLowj6Wf91DM_tB556NOp7Ila4";
+    public static String requestClientVerify = "878e805913c5468da6d033ca5072071b";
+    public static String requestLoginTokenValue = "eyJ0eXAiOiJKV1QiLCJ0eXBlIjoiSldUIiwiZW5jcnlwdGlvbiI6IkhTMjU2IiwiYWxnIjoiSFMyNTYifQ.eyJ1c2VyUGhvbmUiOiIxODk4NzkzNTIyOCIsIk5vd0RhdGVUaW1lIjoxNTc4OTM1MDQ2Njg5LCJleHAiOjE1Nzg5ODUxMTJ9.v43YSbgk1KfkK9lVORLowj6Wf91DM_tB556NOp7Ila4";
     public Context context;
+
     /**
      * 调用后台接口的http请求
-     * @param   json  需要传递过去的json字符串
-     *                urlString   url字符串
+     *
+     * @param json 需要传递过去的json字符串
+     *             urlString   url字符串
      */
     public static String urlConnectionService(String json, String urlString) throws Exception {
         String retInfo = "";
@@ -61,8 +63,8 @@ public class HttpNetService {
          */
         URL url = new URL(urlString);
         URLConnection connection = url.openConnection();
-        connection.setRequestProperty("requestClientVerify",requestClientVerify);
-        connection.setRequestProperty("requestLoginTokenValue",requestLoginTokenValue);
+        connection.setRequestProperty("requestClientVerify", requestClientVerify);
+        connection.setRequestProperty("requestLoginTokenValue", requestLoginTokenValue);
         /**
          * 然后把连接设为输出模式。URLConnection通常作为输入来使用，比如下载一个Web页。
          * 通过把URLConnection设为输出，你可以把数据向你个Web页传送。下面是如何做：
@@ -88,18 +90,19 @@ public class HttpNetService {
         l_urlStream = connection.getInputStream();
         // 传说中的三层包装阿！
         BufferedReader l_reader = new BufferedReader(new InputStreamReader(
-                l_urlStream,"utf8"));
+                l_urlStream, "utf8"));
         while ((sCurrentLine = l_reader.readLine()) != null) {
             retInfo += sCurrentLine;
         }
         return retInfo;
     }
+
     //ybf https ssl
-    public static   HttpsURLConnection getHttpsURLConnection(String uri) throws IOException {
+    public static HttpsURLConnection getHttpsURLConnection(String uri) throws IOException {
         SSLContext ctx = null;
         try {
             ctx = SSLContext.getInstance("TLS");
-            ctx.init(new KeyManager[0], new TrustManager[] { new DefaultTrustManager()}, new SecureRandom());
+            ctx.init(new KeyManager[0], new TrustManager[]{new DefaultTrustManager()}, new SecureRandom());
         } catch (KeyManagementException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -110,10 +113,10 @@ public class HttpNetService {
         SSLSocketFactory ssf = ctx.getSocketFactory();
         URL url = new URL(uri);
         HttpsURLConnection httpsConn = (HttpsURLConnection) url.openConnection();
-        httpsConn.setRequestProperty("requestClientVerify",requestClientVerify);
-        httpsConn.setRequestProperty("requestLoginTokenValue",requestLoginTokenValue);
+        httpsConn.setRequestProperty("requestClientVerify", requestClientVerify);
+        httpsConn.setRequestProperty("requestLoginTokenValue", requestLoginTokenValue);
         httpsConn.setSSLSocketFactory(ssf);
-        httpsConn.setRequestProperty("Content-Type","application/json; charset=UTF-8");
+        httpsConn.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
         httpsConn.setHostnameVerifier(new HostnameVerifier() {
             @Override
             public boolean verify(String arg0, SSLSession arg1) {
@@ -126,9 +129,8 @@ public class HttpNetService {
     }
 
 
-
     public static String getUpgradeInfo(String json, String url) throws IOException {
-        Log.e(TAG,"getUpgradeInfo");
+        Log.e(TAG, "getUpgradeInfo");
         HttpsURLConnection connection = getHttpsURLConnection(url);
         DataOutputStream out = new DataOutputStream(connection.getOutputStream());
         out.write(json.getBytes("UTF-8"));//这样可以处理中文乱码问题
@@ -143,14 +145,13 @@ public class HttpNetService {
             lines = new String(lines.getBytes(), "utf-8");
             sb.append(lines);
         }
-        Log.e(TAG,"返回结果：sb=="+ sb);
+        Log.e(TAG, "返回结果：sb==" + sb);
         reader.close();
-        String  result = sb.toString();
+        String result = sb.toString();
         // 断开连接
         connection.disconnect();
         return result;
     }
-
 
 
 }

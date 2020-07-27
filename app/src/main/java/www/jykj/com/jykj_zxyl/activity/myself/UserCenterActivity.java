@@ -492,11 +492,13 @@ public class UserCenterActivity extends AppCompatActivity {
             return;
         }
 
-//        if (mProvideViewSysUserDoctorInfoAndHospital.getBirthdayStr() == null || "".equals(mProvideViewSysUserDoctorInfoAndHospital.getBirthdayStr()))
-//        {
-//            Toast.makeText(mContext,"请选择出生日期",Toast.LENGTH_SHORT).show();
-//            return;
-//        }
+        if (mProvideViewSysUserDoctorInfoAndHospital.getBirthday() == null || "".equals(mProvideViewSysUserDoctorInfoAndHospital.getBirthday()))
+        {
+            Toast.makeText(mContext,"请选择出生日期",Toast.LENGTH_SHORT).show();
+            return;
+        }else{
+            mProvideViewSysUserDoctorInfoAndHospital.setBirthdayStr(Util.dateToStr(mProvideViewSysUserDoctorInfoAndHospital.getBirthday()));
+        }
         if (mProvideViewSysUserDoctorInfoAndHospital.getHospitalInfoCode() == null || "".equals(mProvideViewSysUserDoctorInfoAndHospital.getHospitalInfoCode()))
         {
             Toast.makeText(mContext,"请选择医院",Toast.LENGTH_SHORT).show();
@@ -770,8 +772,7 @@ public class UserCenterActivity extends AppCompatActivity {
             else
                 day = mDay + "";
             mUserBirthDayText.setText(mYear+"-"+month+"-"+day);
-            mProvideViewSysUserDoctorInfoAndHospital.setBirthdayStr(mYear+"-"+month+"-"+day);
-            Log.e("tag", "onDateSet: " +mProvideViewSysUserDoctorInfoAndHospital.getBirthdayStr() );
+            mProvideViewSysUserDoctorInfoAndHospital.setBirthday(Util.strToDateLongV2(mYear + "-" + month + "-" + day));
         }
     };
 

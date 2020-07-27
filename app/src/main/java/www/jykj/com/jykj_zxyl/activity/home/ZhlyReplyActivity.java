@@ -282,7 +282,8 @@ public class ZhlyReplyActivity extends AppCompatActivity {
             mMessageDate.setText("未提交");
         }
         mMessageDate.setText(Util.dateToStr(mProvideInteractPatientMessage.getMessageDate()));
-        if(mProvideInteractPatientMessage.getMessageContent()==null&&mProvideInteractPatientMessage.getMessageContent().equals("")){       Log.e("tag", "handleMessage:111 "+mProvideInteractPatientMessage.getMessageContent() );
+        if(mProvideInteractPatientMessage.getMessageContent()==null&&mProvideInteractPatientMessage.getMessageContent().equals("")){
+            Log.e("tag", "handleMessage:111 "+mProvideInteractPatientMessage.getMessageContent() );
             mMessageContent.setText("未提交");
         }
         mMessageContent.setText(mProvideInteractPatientMessage.getMessageContent());
@@ -383,7 +384,7 @@ public class ZhlyReplyActivity extends AppCompatActivity {
         provideInteractPatientMessage.setLoginDoctorPosition(mApp.loginDoctorPosition);
         provideInteractPatientMessage.setOperDoctorCode(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
         provideInteractPatientMessage.setOperDoctorName(mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
-        if(TextUtils.isEmpty(provideInteractPatientMessage.getReplyContent())){
+        if(TextUtils.isEmpty(mMessageReply.getText().toString())){
             Toast.makeText(mContext, "请输入回复内容", Toast.LENGTH_SHORT).show();
             return;
         }

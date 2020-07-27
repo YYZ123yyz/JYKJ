@@ -393,7 +393,7 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
             if (EaseUserUtils.getUserInfo(toChatUsername) != null) {
                 EaseUser user = EaseUserUtils.getUserInfo(toChatUsername);
                 if (user != null) {
-                    titleBar.setTitle(user.getNickname());
+                //    titleBar.setTitle(user.getNickname());
                 }
             }
             titleBar.setRightImageResource(R.drawable.ease_mm_title_remove);
@@ -1013,7 +1013,7 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
                             return;
                         }
                     }
-                    startActivity(new Intent(getActivity(), VideoCallActivity.class).putExtra("username", toChatUsername)
+                    startActivity(new Intent(getActivity(), VideoCallActivity.class).putExtra("username", toChatUsernameName)
                             .putExtra("isComingCall", false).putExtra(EaseConstant.EXTRA_VEDIO_NUM, mVedioTime));
                     break;
                 case ITEM_CALL:
@@ -1022,16 +1022,6 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
                      * @param to
                      * @throws EMServiceNotReadyException
                      */
-//               startActivity(new Intent(getContext(),VoiceCallActivity.class));
-                    //视频通话就是跳转VideoCallActivity
-//                if ("twjz".equals(mChatType) || "dhjz".equals(mChatType) ||"spjz".equals(mChatType))
-//                {
-//                    if (mVoiceTime <= 0)
-//                    {
-//                        Toast.makeText(getContext(),"语音时长已用尽",Toast.LENGTH_LONG).show();
-//                        return;
-//                    }
-//                }
                     startActivity(new Intent(getActivity(), VoiceCallActivity.class).putExtra("username", toChatUsername)
                             .putExtra("isComingCall", false)
                             .putExtra("nickName", toChatUsernameName)

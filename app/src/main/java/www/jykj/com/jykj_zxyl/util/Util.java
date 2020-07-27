@@ -20,10 +20,8 @@ import java.util.Hashtable;
 public class Util {
 
 
-    private  static        int                         QR_WIDTH = 400;
-    private   static       int                         QR_HEIGHT = 400;
-
-
+    private static int QR_WIDTH = 400;
+    private static int QR_HEIGHT = 400;
 
 
     /**
@@ -45,6 +43,21 @@ public class Util {
      * @param strDate
      * @return
      */
+    public static Date strToDateLongV2(String strDate) {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        ParsePosition pos = new ParsePosition(0);
+        Date strtodate = formatter.parse(strDate, pos);
+        return strtodate;
+    }
+
+
+
+    /**
+     * 将长时间格式字符串转换为时间 yyyy-MM-dd HH:mm:ss
+     *
+     * @param strDate
+     * @return
+     */
     public static Date strToDateLongV(String strDate) {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         ParsePosition pos = new ParsePosition(0);
@@ -54,9 +67,10 @@ public class Util {
 
     /**
      * 获取当前系统时间，并以年-月-日 时:分:秒的格式输出
+     *
      * @return
      */
-    public static String getCurrentFormart(){
+    public static String getCurrentFormart() {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
         return df.format(new Date());
     }
@@ -67,16 +81,17 @@ public class Util {
      * @param dateDate
      * @return
      */
-     public static String dateToStr(Date dateDate) {
+    public static String dateToStr(Date dateDate) {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-         String dateStrings = formatter.format(dateDate);
+        String dateStrings = formatter.format(dateDate);
         return dateStrings;
-        }
+    }
 
     /**
      * 将长时间格式时间转换为字符串 yyyy-MM-dd
+     * <p>
+     * //   * @param dateDate
      *
-  //   * @param dateDate
      * @return
      */
     public static String dateToStrNUR(Date dateDates) {
@@ -88,17 +103,15 @@ public class Util {
 
     /**
      * 二维码转换
+     *
      * @param url
      */
     //要转换的地址或字符串,可以是中文
-    public static Bitmap createQRImage(String url)
-    {
+    public static Bitmap createQRImage(String url) {
         Bitmap mEWMBitmap = null;
-        try
-        {
+        try {
             //判断URL合法性
-            if (url == null || "".equals(url) || url.length() < 1)
-            {
+            if (url == null || "".equals(url) || url.length() < 1) {
                 return null;
             }
             Hashtable<EncodeHintType, String> hints = new Hashtable<EncodeHintType, String>();
@@ -108,16 +121,11 @@ public class Util {
             int[] pixels = new int[QR_WIDTH * QR_HEIGHT];
             //下面这里按照二维码的算法，逐个生成二维码的图片，
             //两个for循环是图片横列扫描的结果
-            for (int y = 0; y < QR_HEIGHT; y++)
-            {
-                for (int x = 0; x < QR_WIDTH; x++)
-                {
-                    if (bitMatrix.get(x, y))
-                    {
+            for (int y = 0; y < QR_HEIGHT; y++) {
+                for (int x = 0; x < QR_WIDTH; x++) {
+                    if (bitMatrix.get(x, y)) {
                         pixels[y * QR_WIDTH + x] = 0xff000000;
-                    }
-                    else
-                    {
+                    } else {
                         pixels[y * QR_WIDTH + x] = 0xffffffff;
                     }
                 }
@@ -125,14 +133,11 @@ public class Util {
             //生成二维码图片的格式，使用ARGB_8888
             mEWMBitmap = Bitmap.createBitmap(QR_WIDTH, QR_HEIGHT, Bitmap.Config.ARGB_8888);
             mEWMBitmap.setPixels(pixels, 0, QR_WIDTH, 0, 0, QR_WIDTH, QR_HEIGHT);
-        }
-        catch (WriterException e)
-        {
+        } catch (WriterException e) {
             e.printStackTrace();
         }
         return mEWMBitmap;
     }
-
 
 
 }

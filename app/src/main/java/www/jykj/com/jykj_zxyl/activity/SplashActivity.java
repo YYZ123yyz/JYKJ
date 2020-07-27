@@ -58,7 +58,8 @@ public class SplashActivity extends AppCompatActivity {
 
             jumpToLoginActivity();
         }
-
+//
+        getRegionDate();
         initHandler();
 
     }
@@ -112,7 +113,7 @@ public class SplashActivity extends AppCompatActivity {
         UserInfo userInfo = new UserInfo();
         userInfo.setUserPhone(mApp.mLoginUserInfo.getUserPhone());
         userInfo.setUserPwd(mApp.mLoginUserInfo.getUserPwd());
-        getProgressBar("请稍候...", "正在登录");
+    //    getProgressBar("请稍候...", "正在登录");
         //连接网络，登录
         new Thread() {
             public void run() {
@@ -160,18 +161,14 @@ public class SplashActivity extends AppCompatActivity {
                                 userInfo.setUserPwd(mApp.mLoginUserInfo.getUserPwd());
                                 mApp.mLoginUserInfo = userInfo;
                                 mApp.mViewSysUserDoctorInfoAndHospital = new Gson().fromJson(netRetEntity.getResJsonData(), ViewSysUserDoctorInfoAndHospital.class);
-//                                mApp.mViewSysUserDoctorInfoAndHospital.setDoctorCode("dd0500f4e9684678aad9ee00000001");
-//                                mApp.mViewSysUserDoctorInfoAndHospital.setQrCode("JY0100HZ200111180041000001");
                                 mApp.saveUserInfo();
-                                Toast.makeText(SplashActivity.this, "恭喜，登录成功", Toast.LENGTH_SHORT).show();
                                 //登录IM
                                 mApp.loginIM();
-                                startActivity(new Intent(SplashActivity.this, MainActivity.class));
                                 for (int i = 0; i < mApp.gActivityList.size(); i++) {
                                     mApp.gActivityList.get(i).finish();
                                 }
                                 startActivity(new Intent(SplashActivity.this, MainActivity.class));
-                                finish();
+                              finish();
                             } else {
                                 Toast.makeText(SplashActivity.this, "登录失败，" + netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(SplashActivity.this, LoginActivity.class));
@@ -194,7 +191,7 @@ public class SplashActivity extends AppCompatActivity {
      */
     private void getRegionDate() {
         //连接网络，登录
-        getProgressBar("请稍候...", "正在加载数据");
+      //  getProgressBar("请稍候...", "正在加载数据");
         new Thread() {
             public void run() {
                 try {

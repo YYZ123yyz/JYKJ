@@ -112,7 +112,7 @@ public class FragmentZSXQ extends Fragment {
     private SmartRefreshLayout refreshLayout;
     private CallReceiver callReceiver;
     private List<ProvideViewSysUserPatientInfoAndRegion> provideViewSysUserPatientInfoAndRegions;
-
+    private ProvideViewSysUserPatientInfoAndRegion mProvideViewSysUserPatientInfoAndRegion;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_activitymyclinic_zsxq, container, false);
@@ -442,15 +442,15 @@ public class FragmentZSXQ extends Fragment {
                                 public void onClick(int position) {
                                     switch (mType) {
                                         case 1:
-//                                            getPatient(provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getPatientCode());
+                                         getPatient(provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getPatientCode());
 
                                             Intent intent = new Intent();
                                             intent.setClass(mContext, ChatActivity.class);
 //                                            intent.putExtra("usersName", mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
                                             intent.putExtra("userUrl", mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl());
-                                            //   intent.putExtra("doctorUrl",provideViewSysUserPatientInfoAndRegions.get(position).getUserLogoUrl());
+                                  //             intent.putExtra("doctorUrl",mProvideViewSysUserPatientInfoAndRegion.getUserLogoUrl());
                                             intent.putExtra("userCode", provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getPatientCode());
-                                            intent.putExtra("usersName", provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getPatientName());
+                                            intent.putExtra("userName", provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getPatientName());
                                             intent.putExtra("chatType", "twjz");
 
                                             intent.putExtra("loginDoctorPosition", mApp.loginDoctorPosition);
@@ -609,10 +609,8 @@ public class FragmentZSXQ extends Fragment {
                         break;
                     case 20:
                         if (mNetRetStr != null && !mNetRetStr.equals("")) {
-                            // netRetEntity = new Gson().fromJson(mNetRetStr, NetRetEntity.class);
-                            //  if(netRetEntity.getResCode()==1){
-                            provideViewSysUserPatientInfoAndRegions = JSON.parseArray(JSON.parseObject(mNetRetStr, NetRetEntity.class).getResJsonData(), ProvideViewSysUserPatientInfoAndRegion.class);
-                            //      }
+                            mProvideViewSysUserPatientInfoAndRegion = JSON.parseObject(JSON.parseObject(mNetRetStr, NetRetEntity.class).getResJsonData(), ProvideViewSysUserPatientInfoAndRegion.class);
+                            Log.e("tag", "handleMessage: "+mProvideViewSysUserPatientInfoAndRegion );
                         }
                         break;
                 }
@@ -631,8 +629,8 @@ public class FragmentZSXQ extends Fragment {
             public void run() {
                 try {
 
-                    mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + new Gson().toJson(map), Constant.SERVICEURL + "doctorGroupConsultationControlle/searchUserIdentificationByUserCode");
-                    Log.e("tag", "患者 "+mNetRetStr );
+                    mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + new Gson().toJson(map), Constant.SERVICEURL + "patientDataControlle/searchDoctorManagePatientStateResBasic");
+                    Log.e("tag", "ppppppp "+mNetRetStr );
                 } catch (Exception e) {
                     NetRetEntity retEntity = new NetRetEntity();
                     retEntity.setResCode(0);

@@ -250,6 +250,7 @@ public class FragmentYHHD extends Fragment {
                     intent.setClass(mContext, ChatActivity.class);
                     intent.putExtra("userCode", mClickInteractPatient.getPatientCode());
                     intent.putExtra("userName", mClickInteractPatient.getPatientUserName());
+               //     Log.e("tag", "handleMessage:患者姓名2 "+ mClickInteractPatient.getPatientUserName());
                     intent.putExtra("usersName", mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
                     intent.putExtra("userUrl", mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl());
                     intent.putExtra("doctorUrl", mClickInteractPatient.getPatientUserLogoUrl());
@@ -294,6 +295,7 @@ public class FragmentYHHD extends Fragment {
                 intent.setClass(mContext, ChatActivity.class);
                 intent.putExtra("userCode", mInteractDoctorUnionInfo.get(i).getDoctorGoodFriendInfoList().get(i1).getDoctorCode());
                 intent.putExtra("userName", mInteractDoctorUnionInfo.get(i).getDoctorGoodFriendInfoList().get(i1).getDoctorUserName());
+          //      Log.e("tag", "handleMessage:患者姓名3 "+ mClickInteractPatient.getPatientUserName());
                 intent.putExtra("vedioNum", 1000000);
                 intent.putExtra("voiceNum", 1000000);
                 intent.putExtra("usersName", mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
@@ -452,8 +454,9 @@ public class FragmentYHHD extends Fragment {
                                     intent.putExtra(EaseConstant.EXTRA_MESSAGE_NUM, -1);
                                     intent.putExtra("userCode", mClickInteractPatient.getPatientCode());
                                     intent.putExtra("userName", mClickInteractPatient.getPatientUserName());
-                                    intent.putExtra("chatType", "twjz");
-                                    intent.putExtra("chatType", "twjz");
+                             //       Log.e("tag", "handleMessage:患者姓名 "+ mClickInteractPatient.getPatientUserName());
+                                 //   intent.putExtra("chatType", "twjz");
+                               //     intent.putExtra("chatType", "twjz");
                                     intent.putExtra("usersName", mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
                                     intent.putExtra("userUrl", mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl());
                                     intent.putExtra("doctorUrl", mClickInteractPatient.getPatientUserLogoUrl());
@@ -467,6 +470,7 @@ public class FragmentYHHD extends Fragment {
                                     intent.setClass(mContext, ChatActivity.class);
                                     intent.putExtra("userCode", mClickInteractPatient.getPatientCode());
                                     intent.putExtra("userName", mClickInteractPatient.getPatientUserName());
+                             //       Log.e("tag", "handleMessage:患者姓名1 "+ mClickInteractPatient.getPatientUserName());
                                     intent.putExtra("vedioNum", 1000000);
                                     intent.putExtra("voiceNum", 1000000);
                                     intent.putExtra("usersName", mApp.mViewSysUserDoctorInfoAndHospital.getUserName());

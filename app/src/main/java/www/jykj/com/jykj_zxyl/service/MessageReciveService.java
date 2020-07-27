@@ -27,14 +27,19 @@ import com.hyphenate.easeui.hyhd.model.CallReceiver;
 import com.hyphenate.easeui.model.EaseAtMessageHelper;
 import com.hyphenate.easeui.model.EaseDingMessageHelper;
 
+
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+
 
 import entity.basicDate.EMMessageEntity;
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.activity.MainActivity;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
+import yyz_exploit.Utils.MainMessage;
 
 public class MessageReciveService extends Service {
 
@@ -145,6 +150,7 @@ public class MessageReciveService extends Service {
                     //设置fragment显示新消息
                     application.gMainActivity.setNewsMessageView();
                 }
+                EventBus.getDefault().post(new MainMessage(messages.size()+""));
             }
             @Override
             public void onMessageRead(List<EMMessage> messages) {
@@ -210,7 +216,7 @@ public class MessageReciveService extends Service {
             EMMessageEntity emMessageEntity = new Gson().fromJson(str,EMMessageEntity.class);
             remoteViews.setImageViewResource(R.id.image, R.mipmap.logo);
             remoteViews.setTextViewText(R.id.title, "您有一条新消息");
-            remoteViews.setTextViewText(R.id.content, emMessageEntity.getTxt());
+            remoteViews.setTextViewText(R.id.content, str);
 //            remoteViews.setProgressBar(R.id.pBar, 10, progress, false);
 //            remoteViews.setTextViewText(R.id.proNum, progress + "/10");
             notificationManager.notify(20, mBuilder.build());

@@ -17,6 +17,9 @@ import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.model.EaseAtMessageHelper;
 import com.hyphenate.easeui.model.EaseNotifier;
 import com.hyphenate.easeui.model.EaseDingMessageHelper;
+import com.hyphenate.easeui.utils.MainMessage;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -31,42 +34,45 @@ public final class EaseUI {
      */
     private static EaseUI instance = null;
 
-    
+    /**
+     * 消息ID
+     */
+    private String lastMsgId="";
     /**
      * user profile provider
      */
     private EaseUserProfileProvider userProvider;
-    
+
     private EaseSettingsProvider settingsProvider;
 
     private EaseAvatarOptions avatarOptions;
-    
+
     /**
      * application context
      */
     private Context appContext = null;
-    
+
     /**
      * init flag: test if the sdk has been inited before, we don't need to init again
      */
     private boolean sdkInited = false;
-    
+
     /**
      * the notifier
      */
     private EaseNotifier notifier = null;
-    
+
     /**
      * save foreground Activity which registered eventlistener
      */
     private List<Activity> activityList = new ArrayList<Activity>();
-    
+
     public void pushActivity(Activity activity){
         if(!activityList.contains(activity)){
-            activityList.add(0,activity); 
+            activityList.add(0,activity);
         }
     }
-    
+
     public void popActivity(Activity activity){
         activityList.remove(activity);
     }
@@ -74,9 +80,9 @@ public final class EaseUI {
     public Activity getTopActivity(){
         return activityList.get(0);
     }
-    
+
     private EaseUI(){}
-    
+
     /**
      * get instance of EaseUI
      * @return
@@ -87,12 +93,12 @@ public final class EaseUI {
         }
         return instance;
     }
-    
+
     /**
      *this function will initialize the SDK and easeUI kit
-     * 
+     *
      * @return boolean true if caller can continue to call SDK related APIs after calling onInit, otherwise false.
-     * 
+     *
      * @param context
      * @param options use default if options is null
      * @return
@@ -102,7 +108,7 @@ public final class EaseUI {
             return true;
         }
         appContext = context;
-        
+
 
         // if there is application has remote service, application:onCreate() maybe called twice
         // this check is to make sure SDK will initialized only once
@@ -116,14 +122,14 @@ public final class EaseUI {
         }else{
             EMClient.getInstance().init(context, options);
         }
-        
+
         initNotifier();
-//        registerMessageListener();
-        
+        registerMessageListener();
+
         if(settingsProvider == null){
             settingsProvider = new DefaultSettingsProvider();
         }
-        
+
         sdkInited = true;
         return true;
     }
@@ -139,14 +145,14 @@ public final class EaseUI {
         options.setRequireAck(true);
         // set if need delivery ack
         options.setRequireDeliveryAck(false);
-        
+
         return options;
     }
-    
+
     void initNotifier(){
         notifier = new EaseNotifier(appContext);
     }
-    
+
     private void registerMessageListener() {
         EMClient.getInstance().chatManager().addMessageListener(new EMMessageListener() {
 
@@ -155,9 +161,14 @@ public final class EaseUI {
                 EaseAtMessageHelper.get().parseMessages(messages);
                 for (EMMessage message : messages) {
                     if (!instance.hasForegroundActivies()) {
-                        getNotifier().notify(message);
+                        if (!lastMsgId.equals(message.getMsgId())) {
+                            getNotifier().notify(message);
+
+                            lastMsgId=message.getMsgId();
+                        }
                     }
                 }
+                EventBus.getDefault().post(new MainMessage(messages.size()+""));
             }
             @Override
             public void onMessageRead(List<EMMessage> messages) {
@@ -189,11 +200,11 @@ public final class EaseUI {
             }
         });
     }
-    
+
     public EaseNotifier getNotifier(){
         return notifier;
     }
-    
+
     public boolean hasForegroundActivies(){
         return activityList.size() != 0;
     }
@@ -206,7 +217,7 @@ public final class EaseUI {
         return  avatarOptions;
     }
 
-    
+
     /**
      * set user profile provider
      * @param
@@ -214,7 +225,7 @@ public final class EaseUI {
     public void setUserProfileProvider(EaseUserProfileProvider userProvider){
         this.userProvider = userProvider;
     }
-    
+
     /**
      * get user profile provider
      * @return
@@ -222,11 +233,11 @@ public final class EaseUI {
     public EaseUserProfileProvider getUserProfileProvider(){
         return userProvider;
     }
-    
+
     public void setSettingsProvider(EaseSettingsProvider settingsProvider){
         this.settingsProvider = settingsProvider;
     }
-    
+
     public EaseSettingsProvider getSettingsProvider(){
         return settingsProvider;
     }
@@ -241,7 +252,7 @@ public final class EaseUI {
         }
         return false;
     }
-    
+
     /**
      * User profile provider
      * @author wei
@@ -255,7 +266,7 @@ public final class EaseUI {
          */
         EaseUser getUser(String username);
     }
-    
+
     /**
      * Emojicon provider
      *
@@ -267,16 +278,16 @@ public final class EaseUI {
          * @return
          */
         EaseEmojicon getEmojiconInfo(String emojiconIdentityCode);
-        
+
         /**
          * get Emojicon map, key is the text of emoji, value is the resource id or local path of emoji icon(can't be URL on internet)
          * @return
          */
         Map<String, Object> getTextEmojiconMapping();
     }
-    
+
     private EaseEmojiconInfoProvider emojiconInfoProvider;
-    
+
     /**
      * Emojicon provider
      * @return
@@ -284,7 +295,7 @@ public final class EaseUI {
     public EaseEmojiconInfoProvider getEmojiconInfoProvider(){
         return emojiconInfoProvider;
     }
-    
+
     /**
      * set Emojicon provider
      * @param emojiconInfoProvider
@@ -292,7 +303,7 @@ public final class EaseUI {
     public void setEmojiconInfoProvider(EaseEmojiconInfoProvider emojiconInfoProvider){
         this.emojiconInfoProvider = emojiconInfoProvider;
     }
-    
+
     /**
      * new message options provider
      *
@@ -303,7 +314,7 @@ public final class EaseUI {
         boolean isMsgVibrateAllowed(EMMessage message);
         boolean isSpeakerOpened();
     }
-    
+
     /**
      * default settings provider
      *
@@ -329,9 +340,9 @@ public final class EaseUI {
         @Override
         public boolean isSpeakerOpened() {
             return true;
-        } 
+        }
     }
-    
+
     public Context getContext(){
         return appContext;
     }

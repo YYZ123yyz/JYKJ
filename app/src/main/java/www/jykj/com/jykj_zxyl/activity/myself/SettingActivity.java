@@ -22,6 +22,7 @@ import www.jykj.com.jykj_zxyl.activity.myself.setting.AboutActivity;
 import www.jykj.com.jykj_zxyl.activity.myself.setting.OpeaPassWordActivity;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.util.ActivityUtil;
+import yyz_exploit.Utils.DestroyActivityUtil;
 import yyz_exploit.activity.activity.FeedbackActivity;
 import yyz_exploit.activity.activity.VersionActivity;
 
@@ -117,8 +118,12 @@ public class SettingActivity extends AppCompatActivity {
                 case R.id.bt_activityMySelfSetting_exitButton:
                     mApp.cleanPersistence();
                     mApp.LoginOut(mActivity);
-                    startActivity(new Intent(SettingActivity.this, LoginActivity.class));
-                    break;
+                    Intent intent_login = new Intent();
+                    intent_login.setClass(SettingActivity.this,LoginActivity.class);
+                    intent_login.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); //关键的一句，将新的activity置为栈顶
+                    startActivity(intent_login);
+                    finish();
+                 break;
                 case R.id.li_activitySetting_aboutLayout:
                     startActivity(new Intent(SettingActivity.this, AboutActivity.class));
                     break;
