@@ -1,5 +1,6 @@
 package www.jykj.com.jykj_zxyl.application;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.AlertDialog;
@@ -143,6 +144,7 @@ public class JYKJApplication extends Application {
    // private static DemoHandler handler = null;
 
 
+    @SuppressLint("HandlerLeak")
     public Handler gHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {

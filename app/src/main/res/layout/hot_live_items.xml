@@ -1,28 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:orientation="vertical"
-android:background="@color/pBackColor">
-<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-              android:layout_margin="3dp" android:orientation="horizontal" android:layout_marginLeft="10dp" android:layout_marginRight="10dp">
-<RelativeLayout android:layout_width="135dp" android:layout_height="80dp">
-<ImageView android:layout_width="match_parent" android:layout_height="match_parent" android:src="@mipmap/cover_demo" android:id="@+id/hot_live_cover"  android:scaleType="fitXY">
-</ImageView>
-    <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerInParent="true"
-               android:src="@mipmap/playbtn" android:id="@+id/play_live_btn"></ImageView>
-    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-              android:layout_alignParentRight="true" android:layout_alignParentBottom="true" android:layout_marginBottom="2dp" android:layout_marginRight="5dp"
-              android:textColor="@color/writeColor" android:text="视频直播" android:background="@color/textColor_vo"></TextView>
-</RelativeLayout>
-    <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginLeft="5dp">
-        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:id="@+id/live_title" android:text="高血压患者、和健康人群的干预 方法">
-        </TextView>
-        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_below="@+id/live_title" android:id="@+id/live_desc" android:text="营养学专家教你如何吃出健康血压" android:textColor="@color/textColor_vo">
-        </TextView>
-        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_below="@+id/live_desc" android:text="类目：高血压预防" android:id="@+id/live_catalog" android:textColor="@color/textColor_vo"></TextView>
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_below="@+id/live_catalog" android:text="观看人数：200" android:layout_alignParentLeft="true" android:id="@+id/watch_num" android:textColor="@color/textColor_vo"></TextView>
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_below="@+id/live_catalog" android:layout_marginRight="10dp" android:text="￥40.00" android:id="@+id/live_price" android:textColor="@color/btn_red" android:layout_alignParentRight="true"></TextView>
-    </RelativeLayout>
-</LinearLayout>
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/pBackColor"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/ll_root"
+        android:layout_margin="3dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:layout_width="135dp"
+            android:layout_height="80dp">
+
+            <ImageView
+                android:id="@+id/hot_live_cover"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitXY"
+                android:src="@mipmap/cover_demo"/>
+
+            <ImageView
+                android:id="@+id/play_live_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:src="@mipmap/playbtn"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="2dp"
+                android:background="@color/textColor_vo"
+                android:text="视频直播"
+                android:textColor="@color/writeColor"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/live_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="高血压患者、和健康人群的干预 方法"/>
+
+            <TextView
+                android:id="@+id/live_desc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/live_title"
+                android:text="营养学专家教你如何吃出健康血压"
+                android:textColor="@color/textColor_vo"/>
+
+            <TextView
+                android:id="@+id/live_catalog"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/live_desc"
+                android:text="类目：高血压预防"
+                android:textColor="@color/textColor_vo"/>
+
+            <TextView
+                android:id="@+id/watch_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/live_catalog"
+                android:layout_alignParentLeft="true"
+                android:text="观看人数：200"
+                android:textColor="@color/textColor_vo"/>
+
+            <TextView
+                android:id="@+id/live_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/live_catalog"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
+                android:text="￥40.00"
+                android:textColor="@color/btn_red"/>
+        </RelativeLayout>
+    </LinearLayout>
 </LinearLayout>

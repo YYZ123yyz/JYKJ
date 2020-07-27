@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import entity.liveroom.HotLiveInfo;
@@ -40,13 +41,13 @@ public class HotLiveAdapter extends RecyclerView.Adapter<HotLiveAdapter.ViewHold
         if(StrUtils.defaulObjToStr(parinfo.getBroadcastCoverImgUrl()).length()>0){
             Glide.with(viewHolder.hot_live_cover.getContext()).load(parinfo.getBroadcastCoverImgUrl()).into(viewHolder.hot_live_cover);
         }
-        viewHolder.play_live_btn.setOnClickListener(new View.OnClickListener(){
+        viewHolder.ll_root.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 myListener.onClick(i,v);
             }
         });
-        viewHolder.play_live_btn.setOnLongClickListener(new View.OnLongClickListener(){
+        viewHolder.ll_root.setOnLongClickListener(new View.OnLongClickListener(){
             @Override
             public boolean onLongClick(View v) {
                 myListener.onLongClick(i,v);
@@ -61,13 +62,14 @@ public class HotLiveAdapter extends RecyclerView.Adapter<HotLiveAdapter.ViewHold
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
-        public ImageView hot_live_cover;
-        public ImageView play_live_btn;
-        public TextView live_title;
-        public TextView live_desc;
-        public TextView live_catalog;
-        public TextView watch_num;
-        public TextView live_price;
+        private ImageView hot_live_cover;
+        private ImageView play_live_btn;
+        private TextView live_title;
+        private TextView live_desc;
+        private TextView live_catalog;
+        private TextView watch_num;
+        private TextView live_price;
+        private LinearLayout ll_root;
         public ViewHolder(View view){
             super(view);
             hot_live_cover = view.findViewById(R.id.hot_live_cover);
@@ -77,6 +79,7 @@ public class HotLiveAdapter extends RecyclerView.Adapter<HotLiveAdapter.ViewHold
             live_catalog = view.findViewById(R.id.live_catalog);
             watch_num = view.findViewById(R.id.watch_num);
             live_price = view.findViewById(R.id.live_price);
+            ll_root=view.findViewById(R.id.ll_root);
         }
 
     }

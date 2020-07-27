@@ -13,25 +13,31 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.alibaba.fastjson.JSON;
 import com.barnettwong.dragfloatactionbuttonlibrary.view.DragFloatActionButton;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.hyphenate.easeui.netService.entity.NetRetEntity;
+import com.meg7.widget.CircleImageView;
+
 import entity.conditions.QueryRoomDetailCond;
 import entity.liveroom.RoomDetailInfo;
 import netService.HttpNetService;
+
 import org.w3c.dom.Text;
+
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.activity.hyhd.LivePublisherActivity;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
+import www.jykj.com.jykj_zxyl.util.ActivityUtil;
 import www.jykj.com.jykj_zxyl.util.StrUtils;
 
 public class LiveroomDetailActivity extends AppCompatActivity {
     JYKJApplication mApp;
     Activity mActivity;
     Context mContext;
-    ImageView liveroom_det_head_pic;
+    CircleImageView liveroom_det_head_pic;
     TextView doctor_head_tit;
     TextView live_doctor_name;
     TextView live_doctor_education;
@@ -42,24 +48,26 @@ public class LiveroomDetailActivity extends AppCompatActivity {
     TextView det_room_type;
     TextView det_room_watchnum;
     TextView det_live_time;
-    Button go_liveroom_btn;
+    TextView go_liveroom_btn;
     DragFloatActionButton room_det_live;
     private String detailCode;
     public ProgressDialog mDialogProgress = null;
     RoomDetailInfo mRoomDetailInfo = null;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         detailCode = StrUtils.defaulObjToStr(getIntent().getStringExtra("detailCode"));
-        mApp = (JYKJApplication)getApplication();
+        mApp = (JYKJApplication) getApplication();
         mActivity = LiveroomDetailActivity.this;
         mContext = LiveroomDetailActivity.this;
         setContentView(R.layout.activity_liveroom_detail);
+        ActivityUtil.setStatusBarMain(this);
         initview();
         loadData();
     }
 
-    void initview(){
+    void initview() {
         liveroom_det_head_pic = findViewById(R.id.liveroom_det_head_pic);
         doctor_head_tit = findViewById(R.id.doctor_head_tit);
         live_doctor_name = findViewById(R.id.live_doctor_name);
@@ -75,23 +83,23 @@ public class LiveroomDetailActivity extends AppCompatActivity {
         room_det_live = findViewById(R.id.room_det_live);
     }
 
-    class ButtonClick implements View.OnClickListener{
+    class ButtonClick implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-            if(null!=mRoomDetailInfo){
+            if (null != mRoomDetailInfo) {
                 Intent parint = new Intent(mActivity, LivePublisherActivity.class);
-                parint.putExtra("pushUrl",mRoomDetailInfo.getPullUrl());
-                parint.putExtra("chatRoomName",mRoomDetailInfo.getChatRoomCode());
-                parint.putExtra("chatId",mRoomDetailInfo.getChatRoomCode());
-                parint.putExtra("liveTitle",mRoomDetailInfo.getTitleMainShow());
-                parint.putExtra("detailCode",mRoomDetailInfo.getDetailsCode());
+                parint.putExtra("pushUrl", mRoomDetailInfo.getPullUrl());
+                parint.putExtra("chatRoomName", mRoomDetailInfo.getChatRoomCode());
+                parint.putExtra("chatId", mRoomDetailInfo.getChatRoomCode());
+                parint.putExtra("liveTitle", mRoomDetailInfo.getTitleMainShow());
+                parint.putExtra("detailCode", mRoomDetailInfo.getDetailsCode());
                 LiveroomDetailActivity.this.startActivity(parint);
             }
         }
     }
 
-    void loadData(){
-        getProgressBar("加载数据","加载数据中心，请稍后...");
+    void loadData() {
+        getProgressBar("加载数据", "加载数据中心，请稍后...");
         QueryRoomDetailCond queryCond = new QueryRoomDetailCond();
         queryCond.setDetailsCode(detailCode);
         queryCond.setLoginUserPosition(mApp.loginDoctorPosition);
@@ -102,22 +110,23 @@ public class LiveroomDetailActivity extends AppCompatActivity {
         loadDataTask.execute();
     }
 
-    class LoadDataTask extends AsyncTask<Void,Void, RoomDetailInfo>{
+    class LoadDataTask extends AsyncTask<Void, Void, RoomDetailInfo> {
         QueryRoomDetailCond queryCond;
-        LoadDataTask(QueryRoomDetailCond queryCond){
+
+        LoadDataTask(QueryRoomDetailCond queryCond) {
             this.queryCond = queryCond;
         }
 
         @Override
         protected RoomDetailInfo doInBackground(Void... voids) {
             RoomDetailInfo retinfo = null;
-            try{
-                String retstr = HttpNetService.urlConnectionService("jsonDataInfo="+new Gson().toJson(queryCond),"https://www.jiuyihtn.com:41041/broadcastLiveDataControlle/getLiveRoomDetailsByDetailsCode");
-                NetRetEntity retEntity = JSON.parseObject(retstr,NetRetEntity.class);
-                if(1==retEntity.getResCode() && StrUtils.defaulObjToStr(retEntity.getResJsonData()).length()>3){
-                    retinfo = JSON.parseObject(retEntity.getResJsonData(),RoomDetailInfo.class);
+            try {
+                String retstr = HttpNetService.urlConnectionService("jsonDataInfo=" + new Gson().toJson(queryCond), "https://www.jiuyihtn.com:41041/broadcastLiveDataControlle/getLiveRoomDetailsByDetailsCode");
+                NetRetEntity retEntity = JSON.parseObject(retstr, NetRetEntity.class);
+                if (1 == retEntity.getResCode() && StrUtils.defaulObjToStr(retEntity.getResJsonData()).length() > 3) {
+                    retinfo = JSON.parseObject(retEntity.getResJsonData(), RoomDetailInfo.class);
                 }
-            }catch (Exception ex){
+            } catch (Exception ex) {
 
             }
             return retinfo;
@@ -125,9 +134,9 @@ public class LiveroomDetailActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(RoomDetailInfo roomDetailInfo) {
-            if(null!=roomDetailInfo){
+            if (null != roomDetailInfo) {
                 mRoomDetailInfo = roomDetailInfo;
-                if(StrUtils.defaulObjToStr(roomDetailInfo.getBroadcastUserLogoUrl()).length()>0){
+                if (StrUtils.defaulObjToStr(roomDetailInfo.getBroadcastUserLogoUrl()).length() > 0) {
                     Glide.with(mContext).load(roomDetailInfo.getBroadcastUserLogoUrl()).into(liveroom_det_head_pic);
                 }
                 doctor_head_tit.setText(StrUtils.defaulObjToStr(roomDetailInfo.getBroadcastUserTitleName()));

@@ -25,6 +25,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.alibaba.fastjson.JSON;
 import com.google.gson.Gson;
 import com.hyphenate.chat.EMChatRoom;
@@ -36,6 +37,7 @@ import com.tencent.rtmp.TXLiveConstants;
 import com.tencent.rtmp.TXLivePushConfig;
 import com.tencent.rtmp.TXLivePusher;
 import com.tencent.rtmp.ui.TXCloudVideoView;
+
 import entity.liveroom.CloseRoomInfo;
 import netService.HttpNetService;
 import netService.entity.NetRetEntity;
@@ -48,19 +50,19 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LivePublisherActivity extends ChatPopDialogActivity implements View.OnClickListener , ITXLivePushListener{
+public class LivePublisherActivity extends ChatPopDialogActivity implements View.OnClickListener, ITXLivePushListener {
     private JYKJApplication mApp;
     private Context mContext;
     private TXLivePushConfig mLivePushConfig;
     private TXLivePusher mLivePusher;
     private TXCloudVideoView mCaptureView;
     private Button mBtnOrientation;
-    private boolean          mFrontCamera = true;
-    private boolean          mVideoPublish;
+    private boolean mFrontCamera = true;
+    private boolean mVideoPublish;
     private static final int VIDEO_SRC_CAMERA = 0;
     private static final int VIDEO_SRC_SCREEN = 1;
-    private int              mCurrentVideoResolution = TXLiveConstants.VIDEO_RESOLUTION_TYPE_360_640;
-    private Bitmap           mBitmap;
+    private int mCurrentVideoResolution = TXLiveConstants.VIDEO_RESOLUTION_TYPE_360_640;
+    private Bitmap mBitmap;
     private TextView mNetBusyTips;
     private Button btnMessage;
     private Button btnShare;
@@ -72,15 +74,16 @@ public class LivePublisherActivity extends ChatPopDialogActivity implements View
     String liveTitle = "";
     private int mNetBusyCount = 0;
     private Handler mNetBusyHandler;
-    private int              mVideoSrc = VIDEO_SRC_CAMERA;
+    private int mVideoSrc = VIDEO_SRC_CAMERA;
     LinearLayout mBottomLinear = null;
     private PhoneStateListener mPhoneListener = null;
-    private boolean          mPortrait = true;         //手动切换，横竖屏推流
+    private boolean mPortrait = true;         //手动切换，横竖屏推流
     String rtmpUrl = "";
     String mdetailcode = "";
     public static final String LIVE_TYPE_PRELIVE = "1";
     public static final String LIVE_TYPE_HOTLIVE = "2";
     public static final String LIVE_TYPE_SUBJECTLIVE = "3";
+
     private Bitmap decodeResource(Resources resources, int id) {
         TypedValue value = new TypedValue();
         resources.openRawResource(id, value);
@@ -88,24 +91,25 @@ public class LivePublisherActivity extends ChatPopDialogActivity implements View
         opts.inTargetDensity = value.density;
         return BitmapFactory.decodeResource(resources, id, opts);
     }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mApp = (JYKJApplication)getApplication();
+        mApp = (JYKJApplication) getApplication();
         mContext = LivePublisherActivity.this;
         rtmpUrl = getIntent().getStringExtra("pushUrl");
         chatRoomName = getIntent().getStringExtra("chatRoomName");
         liveTitle = getIntent().getStringExtra("liveTitle");
         mychatid = getIntent().getStringExtra("chatId");
         mdetailcode = getIntent().getStringExtra("detailCode");
-        mLivePusher     = new TXLivePusher(this);
+        mLivePusher = new TXLivePusher(this);
         mLivePushConfig = new TXLivePushConfig();
         mLivePusher.setConfig(mLivePushConfig);
-        mBitmap         = decodeResource(getResources(), R.mipmap.watermark);
+        mBitmap = decodeResource(getResources(), R.mipmap.watermark);
         mRotationObserver = new RotationObserver(new Handler());
         mRotationObserver.startObserver();
         setContentView();
-        mBottomLinear = (LinearLayout)findViewById(R.id.btns_video);
+        mBottomLinear = (LinearLayout) findViewById(R.id.btns_video);
         checkPublishPermission();
 
         mPhoneListener = new TXPhoneStateListener(mLivePusher);
@@ -124,14 +128,16 @@ public class LivePublisherActivity extends ChatPopDialogActivity implements View
 
     static class TXPhoneStateListener extends PhoneStateListener {
         WeakReference<TXLivePusher> mPusher;
+
         public TXPhoneStateListener(TXLivePusher pusher) {
             mPusher = new WeakReference<TXLivePusher>(pusher);
         }
+
         @Override
         public void onCallStateChanged(int state, String incomingNumber) {
             super.onCallStateChanged(state, incomingNumber);
             TXLivePusher pusher = mPusher.get();
-            switch(state){
+            switch (state) {
                 //电话等待接听
                 case TelephonyManager.CALL_STATE_RINGING:
                     if (pusher != null) pusher.pausePusher();
@@ -146,7 +152,9 @@ public class LivePublisherActivity extends ChatPopDialogActivity implements View
                     break;
             }
         }
-    };
+    }
+
+    ;
 
     public void setContentView() {
         setContentView(R.layout.activity_publish);
@@ -181,11 +189,12 @@ public class LivePublisherActivity extends ChatPopDialogActivity implements View
     }
 
     boolean isopenchat = false;
+
     @Override
     public void createChat() {
         Bundle parbund = new Bundle();
-        parbund.putString(EaseConstant.EXTRA_CHAT_TYPE,"");
-        parbund.putInt(EaseConstant.CHAT_TYPE,EaseConstant.CHATTYPE_CHATROOM);
+        parbund.putString(EaseConstant.EXTRA_CHAT_TYPE, "");
+        parbund.putInt(EaseConstant.CHAT_TYPE, EaseConstant.CHATTYPE_CHATROOM);
         parbund.putString(EaseConstant.EXTRA_USER_ID, mychatid);
         parbund.putString(EaseConstant.EXTRA_USER_NAME, mychatid);
         initChat(parbund);
@@ -195,14 +204,14 @@ public class LivePublisherActivity extends ChatPopDialogActivity implements View
         isopenchat = true;
     }
 
-    void goChat(){
-        if(isopenchat){
-            if(chatViewLayout.getVisibility()==View.VISIBLE) {
+    void goChat() {
+        if (isopenchat) {
+            if (chatViewLayout.getVisibility() == View.VISIBLE) {
                 chatViewLayout.setVisibility(View.GONE);
-            }else{
+            } else {
                 chatViewLayout.setVisibility(View.VISIBLE);
             }
-        }else{
+        } else {
             createChat();
             chatViewLayout.setVisibility(View.VISIBLE);
         }
@@ -228,7 +237,7 @@ public class LivePublisherActivity extends ChatPopDialogActivity implements View
     }
 
     @Override
-    public void onStop(){
+    public void onStop() {
         super.onStop();
         if (mCaptureView != null) {
             mCaptureView.onPause();
@@ -253,7 +262,7 @@ public class LivePublisherActivity extends ChatPopDialogActivity implements View
         TelephonyManager tm = (TelephonyManager) getApplicationContext().getSystemService(Service.TELEPHONY_SERVICE);
         tm.listen(mPhoneListener, PhoneStateListener.LISTEN_NONE);
 
-        if(StrUtils.defaulObjToStr(mdetailcode).length()>0){
+        if (StrUtils.defaulObjToStr(mdetailcode).length() > 0) {
             CloseRoomInfo subinfo = new CloseRoomInfo();
             subinfo.setDetailsCode(mdetailcode);
             subinfo.setLoginUserPosition(mApp.loginDoctorPosition);
@@ -265,22 +274,23 @@ public class LivePublisherActivity extends ChatPopDialogActivity implements View
         }
     }
 
-    class CloseLiveRoomTask extends AsyncTask<Void,Void,Boolean>{
+    class CloseLiveRoomTask extends AsyncTask<Void, Void, Boolean> {
         CloseRoomInfo subinfo;
         String retmsg = "";
-        CloseLiveRoomTask(CloseRoomInfo subinfo){
-            this.subinfo =  subinfo;
+
+        CloseLiveRoomTask(CloseRoomInfo subinfo) {
+            this.subinfo = subinfo;
         }
 
         @Override
         protected Boolean doInBackground(Void... voids) {
             try {
-                String retstr = HttpNetService.urlConnectionService("jsonDataInfo="+new Gson().toJson(subinfo),"https://www.jiuyihtn.com:41041/broadcastLiveDataControlle/operLiveRoomDetailsNoticeResCloseBroadcasting");
-                NetRetEntity retEntity = JSON.parseObject(retstr,NetRetEntity.class);
-                if(1==retEntity.getResCode()){
+                String retstr = HttpNetService.urlConnectionService("jsonDataInfo=" + new Gson().toJson(subinfo), "https://www.jiuyihtn.com:41041/broadcastLiveDataControlle/operLiveRoomDetailsNoticeResCloseBroadcasting");
+                NetRetEntity retEntity = JSON.parseObject(retstr, NetRetEntity.class);
+                if (1 == retEntity.getResCode()) {
                     retmsg = retEntity.getResMsg();
                     return true;
-                }else{
+                } else {
                     retmsg = retEntity.getResMsg();
                 }
             } catch (Exception e) {
@@ -293,12 +303,11 @@ public class LivePublisherActivity extends ChatPopDialogActivity implements View
 
         @Override
         protected void onPostExecute(Boolean aBoolean) {
-            if(!aBoolean){
-                Toast.makeText(mContext,retmsg,Toast.LENGTH_SHORT).show();
+            if (!aBoolean) {
+                Toast.makeText(mContext, retmsg, Toast.LENGTH_SHORT).show();
             }
         }
     }
-
 
 
     @Override
@@ -343,28 +352,27 @@ public class LivePublisherActivity extends ChatPopDialogActivity implements View
         return true;
     }
 
-    private  boolean startPublishRtmp() {
+    private boolean startPublishRtmp() {
         if (TextUtils.isEmpty(rtmpUrl) || (!rtmpUrl.trim().toLowerCase().startsWith("rtmp://"))) {
             Toast.makeText(getApplicationContext(), "推流地址不合法，目前支持rtmp推流!", Toast.LENGTH_SHORT).show();
             return false;
         }
-        if(mVideoSrc != VIDEO_SRC_SCREEN){
+        if (mVideoSrc != VIDEO_SRC_SCREEN) {
             mCaptureView.setVisibility(View.VISIBLE);
         }
         int customModeType = 0;
         onActivityRotation();
         mLivePushConfig.setCustomModeType(customModeType);
         mLivePusher.setPushListener(this);
-        mLivePushConfig.setPauseImg(300,5);
-        Bitmap bitmap = decodeResource(getResources(),R.mipmap.shut_video);
+        mLivePushConfig.setPauseImg(300, 5);
+        Bitmap bitmap = decodeResource(getResources(), R.mipmap.shut_video);
         mLivePushConfig.setPauseImg(bitmap);
         mLivePushConfig.setPauseFlag(TXLiveConstants.PAUSE_FLAG_PAUSE_VIDEO | TXLiveConstants.PAUSE_FLAG_PAUSE_AUDIO);
-        if(mVideoSrc != VIDEO_SRC_SCREEN){
+        if (mVideoSrc != VIDEO_SRC_SCREEN) {
             mLivePushConfig.setFrontCamera(mFrontCamera);
             mLivePusher.setConfig(mLivePushConfig);
             mLivePusher.startCameraPreview(mCaptureView);
-        }
-        else{
+        } else {
             mLivePusher.setConfig(mLivePushConfig);
             mLivePusher.startScreenCapture();
         }
@@ -380,7 +388,7 @@ public class LivePublisherActivity extends ChatPopDialogActivity implements View
         mLivePusher.setPushListener(null);
         mLivePusher.stopPusher();
         mCaptureView.setVisibility(View.GONE);
-        if(mLivePushConfig != null) {
+        if (mLivePushConfig != null) {
             mLivePushConfig.setPauseImg(null);
         }
     }
@@ -403,25 +411,23 @@ public class LivePublisherActivity extends ChatPopDialogActivity implements View
 
     @Override
     public void onPushEvent(int event, Bundle param) {
-        Log.e("NotifyCode","LivePublisherActivity :" + event);
+        Log.e("NotifyCode", "LivePublisherActivity :" + event);
         //错误还是要明确的报一下
         if (event < 0) {
             Toast.makeText(getApplicationContext(), param.getString(TXLiveConstants.EVT_DESCRIPTION), Toast.LENGTH_SHORT).show();
-            if(event == TXLiveConstants.PUSH_ERR_OPEN_CAMERA_FAIL || event == TXLiveConstants.PUSH_ERR_OPEN_MIC_FAIL){
+            if (event == TXLiveConstants.PUSH_ERR_OPEN_CAMERA_FAIL || event == TXLiveConstants.PUSH_ERR_OPEN_MIC_FAIL) {
                 stopPublishRtmp();
             }
         }
         if (event == TXLiveConstants.PUSH_ERR_NET_DISCONNECT) {
             stopPublishRtmp();
-        }
-        else if (event == TXLiveConstants.PUSH_WARNING_HW_ACCELERATION_FAIL) {
+        } else if (event == TXLiveConstants.PUSH_WARNING_HW_ACCELERATION_FAIL) {
             Toast.makeText(getApplicationContext(), param.getString(TXLiveConstants.EVT_DESCRIPTION), Toast.LENGTH_SHORT).show();
             mLivePushConfig.setHardwareAcceleration(TXLiveConstants.ENCODE_VIDEO_SOFTWARE);
             mLivePusher.setConfig(mLivePushConfig);
-        }else if (event == TXLiveConstants.PUSH_ERR_SCREEN_CAPTURE_UNSURPORT) {
+        } else if (event == TXLiveConstants.PUSH_ERR_SCREEN_CAPTURE_UNSURPORT) {
             stopPublishRtmp();
-        }
-        else if (event == TXLiveConstants.PUSH_ERR_SCREEN_CAPTURE_START_FAILED) {
+        } else if (event == TXLiveConstants.PUSH_ERR_SCREEN_CAPTURE_START_FAILED) {
             stopPublishRtmp();
         } else if (event == TXLiveConstants.PUSH_EVT_CHANGE_RESOLUTION) {
             Log.d(TAG, "change resolution to " + param.getInt(TXLiveConstants.EVT_PARAM2) + ", bitrate to" + param.getInt(TXLiveConstants.EVT_PARAM1));
@@ -438,12 +444,12 @@ public class LivePublisherActivity extends ChatPopDialogActivity implements View
 
     @Override
     public void onNetStatus(Bundle status) {
-        Log.d(TAG, "Current status, CPU:"+status.getString(TXLiveConstants.NET_STATUS_CPU_USAGE)+
-                ", RES:"+status.getInt(TXLiveConstants.NET_STATUS_VIDEO_WIDTH)+"*"+status.getInt(TXLiveConstants.NET_STATUS_VIDEO_HEIGHT)+
-                ", SPD:"+status.getInt(TXLiveConstants.NET_STATUS_NET_SPEED)+"Kbps"+
-                ", FPS:"+status.getInt(TXLiveConstants.NET_STATUS_VIDEO_FPS)+
-                ", ARA:"+status.getInt(TXLiveConstants.NET_STATUS_AUDIO_BITRATE)+"Kbps"+
-                ", VRA:"+status.getInt(TXLiveConstants.NET_STATUS_VIDEO_BITRATE)+"Kbps");
+        Log.d(TAG, "Current status, CPU:" + status.getString(TXLiveConstants.NET_STATUS_CPU_USAGE) +
+                ", RES:" + status.getInt(TXLiveConstants.NET_STATUS_VIDEO_WIDTH) + "*" + status.getInt(TXLiveConstants.NET_STATUS_VIDEO_HEIGHT) +
+                ", SPD:" + status.getInt(TXLiveConstants.NET_STATUS_NET_SPEED) + "Kbps" +
+                ", FPS:" + status.getInt(TXLiveConstants.NET_STATUS_VIDEO_FPS) +
+                ", ARA:" + status.getInt(TXLiveConstants.NET_STATUS_AUDIO_BITRATE) + "Kbps" +
+                ", VRA:" + status.getInt(TXLiveConstants.NET_STATUS_VIDEO_BITRATE) + "Kbps");
     }
 
     @Override
@@ -452,8 +458,7 @@ public class LivePublisherActivity extends ChatPopDialogActivity implements View
         super.onConfigurationChanged(newConfig);
     }
 
-    protected void onActivityRotation()
-    {
+    protected void onActivityRotation() {
         // 自动旋转打开，Activity随手机方向旋转之后，需要改变推流方向
         int mobileRotation = this.getWindowManager().getDefaultDisplay().getRotation();
         int pushRotation = TXLiveConstants.VIDEO_ANGLE_HOME_DOWN;
@@ -476,28 +481,30 @@ public class LivePublisherActivity extends ChatPopDialogActivity implements View
         mLivePusher.setRenderRotation(0); //因为activity也旋转了，本地渲染相对正方向的角度为0。
         mLivePushConfig.setHomeOrientation(pushRotation);
         if (mLivePusher.isPushing()) {
-            if(VIDEO_SRC_CAMERA == mVideoSrc){
+            if (VIDEO_SRC_CAMERA == mVideoSrc) {
                 mLivePusher.setConfig(mLivePushConfig);
                 mLivePusher.stopCameraPreview(true);
                 mLivePusher.startCameraPreview(mCaptureView);
-            }
-            else if(VIDEO_SRC_SCREEN == mVideoSrc){
+            } else if (VIDEO_SRC_SCREEN == mVideoSrc) {
                 //录屏横竖屏推流的判断条件是，视频分辨率取360*640还是640*360
-                switch (mCurrentVideoResolution){
+                switch (mCurrentVideoResolution) {
                     case TXLiveConstants.VIDEO_RESOLUTION_TYPE_360_640:
-                        if(screenCaptureLandscape)
+                        if (screenCaptureLandscape)
                             mLivePushConfig.setVideoResolution(TXLiveConstants.VIDEO_RESOLUTION_TYPE_640_360);
-                        else mLivePushConfig.setVideoResolution(TXLiveConstants.VIDEO_RESOLUTION_TYPE_360_640);
+                        else
+                            mLivePushConfig.setVideoResolution(TXLiveConstants.VIDEO_RESOLUTION_TYPE_360_640);
                         break;
                     case TXLiveConstants.VIDEO_RESOLUTION_TYPE_540_960:
-                        if(screenCaptureLandscape)
+                        if (screenCaptureLandscape)
                             mLivePushConfig.setVideoResolution(TXLiveConstants.VIDEO_RESOLUTION_TYPE_960_540);
-                        else mLivePushConfig.setVideoResolution(TXLiveConstants.VIDEO_RESOLUTION_TYPE_540_960);
+                        else
+                            mLivePushConfig.setVideoResolution(TXLiveConstants.VIDEO_RESOLUTION_TYPE_540_960);
                         break;
                     case TXLiveConstants.VIDEO_RESOLUTION_TYPE_720_1280:
-                        if(screenCaptureLandscape)
+                        if (screenCaptureLandscape)
                             mLivePushConfig.setVideoResolution(TXLiveConstants.VIDEO_RESOLUTION_TYPE_1280_720);
-                        else mLivePushConfig.setVideoResolution(TXLiveConstants.VIDEO_RESOLUTION_TYPE_720_1280);
+                        else
+                            mLivePushConfig.setVideoResolution(TXLiveConstants.VIDEO_RESOLUTION_TYPE_720_1280);
                         break;
                 }
                 mLivePusher.setConfig(mLivePushConfig);
@@ -510,19 +517,19 @@ public class LivePublisherActivity extends ChatPopDialogActivity implements View
     /**
      * 判断Activity是否可旋转。只有在满足以下条件的时候，Activity才是可根据重力感应自动旋转的。
      * 系统“自动旋转”设置项打开；
+     *
      * @return false---Activity可根据重力感应自动旋转
      */
-    protected boolean isActivityCanRotation()
-    {
+    protected boolean isActivityCanRotation() {
         // 判断自动旋转是否打开
-        int flag = Settings.System.getInt(this.getContentResolver(),Settings.System.ACCELEROMETER_ROTATION, 0);
+        int flag = Settings.System.getInt(this.getContentResolver(), Settings.System.ACCELEROMETER_ROTATION, 0);
         if (flag == 0) {
             return false;
         }
         return true;
     }
 
-    class CreateChatTask extends AsyncTask<Void,Void,Boolean>{
+    class CreateChatTask extends AsyncTask<Void, Void, Boolean> {
         @Override
         protected Boolean doInBackground(Void... voids) {
             try {
@@ -544,15 +551,15 @@ public class LivePublisherActivity extends ChatPopDialogActivity implements View
     //观察屏幕旋转设置变化，类似于注册动态广播监听变化机制
     private class RotationObserver extends ContentObserver {
         ContentResolver mResolver;
-        public RotationObserver(Handler handler)
-        {
+
+        public RotationObserver(Handler handler) {
             super(handler);
             mResolver = LivePublisherActivity.this.getContentResolver();
         }
+
         //屏幕旋转设置改变时调用
         @Override
-        public void onChange(boolean selfChange)
-        {
+        public void onChange(boolean selfChange) {
             super.onChange(selfChange);
             //更新按钮状态
             if (isActivityCanRotation()) {
@@ -569,13 +576,11 @@ public class LivePublisherActivity extends ChatPopDialogActivity implements View
 
         }
 
-        public void startObserver()
-        {
+        public void startObserver() {
             mResolver.registerContentObserver(Settings.System.getUriFor(Settings.System.ACCELEROMETER_ROTATION), false, this);
         }
 
-        public void stopObserver()
-        {
+        public void stopObserver() {
             mResolver.unregisterContentObserver(this);
         }
     }

@@ -6,18 +6,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.bumptech.glide.Glide;
+
 import entity.liveroom.PreLiveInfo;
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.util.StrUtils;
 
 import java.util.List;
 
-public class PreLiveAdapter extends RecyclerView.Adapter<PreLiveAdapter.ViewHolder>{
+public class PreLiveAdapter extends RecyclerView.Adapter<PreLiveAdapter.ViewHolder> {
     List<PreLiveInfo> datas;
     OnHotliveItemClickListener myListener;
-    public PreLiveAdapter(List<PreLiveInfo> datas){
+
+    public PreLiveAdapter(List<PreLiveInfo> datas) {
         this.datas = datas;
     }
 
@@ -25,31 +29,31 @@ public class PreLiveAdapter extends RecyclerView.Adapter<PreLiveAdapter.ViewHold
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.pre_live_items,viewGroup,false);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.pre_live_items, viewGroup, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         PreLiveInfo parinfo = datas.get(i);
-        viewHolder.pre_live_catalog.setText("类目:"+ StrUtils.defaulObjToStr(parinfo.getClassName()));
+        viewHolder.pre_live_catalog.setText("类目:" + StrUtils.defaulObjToStr(parinfo.getClassName()));
         viewHolder.pre_live_desc.setText(StrUtils.defaulObjToStr(parinfo.getAttrName()));
         viewHolder.pre_live_price.setText(StrUtils.defaulObjToStr(parinfo.getExtendBroadcastPriceShow()));
         viewHolder.pre_live_title.setText(StrUtils.defaulObjToStr(parinfo.getBroadcastTitle()));
-        viewHolder.pre_watch_num.setText("想看人数："+StrUtils.defaulObjToStr(parinfo.getExtendBroadcastFollowNum()));
-        if(StrUtils.defaulObjToStr(parinfo.getBroadcastCoverImgUrl()).length()>0){
+        viewHolder.pre_watch_num.setText("想看人数：" + StrUtils.defaulObjToStr(parinfo.getExtendBroadcastFollowNum()));
+        if (StrUtils.defaulObjToStr(parinfo.getBroadcastCoverImgUrl()).length() > 0) {
             Glide.with(viewHolder.pre_live_btn.getContext()).load(parinfo.getBroadcastCoverImgUrl()).into(viewHolder.pre_live_btn);
         }
-        viewHolder.pre_live_btn.setOnClickListener(new View.OnClickListener(){
+        viewHolder.ll_root.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                myListener.onClick(i,v);
+                myListener.onClick(i, v);
             }
         });
-        viewHolder.pre_live_btn.setOnLongClickListener(new View.OnLongClickListener(){
+        viewHolder.ll_root.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                myListener.onLongClick(i,v);
+                myListener.onLongClick(i, v);
                 return false;
             }
         });
@@ -60,14 +64,16 @@ public class PreLiveAdapter extends RecyclerView.Adapter<PreLiveAdapter.ViewHold
         return datas.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder{
-        public ImageView pre_live_btn;
-        public TextView pre_live_title;
-        public TextView pre_live_desc;
-        public TextView pre_live_catalog;
-        public TextView pre_watch_num;
-        public TextView pre_live_price;
-        public ViewHolder(View view){
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        private ImageView pre_live_btn;
+        private TextView pre_live_title;
+        private TextView pre_live_desc;
+        private TextView pre_live_catalog;
+        private TextView pre_watch_num;
+        private TextView pre_live_price;
+        private LinearLayout ll_root;
+
+        public ViewHolder(View view) {
             super(view);
             pre_live_btn = view.findViewById(R.id.pre_live_btn);
             pre_live_title = view.findViewById(R.id.pre_live_title);
@@ -75,6 +81,7 @@ public class PreLiveAdapter extends RecyclerView.Adapter<PreLiveAdapter.ViewHold
             pre_live_catalog = view.findViewById(R.id.pre_live_catalog);
             pre_watch_num = view.findViewById(R.id.pre_watch_num);
             pre_live_price = view.findViewById(R.id.pre_live_price);
+            ll_root=view.findViewById(R.id.ll_root);
         }
 
     }
@@ -87,12 +94,13 @@ public class PreLiveAdapter extends RecyclerView.Adapter<PreLiveAdapter.ViewHold
         this.myListener = myListener;
     }
 
-    public interface OnHotliveItemClickListener{
-        void onClick(int position,View view);
-        void onLongClick(int position,View view);
+    public interface OnHotliveItemClickListener {
+        void onClick(int position, View view);
+
+        void onLongClick(int position, View view);
     }
 
-    public void setData(List<PreLiveInfo> datas){
+    public void setData(List<PreLiveInfo> datas) {
         this.datas = datas;
     }
 }
