@@ -94,7 +94,7 @@ public class MyLiveRoomActivity extends AppCompatActivity implements View.OnClic
         switch (v.getId()){
             case R.id.live:
                 Intent intent = new Intent(MyLiveRoomActivity.this, BeforesettingActivity.class);
-                intent.putExtra("live_type",live_type);
+                intent.putExtra("live_type",LivePublisherActivity.LIVE_TYPE_HOTLIVE);
                 startActivity(intent);
                 break;
             case R.id.room_forecast:

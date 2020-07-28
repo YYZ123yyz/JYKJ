@@ -532,7 +532,7 @@ public class LivePublisherActivity extends ChatPopDialogActivity implements View
             }
         }
         if (event == TXLiveConstants.PUSH_ERR_NET_DISCONNECT) {
-            stopPublishRtmp();
+            //stopPublishRtmp();
         }
         else if (event == TXLiveConstants.PUSH_WARNING_HW_ACCELERATION_FAIL) {
             Toast.makeText(getApplicationContext(), param.getString(TXLiveConstants.EVT_DESCRIPTION), Toast.LENGTH_SHORT).show();
