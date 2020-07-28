@@ -100,7 +100,7 @@ public class MyLiveRoomActivity extends AppCompatActivity implements View.OnClic
             case R.id.room_forecast:
                 selectPageIndex=0;
                 roompager.setCurrentItem(selectPageIndex);
-                live_type = LivePublisherActivity.LIVE_TYPE_PRELIVE;
+                live_type = LivePublisherActivity.LIVE_TYPE_HOTLIVE;
                 break;
             case R.id.room_Hit:
                 selectPageIndex=1;
