@@ -3,8 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_horizontal"
-    android:orientation="vertical"
-    android:paddingTop="13dp" >
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/timestamp"
@@ -19,8 +18,8 @@
 
         <com.hyphenate.easeui.widget.EaseImageView
             android:id="@+id/iv_userhead"
-            android:layout_width="@dimen/size_avatar"
-            android:layout_height="@dimen/size_avatar"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:layout_marginLeft="@dimen/margin_chat_activity"
@@ -45,11 +44,11 @@
                 android:gravity="center|left"
                 android:paddingRight="6dp"
                 android:paddingLeft="1dp"
-                android:minHeight="38dp"
+                android:minHeight="20dp"
                 android:lineSpacingExtra="2dp"
               	android:textColor="#000000"
                 android:maxWidth="225.0dip"
-                android:textSize="15sp" />
+                android:textSize="12sp" />
         </RelativeLayout>
 
        <!--  <TextView
