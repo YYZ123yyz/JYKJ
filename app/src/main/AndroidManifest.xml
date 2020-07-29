@@ -374,7 +374,14 @@
         <activity
                 android:name="www.jykj.com.jykj_zxyl.activity.liveroom.LiveroomDetailActivity"
                 android:screenOrientation="portrait" />
-
+        <activity android:name="www.jykj.com.jykj_zxyl.activity.hyhd.LivePlayerActivity"
+                  android:screenOrientation="portrait"/>
+        <activity android:name="www.jykj.com.jykj_zxyl.activity.hyhd.NewLivePlayerActivity"
+                  android:screenOrientation="portrait"/>
+        <activity android:name="www.jykj.com.jykj_zxyl.activity.hyhd.QRCodeScanActivity"
+                  android:screenOrientation="portrait"/>
+        <activity android:name="www.jykj.com.jykj_zxyl.activity.hyhd.TCVideoPreviewActivity"
+                  android:screenOrientation="portrait"/>
         <activity
             android:name="com.tencent.rtmp.video.TXScreenCapture$TXScreenCaptureAssistantActivity"
             android:theme="@android:style/Theme.Translucent" />

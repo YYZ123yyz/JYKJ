@@ -1,6 +1,7 @@
 package www.jykj.com.jykj_zxyl.activity.hyhd;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.app.Service;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -40,7 +41,9 @@ import com.tencent.rtmp.TXLiveConstants;
 import com.tencent.rtmp.TXLivePushConfig;
 import com.tencent.rtmp.TXLivePusher;
 import com.tencent.rtmp.ui.TXCloudVideoView;
+import entity.conditions.OpenLiveCond;
 import entity.liveroom.CloseRoomInfo;
+import entity.liveroom.OpenLiveResp;
 import netService.HttpNetService;
 import netService.entity.NetRetEntity;
 import www.jykj.com.jykj_zxyl.R;
@@ -98,7 +101,7 @@ public class LivePublisherActivity extends ChatPopDialogActivity implements View
     HeadImageViewRecycleAdapter mImageViewRecycleAdapter;
     List<String> headpics = new ArrayList();
     TextView tv_head_tit;
-
+    public ProgressDialog mDialogProgress = null;
 
     //private ImageView close_video;
     private Bitmap decodeResource(Resources resources, int id) {
@@ -130,7 +133,82 @@ public class LivePublisherActivity extends ChatPopDialogActivity implements View
 
         mPhoneListener = new TXPhoneStateListener(mLivePusher);
 
-        startPublishRtmp();
+        statLive();
+    }
+
+    void statLive(){
+        if(!rtmpUrl.contains("txSecret") && !rtmpUrl.contains("&txTime")){
+            getProgressBar("开启直播","正在开启直播间，请稍后...");
+            OpenLiveCond opencond = new OpenLiveCond();
+            opencond.setDetailsCode(mdetailcode);
+            opencond.setLoginUserPosition(mApp.loginDoctorPosition);
+            opencond.setOperUserCode(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
+            opencond.setOperUserName(mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
+            opencond.setRequestClientType("1");
+            OpenLiveTask opentask = new OpenLiveTask(opencond);
+            opentask.execute();
+        }else{
+            startPublishRtmp();
+            goChat();
+        }
+    }
+
+    /**
+     * 获取进度条
+     */
+
+    public void getProgressBar(String title, String progressPrompt) {
+        if (mDialogProgress == null) {
+            mDialogProgress = new ProgressDialog(this);
+        }
+        mDialogProgress.setTitle(title);
+        mDialogProgress.setMessage(progressPrompt);
+        mDialogProgress.setCancelable(false);
+        mDialogProgress.show();
+    }
+
+    /**
+     * 取消进度条
+     */
+    public void cacerProgress() {
+        if (mDialogProgress != null) {
+            mDialogProgress.dismiss();
+        }
+    }
+
+    class OpenLiveTask extends AsyncTask<Void, Void, Boolean>{
+        private OpenLiveCond opencond;
+        public OpenLiveTask(OpenLiveCond opencond){
+            this.opencond = opencond;
+        }
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+            try{
+                String repjson = HttpNetService.urlConnectionService("jsonDataInfo="+new Gson().toJson(opencond),"https://www.jiuyihtn.com:41041/broadcastLiveDataControlle/operLiveRoomDetailsNoticeResStartBroadcasting");
+                NetRetEntity retent = JSON.parseObject(repjson,NetRetEntity.class);
+                if(retent.getResCode()==1){
+                    String subrepjson = retent.getResJsonData();
+                    OpenLiveResp retliveresp = JSON.parseObject(subrepjson,OpenLiveResp.class);
+                    mychatid = retliveresp.getChatRoomCode();
+                    rtmpUrl = retliveresp.getPushUrl();
+                    return true;
+                }
+            }catch (Exception ex){
+                ex.printStackTrace();
+            }
+            return false;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            cacerProgress();
+            if(aBoolean){
+                startPublishRtmp();
+                goChat();
+            }else{
+                Toast.makeText(mContext,"开启直播失败",Toast.LENGTH_LONG).show();
+            }
+        }
     }
 
     @Override
@@ -532,7 +610,7 @@ public class LivePublisherActivity extends ChatPopDialogActivity implements View
             }
         }
         if (event == TXLiveConstants.PUSH_ERR_NET_DISCONNECT) {
-            //stopPublishRtmp();
+            stopPublishRtmp();
         }
         else if (event == TXLiveConstants.PUSH_WARNING_HW_ACCELERATION_FAIL) {
             Toast.makeText(getApplicationContext(), param.getString(TXLiveConstants.EVT_DESCRIPTION), Toast.LENGTH_SHORT).show();
