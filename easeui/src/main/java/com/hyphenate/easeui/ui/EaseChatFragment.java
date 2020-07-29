@@ -53,6 +53,7 @@ import com.hyphenate.easeui.R;
 import com.hyphenate.easeui.domain.EaseEmojicon;
 import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.entity.UpdMyClinicDetailByOrderTreatmentLimitNum;
+import com.hyphenate.easeui.hyhd.DemoHelper;
 import com.hyphenate.easeui.hyhd.VideoCallActivity;
 import com.hyphenate.easeui.hyhd.VoiceCallActivity;
 import com.hyphenate.easeui.hyhd.model.Constant;
@@ -823,17 +824,17 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
                 username = message.getUserName();
             } else {
 
+   DemoHelper.getInstance().registerMessageListener();
+             //   try {
+//                    String nikeName = message.getStringAttribute("nickName");
+//                    Log.e(TAG, "onMessageReceived: "+nikeName );
+//                    String imageUrl = message.getStringAttribute("imageUrl");
+//                    Log.e(TAG, "onMessageReceived: "+imageUrl );
+//
 
-                try {
-                    String nikeName = message.getStringAttribute("nickName");
-                    Log.e(TAG, "onMessageReceived: "+nikeName );
-                    String imageUrl = message.getStringAttribute("imageUrl");
-                    Log.e(TAG, "onMessageReceived: "+imageUrl );
-
-
-                } catch (HyphenateException e) {
-                    e.printStackTrace();
-                }
+          //      } catch (HyphenateException e) {
+             //       e.printStackTrace();
+          //      }
 
                 // single chat message
                 username = message.getFrom();
@@ -1013,7 +1014,7 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
                             return;
                         }
                     }
-                    startActivity(new Intent(getActivity(), VideoCallActivity.class).putExtra("username", toChatUsernameName)
+                    startActivity(new Intent(getActivity(), VideoCallActivity.class).putExtra("username", toChatUsername)
                             .putExtra("isComingCall", false).putExtra(EaseConstant.EXTRA_VEDIO_NUM, mVedioTime));
                     break;
                 case ITEM_CALL:
@@ -1022,6 +1023,7 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
                      * @param to
                      * @throws EMServiceNotReadyException
                      */
+
                     startActivity(new Intent(getActivity(), VoiceCallActivity.class).putExtra("username", toChatUsername)
                             .putExtra("isComingCall", false)
                             .putExtra("nickName", toChatUsernameName)

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Rect;
@@ -90,6 +91,7 @@ public class ZhlyReplyActivity extends AppCompatActivity {
     private LinearLayout lin_status;
     private TextView zhli_status;
     private String replyTyp;
+    private String status;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -101,6 +103,8 @@ public class ZhlyReplyActivity extends AppCompatActivity {
         mActivity = this;
         mApp = (JYKJApplication) getApplication();
         mProvideViewInteractOrderTreatmentAndPatientInterrogation = (ProvideViewInteractOrderTreatmentAndPatientInterrogation) getIntent().getSerializableExtra("wzxx");
+        Intent intent = getIntent();
+        status = intent.getStringExtra("status");
         initView();
         initListener();
         getData();
@@ -148,6 +152,7 @@ public class ZhlyReplyActivity extends AppCompatActivity {
                             Toast.makeText(mContext, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
                         } else {
                             mProvideInteractPatientMessage = JSON.parseObject(netRetEntity.getResJsonData(), ProvideInteractPatientMessage.class);
+
                             if (mProvideInteractPatientMessage != null) {
                                 showLayoutDate();
                                 if(mProvideInteractPatientMessage.getMessageDate()==null){
@@ -258,6 +263,20 @@ public class ZhlyReplyActivity extends AppCompatActivity {
 
         });
         zhli_status = findViewById(R.id.zhli_status);
+        if(status.equals("1")){
+            zhli_status.setText("正常");
+            zhli_status.setTextColor(ZhlyReplyActivity.this.getResources().getColor(R.color.tv4));
+        }else if(status.equals("2")){
+            zhli_status.setText("一般");
+            zhli_status.setTextColor(ZhlyReplyActivity.this.getResources().getColor(R.color.tv3));
+        }else if(status.equals("3")){
+            zhli_status.setText("紧急");
+            zhli_status.setTextColor(ZhlyReplyActivity.this.getResources().getColor(R.color.tv2));
+        }else if(status.equals("4")){
+            zhli_status.setText("重大紧急");
+            zhli_status.setTextColor(ZhlyReplyActivity.this.getResources().getColor(R.color.tv1));
+        }
+
         //是否上传了图片
         no_commit = findViewById(R.id.no_commit);
         //   mNameTitle = (TextView) this.findViewById(R.id.tv_patientName);
@@ -278,7 +297,6 @@ public class ZhlyReplyActivity extends AppCompatActivity {
         //  mNameTitle.setText("【" + mProvideInteractPatientMessage.getPatientName() + "】诊后留言");
         mMessageType.setText(mProvideInteractPatientMessage.getTreatmentTypeName());
         if(mProvideInteractPatientMessage.getMessageDate()==null){
-            Log.e("tag", "handleMessage:111 "+mProvideInteractPatientMessage.getMessageDate().toString() );
             mMessageDate.setText("未提交");
         }
         mMessageDate.setText(Util.dateToStr(mProvideInteractPatientMessage.getMessageDate()));
@@ -335,7 +353,7 @@ public class ZhlyReplyActivity extends AppCompatActivity {
             public void onClick(View v) {
                 zhli_status.setText("重大紧急");
                 zhli_status.setTextColor(ZhlyReplyActivity.this.getResources().getColor(R.color.tv1));
-                replyTyp = "1";
+                replyTyp = "4";
                 dialog.dismiss();
             }
         });
@@ -344,7 +362,7 @@ public class ZhlyReplyActivity extends AppCompatActivity {
             public void onClick(View v) {
                 zhli_status.setText("紧急");
                 zhli_status.setTextColor(ZhlyReplyActivity.this.getResources().getColor(R.color.tv2));
-                replyTyp = "2";
+                replyTyp = "3";
                 dialog.dismiss();
             }
         });
@@ -353,7 +371,7 @@ public class ZhlyReplyActivity extends AppCompatActivity {
             public void onClick(View v) {
                 zhli_status.setText("一般");
                 zhli_status.setTextColor(ZhlyReplyActivity.this.getResources().getColor(R.color.tv3));
-                replyTyp = "3";
+                replyTyp = "2";
                 dialog.dismiss();
             }
         });
@@ -362,7 +380,7 @@ public class ZhlyReplyActivity extends AppCompatActivity {
             public void onClick(View v) {
                 zhli_status.setText("正常");
                 zhli_status.setTextColor(ZhlyReplyActivity.this.getResources().getColor(R.color.tv4));
-                replyTyp = "4";
+                replyTyp = "1";
                 dialog.dismiss();
             }
         });
@@ -396,7 +414,10 @@ public class ZhlyReplyActivity extends AppCompatActivity {
         provideInteractPatientMessage.setOrderCode(mProvideViewInteractOrderTreatmentAndPatientInterrogation.getOrderCode());
         provideInteractPatientMessage.setTreatmentType(mProvideViewInteractOrderTreatmentAndPatientInterrogation.getTreatmentType());
         provideInteractPatientMessage.setReplyContent(mMessageReply.getText().toString());
-
+       if(TextUtils.isEmpty(replyTyp)){
+           Toast.makeText(mContext,"请选择消息类型", Toast.LENGTH_SHORT).show();
+           return;
+       }
         provideInteractPatientMessage.setReplyType(replyTyp);
         provideInteractPatientMessage.setPatientCode(mProvideViewInteractOrderTreatmentAndPatientInterrogation.getPatientCode());
         provideInteractPatientMessage.setPatientName(mProvideViewInteractOrderTreatmentAndPatientInterrogation.getPatientName());
@@ -456,8 +477,6 @@ public class ZhlyReplyActivity extends AppCompatActivity {
                 try {
                     String string = new Gson().toJson(provideInteractPatientMessage);
                     mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + string, Constant.SERVICEURL + "doctorInteractDataControlle/searchMyClinicDetailResPatientMessageContent");
-                    String string01 = Constant.SERVICEURL + "doctorInteractDataControlle/searchMyClinicDetailResPatientMessageContent";
-                    System.out.println(string + string01);
                     Log.e("", "文字 "+mNetRetStr );
                 } catch (Exception e) {
                     NetRetEntity retEntity = new NetRetEntity();

@@ -84,16 +84,16 @@ public class WDZS_WZXQActivity extends AppCompatActivity {
     private void setLayoutDate() {
         if(TextUtils.isEmpty(mProvideInteractClinicRecordWriteState.getFlagReplyType())){
             wzxq_status.setVisibility(View.INVISIBLE);
-        }else if(mProvideInteractClinicRecordWriteState.getFlagReplyType().equals("1")){
+        }else if(mProvideInteractClinicRecordWriteState.getFlagReplyType().equals("4")){
             wzxq_status.setText("重大紧急");
             wzxq_status.setTextColor(WDZS_WZXQActivity.this.getResources().getColor(R.color.tv1));
-        }else  if(mProvideInteractClinicRecordWriteState.getFlagReplyType().equals("2")){
+        }else  if(mProvideInteractClinicRecordWriteState.getFlagReplyType().equals("3")){
             wzxq_status.setText("紧急");
             wzxq_status.setTextColor(WDZS_WZXQActivity.this.getResources().getColor(R.color.tv2));
-        }else  if(mProvideInteractClinicRecordWriteState.getFlagReplyType().equals("3")){
+        }else  if(mProvideInteractClinicRecordWriteState.getFlagReplyType().equals("2")){
             wzxq_status.setText("一般");
             wzxq_status.setTextColor(WDZS_WZXQActivity.this.getResources().getColor(R.color.tv3));
-        }else  if(mProvideInteractClinicRecordWriteState.getFlagReplyType().equals("4")){
+        }else  if(mProvideInteractClinicRecordWriteState.getFlagReplyType().equals("1")){
             wzxq_status.setText("正常");
             wzxq_status.setTextColor(WDZS_WZXQActivity.this.getResources().getColor(R.color.tv4));
         }
@@ -160,7 +160,13 @@ public class WDZS_WZXQActivity extends AppCompatActivity {
         mZHLYHF.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(mContext, ZhlyReplyActivity.class).putExtra("wzxx", mProvideViewInteractOrderTreatmentAndPatientInterrogation));
+                Intent intent = new Intent(mContext, ZhlyReplyActivity.class);
+                intent.putExtra("wzxx", mProvideViewInteractOrderTreatmentAndPatientInterrogation);
+                if(TextUtils.isEmpty(mProvideInteractClinicRecordWriteState.getFlagReplyType())){
+               //     wzxq_status.setVisibility(View.INVISIBLE);
+                }
+                intent.putExtra("status", mProvideInteractClinicRecordWriteState.getFlagReplyType());
+                startActivity(intent);
             }
         });
         mZDMS = (LinearLayout) this.findViewById(R.id.zdms);

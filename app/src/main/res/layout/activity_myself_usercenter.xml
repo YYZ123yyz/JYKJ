@@ -261,18 +261,19 @@
                     android:layout_marginLeft="10dp"
                     android:textSize="8pt"
                     android:textColor="@color/textColor_vo"/>
+
                 <TextView
+                    android:id="@+id/tv_activityUserCenter_choiceHospitalText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="请选择医院（必选）"
-                    android:gravity="right"
-                    android:background="@null"
-                    android:textColorHint="@color/editHintColor"
-                    android:id="@+id/tv_activityUserCenter_choiceHospitalText"
                     android:layout_gravity="center_vertical"
                     android:layout_marginRight="10dp"
-                    android:textSize="8pt"
-                    android:textColor="@color/textColor_vo"/>
+                    android:background="@null"
+                    android:gravity="right"
+                    android:hint="请选择医院（必选）"
+                    android:textColor="@color/textColor_vo"
+                    android:textColorHint="@color/editHintColor"
+                    android:textSize="8pt" />
                 <ImageView
                     android:layout_width="12dp"
                     android:layout_height="18dp"

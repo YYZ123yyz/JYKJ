@@ -1317,7 +1317,7 @@ public class DemoHelper {
      * If this event already handled by an activity, you don't need handle it again
      * activityList.size() <= 0 means all activities already in background or not in Activity Stack
      */
-    protected void registerMessageListener() {
+    public void registerMessageListener() {
     	messageListener = new EMMessageListener() {
 			@Override
 			public void onMessageReceived(List<EMMessage> messages) {
@@ -1329,6 +1329,8 @@ public class DemoHelper {
                     EaseUser easeUser = new EaseUser(hxIdFrom);
                     easeUser.setAvatar(imageUrl);
                     easeUser.setNickname(nickName);
+//                    Log.e(TAG, "onMessageReceived: "+easeUser.getAvatar() );
+//                    Log.e(TAG, "onMessageReceived: "+easeUser.getNickname() );
                     // 存入内存
                     getContactList();
                     contactList.put(hxIdFrom, easeUser);
@@ -1340,6 +1342,9 @@ public class DemoHelper {
 
                     getModel().setContactSynced(true);
 
+                    Constant.patientUrl=easeUser.getAvatar();
+                    Log.e(TAG, "onMessageReceived: "+Constant.patientUrl );
+                    Log.e(TAG, "onMessageReceived: "+easeUser.getNickname());
                     // 通知listeners联系人同步完毕
                     notifyContactsSyncListener(true);
                     if (isGroupsSyncedWithServer()) {

@@ -276,6 +276,7 @@ public class ProvincePicker extends Dialog implements
 
 					mCreateActivity.mChoiceRegionMap.put("provice",mCurrentProviceName);
 					mCreateActivity.mChoiceRegionMap.put("city",mCurrentCityName);
+
 				}
 				else
 				{
