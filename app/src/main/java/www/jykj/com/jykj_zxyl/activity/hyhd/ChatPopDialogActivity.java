@@ -799,9 +799,9 @@ public abstract class ChatPopDialogActivity extends AppCompatActivity implements
         for (EMMessage message : messages) {
             String username = null;
             // group message
-            if (message.getChatType() == EMMessage.ChatType.GroupChat || message.getChatType() == EMMessage.ChatType.ChatRoom) {
+            if (message.direct() == EMMessage.Direct.SEND) {
                 username = message.getTo();
-            } else {
+            } else if (message.direct() == EMMessage.Direct.RECEIVE){
                 // single chat message
                 username = message.getFrom();
             }

@@ -50,8 +50,7 @@ public class HeadImageViewRecycleAdapter extends RecyclerView.Adapter<HeadImageV
      * @param
      */
     public void setDate(List<String> pardatas) {
-        datas.clear();
-        datas.addAll(pardatas);
+        this.datas = pardatas;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{

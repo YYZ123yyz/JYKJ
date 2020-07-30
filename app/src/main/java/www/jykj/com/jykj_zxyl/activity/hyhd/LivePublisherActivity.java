@@ -134,6 +134,7 @@ public class LivePublisherActivity extends ChatPopDialogActivity implements View
         mPhoneListener = new TXPhoneStateListener(mLivePusher);
 
         statLive();
+        //goChat();
     }
 
     void statLive(){
@@ -149,7 +150,6 @@ public class LivePublisherActivity extends ChatPopDialogActivity implements View
             opentask.execute();
         }else{
             startPublishRtmp();
-            goChat();
         }
     }
 
@@ -204,7 +204,7 @@ public class LivePublisherActivity extends ChatPopDialogActivity implements View
             cacerProgress();
             if(aBoolean){
                 startPublishRtmp();
-                goChat();
+                //goChat();
             }else{
                 Toast.makeText(mContext,"开启直播失败",Toast.LENGTH_LONG).show();
             }
