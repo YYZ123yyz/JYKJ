@@ -92,6 +92,7 @@ public class LiveroomDetailActivity extends AppCompatActivity {
                 Intent theintent = new Intent(mActivity, NewLivePlayerActivity.class);
                 theintent.putExtra("chatId",mRoomDetailInfo.getChatRoomCode());
                 theintent.putExtra("pullUrl",mRoomDetailInfo.getPullUrl());
+                theintent.putExtra("detailCode",mRoomDetailInfo.getDetailsCode());
                 theintent.putExtra("PLAY_TYPE", NewLivePlayerActivity.ACTIVITY_TYPE_LIVE_PLAY);
                 mActivity.startActivity(theintent);
             }

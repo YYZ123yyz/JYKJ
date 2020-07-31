@@ -715,7 +715,9 @@ public abstract class ChatPopDialogActivity extends AppCompatActivity implements
 
         // Remove all padding actions in handler
         handler.removeCallbacksAndMessages(null);
-        typingHandler.sendEmptyMessage(MSG_TYPING_END);
+        if(null!=typingHandler) {
+            typingHandler.sendEmptyMessage(MSG_TYPING_END);
+        }
     }
 
     @Override
@@ -821,6 +823,7 @@ public abstract class ChatPopDialogActivity extends AppCompatActivity implements
             EaseUI.getInstance().getNotifier().vibrateAndPlayTone(message);
         }
     }
+
 
     @Override
     public void onCmdMessageReceived(List<EMMessage> messages) {

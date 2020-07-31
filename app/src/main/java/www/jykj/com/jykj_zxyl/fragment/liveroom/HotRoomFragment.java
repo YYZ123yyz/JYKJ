@@ -91,6 +91,7 @@ public class HotRoomFragment extends Fragment {
                             Intent theintent = new Intent(mActivity, NewLivePlayerActivity.class);
                             theintent.putExtra("chatId",parben.getChatRoomCode());
                             theintent.putExtra("pullUrl",parben.getPullUrl());
+                            theintent.putExtra("detailCode",parben.getDetailsCode());
                             theintent.putExtra("PLAY_TYPE", NewLivePlayerActivity.ACTIVITY_TYPE_LIVE_PLAY);
                             mActivity.startActivity(theintent);
                         }

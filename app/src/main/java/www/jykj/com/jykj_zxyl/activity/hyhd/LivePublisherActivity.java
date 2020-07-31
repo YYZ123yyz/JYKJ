@@ -28,6 +28,7 @@ import android.view.View;
 import android.widget.*;
 import com.alibaba.fastjson.JSON;
 import com.google.gson.Gson;
+import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMChatRoom;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMMessage;
@@ -325,7 +326,7 @@ public class LivePublisherActivity extends ChatPopDialogActivity implements View
         chat_head_imgs.setAdapter(mImageViewRecycleAdapter);
 
         ImageViewUtil.showImageView(LivePublisherActivity.this, mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl(), iv_live_user_head);
-        String parnickname = ExtEaseUtils.getInstance().getNickName();
+        String parnickname = mApp.mViewSysUserDoctorInfoAndHospital.getUserName();
         tv_head_tit.setText(parnickname);
 
         btnShut.setOnClickListener(new View.OnClickListener() {
@@ -394,17 +395,48 @@ public class LivePublisherActivity extends ChatPopDialogActivity implements View
     }
 
     void goChat(){
-        if(isopenchat){
-            if(chatViewLayout.getVisibility()==View.VISIBLE) {
-                chatViewLayout.setVisibility(View.GONE);
-            }else{
+        if(StrUtils.defaulObjToStr(ExtEaseUtils.getInstance().getUserId()).length()==0){
+            mApp.saveUserInfo();
+            EMClient.getInstance().login(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(),mApp.mViewSysUserDoctorInfoAndHospital.getQrCode(),new EMCallBack() {
+                @Override
+                public void onSuccess() {
+                    if(isopenchat){
+                        if(chatViewLayout.getVisibility()== View.VISIBLE) {
+                            chatViewLayout.setVisibility(View.GONE);
+                        }else{
+                            chatViewLayout.setVisibility(View.VISIBLE);
+                        }
+                    }else{
+                        createChat();
+                        chatViewLayout.setVisibility(View.VISIBLE);
+                    }
+                }
+
+                @Override
+                public void onError(int i, String s) {
+
+                }
+
+                @Override
+                public void onProgress(int i, String s) {
+
+                }
+            });
+        }else {
+            if (isopenchat) {
+                if (chatViewLayout.getVisibility() == View.VISIBLE) {
+                    chatViewLayout.setVisibility(View.GONE);
+                } else {
+                    chatViewLayout.setVisibility(View.VISIBLE);
+                }
+            } else {
+                createChat();
                 chatViewLayout.setVisibility(View.VISIBLE);
             }
-        }else{
-            createChat();
-            chatViewLayout.setVisibility(View.VISIBLE);
         }
     }
+
+
 
     @Override
     public void onPause() {
