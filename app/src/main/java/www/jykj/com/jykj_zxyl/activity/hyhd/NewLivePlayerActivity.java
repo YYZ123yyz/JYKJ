@@ -103,10 +103,10 @@ public class NewLivePlayerActivity extends ChatPopDialogActivity implements ITXL
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mApp = (JYKJApplication)getApplication();
         mychatid = getIntent().getStringExtra("chatId");
         playUrl = getIntent().getStringExtra("pullUrl");
         mdetailCode = getIntent().getStringExtra("detailCode");
-        mApp = (JYKJApplication)getApplication();
         mActivity = NewLivePlayerActivity.this;
         mContext = NewLivePlayerActivity.this;
         setContentView(R.layout.activity_new_player);

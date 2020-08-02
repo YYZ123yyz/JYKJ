@@ -166,6 +166,7 @@ public abstract class ChatPopDialogActivity extends AppCompatActivity implements
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         myActivity = this;
+        mApp = (JYKJApplication)getApplication();
         inputMethodManager = (InputMethodManager) myActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
     }
     public UpdMyClinicDetailByOrderTreatmentLimitNum updMyClinicDetailByOrderTreatmentLimitNum;
