@@ -384,7 +384,7 @@ public class LivePublisherActivity extends ChatPopDialogActivity implements View
     public void createChat() {
         Bundle parbund = new Bundle();
         parbund.putString(EaseConstant.EXTRA_CHAT_TYPE,"");
-        parbund.putInt(EaseConstant.CHAT_TYPE,EaseConstant.CHATTYPE_CHATROOM);
+        parbund.putInt("chatType",EaseConstant.CHATTYPE_CHATROOM);
         parbund.putString(EaseConstant.EXTRA_USER_ID, mychatid);
         parbund.putString(EaseConstant.EXTRA_USER_NAME, mychatid);
         initChat(parbund);

@@ -52,7 +52,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NewLivePlayerActivity extends ChatPopDialogActivity implements ITXLivePlayListener, View.OnClickListener {
-    JYKJApplication mApp;
     Activity mActivity;
     Context mContext;
     public ProgressDialog mDialogProgress = null;
@@ -183,7 +182,7 @@ public class NewLivePlayerActivity extends ChatPopDialogActivity implements ITXL
                 if(retent.getResCode()==1){
                     String subrepjson = retent.getResJsonData();
                     RoomDetailInfo retliveresp = JSON.parseObject(subrepjson,RoomDetailInfo.class);
-                    mychatid = retliveresp.getChatRoomCode();
+                    //mychatid = retliveresp.getChatRoomCode();
                     playUrl = retliveresp.getPullUrl();
                     return true;
                 }
@@ -669,8 +668,12 @@ public class NewLivePlayerActivity extends ChatPopDialogActivity implements ITXL
                     chatViewLayout.setVisibility(View.VISIBLE);
                 }
             } else {
-                createChat();
-                chatViewLayout.setVisibility(View.VISIBLE);
+                try {
+                    createChat();
+                    chatViewLayout.setVisibility(View.VISIBLE);
+                }catch (Exception ex){
+                    ex.printStackTrace();
+                }
             }
         }
     }

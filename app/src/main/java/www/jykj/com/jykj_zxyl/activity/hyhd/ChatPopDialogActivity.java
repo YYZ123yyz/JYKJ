@@ -57,6 +57,7 @@ import com.hyphenate.exceptions.HyphenateException;
 import com.hyphenate.util.EMLog;
 import com.hyphenate.util.PathUtil;
 import www.jykj.com.jykj_zxyl.R;
+import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.util.SwipeAnimationController;
 
 import java.io.File;
@@ -159,6 +160,7 @@ public abstract class ChatPopDialogActivity extends AppCompatActivity implements
     private ChatPopDialogActivity myActivity = null;
     private SwipeAnimationController mSwipeAnimationController;
     protected RelativeLayout chatViewLayout;
+    protected JYKJApplication mApp;
     public abstract void createChat();
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -176,9 +178,9 @@ public abstract class ChatPopDialogActivity extends AppCompatActivity implements
         mVoiceTime = fragmentArgs.getLong(EaseConstant.EXTRA_VOICE_NUM, EaseConstant.CHATTYPE_SINGLE);
         mVedioTime = fragmentArgs.getLong(EaseConstant.EXTRA_VEDIO_NUM, EaseConstant.CHATTYPE_SINGLE);
         mStopDate = fragmentArgs.getString("date");
-        loginDoctorPosition = fragmentArgs.getString("loginDoctorPosition","");
-        operDoctorCode = fragmentArgs.getString("operDoctorCode","");
-        operDoctorName = fragmentArgs.getString("operDoctorName","");
+        loginDoctorPosition = fragmentArgs.getString("loginDoctorPosition",mApp.loginDoctorPosition);
+        operDoctorCode = fragmentArgs.getString("operDoctorCode",mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
+        operDoctorName = fragmentArgs.getString("operDoctorName",mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
         orderCode = fragmentArgs.getString("orderCode","");
         // userId you are chat with or group id
         toChatUsername = fragmentArgs.getString(EaseConstant.EXTRA_USER_ID);
