@@ -126,12 +126,17 @@ public class NewLivePlayerActivity extends ChatPopDialogActivity implements ITXL
         chat_head_imgs.setHasFixedSize(true);
         mImageViewRecycleAdapter = new HeadImageViewRecycleAdapter(headpics,mApp);
         chat_head_imgs.setAdapter(mImageViewRecycleAdapter);
-        Glide.with(mContext).load(mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl())
+        /*Glide.with(mContext).load(mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl())
                 .apply(RequestOptions.placeholderOf(com.hyphenate.easeui.R.mipmap.docter_heard)
                         .diskCacheStrategy(DiskCacheStrategy.ALL))
                 .into(iv_live_user_head);
         String parnickname = mApp.mViewSysUserDoctorInfoAndHospital.getUserName();
-        tv_head_tit.setText(parnickname);
+        tv_head_tit.setText(parnickname);*/
+        if(null!=mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl() && mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl().length()>0){
+            headpics.add(mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl());
+            mImageViewRecycleAdapter.setDate(headpics);
+            mImageViewRecycleAdapter.notifyDataSetChanged();
+        }
     }
 
     /**
@@ -171,6 +176,7 @@ public class NewLivePlayerActivity extends ChatPopDialogActivity implements ITXL
 
     class LoadLiveTask extends AsyncTask<Void, Void, Boolean>{
         OpenLiveCond queCond;
+        RoomDetailInfo queroominfo = null;
         LoadLiveTask(OpenLiveCond queCond){
             this.queCond =queCond;
         }
@@ -184,6 +190,7 @@ public class NewLivePlayerActivity extends ChatPopDialogActivity implements ITXL
                     RoomDetailInfo retliveresp = JSON.parseObject(subrepjson,RoomDetailInfo.class);
                     //mychatid = retliveresp.getChatRoomCode();
                     playUrl = retliveresp.getPullUrl();
+                    queroominfo = retliveresp;
                     return true;
                 }
             }catch (Exception ex){
@@ -194,6 +201,16 @@ public class NewLivePlayerActivity extends ChatPopDialogActivity implements ITXL
 
         @Override
         protected void onPostExecute(Boolean aBoolean) {
+            if(aBoolean){
+                if(null!=queroominfo){
+                    Glide.with(mContext).load(queroominfo.getBroadcastUserLogoUrl())
+                            .apply(RequestOptions.placeholderOf(com.hyphenate.easeui.R.mipmap.docter_heard)
+                                    .diskCacheStrategy(DiskCacheStrategy.ALL))
+                            .into(iv_live_user_head);
+                    String parnickname = queroominfo.getBroadcastUserName();
+                    tv_head_tit.setText(parnickname);
+                }
+            }
             cacerProgress();
         }
     }
