@@ -41,7 +41,7 @@ import zxing.common.Constant;
 /**
  * 我的患者
  */
-public class MyPatientActivity extends AppCompatActivity{
+public class MyPatientActivity extends AppCompatActivity {
 
     private Context mContext;
     private MyPatientActivity mActivity;
@@ -58,13 +58,13 @@ public class MyPatientActivity extends AppCompatActivity{
     private MoreFeaturesPopupWindow mPopupWindow;
 
     public static final int REQUEST_CODE_SCAN = 0x123;
-    private             String                              qrCode;                         //需要绑定的二维码
-    private             String                              mNetRetStr;                 //返回字符串
+    private String qrCode;                         //需要绑定的二维码
+    private String mNetRetStr;                 //返回字符串
     private Handler mHandler;
     public ProgressDialog mDialogProgress = null;
 
     private JYKJApplication mApp;
-    private Context     context;
+    private Context context;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -101,7 +101,7 @@ public class MyPatientActivity extends AppCompatActivity{
     /**
      * 点击事件
      */
-    class   ButtonClick implements View.OnClickListener {
+    class ButtonClick implements View.OnClickListener {
         @Override
         public void onClick(View view) {
             switch (view.getId()) {
@@ -138,8 +138,8 @@ public class MyPatientActivity extends AppCompatActivity{
                 case R.id.iv_add:
                     mPopupWindow = new MoreFeaturesPopupWindow(mActivity);
                     mPopupWindow.setMyPatientActivity(mActivity);
-                    if(mPopupWindow!=null&&!mPopupWindow.isShowing()){
-                        mPopupWindow.showAsDropDown(ivAdd,0,0);
+                    if (mPopupWindow != null && !mPopupWindow.isShowing()) {
+                        mPopupWindow.showAsDropDown(ivAdd, 0, 0);
                     }
                     break;
             }
@@ -160,21 +160,18 @@ public class MyPatientActivity extends AppCompatActivity{
     }
 
     private void initHandler() {
-        mHandler = new Handler(){
+        mHandler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
-                switch (msg.what)
-                {
+                switch (msg.what) {
                     case 0:
                         cacerProgress();
-                        NetRetEntity netRetEntity = JSON.parseObject(mNetRetStr,NetRetEntity.class);
+                        NetRetEntity netRetEntity = JSON.parseObject(mNetRetStr, NetRetEntity.class);
                         if (netRetEntity.getResCode() == 0)
-                            Toast.makeText(context,netRetEntity.getResMsg(),Toast.LENGTH_SHORT).show();
-                        else
-                        {
-                            if ("1".equals(netRetEntity.getResData()))
-                            {
+                            Toast.makeText(context, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
+                        else {
+                            if ("1".equals(netRetEntity.getResData())) {
                                 //医生扫医生二维码，绑定医生好友
                                 final EditText et = new EditText(context);
                                 new AlertDialog.Builder(context).setTitle("请输入申请描述")
@@ -183,17 +180,15 @@ public class MyPatientActivity extends AppCompatActivity{
                                             @Override
                                             public void onClick(DialogInterface dialogInterface, int i) {
                                                 //按下确定键后的事件
-                                                bindDoctorFriend(netRetEntity.getResMsg(),et.getText().toString(),qrCode);
+                                                bindDoctorFriend(netRetEntity.getResMsg(), et.getText().toString(), qrCode);
                                             }
-                                        }).setNegativeButton("取消",null).show();
+                                        }).setNegativeButton("取消", null).show();
 //
                             }
-                            if ("2".equals(netRetEntity.getResMsg()))
-                            {
+                            if ("2".equals(netRetEntity.getResMsg())) {
                                 //医生扫医生联盟二维码
                             }
-                            if ("3".equals(netRetEntity.getResMsg()))
-                            {
+                            if ("3".equals(netRetEntity.getResMsg())) {
                                 //医生扫患者二维码
                             }
 
@@ -201,8 +196,8 @@ public class MyPatientActivity extends AppCompatActivity{
                         break;
                     case 1:
                         cacerProgress();
-                        netRetEntity = JSON.parseObject(mNetRetStr,NetRetEntity.class);
-                        Toast.makeText(context,netRetEntity.getResMsg(),Toast.LENGTH_SHORT).show();
+                        netRetEntity = JSON.parseObject(mNetRetStr, NetRetEntity.class);
+                        Toast.makeText(context, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
                         break;
                 }
             }
@@ -212,8 +207,8 @@ public class MyPatientActivity extends AppCompatActivity{
     /**
      * 医生好友绑定
      */
-    private void bindDoctorFriend(String url,String reason,String qrCode) {
-        getProgressBar("请稍候","正在处理");
+    private void bindDoctorFriend(String url, String reason, String qrCode) {
+        getProgressBar("请稍候", "正在处理");
         BindDoctorFriend bindDoctorFriend = new BindDoctorFriend();
         bindDoctorFriend.setLoginDoctorPosition(mApp.loginDoctorPosition);
         bindDoctorFriend.setBindingDoctorQrCode(qrCode);
@@ -221,16 +216,16 @@ public class MyPatientActivity extends AppCompatActivity{
         bindDoctorFriend.setOperDoctorName(mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
         bindDoctorFriend.setApplyReason(reason);
 
-        new Thread(){
-            public void run(){
+        new Thread() {
+            public void run() {
                 try {
                     String string = new Gson().toJson(bindDoctorFriend);
-                    mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo="+string, www.jykj.com.jykj_zxyl.application.Constant.SERVICEURL+"/"+url);
+                    mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + string, www.jykj.com.jykj_zxyl.application.Constant.SERVICEURL + "/" + url);
 
                 } catch (Exception e) {
                     NetRetEntity retEntity = new NetRetEntity();
                     retEntity.setResCode(0);
-                    retEntity.setResMsg("网络连接异常，请联系管理员："+e.getMessage());
+                    retEntity.setResMsg("网络连接异常，请联系管理员：" + e.getMessage());
                     mNetRetStr = new Gson().toJson(retEntity);
                     e.printStackTrace();
                 }
@@ -240,7 +235,7 @@ public class MyPatientActivity extends AppCompatActivity{
     }
 
     private void operScanQrCodeInside(String content) {
-        getProgressBar("请稍候","正在处理");
+        getProgressBar("请稍候", "正在处理");
         OperScanQrCodeInside operScanQrCodeInside = new OperScanQrCodeInside();
         operScanQrCodeInside.setLoginDoctorPosition(mApp.loginDoctorPosition);
         operScanQrCodeInside.setUserUseType("5");
@@ -248,15 +243,15 @@ public class MyPatientActivity extends AppCompatActivity{
         operScanQrCodeInside.setOperUserName(mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
         operScanQrCodeInside.setScanQrCode(content);
 
-        new Thread(){
-            public void run(){
+        new Thread() {
+            public void run() {
                 try {
                     String string = new Gson().toJson(operScanQrCodeInside);
-                    mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo="+string, www.jykj.com.jykj_zxyl.application.Constant.SERVICEURL+"doctorDataControlle/operScanQrCodeInside");
+                    mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + string, www.jykj.com.jykj_zxyl.application.Constant.SERVICEURL + "doctorDataControlle/operScanQrCodeInside");
                 } catch (Exception e) {
                     NetRetEntity retEntity = new NetRetEntity();
                     retEntity.setResCode(0);
-                    retEntity.setResMsg("网络连接异常，请联系管理员："+e.getMessage());
+                    retEntity.setResMsg("网络连接异常，请联系管理员：" + e.getMessage());
                     mNetRetStr = new Gson().toJson(retEntity);
                     e.printStackTrace();
                 }
@@ -296,7 +291,7 @@ public class MyPatientActivity extends AppCompatActivity{
             case 0:
                 if (myPatientFragment == null) {
                     myPatientFragment = new MyPatientFragment();
-                    transaction.add(R.id.content,myPatientFragment);
+                    transaction.add(R.id.content, myPatientFragment);
                 } else {
                     transaction.show(myPatientFragment);
                 }
@@ -304,7 +299,7 @@ public class MyPatientActivity extends AppCompatActivity{
             case 1:
                 if (myPatientNotSignetFragment == null) {
                     myPatientNotSignetFragment = new MyPatientNotSignetFragment();
-                    transaction.add(R.id.content,myPatientNotSignetFragment);
+                    transaction.add(R.id.content, myPatientNotSignetFragment);
                 } else {
                     transaction.show(myPatientNotSignetFragment);
                 }

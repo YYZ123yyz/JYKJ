@@ -116,7 +116,7 @@ public class HttpNetService {
         httpsConn.setRequestProperty("requestClientVerify", requestClientVerify);
         httpsConn.setRequestProperty("requestLoginTokenValue", requestLoginTokenValue);
         httpsConn.setSSLSocketFactory(ssf);
-        httpsConn.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+    //    httpsConn.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
         httpsConn.setHostnameVerifier(new HostnameVerifier() {
             @Override
             public boolean verify(String arg0, SSLSession arg1) {

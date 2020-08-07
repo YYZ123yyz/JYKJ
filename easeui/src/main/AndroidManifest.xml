@@ -2,4 +2,10 @@
 
 
     <uses-permission android:name="android.permission.VIBRATE" />
+     <application >
+         <activity android:name=".jykj.activity.SigningDetailsActivity"/>
+         <activity android:name=".jykj.activity.CoachingActivity"/>
+         <activity android:name=".jykj.activity.DetectActivity"/>
+
+     </application>
 </manifest>

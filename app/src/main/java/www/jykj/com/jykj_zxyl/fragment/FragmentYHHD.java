@@ -12,6 +12,7 @@ import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -60,6 +61,7 @@ import www.jykj.com.jykj_zxyl.adapter.HZGLRecycleAdapter;
 import www.jykj.com.jykj_zxyl.adapter.MessageInfoRecycleAdapter;
 import www.jykj.com.jykj_zxyl.application.Constant;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
+import www.jykj.com.jykj_zxyl.util.DateUtils;
 import www.jykj.com.jykj_zxyl.util.NestedExpandaleListView;
 import www.jykj.com.jykj_zxyl.util.PermissionUtils;
 import www.jykj.com.jykj_zxyl.util.Util;
@@ -109,6 +111,7 @@ public class FragmentYHHD extends Fragment {
     private int clickIndex;                         //点击列表下标
 
     private InteractPatient interactPatient;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_activitymain_hyhdfragment, container, false);
@@ -118,7 +121,7 @@ public class FragmentYHHD extends Fragment {
         initLayout(v);
         initHandler();
         mApp.gNetWorkTextView = true;
-//        getMessageList();
+        getMessageList();
 
         return v;
     }
@@ -250,10 +253,17 @@ public class FragmentYHHD extends Fragment {
                     intent.setClass(mContext, ChatActivity.class);
                     intent.putExtra("userCode", mClickInteractPatient.getPatientCode());
                     intent.putExtra("userName", mClickInteractPatient.getPatientUserName());
-               //     Log.e("tag", "handleMessage:患者姓名2 "+ mClickInteractPatient.getPatientUserName());
+                    //     Log.e("tag", "handleMessage:患者姓名2 "+ mClickInteractPatient.getPatientUserName());
                     intent.putExtra("usersName", mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
                     intent.putExtra("userUrl", mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl());
                     intent.putExtra("doctorUrl", mClickInteractPatient.getPatientUserLogoUrl());
+                    intent.putExtra("patientAlias", mProvideDoctorPatientUserInfo.get(position).getUserNameAlias());
+                    Log.e("tag", "患者 别名 " + mProvideDoctorPatientUserInfo.get(position).getGoodAtRealm());
+                    intent.putExtra("patientCode", mProvideDoctorPatientUserInfo.get(position).getUserCode());
+                    Log.e("tag", "患者  code " + mProvideDoctorPatientUserInfo.get(position).getUserCode());
+
+                    intent.putExtra("patientSex", mProvideDoctorPatientUserInfo.get(position).getGender());
+                    Log.e("tag", "患者  性别: " + mProvideDoctorPatientUserInfo.get(position).getGender() + "");
                     startActivity(intent);
                 }
             }
@@ -295,12 +305,19 @@ public class FragmentYHHD extends Fragment {
                 intent.setClass(mContext, ChatActivity.class);
                 intent.putExtra("userCode", mInteractDoctorUnionInfo.get(i).getDoctorGoodFriendInfoList().get(i1).getDoctorCode());
                 intent.putExtra("userName", mInteractDoctorUnionInfo.get(i).getDoctorGoodFriendInfoList().get(i1).getDoctorUserName());
-          //      Log.e("tag", "handleMessage:患者姓名3 "+ mClickInteractPatient.getPatientUserName());
+                //      Log.e("tag", "handleMessage:患者姓名3 "+ mClickInteractPatient.getPatientUserName());
                 intent.putExtra("vedioNum", 1000000);
                 intent.putExtra("voiceNum", 1000000);
                 intent.putExtra("usersName", mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
                 intent.putExtra("userUrl", mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl());
-                intent.putExtra("doctorUrl",mInteractDoctorUnionInfo.get(i).getGroupLogoUrl() );
+                intent.putExtra("doctorUrl", mInteractDoctorUnionInfo.get(i).getGroupLogoUrl());
+                intent.putExtra("patientAlias", mProvideDoctorPatientUserInfo.get(i).getUserNameAlias());
+                Log.e("tag", "患者 别名 " + mProvideDoctorPatientUserInfo.get(i).getUserNameAlias());
+                intent.putExtra("patientCode", mProvideDoctorPatientUserInfo.get(i).getUserCode());
+                Log.e("tag", "患者  code " + mProvideDoctorPatientUserInfo.get(i).getUserCode());
+
+                intent.putExtra("patientSex", mProvideDoctorPatientUserInfo.get(i).getGender());
+                Log.e("tag", "患者  性别: " + mProvideDoctorPatientUserInfo.get(i).getGender() + "");
                 startActivity(intent);
                 return false;
             }
@@ -325,7 +342,7 @@ public class FragmentYHHD extends Fragment {
             mMessageInfoRecycleAdapter.setDate(mInteractPatient);
             mMessageInfoRecycleAdapter.notifyDataSetChanged();
         }
-        if (mCurrent == 0){
+        if (mCurrent == 0) {
             getMessageList();
         }
 
@@ -386,7 +403,7 @@ public class FragmentYHHD extends Fragment {
 
 
                             } else {
-                              //  Toast.makeText(mContext, "获取失败，" + netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
+                                //  Toast.makeText(mContext, "获取失败，" + netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
                             }
                         } else {
                             Toast.makeText(mContext, "网络异常，请联系管理员", Toast.LENGTH_SHORT).show();
@@ -403,7 +420,7 @@ public class FragmentYHHD extends Fragment {
                                 mDorcerFriendExpandableListViewAdapter.notifyDataSetChanged();
 
                             } else {
-                           //     Toast.makeText(mContext, "获取失败，" + netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
+                                //     Toast.makeText(mContext, "获取失败，" + netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
                             }
                         } else {
                             Toast.makeText(mContext, "网络异常，请联系管理员", Toast.LENGTH_SHORT).show();
@@ -454,14 +471,29 @@ public class FragmentYHHD extends Fragment {
                                     intent.putExtra(EaseConstant.EXTRA_MESSAGE_NUM, -1);
                                     intent.putExtra("userCode", mClickInteractPatient.getPatientCode());
                                     intent.putExtra("userName", mClickInteractPatient.getPatientUserName());
-                             //       Log.e("tag", "handleMessage:患者姓名 "+ mClickInteractPatient.getPatientUserName());
-                                 //   intent.putExtra("chatType", "twjz");
-                               //     intent.putExtra("chatType", "twjz");
+                                    //       Log.e("tag", "handleMessage:患者姓名 "+ mClickInteractPatient.getPatientUserName());
+                                    //   intent.putExtra("chatType", "twjz");
+                                    //     intent.putExtra("chatType", "twjz");
                                     intent.putExtra("usersName", mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
                                     intent.putExtra("userUrl", mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl());
                                     intent.putExtra("doctorUrl", mClickInteractPatient.getPatientUserLogoUrl());
                                     String date = Util.dateToStr(provideGroupConsultationUserInfo.getServiceStopDate());
                                     intent.putExtra("date", date);
+                                    intent.putExtra("patientAlias", mProvideDoctorPatientUserInfo.get(clickIndex).getUserNameAlias());
+                                    Log.e("tag", "患者 别名 " + mProvideDoctorPatientUserInfo.get(clickIndex).getUserNameAlias());
+                                    intent.putExtra("patientCode", mProvideDoctorPatientUserInfo.get(clickIndex).getUserCode());
+                                    Log.e("tag", "患者  code " + mProvideDoctorPatientUserInfo.get(clickIndex).getUserCode());
+
+                                    if (TextUtils.isEmpty(mProvideDoctorPatientUserInfo.get(clickIndex).getBirthday())) {
+
+                                    } else {
+                                        intent.putExtra("patientAge", DateUtils.getAgeFromBirthTime(mProvideDoctorPatientUserInfo.get(clickIndex).getBirthday())
+                                        );
+                                    }
+
+
+                                    intent.putExtra("patientSex", mProvideDoctorPatientUserInfo.get(clickIndex).getGender());
+                                    Log.e("tag", "患者  性别: " + mProvideDoctorPatientUserInfo.get(clickIndex).getGender() + "");
                                     startActivity(intent);
                                 } else {
                                     mClickInteractPatient = mInteractPatient.get(clickIndex);
@@ -470,18 +502,26 @@ public class FragmentYHHD extends Fragment {
                                     intent.setClass(mContext, ChatActivity.class);
                                     intent.putExtra("userCode", mClickInteractPatient.getPatientCode());
                                     intent.putExtra("userName", mClickInteractPatient.getPatientUserName());
-                             //       Log.e("tag", "handleMessage:患者姓名1 "+ mClickInteractPatient.getPatientUserName());
+                                    //       Log.e("tag", "handleMessage:患者姓名1 "+ mClickInteractPatient.getPatientUserName());
                                     intent.putExtra("vedioNum", 1000000);
                                     intent.putExtra("voiceNum", 1000000);
                                     intent.putExtra("usersName", mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
                                     intent.putExtra("userUrl", mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl());
                                     intent.putExtra("doctorUrl", mClickInteractPatient.getPatientUserLogoUrl());
+                                    intent.putExtra("patientAlias", mProvideDoctorPatientUserInfo.get(clickIndex).getGoodAtRealm());
+                                    Log.e("tag", "患者 别名 " + mProvideDoctorPatientUserInfo.get(clickIndex).getGoodAtRealm());
+                                    intent.putExtra("patientCode", mProvideDoctorPatientUserInfo.get(clickIndex).getUserCode());
+                                    Log.e("tag", "患者  code " + mProvideDoctorPatientUserInfo.get(clickIndex).getUserCode());
+                                    intent.putExtra("patientAge", mProvideDoctorPatientUserInfo.get(clickIndex).getNewLoginDate());
+                                    Log.e("tag", "患者  年龄: " + DateUtils.getAgeFromBirthTime(mProvideDoctorPatientUserInfo.get(clickIndex).getNewLoginDate()));
+                                    intent.putExtra("patientSex", mProvideDoctorPatientUserInfo.get(clickIndex).getGender().toString());
+
                                     startActivity(intent);
                                 }
 
 
                             } else {
-                          //      Toast.makeText(mContext, "用户类型获取失败" + netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
+                                //      Toast.makeText(mContext, "用户类型获取失败" + netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
                             }
                         } else {
                             Toast.makeText(mContext, "网络异常，请联系管理员", Toast.LENGTH_SHORT).show();
@@ -597,7 +637,7 @@ public class FragmentYHHD extends Fragment {
                 try {
                     mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + new Gson().toJson(interactDoctorDetailInfo), Constant.SERVICEURL + "doctorManagePatient/interactDoctorUnionAllList");
                 } catch (Exception e) {
-                    Log.e("tag", "run: "+mNetRetStr );
+                    Log.e("tag", "run: " + mNetRetStr);
                     NetRetEntity retEntity = new NetRetEntity();
                     retEntity.setResCode(0);
                     retEntity.setResMsg("网络连接异常，请联系管理员：" + e.getMessage());

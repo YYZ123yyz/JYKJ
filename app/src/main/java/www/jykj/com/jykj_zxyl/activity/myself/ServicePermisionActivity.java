@@ -29,6 +29,7 @@ import www.jykj.com.jykj_zxyl.activity.MainActivity;
 import www.jykj.com.jykj_zxyl.application.Constant;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.util.ActivityUtil;
+import yyz_exploit.activity.activity.ServiceActivity;
 
 /**
  * 我的服务权限
@@ -245,9 +246,8 @@ public class ServicePermisionActivity extends AppCompatActivity {
                     flagDoctorStatus = mApp.mViewSysUserDoctorInfoAndHospital.getFlagDoctorStatus();
                     if(flagDoctorStatus ==1){
                         intent = new Intent();
-                        intent.setClass(mContext, ServicePermisionSetActivity.class);
+                        intent.setClass(mContext, ServiceActivity.class);
                         intent.putExtra("doctorStatus", mProvideDoctorSetServiceState.getFlagDoctorStatus());
-                        intent.putExtra("serviceType", 4);
                         startActivity(intent);
                     }else{
                         intent = new Intent();

@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.*;
 import android.os.Process;
 import android.support.multidex.MultiDex;
@@ -108,6 +109,7 @@ public class JYKJApplication extends Application {
 
     public UserInfo mLoginUserInfo;                         //登录需要的用户信息
     public ViewSysUserDoctorInfoAndHospital mViewSysUserDoctorInfoAndHospital;       //登录成功后服务端返回的真实用户信息
+
     public ProvideDoctorQualification provideDoctorQualification;
     public List<ProvideBasicsRegion> gRegionList = new ArrayList<>();                    //所有区域数据
     public List<ProvideBasicsRegion> gRegionProvideList = new ArrayList<>();            //省级区域数据
@@ -157,7 +159,7 @@ public class JYKJApplication extends Application {
                         @Override
                         public void onSuccess() {
 
-                            System.out.println("登录成功");
+                            Log.e("tag", "onSuccess: "+"登录成功" );
                             setNewsMessage();
                             // ** manually load all local groups and conversation
                             EMClient.getInstance().groupManager().loadAllGroups();
@@ -180,7 +182,7 @@ public class JYKJApplication extends Application {
                         @Override
                         public void onError(int i, String s) {
 
-                            System.out.println("登录失败");
+                            Log.e("tag", "onSuccess: "+"登录失败" );
                         }
 
                         @Override
@@ -435,6 +437,13 @@ public class JYKJApplication extends Application {
         DemoHelper.getInstance().getUserProfileManager().setCurrentUserAvatar(mViewSysUserDoctorInfoAndHospital.getUserLogoUrl());
         DemoHelper.getInstance().setCurrentUserName(mViewSysUserDoctorInfoAndHospital.getDoctorCode()); // 环信Id
         Log.e("tag", "run: "+"ccccccccccccccccc" );
+        SharedPreferences sharedPreferences=getSharedPreferences("sp",MODE_PRIVATE);
+        SharedPreferences.Editor editor=sharedPreferences.edit();
+        editor.putString("name",mViewSysUserDoctorInfoAndHospital.getUserName());
+        editor.putString("code",mViewSysUserDoctorInfoAndHospital.getDoctorCode());
+        editor.putString("mainDoctorAlias",mViewSysUserDoctorInfoAndHospital.getUserNameAlias());
+
+        editor.commit();
     }
 
     /**
@@ -494,6 +503,8 @@ public class JYKJApplication extends Application {
         String userInfoSuLogin = m_persist.getString("viewSysUserDoctorInfoAndHospital", "");
         mLoginUserInfo = new Gson().fromJson(userInfoLogin, UserInfo.class);
         mViewSysUserDoctorInfoAndHospital = new Gson().fromJson(userInfoSuLogin, ViewSysUserDoctorInfoAndHospital.class);
+
+
         System.out.println(mViewSysUserDoctorInfoAndHospital);
     }
 

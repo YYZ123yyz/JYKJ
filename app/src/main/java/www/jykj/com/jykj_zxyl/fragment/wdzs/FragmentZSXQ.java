@@ -62,6 +62,7 @@ import www.jykj.com.jykj_zxyl.adapter.MyClinicZSZKZLAdapter;
 import www.jykj.com.jykj_zxyl.adapter.TWJZNoFinishRecycleAdapter;
 import www.jykj.com.jykj_zxyl.application.Constant;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
+import www.jykj.com.jykj_zxyl.util.DateUtils;
 import yyz_exploit.adapter.FinishRecycleAdapter;
 
 
@@ -461,7 +462,17 @@ public class FragmentZSXQ extends Fragment {
                                             intent.putExtra(EaseConstant.EXTRA_MESSAGE_NUM, provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getLimitImgTextShow());           //消息数量
                                             intent.putExtra(EaseConstant.EXTRA_VOICE_NUM, provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getLimitAudioShow());           //音频时长（单位：秒）
                                             intent.putExtra(EaseConstant.EXTRA_VEDIO_NUM, provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getLimitVideoShow());           //视频时长（单位：秒）
+                                            intent.putExtra("patientAge", provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getInterrogationBirthday()
+                                            );
+                                           if(provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getInterrogationGender()==1){
+                                               intent.putExtra("patientSex",   "男" );
+
+                                           }
+                                            intent.putExtra("patientSex",   "女" );
+
                                             startActivity(intent);
+
+
                                             //   private void getTime(String orderCode,String treatmentType,String operType,String limitNum) {
                                             //    getTime(provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getOrderCode(),"1","1","1");
                                             break;
@@ -501,6 +512,14 @@ public class FragmentZSXQ extends Fragment {
                                             intent.putExtra(EaseConstant.EXTRA_MESSAGE_NUM, provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getLimitImgTextShow());           //消息数量
                                             intent.putExtra(EaseConstant.EXTRA_VOICE_NUM, provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getLimitAudioShow());           //音频时长（单位：秒）
                                             intent.putExtra(EaseConstant.EXTRA_VEDIO_NUM, provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getLimitVideoShow());           //视频时长（单位：秒）
+                                            intent.putExtra("patientAge", provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getInterrogationBirthday()
+                                            );
+                                            if(provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getInterrogationGender()==1){
+                                                intent.putExtra("patientSex",   "男" );
+
+                                            }
+                                            intent.putExtra("patientSex",   "女" );
+
                                             startActivity(intent);
                                             break;
                                         case 5:

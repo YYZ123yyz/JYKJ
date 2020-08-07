@@ -33,6 +33,7 @@ import www.jykj.com.jykj_zxyl.activity.home.wdzs.ProvideDoctorSetServiceState;
 import www.jykj.com.jykj_zxyl.application.Constant;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.util.ActivityUtil;
+import www.jykj.com.jykj_zxyl.util.DateUtils;
 
 /**
  * 聊天界面
@@ -79,6 +80,13 @@ public class ChatActivity extends AppCompatActivity {
         String orderCode = getIntent().getStringExtra("orderCode");
 
         String doctorUrl = getIntent().getStringExtra("doctorUrl");
+
+        //患者
+        String patientAlias = getIntent().getStringExtra("patientAlias");
+        String patientCode = getIntent().getStringExtra("patientCode");
+        String patientAge = getIntent().getStringExtra("patientAge");
+        Log.e("tag", "onCreate: 患者"+patientAge );
+        String patientSex = getIntent().getStringExtra("patientSex");
         String patientUrl = mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl();
 
 
@@ -98,7 +106,11 @@ public class ChatActivity extends AppCompatActivity {
         args.putString("doctorUrl", doctorUrl);
         args.putString("Url", mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl());
 
-
+        args.putString("patientAlias", patientAlias);
+        args.putString("patientCode",patientCode);
+        args.putString("patientAge",patientAge);
+        args.putString("patientSex",patientSex);
+        Log.e("tag", "onCreate: 患者"+patientAge );
         args.putInt(EaseConstant.EXTRA_MESSAGE_NUM, getIntent().getIntExtra(EaseConstant.EXTRA_MESSAGE_NUM, 0));
         args.putLong(EaseConstant.EXTRA_VOICE_NUM, getIntent().getIntExtra(EaseConstant.EXTRA_VOICE_NUM, 0));
         args.putLong(EaseConstant.EXTRA_VEDIO_NUM, getIntent().getIntExtra(EaseConstant.EXTRA_VEDIO_NUM, 0));
