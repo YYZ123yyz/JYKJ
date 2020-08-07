@@ -24,6 +24,7 @@ import netService.HttpNetService;
 import org.w3c.dom.Text;
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.activity.hyhd.LivePublisherActivity;
+import www.jykj.com.jykj_zxyl.activity.hyhd.NewLivePlayerActivity;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.util.StrUtils;
 
@@ -56,6 +57,7 @@ public class LiveroomDetailActivity extends AppCompatActivity {
         mContext = LiveroomDetailActivity.this;
         setContentView(R.layout.activity_liveroom_detail);
         initview();
+        loadData();
     }
 
     void initview(){
@@ -77,8 +79,22 @@ public class LiveroomDetailActivity extends AppCompatActivity {
     class ButtonClick implements View.OnClickListener{
         @Override
         public void onClick(View v) {
-            if(null!=mRoomDetailInfo){
+            if(null!=mRoomDetailInfo && mRoomDetailInfo.getUserCode().equals(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode())){
                 Intent parint = new Intent(mActivity, LivePublisherActivity.class);
+                parint.putExtra("pushUrl",mRoomDetailInfo.getPullUrl());
+                parint.putExtra("chatRoomName",mRoomDetailInfo.getChatRoomCode());
+                parint.putExtra("chatId",mRoomDetailInfo.getChatRoomCode());
+                parint.putExtra("liveTitle",mRoomDetailInfo.getTitleMainShow());
+                parint.putExtra("detailCode",mRoomDetailInfo.getDetailsCode());
+                parint.putExtra("live_type", LivePublisherActivity.LIVE_TYPE_HOTLIVE);
+                LiveroomDetailActivity.this.startActivity(parint);
+            }else{
+                Intent theintent = new Intent(mActivity, NewLivePlayerActivity.class);
+                theintent.putExtra("chatId",mRoomDetailInfo.getChatRoomCode());
+                theintent.putExtra("pullUrl",mRoomDetailInfo.getPullUrl());
+                theintent.putExtra("detailCode",mRoomDetailInfo.getDetailsCode());
+                theintent.putExtra("PLAY_TYPE", NewLivePlayerActivity.ACTIVITY_TYPE_LIVE_PLAY);
+                mActivity.startActivity(theintent);
             }
         }
     }
@@ -132,6 +148,7 @@ public class LiveroomDetailActivity extends AppCompatActivity {
                 det_room_type.setText(StrUtils.defaulObjToStr(roomDetailInfo.getClassName()));
                 det_live_time.setText("");
             }
+            cacerProgress();
         }
     }
 

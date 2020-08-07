@@ -35,6 +35,7 @@ import com.hyphenate.EMConnectionListener;
 import com.hyphenate.EMError;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.easeui.model.EaseNotifier;
+import com.hyphenate.easeui.utils.MainMessage;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
@@ -295,7 +296,7 @@ public class MainActivity extends AppCompatActivity {
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
-                //   getMessageCount();
+             //   getMessageCount();
             }
         };
         timer.schedule(task, 0, mApp.mMsgTimeInterval * 60 * 1000);
@@ -342,8 +343,8 @@ public class MainActivity extends AppCompatActivity {
     /**
      * 初始化布局
      */
-    private void initLayout() {
-        mTvUnreadBtn=this.findViewById(R.id.tv_unread_btn);
+        private void initLayout() {
+     //   mTvUnreadBtn=this.findViewById(R.id.tv_unread_btn);
         mLinearLayoutShouYe = (LinearLayout) this.findViewById(R.id.l1_activityMain_ShouYeLayout);
 //        mLinearLayoutHZGuanLi = (LinearLayout)this.findViewById(R.id.l1_activityMain_HZGuanLiLayout);
         mLinearLayoutYHHD = (LinearLayout) this.findViewById(R.id.l1_activityMain_LayoutHYHD);

@@ -1,5 +1,6 @@
 package www.jykj.com.jykj_zxyl.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -75,7 +76,7 @@ public class MessageInfoRecycleAdapter extends RecyclerView.Adapter<MessageInfoR
      * @param position
      */
     @Override
-    public void onBindViewHolder(ViewHolder viewHolder, final int position) {
+    public void onBindViewHolder(ViewHolder viewHolder, @SuppressLint("RecyclerView") final int position) {
 
         /**
          * 显示图片

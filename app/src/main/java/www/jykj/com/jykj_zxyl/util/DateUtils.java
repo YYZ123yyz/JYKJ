@@ -107,6 +107,11 @@ public class DateUtils {
         return getAgeFromBirthTime(birthTimeString);
     }
 
+    public static String formatDateStr(Date paramdate,String paramformat){
+        SimpleDateFormat sdf = new SimpleDateFormat(paramformat);
+        return sdf.format(paramdate);
+    }
+
 
     public static int THEME_DEVICE_DEFAULT_LIGHT = AlertDialog.THEME_DEVICE_DEFAULT_LIGHT;
     public static int THEME_DEVICE_DEFAULT_DARK = AlertDialog.THEME_DEVICE_DEFAULT_DARK;

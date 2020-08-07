@@ -463,5 +463,6 @@
     <string name="close_flash" translatable="false">Turn off the flash</string>
     <string name="gallery" translatable="false">Gallery</string>
     <string name="scan_failed_tip" translatable="false">Scan image failed, please retry.</string>
-
+    <string name="vod_ffplay">ffplay</string>
+    <string name="vod_exo">exo</string>
 </resources>

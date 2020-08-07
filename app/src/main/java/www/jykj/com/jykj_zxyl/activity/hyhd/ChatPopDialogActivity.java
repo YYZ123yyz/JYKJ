@@ -57,6 +57,7 @@ import com.hyphenate.exceptions.HyphenateException;
 import com.hyphenate.util.EMLog;
 import com.hyphenate.util.PathUtil;
 import www.jykj.com.jykj_zxyl.R;
+import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.util.SwipeAnimationController;
 
 import java.io.File;
@@ -64,7 +65,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -157,11 +160,13 @@ public abstract class ChatPopDialogActivity extends AppCompatActivity implements
     private ChatPopDialogActivity myActivity = null;
     private SwipeAnimationController mSwipeAnimationController;
     protected RelativeLayout chatViewLayout;
+    protected JYKJApplication mApp;
     public abstract void createChat();
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         myActivity = this;
+        mApp = (JYKJApplication)getApplication();
         inputMethodManager = (InputMethodManager) myActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
     }
     public UpdMyClinicDetailByOrderTreatmentLimitNum updMyClinicDetailByOrderTreatmentLimitNum;
@@ -174,9 +179,9 @@ public abstract class ChatPopDialogActivity extends AppCompatActivity implements
         mVoiceTime = fragmentArgs.getLong(EaseConstant.EXTRA_VOICE_NUM, EaseConstant.CHATTYPE_SINGLE);
         mVedioTime = fragmentArgs.getLong(EaseConstant.EXTRA_VEDIO_NUM, EaseConstant.CHATTYPE_SINGLE);
         mStopDate = fragmentArgs.getString("date");
-        loginDoctorPosition = fragmentArgs.getString("loginDoctorPosition","");
-        operDoctorCode = fragmentArgs.getString("operDoctorCode","");
-        operDoctorName = fragmentArgs.getString("operDoctorName","");
+        loginDoctorPosition = fragmentArgs.getString("loginDoctorPosition",mApp.loginDoctorPosition);
+        operDoctorCode = fragmentArgs.getString("operDoctorCode",mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
+        operDoctorName = fragmentArgs.getString("operDoctorName",mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
         orderCode = fragmentArgs.getString("orderCode","");
         // userId you are chat with or group id
         toChatUsername = fragmentArgs.getString(EaseConstant.EXTRA_USER_ID);
@@ -223,7 +228,7 @@ public abstract class ChatPopDialogActivity extends AppCompatActivity implements
 
         // message list layout
         messageList = (EaseChatMessageList)findViewById(R.id.message_list);
-        if(chatType != EaseConstant.CHATTYPE_SINGLE)
+        //if(chatType != EaseConstant.CHATTYPE_SINGLE)
             messageList.setShowUserNick(true);
 //        messageList.setAvatarShape(1);
         listView = messageList.getListView();
@@ -713,7 +718,9 @@ public abstract class ChatPopDialogActivity extends AppCompatActivity implements
 
         // Remove all padding actions in handler
         handler.removeCallbacksAndMessages(null);
-        typingHandler.sendEmptyMessage(MSG_TYPING_END);
+        if(null!=typingHandler) {
+            typingHandler.sendEmptyMessage(MSG_TYPING_END);
+        }
     }
 
     @Override
@@ -788,14 +795,18 @@ public abstract class ChatPopDialogActivity extends AppCompatActivity implements
         });
     }
 
+    Map msgmap = new HashMap();
+
+    public abstract void showMessages(EMMessage paramMessage);
+
     @Override
     public void onMessageReceived(List<EMMessage> messages) {
         for (EMMessage message : messages) {
             String username = null;
             // group message
-            if (message.getChatType() == EMMessage.ChatType.GroupChat || message.getChatType() == EMMessage.ChatType.ChatRoom) {
+            if (message.direct() == EMMessage.Direct.SEND) {
                 username = message.getTo();
-            } else {
+            } else if (message.direct() == EMMessage.Direct.RECEIVE){
                 // single chat message
                 username = message.getFrom();
             }
@@ -805,9 +816,17 @@ public abstract class ChatPopDialogActivity extends AppCompatActivity implements
                 messageList.refreshSelectLast();
                 conversation.markMessageAsRead(message.getMsgId());
             }
+            if(null!=username && ""!=username){
+                if(!msgmap.containsKey(username)){
+                    msgmap.put(username,"1");
+                    showMessages(message);
+                }
+            }
+
             EaseUI.getInstance().getNotifier().vibrateAndPlayTone(message);
         }
     }
+
 
     @Override
     public void onCmdMessageReceived(List<EMMessage> messages) {

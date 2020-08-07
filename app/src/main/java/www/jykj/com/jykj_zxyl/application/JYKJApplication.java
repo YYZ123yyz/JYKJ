@@ -40,7 +40,6 @@ import com.hyphenate.easeui.hyhd.model.HMSPushHelper;
 import com.hyphenate.easeui.ui.EaseContactListFragment;
 import com.hyphenate.easeui.utils.ExtEaseUtils;
 import com.hyphenate.exceptions.HyphenateException;
-import com.hyphenate.push.EMPushConfig;
 import com.hyphenate.push.EMPushHelper;
 import com.hyphenate.push.EMPushType;
 import com.hyphenate.push.PushListener;
@@ -92,10 +91,6 @@ import yyz_exploit.dialog.ErrorDialog;
 
 import com.tencent.bugly.crashreport.CrashReport;
 import com.tencent.rtmp.TXLiveBase;
-import com.xiaomi.channel.commonutils.logger.LoggerInterface;
-import com.xiaomi.mipush.sdk.Constants;
-import com.xiaomi.mipush.sdk.Logger;
-import com.xiaomi.mipush.sdk.MiPushClient;
 
 public class JYKJApplication extends Application {
     private JYKJApplication instance;
@@ -109,7 +104,6 @@ public class JYKJApplication extends Application {
 
     public UserInfo mLoginUserInfo;                         //登录需要的用户信息
     public ViewSysUserDoctorInfoAndHospital mViewSysUserDoctorInfoAndHospital;       //登录成功后服务端返回的真实用户信息
-
     public ProvideDoctorQualification provideDoctorQualification;
     public List<ProvideBasicsRegion> gRegionList = new ArrayList<>();                    //所有区域数据
     public List<ProvideBasicsRegion> gRegionProvideList = new ArrayList<>();            //省级区域数据
@@ -137,13 +131,6 @@ public class JYKJApplication extends Application {
     public long gVedioTime = 30;                 //可拨打视频消息时长（单位：秒）
     public String curdetailcode = "";
 
-    public static final String APP_ID = "2882303761518339421";
-    // user your appid the key.
-    public static final String APP_KEY = "5821833929421";
-
-   // private static DemoHandler handler = null;
-
-
     public Handler gHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -161,28 +148,13 @@ public class JYKJApplication extends Application {
 
                             Log.e("tag", "onSuccess: "+"登录成功" );
                             setNewsMessage();
-                            // ** manually load all local groups and conversation
-                            EMClient.getInstance().groupManager().loadAllGroups();
-                            EMClient.getInstance().chatManager().loadAllConversations();
-
-                            // update current user's display name for APNs
-                            boolean updatenick = EMClient.getInstance().pushManager().updatePushNickname(ExtEaseUtils.getInstance().getNickName());
-                            if (!updatenick) {
-                                Log.e(IMTAG, "更新用户昵称");
-                            }
-                            DemoHelper.getInstance().getUserProfileManager().asyncGetCurrentUserInfo();
-                            String retuser = EMClient.getInstance().getCurrentUser();
-                            setNewsMessage();
-                            Log.e("iis",retuser);
-
-
 //                            Toast.makeText(getApplicationContext(),"登录成功",Toast.LENGTH_SHORT).show();
                         }
 
                         @Override
                         public void onError(int i, String s) {
 
-                            Log.e("tag", "onSuccess: "+"登录失败" );
+                            System.out.println("登录失败");
                         }
 
                         @Override
@@ -456,8 +428,14 @@ public class JYKJApplication extends Application {
         m_persist.putString("userID",mLoginUserInfo.getUserPhone());
         m_persist.putString("userName",mLoginUserInfo.getUserPhone());
         m_persist.putString("loginUserInfo", new Gson().toJson(mLoginUserInfo));
+        ExtEaseUtils.getInstance().setNickName(mViewSysUserDoctorInfoAndHospital.getUserName());
+        ExtEaseUtils.getInstance().setImageUrl(mViewSysUserDoctorInfoAndHospital.getUserLogoUrl());
+        ExtEaseUtils.getInstance().setUserId(mViewSysUserDoctorInfoAndHospital.getDoctorCode());
         m_persist.putString("viewSysUserDoctorInfoAndHospital", new Gson().toJson(mViewSysUserDoctorInfoAndHospital));
         m_persist.commit();
+        DemoHelper.getInstance().getUserProfileManager().updateCurrentUserNickName(mViewSysUserDoctorInfoAndHospital.getUserName());
+        DemoHelper.getInstance().getUserProfileManager().setCurrentUserAvatar(mViewSysUserDoctorInfoAndHospital.getUserLogoUrl());
+        DemoHelper.getInstance().setCurrentUserName(mViewSysUserDoctorInfoAndHospital.getDoctorCode()); // 环信Id
         Log.e("tag", "run: "+"ccccccccccccccccc" );
     }
 
@@ -503,8 +481,6 @@ public class JYKJApplication extends Application {
         String userInfoSuLogin = m_persist.getString("viewSysUserDoctorInfoAndHospital", "");
         mLoginUserInfo = new Gson().fromJson(userInfoLogin, UserInfo.class);
         mViewSysUserDoctorInfoAndHospital = new Gson().fromJson(userInfoSuLogin, ViewSysUserDoctorInfoAndHospital.class);
-
-
         System.out.println(mViewSysUserDoctorInfoAndHospital);
     }
 
@@ -578,7 +554,7 @@ public class JYKJApplication extends Application {
      */
     public void setNetConnectionStateHX() {
         if (gMainActivity != null)
-            gMainActivity.setHXNetWorkState();
+         //   gMainActivity.setHXNetWorkState();
     }
 
     //static 代码段可以防止内存泄露

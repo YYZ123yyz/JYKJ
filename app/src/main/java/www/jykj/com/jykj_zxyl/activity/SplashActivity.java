@@ -18,6 +18,7 @@ import com.google.gson.reflect.TypeToken;
 
 import java.util.List;
 
+import com.hyphenate.easeui.utils.ExtEaseUtils;
 import entity.basicDate.ProvideBasicsRegion;
 import entity.service.ViewSysUserDoctorInfoAndHospital;
 import entity.user.UserInfo;
@@ -92,6 +93,8 @@ public class SplashActivity extends AppCompatActivity {
 
 
         if (mApp.mViewSysUserDoctorInfoAndHospital != null) {
+            mApp.saveUserInfo();
+            mApp.loginIM();
             Intent intent = new Intent(SplashActivity.this, MainActivity.class);
             startActivity(intent);
             finish();

@@ -6,7 +6,7 @@
     <LinearLayout
         android:id="@+id/lin_live"
         android:layout_centerHorizontal="true"
-        android:background="#fff"
+        android:background="@drawable/bg_round_ffffff_5"
         android:orientation="vertical"
         android:layout_width="270dp"
         android:layout_height="326dp">
@@ -25,19 +25,26 @@
                 android:id="@+id/lin_live_back"
                 android:layout_marginRight="10dp"
                 android:layout_gravity="center"
+                android:padding="10dp"
                 android:src="@mipmap/back_beforese"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </LinearLayout>
 
-        <yyz_exploit.Utils.FlowLayout
-            max_select=">=3"
-            android:layout_marginTop="10dp"
-            android:id="@+id/beforese_fl"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="100dp"/>
+            android:layout_height="100dp">
+            <yyz_exploit.Utils.FlowLayout
+                max_select=">=3"
+                android:layout_marginTop="10dp"
+                android:id="@+id/beforese_fl"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"/>
+
+        </ScrollView>
+
         <View
             android:layout_marginBottom="20dp"
             android:layout_marginTop="20dp"
@@ -50,13 +57,19 @@
             android:text="危险因素"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
-        <yyz_exploit.Utils.FlowLayout
-            android:layout_marginTop="10dp"
-            android:id="@+id/Danger_fl"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="100dp"/>
+            android:layout_height="100dp">
+
+            <yyz_exploit.Utils.FlowLayout
+                android:layout_marginTop="10dp"
+                android:id="@+id/Danger_fl"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"/>
+        </ScrollView>
+
     </LinearLayout>
 
 </LinearLayout>

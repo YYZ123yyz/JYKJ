@@ -205,19 +205,19 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
 
                         break;
                     case 2:
-                        netRetEntity = JSON.parseObject(mNetRetStr, NetRetEntity.class);
-                        if(netRetEntity.getResCode()==1){
-                            ProvideMsgPushReminderCount   mProvideMsgPushReminderCount = JSON.parseObject(netRetEntity.getResJsonData(), ProvideMsgPushReminderCount.class);
-                            if(mProvideMsgPushReminderCount.getMsgTypeCountSum()==0){
-                                mNewMessageLayout.setVisibility(View.GONE);
-                            }
-                            else  {
-                                mNewMessageLayout.setVisibility(View.VISIBLE);
-                                mNewMessage.setText( "您有" + mProvideMsgPushReminderCount.getMsgTypeCountSum() + "条未读消息!");
-                            }
-                        }else{
-                            mNewMessageLayout.setVisibility(View.GONE);
-                        }
+//                        netRetEntity = JSON.parseObject(mNetRetStr, NetRetEntity.class);
+//                        if(netRetEntity.getResCode()==1){
+//                            ProvideMsgPushReminderCount   mProvideMsgPushReminderCount = JSON.parseObject(netRetEntity.getResJsonData(), ProvideMsgPushReminderCount.class);
+//                            if(mProvideMsgPushReminderCount.getMsgTypeCountSum()==0){
+//                                mNewMessageLayout.setVisibility(View.GONE);
+//                            }
+//                            else  {
+//                                mNewMessageLayout.setVisibility(View.VISIBLE);
+//                                mNewMessage.setText( "您有" + mProvideMsgPushReminderCount.getMsgTypeCountSum() + "条未读消息!");
+//                            }
+//                        }else{
+//                            mNewMessageLayout.setVisibility(View.GONE);
+//                        }
                         break;
                     case 3:
                         cacerProgress();

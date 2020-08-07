@@ -482,7 +482,7 @@ public class FragmentZSXQ extends Fragment {
                                                 return;
                                             }
                                             startActivity(new Intent(getActivity(), VoiceCallActivity.class)
-                                                    .putExtra("username", provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getPatientCode())
+                                                    .putExtra("username", provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getPatientName())
                                                     .putExtra("isComingCall", false)
                                                     .putExtra("nickName", provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getPatientName())
                                                     .putExtra("voiceNum", provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getLimitAudioShow()));
@@ -494,7 +494,7 @@ public class FragmentZSXQ extends Fragment {
                                             }
                                             int time = provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getLimitVideoShow();
                                             startActivity(new Intent(getActivity(), VideoCallActivity.class)
-                                                    .putExtra("username", provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getPatientCode())
+                                                    .putExtra("username", provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getPatientName())
                                                     .putExtra("isComingCall", false)
                                                     .putExtra("vedioNum", provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getLimitVideoShow()));
                                             break;

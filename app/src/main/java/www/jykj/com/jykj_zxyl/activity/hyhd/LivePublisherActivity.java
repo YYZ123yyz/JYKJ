@@ -1,6 +1,7 @@
 package www.jykj.com.jykj_zxyl.activity.hyhd;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.app.Service;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -14,42 +15,53 @@ import android.os.*;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
+import android.text.Spannable;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Surface;
 import android.view.View;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.*;
 import com.alibaba.fastjson.JSON;
 import com.google.gson.Gson;
+import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMChatRoom;
 import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMMessage;
+import com.hyphenate.chat.EMTextMessageBody;
 import com.hyphenate.easeui.EaseConstant;
+import com.hyphenate.easeui.utils.EaseSmileUtils;
+import com.hyphenate.easeui.utils.ExtEaseUtils;
 import com.hyphenate.exceptions.HyphenateException;
 import com.tencent.rtmp.ITXLivePushListener;
 import com.tencent.rtmp.TXLiveConstants;
 import com.tencent.rtmp.TXLivePushConfig;
 import com.tencent.rtmp.TXLivePusher;
 import com.tencent.rtmp.ui.TXCloudVideoView;
+import entity.conditions.OpenLiveCond;
 import entity.liveroom.CloseRoomInfo;
+import entity.liveroom.OpenLiveResp;
 import netService.HttpNetService;
 import netService.entity.NetRetEntity;
 import www.jykj.com.jykj_zxyl.R;
+import www.jykj.com.jykj_zxyl.adapter.HeadImageViewRecycleAdapter;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
+import www.jykj.com.jykj_zxyl.util.CircleImageView;
+import www.jykj.com.jykj_zxyl.util.FullyGridLayoutManager;
+import www.jykj.com.jykj_zxyl.util.ImageViewUtil;
 import www.jykj.com.jykj_zxyl.util.StrUtils;
 import yyz_exploit.activity.activity.BeforesettingActivity;
+import ztextviewlib.MarqueeTextView;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
 public class LivePublisherActivity extends ChatPopDialogActivity implements View.OnClickListener , ITXLivePushListener{
-    private JYKJApplication mApp;
     private Context mContext;
     private TXLivePushConfig mLivePushConfig;
     private TXLivePusher mLivePusher;
@@ -81,6 +93,17 @@ public class LivePublisherActivity extends ChatPopDialogActivity implements View
     public static final String LIVE_TYPE_PRELIVE = "1";
     public static final String LIVE_TYPE_HOTLIVE = "2";
     public static final String LIVE_TYPE_SUBJECTLIVE = "3";
+    CircleImageView iv_live_user_head;
+    RecyclerView chat_head_imgs;
+    TextView tv_chat_num;
+    MarqueeTextView mv_chat_content;
+    LinearLayoutManager mLayoutManager;
+    HeadImageViewRecycleAdapter mImageViewRecycleAdapter;
+    List<String> headpics = new ArrayList();
+    TextView tv_head_tit;
+    public ProgressDialog mDialogProgress = null;
+
+    //private ImageView close_video;
     private Bitmap decodeResource(Resources resources, int id) {
         TypedValue value = new TypedValue();
         resources.openRawResource(id, value);
@@ -110,7 +133,82 @@ public class LivePublisherActivity extends ChatPopDialogActivity implements View
 
         mPhoneListener = new TXPhoneStateListener(mLivePusher);
 
-        startPublishRtmp();
+        statLive();
+        //goChat();
+    }
+
+    void statLive(){
+        if(!rtmpUrl.contains("txSecret") && !rtmpUrl.contains("&txTime")){
+            getProgressBar("开启直播","正在开启直播间，请稍后...");
+            OpenLiveCond opencond = new OpenLiveCond();
+            opencond.setDetailsCode(mdetailcode);
+            opencond.setLoginUserPosition(mApp.loginDoctorPosition);
+            opencond.setOperUserCode(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
+            opencond.setOperUserName(mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
+            opencond.setRequestClientType("1");
+            OpenLiveTask opentask = new OpenLiveTask(opencond);
+            opentask.execute();
+        }else{
+            startPublishRtmp();
+        }
+    }
+
+    /**
+     * 获取进度条
+     */
+
+    public void getProgressBar(String title, String progressPrompt) {
+        if (mDialogProgress == null) {
+            mDialogProgress = new ProgressDialog(this);
+        }
+        mDialogProgress.setTitle(title);
+        mDialogProgress.setMessage(progressPrompt);
+        mDialogProgress.setCancelable(false);
+        mDialogProgress.show();
+    }
+
+    /**
+     * 取消进度条
+     */
+    public void cacerProgress() {
+        if (mDialogProgress != null) {
+            mDialogProgress.dismiss();
+        }
+    }
+
+    class OpenLiveTask extends AsyncTask<Void, Void, Boolean>{
+        private OpenLiveCond opencond;
+        public OpenLiveTask(OpenLiveCond opencond){
+            this.opencond = opencond;
+        }
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+            try{
+                String repjson = HttpNetService.urlConnectionService("jsonDataInfo="+new Gson().toJson(opencond),"https://www.jiuyihtn.com:41041/broadcastLiveDataControlle/operLiveRoomDetailsNoticeResStartBroadcasting");
+                NetRetEntity retent = JSON.parseObject(repjson,NetRetEntity.class);
+                if(retent.getResCode()==1){
+                    String subrepjson = retent.getResJsonData();
+                    OpenLiveResp retliveresp = JSON.parseObject(subrepjson,OpenLiveResp.class);
+                    mychatid = retliveresp.getChatRoomCode();
+                    rtmpUrl = retliveresp.getPushUrl();
+                    return true;
+                }
+            }catch (Exception ex){
+                ex.printStackTrace();
+            }
+            return false;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            cacerProgress();
+            if(aBoolean){
+                startPublishRtmp();
+                //goChat();
+            }else{
+                Toast.makeText(mContext,"开启直播失败",Toast.LENGTH_LONG).show();
+            }
+        }
     }
 
     @Override
@@ -148,6 +246,62 @@ public class LivePublisherActivity extends ChatPopDialogActivity implements View
         }
     };
 
+    StringBuffer msgnamesb = new StringBuffer();
+
+    static final int SHOW_MESSAGE_FLAG = 101;
+
+    Handler myHandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what){
+                case SHOW_MESSAGE_FLAG:
+                    try {
+                        EMMessage paramMessage = (EMMessage) msg.obj;
+                        String parname = StrUtils.defaulObjToStr(paramMessage.getStringAttribute("nickName"));
+                        String parhead = StrUtils.defaulObjToStr(paramMessage.getStringAttribute("imageUrl"));
+                        if (null != parname && "" != parname) {
+                            if (!msgmap.containsKey(parname)) {
+                                msgmap.put(parname, "1");
+                                if (null != msgmap.keySet() && msgmap.keySet().size() > 0) {
+                                    tv_chat_num.setText(String.valueOf(msgmap.keySet().size()) + "人");
+                                }
+                                if (parhead.length() > 0) {
+                                    headpics.add(parhead);
+                                    mImageViewRecycleAdapter.setDate(headpics);
+                                    mImageViewRecycleAdapter.notifyDataSetChanged();
+                                }
+                            }
+                        }
+                        mv_chat_content.setText(msgnamesb);
+                    }catch (Exception ex){
+                        ex.printStackTrace();
+                    }
+                    break;
+            }
+            super.handleMessage(msg);
+        }
+    };
+
+    @Override
+    public void showMessages(EMMessage paramMessage) {
+        try {
+            String parname = StrUtils.defaulObjToStr(paramMessage.getStringAttribute("nickName"));
+            if(parname.length()>0){
+                msgnamesb.append("  ");
+                EMTextMessageBody txtBody = (EMTextMessageBody) paramMessage.getBody();
+                //Spannable span = EaseSmileUtils.(mContext, txtBody.getMessage());
+                msgnamesb.append(txtBody.getMessage());
+                // 设置内容
+            }
+            Message parmsg = new Message();
+            parmsg.what = SHOW_MESSAGE_FLAG;
+            parmsg.obj = paramMessage;
+            myHandler.sendMessage(parmsg);
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+    }
+
     public void setContentView() {
         setContentView(R.layout.activity_publish);
         mCaptureView = (TXCloudVideoView) findViewById(R.id.video_view);
@@ -157,6 +311,36 @@ public class LivePublisherActivity extends ChatPopDialogActivity implements View
         btnShare = findViewById(R.id.btnShare);
         btnShut = findViewById(R.id.btnShut);
         mBtnOrientation = findViewById(R.id.btnOriention);
+        //close_video = findViewById(R.id.close_video);
+        iv_live_user_head = findViewById(R.id.iv_live_user_head);
+        chat_head_imgs = findViewById(R.id.chat_head_imgs);
+        tv_chat_num = findViewById(R.id.tv_chat_num);
+        mv_chat_content = findViewById(R.id.mv_chat_content);
+        tv_head_tit = findViewById(R.id.tv_head_tit);
+        mLayoutManager = new LinearLayoutManager(mContext);
+        mLayoutManager.setOrientation(LinearLayout.HORIZONTAL);
+        chat_head_imgs.setLayoutManager(mLayoutManager);
+        chat_head_imgs.setHasFixedSize(true);
+        mImageViewRecycleAdapter = new HeadImageViewRecycleAdapter(headpics,mApp);
+        chat_head_imgs.setAdapter(mImageViewRecycleAdapter);
+
+        ImageViewUtil.showImageView(LivePublisherActivity.this, mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl(), iv_live_user_head);
+        String parnickname = mApp.mViewSysUserDoctorInfoAndHospital.getUserName();
+        tv_head_tit.setText(parnickname);
+
+        btnShut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                shutVideo();
+            }
+        });
+
+        /*close_video.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                shutVideo();
+            }
+        });*/
 
         btnMessage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -180,6 +364,20 @@ public class LivePublisherActivity extends ChatPopDialogActivity implements View
 
     }
 
+    void shutVideo(){
+        if(StrUtils.defaulObjToStr(mdetailcode).length()>0){
+            CloseRoomInfo subinfo = new CloseRoomInfo();
+            subinfo.setDetailsCode(mdetailcode);
+            subinfo.setLoginUserPosition(mApp.loginDoctorPosition);
+            subinfo.setOperUserCode(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
+            subinfo.setOperUserName(mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
+            subinfo.setRequestClientType("1");
+            CloseLiveRoomTask closeLiveRoomTask = new CloseLiveRoomTask(subinfo);
+            closeLiveRoomTask.execute();
+            this.finish();
+        }
+    }
+
     boolean isopenchat = false;
     @Override
     public void createChat() {
@@ -196,17 +394,48 @@ public class LivePublisherActivity extends ChatPopDialogActivity implements View
     }
 
     void goChat(){
-        if(isopenchat){
-            if(chatViewLayout.getVisibility()==View.VISIBLE) {
-                chatViewLayout.setVisibility(View.GONE);
-            }else{
+        if(StrUtils.defaulObjToStr(ExtEaseUtils.getInstance().getUserId()).length()==0){
+            mApp.saveUserInfo();
+            EMClient.getInstance().login(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(),mApp.mViewSysUserDoctorInfoAndHospital.getQrCode(),new EMCallBack() {
+                @Override
+                public void onSuccess() {
+                    if(isopenchat){
+                        if(chatViewLayout.getVisibility()== View.VISIBLE) {
+                            chatViewLayout.setVisibility(View.GONE);
+                        }else{
+                            chatViewLayout.setVisibility(View.VISIBLE);
+                        }
+                    }else{
+                        createChat();
+                        chatViewLayout.setVisibility(View.VISIBLE);
+                    }
+                }
+
+                @Override
+                public void onError(int i, String s) {
+
+                }
+
+                @Override
+                public void onProgress(int i, String s) {
+
+                }
+            });
+        }else {
+            if (isopenchat) {
+                if (chatViewLayout.getVisibility() == View.VISIBLE) {
+                    chatViewLayout.setVisibility(View.GONE);
+                } else {
+                    chatViewLayout.setVisibility(View.VISIBLE);
+                }
+            } else {
+                createChat();
                 chatViewLayout.setVisibility(View.VISIBLE);
             }
-        }else{
-            createChat();
-            chatViewLayout.setVisibility(View.VISIBLE);
         }
     }
+
+
 
     @Override
     public void onPause() {
@@ -253,7 +482,7 @@ public class LivePublisherActivity extends ChatPopDialogActivity implements View
         TelephonyManager tm = (TelephonyManager) getApplicationContext().getSystemService(Service.TELEPHONY_SERVICE);
         tm.listen(mPhoneListener, PhoneStateListener.LISTEN_NONE);
 
-        if(StrUtils.defaulObjToStr(mdetailcode).length()>0){
+        /*if(StrUtils.defaulObjToStr(mdetailcode).length()>0){
             CloseRoomInfo subinfo = new CloseRoomInfo();
             subinfo.setDetailsCode(mdetailcode);
             subinfo.setLoginUserPosition(mApp.loginDoctorPosition);
@@ -262,7 +491,7 @@ public class LivePublisherActivity extends ChatPopDialogActivity implements View
             subinfo.setRequestClientType("1");
             CloseLiveRoomTask closeLiveRoomTask = new CloseLiveRoomTask(subinfo);
             closeLiveRoomTask.execute();
-        }
+        }*/
     }
 
     class CloseLiveRoomTask extends AsyncTask<Void,Void,Boolean>{
