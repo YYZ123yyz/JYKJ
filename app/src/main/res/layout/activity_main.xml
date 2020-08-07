@@ -73,23 +73,23 @@
                      android:layout_gravity="center_horizontal"
                      android:id="@+id/iv_activityMain_ImageHYHD"
                      android:background="@mipmap/yhhd_nomal"/>-->
-                <RelativeLayout
+              <!--  <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:id="@+id/iv_activityMain_ImageHYHD"
-                    android:background="@mipmap/yhhd_nomal"/>-->
+
+                    android:background="@mipmap/yhhd_nomal"/>&ndash;&gt;-->
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     >
-                    <!--<ImageView
+                    <ImageView
                         android:layout_width="22dp"
                         android:layout_height="22dp"
                         android:layout_centerInParent="true"
                         android:id="@+id/iv_activityMain_ImageHYHD"
-                        android:background="@mipmap/yhhd_nomal"/>-->
+                        android:background="@mipmap/yhhd_nomal"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

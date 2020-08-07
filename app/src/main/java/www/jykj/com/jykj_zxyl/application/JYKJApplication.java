@@ -554,7 +554,7 @@ public class JYKJApplication extends Application {
      */
     public void setNetConnectionStateHX() {
         if (gMainActivity != null)
-         //   gMainActivity.setHXNetWorkState();
+            gMainActivity.setHXNetWorkState();
     }
 
     //static 代码段可以防止内存泄露
