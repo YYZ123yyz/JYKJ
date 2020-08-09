@@ -8,6 +8,7 @@ public class Constant {
     * 服务器地址
      */
     public final static String SERVICEURL = "https://www.jiuyihtn.com:28081/";
+    public final static String LocalUrl = "https://192.168.0.117:28081/";
 
     /**
      *

@@ -8,12 +8,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,15 +29,10 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.gson.Gson;
 import com.tbruyelle.rxpermissions.RxPermissions;
-import com.tencent.mm.opensdk.modelpay.PayReq;
-import com.tencent.mm.opensdk.openapi.IWXAPI;
-import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import entity.basicDate.ProvideBasicsDomain;
 import entity.home.newsMessage.ProvideMsgPushReminderCount;
@@ -50,7 +43,6 @@ import netService.entity.NetRetEntity;
 import rx.functions.Action1;
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.activity.MainActivity;
-import www.jykj.com.jykj_zxyl.activity.home.DoctorsUnionActivity;
 import www.jykj.com.jykj_zxyl.activity.home.MyClinicActivity;
 import www.jykj.com.jykj_zxyl.activity.home.MyLiveRoomActivity;
 import www.jykj.com.jykj_zxyl.activity.home.MyPatientActivity;
@@ -213,19 +205,19 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
 
                         break;
                     case 2:
-//                        netRetEntity = JSON.parseObject(mNetRetStr, NetRetEntity.class);
-//                        if(netRetEntity.getResCode()==1){
-//                            ProvideMsgPushReminderCount   mProvideMsgPushReminderCount = JSON.parseObject(netRetEntity.getResJsonData(), ProvideMsgPushReminderCount.class);
-//                            if(mProvideMsgPushReminderCount.getMsgTypeCountSum()==0){
-//                                mNewMessageLayout.setVisibility(View.GONE);
-//                            }
-//                            else  {
-//                                mNewMessageLayout.setVisibility(View.VISIBLE);
-//                                mNewMessage.setText( "您有" + mProvideMsgPushReminderCount.getMsgTypeCountSum() + "条未读消息!");
-//                            }
-//                        }else{
-//                            mNewMessageLayout.setVisibility(View.GONE);
-//                        }
+                        netRetEntity = JSON.parseObject(mNetRetStr, NetRetEntity.class);
+                        if(netRetEntity.getResCode()==1){
+                            ProvideMsgPushReminderCount   mProvideMsgPushReminderCount = JSON.parseObject(netRetEntity.getResJsonData(), ProvideMsgPushReminderCount.class);
+                            if(mProvideMsgPushReminderCount.getMsgTypeCountSum()==0){
+                                mNewMessageLayout.setVisibility(View.GONE);
+                            }
+                            else  {
+                                mNewMessageLayout.setVisibility(View.VISIBLE);
+                                mNewMessage.setText( "您有" + mProvideMsgPushReminderCount.getMsgTypeCountSum() + "条未读消息!");
+                            }
+                        }else{
+                            mNewMessageLayout.setVisibility(View.GONE);
+                        }
                         break;
                     case 3:
                         cacerProgress();

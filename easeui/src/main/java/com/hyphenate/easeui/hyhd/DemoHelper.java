@@ -8,6 +8,7 @@ import android.content.IntentFilter;
 import android.os.Looper;
 import android.os.Message;
 import android.support.v4.content.LocalBroadcastManager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -1281,31 +1282,42 @@ public class DemoHelper {
         showToast(exception);
     }
 
-	private EaseUser getUserInfo(String username){
-		// To get instance of EaseUser, here we get it from the user list in memory
-		// You'd better cache it if you get it from your server
-        EaseUser user = null;
-        if(username.equals(EMClient.getInstance().getCurrentUser()))
-            return getUserProfileManager().getCurrentUserInfo();
-        user = getContactList().get(username);
-        if(user == null && getRobotList() != null){
-            user = getRobotList().get(username);
-        }
+    private EaseUser getUserInfo(String hxId) {
+        // 获取user信息，demo是从内存的好友列表里获取，
+        // 实际开发中，可能还需要从服务器获取用户信息,
+        // 从服务器获取的数据，最好缓存起来，避免频繁的网络请求
 
-        // if user is not in your contacts, set inital letter for him/her
-        if(user == null){
-            user = new EaseUser(username);
-            EaseCommonUtils.setUserInitialLetter(user);
+        if (hxId.equals(EMClient.getInstance().getCurrentUser())) {
+            EaseUser currentUserInfo = getUserProfileManager().getCurrentUserInfo();
+            return currentUserInfo;
         }
-        return user;
-	}
+        EaseUser easeUser;
+        if (contactList != null && contactList.containsKey(hxId)) {
 
-	 /**
+        } else { // 如果内存中没有，则将本地数据库中的取出到内存中。
+            getContactList();
+        }
+        // // TODO 获取不在好友列表里的群成员具体信息，即陌生人信息，demo未实现
+        // if (user == null && getRobotList() != null) {
+        // user = getRobotList().get(hxId);
+        // }
+        easeUser = contactList.get(hxId);
+        if(easeUser == null){
+            easeUser = new EaseUser(hxId);
+        } else {
+            if(TextUtils.isEmpty(easeUser.getNickname())){ // 如果名字为空，则显示环信号码
+                easeUser.setNickname(easeUser.getUsername());
+            }
+        }
+        return easeUser;
+    }
+
+    /**
      * Global listener
      * If this event already handled by an activity, you don't need handle it again
      * activityList.size() <= 0 means all activities already in background or not in Activity Stack
      */
-    protected void registerMessageListener() {
+    public void registerMessageListener() {
     	messageListener = new EMMessageListener() {
 			@Override
 			public void onMessageReceived(List<EMMessage> messages) {
@@ -1317,6 +1329,8 @@ public class DemoHelper {
                     EaseUser easeUser = new EaseUser(hxIdFrom);
                     easeUser.setAvatar(imageUrl);
                     easeUser.setNickname(nickName);
+//                    Log.e(TAG, "onMessageReceived: "+easeUser.getAvatar() );
+//                    Log.e(TAG, "onMessageReceived: "+easeUser.getNickname() );
                     // 存入内存
                     getContactList();
                     contactList.put(hxIdFrom, easeUser);
@@ -1328,6 +1342,9 @@ public class DemoHelper {
 
                     getModel().setContactSynced(true);
 
+                    Constant.patientUrl=easeUser.getAvatar();
+                    Log.e(TAG, "onMessageReceived: "+Constant.patientUrl );
+                    Log.e(TAG, "onMessageReceived: "+easeUser.getNickname());
                     // 通知listeners联系人同步完毕
                     notifyContactsSyncListener(true);
                     if (isGroupsSyncedWithServer()) {

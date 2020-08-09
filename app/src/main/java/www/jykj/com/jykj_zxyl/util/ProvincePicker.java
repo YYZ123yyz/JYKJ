@@ -157,7 +157,7 @@ public class ProvincePicker extends Dialog implements
 
 	private void setUpData(Context context) {
 		mViewProvince.setViewAdapter(new ArrayWheelAdapter<ProvideBasicsRegion>(context,mApp.gRegionProvideList
-				));
+		));
 		// 设置可见条目数量
 		mViewProvince.setVisibleItems(7);
 		mViewCity.setVisibleItems(7);
@@ -188,10 +188,10 @@ public class ProvincePicker extends Dialog implements
 		} else if (wheel == mViewDistrict) {
 			mCurrentDistrictName = mDistList.get(newValue);
 			if (mCurrentCityName == null)
-            {
-                System.out.println("");
-            }
-	}
+			{
+				System.out.println("");
+			}
+		}
 	}
 
 	/**
@@ -223,10 +223,10 @@ public class ProvincePicker extends Dialog implements
 		}
 		mDistList = listd;
 		System.out.println(new Gson().toJson(listd));
-        ProvideBasicsRegion provideBasicsRegion = new ProvideBasicsRegion();
-        listd.add(provideBasicsRegion);
+		ProvideBasicsRegion provideBasicsRegion = new ProvideBasicsRegion();
+		listd.add(provideBasicsRegion);
 		mViewDistrict.setViewAdapter(new ArrayWheelAdapter<ProvideBasicsRegion>(context,
-                listd));
+				listd));
 		mViewDistrict.setCurrentItem(0);
 		int pAreaCurrent = mViewDistrict.getCurrentItem();
 		if (listd.size() >= 1)
@@ -241,11 +241,11 @@ public class ProvincePicker extends Dialog implements
 		mCurrentProviceName = mApp.gRegionProvideList.get(pCurrent);
 		List<ProvideBasicsRegion> list = new ArrayList<>();
 		System.out.println("0");
-        ProvideBasicsRegion provideBasicsRegion1City = new ProvideBasicsRegion();
-        provideBasicsRegion1City.setRegion_name("全部");
-        provideBasicsRegion1City.setRegion_parent_id(mCurrentProviceName.getRegion_parent_id());
-        provideBasicsRegion1City.setRegion_id("sqb");
-        provideBasicsRegion1City.setRegion_level(2);
+		ProvideBasicsRegion provideBasicsRegion1City = new ProvideBasicsRegion();
+		provideBasicsRegion1City.setRegion_name("全部");
+		provideBasicsRegion1City.setRegion_parent_id(mCurrentProviceName.getRegion_parent_id());
+		provideBasicsRegion1City.setRegion_id("sqb");
+		provideBasicsRegion1City.setRegion_level(2);
 		list.add(provideBasicsRegion1City);
 		for (int i = 0 ; i < mApp.gRegionCityList.size(); i++)
 		{
@@ -264,10 +264,10 @@ public class ProvincePicker extends Dialog implements
 	}
 
 	private void showSelectedResult(Context context) {
-	    if (mCurrentCityName == null)
-        {
-            System.out.println("");
-        }
+		if (mCurrentCityName == null)
+		{
+			System.out.println("");
+		}
 		switch (intoActivity)
 		{
 			case 1:
@@ -276,6 +276,7 @@ public class ProvincePicker extends Dialog implements
 
 					mCreateActivity.mChoiceRegionMap.put("provice",mCurrentProviceName);
 					mCreateActivity.mChoiceRegionMap.put("city",mCurrentCityName);
+
 				}
 				else
 				{

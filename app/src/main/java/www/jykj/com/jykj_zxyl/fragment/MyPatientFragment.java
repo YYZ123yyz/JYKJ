@@ -43,6 +43,7 @@ import www.jykj.com.jykj_zxyl.adapter.HZGLRecycleAdapter;
 import www.jykj.com.jykj_zxyl.adapter.MyPatientRecyclerAdapter;
 import www.jykj.com.jykj_zxyl.application.Constant;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
+import yyz_exploit.activity.activity.TerminationActivity;
 
 public class MyPatientFragment extends Fragment {
 
@@ -68,7 +69,7 @@ public class MyPatientFragment extends Fragment {
     public ProgressDialog mDialogProgress = null;
     private String mNetRetStr;
     private int mSearchStateType = 0;//状态类型.0:全部;1:正常;2:提醒;3:预警
-    private                 boolean                 loadDate = true;
+    private boolean loadDate = true;
 
 
     @Nullable
@@ -104,7 +105,7 @@ public class MyPatientFragment extends Fragment {
             @Override
             public void onClick(int position) {
                 Intent intent = new Intent();
-                intent.putExtra("patientInfo",mHZEntyties.get(position));
+                intent.putExtra("patientInfo", mHZEntyties.get(position));
                 intent.setClass(mContext, HZGLHZZLActivity.class);
                 startActivity(intent);
             }
@@ -121,7 +122,7 @@ public class MyPatientFragment extends Fragment {
             public void onClick(int position) {
                 Intent intent = new Intent();
                 intent.setClass(mContext, HZGLXYActivity.class);
-                intent.putExtra("patientLable",mHZEntyties.get(position));
+                intent.putExtra("patientLable", mHZEntyties.get(position));
                 startActivity(intent);
             }
 
@@ -136,8 +137,8 @@ public class MyPatientFragment extends Fragment {
             @Override
             public void onClick(int position) {
                 Intent intent = new Intent();
-                intent.setClass(mContext, HZGLYYXXActivity.class);
-                intent.putExtra("patientLable",mHZEntyties.get(position));
+                intent.setClass(mContext, TerminationActivity.class);
+                intent.putExtra("patientLable", mHZEntyties.get(position));
                 startActivity(intent);
             }
 
@@ -171,7 +172,7 @@ public class MyPatientFragment extends Fragment {
             public void onClick(int position) {
                 Intent intent = new Intent();
                 intent.setClass(mContext, HZGLTXHZActivity.class);
-                intent.putExtra("patientLable",mHZEntyties.get(position));
+                intent.putExtra("patientLable", mHZEntyties.get(position));
                 startActivity(intent);
             }
 
@@ -205,18 +206,22 @@ public class MyPatientFragment extends Fragment {
             public void handleMessage(Message msg) {
                 switch (msg.what) {
                     case 1:
+                        cacerProgress();
                         mHZGLRecycleAdapter.setDate(mHZEntyties);
                         mHZGLRecycleAdapter.notifyDataSetChanged();
                         break;
                     case 2:
+                        cacerProgress();
                         mHZGLRecycleAdapter.setDate(mHZEntyties);
                         mHZGLRecycleAdapter.notifyDataSetChanged();
                         break;
                     case 3:
+                        cacerProgress();
                         mHZGLRecycleAdapter.setDate(mHZEntyties);
                         mHZGLRecycleAdapter.notifyDataSetChanged();
                         break;
                     case 4:
+                        cacerProgress();
                         mHZGLRecycleAdapter.setDate(mHZEntyties);
                         mHZGLRecycleAdapter.notifyDataSetChanged();
                         break;
@@ -270,7 +275,7 @@ public class MyPatientFragment extends Fragment {
 
     private void getData(int searchStateType) {
 
-//        getProgressBar("请稍候。。。。","正在获取数据");
+        getProgressBar("请稍候...","正在获取数据");
         new Thread() {
             public void run() {
                 try {
@@ -283,7 +288,7 @@ public class MyPatientFragment extends Fragment {
                     String jsonString = JSON.toJSONString(provideViewPatientInfo);
                     mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + jsonString, Constant.SERVICEURL + "bindingDoctorPatientControlle/searchDoctorManagePatientDataByParam");
                     NetRetEntity netRetEntity = new Gson().fromJson(mNetRetStr, NetRetEntity.class);
-                    Log.e("tag", "run: 患者"+ mNetRetStr);
+                    Log.e("tag", "run: 患者" + mNetRetStr);
                     if (netRetEntity.getResCode() == 0) {
                         loadDate = false;
                         NetRetEntity retEntity = new NetRetEntity();
@@ -294,9 +299,9 @@ public class MyPatientFragment extends Fragment {
                         return;
                     }
                     List<ProvideViewPatientLablePunchClockState> list = JSON.parseArray(netRetEntity.getResJsonData(), ProvideViewPatientLablePunchClockState.class);
-                    if(list!=null){
+                    if (list != null) {
                         mHZEntyties.addAll(list);
-                    }else{
+                    } else {
 
                     }
 
@@ -351,7 +356,7 @@ public class MyPatientFragment extends Fragment {
     /**
      * 敬请期待
      */
-    private void showStaySunedDialog(){
+    private void showStaySunedDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         final AlertDialog dialog = builder.create();
         View dialogView = View.inflate(getActivity(), R.layout.dialog_stay_tuned, null);

@@ -154,17 +154,12 @@ public class LoginActivity extends AppCompatActivity {
                                 userInfo.setUserPwd(mPassWordEdit.getText().toString());
                                 mApp.mLoginUserInfo = userInfo;
                                 mApp.mViewSysUserDoctorInfoAndHospital = new Gson().fromJson(netRetEntity.getResJsonData(), ViewSysUserDoctorInfoAndHospital.class);
-                                //   mApp.mViewSysUserDoctorInfoAndHospital.setDoctorCode("dd0500f4e9684678aad9ee00000001");
-                                //  mApp.mViewSysUserDoctorInfoAndHospital.setQrCode("JY0100HZ200111180041000001");
                                 mApp.saveUserInfo();
-                                //      Toast.makeText(mContext, "恭喜，登录成功", LENGTH_SHORT).show();
-                                mApp.mViewSysUserDoctorInfoAndHospital.getUserRoleId();
+                                Toast.makeText(mContext, "恭喜，登录成功", Toast.LENGTH_SHORT).show();
                                 //登录IM
                                 mApp.loginIM();
-                                Log.e("tag", "handleMessage: "+"zoule" );
-                                mLoadingDialog.dismiss();
                                 startActivity(new Intent(mContext, MainActivity.class));
-                               finish();
+                                finish();
                             } else {
                                 Toast.makeText(mContext, "登录失败，" + netRetEntity.getResMsg(), LENGTH_SHORT).show();
                                 mLoadingDialog.dismiss();
@@ -347,6 +342,7 @@ public class LoginActivity extends AppCompatActivity {
                     provideBasicsRegion.setRegion_parent_id("0");
                     mNetRegionRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + new Gson().toJson(provideBasicsRegion), Constant.SERVICEURL + "basicDataController/getBasicsRegion");
                     NetRetEntity netRetEntity = new Gson().fromJson(mNetRegionRetStr, NetRetEntity.class);
+                    Log.e("tag", "run: 地区 "+mNetRegionRetStr );
                     if (netRetEntity.getResCode() == 0) {
                         NetRetEntity retEntity = new NetRetEntity();
                         retEntity.setResCode(0);

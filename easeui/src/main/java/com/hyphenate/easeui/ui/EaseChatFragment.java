@@ -53,9 +53,11 @@ import com.hyphenate.easeui.R;
 import com.hyphenate.easeui.domain.EaseEmojicon;
 import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.entity.UpdMyClinicDetailByOrderTreatmentLimitNum;
+import com.hyphenate.easeui.hyhd.DemoHelper;
 import com.hyphenate.easeui.hyhd.VideoCallActivity;
 import com.hyphenate.easeui.hyhd.VoiceCallActivity;
 import com.hyphenate.easeui.hyhd.model.Constant;
+import com.hyphenate.easeui.jykj.activity.SigningDetailsActivity;
 import com.hyphenate.easeui.mainPjDateInteface.MainProjectDateShareInteface;
 import com.hyphenate.easeui.model.EaseAtMessageHelper;
 import com.hyphenate.easeui.model.EaseCompat;
@@ -188,6 +190,10 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
     private String userUrl;
     private SharedPreferences sharedPreferences;
     private SharedPreferences preferences;
+    private String patientAlias;
+    private String patientCode;
+    private String patientAge;
+    private String patientSex;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -220,7 +226,11 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
         Constant.doctorUrl=fragmentArgs.getString("userUrl");
         Constant.patientUrl=fragmentArgs.getString("doctorUrl");
 
-
+        patientAlias = fragmentArgs.getString("patientAlias");
+        patientCode = fragmentArgs.getString("patientCode");
+        patientAge = fragmentArgs.getString("patientAge");
+        patientSex = fragmentArgs.getString("patientSex");
+        Log.e(TAG, "onActivityCreated: 患者  性别vvvvvvv"+patientSex );
 
         // userId you are chat with or group id
         toChatUsername = fragmentArgs.getString(EaseConstant.EXTRA_USER_ID);
@@ -393,7 +403,7 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
             if (EaseUserUtils.getUserInfo(toChatUsername) != null) {
                 EaseUser user = EaseUserUtils.getUserInfo(toChatUsername);
                 if (user != null) {
-                    titleBar.setTitle(user.getNickname());
+                //    titleBar.setTitle(user.getNickname());
                 }
             }
             titleBar.setRightImageResource(R.drawable.ease_mm_title_remove);
@@ -823,17 +833,17 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
                 username = message.getUserName();
             } else {
 
+   DemoHelper.getInstance().registerMessageListener();
+             //   try {
+//                    String nikeName = message.getStringAttribute("nickName");
+//                    Log.e(TAG, "onMessageReceived: "+nikeName );
+//                    String imageUrl = message.getStringAttribute("imageUrl");
+//                    Log.e(TAG, "onMessageReceived: "+imageUrl );
+//
 
-                try {
-                    String nikeName = message.getStringAttribute("nickName");
-                    Log.e(TAG, "onMessageReceived: "+nikeName );
-                    String imageUrl = message.getStringAttribute("imageUrl");
-                    Log.e(TAG, "onMessageReceived: "+imageUrl );
-
-
-                } catch (HyphenateException e) {
-                    e.printStackTrace();
-                }
+          //      } catch (HyphenateException e) {
+             //       e.printStackTrace();
+          //      }
 
                 // single chat message
                 username = message.getFrom();
@@ -1022,16 +1032,7 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
                      * @param to
                      * @throws EMServiceNotReadyException
                      */
-//               startActivity(new Intent(getContext(),VoiceCallActivity.class));
-                    //视频通话就是跳转VideoCallActivity
-//                if ("twjz".equals(mChatType) || "dhjz".equals(mChatType) ||"spjz".equals(mChatType))
-//                {
-//                    if (mVoiceTime <= 0)
-//                    {
-//                        Toast.makeText(getContext(),"语音时长已用尽",Toast.LENGTH_LONG).show();
-//                        return;
-//                    }
-//                }
+
                     startActivity(new Intent(getActivity(), VoiceCallActivity.class).putExtra("username", toChatUsername)
                             .putExtra("isComingCall", false)
                             .putExtra("nickName", toChatUsernameName)
@@ -1039,11 +1040,18 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
                     break;
 
                 case ITEM_WJ:
-                    //调用系统文件管理器打开指定路径目录
-                    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                    intent.addCategory(Intent.CATEGORY_OPENABLE);
-                    intent.setType("*/*");
-                    startActivityForResult(intent, REQUEST_CODE_FILE);
+                    startActivity(new Intent(getActivity(), SigningDetailsActivity.class)
+                            .putExtra("patientAlias", patientAlias)
+                            .putExtra("patientCode", patientCode)
+                            .putExtra("patientName", toChatUsernameName)
+                            .putExtra("patientAge", patientAge)
+                            .putExtra("patientSex", patientSex)
+                    );
+//                    //调用系统文件管理器打开指定路径目录
+//                    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+//                    intent.addCategory(Intent.CATEGORY_OPENABLE);
+//                    intent.setType("*/*");
+//                    startActivityForResult(intent, REQUEST_CODE_FILE);
                     break;
                 default:
                     break;

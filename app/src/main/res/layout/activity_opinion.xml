@@ -39,7 +39,7 @@
             android:layout_height="70dp">
                 <EditText
                     android:maxLength="200"
-                   android:background="@drawable/bg_lrbs_zsedit"
+                   android:background="@drawable/edittext_bg"
                     android:layout_width="match_parent"
                     android:layout_height="70dp"
                     android:layout_marginLeft="10dp"
@@ -90,7 +90,7 @@
                  android:text="选择故障日期"
                  android:layout_marginLeft="40dp"
                  android:layout_marginRight="40dp"
-                 android:background="@drawable/bg_lrbs_zsedit"
+                 android:background="@drawable/edittext_bg"
                  android:layout_width="match_parent"
                  android:layout_height="40dp"/>
             </LinearLayout>
@@ -117,9 +117,10 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginRight="10dp"
-                    android:background="@drawable/bg_lrbs_zsedit"
+                    android:background="@drawable/edittext_bg"
                     android:gravity="top"
-                    android:hint="请留下你的邮箱、手机、QQ号"
+                    android:maxLength="11"
+                    android:hint="请输入手机号"
                     android:id="@+id/tv_messageReply"
                     android:padding="10dp"
                     android:layout_marginBottom="10dp"

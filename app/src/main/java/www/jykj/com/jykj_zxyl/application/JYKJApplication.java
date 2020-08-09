@@ -9,7 +9,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.*;
+import android.os.Process;
 import android.support.multidex.MultiDex;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
@@ -144,7 +146,7 @@ public class JYKJApplication extends Application {
                         @Override
                         public void onSuccess() {
 
-                            System.out.println("登录成功");
+                            Log.e("tag", "onSuccess: "+"登录成功" );
                             setNewsMessage();
 //                            Toast.makeText(getApplicationContext(),"登录成功",Toast.LENGTH_SHORT).show();
                         }
@@ -172,7 +174,8 @@ public class JYKJApplication extends Application {
 
     static final String IMTAG = "imlog";
     public void loginIM() {
-        /*new Thread() {
+        Log.e("tag", "handleMessage: "+"zoule环信" );
+        new Thread() {
             private EMConnectionListener connectionListener;
 
             public void run() {
@@ -180,7 +183,6 @@ public class JYKJApplication extends Application {
                 try {
                     EMClient.getInstance().createAccount(mViewSysUserDoctorInfoAndHospital.getDoctorCode(), mViewSysUserDoctorInfoAndHospital.getQrCode());
                     EMClient.getInstance().addConnectionListener(connectionListener);
-
                     gHandler.sendEmptyMessage(1);
                 } catch (HyphenateException e) {
                     e.printStackTrace();
@@ -188,60 +190,15 @@ public class JYKJApplication extends Application {
                     System.out.println("~~~~~~~注册失败~~~~~~~~" + e.getDescription());
                 }
             }
-        }.start();*/
-        new Thread() {
-            public void run() {
-                //注册
-                try {
-                    EMClient.getInstance().login(mViewSysUserDoctorInfoAndHospital.getDoctorCode(),mViewSysUserDoctorInfoAndHospital.getQrCode(),new EMCallBack() {
-                        @Override
-                        public void onSuccess() {
-                            Log.d(IMTAG, "登录成功");
+        }.start();
 
-                            // ** manually load all local groups and conversation
-                            EMClient.getInstance().groupManager().loadAllGroups();
-                            EMClient.getInstance().chatManager().loadAllConversations();
-
-                            // update current user's display name for APNs
-                            boolean updatenick = EMClient.getInstance().pushManager().updatePushNickname(ExtEaseUtils.getInstance().getNickName());
-                            if (!updatenick) {
-                                Log.e(IMTAG, "更新用户昵称");
-                            }
-                            DemoHelper.getInstance().getUserProfileManager().asyncGetCurrentUserInfo();
-                            String retuser = EMClient.getInstance().getCurrentUser();
-                            setNewsMessage();
-                            Log.e("iis",retuser);
-                        }
-
-                        @Override
-                        public void onProgress(int progress, String status) {
-                            Log.d(IMTAG, "登录中...");
-                        }
-
-                        @Override
-                        public void onError(final int code, final String message) {
-                            if (code == 101 || code==204) {
-                                try {
-                                    EMClient.getInstance().createAccount(mViewSysUserDoctorInfoAndHospital.getDoctorCode(), mViewSysUserDoctorInfoAndHospital.getQrCode());
-                                    gHandler.sendEmptyMessage(1);
-                                } catch (Exception logex) {
-                                    Log.e(IMTAG, "登录失败: " + code);
-                                }
-                            }
-                            Log.d(IMTAG, "登录失败: " + code);
-                        }
-                    });
-                }catch (Exception ex){
-                    Log.e(IMTAG,ex.getMessage());
-                }
-            }}.start();
     }
 
 
     @Override
     public void onTerminate() {
         super.onTerminate();
-        /*if(StrUtils.defaulObjToStr(curdetailcode).length()>0){
+        if(StrUtils.defaulObjToStr(curdetailcode).length()>0){
             CloseRoomInfo subinfo = new CloseRoomInfo();
             subinfo.setDetailsCode(curdetailcode);
             subinfo.setLoginUserPosition(loginDoctorPosition);
@@ -250,7 +207,7 @@ public class JYKJApplication extends Application {
             subinfo.setRequestClientType("1");
             CloseLiveRoomTask closeLiveRoomTask = new CloseLiveRoomTask(subinfo);
             closeLiveRoomTask.execute();
-        }*/
+        }
     }
 
     class CloseLiveRoomTask extends AsyncTask<Void,Void,Boolean> {
@@ -362,29 +319,42 @@ public class JYKJApplication extends Application {
         saveIMNumInfo();
         getIMNumInfo();
         initLitesmat();
-        //   login();
+     //   login();
+
 
     }
+    private boolean shouldInit() {
+        ActivityManager am = ((ActivityManager) getSystemService(Context.ACTIVITY_SERVICE));
+        List<ActivityManager.RunningAppProcessInfo> processInfos = am.getRunningAppProcesses();
+        String mainProcessName = getPackageName();
+        int myPid = Process.myPid();
+        for (ActivityManager.RunningAppProcessInfo info : processInfos) {
+            if (info.pid == myPid && mainProcessName.equals(info.processName)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
-    void  login(){
-        connectionListener = new EMConnectionListener() {
+     void  login(){
+         connectionListener = new EMConnectionListener() {
 
-            @Override
-            public void onDisconnected(int error) {
+             @Override
+             public void onDisconnected(int error) {
                 if(error==EMError.USER_LOGIN_ANOTHER_DEVICE){
 
 
                 }
-            }
+             }
 
-            @Override
-            public void onConnected() {
-                // in case group and contact were already synced, we supposed to
-                // notify sdk we are ready to receive the events
-            }
-        };
-        EMClient.getInstance().addConnectionListener(connectionListener);
-    }
+             @Override
+             public void onConnected() {
+                 // in case group and contact were already synced, we supposed to
+                 // notify sdk we are ready to receive the events
+             }
+         };
+         EMClient.getInstance().addConnectionListener(connectionListener);
+         }
 
 
 
@@ -439,6 +409,13 @@ public class JYKJApplication extends Application {
         DemoHelper.getInstance().getUserProfileManager().setCurrentUserAvatar(mViewSysUserDoctorInfoAndHospital.getUserLogoUrl());
         DemoHelper.getInstance().setCurrentUserName(mViewSysUserDoctorInfoAndHospital.getDoctorCode()); // 环信Id
         Log.e("tag", "run: "+"ccccccccccccccccc" );
+        SharedPreferences sharedPreferences=getSharedPreferences("sp",MODE_PRIVATE);
+        SharedPreferences.Editor editor=sharedPreferences.edit();
+        editor.putString("name",mViewSysUserDoctorInfoAndHospital.getUserName());
+        editor.putString("code",mViewSysUserDoctorInfoAndHospital.getDoctorCode());
+        editor.putString("mainDoctorAlias",mViewSysUserDoctorInfoAndHospital.getUserNameAlias());
+
+        editor.commit();
     }
 
     /**

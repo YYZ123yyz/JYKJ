@@ -122,7 +122,6 @@ public class MainActivity extends AppCompatActivity {
     private EaseNotifier notifier = null;
 
 
-
     private AppVersionBean appVersionBean;
     private EMConnectionListener connectionListener;
     private EMConnectionListener emConnectionListener;
@@ -144,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
 //        mApp.gActivityList.add(this);
         //判断是否有新消息
         mApp.setNewsMessage();
-     //   data();
+        //   data();
         initLayout();               //初始化布局
         initHandler();
         //开启监听服务
@@ -153,8 +152,9 @@ public class MainActivity extends AppCompatActivity {
         mApp.gNetWorkTextView = true;
         data();
         getLocation();
-        BadgeUtil.setBadgeCount(this,unreadMessageCount,R.drawable.bg_red_circle);
+        BadgeUtil.setBadgeCount(this, unreadMessageCount, R.drawable.bg_red_circle);
     }
+
     /**
      * 设置环信网络状态
      *
@@ -181,7 +181,7 @@ public class MainActivity extends AppCompatActivity {
 
                 } else {
 
-                    Log.e("tag", "onDisconnected: "+"00000");
+                    Log.e("tag", "onDisconnected: " + "00000");
                 }
             }
 
@@ -214,20 +214,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getLocationLL() {
-        Log.e("tag", "getLocation: "+"获取定位权限1 - 开始" );
+        Log.e("tag", "getLocation: " + "获取定位权限1 - 开始");
         Location location = getLastKnownLocation();
         if (location != null) {
             //传递经纬度给网页
             String result = "{code: '0',type:'2',data: {longitude: '" + location.getLongitude() + "',latitude: '" + location.getLatitude() + "'}}";
-         //   wvShow.loadUrl("javascript:callback(" + result + ");");
+            //   wvShow.loadUrl("javascript:callback(" + result + ");");
 
             //日志
             String locationStr = "维度：" + location.getLatitude() + "\n"
                     + "经度：" + location.getLongitude();
-            Log.e("tag", "经纬度 "+locationStr );
+            Log.e("tag", "经纬度 " + locationStr);
         } else {
             Toast.makeText(this, "位置信息获取失败", Toast.LENGTH_SHORT).show();
-            Log.e("tag", "获取定位权限7 - "+"位置获取失败" );
+            Log.e("tag", "获取定位权限7 - " + "位置获取失败");
         }
 
     }
@@ -235,6 +235,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * 定位：得到位置对象
+     *
      * @return
      */
     private Location getLastKnownLocation() {
@@ -258,6 +259,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * 定位：权限监听
+     *
      * @param requestCode
      * @param permissions
      * @param grantResults
@@ -267,7 +269,7 @@ public class MainActivity extends AppCompatActivity {
         switch (requestCode) {
             case 2://定位
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Log.e("tag", "onRequestPermissionsResult: "+ "同意定位权限" );
+                    Log.e("tag", "onRequestPermissionsResult: " + "同意定位权限");
                     getLocationLL();
                 } else {
                     Toast.makeText(this, "未同意获取定位权限", Toast.LENGTH_SHORT).show();
@@ -278,8 +280,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
-
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -287,6 +287,7 @@ public class MainActivity extends AppCompatActivity {
             isExit = false;
         }
     };
+
     /**
      * 启动定时器，轮询获取未读消息数
      */
@@ -295,7 +296,7 @@ public class MainActivity extends AppCompatActivity {
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
-             //   getMessageCount();
+                //   getMessageCount();
             }
         };
         timer.schedule(task, 0, mApp.mMsgTimeInterval * 60 * 1000);
@@ -317,7 +318,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -325,16 +325,17 @@ public class MainActivity extends AppCompatActivity {
         //启动程序，查询是否有未读消息
 //       getMessageCount();
     }
+
     /**
      * 设置未读消息按钮状态
      */
     @SuppressLint("DefaultLocale")
-    private void setUnReadMsgBtnStatus(){
+    private void setUnReadMsgBtnStatus() {
         unreadMessageCount = EMClient.getInstance().chatManager().getUnreadMessageCount();
-        if(unreadMessageCount >0){
+        if (unreadMessageCount > 0) {
             mTvUnreadBtn.setVisibility(View.VISIBLE);
             mTvUnreadBtn.setText(String.format("%d", unreadMessageCount));
-        }else{
+        } else {
             mTvUnreadBtn.setVisibility(View.GONE);
         }
     }
@@ -342,17 +343,17 @@ public class MainActivity extends AppCompatActivity {
     /**
      * 初始化布局
      */
-        private void initLayout() {
-        mTvUnreadBtn=this.findViewById(R.id.tv_unread_btn);
+    private void initLayout() {
+           mTvUnreadBtn=this.findViewById(R.id.tv_unread_btn);
         mLinearLayoutShouYe = (LinearLayout) this.findViewById(R.id.l1_activityMain_ShouYeLayout);
-//        mLinearLayoutHZGuanLi = (LinearLayout)this.findViewById(R.id.l1_activityMain_HZGuanLiLayout);
+    //    mLinearLayoutHZGuanLi = (LinearLayout)this.findViewById(R.id.l1_activityMain_HZGuanLiLayout);
         mLinearLayoutYHHD = (LinearLayout) this.findViewById(R.id.l1_activityMain_LayoutHYHD);
         mLinearLayoutYLZX = (LinearLayout) this.findViewById(R.id.l1_activityMain_LayoutYLZX);
         mLinearLayoutMySelf = (LinearLayout) this.findViewById(R.id.l1_activityMain_LayoutGRZX);
 
         mImageViewShouYe = (ImageView) this.findViewById(R.id.iv_activityMain_ImageShouYe);
 //        mImageViewHZGuanLi = (ImageView) this.findViewById(R.id.iv_activityMain_ImageHZGuanLi);
-        mImageViewYHHD = (ImageView) this.findViewById(R.id.iv_activityMain_ImageHYHD);
+        mImageViewYHHD =  this.findViewById(R.id.iv_activityMain_ImageHYHD);
         mImageViewYLZX = (ImageView) this.findViewById(R.id.iv_activityMain_ImageYLZX);
         mImageViewMySelf = (ImageView) this.findViewById(R.id.iv_activityMain_ImageGRZX);
 
@@ -427,9 +428,9 @@ public class MainActivity extends AppCompatActivity {
 //                            mImageViewYHHD.setBackgroundResource(R.mipmap.hyhdnews_press);
 //                            mTextViewYHHD.setTextColor(getResources().getColor(R.color.tabColor_press));
 //                        } else {
-                            mImageViewYHHD.setBackgroundResource(R.mipmap.hz_press);
-                            mTextViewYHHD.setTextColor(getResources().getColor(R.color.tabColor_press));
-                     //   }
+                        mImageViewYHHD.setBackgroundResource(R.mipmap.hz_press);
+                        mTextViewYHHD.setTextColor(getResources().getColor(R.color.tabColor_press));
+                        //   }
                         break;
                     case 2:
                         mCurrentFragment = 2;
@@ -453,7 +454,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
 
 
     /**
@@ -493,7 +493,7 @@ public class MainActivity extends AppCompatActivity {
     public void setHZTabView() {
         if (mApp.gNewMessageNum > 0) {
             if (mCurrentFragment == 1) {
-            //    mImageViewYHHD.setBackgroundResource(R.mipmap.hyhdnews_press);
+                //    mImageViewYHHD.setBackgroundResource(R.mipmap.hyhdnews_press);
                 mTextViewYHHD.setTextColor(getResources().getColor(R.color.tabColor_press));
             } else {
                 mImageViewYHHD.setBackgroundResource(R.mipmap.hz_nomal);
@@ -514,7 +514,7 @@ public class MainActivity extends AppCompatActivity {
      * 设置环信网络状态
      */
     public void setHXNetWorkState() {
-        if (mApp.gNetWorkTextView){
+        if (mApp.gNetWorkTextView) {
             mFragmentYHHD.setHXNetWorkState(mApp.gNetConnectionHX);
 
         }
@@ -528,11 +528,9 @@ public class MainActivity extends AppCompatActivity {
         builder.setTitle("异地登录");
         builder.setMessage("您的账号已在其他地方登陆！");
         //    设置一个PositiveButton
-        builder.setPositiveButton("确定", new DialogInterface.OnClickListener()
-        {
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which)
-            {
+            public void onClick(DialogInterface dialog, int which) {
                 try {
                     mApp.cleanPersistence();
                     mApp.LoginOut(MainActivity.this);
@@ -635,6 +633,7 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onKeyDown(keyCode, event);
     }
+
     /**
      * 获取版本跟新的数据
      */
@@ -647,7 +646,8 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onResponse(Response response) throws IOException {
-                String string = response.body().string(); Log.e("aaaaaa",string);
+                String string = response.body().string();
+                Log.e("aaaaaa", string);
                 final AppVersionBean appVersionBean = new Gson().fromJson(string, AppVersionBean.class);
                 runOnUiThread(new Runnable() {
                     @Override
@@ -663,6 +663,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
     /**
      * 获取应用的版本号versionCode：
      *
@@ -680,6 +681,7 @@ public class MainActivity extends AppCompatActivity {
         }
         return code;
     }
+
     /**
      * 更新的弹窗
      *

@@ -23,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
@@ -40,6 +41,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import entity.basicDate.ProvideBasicsRegion;
 import entity.service.ViewSysUserDoctorInfoAndHospital;
 import entity.user.UserInfo;
 import netService.HttpNetService;
@@ -60,7 +62,7 @@ import yyz_exploit.activity.activity.ResActivity;
  * 手机号登录Activity
  */
 public class PhoneLoginActivity extends AppCompatActivity {
-
+    private String mNetRegionRetStr;                 //获取返回字符串
     private SharedPreferences sp1;
     public ProgressDialog mDialogProgress = null;
 
@@ -152,6 +154,22 @@ public class PhoneLoginActivity extends AppCompatActivity {
                         }
                         break;
                     case 2:
+                        getRegionDate();
+                        break;
+
+                    case 10:
+                        mInitVCodeTime--;
+                        mGetVCode.setText(mInitVCodeTime + "");
+                        mGetVCode.setClickable(false);
+                        break;
+                    case 11:
+                        mGetVCode.setText("重新获取");
+                        mGetVCode.setClickable(true);
+                        mInitVCodeTime = 60;
+                        mTimer.cancel();
+                        mTask.cancel();
+                        break;
+                    case 100:
                         cacerProgress();
                         if (mNetRetStr != null && !mNetRetStr.equals("")) {
                             NetRetEntity netRetEntity = new Gson().fromJson(mNetRetStr, NetRetEntity.class);
@@ -173,9 +191,7 @@ public class PhoneLoginActivity extends AppCompatActivity {
                                 //登录IM
                                 mApp.loginIM();
                                 startActivity(new Intent(mContext, MainActivity.class));
-                                for (int i = 0; i < mApp.gActivityList.size(); i++) {
-                                    mApp.gActivityList.get(i).finish();
-                                }
+                                finish();
                             } else {
                                 Toast.makeText(mContext, "登录失败，" + netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
                             }
@@ -183,24 +199,65 @@ public class PhoneLoginActivity extends AppCompatActivity {
                             Toast.makeText(mContext, "网络异常，请联系管理员", Toast.LENGTH_SHORT).show();
                         }
                         break;
-
-                    case 10:
-                        mInitVCodeTime--;
-                        mGetVCode.setText(mInitVCodeTime + "");
-                        mGetVCode.setClickable(false);
-                        break;
-                    case 11:
-                        mGetVCode.setText("重新获取");
-                        mGetVCode.setClickable(true);
-                        mInitVCodeTime = 60;
-                        mTimer.cancel();
-                        mTask.cancel();
-                        break;
-
                 }
             }
         };
     }
+
+
+    /**
+     * 获取区域数据
+     */
+    private void getRegionDate() {
+        //连接网络，登录
+        //    showLoadingDialog("请稍候...");
+        getProgressBar("请稍候....", "正在加载数据");
+        new Thread() {
+            public void run() {
+                try {
+                    ProvideBasicsRegion provideBasicsRegion = new ProvideBasicsRegion();
+                    provideBasicsRegion.setRegion_parent_id("0");
+                    mNetRegionRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + new Gson().toJson(provideBasicsRegion), Constant.SERVICEURL + "basicDataController/getBasicsRegion");
+                    NetRetEntity netRetEntity = new Gson().fromJson(mNetRegionRetStr, NetRetEntity.class);
+                    Log.e("tag", "run: 地区 "+mNetRegionRetStr );
+                    if (netRetEntity.getResCode() == 0) {
+                        NetRetEntity retEntity = new NetRetEntity();
+                        retEntity.setResCode(0);
+                        retEntity.setResMsg("获取区域信息失败：" + retEntity.getResMsg());
+                        mNetRegionRetStr = new Gson().toJson(retEntity);
+                        mHandler.sendEmptyMessage(0);
+                        return;
+                    }
+                    //区域数据获取成功
+                    mApp.gRegionList = new Gson().fromJson(netRetEntity.getResJsonData(), new TypeToken<List<ProvideBasicsRegion>>() {
+                    }.getType());
+
+                    for (int i = 0; i < mApp.gRegionList.size(); i++) {
+                        if (mApp.gRegionList.get(i).getRegion_level() == 1) {
+                            mApp.gRegionProvideList.add(mApp.gRegionList.get(i));
+                        }
+                        if (mApp.gRegionList.get(i).getRegion_level() == 2) {
+                            mApp.gRegionCityList.add(mApp.gRegionList.get(i));
+                        }
+                        if (mApp.gRegionList.get(i).getRegion_level() == 3) {
+                            mApp.gRegionDistList.add(mApp.gRegionList.get(i));
+                        }
+                    }
+                 //   mLoadingDialog.dismiss();
+                } catch (Exception e) {
+                    NetRetEntity retEntity = new NetRetEntity();
+                    retEntity.setResCode(0);
+                    retEntity.setResMsg("网络连接异常，请联系管理员：" + e.getMessage());
+                    mNetRegionRetStr = new Gson().toJson(retEntity);
+                    e.printStackTrace();
+                }
+                mHandler.sendEmptyMessage(100);
+            }
+        }.start();
+
+    }
+
+
 
     /**
      * 初始化布局

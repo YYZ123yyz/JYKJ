@@ -44,6 +44,10 @@ dependencies {
     implementation 'com.android.support:appcompat-v7:25.2.0'
     implementation 'com.google.code.gson:gson:2.8.2'
     implementation  'org.greenrobot:eventbus:3.0.0'
+    implementation 'com.android.support:recyclerview-v7:28.0.0'
+    implementation 'com.contrarywind:Android-PickerView:4.1.9'
+  //  implementation files('libs/fastjson-1.2.49.jar')
+    implementation  'org.greenrobot:eventbus:3.0.0'
     //EventBus
     //implementation 'de.greenrobot:eventbus:2.4.0'
 }

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/writeColor"
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/groabColor">
+        <LinearLayout
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:id="@+id/li_back">
+            <ImageView
+                android:layout_width="10dp"
+                android:layout_gravity="center_vertical"
+                android:layout_height="20dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="15dp"
+                android:src="@mipmap/arrow_left" />
+        </LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="辅导类别"
+            android:textColor="@color/writeColor"
+            android:textSize="10pt" />
+    </RelativeLayout>
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_230"
+        android:id="@+id/rv_coaching"/>
+    <Button
+        android:layout_width="@dimen/dp_232"
+        android:layout_height="@dimen/dp_40"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:text="提交"
+        android:layout_marginBottom="40dp"
+        android:id="@+id/bt_coaching"
+        android:layout_gravity="center_horizontal"
+        android:textSize="8pt"
+        android:background="@mipmap/activity_mysurplus_qx"
+        android:textColor="@color/writeColor"
+        />
+</LinearLayout>

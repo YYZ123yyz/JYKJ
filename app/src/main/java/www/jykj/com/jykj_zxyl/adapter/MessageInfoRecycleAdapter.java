@@ -1,5 +1,6 @@
 package www.jykj.com.jykj_zxyl.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -59,14 +60,14 @@ public class MessageInfoRecycleAdapter extends RecyclerView.Adapter<MessageInfoR
         datas = list;
     }
 
-        //创建新View，被LayoutManager所调用
-       @Override
-        public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType){
-                View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_fragmentmessageinfo_messagelist,viewGroup,false);
-                ViewHolder vh = new ViewHolder(view);
-                return vh;
-       }
-        //将数据与界面进行绑定的操作
+    //创建新View，被LayoutManager所调用
+    @Override
+    public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType){
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_fragmentmessageinfo_messagelist,viewGroup,false);
+        ViewHolder vh = new ViewHolder(view);
+        return vh;
+    }
+    //将数据与界面进行绑定的操作
 
     /**
      * 展示数据
@@ -75,7 +76,7 @@ public class MessageInfoRecycleAdapter extends RecyclerView.Adapter<MessageInfoR
      * @param position
      */
     @Override
-    public void onBindViewHolder(ViewHolder viewHolder, final int position) {
+    public void onBindViewHolder(ViewHolder viewHolder, @SuppressLint("RecyclerView") final int position) {
 
         /**
          * 显示图片
@@ -138,37 +139,37 @@ public class MessageInfoRecycleAdapter extends RecyclerView.Adapter<MessageInfoR
         }
 
     }
-        //获取数据的数量
-        @Override
-        public int getItemCount(){
+    //获取数据的数量
+    @Override
+    public int getItemCount(){
 
         return datas.size();
+    }
+
+
+
+
+    //自定义的ViewHolder，持有每个Item的的所有界面元素
+
+    public static class ViewHolder extends RecyclerView.ViewHolder{
+        public LinearLayout mClickLinearLayout;                     //整个布局，用来监听点击事件
+        public ImageView    mImageView;                             // 头像
+        public TextView     mUserName;
+        public TextView     mSSY;
+        public TextView     mMessage;
+        public TextView     mDate;
+        public TextView mTvReadIcon;
+        public ViewHolder(View view){
+            super(view);
+            mClickLinearLayout = (LinearLayout) view.findViewById(R.id.li_itemFragmentHYHD_clickLayout);
+            mUserName = (TextView)view.findViewById(R.id.tv_itemMessageAdapter_userNameText);
+            mSSY = (TextView)view.findViewById(R.id.tv_itemMessageAdapter_userSSYText);
+            mDate = (TextView)view.findViewById(R.id.tv_itemMessageAdapter_userDateText);
+            mMessage = (TextView)view.findViewById(R.id.tv_itemMessageAdapter_userMessageText);
+            mImageView = (ImageView)view.findViewById(R.id.iv_itemMessageAdapter_head);
+            mTvReadIcon=view.findViewById(R.id.tv_unread_icon);
         }
-
-
-
-
-        //自定义的ViewHolder，持有每个Item的的所有界面元素
-
-        public static class ViewHolder extends RecyclerView.ViewHolder{
-            public LinearLayout mClickLinearLayout;                     //整个布局，用来监听点击事件
-            public ImageView    mImageView;                             // 头像
-            public TextView     mUserName;
-            public TextView     mSSY;
-            public TextView     mMessage;
-            public TextView     mDate;
-            public TextView mTvReadIcon;
-            public ViewHolder(View view){
-                super(view);
-                mClickLinearLayout = (LinearLayout) view.findViewById(R.id.li_itemFragmentHYHD_clickLayout);
-                mUserName = (TextView)view.findViewById(R.id.tv_itemMessageAdapter_userNameText);
-                mSSY = (TextView)view.findViewById(R.id.tv_itemMessageAdapter_userSSYText);
-                mDate = (TextView)view.findViewById(R.id.tv_itemMessageAdapter_userDateText);
-                mMessage = (TextView)view.findViewById(R.id.tv_itemMessageAdapter_userMessageText);
-                mImageView = (ImageView)view.findViewById(R.id.iv_itemMessageAdapter_head);
-                mTvReadIcon=view.findViewById(R.id.tv_unread_icon);
-            }
-        }
+    }
 
 
 

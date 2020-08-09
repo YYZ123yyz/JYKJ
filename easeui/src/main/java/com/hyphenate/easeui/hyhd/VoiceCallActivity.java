@@ -75,8 +75,9 @@ public class VoiceCallActivity extends CallActivity implements OnClickListener {
     private TextView netwrokStatusVeiw;
     private boolean monitor = false;
 
-    private             int mVoiceTime;                //可拨打语音时长（单位：秒）
+    private int mVoiceTime;                //可拨打语音时长（单位：秒）
     private Handler mHandler;
+    private TextView nickTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,7 +101,7 @@ public class VoiceCallActivity extends CallActivity implements OnClickListener {
         muteImage = (ImageView) findViewById(R.id.iv_mute);
         handsFreeImage = (ImageView) findViewById(R.id.iv_handsfree);
         callStateTextView = (TextView) findViewById(R.id.tv_call_state);
-        TextView nickTextView = (TextView) findViewById(R.id.tv_nick);
+        nickTextView = (TextView) findViewById(R.id.tv_nick);
         TextView durationTextView = (TextView) findViewById(R.id.tv_calling_duration);
         chronometer = (Chronometer) findViewById(R.id.chronometer);
         voiceContronlLayout = (LinearLayout) findViewById(R.id.ll_voice_control);
