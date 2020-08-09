@@ -301,6 +301,7 @@ public class NewLivePlayerActivity extends ChatPopDialogActivity implements ITXL
         parbund.putString(EaseConstant.EXTRA_USER_NAME, mychatid);
         initChat(parbund);
         initChatView();
+        chatViewLayout.setVisibility(View.VISIBLE);
         joinChatroom();
         setUpView();
         isopenchat = true;
@@ -347,6 +348,17 @@ public class NewLivePlayerActivity extends ChatPopDialogActivity implements ITXL
                 break;
                 case GO_CHAT_ACT:
                     doChat();
+                    break;
+                case ENTER_CHAT_ACT:
+                    if(isopenchat){
+                        if(chatViewLayout.getVisibility()== View.VISIBLE) {
+                            chatViewLayout.setVisibility(View.GONE);
+                        }else{
+                            chatViewLayout.setVisibility(View.VISIBLE);
+                        }
+                    }else{
+                        createChat();
+                    };
                     break;
             }
             super.handleMessage(msg);
@@ -711,22 +723,17 @@ public class NewLivePlayerActivity extends ChatPopDialogActivity implements ITXL
         }
     }
 
+    static final int ENTER_CHAT_ACT = 888;
+
     void goChat(){
         if(StrUtils.defaulObjToStr(ExtEaseUtils.getInstance().getUserId()).length()==0){
             mApp.saveUserInfo();
             EMClient.getInstance().login(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(),mApp.mViewSysUserDoctorInfoAndHospital.getQrCode(),new EMCallBack() {
                 @Override
                 public void onSuccess() {
-                    if(isopenchat){
-                        if(chatViewLayout.getVisibility()== View.VISIBLE) {
-                            chatViewLayout.setVisibility(View.GONE);
-                        }else{
-                            chatViewLayout.setVisibility(View.VISIBLE);
-                        }
-                    }else{
-                        createChat();
-                        chatViewLayout.setVisibility(View.VISIBLE);
-                    }
+                    Message parmsg = new Message();
+                    parmsg.what = ENTER_CHAT_ACT;
+                    myHandler.sendMessage(parmsg);
                 }
 
                 @Override
