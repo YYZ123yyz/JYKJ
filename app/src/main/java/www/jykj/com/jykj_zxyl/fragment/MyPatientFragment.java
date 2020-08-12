@@ -26,6 +26,7 @@ import com.alibaba.fastjson.JSON;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import entity.patientInfo.ProvideViewPatientLablePunchClockState;
@@ -70,7 +71,7 @@ public class MyPatientFragment extends Fragment {
     private String mNetRetStr;
     private int mSearchStateType = 0;//状态类型.0:全部;1:正常;2:提醒;3:预警
     private boolean loadDate = true;
-
+    private String mNetLoginRetStr;
 
     @Nullable
     @Override
@@ -80,9 +81,39 @@ public class MyPatientFragment extends Fragment {
         mActivity = (MyPatientActivity) getActivity();
         mApp = (JYKJApplication) getActivity().getApplication();
         initLayout(v);
+        getNumber();
         initHandler();
         getData(mSearchStateType);
         return v;
+    }
+
+    private void getNumber() {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("rowNum", "10");
+        map.put("pageNum", "1");
+        map.put("loginDoctorPosition", "108.93425^34.23053");
+        map.put("searchDoctorCode", mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
+     //    map.put("operDoctorName", mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
+        map.put("searchFlagSigning", "1");
+
+        new Thread() {
+            public void run() {
+                try {
+                    mNetLoginRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + new Gson().toJson(map), Constant.SERVICEURL + "bindingDoctorPatientControlle/searchDoctorManagePatientDataByTotal");
+                    Log.e("TAG", "run:  已签约 "+mNetLoginRetStr );
+                } catch (Exception e) {
+                    NetRetEntity retEntity = new NetRetEntity();
+                    retEntity.setResCode(0);
+                    retEntity.setResMsg("网络连接异常，请联系管理员：" + e.getMessage());
+                    mNetLoginRetStr = new Gson().toJson(retEntity);
+                    e.printStackTrace();
+
+                }
+
+                mHandler.sendEmptyMessage(10);
+            }
+        }.start();
+
     }
 
     /**
@@ -132,7 +163,7 @@ public class MyPatientFragment extends Fragment {
             }
         });
 
-        //用药点击事件
+        //解约点击事件
         mHZGLRecycleAdapter.setOnYYItemClickListener(new MyPatientRecyclerAdapter.OnYYItemClickListener() {
             @Override
             public void onClick(int position) {
@@ -225,6 +256,9 @@ public class MyPatientFragment extends Fragment {
                         mHZGLRecycleAdapter.setDate(mHZEntyties);
                         mHZGLRecycleAdapter.notifyDataSetChanged();
                         break;
+                    case 10:
+
+                        break;
                 }
             }
         };
@@ -275,7 +309,7 @@ public class MyPatientFragment extends Fragment {
 
     private void getData(int searchStateType) {
 
-        getProgressBar("请稍候...","正在获取数据");
+        getProgressBar("请稍候...", "正在获取数据");
         new Thread() {
             public void run() {
                 try {
@@ -288,7 +322,7 @@ public class MyPatientFragment extends Fragment {
                     String jsonString = JSON.toJSONString(provideViewPatientInfo);
                     mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + jsonString, Constant.SERVICEURL + "bindingDoctorPatientControlle/searchDoctorManagePatientDataByParam");
                     NetRetEntity netRetEntity = new Gson().fromJson(mNetRetStr, NetRetEntity.class);
-                    Log.e("tag", "run: 患者" + mNetRetStr);
+                    Log.e("tag", "run: 全部患者" + mNetRetStr);
                     if (netRetEntity.getResCode() == 0) {
                         loadDate = false;
                         NetRetEntity retEntity = new NetRetEntity();

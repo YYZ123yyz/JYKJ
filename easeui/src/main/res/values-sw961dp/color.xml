@@ -62,5 +62,5 @@
             <enum name="rectangle" value="2" />
         </attr>
     </declare-styleable>
-    <color name="textColor_vt">#999999</color>
+
 </resources>

@@ -259,7 +259,7 @@ public class FragmentYHHD extends Fragment {
                     intent.putExtra("userUrl", mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl());
                     intent.putExtra("doctorUrl", mClickInteractPatient.getPatientUserLogoUrl());
                     intent.putExtra("patientAlias", mProvideDoctorPatientUserInfo.get(position).getUserNameAlias());
-                    Log.e("tag", "患者 别名 " + mProvideDoctorPatientUserInfo.get(position).getGoodAtRealm());
+                    Log.e("tag", "患者 别名 " + mProvideDoctorPatientUserInfo.get(position).getUserNameAlias());
                     intent.putExtra("patientCode", mProvideDoctorPatientUserInfo.get(position).getUserCode());
                     Log.e("tag", "患者  code " + mProvideDoctorPatientUserInfo.get(position).getUserCode());
 
@@ -468,31 +468,26 @@ public class FragmentYHHD extends Fragment {
                                     mClickInteractPatient = mInteractPatient.get(clickIndex);
                                     mInteractPatient.get(clickIndex).setNoRead(false);
                                     Intent intent = new Intent();
+                                    //从列表进入聊天页面
                                     intent.setClass(mContext, ChatActivity.class);
                                     intent.putExtra(EaseConstant.EXTRA_MESSAGE_NUM, -1);
                                     intent.putExtra("userCode", mClickInteractPatient.getPatientCode());
                                     intent.putExtra("userName", mClickInteractPatient.getPatientUserName());
-                                    //       Log.e("tag", "handleMessage:患者姓名 "+ mClickInteractPatient.getPatientUserName());
-                                    //   intent.putExtra("chatType", "twjz");
-                                    //     intent.putExtra("chatType", "twjz");
                                     intent.putExtra("usersName", mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
                                     intent.putExtra("userUrl", mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl());
                                     intent.putExtra("doctorUrl", mClickInteractPatient.getPatientUserLogoUrl());
                                     String date = Util.dateToStr(provideGroupConsultationUserInfo.getServiceStopDate());
                                     intent.putExtra("date", date);
                                     intent.putExtra("patientAlias", mProvideDoctorPatientUserInfo.get(clickIndex).getUserNameAlias());
-                                    Log.e("tag", "患者 别名 " + mProvideDoctorPatientUserInfo.get(clickIndex).getUserNameAlias());
+                                    Log.e("tag", "传值别名" + mProvideDoctorPatientUserInfo.get(clickIndex).getUserNameAlias());
                                     intent.putExtra("patientCode", mProvideDoctorPatientUserInfo.get(clickIndex).getUserCode());
-                                    Log.e("tag", "患者  code " + mProvideDoctorPatientUserInfo.get(clickIndex).getUserCode());
-
+                                    Log.e("TAG", "handleMessage: "+mProvideDoctorPatientUserInfo.get(clickIndex).getUserCode());
                                     if (TextUtils.isEmpty(mProvideDoctorPatientUserInfo.get(clickIndex).getBirthday())) {
 
                                     } else {
                                         intent.putExtra("patientAge", DateUtils.getAgeFromBirthTime(mProvideDoctorPatientUserInfo.get(clickIndex).getBirthday())
                                         );
                                     }
-
-
                                     intent.putExtra("patientSex", mProvideDoctorPatientUserInfo.get(clickIndex).getGender());
                                     Log.e("tag", "患者  性别: " + mProvideDoctorPatientUserInfo.get(clickIndex).getGender() + "");
                                     startActivity(intent);
@@ -509,12 +504,9 @@ public class FragmentYHHD extends Fragment {
                                     intent.putExtra("usersName", mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
                                     intent.putExtra("userUrl", mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl());
                                     intent.putExtra("doctorUrl", mClickInteractPatient.getPatientUserLogoUrl());
-                                    intent.putExtra("patientAlias", mProvideDoctorPatientUserInfo.get(clickIndex).getGoodAtRealm());
-                                    Log.e("tag", "患者 别名 " + mProvideDoctorPatientUserInfo.get(clickIndex).getGoodAtRealm());
+                                    intent.putExtra("patientAlias", mProvideDoctorPatientUserInfo.get(clickIndex).getUserNameAlias());
                                     intent.putExtra("patientCode", mProvideDoctorPatientUserInfo.get(clickIndex).getUserCode());
-                                    Log.e("tag", "患者  code " + mProvideDoctorPatientUserInfo.get(clickIndex).getUserCode());
                                     intent.putExtra("patientAge", mProvideDoctorPatientUserInfo.get(clickIndex).getNewLoginDate());
-                                    Log.e("tag", "患者  年龄: " + DateUtils.getAgeFromBirthTime(mProvideDoctorPatientUserInfo.get(clickIndex).getNewLoginDate()));
                                     intent.putExtra("patientSex", mProvideDoctorPatientUserInfo.get(clickIndex).getGender().toString());
 
                                     startActivity(intent);

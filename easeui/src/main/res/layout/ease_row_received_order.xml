@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:id="@+id/ll_root_view"
+    android:paddingTop="13dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_chat_activity">
+
+        <com.hyphenate.easeui.widget.EaseImageView
+            android:id="@+id/iv_userhead"
+            android:layout_width="@dimen/size_avatar"
+            android:layout_height="@dimen/size_avatar"
+            android:layout_marginTop="10dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="@dimen/margin_chat_activity"
+            android:scaleType="fitXY"
+            android:src="@mipmap/doctor_head"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="@dimen/margin_chat_activity" />
+
+        <RelativeLayout
+            android:layout_width="260dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="11.5dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_chat_activity"
+            android:id="@+id/rl_card_root"
+            android:layout_toEndOf="@id/iv_userhead"
+            android:background="@color/writeColor"
+            android:layout_marginLeft="11.5dp"
+            android:layout_marginRight="@dimen/margin_chat_activity"
+            android:layout_toRightOf="@id/iv_userhead">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="7dp"
+                android:background="@color/color_7a9eff">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="3dp"
+                    android:background="@drawable/bg_round_ffffff_10"
+                    android:orientation="vertical">
+
+
+                    <TextView
+                        android:id="@+id/tv_card_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="-3dp"
+                        android:background="@mipmap/bg_card_title"
+                        android:gravity="center"
+                        android:paddingBottom="2dp"
+                        android:text="签约订单"
+                        android:textColor="@color/writeColor"
+                        android:textSize="13sp">
+
+
+                    </TextView>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="18.5dp"
+                        android:layout_marginTop="8.5dp"
+                        android:layout_marginEnd="18.5dp">
+
+                        <TextView
+                            android:id="@+id/tv_monitor_type"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="检测类型"
+                            android:textColor="@color/color_616266"
+                            android:textSize="13sp" />
+
+                        <TextView
+                            android:id="@+id/tv_monitor_value"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:textColor="@color/color_303133"
+                            android:textSize="13sp"
+                            android:layout_alignParentRight="true">
+
+
+                        </TextView>
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="18.5dp"
+                        android:layout_marginTop="7dp"
+                        android:layout_marginEnd="18.5dp">
+
+                        <TextView
+                            android:id="@+id/tv_coach_rate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="辅导频次"
+                            android:textColor="@color/color_616266"
+                            android:textSize="13sp" />
+
+                        <TextView
+                            android:id="@+id/tv_coach_rate_value"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:textColor="@color/color_303133"
+                            android:textSize="13sp"
+                            android:layout_alignParentRight="true">
+
+
+                        </TextView>
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="18.5dp"
+                        android:layout_marginTop="7dp"
+                        android:layout_marginEnd="18.5dp">
+
+                        <TextView
+                            android:id="@+id/tv_sign_time"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="签约时长"
+                            android:textColor="@color/color_616266"
+                            android:textSize="13sp" />
+
+                        <TextView
+                            android:id="@+id/tv_sign_time_vlaue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:textColor="@color/color_303133"
+                            android:textSize="13sp"
+                            android:layout_alignParentRight="true">
+
+
+                        </TextView>
+                    </RelativeLayout>
+
+                    <TextView
+                        android:id="@+id/tv_price_vlaue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:layout_marginTop="11dp"
+                        android:layout_marginEnd="18.5dp"
+                        android:textColor="@color/color_f14646"
+                        android:textSize="14sp"
+                        android:text="11.0"
+                        android:layout_marginRight="18.5dp">
+
+
+                    </TextView>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="28dp"
+                        android:layout_marginBottom="14dp"
+                        android:gravity="center"
+                        android:text="对方已同意"
+                        android:id="@+id/tv_oper_msg"
+                        android:visibility="visible"
+                        android:textColor="@color/color_999999"
+                        android:textSize="14sp"
+                        >
+
+
+                    </TextView>
+
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="18.5dp"
+                        android:layout_marginEnd="18.5dp"
+                        android:layout_marginTop="21.5dp"
+                        android:layout_marginBottom="8dp"
+                        android:visibility="gone"
+                        android:id="@+id/rl_cancel_contract_order_root"
+                        >
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="同意"
+                            android:paddingTop="3.5dp"
+                            android:paddingBottom="2.5dp"
+                            android:paddingStart="16.5dp"
+                            android:paddingEnd="16.5dp"
+                            android:gravity="center"
+                            android:id="@+id/tv_cancel_contract_agree_btn"
+                            android:textColor="@color/color_7a9eff"
+                            android:background="@drawable/bg_oval_frame_7a9eff_13"/>
+
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="拒绝"
+                            android:paddingTop="3.5dp"
+                            android:paddingBottom="2.5dp"
+                            android:paddingStart="16.5dp"
+                            android:paddingEnd="16.5dp"
+                            android:gravity="center"
+                            android:layout_alignParentEnd="true"
+                            android:id="@+id/tv_cancel_contract_refuse_btn"
+                            android:textColor="@color/color_7a9eff"
+                            android:background="@drawable/bg_oval_frame_7a9eff_13"
+                            android:layout_alignParentRight="true" />
+                    </RelativeLayout>
+                </LinearLayout>
+
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/bg_agree_stamp"
+            android:id="@+id/iv_stamp_icon"
+            android:visibility="gone"
+            android:layout_marginStart="-60dp"
+            android:layout_toEndOf="@+id/rl_card_root"
+            android:layout_marginEnd="@dimen/margin_chat_activity"
+            android:layout_marginLeft="-60dp"
+            android:layout_toRightOf="@+id/rl_card_root"
+            android:layout_marginRight="@dimen/margin_chat_activity">
+
+        </ImageView>
+    </RelativeLayout>
+
+</LinearLayout>

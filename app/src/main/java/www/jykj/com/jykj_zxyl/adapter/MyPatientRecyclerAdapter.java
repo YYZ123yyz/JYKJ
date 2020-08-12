@@ -1,5 +1,6 @@
 package www.jykj.com.jykj_zxyl.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -50,7 +51,7 @@ public class MyPatientRecyclerAdapter extends RecyclerView.Adapter<MyPatientRecy
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder viewHolder, @SuppressLint("RecyclerView") int position) {
         viewHolder.mHzName.setText(datas.get(position).getUserName());
 
         try {
@@ -129,7 +130,7 @@ public class MyPatientRecyclerAdapter extends RecyclerView.Adapter<MyPatientRecy
             });
         }
 
-        //用用药点击事件
+        //解除签约点击事件
         if (mOnYYItemClickListener != null)
         {
             viewHolder.mYY.setOnClickListener(new View.OnClickListener() {
@@ -149,26 +150,6 @@ public class MyPatientRecyclerAdapter extends RecyclerView.Adapter<MyPatientRecy
             });
         }
 
-
-//        //其他打卡点击事件
-//        if (mOnQTDKItemClickListenerl != null)
-//        {
-//            viewHolder.mQTDK.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    mOnQTDKItemClickListenerl.onClick(position);
-//                }
-//            });
-//
-//            viewHolder.mQTDK.setOnLongClickListener(new View.OnLongClickListener() {
-//
-//                @Override
-//                public boolean onLongClick(View view) {
-//                    mOnQTDKItemClickListenerl.onLongClick(position);
-//                    return false;
-//                }
-//            });
-//        }
 
         //提醒患者点击事件
         if (mOnTXHZItemClickListenerl != null)

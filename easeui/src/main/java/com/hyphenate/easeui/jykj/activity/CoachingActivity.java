@@ -22,7 +22,7 @@ import com.google.gson.Gson;
 import com.hyphenate.easeui.R;
 import com.hyphenate.easeui.hyhd.model.Constant;
 import com.hyphenate.easeui.jykj.adapter.Coaching_RVAdapter;
-import com.hyphenate.easeui.jykj.bean.CoachingBean;
+import com.hyphenate.easeui.jykj.bean.DetectBean;
 import com.hyphenate.easeui.netService.HttpNetService;
 import com.hyphenate.easeui.netService.entity.NetRetEntity;
 
@@ -38,7 +38,7 @@ public class CoachingActivity extends AppCompatActivity implements View.OnClickL
     private Handler mHandler;
     private String mNetRetStr;
  //   private JYKJApplication mApp;
-    private List<CoachingBean> coachingBeans;
+    private List<DetectBean> coachingBeans;
     private Coaching_RVAdapter detect_rvAdapter;
     private CoachingActivity mActivity;
     private LinearLayout liBack;
@@ -78,7 +78,7 @@ public class CoachingActivity extends AppCompatActivity implements View.OnClickL
                 switch (msg.what) {
                     case 1:
                         if (mNetRetStr != null && !mNetRetStr.equals("")) {
-                            coachingBeans = JSON.parseArray(JSON.parseObject(mNetRetStr, NetRetEntity.class).getResJsonData(), CoachingBean.class);
+                            coachingBeans = JSON.parseArray(JSON.parseObject(mNetRetStr, NetRetEntity.class).getResJsonData(), DetectBean.class);
                             detect_rvAdapter = new Coaching_RVAdapter(coachingBeans, mContext);
                             rvCoaching.setAdapter(detect_rvAdapter);
                             detect_rvAdapter.setOnItemClickListener(new Coaching_RVAdapter.OnItemClickListener() {
@@ -166,7 +166,7 @@ public class CoachingActivity extends AppCompatActivity implements View.OnClickL
 
     //提交
     private void commit() {
-        List<CoachingBean> list = new ArrayList<>();
+        List<DetectBean> list = new ArrayList<>();
         for (int i = 0; i < coachingBeans.size(); i++) {
             if (coachingBeans.get(i).isChoice())
                 list.add(coachingBeans.get(i));

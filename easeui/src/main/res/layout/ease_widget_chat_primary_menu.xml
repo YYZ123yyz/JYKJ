@@ -15,7 +15,7 @@
         android:id="@+id/rl_bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#50ffffff"
+        android:background="#aaffffff"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingTop="4dp" >
@@ -26,7 +26,7 @@
             android:layout_height="32dp"
             android:layout_marginLeft="6dp"
             android:background="@drawable/ease_chatting_setmode_voice_btn"
-            android:visibility="gone" />
+            android:visibility="visible" />
 
         <Button
             android:id="@+id/btn_set_mode_keyboard"
@@ -60,11 +60,11 @@
 
         <RelativeLayout
             android:id="@+id/edittext_layout"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="3dp"
-            android:layout_marginLeft="0dp"
-            android:layout_marginRight="0dp"
+            android:layout_marginLeft="6dp"
+            android:layout_marginRight="6dp"
             android:layout_weight="1"
             android:gravity="bottom" >
 
@@ -83,32 +83,31 @@
                 android:textSize="18sp"
                 android:imeOptions="actionSend"/>
 
-            <RelativeLayout 
+            <RelativeLayout
                 android:id="@+id/rl_face"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:visibility="gone"
                 >
-            <ImageView
-                android:id="@+id/iv_face_normal"
-                android:layout_width="24dip"
-                android:layout_height="24dip"
-                android:layout_margin="1dip"
-                android:scaleType="fitCenter"
-                android:src="@drawable/ease_chatting_biaoqing_btn_normal"
-                android:visibility="visible" />
+                <ImageView
+                    android:id="@+id/iv_face_normal"
+                    android:layout_width="24dip"
+                    android:layout_height="24dip"
+                    android:layout_margin="1dip"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ease_chatting_biaoqing_btn_normal"
+                    android:visibility="visible" />
 
-            <ImageView
-                android:id="@+id/iv_face_checked"
-                android:layout_width="24dip"
-                android:layout_height="24dip"
-                android:layout_margin="1dip"
-                android:scaleType="fitCenter"
-                android:src="@drawable/ease_chatting_biaoqing_btn_enable"
-                android:visibility="invisible" />
-            
+                <ImageView
+                    android:id="@+id/iv_face_checked"
+                    android:layout_width="24dip"
+                    android:layout_height="24dip"
+                    android:layout_margin="1dip"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ease_chatting_biaoqing_btn_enable"
+                    android:visibility="invisible" />
+
             </RelativeLayout>
         </RelativeLayout>
 
@@ -118,7 +117,7 @@
             android:layout_height="32dip"
             android:layout_marginLeft="4dp"
             android:layout_marginRight="10dp"
-            android:background="@drawable/ease_type_select_btn" android:visibility="gone" />
+            android:background="@drawable/ease_type_select_btn" />
 
         <Button
             android:id="@+id/btn_send"

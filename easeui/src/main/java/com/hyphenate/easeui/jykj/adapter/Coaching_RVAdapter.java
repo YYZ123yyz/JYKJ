@@ -13,14 +13,15 @@ import android.widget.TextView;
 
 import com.hyphenate.easeui.R;
 import com.hyphenate.easeui.jykj.bean.CoachingBean;
+import com.hyphenate.easeui.jykj.bean.DetectBean;
 
 import java.util.List;
 
 public class Coaching_RVAdapter extends RecyclerView.Adapter<Coaching_RVAdapter.ViewHolder> {
-    private List<CoachingBean> coachingBeans;
+    private List<DetectBean> coachingBeans;
     private Context mContext;
     private OnItemClickListener mOnItemClickListener;
-    public Coaching_RVAdapter(List<CoachingBean> list, Context mContext) {
+    public Coaching_RVAdapter(List<DetectBean> list, Context mContext) {
         this.coachingBeans = list;
         this.mContext = mContext;
     }
@@ -35,7 +36,7 @@ public class Coaching_RVAdapter extends RecyclerView.Adapter<Coaching_RVAdapter.
     }
 
     //重新设置数据
-    public void setDate(List<CoachingBean> list) {
+    public void setDate(List<DetectBean> list) {
         coachingBeans = list;
     }
 

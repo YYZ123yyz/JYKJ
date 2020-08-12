@@ -155,7 +155,6 @@ public abstract class EaseChatRow extends LinearLayout {
                     timestamp.setVisibility(View.VISIBLE);
                 }
             }
-            timestamp.setVisibility(View.GONE);
         }
         if(userAvatarView != null) {
             //set nickname and avatar
@@ -230,14 +229,12 @@ public abstract class EaseChatRow extends LinearLayout {
                 } else {
                     userAvatarView.setVisibility(View.GONE);
                 }
-                userAvatarView.setVisibility(View.GONE);
             }
             if (usernickView != null) {
                 if (itemStyle.isShowUserNick())
                     usernickView.setVisibility(View.VISIBLE);
                 else
                     usernickView.setVisibility(View.GONE);
-                usernickView.setVisibility(View.VISIBLE);
             }
             if (bubbleLayout != null) {
                 if (message.direct() == Direct.SEND) {
@@ -250,10 +247,6 @@ public abstract class EaseChatRow extends LinearLayout {
                     }
                 }
             }
-        }
-        if(null!=usernickView){
-            usernickView.setVisibility(View.VISIBLE);
-            EaseUserUtils.setUserNick(message.getUserName(), usernickView);
         }
 
     }

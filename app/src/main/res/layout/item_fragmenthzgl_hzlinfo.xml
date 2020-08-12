@@ -57,7 +57,7 @@
                    android:layout_height="wrap_content"
                    android:layout_marginLeft="25dp"
                    android:gravity="right"
-                   android:textSize="9pt"
+                   android:textSize="8pt"
                    android:textColor="@color/textColor_hzgltabzc"
                    android:layout_marginRight="10dp"
                    android:id="@+id/item_fragmentHZGL_hzState"
@@ -117,14 +117,14 @@
                     android:layout_width="15dp"
                     android:layout_height="15dp"
                     android:layout_gravity="center_vertical"
-                    android:background="@mipmap/yy"/>
+                    android:background="@mipmap/qy"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="5dp"
                     android:textSize="8pt"
-                    android:text="用药"/>
+                    android:text="解除签约"/>
             </LinearLayout>
         </RelativeLayout>
 

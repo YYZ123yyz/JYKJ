@@ -20,6 +20,33 @@ public class CoachingBean implements  java.io.Serializable{
     private double price;
 
     private boolean choice;			//是否选中
+   private String time;
+   private String times;
+   private String month;
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public String getTimes() {
+        return times;
+    }
+
+    public void setTimes(String times) {
+        this.times = times;
+    }
+
+    public String getMonth() {
+        return month;
+    }
+
+    public void setMonth(String month) {
+        this.month = month;
+    }
 
     public boolean isChoice() {
         return choice;

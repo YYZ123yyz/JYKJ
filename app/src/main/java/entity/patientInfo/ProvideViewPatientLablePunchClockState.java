@@ -48,6 +48,35 @@ public class ProvideViewPatientLablePunchClockState implements java.io.Serializa
     private Date startEvaluateDate;//起始评测日期
     private Date endEvaluateDate;//结束评测日期
 
+    /*签约单数据*/
+    private  String signCode;     //签约编码 uuid
+    private  String signNo;       //签约号
+    private  String signStatus;  //签约状态:10:已提交 20:已同意 30:签约完成 40:到期解约 50:续约 100:已拒绝 110:需修改 120:提前解约 130:付款中 140: 【患者】解约申请中  160: 【医生】解约申请中
+
+    public String getSignCode() {
+        return signCode;
+    }
+
+    public void setSignCode(String signCode) {
+        this.signCode = signCode;
+    }
+
+    public String getSignNo() {
+        return signNo;
+    }
+
+    public void setSignNo(String signNo) {
+        this.signNo = signNo;
+    }
+
+    public String getSignStatus() {
+        return signStatus;
+    }
+
+    public void setSignStatus(String signStatus) {
+        this.signStatus = signStatus;
+    }
+
     public Integer getPatientId() {
         return patientId;
     }

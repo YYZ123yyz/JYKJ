@@ -15,6 +15,16 @@ public class InteractPatient implements java.io.Serializable {
 	private Integer patientDiagnosisType;//患者诊断类型
 	private String patientTitleDesc;//患者描述（标头）
 	private String patientUserName;//患者姓名
+	private String userNameAlias;//患者别名
+
+	public String getUserNameAlias() {
+		return userNameAlias;
+	}
+
+	public void setUserNameAlias(String userNameAlias) {
+		this.userNameAlias = userNameAlias;
+	}
+
 	private Integer patientGender;//性别.0:未知;1:男;2:女;
 	private String patientUserLabelName;//患者标签。Eg.高血压Ⅰ期
 	private String patientNewLoginDate;//最后一次登录日期

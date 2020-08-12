@@ -3,6 +3,7 @@ package com.hyphenate.easeui.jykj.adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import com.hyphenate.easeui.R;
 import com.hyphenate.easeui.jykj.activity.SigningDetailsActivity;
 import com.hyphenate.easeui.jykj.bean.CoachingBean;
+import com.hyphenate.easeui.jykj.bean.DetectBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,21 +24,21 @@ import java.util.List;
  * 检测类型
  */
 public class Rv_CoachingAdapter extends RecyclerView.Adapter<Rv_CoachingAdapter.ViewHolder> {
-    public List<CoachingBean> datas = new ArrayList<>();
+    public List<DetectBean> datas = new ArrayList<>();
     private SigningDetailsActivity mActivity;
     private OnItemClickListener mOnItemClickListener;
     private Context mContext;
 
     private OnItemCoachingClickListener OnItemCoachingClickListener;
     private OnItemCoachingLinClickListener OnItemCoachingLinClickListener;
-    public Rv_CoachingAdapter(List<CoachingBean> list, Context context, SigningDetailsActivity mainActivity) {
+    public Rv_CoachingAdapter(List<DetectBean> list, Context context, SigningDetailsActivity mainActivity) {
         mContext = context;
         datas = list;
         mActivity = mainActivity;
     }
 
     //重新设置数据
-    public void setDate(List<CoachingBean> list) {
+    public void setDate(List<DetectBean> list) {
         datas = list;
     }
 
@@ -59,26 +61,34 @@ public class Rv_CoachingAdapter extends RecyclerView.Adapter<Rv_CoachingAdapter.
      */
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, @SuppressLint("RecyclerView") final int position) {
+//        if(TextUtils.isEmpty(datas.get(position).getMonth())&&TextUtils.isEmpty(datas.get(position).getTime())&&TextUtils.isEmpty(datas.get(position).getTimes())){
+//
+//        }else{
+//            viewHolder.time.setText(datas.get(position).getTime()+"分钟");
+//            viewHolder.frequency.setText(datas.get(position).getTimes()+"/"+ datas.get(position).getMonth());
+//        }
          if(datas.get(position).getConfigDetailCode().equals("10")){
-             viewHolder.time.setVisibility(View.GONE);
-             //频次
-             viewHolder.lin_frequency.setOnClickListener(new View.OnClickListener() {
-                 @Override
-                 public void onClick(View view) {
-                     OnItemCoachingClickListener.onClick(position);
-                 }
-             });
-         }else{
-             viewHolder.time.setVisibility(View.VISIBLE);
-             //频次
-             viewHolder.lin_frequency.setOnClickListener(new View.OnClickListener() {
-                 @Override
-                 public void onClick(View view) {
-                  //   OnItemCoachingClickListener.onClick(position);
-                     OnItemCoachingLinClickListener.onClick(position);
-                 }
-             });
-         }
+            viewHolder.time.setVisibility(View.GONE);
+            //频次
+            viewHolder.lin_frequency.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    OnItemCoachingClickListener.onClick(position);
+                }
+            });
+        }else{
+            viewHolder.time.setVisibility(View.VISIBLE);
+            //频次
+            viewHolder.lin_frequency.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    //   OnItemCoachingClickListener.onClick(position);
+                    OnItemCoachingLinClickListener.onClick(position);
+                }
+            });
+        }
+
+
         viewHolder.tv_name.setText(datas.get(position).getConfigDetailName());
         viewHolder.ed_price.setText(datas.get(position).getPrice()+"");
         if (mOnItemClickListener != null) {
@@ -113,7 +123,7 @@ public class Rv_CoachingAdapter extends RecyclerView.Adapter<Rv_CoachingAdapter.
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public LinearLayout mClickLinearLayout;                     //整个布局，用来监听点击事件
-        public TextView tv_name,ed_price,time;                                //类型
+        public TextView tv_name,ed_price,time,frequency;                                //类型
             public LinearLayout lin_frequency;
         public ViewHolder(View view) {
             super(view);
@@ -121,6 +131,7 @@ public class Rv_CoachingAdapter extends RecyclerView.Adapter<Rv_CoachingAdapter.
             tv_name = (TextView)view.findViewById(R.id.tv_name);
             ed_price = (TextView)view.findViewById(R.id.ed_price);
             time = (TextView)view.findViewById(R.id.time);
+            frequency = (TextView)view.findViewById(R.id.frequency);
 
         }
     }
