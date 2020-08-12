@@ -1,10 +1,12 @@
 package www.jykj.com.jykj_zxyl.activity.hyhd;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.app.Service;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -277,6 +279,9 @@ public class LivePublisherActivity extends ChatPopDialogActivity implements View
                         ex.printStackTrace();
                     }
                     break;
+                case GO_CHAT_ACT:
+                    doChat();
+                    break;
                 case ENTER_CHAT_ACT:
                     if(isopenchat){
                         if(chatViewLayout.getVisibility()== View.VISIBLE) {
@@ -286,8 +291,10 @@ public class LivePublisherActivity extends ChatPopDialogActivity implements View
                         }
                     }else{
                         createChat();
-                        chatViewLayout.setVisibility(View.VISIBLE);
-                    }
+                    };
+                    break;
+                case LOGIN_CHAT_FAIL:
+                    Toast.makeText(mContext,"登录聊天室失败，请稍后重试！",Toast.LENGTH_SHORT);
                     break;
             }
             super.handleMessage(msg);
@@ -343,7 +350,17 @@ public class LivePublisherActivity extends ChatPopDialogActivity implements View
         btnShut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                shutVideo();
+                AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+                builder.setTitle("提示");
+                builder.setMessage("观众正在赶来的路上哦确认关闭直播吗?");
+                builder.setNegativeButton("取消", null);
+                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        shutVideo();
+                    }
+                });
+                builder.show();
             }
         });
 
@@ -391,15 +408,77 @@ public class LivePublisherActivity extends ChatPopDialogActivity implements View
     }
 
     boolean isopenchat = false;
+    static final int GO_CHAT_ACT = 999;
+    static final int LOGIN_CHAT_FAIL = 997;
     @Override
     public void createChat() {
+        LogimImTask logimImTask = new LogimImTask();
+        logimImTask.execute();
+    }
+
+    String IMTAG = "IMLOG";
+    class LogimImTask extends AsyncTask<Void,Void,Boolean>{
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+            try {
+                EMClient.getInstance().login(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(),mApp.mViewSysUserDoctorInfoAndHospital.getQrCode(),new EMCallBack() {
+                    @Override
+                    public void onSuccess() {
+                        Log.d(IMTAG, "登录成功");
+
+                        // ** manually load all local groups and conversation
+                        //EMClient.getInstance().groupManager().loadAllGroups();
+                        //EMClient.getInstance().chatManager().loadAllConversations();
+
+                        // update current user's display name for APNs
+                        /*boolean updatenick = EMClient.getInstance().pushManager().updatePushNickname(ExtEaseUtils.getInstance().getNickName());
+                        if (!updatenick) {
+                            Log.e(IMTAG, "更新用户昵称");
+                        }
+                        DemoHelper.getInstance().getUserProfileManager().asyncGetCurrentUserInfo();
+                        String retuser = EMClient.getInstance().getCurrentUser();*/
+                        Message sendmsg = new Message();
+                        sendmsg.what = GO_CHAT_ACT;
+                        myHandler.sendMessage(sendmsg);
+                    }
+
+                    @Override
+                    public void onProgress(int progress, String status) {
+                        Log.d(IMTAG, "登录中...");
+                    }
+
+                    @Override
+                    public void onError(final int code, final String message) {
+                        /*if (code == 101 || code==204) {
+                            try {
+                                EMClient.getInstance().createAccount(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(), mApp.mViewSysUserDoctorInfoAndHospital.getQrCode());
+                                gHandler.sendEmptyMessage(1);
+                            } catch (Exception logex) {
+                                Log.e(IMTAG, "登录失败: " + code);
+                            }
+                        }*/
+                        Log.d(IMTAG, "登录失败: " + code);
+                        Message sendmsg = new Message();
+                        sendmsg.what = LOGIN_CHAT_FAIL;
+                        myHandler.sendMessage(sendmsg);
+                    }
+                });
+            }catch (Exception ex){
+                Log.e(IMTAG,ex.getMessage());
+            }
+            return true;
+        }
+    }
+
+    void doChat(){
         Bundle parbund = new Bundle();
         parbund.putString(EaseConstant.EXTRA_CHAT_TYPE,"");
-        parbund.putInt(EaseConstant.CHAT_TYPE,EaseConstant.CHATTYPE_CHATROOM);
+        parbund.putInt(EaseConstant.CHAT_TYPE, EaseConstant.CHATTYPE_CHATROOM);
         parbund.putString(EaseConstant.EXTRA_USER_ID, mychatid);
         parbund.putString(EaseConstant.EXTRA_USER_NAME, mychatid);
         initChat(parbund);
         initChatView();
+        chatViewLayout.setVisibility(View.VISIBLE);
         joinChatroom();
         setUpView();
         isopenchat = true;
