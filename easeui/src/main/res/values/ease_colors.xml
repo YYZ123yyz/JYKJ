@@ -70,6 +70,10 @@
     <color name="textColor_hzgltabzc">#3ed045</color>
     <color name="textColor_black">#333333</color>
 
-
+    <color name="color_7a9eff">#7a9eff</color>
+    <color name="color_616266">#616266</color>
+    <color name="color_303133">#303133</color>
+    <color name="color_f14646">#f14646</color>
+    <color name="color_999999">#999999</color>
     <color name="color">#ff00ff</color>
 </resources>
