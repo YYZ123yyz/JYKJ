@@ -64,7 +64,7 @@ public class EaseChatPrimaryMenu extends EaseChatPrimaryMenuBase implements OnCl
         RelativeLayout faceLayout = (RelativeLayout) findViewById(R.id.rl_face);
         buttonMore = (Button) findViewById(R.id.btn_more);
         edittext_layout.setBackgroundResource(R.drawable.ease_input_bar_bg_normal);
-        
+
         buttonSend.setOnClickListener(this);
         buttonSetModeKeyboard.setOnClickListener(this);
         buttonSetModeVoice.setOnClickListener(this);
@@ -72,7 +72,7 @@ public class EaseChatPrimaryMenu extends EaseChatPrimaryMenuBase implements OnCl
         faceLayout.setOnClickListener(this);
         editText.setOnClickListener(this);
         editText.requestFocus();
-        
+
         editText.setOnFocusChangeListener(new OnFocusChangeListener() {
 
             @Override
@@ -149,10 +149,10 @@ public class EaseChatPrimaryMenu extends EaseChatPrimaryMenuBase implements OnCl
             }
         });
 
-        
+
         buttonPressToSpeak.setOnTouchListener(new OnTouchListener() {
-            
-            @Override 
+
+            @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if(listener != null){
                     return listener.onPressToSpeakBtnTouch(v, event);
@@ -161,7 +161,7 @@ public class EaseChatPrimaryMenu extends EaseChatPrimaryMenuBase implements OnCl
             }
         });
     }
-    
+
     /**
      * set recorder view when speak icon is touched
      * @param voiceRecorderView
@@ -177,7 +177,7 @@ public class EaseChatPrimaryMenu extends EaseChatPrimaryMenuBase implements OnCl
     public void onEmojiconInputEvent(CharSequence emojiContent){
         editText.append(emojiContent);
     }
-    
+
     /**
      * delete emojicon
      */
@@ -187,7 +187,7 @@ public class EaseChatPrimaryMenu extends EaseChatPrimaryMenuBase implements OnCl
             editText.dispatchKeyEvent(event);
         }
     }
-    
+
     /**
      * on clicked event
      * @param view
@@ -233,11 +233,11 @@ public class EaseChatPrimaryMenu extends EaseChatPrimaryMenuBase implements OnCl
         } else {
         }
     }
-    
-    
+
+
     /**
      * show voice icon when speak bar is touched
-     * 
+     *
      */
     protected void setModeVoice() {
         hideKeyboard();
@@ -272,8 +272,8 @@ public class EaseChatPrimaryMenu extends EaseChatPrimaryMenuBase implements OnCl
         }
 
     }
-    
-    
+
+
     protected void toggleFaceImage(){
         if(faceNormal.getVisibility() == View.VISIBLE){
             showSelectedFaceImage();
@@ -281,17 +281,17 @@ public class EaseChatPrimaryMenu extends EaseChatPrimaryMenuBase implements OnCl
             showNormalFaceImage();
         }
     }
-    
+
     private void showNormalFaceImage(){
         faceNormal.setVisibility(View.VISIBLE);
         faceChecked.setVisibility(View.INVISIBLE);
     }
-    
+
     private void showSelectedFaceImage(){
         faceNormal.setVisibility(View.INVISIBLE);
         faceChecked.setVisibility(View.VISIBLE);
     }
-    
+
 
     @Override
     public void onExtendMenuContainerHide() {
