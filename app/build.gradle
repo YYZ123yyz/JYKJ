@@ -107,8 +107,9 @@ dependencies {
     implementation files('libs/ksoap2-android-assembly-2.5.4-jar-with-dependencies.jar')
     implementation files('libs/universal-image-loader-1.8.6-with-sources.jar')
     implementation files('libs/mi_push_v3.6.12.jar')
-    implementation files('libs/oppo_push_v2.0.2')
-    implementation files('libs/vivo_push_v2.3.1')
+    implementation files('libs/oppo_push_v1.0.1.jar')
+    implementation files('libs/oppo_push_v2.0.2.jar')
+    implementation files('libs/vivo_push_v2.3.1.jar')
     implementation files('libs/core-3.3.3.jar')
     //implementation files('libs/fastjson-1.2.49.jar')
     implementation 'com.github.bumptech.glide:glide:3.7.0'
@@ -171,7 +172,7 @@ dependencies {
     implementation 'com.hyman:flowlayout-lib:1.1.2'
     implementation 'com.zhy:base-adapter:2.0.1'
 
-    compile 'com.jakewharton:butterknife:8.8.1'
+    implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
 
     implementation 'com.contrarywind:Android-PickerView:4.1.9'
@@ -179,8 +180,8 @@ dependencies {
     implementation  'org.greenrobot:eventbus:3.0.0'
     //今日头条适配器依赖包
     implementation 'me.jessyan:autosize:0.9.5'
-    compile 'com.hyman:flowlayout-lib:1.1.2'
-    compile 'com.zhy:base-adapter:2.0.1'
+    implementation 'com.hyman:flowlayout-lib:1.1.2'
+    implementation 'com.zhy:base-adapter:2.0.1'
     implementation 'com.contrarywind:Android-PickerView:4.1.9'
     implementation 'com.mostafagazar:customshapeimageview:1.0.4'
     //下拉刷新和上拉加载更多
