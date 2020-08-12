@@ -762,7 +762,6 @@ public class NewLivePlayerActivity extends ChatPopDialogActivity implements ITXL
             } else {
                 try {
                     createChat();
-                    chatViewLayout.setVisibility(View.VISIBLE);
                 }catch (Exception ex){
                     ex.printStackTrace();
                 }

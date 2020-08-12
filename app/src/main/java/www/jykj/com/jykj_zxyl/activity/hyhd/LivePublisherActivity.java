@@ -516,7 +516,6 @@ public class LivePublisherActivity extends ChatPopDialogActivity implements View
                 }
             } else {
                 createChat();
-                chatViewLayout.setVisibility(View.VISIBLE);
             }
         }
     }
