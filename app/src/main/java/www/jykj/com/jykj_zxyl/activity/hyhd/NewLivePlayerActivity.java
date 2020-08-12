@@ -28,6 +28,7 @@ import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.chat.EMTextMessageBody;
 import com.hyphenate.easeui.EaseConstant;
+import com.hyphenate.easeui.hyhd.DemoHelper;
 import com.hyphenate.easeui.utils.ExtEaseUtils;
 import com.tencent.rtmp.ITXLivePlayListener;
 import com.tencent.rtmp.TXLiveConstants;
@@ -109,9 +110,9 @@ public class NewLivePlayerActivity extends ChatPopDialogActivity implements ITXL
         mdetailCode = getIntent().getStringExtra("detailCode");
         mActivity = NewLivePlayerActivity.this;
         mContext = NewLivePlayerActivity.this;
+        loadLive();
         setContentView(R.layout.activity_new_player);
         mActivityType = getIntent().getIntExtra("PLAY_TYPE", ACTIVITY_TYPE_LIVE_PLAY);
-        loadLive();
         mPlayConfig = new TXLivePlayConfig();
         checkPublishPermission();
         initview();
@@ -188,7 +189,7 @@ public class NewLivePlayerActivity extends ChatPopDialogActivity implements ITXL
                 if(retent.getResCode()==1){
                     String subrepjson = retent.getResJsonData();
                     RoomDetailInfo retliveresp = JSON.parseObject(subrepjson,RoomDetailInfo.class);
-                    //mychatid = retliveresp.getChatRoomCode();
+                    mychatid = retliveresp.getChatRoomCode();
                     playUrl = retliveresp.getPullUrl();
                     queroominfo = retliveresp;
                     return true;
@@ -240,8 +241,61 @@ public class NewLivePlayerActivity extends ChatPopDialogActivity implements ITXL
     }
 
     boolean isopenchat = false;
-    @Override
-    public void createChat() {
+    String IMTAG = "IMLOG";
+    class LogimImTask extends AsyncTask<Void,Void,Boolean>{
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+            try {
+                EMClient.getInstance().login(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(),mApp.mViewSysUserDoctorInfoAndHospital.getQrCode(),new EMCallBack() {
+                    @Override
+                    public void onSuccess() {
+                        Log.d(IMTAG, "登录成功");
+
+                        // ** manually load all local groups and conversation
+                        //EMClient.getInstance().groupManager().loadAllGroups();
+                        //EMClient.getInstance().chatManager().loadAllConversations();
+
+                        // update current user's display name for APNs
+                        /*boolean updatenick = EMClient.getInstance().pushManager().updatePushNickname(ExtEaseUtils.getInstance().getNickName());
+                        if (!updatenick) {
+                            Log.e(IMTAG, "更新用户昵称");
+                        }
+                        DemoHelper.getInstance().getUserProfileManager().asyncGetCurrentUserInfo();
+                        String retuser = EMClient.getInstance().getCurrentUser();*/
+                        Message sendmsg = new Message();
+                        sendmsg.what = GO_CHAT_ACT;
+                        myHandler.sendMessage(sendmsg);
+                    }
+
+                    @Override
+                    public void onProgress(int progress, String status) {
+                        Log.d(IMTAG, "登录中...");
+                    }
+
+                    @Override
+                    public void onError(final int code, final String message) {
+                        /*if (code == 101 || code==204) {
+                            try {
+                                EMClient.getInstance().createAccount(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(), mApp.mViewSysUserDoctorInfoAndHospital.getQrCode());
+                                gHandler.sendEmptyMessage(1);
+                            } catch (Exception logex) {
+                                Log.e(IMTAG, "登录失败: " + code);
+                            }
+                        }*/
+                        Log.d(IMTAG, "登录失败: " + code);
+                        Message sendmsg = new Message();
+                        sendmsg.what = LOGIN_CHAT_FAIL;
+                        myHandler.sendMessage(sendmsg);
+                    }
+                });
+            }catch (Exception ex){
+                Log.e(IMTAG,ex.getMessage());
+            }
+            return true;
+        }
+    }
+
+    void doChat(){
         Bundle parbund = new Bundle();
         parbund.putString(EaseConstant.EXTRA_CHAT_TYPE,"");
         parbund.putInt(EaseConstant.CHAT_TYPE, EaseConstant.CHATTYPE_CHATROOM);
@@ -249,9 +303,18 @@ public class NewLivePlayerActivity extends ChatPopDialogActivity implements ITXL
         parbund.putString(EaseConstant.EXTRA_USER_NAME, mychatid);
         initChat(parbund);
         initChatView();
+        chatViewLayout.setVisibility(View.VISIBLE);
         joinChatroom();
         setUpView();
         isopenchat = true;
+    }
+
+    static final int GO_CHAT_ACT = 999;
+    static final int LOGIN_CHAT_FAIL = 997;
+    @Override
+    public void createChat() {
+        LogimImTask logimImTask = new LogimImTask();
+        logimImTask.execute();
     }
 
     StringBuffer msgnamesb = new StringBuffer();
@@ -286,6 +349,23 @@ public class NewLivePlayerActivity extends ChatPopDialogActivity implements ITXL
                         ex.printStackTrace();
                     }
                 break;
+                case GO_CHAT_ACT:
+                    doChat();
+                    break;
+                case ENTER_CHAT_ACT:
+                    if(isopenchat){
+                        if(chatViewLayout.getVisibility()== View.VISIBLE) {
+                            chatViewLayout.setVisibility(View.GONE);
+                        }else{
+                            chatViewLayout.setVisibility(View.VISIBLE);
+                        }
+                    }else{
+                        createChat();
+                    };
+                    break;
+                case LOGIN_CHAT_FAIL:
+                    Toast.makeText(mContext,"登录聊天室失败，请稍后重试！",Toast.LENGTH_SHORT);
+                    break;
             }
             super.handleMessage(msg);
         }
@@ -649,22 +729,17 @@ public class NewLivePlayerActivity extends ChatPopDialogActivity implements ITXL
         }
     }
 
+    static final int ENTER_CHAT_ACT = 888;
+
     void goChat(){
         if(StrUtils.defaulObjToStr(ExtEaseUtils.getInstance().getUserId()).length()==0){
             mApp.saveUserInfo();
             EMClient.getInstance().login(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(),mApp.mViewSysUserDoctorInfoAndHospital.getQrCode(),new EMCallBack() {
                 @Override
                 public void onSuccess() {
-                    if(isopenchat){
-                        if(chatViewLayout.getVisibility()== View.VISIBLE) {
-                            chatViewLayout.setVisibility(View.GONE);
-                        }else{
-                            chatViewLayout.setVisibility(View.VISIBLE);
-                        }
-                    }else{
-                        createChat();
-                        chatViewLayout.setVisibility(View.VISIBLE);
-                    }
+                    Message parmsg = new Message();
+                    parmsg.what = ENTER_CHAT_ACT;
+                    myHandler.sendMessage(parmsg);
                 }
 
                 @Override

@@ -166,22 +166,21 @@ public abstract class ChatPopDialogActivity extends AppCompatActivity implements
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         myActivity = this;
-        mApp = (JYKJApplication)getApplication();
         inputMethodManager = (InputMethodManager) myActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
     }
     public UpdMyClinicDetailByOrderTreatmentLimitNum updMyClinicDetailByOrderTreatmentLimitNum;
     protected void initChat(Bundle params){
         fragmentArgs = params;
-        chatType = fragmentArgs.getInt(EaseConstant.CHAT_TYPE, EaseConstant.CHATTYPE_SINGLE);
+        chatType = fragmentArgs.getInt(EaseConstant.CHAT_TYPE, EaseConstant.CHATTYPE_CHATROOM);
 
         //消息数量限制
-        mMessageNum = fragmentArgs.getInt(EaseConstant.EXTRA_MESSAGE_NUM, EaseConstant.CHATTYPE_SINGLE);
-        mVoiceTime = fragmentArgs.getLong(EaseConstant.EXTRA_VOICE_NUM, EaseConstant.CHATTYPE_SINGLE);
-        mVedioTime = fragmentArgs.getLong(EaseConstant.EXTRA_VEDIO_NUM, EaseConstant.CHATTYPE_SINGLE);
+        mMessageNum = fragmentArgs.getInt(EaseConstant.EXTRA_MESSAGE_NUM, Integer.MAX_VALUE);
+        mVoiceTime = fragmentArgs.getLong(EaseConstant.EXTRA_VOICE_NUM, Integer.MAX_VALUE);
+        mVedioTime = fragmentArgs.getLong(EaseConstant.EXTRA_VEDIO_NUM,Integer.MAX_VALUE);
         mStopDate = fragmentArgs.getString("date");
-        loginDoctorPosition = fragmentArgs.getString("loginDoctorPosition",mApp.loginDoctorPosition);
-        operDoctorCode = fragmentArgs.getString("operDoctorCode",mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
-        operDoctorName = fragmentArgs.getString("operDoctorName",mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
+        loginDoctorPosition = fragmentArgs.getString("loginDoctorPosition","");
+        operDoctorCode = fragmentArgs.getString("operDoctorCode","");
+        operDoctorName = fragmentArgs.getString("operDoctorName","");
         orderCode = fragmentArgs.getString("orderCode","");
         // userId you are chat with or group id
         toChatUsername = fragmentArgs.getString(EaseConstant.EXTRA_USER_ID);
@@ -1375,7 +1374,7 @@ public abstract class ChatPopDialogActivity extends AppCompatActivity implements
                 try {
 
                     String string = new Gson().toJson(updMyClinicDetailByOrderTreatmentLimitNum);
-                    HttpNetService.urlConnectionService("jsonDataInfo="+string, Constant.SERVICEURL+"doctorInteractDataControlle/operUpdMyClinicDetailByOrderTreatmentLimitNum");
+                    //HttpNetService.urlConnectionService("jsonDataInfo="+string, Constant.SERVICEURL+"doctorInteractDataControlle/operUpdMyClinicDetailByOrderTreatmentLimitNum");
                     String string01 = Constant.SERVICEURL+"msgDataControlle/searchMsgPushReminderAllCount";
                     System.out.println(string+string01);
                 } catch (Exception e) {
