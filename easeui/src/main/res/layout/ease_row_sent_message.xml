@@ -31,7 +31,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="@dimen/margin_chat_activity"
-                android:layout_toRightOf="@id/iv_userhead"
+                android:layout_toRightOf="@id/tv_userid"
         >
 
             <TextView
@@ -58,7 +58,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="@dimen/chat_nick_margin_left"
                 android:layout_toRightOf="@id/iv_userhead"
-                android:text="xxx" />
+                android:text="" />
 
         <ImageView
                 android:id="@+id/msg_status"

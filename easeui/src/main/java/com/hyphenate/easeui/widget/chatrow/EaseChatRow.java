@@ -23,6 +23,7 @@ import com.hyphenate.easeui.domain.EaseAvatarOptions;
 import com.hyphenate.easeui.hyhd.model.Constant;
 import com.hyphenate.easeui.model.styles.EaseMessageListItemStyle;
 import com.hyphenate.easeui.utils.EaseUserUtils;
+import com.hyphenate.easeui.utils.ExtEaseUtils;
 import com.hyphenate.easeui.widget.EaseChatMessageList.MessageListItemClickListener;
 import com.hyphenate.easeui.widget.EaseImageView;
 import com.hyphenate.util.DateUtils;
@@ -240,7 +241,11 @@ public abstract class EaseChatRow extends LinearLayout {
         }
         if(null!=usernickView){
             usernickView.setVisibility(View.VISIBLE);
-            EaseUserUtils.setUserNick(message.getUserName(),usernickView);
+            if (message.direct() == Direct.SEND) {
+                EaseUserUtils.setUserNick(ExtEaseUtils.getInstance().getNickName(),usernickView);
+            }else{
+                EaseUserUtils.setUserNick(message.getUserName(),usernickView);
+            }
         }
 
     }
