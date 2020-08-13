@@ -79,6 +79,8 @@
         <activity android:name="yyz_exploit.activity.activity.CustomizeActivity" />
         <activity android:name="yyz_exploit.activity.activity.KeywordActivity" />
         <activity android:name="yyz_exploit.activity.activity.BeforesettingActivity" />
+        <activity android:name="yyz_exploit.activity.activity.RefuseActivity" />
+
         <activity android:name="yyz_exploit.activity.activity.NoticeActivity" />
         <activity android:name="yyz_exploit.activity.activity.LectureActivity" />
         <activity android:name="yyz_exploit.activity.activity.FeedbackActivity" /> <!-- 意见反馈页面 -->

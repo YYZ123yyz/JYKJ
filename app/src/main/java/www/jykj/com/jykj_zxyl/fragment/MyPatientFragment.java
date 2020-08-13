@@ -36,6 +36,7 @@ import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.activity.home.MyPatientActivity;
 import www.jykj.com.jykj_zxyl.activity.hzgl.HZGLHZZLActivity;
 import www.jykj.com.jykj_zxyl.activity.hzgl.HZGLTXHZActivity;
+import www.jykj.com.jykj_zxyl.activity.hzgl.HZGLXYActivity;
 import www.jykj.com.jykj_zxyl.adapter.MyPatientRecyclerAdapter;
 import www.jykj.com.jykj_zxyl.application.Constant;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
@@ -79,6 +80,7 @@ public class MyPatientFragment extends Fragment {
         mApp = (JYKJApplication) getActivity().getApplication();
         initLayout(v);
         getNumber();
+        getData(mSearchStateType);
         initHandler();
         return v;
     }
@@ -86,7 +88,7 @@ public class MyPatientFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        getData(mSearchStateType);
+
     }
 
     private void getNumber() {
@@ -154,7 +156,7 @@ public class MyPatientFragment extends Fragment {
             @Override
             public void onClick(int position) {
                 if (mHZEntyties.get(position).getSignStatus().equals("140")) {
-                    Log.e("TAG", "onClick: " + "同意解约");
+                    Log.e("TAG", "onClick: " + "同意解约"+mHZEntyties.get(position).getSignStatus());
                     agree(position);
                 } else {
                     Intent intent = new Intent();
@@ -171,19 +173,33 @@ public class MyPatientFragment extends Fragment {
             }
         });
 
+        //血压点击事件
+        mHZGLRecycleAdapter.setOnXYItemClickListener(new MyPatientRecyclerAdapter.OnXYItemClickListener() {
+            @Override
+            public void onClick(int position) {
+                Intent intent = new Intent();
+                intent.putExtra("patientInfo", mHZEntyties.get(position));
+                intent.setClass(mContext, HZGLHZZLActivity.class);
+                startActivity(intent);
+            }
 
+            @Override
+            public void onLongClick(int position) {
+
+            }
+        });
         //提醒患者点击事件
         mHZGLRecycleAdapter.setOnTXHZItemClickListener(new MyPatientRecyclerAdapter.OnTXHZItemClickListener() {
             @Override
             public void onClick(int position) {
                 if (mHZEntyties.get(position).getSignStatus().equals("140")) {
-                //    Log.e("TAG", "onClick: " + "拒绝解约");
+                    Log.e("TAG", "onClick: " + "拒绝解约"+mHZEntyties.get(position).getSignStatus());
                     Intent intent = new Intent();
                     intent.setClass(mContext, RefuseActivity.class);
                     intent.putExtra("patientLable", mHZEntyties.get(position));
                     startActivity(intent);
                 } else if (mHZEntyties.get(position).getSignStatus().equals("150")) {
-                 //   Log.e("TAG", "onClick: " + "撤销解约");
+                    Log.e("TAG", "onClick: " + "撤销解约"+mHZEntyties.get(position).getSignStatus());
                     Revoke(position);
                 } else {
                     Intent intent = new Intent();

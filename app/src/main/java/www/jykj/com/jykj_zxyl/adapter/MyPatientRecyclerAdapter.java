@@ -61,12 +61,13 @@ public class MyPatientRecyclerAdapter extends RecyclerView.Adapter<MyPatientRecy
             viewHolder.agree_image.setImageResource(R.mipmap.agree);
             viewHolder.noagree_tv.setText("拒绝解约");
             viewHolder.noagree_image.setImageResource(R.mipmap.disagree);
-        }
-        else if(datas.get(position).getSignStatus().equals("150")) {
+        } else if (datas.get(position).getSignStatus().equals("150")) {
             viewHolder.mXY.setVisibility(View.INVISIBLE);
             viewHolder.mYY.setVisibility(View.INVISIBLE);
             viewHolder.noagree_tv.setText("撤销解约");
             viewHolder.noagree_image.setImageResource(R.mipmap.revoke);
+        } else {
+
         }
         try {
             viewHolder.mHzAge.setText(DateUtils.getAgeFromBirthDate(datas.get(position).getBirthday()) + "");

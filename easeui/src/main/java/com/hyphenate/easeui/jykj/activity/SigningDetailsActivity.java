@@ -2,6 +2,7 @@ package com.hyphenate.easeui.jykj.activity;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -65,6 +66,7 @@ import java.util.List;
 
 
 public class SigningDetailsActivity extends AppCompatActivity implements View.OnClickListener {
+    public ProgressDialog mDialogProgress = null;
     private Context mContext;
     private SigningDetailsActivity mActivity;
     private List<DetectBean> mDetectBeans = new ArrayList<>();            //检测类型
@@ -473,6 +475,7 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
         orderItemBeans.addAll(uploadOrderItems);
         orderItemBeans.addAll(uploadOrderItems1);
         map.put("orderDetailList", orderItemBeans);
+        getProgressBar("请稍候...", "正在提交");
         new Thread() {
             public void run() {
                 String mNetRetStr="";
@@ -500,6 +503,7 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
 
     //提交
     private void commit() {
+        getProgressBar("请稍候...", "正在提交");
         final HashMap<String, Object> map = new HashMap<>();
         map.put("loginDoctorPosition", "108.93425^34.23053");
         map.put("operDoctorCode", code);
@@ -563,7 +567,9 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
                 }
 
                 switch (msg.what) {
+
                     case 1:
+                        cacerProgress();
                         if (result != null && !result.equals("")) {
                             netRetEntity = new Gson().fromJson(result, NetRetEntity.class);
                             if (netRetEntity.getResCode() == 1) {
@@ -574,8 +580,8 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
                                     signOrderCode = restcommit.getSignOrderCode();
                                     signNo = restcommit.getSignNo();
                                 }
-                                Log.e("TAG", "handleMessage: " + patientCode);
                                 OrderMessage orderMessage = new OrderMessage(name, doctorUrl, signOrderCode, mDetectBeans.size() + "项", videosecondaryListattrName + "/" + videomonthListattrName, tvDuration.getText().toString(), Coachingprice + Detectprice + "", signNo, "", "card", patientCode);
+                                Log.e("TAG", "handleMessage:患者的code "+patientCode );
                                 EventBus.getDefault().post(orderMessage);
                                 finish();
                             }
@@ -614,6 +620,7 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
                         }
                         break;
                     case 5:
+                        cacerProgress();
                         if (result != null && !result.equals("")) {
                             NetRetEntity netRetEntity = new Gson().fromJson(result, NetRetEntity.class);
                             if (netRetEntity.getResCode() == 1) {
@@ -759,7 +766,7 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
         map.put("operDoctorCode", code);
         map.put("operDoctorName", name);
         map.put("signOrderCode", type);
-
+        getProgressBar("请稍候...", "正在获取数据");
         new Thread() {
             public void run() {
                 String mNetRetStr="";
@@ -926,5 +933,28 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
         }
         totalprice.setText(totalPrice+"");
     }
+    /**
+     * 获取进度条
+     * 获取进度条
+     * 获取进度条
+     */
 
+    public void getProgressBar(String title, String progressPrompt) {
+        if (mDialogProgress == null) {
+            mDialogProgress = new ProgressDialog(mActivity);
+        }
+        mDialogProgress.setTitle(title);
+        mDialogProgress.setMessage(progressPrompt);
+        mDialogProgress.setCancelable(false);
+        mDialogProgress.show();
+    }
+
+    /**
+     * 取消进度条
+     */
+    public void cacerProgress() {
+        if (mDialogProgress != null) {
+            mDialogProgress.dismiss();
+        }
+    }
 }
