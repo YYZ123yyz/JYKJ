@@ -233,7 +233,11 @@
                             android:text="频率时长"
                             android:textColor="@color/tabColor_nomal"
                             />
-
+                        <TextView
+                            android:id="@+id/day_tv"
+                            android:layout_gravity="center_vertical"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
                         <ImageView
                             android:layout_width="@dimen/dp_12"
                             android:layout_height="@dimen/dp_18"

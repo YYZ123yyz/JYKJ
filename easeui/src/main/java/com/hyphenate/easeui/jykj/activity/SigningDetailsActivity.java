@@ -55,6 +55,7 @@ import com.hyphenate.easeui.utils.MainMessage;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -143,6 +144,8 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
     private String doctorUrl;
     private String signNo;
     private String singCode;
+    private TextView day_tv;
+    private String dayListattrName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -212,7 +215,7 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
     }
 
     private void initView() {
-
+        day_tv = (TextView) findViewById(R.id.day_tv);
         //图标
         linStartTime = (LinearLayout) findViewById(R.id.lin_start_time_s);
         tvStartTime=(TextView) findViewById(R.id.tv_start_time);
@@ -258,12 +261,12 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
 
         linDetect = (LinearLayout) findViewById(R.id.lin_Detect);
         linDetect.setOnClickListener(this);
-        linDetect.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivityForResult(new Intent(mContext, DetectActivity.class), 1);
-            }
-        });
+//        linDetect.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                startActivityForResult(new Intent(mContext, DetectActivity.class), 1);
+//            }
+//        });
         rvqbzz = (RecyclerView) findViewById(R.id.rvqbzz);
         linTime = (LinearLayout) findViewById(R.id.lin_time);
 
@@ -275,12 +278,12 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
             }
         });
         linClass = (LinearLayout) findViewById(R.id.lin_class);
-        linClass.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivityForResult(new Intent(mContext, CoachingActivity.class), 2);
-            }
-        });
+//        linClass.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                startActivityForResult(new Intent(mContext, CoachingActivity.class), 2);
+//            }
+//        });
         tvDuration = (TextView) findViewById(R.id.tv_duration);
         linDuration = (LinearLayout) findViewById(R.id.lin_duration);
         linDuration.setOnClickListener(new View.OnClickListener() {
@@ -375,7 +378,6 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
 
         optionPickUnit.setNPicker(getDayStrList(monthsList), null, null);
         optionPickUnit.show();
-        Log.e("tag", "Duration: " + "走了");
     }
 
     //音视频弹框
@@ -412,6 +414,8 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
             @Override
             public void onOptionsSelect(int options1, int options2, int options3, View v) {
                 dayListattrCode = dayList.get(options1).getAttrCode();
+                dayListattrName = dayList.get(options1).getAttrName();
+                day_tv.setText(dayListattrName);
             }
         })
                 .setCancelColor(getResources().getColor(R.color.textColor_vt))
@@ -444,6 +448,14 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
 
     //修改提交
     private void ModificationSubmission() {
+        if (dayListattrCode==null) {
+            Toast.makeText(mActivity, "请选择频率时长", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (TextUtils.isEmpty(tvStartTime.getText().toString())) {
+            Toast.makeText(mActivity, "请选择签约开始时间", Toast.LENGTH_SHORT).show();
+            return;
+        }
         final HashMap<String, Object> map = new HashMap<>();
         map.put("loginDoctorPosition", "108.93425^34.23053");
         map.put("operDoctorCode", code);
@@ -458,10 +470,7 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
         map.put("signUnit", "月");
         map.put("signDurationUnit", "月");
         map.put("signPrice", totalprice.getText().toString());
-        if (TextUtils.isEmpty(tvStartTime.getText().toString())) {
-            Toast.makeText(mActivity, "请选择签约开始时间", Toast.LENGTH_SHORT).show();
-            return;
-        }
+        map.put("signDurationUnit", monthsListattrName + "");
         map.put("signStartTime", tvStartTime.getText().toString());
         java.util.List<OrderItemBean> uploadOrderItems = getUploadOrderItems(mDetectBeans);
         java.util.List<OrderItemBean> uploadOrderItems1 = getUploadOrderItems(mCoachingBean);
@@ -657,13 +666,13 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
         linDetect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivityForResult(new Intent(mContext, DetectActivity.class), 1);
+                startActivityForResult(new Intent(mContext, DetectActivity.class)  .putExtra("detect", (Serializable) mDetectBeans), 1);
             }
         });
         linClass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivityForResult(new Intent(mContext, CoachingActivity.class), 2);
+                startActivityForResult(new Intent(mContext, CoachingActivity.class)  .putExtra("coaching", (Serializable) mCoachingBean), 2);
             }
         });
 
@@ -674,13 +683,6 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
                 Duration();
             }
         });
-//        //修改提交
-//        btActivityMySelfSettingExitButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                ModificationSubmission();
-//            }
-//        });
     }
     //订单详情设置布局显示
     private void setLayoutData() {
@@ -750,13 +752,6 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
         //   int signDuration = getdetailsBeans.getSignDuration();
         Log.e("TAG", "setLayoutDate:  id " + getdetailsBeans.getSignStatus());
         tvDuration.setText(getdetailsBeans.getSignDurationUnit());
-//        for (ProvideBasicsDomain provideBasicsDomain : monthsList) {
-//            if (provideBasicsDomain.getAttrCode() == signDuration) {
-//             //   signDurationUnit
-//                tvDuration.setText(provideBasicsDomain.get);
-//                Log.e("TAG", "setLayoutDate:   签约时间 " + provideBasicsDomain.getAttrName().toString());
-//            }
-//        }
         //总价
         totalprice.setText(getdetailsBeans.getSignPrice() + "");
         patientName1=getdetailsBeans.getMainUserName();
