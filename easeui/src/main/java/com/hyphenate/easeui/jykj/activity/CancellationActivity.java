@@ -20,6 +20,7 @@ import com.alibaba.fastjson.JSON;
 import com.google.gson.Gson;
 import com.hyphenate.easeui.R;
 import com.hyphenate.easeui.hyhd.model.Constant;
+import com.hyphenate.easeui.jykj.bean.CancelContractOrderBean;
 import com.hyphenate.easeui.jykj.bean.Restcommit;
 import com.hyphenate.easeui.jykj.bean.SignPatientDoctorOrderBean;
 import com.hyphenate.easeui.jykj.utils.DateUtils;
@@ -34,7 +35,7 @@ public class CancellationActivity extends AppCompatActivity implements View.OnCl
     private String mNetRetStr;
   //  private JYKJApplication mApp;
     private Handler mHandler;
-    private SignPatientDoctorOrderBean signPatientDoctorOrderBean;
+    private CancelContractOrderBean signPatientDoctorOrderBean;
     private LinearLayout llBack;
     private RelativeLayout rl;
     private TextView tvName;
@@ -102,6 +103,7 @@ public class CancellationActivity extends AppCompatActivity implements View.OnCl
         }.start();
     }
 
+    @SuppressLint("HandlerLeak")
     private void initHandler() {
         mHandler = new Handler() {
             @SuppressLint("HandlerLeak")
@@ -112,7 +114,7 @@ public class CancellationActivity extends AppCompatActivity implements View.OnCl
                     case 1:
                         netRetEntity = new Gson().fromJson(mNetRetStr, NetRetEntity.class);
                         if (netRetEntity.getResCode()==1) {
-                            signPatientDoctorOrderBean = JSON.parseObject(netRetEntity.getResJsonData(), SignPatientDoctorOrderBean.class);
+                            signPatientDoctorOrderBean = JSON.parseObject(netRetEntity.getResJsonData(), CancelContractOrderBean.class);
                             setShow();
                         }else{
                             Toast.makeText(CancellationActivity.this, "" + netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
@@ -148,9 +150,8 @@ public class CancellationActivity extends AppCompatActivity implements View.OnCl
         //辅导类型
         cancellationTimes.setText(signPatientDoctorOrderBean.getDetectRate()+signPatientDoctorOrderBean.getDetectRateUnitName());
         //签约价格
-        BigDecimal signPrice = signPatientDoctorOrderBean.getSignPrice();
-        double c = signPrice.doubleValue();  // 转 double
-        cancellationPrice.setText(c + "");
+        double signPrice = signPatientDoctorOrderBean.getSignPrice();
+        cancellationPrice.setText(signPrice + "");
     }
 
     private void initView() {

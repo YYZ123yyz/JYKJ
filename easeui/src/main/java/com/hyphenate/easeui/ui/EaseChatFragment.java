@@ -200,7 +200,7 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
     private String patientCode;
     private String patientAge;
     private String patientSex;
-
+    private OrderMessage orderMessage;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.ease_fragment_chat, container, false);
@@ -227,7 +227,7 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
         operDoctorCode = fragmentArgs.getString("operDoctorCode", "");
         operDoctorName = fragmentArgs.getString("operDoctorName", "");
         orderCode = fragmentArgs.getString("orderCode", "");
-
+        orderMessage =(OrderMessage) fragmentArgs.getSerializable("orderMessage");
 
         Constant.doctorUrl=fragmentArgs.getString("userUrl");
         Constant.patientUrl=fragmentArgs.getString("doctorUrl");
@@ -266,7 +266,9 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
             itemIds = new int[]{ITEM_VIDEO};
         }
         this.turnOnTyping = turnOnTyping();
-
+        if(orderMessage!=null){
+            sendOrderCardMsg(orderMessage);
+        }
         super.onActivityCreated(savedInstanceState);
     }
 

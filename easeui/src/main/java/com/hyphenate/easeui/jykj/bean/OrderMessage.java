@@ -21,7 +21,18 @@ public class OrderMessage implements Serializable {
     private String messageType;
     private String patientCode;
 
-    public OrderMessage(String nickName, String imageUrl, String orderId, String monitoringType, String coach, String signUpTime, String price, String singNo, String orderType, String messageType, String patientCode) {
+    public OrderMessage(String nickName,
+                        String imageUrl,
+                        String orderId,
+                        String monitoringType,
+                        String coach,
+                        String signUpTime,
+                        String price,
+                        String singNo,
+                        String orderType,
+                        String messageType,
+                        String patientCode) {
+
         this.nickName = nickName;
         this.imageUrl = imageUrl;
         this.orderId = orderId;

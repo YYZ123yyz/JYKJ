@@ -462,8 +462,12 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
         map.put("loginDoctorPosition", "108.93425^34.23053");
         map.put("operDoctorCode", code);
         map.put("operDoctorName", name);
-        map.put("signCode", getdetailsBeans.getSignCode());
-        map.put("version", getdetailsBeans.getVersion() + "");
+        map.put("mainDoctorAlias", doctorAlias);
+        map.put("mainPatientCode", patientCode);
+        map.put("mainUserName", patientName1);
+        map.put("mainUserNameAlias", patientName1);
+        map.put("gender", "1");
+        map.put("age", ageFromBirthTime + "");
         map.put("signDuration", monthsListattrCode1 + "");
         map.put("signUnit", "月");
         map.put("signPrice", totalprice.getText().toString());
@@ -567,7 +571,6 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
                 }
 
                 switch (msg.what) {
-
                     case 1:
                         cacerProgress();
                         if (result != null && !result.equals("")) {
@@ -580,6 +583,17 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
                                     signOrderCode = restcommit.getSignOrderCode();
                                     signNo = restcommit.getSignNo();
                                 }
+                                Log.e("TAG", "handleMessage: " + patientCode);
+                                String monitorRate="";
+                                if (dayListattrCode!=null) {
+                                    String code = dayListattrCode.toString();
+                                    if (!TextUtils.isEmpty(code)) {
+                                        monitorRate = "一次/"+code+"天";
+                                    }
+
+                                }
+                                OrderMessage orderMessage = new OrderMessage(name, doctorUrl, signOrderCode, mDetectBeans.size() + "项",
+                                        monitorRate, tvDuration.getText().toString(), Coachingprice + Detectprice + "", signNo, "", "card", patientCode);
                                 OrderMessage orderMessage = new OrderMessage(name, doctorUrl, signOrderCode, mDetectBeans.size() + "项", videosecondaryListattrName + "/" + videomonthListattrName, tvDuration.getText().toString(), Coachingprice + Detectprice + "", signNo, "", "card", patientCode);
                                 Log.e("TAG", "handleMessage:患者的code "+patientCode );
                                 EventBus.getDefault().post(orderMessage);
@@ -731,8 +745,13 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
             linTime.setVisibility(View.GONE);
         }
 
-        rv_detectAdapter.setDate(convertData(DetectitemBeans));
-        rvCoachingAdapter.setDate(convertData(CoachingitemBeans));
+        mDetectBeans = convertData(DetectitemBeans);
+        rv_detectAdapter.setDate(mDetectBeans);
+        rv_detectAdapter.notifyDataSetChanged();
+        mCoachingBean = convertData(CoachingitemBeans);
+        rvCoachingAdapter.setDate(mCoachingBean);
+        rvCoachingAdapter.notifyDataSetChanged();
+
         //开始时间
         tvStartTime.setText(DateUtils.getDateToString(getdetailsBeans.getSignStartTime()));
          monthsListattrCode1= getdetailsBeans.getSignDuration();
@@ -742,6 +761,8 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
         tvDuration.setText(getdetailsBeans.getSignDurationUnit());
         //总价
         totalprice.setText(getdetailsBeans.getSignPrice() + "");
+        patientName1=getdetailsBeans.getMainUserName();
+        patientAlias=getdetailsBeans.getMainUserNameAlias();
     }
 
     private List<DetectBean> convertData( List<GetdetailsBean.OrderDetailListBean> orderDetailList){
@@ -752,6 +773,7 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
             detectBean.setConfigDetailId(orderDetailListBean.getSignOrderConfigDetailId());
             detectBean.setConfigDetailName(orderDetailListBean.getMainConfigDetailName());
             detectBean.setConfigDetailTypeCode(orderDetailListBean.getConfigDetailTypeCode());
+            detectBean.setConfigDetailTypeName(orderDetailListBean.getConfigDetailTypeName());
             detectBean.setPrice(orderDetailListBean.getTotlePrice());
             detectBeans.add(detectBean);
         }
@@ -825,12 +847,14 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
             orderItemBean.setConfigDetailTypeCode(detectBean.getConfigDetailTypeCode());
             orderItemBean.setConfigDetailTypeName(detectBean.getConfigDetailTypeName());
             orderItemBean.setMainConfigDetailName(detectBean.getConfigDetailName());
-            if (detectBean.getConfigDetailTypeName().equals("监测类型")) {
+            String configDetailTypeName = detectBean.getConfigDetailTypeName();
+            if (!TextUtils.isEmpty(configDetailTypeName)&&configDetailTypeName.equals("监测类型")) {
                 orderItemBean.setDuration(0);
                 orderItemBean.setDurationUnitCode("");
                 orderItemBean.setDurationUnitName("");
             }
-            if (detectBean.getConfigDetailName().equals("图文")) {
+            String configDetailName = detectBean.getConfigDetailName();
+            if (!TextUtils.isEmpty(configDetailName)&&configDetailName.equals("图文")) {
                 orderItemBean.setDuration(0);
                 orderItemBean.setDurationUnitCode("");
                 orderItemBean.setDurationUnitName("");

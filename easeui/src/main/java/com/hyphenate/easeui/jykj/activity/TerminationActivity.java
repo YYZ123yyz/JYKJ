@@ -1,5 +1,6 @@
 package com.hyphenate.easeui.jykj.activity;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -23,11 +24,15 @@ import com.google.gson.Gson;
 import com.hyphenate.easeui.R;
 import com.hyphenate.easeui.hyhd.model.Constant;
 import com.hyphenate.easeui.jykj.bean.CancelContractBean;
+import com.hyphenate.easeui.jykj.bean.OrderMessage;
 import com.hyphenate.easeui.jykj.bean.ProvideViewPatientLablePunchClockState;
 import com.hyphenate.easeui.jykj.dialog.CancelContractDialog;
 import com.hyphenate.easeui.netService.HttpNetService;
 import com.hyphenate.easeui.netService.entity.NetRetEntity;
 
+import org.greenrobot.eventbus.EventBus;
+
+import java.io.Serializable;
 import java.util.HashMap;
 
 public class TerminationActivity extends AppCompatActivity implements View.OnClickListener {
@@ -54,6 +59,7 @@ public class TerminationActivity extends AppCompatActivity implements View.OnCli
     private String patientCode;
     private String singCode;
     private String cansignNo;
+    private OrderMessage orderMessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,9 +76,10 @@ public class TerminationActivity extends AppCompatActivity implements View.OnCli
         Bundle extras = this.getIntent().getExtras();
         if (extras!=null) {
             orderId = extras.getString("orderId");
-            singNO = extras.getString("singNO");
-            nickName = extras.getString("nickName");
+            singNO = extras.getString("signNo");
+            nickName = extras.getString("patientName");
             patientCode = extras.getString("patientCode");
+            orderMessage=(OrderMessage) extras.getSerializable("orderMsg");
 
         }else{
             Intent intent = getIntent();
@@ -83,6 +90,7 @@ public class TerminationActivity extends AppCompatActivity implements View.OnCli
         initHandler();
     }
 
+    @SuppressLint("HandlerLeak")
     private void initHandler() {
         mHandler = new Handler() {
             @Override
@@ -93,7 +101,9 @@ public class TerminationActivity extends AppCompatActivity implements View.OnCli
                         cacerProgress();
                         NetRetEntity netRetEntity = new Gson().fromJson(mNetRetStr, NetRetEntity.class);
                         if (netRetEntity.getResCode() == 1) {
+                            EventBus.getDefault().post(orderMessage);
                             Toast.makeText(mTerminationActivity, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
+                            TerminationActivity.this.finish();
                         } else {
                             Log.e("tag", "handleMessage: " + "提交失败");
                         }
@@ -168,8 +178,9 @@ public class TerminationActivity extends AppCompatActivity implements View.OnCli
                     // 	解约原因分类名称
                     map.put("refuseReasonClassName", mCancelContractBean.getAttrName());
                     map.put("refuseRemark", ed_termination.getText().toString());
-
-                    mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + new Gson().toJson(map), Constant.SERVICEURL + "doctorSignControlle/operTerminationSumbit");
+                    map.put("confimresult","0");
+                    mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + new Gson().toJson(map),
+                            Constant.SERVICEURL + "doctorSignControlle/operTerminationConfim");
                     Log.e("tag", "run: 解约" + mNetRetStr);
                 } catch (Exception e) {
                     NetRetEntity retEntity = new NetRetEntity();
