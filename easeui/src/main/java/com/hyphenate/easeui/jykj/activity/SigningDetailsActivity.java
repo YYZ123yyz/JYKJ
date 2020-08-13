@@ -294,7 +294,12 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
         btActivityMySelfSettingExitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                commit();
+                if (TextUtils.isEmpty(type)) {
+                    commit();
+                }else{
+                    ModificationSubmission();
+                }
+
             }
         });
         wzxxSc = (ScrollView) findViewById(R.id.wzxx_sc);
@@ -659,13 +664,7 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
                 Duration();
             }
         });
-        //修改提交
-        btActivityMySelfSettingExitButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ModificationSubmission();
-            }
-        });
+
     }
     //订单详情设置布局显示
     private void setLayoutData() {
