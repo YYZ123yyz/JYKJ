@@ -31,12 +31,11 @@ import java.util.HashMap;
 import java.util.List;
 
 
-
-public class DetectActivity extends AppCompatActivity  implements View.OnClickListener{
+public class DetectActivity extends AppCompatActivity implements View.OnClickListener {
 
 
     private Context mContext;
- //   private JYKJApplication mApp;
+    //   private JYKJApplication mApp;
     private String mNetRetStr;
     private Handler mHandler;
     private DetectActivity mActivity;
@@ -49,21 +48,20 @@ public class DetectActivity extends AppCompatActivity  implements View.OnClickLi
     private SharedPreferences sharedPreferences;
     private String name;
     private String code;
+    private List<DetectBean> mDetectList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detect);
         mContext = this;
-        mActivity=this;
-      //  mApp = (JYKJApplication) getApplication();
-    //    ActivityUtil.setStatusBarMain(mActivity);
-
-         sharedPreferences = getSharedPreferences("sp", Activity.MODE_PRIVATE);
+        mActivity = this;
+        mDetectList = (ArrayList<DetectBean>) getIntent().getSerializableExtra("detect");
+        sharedPreferences = getSharedPreferences("sp", Activity.MODE_PRIVATE);
         name = sharedPreferences.getString("name", "");
         code = sharedPreferences.getString("code", "");
         initView();
-     //   OnClickListener();
+        //   OnClickListener();
         Detect();
         initHandler();
     }
@@ -90,8 +88,22 @@ public class DetectActivity extends AppCompatActivity  implements View.OnClickLi
         rvDetect.setLayoutManager(linearLayoutManager);
         //如果可以确定每个item的高度是固定的，设置这个选项可以提高性能
         rvDetect.setHasFixedSize(true);
-    }
+        detect_rvAdapter = new Detect_RVAdapter(detectBeans, mContext);
+        rvDetect.setAdapter(detect_rvAdapter);
+        detect_rvAdapter.setOnItemClickListener(new Detect_RVAdapter.OnItemClickListener() {
+            @Override
+            public void onClick(int position) {
+                detectBeans.get(position).setChoice(!detectBeans.get(position).isChoice());
+                detect_rvAdapter.setDate(detectBeans);
+                detect_rvAdapter.notifyDataSetChanged();
+            }
 
+            @Override
+            public void onLongClick(int position) {
+
+            }
+        });
+    }
 
 
     private void initHandler() {
@@ -100,29 +112,23 @@ public class DetectActivity extends AppCompatActivity  implements View.OnClickLi
             @Override
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
-                  switch (msg.what){
-                      case 1:
-                          if (mNetRetStr != null && !mNetRetStr.equals("")) {
-                              detectBeans = JSON.parseArray(JSON.parseObject(mNetRetStr, NetRetEntity.class).getResJsonData(), DetectBean.class);
-                              detect_rvAdapter=new Detect_RVAdapter(detectBeans,mContext);
-                              rvDetect.setAdapter(detect_rvAdapter);
-                              detect_rvAdapter.setOnItemClickListener(new Detect_RVAdapter.OnItemClickListener() {
-                                  @Override
-                                  public void onClick(int position) {
-                                      detectBeans.get(position).setChoice(!detectBeans.get(position).isChoice());
-                                      detect_rvAdapter.setDate(detectBeans);
-                                      detect_rvAdapter.notifyDataSetChanged();
-                                  }
+                switch (msg.what) {
+                    case 1:
+                        if (mNetRetStr != null && !mNetRetStr.equals("")) {
+                            detectBeans = JSON.parseArray(JSON.parseObject(mNetRetStr, NetRetEntity.class).getResJsonData(), DetectBean.class);
+                            for (int i = 0; i < detectBeans.size(); i++) {
+                                for (int j = 0; j < mDetectList.size(); j++) {
+                                    if (detectBeans.get(i).getConfigDetailCode().equals(mDetectList.get(j).getConfigDetailCode())) {
+                                        detectBeans.get(i).setChoice(true);
+                                    }
+                                }
+                            }
+                            detect_rvAdapter.setDate(detectBeans);
+                            detect_rvAdapter.notifyDataSetChanged();
+                        }
 
-                                  @Override
-                                  public void onLongClick(int position) {
-
-                                  }
-                              });
-                          }
-
-                          break;
-                  }
+                        break;
+                }
 
 
             }
@@ -133,14 +139,14 @@ public class DetectActivity extends AppCompatActivity  implements View.OnClickLi
         final HashMap<String, String> map = new HashMap<>();
         map.put("loginDoctorPosition", "108.93425^34.23053");
         map.put("configDetailTypeCode", "10");
-        map.put("operDoctorCode",code);
+        map.put("operDoctorCode", code);
         map.put("operDoctorName", name);
 
         new Thread() {
             public void run() {
                 try {
                     mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + new Gson().toJson(map), Constant.SERVICEURL + "doctorSignControlle/searchSignConfigDetail");
-                    Log.e("tag", "服务 "+mNetRetStr );
+                    Log.e("tag", "服务 " + mNetRetStr);
                 } catch (Exception e) {
                     NetRetEntity retEntity = new NetRetEntity();
                     retEntity.setResCode(0);
@@ -154,9 +160,10 @@ public class DetectActivity extends AppCompatActivity  implements View.OnClickLi
             }
         }.start();
     }
+
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
 
         }
     }

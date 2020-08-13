@@ -1,11 +1,11 @@
 package www.jykj.com.jykj_zxyl.fragment;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -14,11 +14,9 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -29,6 +27,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import androidx.annotation.RequiresApi;
 import entity.patientInfo.ProvideViewPatientLablePunchClockState;
 import entity.patientInfo.ProvideViewPatientInfo;
 import netService.HttpNetService;
@@ -36,14 +35,11 @@ import netService.entity.NetRetEntity;
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.activity.home.MyPatientActivity;
 import www.jykj.com.jykj_zxyl.activity.hzgl.HZGLHZZLActivity;
-import www.jykj.com.jykj_zxyl.activity.hzgl.HZGLQTDKActivity;
 import www.jykj.com.jykj_zxyl.activity.hzgl.HZGLTXHZActivity;
-import www.jykj.com.jykj_zxyl.activity.hzgl.HZGLXYActivity;
-import www.jykj.com.jykj_zxyl.activity.hzgl.HZGLYYXXActivity;
-import www.jykj.com.jykj_zxyl.adapter.HZGLRecycleAdapter;
 import www.jykj.com.jykj_zxyl.adapter.MyPatientRecyclerAdapter;
 import www.jykj.com.jykj_zxyl.application.Constant;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
+import yyz_exploit.activity.activity.RefuseActivity;
 import yyz_exploit.activity.activity.TerminationActivity;
 
 public class MyPatientFragment extends Fragment {
@@ -73,6 +69,7 @@ public class MyPatientFragment extends Fragment {
     private boolean loadDate = true;
     private String mNetLoginRetStr;
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -83,8 +80,13 @@ public class MyPatientFragment extends Fragment {
         initLayout(v);
         getNumber();
         initHandler();
-        getData(mSearchStateType);
         return v;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getData(mSearchStateType);
     }
 
     private void getNumber() {
@@ -93,14 +95,14 @@ public class MyPatientFragment extends Fragment {
         map.put("pageNum", "1");
         map.put("loginDoctorPosition", "108.93425^34.23053");
         map.put("searchDoctorCode", mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
-     //    map.put("operDoctorName", mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
+        //    map.put("operDoctorName", mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
         map.put("searchFlagSigning", "1");
 
         new Thread() {
             public void run() {
                 try {
                     mNetLoginRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + new Gson().toJson(map), Constant.SERVICEURL + "bindingDoctorPatientControlle/searchDoctorManagePatientDataByTotal");
-                    Log.e("TAG", "run:  已签约 "+mNetLoginRetStr );
+                    Log.e("TAG", "run:  已签约 " + mNetLoginRetStr);
                 } catch (Exception e) {
                     NetRetEntity retEntity = new NetRetEntity();
                     retEntity.setResCode(0);
@@ -147,30 +149,20 @@ public class MyPatientFragment extends Fragment {
             }
         });
 
-        //血压点击事件
-        mHZGLRecycleAdapter.setOnXYItemClickListener(new MyPatientRecyclerAdapter.OnXYItemClickListener() {
-            @Override
-            public void onClick(int position) {
-                Intent intent = new Intent();
-                intent.setClass(mContext, HZGLXYActivity.class);
-                intent.putExtra("patientLable", mHZEntyties.get(position));
-                startActivity(intent);
-            }
-
-            @Override
-            public void onLongClick(int position) {
-
-            }
-        });
-
         //解约点击事件
         mHZGLRecycleAdapter.setOnYYItemClickListener(new MyPatientRecyclerAdapter.OnYYItemClickListener() {
             @Override
             public void onClick(int position) {
-                Intent intent = new Intent();
-                intent.setClass(mContext, TerminationActivity.class);
-                intent.putExtra("patientLable", mHZEntyties.get(position));
-                startActivity(intent);
+                if (mHZEntyties.get(position).getSignStatus().equals("140")) {
+                    Log.e("TAG", "onClick: " + "同意解约");
+                    agree(position);
+                } else {
+                    Intent intent = new Intent();
+                    intent.setClass(mContext, TerminationActivity.class);
+                    intent.putExtra("patientLable", mHZEntyties.get(position));
+                    startActivity(intent);
+                }
+
             }
 
             @Override
@@ -179,32 +171,27 @@ public class MyPatientFragment extends Fragment {
             }
         });
 
-
-        //其他打卡击事件
-        mHZGLRecycleAdapter.setOnQTDKItemClickListener(new MyPatientRecyclerAdapter.OnQTDKItemClickListener() {
-            @Override
-            public void onClick(int position) {
-                showStaySunedDialog();
-//                Intent intent = new Intent();
-//                intent.setClass(mContext, HZGLQTDKActivity.class);
-//                intent.putExtra("patientLable",mHZEntyties.get(position));
-//                startActivity(intent);
-            }
-
-            @Override
-            public void onLongClick(int position) {
-
-            }
-        });
 
         //提醒患者点击事件
         mHZGLRecycleAdapter.setOnTXHZItemClickListener(new MyPatientRecyclerAdapter.OnTXHZItemClickListener() {
             @Override
             public void onClick(int position) {
-                Intent intent = new Intent();
-                intent.setClass(mContext, HZGLTXHZActivity.class);
-                intent.putExtra("patientLable", mHZEntyties.get(position));
-                startActivity(intent);
+                if (mHZEntyties.get(position).getSignStatus().equals("140")) {
+                //    Log.e("TAG", "onClick: " + "拒绝解约");
+                    Intent intent = new Intent();
+                    intent.setClass(mContext, RefuseActivity.class);
+                    intent.putExtra("patientLable", mHZEntyties.get(position));
+                    startActivity(intent);
+                } else if (mHZEntyties.get(position).getSignStatus().equals("150")) {
+                 //   Log.e("TAG", "onClick: " + "撤销解约");
+                    Revoke(position);
+                } else {
+                    Intent intent = new Intent();
+                    intent.setClass(mContext, HZGLTXHZActivity.class);
+                    intent.putExtra("patientLable", mHZEntyties.get(position));
+                    startActivity(intent);
+                }
+
             }
 
             @Override
@@ -228,6 +215,64 @@ public class MyPatientFragment extends Fragment {
         mTX.setOnClickListener(new ButtonClick());
         mZC.setOnClickListener(new ButtonClick());
 
+    }
+
+    //同意
+    private void agree(int position ) {
+        final HashMap<String, Object> map = new HashMap<>();
+        map.put("loginDoctorPosition", "108.93425^34.23053");
+        map.put("mainDoctorCode", mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
+        map.put("mainDoctorName", mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
+        map.put("signCode", mHZEntyties.get(position).getSignCode());
+        map.put("signNo", mHZEntyties.get(position).getSignNo());
+        map.put("mainPatientCode", mHZEntyties.get(position).getPatientCode());
+        map.put("mainUserName", mHZEntyties.get(position).getUserName());
+        new Thread() {
+            public void run() {
+                String mNetRetStr="";
+                try {
+                    mNetRetStr = com.hyphenate.easeui.netService.HttpNetService.urlConnectionService("jsonDataInfo=" + new Gson().toJson(map), com.hyphenate.easeui.hyhd.model.Constant.SERVICEURL + "doctorSignControlle/operTerminationConfim");
+                    Log.e("tag", "同意" + mNetRetStr);
+                } catch (Exception e) {
+                    com.hyphenate.easeui.netService.entity.NetRetEntity retEntity = new com.hyphenate.easeui.netService.entity.NetRetEntity();
+                    retEntity.setResCode(0);
+                    retEntity.setResMsg("网络连接异常，请联系管理员：" + e.getMessage());
+                    mNetRetStr = new Gson().toJson(retEntity);
+                    e.printStackTrace();
+
+                }
+                mHandler.sendEmptyMessage(30);
+            }
+        }.start();
+    }
+
+    //撤销解约
+    private void Revoke(int position) {
+        final HashMap<String, Object> map = new HashMap<>();
+        map.put("loginDoctorPosition", "108.93425^34.23053");
+        map.put("mainDoctorCode", mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
+        map.put("mainDoctorName", mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
+        map.put("signCode", mHZEntyties.get(position).getSignCode());
+        map.put("signNo", mHZEntyties.get(position).getSignNo());
+        map.put("mainPatientCode", mHZEntyties.get(position).getPatientCode());
+        map.put("mainUserName", mHZEntyties.get(position).getUserName());
+        new Thread() {
+            public void run() {
+                String mNetRetStr="";
+                try {
+                    mNetRetStr = com.hyphenate.easeui.netService.HttpNetService.urlConnectionService("jsonDataInfo=" + new Gson().toJson(map), com.hyphenate.easeui.hyhd.model.Constant.SERVICEURL + "doctorSignControlle/operTerminationRevoke");
+                    Log.e("tag", "撤销解约" + mNetRetStr);
+                } catch (Exception e) {
+                    com.hyphenate.easeui.netService.entity.NetRetEntity retEntity = new com.hyphenate.easeui.netService.entity.NetRetEntity();
+                    retEntity.setResCode(0);
+                    retEntity.setResMsg("网络连接异常，请联系管理员：" + e.getMessage());
+                    mNetRetStr = new Gson().toJson(retEntity);
+                    e.printStackTrace();
+
+                }
+               mHandler.sendEmptyMessage(20);
+            }
+        }.start();
     }
 
 
@@ -258,6 +303,22 @@ public class MyPatientFragment extends Fragment {
                         break;
                     case 10:
 
+                        break;
+                    case 20:
+                        NetRetEntity  netRetEntity = new Gson().fromJson(mNetRetStr, NetRetEntity.class);
+                        if(netRetEntity.getResCode()==1){
+                            Toast.makeText(mContext, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
+                        }else{
+                            Toast.makeText(mContext, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
+                        }
+                        break;
+                    case 30:
+                        NetRetEntity  netRetEntity1 = new Gson().fromJson(mNetRetStr, NetRetEntity.class);
+                        if(netRetEntity1.getResCode()==1){
+                            Toast.makeText(mContext, netRetEntity1.getResMsg(), Toast.LENGTH_SHORT).show();
+                        }else{
+                            Toast.makeText(mContext, netRetEntity1.getResMsg(), Toast.LENGTH_SHORT).show();
+                        }
                         break;
                 }
             }
@@ -306,6 +367,8 @@ public class MyPatientFragment extends Fragment {
             }
         }
     }
+
+
 
     private void getData(int searchStateType) {
 
