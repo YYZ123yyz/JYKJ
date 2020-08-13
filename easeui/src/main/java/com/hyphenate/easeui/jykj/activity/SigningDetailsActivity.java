@@ -294,7 +294,12 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
         btActivityMySelfSettingExitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                commit();
+                if (TextUtils.isEmpty(type)) {
+                    commit();
+                }else{
+                    ModificationSubmission();
+                }
+
             }
         });
         wzxxSc = (ScrollView) findViewById(R.id.wzxx_sc);
@@ -386,6 +391,7 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
                 videomonthListattrCode = monthList.get(options3).getAttrCode();
                 videomonthListattrName = monthList.get(options3).getAttrName();
                 double price = mCoachingBean.get(pos).getPrice();
+                mCoachingBean.get(pos).setValue(videosecondaryListattrCode);
                 mCoachingBean.get(pos).setPrice(price*videosecondaryListattrCode);
                 rvCoachingAdapter.notifyDataSetChanged();
                 setTotalprice(mDetectBeans,mCoachingBean);
@@ -659,13 +665,13 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
                 Duration();
             }
         });
-        //修改提交
-        btActivityMySelfSettingExitButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ModificationSubmission();
-            }
-        });
+//        //修改提交
+//        btActivityMySelfSettingExitButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                ModificationSubmission();
+//            }
+//        });
     }
     //订单详情设置布局显示
     private void setLayoutData() {
@@ -866,7 +872,7 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
             }
             orderItemBean.setDuration(1);
             orderItemBean.setMainConfigDetailCode(detectBean.getConfigDetailCode());
-            orderItemBean.setValue(0);
+            orderItemBean.setValue(detectBean.getValue());
             orderItemBean.setRate(dayListattrCode);
             orderItemBean.setDurationUnitName("分钟");
             orderItemBean.setRateUnitName("天");
@@ -960,7 +966,7 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
         for (DetectBean detectBean : detectBeans) {
             totalPrice=totalPrice+ detectBean.getPrice();
         }
-        totalprice.setText("￥"+totalPrice);
+        totalprice.setText(totalPrice+"");
     }
 
 }

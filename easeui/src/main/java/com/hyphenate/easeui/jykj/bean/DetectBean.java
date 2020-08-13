@@ -16,6 +16,7 @@ public class DetectBean implements java.io.Serializable{
     private String configDetailTypeCode;
     private String configDetailTypeName;
     private double price;
+    private int value=1;
 
     private boolean choice;			//是否选中
 
@@ -73,6 +74,14 @@ public class DetectBean implements java.io.Serializable{
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public int getValue() {
+        return value;
+    }
+
+    public void setValue(int value) {
+        this.value = value;
     }
 
     @Override
