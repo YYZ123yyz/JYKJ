@@ -27,6 +27,7 @@ import com.hyphenate.chat.EMConversation;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.easeui.EaseConstant;
 import com.hyphenate.easeui.model.styles.EaseMessageListItemStyle;
+import com.hyphenate.easeui.utils.CollectionUtils;
 import com.hyphenate.easeui.utils.EaseCommonUtils;
 import com.hyphenate.easeui.widget.EaseChatMessageList.MessageListItemClickListener;
 import com.hyphenate.easeui.widget.chatrow.EaseCustomChatRowProvider;
@@ -39,6 +40,9 @@ import com.hyphenate.easeui.widget.presenter.EaseChatRowPresenter;
 import com.hyphenate.easeui.widget.presenter.EaseChatTextPresenter;
 import com.hyphenate.easeui.widget.presenter.EaseChatVideoPresenter;
 import com.hyphenate.easeui.widget.presenter.EaseChatVoicePresenter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class EaseMessageAdapter extends BaseAdapter{
 
@@ -94,11 +98,13 @@ public class EaseMessageAdapter extends BaseAdapter{
 		this.conversation = EMClient.getInstance().chatManager().getConversation(username, EaseCommonUtils.getConversationType(chatType), true);
 	}
 
+	@SuppressLint("HandlerLeak")
 	Handler handler = new Handler() {
 		private void refreshList() {
 			// you should not call getAllMessages() in UI thread
 			// otherwise there is problem when refreshing UI and there is new message arrive
 			java.util.List<EMMessage> var = conversation.getAllMessages();
+			handleData(var);
 			messages = var.toArray(new EMMessage[var.size()]);
 			conversation.markAllMessagesAsRead();
 			notifyDataSetChanged();
@@ -124,6 +130,60 @@ public class EaseMessageAdapter extends BaseAdapter{
 			}
 		}
 	};
+
+	/**
+	 * 处理数据
+	 * @param list 数据列表
+	 */
+	private void handleData(List<EMMessage> list){
+		List<Integer> cards=new ArrayList<>();
+		if (!CollectionUtils.isEmpty(list)) {
+
+			for (int i = 0; i < list.size(); i++) {
+				EMMessage emMessage = list.get(i);
+				String messageType = emMessage.getStringAttribute("messageType"
+						, "");
+				if (messageType.equals("terminationOrder")||messageType.equals("card")) {
+					cards.add(i);
+				}
+
+			}
+		}
+		for (int i = 0; i < list.size(); i++) {
+			EMMessage emMessage = list.get(i);
+			String messageType = emMessage.getStringAttribute("messageType"
+					, "");
+			if (messageType.equals("terminationOrder")||messageType.equals("card")) {
+
+				if (isLastData(cards,i)) {
+					emMessage.setAttribute("isValid",true);
+				}else{
+					emMessage.setAttribute("isValid",false);
+				}
+			}
+
+		}
+
+	}
+
+	/**
+	 * 是否是最后一条数据
+	 * @param list 数据列表
+	 * @param pos 位置
+	 * @return true or false
+	 */
+	private boolean isLastData(List<Integer> list, int pos){
+		boolean isFlag=false;
+		if (!CollectionUtils.isEmpty(list)) {
+			for (int i = 0; i < list.size(); i++) {
+				Integer integer = list.get(i);
+				if (integer==pos&&i==list.size()-1) {
+					isFlag=true;
+				}
+			}
+		}
+		return isFlag;
+	}
 
 	public void refresh() {
 		if (handler.hasMessages(HANDLER_MESSAGE_REFRESH_LIST)) {

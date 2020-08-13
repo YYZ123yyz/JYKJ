@@ -181,7 +181,27 @@
 
 
                     </TextView>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="28dp"
+                        android:layout_marginBottom="14dp"
+                        android:gravity="center"
+                        android:text="修改"
+                        android:visibility="gone"
+                        android:layout_gravity="center_horizontal"
+                        android:paddingTop="6dp"
+                        android:paddingBottom="6dp"
+                        android:paddingLeft="36dp"
+                        android:paddingRight="36dp"
+                        android:background="@drawable/bg_gradient_a6bffe_13"
+                        android:id="@+id/tv_order_received_update_btn"
+                        android:textColor="@color/writeColor"
+                        android:textSize="14sp"
+                        >
 
+
+                    </TextView>
 
                     <RelativeLayout
                         android:layout_width="match_parent"
