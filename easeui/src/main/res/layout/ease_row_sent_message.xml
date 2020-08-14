@@ -14,7 +14,7 @@
 
     <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:background="#38888888">
+            android:layout_height="wrap_content" android:background="#38888888" android:id="@+id/chat_gridrow_lay">
 
         <com.hyphenate.easeui.widget.EaseImageView
                 android:id="@+id/iv_userhead"

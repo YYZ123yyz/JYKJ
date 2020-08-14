@@ -4,6 +4,7 @@ import android.content.Context;
 import android.text.Spannable;
 import android.view.View;
 import android.widget.BaseAdapter;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TextView.BufferType;
 
@@ -18,7 +19,7 @@ import java.util.List;
 public class EaseChatRowText extends EaseChatRow{
 
 	private TextView contentView;
-
+    protected RelativeLayout chat_gridrow_layout;
     public EaseChatRowText(Context context, EMMessage message, int position, BaseAdapter adapter) {
 		super(context, message, position, adapter);
 	}
@@ -32,6 +33,7 @@ public class EaseChatRowText extends EaseChatRow{
 	@Override
 	protected void onFindViewById() {
 		contentView = (TextView) findViewById(R.id.tv_chatcontent);
+        chat_gridrow_layout = (RelativeLayout)findViewById(R.id.chat_gridrow_lay);
 	}
 
     @Override
@@ -40,6 +42,13 @@ public class EaseChatRowText extends EaseChatRow{
         Spannable span = EaseSmileUtils.getSmiledText(context, txtBody.getMessage());
         // 设置内容
         contentView.setText(span, BufferType.SPANNABLE);
+        if(null!=txtBody.getMessage() && txtBody.getMessage().contains("加入直播间了")){
+            chat_gridrow_layout.setBackgroundColor(getResources().getColor(R.color.colorEnterroomBack));
+        }else if(null!=txtBody.getMessage() && txtBody.getMessage().contains("离开直播间了")){
+            chat_gridrow_layout.setBackgroundColor(getResources().getColor(R.color.colorExitroomBack));
+        }else{
+            chat_gridrow_layout.setBackgroundColor(getResources().getColor(R.color.colorNomalroomRow));
+        }
     }
 
     @Override

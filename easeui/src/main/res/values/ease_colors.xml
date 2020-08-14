@@ -76,4 +76,7 @@
     <color name="color_f14646">#f14646</color>
     <color name="color_999999">#999999</color>
     <color name="color">#ff00ff</color>
+    <color name="colorEnterroomBack">#383ed045</color>
+    <color name="colorExitroomBack">#38FF4081</color>
+    <color name="colorNomalroomRow">#38888888</color>
 </resources>

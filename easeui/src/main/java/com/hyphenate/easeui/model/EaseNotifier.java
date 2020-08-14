@@ -59,7 +59,8 @@ public class EaseNotifier {
     protected static int NOTIFY_ID = 0525; // start notification id
 
     protected static final String CHANNEL_ID = "hyphenate_chatuidemo_notification";
-    protected static final long[] VIBRATION_PATTERN = new long[]{0, 180, 80, 120};
+    //protected static final long[] VIBRATION_PATTERN = new long[]{0, 180, 80, 120};
+    protected static final long[] VIBRATION_PATTERN = new long[]{0};
 
     protected NotificationManager notificationManager = null;
 
@@ -166,7 +167,7 @@ public class EaseNotifier {
         if (!EasyUtils.isAppRunningForeground(appContext)) {
             try {
                 NotificationCompat.Builder builder = generateBaseBuilder(content);
-
+                //builder.setVibrate(null);
                 Notification notification = builder.getNotification();
                 notificationManager.notify(NOTIFY_ID, notification);
 
