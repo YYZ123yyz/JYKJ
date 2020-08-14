@@ -38,7 +38,7 @@
         <TextView android:layout_width="40dp" android:layout_height="40dp" android:layout_alignParentRight="true"
                   android:background="@drawable/live_tv" android:id="@+id/tv_chat_num" android:layout_marginRight="2dp" android:text="0人" android:gravity="center"></TextView>
     </RelativeLayout>
-    <RelativeLayout android:layout_width="match_parent" android:layout_height="40dp" android:layout_marginTop="60dp">
+    <RelativeLayout android:layout_width="match_parent" android:layout_height="40dp" android:layout_marginTop="60dp" android:visibility="gone">
         <ztextviewlib.MarqueeTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -113,6 +113,7 @@
                     android:layout_height="wrap_content"
                     android:background="@mipmap/camerarienthg"
                     android:minHeight="0dp"
+                    android:visibility="gone"
                     android:minWidth="0dp"/>
             <TextView
                     android:layout_height="wrap_content"

@@ -104,6 +104,7 @@ public class LivePublisherActivity extends ChatPopDialogActivity implements View
     List<String> headpics = new ArrayList();
     TextView tv_head_tit;
     public ProgressDialog mDialogProgress = null;
+    int joinUserNum = 0;
 
     //private ImageView close_video;
     private Bitmap decodeResource(Resources resources, int id) {
@@ -125,6 +126,7 @@ public class LivePublisherActivity extends ChatPopDialogActivity implements View
         mdetailcode = getIntent().getStringExtra("detailCode");
         mLivePusher     = new TXLivePusher(this);
         mLivePushConfig = new TXLivePushConfig();
+        mLivePushConfig.setTouchFocus(false);
         mLivePusher.setConfig(mLivePushConfig);
         mBitmap         = decodeResource(getResources(), R.mipmap.watermark);
         mRotationObserver = new RotationObserver(new Handler());
@@ -137,6 +139,15 @@ public class LivePublisherActivity extends ChatPopDialogActivity implements View
 
         statLive();
         //goChat();
+    }
+
+    static final int UP_JOINNUM_ACT = 511;
+    @Override
+    public void upJoinUsernum(int modnum) {
+        Message semsg = new Message();
+        semsg.what = UP_JOINNUM_ACT;
+        semsg.obj = modnum;
+        myHandler.sendMessage(semsg);
     }
 
     void statLive(){
@@ -265,7 +276,7 @@ public class LivePublisherActivity extends ChatPopDialogActivity implements View
                             if (!msgmap.containsKey(parname)) {
                                 msgmap.put(parname, "1");
                                 if (null != msgmap.keySet() && msgmap.keySet().size() > 0) {
-                                    tv_chat_num.setText(String.valueOf(msgmap.keySet().size()) + "人");
+                                    //tv_chat_num.setText(String.valueOf(msgmap.keySet().size()) + "人");
                                 }
                                 if (parhead.length() > 0) {
                                     headpics.add(parhead);
@@ -295,6 +306,13 @@ public class LivePublisherActivity extends ChatPopDialogActivity implements View
                     break;
                 case LOGIN_CHAT_FAIL:
                     Toast.makeText(mContext,"登录聊天室失败，请稍后重试！",Toast.LENGTH_SHORT);
+                    break;
+                case UP_JOINNUM_ACT:
+                    Integer paincnum = (Integer)msg.obj;
+                    joinUserNum = joinUserNum + paincnum;
+                    if(joinUserNum>=0) {
+                        tv_chat_num.setText(String.valueOf(joinUserNum) + "人");
+                    }
                     break;
             }
             super.handleMessage(msg);
