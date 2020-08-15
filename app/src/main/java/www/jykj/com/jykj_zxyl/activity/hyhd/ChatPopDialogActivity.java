@@ -365,6 +365,10 @@ public abstract class ChatPopDialogActivity extends AppCompatActivity implements
                     Message themsg = new Message();
                     themsg.what = ADD_ENTERROOM_MSG;
                     messagehandler.sendMessage(themsg);
+                    /*Map<String, EMConversation> conversationMap = EMClient.getInstance().chatManager().getAllConversations();
+                    if(null!=conversationMap && null!=conversationMap.keySet()) {
+                        upJoinUsernum(conversationMap.keySet().size());
+                    }*/
                     upJoinUsernum(1);
                 }
 
@@ -869,7 +873,7 @@ public abstract class ChatPopDialogActivity extends AppCompatActivity implements
                 }
             }
 
-            EaseUI.getInstance().getNotifier().vibrateAndPlayTone(message);
+            //EaseUI.getInstance().getNotifier().vibrateAndPlayTone(message);
         }
     }
 
@@ -1057,6 +1061,11 @@ public abstract class ChatPopDialogActivity extends AppCompatActivity implements
                             upJoinUsernum(members.size());
                         }*/
                         upJoinUsernum(1);
+                       /* Map<String, EMConversation> conversationMap = EMClient.getInstance().chatManager().getAllConversations();
+                        EMClient.getInstance().chatManager().loadAllConversations();
+                        if(null!=conversationMap && null!=conversationMap.keySet()) {
+                            upJoinUsernum(conversationMap.keySet().size());
+                        }*/
                     }
                 });
             }
@@ -1078,6 +1087,10 @@ public abstract class ChatPopDialogActivity extends AppCompatActivity implements
                             upJoinUsernum(members.size());
                         }*/
                         upJoinUsernum(-1);
+                        /*Map<String, EMConversation> conversationMap = EMClient.getInstance().chatManager().getAllConversations();
+                        if(null!=conversationMap && null!=conversationMap.keySet()) {
+                            upJoinUsernum(conversationMap.keySet().size());
+                        }*/
                     }
                 });
             }

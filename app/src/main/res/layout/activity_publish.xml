@@ -53,9 +53,7 @@
                 android:textSize="8pt"
                 android:layout_alignParentLeft="true"
                 android:textColor="@color/groabColor"/>
-        <TextView android:layout_height="40dp" android:layout_width="120dp"
-                  android:id="@+id/tv_head_tit" android:gravity="right|center_vertical" android:layout_alignParentLeft="true"
-                  android:background="@drawable/live_tv">
+        <TextView android:layout_width="wrap_content" android:layout_height="40dp" android:maxLength="30" android:id="@+id/tv_head_tit" android:layout_toRightOf="@+id/iv_live_user_head" android:gravity="center_vertical">
 
         </TextView>
         <android.support.v7.widget.RecyclerView

@@ -141,6 +141,7 @@ public class NewLivePlayerActivity extends ChatPopDialogActivity implements ITXL
             mImageViewRecycleAdapter.setDate(headpics);
             mImageViewRecycleAdapter.notifyDataSetChanged();
         }
+        createChat();
     }
 
     /**

@@ -138,6 +138,7 @@ public class LivePublisherActivity extends ChatPopDialogActivity implements View
         mPhoneListener = new TXPhoneStateListener(mLivePusher);
 
         statLive();
+        createChat();
         //goChat();
     }
 
@@ -430,6 +431,7 @@ public class LivePublisherActivity extends ChatPopDialogActivity implements View
     static final int LOGIN_CHAT_FAIL = 997;
     @Override
     public void createChat() {
+        isopenchat = true;
         LogimImTask logimImTask = new LogimImTask();
         logimImTask.execute();
     }
