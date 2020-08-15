@@ -140,8 +140,8 @@ public class MessageReciveService extends Service {
             public void onMessageReceived(List<EMMessage> messages) {
                 JYKJApplication application = (JYKJApplication) getApplication();
                 //播放声音
-                MediaPlayer  mPlayer = MediaPlayer.create(getApplicationContext(), R.raw.tsy);
-                mPlayer.start();
+                /*MediaPlayer  mPlayer = MediaPlayer.create(getApplicationContext(), R.raw.tsy);
+                mPlayer.start();*/
                 EaseAtMessageHelper.get().parseMessages(messages);
                 application.setNewsMessage();
                 application.gMainActivity.setHZTabView();
