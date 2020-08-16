@@ -210,19 +210,21 @@
                 </LinearLayout>
 
             </RelativeLayout>
+            <ImageView
+                android:id="@+id/iv_stamp_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/bg_agree_stamp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="-10dp"
+                android:layout_marginTop="-13dp"
+                android:visibility="gone"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="-10dp">
+
+            </ImageView>
         </RelativeLayout>
 
-        <ImageView
-            android:id="@+id/iv_stamp_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/margin_chat_activity"
-            android:layout_toStartOf="@id/iv_userhead"
-            android:visibility="visible"
-            android:layout_marginRight="@dimen/margin_chat_activity"
-            android:layout_toLeftOf="@id/iv_userhead">
-
-        </ImageView>
 
     </RelativeLayout>
 
