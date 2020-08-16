@@ -384,6 +384,8 @@
                             />
 
                         <TextView
+                            android:visibility="visible"
+                            android:id="@+id/tv_prices"
                             android:layout_gravity="center_vertical"
                            android:text="￥"
                             android:textColor="#FA4A4A"

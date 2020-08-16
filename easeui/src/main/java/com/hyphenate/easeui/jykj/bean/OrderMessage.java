@@ -29,8 +29,8 @@ public class OrderMessage implements Serializable {
                         String signUpTime,
                         String price,
                         String singNo,
-                        String orderType,
-                        String messageType,
+                        String orderType, //  订单类型
+                        String messageType,//
                         String patientCode) {
 
         this.nickName = nickName;

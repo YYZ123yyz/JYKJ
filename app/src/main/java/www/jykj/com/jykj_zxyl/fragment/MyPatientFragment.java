@@ -1,5 +1,6 @@
 package www.jykj.com.jykj_zxyl.fragment;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.ProgressDialog;
@@ -13,15 +14,20 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.google.gson.Gson;
+import com.hyphenate.easeui.jykj.bean.OrderMessage;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,14 +40,16 @@ import netService.HttpNetService;
 import netService.entity.NetRetEntity;
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.activity.home.MyPatientActivity;
+import www.jykj.com.jykj_zxyl.activity.hyhd.ChatActivity;
 import www.jykj.com.jykj_zxyl.activity.hzgl.HZGLHZZLActivity;
 import www.jykj.com.jykj_zxyl.activity.hzgl.HZGLTXHZActivity;
-import www.jykj.com.jykj_zxyl.activity.hzgl.HZGLXYActivity;
 import www.jykj.com.jykj_zxyl.adapter.MyPatientRecyclerAdapter;
 import www.jykj.com.jykj_zxyl.application.Constant;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
+import www.jykj.com.jykj_zxyl.util.DateUtils;
 import yyz_exploit.activity.activity.RefuseActivity;
 import yyz_exploit.activity.activity.TerminationActivity;
+import yyz_exploit.bean.Status;
 
 public class MyPatientFragment extends Fragment {
 
@@ -69,6 +77,12 @@ public class MyPatientFragment extends Fragment {
     private int mSearchStateType = 0;//状态类型.0:全部;1:正常;2:提醒;3:预警
     private boolean loadDate = true;
     private String mNetLoginRetStr;
+    private TextView tv_all;
+    private TextView tv_remind;
+    private TextView tv_warning;
+    private TextView tv_normal;
+    private Status statusList;
+
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Nullable
@@ -79,16 +93,15 @@ public class MyPatientFragment extends Fragment {
         mActivity = (MyPatientActivity) getActivity();
         mApp = (JYKJApplication) getActivity().getApplication();
         initLayout(v);
-        getNumber();
-        getData(mSearchStateType);
         initHandler();
+        getData(mSearchStateType);
         return v;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-
+        getNumber();
     }
 
     private void getNumber() {
@@ -97,7 +110,6 @@ public class MyPatientFragment extends Fragment {
         map.put("pageNum", "1");
         map.put("loginDoctorPosition", "108.93425^34.23053");
         map.put("searchDoctorCode", mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
-        //    map.put("operDoctorName", mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
         map.put("searchFlagSigning", "1");
 
         new Thread() {
@@ -124,6 +136,14 @@ public class MyPatientFragment extends Fragment {
      * 初始化界面
      */
     private void initLayout(View view) {
+        //全部
+        tv_all = view.findViewById(R.id.tv_All);
+        //预警
+        tv_warning = view.findViewById(R.id.tv_Warning);
+        //提醒
+        tv_remind = view.findViewById(R.id.tv_remind);
+        //正常
+        tv_normal = view.findViewById(R.id.tv_normal);
         mHZInfoRecycleView = (RecyclerView) view.findViewById(R.id.rv_fragmethzgl_hzinfo);
         //创建默认的线性LayoutManager
         layoutManager = new LinearLayoutManager(mContext);
@@ -244,11 +264,39 @@ public class MyPatientFragment extends Fragment {
         map.put("mainPatientCode", mHZEntyties.get(position).getPatientCode());
         map.put("mainUserName", mHZEntyties.get(position).getUserName());
         new Thread() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
             public void run() {
-                String mNetRetStr="";
                 try {
                     mNetRetStr = com.hyphenate.easeui.netService.HttpNetService.urlConnectionService("jsonDataInfo=" + new Gson().toJson(map), com.hyphenate.easeui.hyhd.model.Constant.SERVICEURL + "doctorSignControlle/operTerminationConfim");
                     Log.e("tag", "同意" + mNetRetStr);
+                    NetRetEntity  netRetEntity1 = new Gson().fromJson(mNetRetStr, NetRetEntity.class);
+                    if(netRetEntity1.getResCode()==1){
+                        Intent intent = new Intent(getContext(), ChatActivity.class);
+                        //患者
+                        intent.putExtra("userCode", mHZEntyties.get(position).getPatientCode());
+                        intent.putExtra("userName", mHZEntyties.get(position).getUserName());
+                        //医生
+                        intent.putExtra("usersName", mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
+                        intent.putExtra("userUrl", mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl());
+                        //URL
+                        intent.putExtra("doctorUrl", mHZEntyties.get(position).getUserLogoUrl());
+                        intent.putExtra("patientAlias",mHZEntyties.get(position).getUserNameAlias() );
+                        intent.putExtra("patientCode", mHZEntyties.get(position).getPatientCode());
+                        intent.putExtra("patientSex", mHZEntyties.get(position).getGender());
+                        if (mHZEntyties.get(position).getBirthday()==0) {
+
+                        } else {
+                            intent.putExtra("patientAge", DateUtils.getDateToString(mHZEntyties.get(position).getBirthday())
+                            );
+                        }
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("orderMsg",new OrderMessage(mApp.mViewSysUserDoctorInfoAndHospital.getUserName(),mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl(),mHZEntyties.get(position).getSignCode(),mHZEntyties.get(position).getSignOtherServiceCode()+"项",mHZEntyties.get(position).getDetectRate()+"天/"+mHZEntyties.get(position).getDetectRateUnitCode()+mHZEntyties.get(position).getDetectRateUnitName(),mHZEntyties.get(position).getSignDuration()+mHZEntyties.get(position).getSignDurationUnit(),mHZEntyties.get(position).getSignPrice()+"",mHZEntyties.get(position).getSignNo(),"1","terminationOrder",mHZEntyties.get(position).getPatientCode()));
+                        EventBus.getDefault().post(bundle);
+                        startActivity(intent);
+                        Toast.makeText(mContext, netRetEntity1.getResMsg(), Toast.LENGTH_SHORT).show();
+                    }else{
+                        Toast.makeText(mContext, netRetEntity1.getResMsg(), Toast.LENGTH_SHORT).show();
+                    }
                 } catch (Exception e) {
                     com.hyphenate.easeui.netService.entity.NetRetEntity retEntity = new com.hyphenate.easeui.netService.entity.NetRetEntity();
                     retEntity.setResCode(0);
@@ -291,9 +339,10 @@ public class MyPatientFragment extends Fragment {
         }.start();
     }
 
-
+    @SuppressLint("HandlerLeak")
     private void initHandler() {
         mHandler = new Handler() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void handleMessage(Message msg) {
                 switch (msg.what) {
@@ -318,6 +367,36 @@ public class MyPatientFragment extends Fragment {
                         mHZGLRecycleAdapter.notifyDataSetChanged();
                         break;
                     case 10:
+                        if(!TextUtils.isEmpty(mNetLoginRetStr)){
+                            NetRetEntity netRetEntity = new Gson().fromJson(mNetLoginRetStr, NetRetEntity.class);
+                            statusList = JSON.parseObject(netRetEntity.getResJsonData(), Status.class);
+                            if(statusList!=null){
+                                if(statusList.getStateType_0().equals("")){
+
+                                }else{
+                                    tv_all.setText("全部"+"("+statusList.getStateType_0()+")");
+                                }
+                                if(statusList.getStateType_3().equals("")){
+
+                                }else{
+                                    tv_warning.setText("预警"+"("+statusList.getStateType_3()+")");
+
+                                } if(statusList.getStateType_2().equals("")){
+
+                                }else{
+                                    tv_remind.setText("提醒"+"("+statusList.getStateType_2()+")");
+
+                                } if(statusList.getStateType_1().equals("")){
+
+                                }else{
+                                    tv_normal.setText("正常"+"("+statusList.getStateType_1()+")");
+
+                                }
+                            }
+
+                        }else{
+
+                        }
 
                         break;
                     case 20:
@@ -329,12 +408,7 @@ public class MyPatientFragment extends Fragment {
                         }
                         break;
                     case 30:
-                        NetRetEntity  netRetEntity1 = new Gson().fromJson(mNetRetStr, NetRetEntity.class);
-                        if(netRetEntity1.getResCode()==1){
-                            Toast.makeText(mContext, netRetEntity1.getResMsg(), Toast.LENGTH_SHORT).show();
-                        }else{
-                            Toast.makeText(mContext, netRetEntity1.getResMsg(), Toast.LENGTH_SHORT).show();
-                        }
+
                         break;
                 }
             }

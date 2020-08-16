@@ -1,5 +1,6 @@
 package entity.patientInfo;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class ProvideViewPatientLablePunchClockState implements java.io.Serializable{
@@ -52,9 +53,80 @@ public class ProvideViewPatientLablePunchClockState implements java.io.Serializa
     private  String signCode;     //签约编码 uuid
     private  String signNo;       //签约号
     private  String signStatus;  //签约状态:10:已提交 20:已同意 30:签约完成 40:到期解约 50:续约 100:已拒绝 110:需修改 120:提前解约 130:付款中 140: 【患者】解约申请中  160: 【医生】解约申请中
-
+    private BigDecimal signPrice;  //签约价格
+    private  Integer signDuration;  //签约时长
+    private  String signUnit;  //签约时长单位
+    private  String signDurationUnit;  //签约时长展示
+    private  String signOtherServiceCode;  //签约其他服务编码，多个”，“隔开    ---监测类服务
+    private  Integer detectRate;  //检测频次  3
+    private  String detectRateUnitCode;  //检测频次单位编码  code
+    private  String detectRateUnitName;  //检测频次单位名称  天
     public String getSignCode() {
         return signCode;
+    }
+
+    public BigDecimal getSignPrice() {
+        return signPrice;
+    }
+
+    public void setSignPrice(BigDecimal signPrice) {
+        this.signPrice = signPrice;
+    }
+
+    public Integer getSignDuration() {
+        return signDuration;
+    }
+
+    public void setSignDuration(Integer signDuration) {
+        this.signDuration = signDuration;
+    }
+
+    public String getSignUnit() {
+        return signUnit;
+    }
+
+    public void setSignUnit(String signUnit) {
+        this.signUnit = signUnit;
+    }
+
+    public String getSignDurationUnit() {
+        return signDurationUnit;
+    }
+
+    public void setSignDurationUnit(String signDurationUnit) {
+        this.signDurationUnit = signDurationUnit;
+    }
+
+    public String getSignOtherServiceCode() {
+        return signOtherServiceCode;
+    }
+
+    public void setSignOtherServiceCode(String signOtherServiceCode) {
+        this.signOtherServiceCode = signOtherServiceCode;
+    }
+
+    public Integer getDetectRate() {
+        return detectRate;
+    }
+
+    public void setDetectRate(Integer detectRate) {
+        this.detectRate = detectRate;
+    }
+
+    public String getDetectRateUnitCode() {
+        return detectRateUnitCode;
+    }
+
+    public void setDetectRateUnitCode(String detectRateUnitCode) {
+        this.detectRateUnitCode = detectRateUnitCode;
+    }
+
+    public String getDetectRateUnitName() {
+        return detectRateUnitName;
+    }
+
+    public void setDetectRateUnitName(String detectRateUnitName) {
+        this.detectRateUnitName = detectRateUnitName;
     }
 
     public void setSignCode(String signCode) {

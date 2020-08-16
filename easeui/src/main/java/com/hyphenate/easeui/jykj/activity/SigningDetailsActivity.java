@@ -57,12 +57,18 @@ import com.hyphenate.easeui.utils.MainMessage;
 import org.greenrobot.eventbus.EventBus;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
+
+import static android.icu.text.DateTimePatternGenerator.DAY;
 
 
 public class SigningDetailsActivity extends AppCompatActivity implements View.OnClickListener {
@@ -148,6 +154,9 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
     private String singCode;
     private TextView day_tv;
     private String dayListattrName;
+    private OrderMessage orderMessage;
+    private long day1;
+    private TextView tv_prices;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -176,13 +185,9 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
         Bundle extras = this.getIntent().getExtras();
         if (extras != null) {
             type = extras.getString("singCode");
-
             if(!TextUtils.isEmpty(type)){
                 Getdetails();
             }
-
-
-
         }
 
         initHandler();
@@ -231,6 +236,7 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
             }
         });
         //总价
+        tv_prices = (TextView) findViewById(R.id.tv_prices);
         totalprice = (TextView) findViewById(R.id.Totalprice);
         tvGson = (TextView) findViewById(R.id.tv_gson);
         ivBackLeft = (LinearLayout) findViewById(R.id.iv_back_left);
@@ -263,12 +269,6 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
 
         linDetect = (LinearLayout) findViewById(R.id.lin_Detect);
         linDetect.setOnClickListener(this);
-//        linDetect.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                startActivityForResult(new Intent(mContext, DetectActivity.class), 1);
-//            }
-//        });
         rvqbzz = (RecyclerView) findViewById(R.id.rvqbzz);
         linTime = (LinearLayout) findViewById(R.id.lin_time);
 
@@ -280,20 +280,9 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
             }
         });
         linClass = (LinearLayout) findViewById(R.id.lin_class);
-//        linClass.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                startActivityForResult(new Intent(mContext, CoachingActivity.class), 2);
-//            }
-//        });
         tvDuration = (TextView) findViewById(R.id.tv_duration);
         linDuration = (LinearLayout) findViewById(R.id.lin_duration);
-        linDuration.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Duration();
-            }
-        });
+
         btActivityMySelfSettingExitButton = (Button) findViewById(R.id.bt_activityMySelfSetting_exitButton);
         //提交
         btActivityMySelfSettingExitButton.setOnClickListener(new View.OnClickListener() {
@@ -372,6 +361,8 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
                 tvDuration.setText(monthsList.get(options1).getAttrName());
                 monthsListattrName = monthsList.get(options1).getAttrName();
                 monthsListattrCode1 = monthsList.get(options1).getAttrCode();
+                    main(time);
+
             }
         })
                 .setCancelColor(getResources().getColor(R.color.textColor_vt))
@@ -592,10 +583,9 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
                                     }
 
                                 }
-                                OrderMessage orderMessage = new OrderMessage(name, doctorUrl, signOrderCode, mDetectBeans.size() + "项",
+                                orderMessage = new OrderMessage(name, doctorUrl, signOrderCode, mDetectBeans.size() + "项",
                                         monitorRate, tvDuration.getText().toString(), Coachingprice + Detectprice + "", signNo, "", "card", patientCode);
                                 OrderMessage orderMessage = new OrderMessage(name, doctorUrl, signOrderCode, mDetectBeans.size() + "项", videosecondaryListattrName + "/" + videomonthListattrName, tvDuration.getText().toString(), Coachingprice + Detectprice + "", signNo, "", "card", patientCode);
-                                Log.e("TAG", "handleMessage:患者的code "+patientCode );
                                 EventBus.getDefault().post(orderMessage);
                                 finish();
                             }
@@ -663,7 +653,6 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
                 startTime();
             }
         });
-        //总价
         ivBackLeft.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -687,7 +676,11 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
         linDuration.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Duration();
+                if(TextUtils.isEmpty(tvStartTime.getText().toString())){
+                    Toast.makeText(mActivity, "请选择开始时间", Toast.LENGTH_SHORT).show();
+                }else {
+                    Duration();
+                }
             }
         });
     }
@@ -788,7 +781,7 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
         map.put("operDoctorCode", code);
         map.put("operDoctorName", name);
         map.put("signOrderCode", type);
-        getProgressBar("请稍候...", "正在获取数据");
+
         new Thread() {
             public void run() {
                 String mNetRetStr="";
@@ -853,8 +846,7 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
                 orderItemBean.setDurationUnitCode("");
                 orderItemBean.setDurationUnitName("");
             }
-            String configDetailName = detectBean.getConfigDetailName();
-            if (!TextUtils.isEmpty(configDetailName)&&configDetailName.equals("图文")) {
+            if (detectBean.getConfigDetailName().equals("图文")) {
                 orderItemBean.setDuration(0);
                 orderItemBean.setDurationUnitCode("");
                 orderItemBean.setDurationUnitName("");
@@ -878,7 +870,6 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
             public void onTimeSelect(Date date, View v) {
                 time = getDate(date);
                 tvStartTime.setText(time);
-
             }
         })
                 .setCancelColor(getResources().getColor(R.color.textColor_vt))
@@ -894,7 +885,63 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
         String string = simpleDateFormat.format(data);
         return string;
     }
+    private void main(String time){
+        Calendar c = Calendar.getInstance();//获得一个bai日历的实du例
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date dates = null;
+        try{
+            dates = sdf.parse(time);//初始日期
+        }catch(Exception e){
 
+        }
+        c.setTime(dates);//设置日历时间zhi
+        c.add(Calendar.MONTH,monthsListattrCode1);//在日历的月份上增加6个月
+        System.out.println(sdf.format(c.getTime()));//得到dao6个月后的日期
+        Log.e("TAG", "main: "+sdf.format(c.getTime()) );
+
+        dateDiff(time,sdf.format(c.getTime()),"yyyy-MM-dd");
+
+
+    }
+    //计算天数
+    public long dateDiff(String startTime, String endTime, String format) {
+        // 按照传入的格式生成一个simpledateformate对象
+        SimpleDateFormat sd = new SimpleDateFormat(format);
+        long nd = 1000 * 24 * 60 * 60;// 一天的毫秒数
+        long nh = 1000 * 60 * 60;// 一小时的毫秒数
+        long nm = 1000 * 60;// 一分钟的毫秒数
+        long ns = 1000;// 一秒钟的毫秒数
+        long diff;
+        day1 = 0;
+        try {
+            // 获得两个时间的毫秒时间差异
+            diff = sd.parse(endTime).getTime()
+                    - sd.parse(startTime).getTime();
+            day1 = diff / nd;// 计算差多少天
+            long hour = diff % nd / nh;// 计算差多少小时
+            long min = diff % nd % nh / nm;// 计算差多少分钟
+            long sec = diff % nd % nh % nm / ns;// 计算差多少秒
+            // 输出结果
+            System.out.println("时间相差：" + day1 + "天" + hour + "小时" + min
+                    + "分钟" + sec + "秒。");
+
+            if (day1 >=1) {
+                return day1;
+            }else {
+                if (day1 ==0) {
+                    return 1;
+                }else {
+                    return 0;
+                }
+
+            }
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return 0;
+
+    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -903,15 +950,14 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
             mDetectBeans = (ArrayList<DetectBean>) data.getSerializableExtra("detect");
             if (mDetectBeans != null) {
                 linTime.setVisibility(View.VISIBLE);
-                Log.e("TAG", "onActivityResult: " + "222222");
                 for (int i = 0; i < mDetectBeans.size(); i++) {
-                    double price = mDetectBeans.get(i).getPrice();
+                    double price =mDetectBeans.get(i).getPrice();
                     Detectprice = Detectprice + price;
-                    Log.e("TAG", "onActivityResult:   检测类型" + Detectprice);
                 }
-                if (Coachingprice == 0) {
+                if (Coachingprice == 0||Detectprice!=0) {
                     totalprice.setText(Detectprice + "");
-                } else if (Coachingprice != 0) {
+                }
+                else if (Coachingprice != 0) {
                     totalprice.setText(Coachingprice + Detectprice + "");
                 }
                 rv_detectAdapter.setDate(mDetectBeans);
@@ -930,7 +976,7 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
                     double price = mCoachingBean.get(i).getPrice();
                     Coachingprice = Coachingprice + price;
                 }
-                if (Detectprice == 0) {
+                if (Detectprice == 0||Coachingprice!=0) {
                     totalprice.setText(Coachingprice + "");
                 } else if (Detectprice != 0) {
                     totalprice.setText(Coachingprice + Detectprice + "");
@@ -946,6 +992,14 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
     private void setTotalprice(List<DetectBean> monitorDetectBeans,List<DetectBean> coatchDetectBeans){
         List<DetectBean> detectBeans=new ArrayList<>();
         if(monitorDetectBeans!=null&&monitorDetectBeans.size()>0){
+//            if(day1==0||dayListattrCode.equals("")){
+//
+//            }else{
+//                for (int i = 0; i < monitorDetectBeans.size(); i++) {
+//                    double price =day1/dayListattrCode*monitorDetectBeans.get(i).getPrice();
+//                   // Detectprice = Detectprice + price;
+//                }
+//            }
             detectBeans.addAll(monitorDetectBeans);
         }
         if(coatchDetectBeans!=null&&coatchDetectBeans.size()>0){
@@ -981,4 +1035,5 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
             mDialogProgress.dismiss();
         }
     }
+
 }
