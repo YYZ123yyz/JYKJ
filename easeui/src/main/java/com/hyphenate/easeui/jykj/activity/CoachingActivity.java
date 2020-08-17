@@ -55,6 +55,7 @@ public class CoachingActivity extends AppCompatActivity implements View.OnClickL
         mCoachingList = (ArrayList<DetectBean>) getIntent().getSerializableExtra("coaching");
         mContext = this;
         mActivity = this;
+        coachingBeans=new ArrayList<>();
         sharedPreferences = getSharedPreferences("sp", Activity.MODE_PRIVATE);
         name = sharedPreferences.getString("name", "");
         code = sharedPreferences.getString("code", "");
@@ -67,6 +68,7 @@ public class CoachingActivity extends AppCompatActivity implements View.OnClickL
     private void OnClickListener() {
     }
 
+    @SuppressLint("HandlerLeak")
     private void initHandler() {
         mHandler = new Handler() {
             @SuppressLint("HandlerLeak")
@@ -79,8 +81,14 @@ public class CoachingActivity extends AppCompatActivity implements View.OnClickL
                             coachingBeans = JSON.parseArray(JSON.parseObject(mNetRetStr, NetRetEntity.class).getResJsonData(), DetectBean.class);
                             for (int i = 0; i < coachingBeans.size(); i++) {
                                 for (int j = 0; j < mCoachingList.size(); j++) {
-                                    if (coachingBeans.get(i).getConfigDetailCode().equals(mCoachingList.get(j).getConfigDetailCode())) {
+                                    if (coachingBeans.get(i).getConfigDetailCode()
+                                            .equals(mCoachingList.get(j).getConfigDetailCode())) {
+                                        DetectBean detectBean = mCoachingList.get(j);
                                         coachingBeans.get(i).setChoice(true);
+                                        coachingBeans.get(i).setTotalPrice(detectBean.getTotalPrice());
+                                        coachingBeans.get(i).setMinute(detectBean.getMinute());
+                                        coachingBeans.get(i).setMonths(detectBean.getMonths());
+                                        coachingBeans.get(i).setFrequency(detectBean.getFrequency());
                                     }
                                 }
                             }

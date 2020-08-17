@@ -52,6 +52,7 @@ import com.hyphenate.easeui.jykj.utils.DateUtils;
 import com.hyphenate.easeui.netService.HttpNetService;
 import com.hyphenate.easeui.netService.entity.NetRetEntity;
 import com.hyphenate.easeui.ui.EaseChatFragment;
+import com.hyphenate.easeui.utils.CollectionUtils;
 import com.hyphenate.easeui.utils.MainMessage;
 
 import org.greenrobot.eventbus.EventBus;
@@ -77,11 +78,10 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
     private SigningDetailsActivity mActivity;
     private List<DetectBean> mDetectBeans = new ArrayList<>();            //检测类型
     private List<DetectBean> mCoachingBean = new ArrayList<>();            //检测类型
-    private List<OrderItemBean> mOrderItemBean = new ArrayList<>();
     private Rv_detectAdapter rv_detectAdapter;
     private Rv_CoachingAdapter rvCoachingAdapter;
     private TimePickerView timePickerView;
-    private String time;
+    private String startTime;
     private TextView tvGson;
     private LinearLayout ivBackLeft;
     private TextView patientName;
@@ -123,16 +123,16 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
     private double totalprice1 = 0;
     private ImageView iv_activityLogin_agreeImg;
     private boolean mAgree = true;                     //是否同意协议，默认同意
-    private Integer dayListattrCode;
-    private Integer secondaryListattrCode;
-    private Integer monthListattrCode;
-    private Integer videominuteListattrCode;
-    private Integer videosecondaryListattrCode;
-    private Integer videomonthListattrCode;
+    private int  dayListattrCode;
+    private int  secondaryListattrCode;
+    private int  monthListattrCode;
+    private int videominuteListattrCode;
+    private int videosecondaryListattrCode;
+    private int videomonthListattrCode;
     private String monthsListattrName;
-    private Integer monthsListattrCode;
+    private int monthsListattrCode;
     private int ageFromBirthTime;
-    private Integer monthsListattrCode1;
+    private int  monthsListattrCode1;
     private String signOrderCode;
     private GetdetailsBean getdetailsBeans;
     private List<GetdetailsBean.OrderDetailListBean> DetectitemBeans = new ArrayList<>();
@@ -361,8 +361,8 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
                 tvDuration.setText(monthsList.get(options1).getAttrName());
                 monthsListattrName = monthsList.get(options1).getAttrName();
                 monthsListattrCode1 = monthsList.get(options1).getAttrCode();
-                    main(time);
-
+                   // main(startTime);
+                setTotalprice(mDetectBeans,mCoachingBean);
             }
         })
                 .setCancelColor(getResources().getColor(R.color.textColor_vt))
@@ -388,6 +388,9 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
                 double price = mCoachingBean.get(pos).getPrice();
                 mCoachingBean.get(pos).setPrice(price*videosecondaryListattrCode);
                 mCoachingBean.get(pos).setValue(videosecondaryListattrCode);
+                mCoachingBean.get(pos).setMinute(videominuteListattrCode);
+                mCoachingBean.get(pos).setFrequency(videosecondaryListattrCode);
+                mCoachingBean.get(pos).setMonths(videomonthListattrCode);
                 rvCoachingAdapter.notifyDataSetChanged();
                 setTotalprice(mDetectBeans,mCoachingBean);
             }
@@ -409,6 +412,7 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
                 dayListattrCode = dayList.get(options1).getAttrCode();
                 dayListattrName = dayList.get(options1).getAttrName();
                 day_tv.setText(dayListattrName);
+                setTotalprice(mDetectBeans,mCoachingBean);
             }
         })
                 .setCancelColor(getResources().getColor(R.color.textColor_vt))
@@ -441,12 +445,22 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
 
     //修改提交
     private void ModificationSubmission() {
-        if (dayListattrCode==null) {
-            Toast.makeText(mActivity, "请选择频率时长", Toast.LENGTH_SHORT).show();
-            return;
+        if (!CollectionUtils.isEmpty(mDetectBeans)) {
+            if (dayListattrCode==0) {
+                Toast.makeText(mActivity, "请选择频率时长", Toast.LENGTH_SHORT).show();
+                return;
+            }
         }
         if (TextUtils.isEmpty(tvStartTime.getText().toString())) {
             Toast.makeText(mActivity, "请选择签约开始时间", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if(!isChoosedFrequencyAll(mCoachingBean)){
+            Toast.makeText(mActivity, "请选择频次", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if(monthsListattrCode1==0){
+            Toast.makeText(mActivity, "请选择签约时长", Toast.LENGTH_SHORT).show();
             return;
         }
         final HashMap<String, Object> map = new HashMap<>();
@@ -498,6 +512,25 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
 
     //提交
     private void commit() {
+
+        if (!CollectionUtils.isEmpty(mDetectBeans)) {
+            if (dayListattrCode==0) {
+                Toast.makeText(mActivity, "请选择频率时长", Toast.LENGTH_SHORT).show();
+                return;
+            }
+        }
+        if (TextUtils.isEmpty(tvStartTime.getText().toString())) {
+            Toast.makeText(mActivity, "请选择签约开始时间", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if(!isChoosedFrequencyAll(mCoachingBean)){
+            Toast.makeText(mActivity, "请选择频次", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if(monthsListattrCode1==0){
+            Toast.makeText(mActivity, "请选择签约时长", Toast.LENGTH_SHORT).show();
+            return;
+        }
         getProgressBar("请稍候...", "正在提交");
         final HashMap<String, Object> map = new HashMap<>();
         map.put("loginDoctorPosition", "108.93425^34.23053");
@@ -513,10 +546,7 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
         map.put("signUnit", "月");
         map.put("signDurationUnit", monthsListattrCode1 + "");
         map.put("signPrice", totalprice.getText().toString());
-        if (TextUtils.isEmpty(tvStartTime.getText().toString())) {
-            Toast.makeText(mActivity, "请选择签约开始时间", Toast.LENGTH_SHORT).show();
-            return;
-        }
+
         map.put("signStartTime", tvStartTime.getText().toString());
         java.util.List<OrderItemBean> uploadOrderItems = getUploadOrderItems(mDetectBeans);
         java.util.List<OrderItemBean> uploadOrderItems1 = getUploadOrderItems(mCoachingBean);
@@ -576,12 +606,10 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
                                 }
                                 Log.e("TAG", "handleMessage: " + patientCode);
                                 String monitorRate="";
-                                if (dayListattrCode!=null) {
-                                    String code = dayListattrCode.toString();
-                                    if (!TextUtils.isEmpty(code)) {
-                                        monitorRate = "一次/"+code+"天";
-                                    }
 
+
+                                if (dayListattrCode!=0) {
+                                    monitorRate = "一次/"+code+"天";
                                 }
                                 orderMessage = new OrderMessage(name, doctorUrl, signOrderCode, mDetectBeans.size() + "项",
                                         monitorRate, tvDuration.getText().toString(), Coachingprice + Detectprice + "", signNo, "", "card", patientCode);
@@ -868,8 +896,8 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
         timePickerView = new TimePickerBuilder(mContext, new OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {
-                time = getDate(date);
-                tvStartTime.setText(time);
+                startTime = getDate(date);
+                tvStartTime.setText(startTime);
             }
         })
                 .setCancelColor(getResources().getColor(R.color.textColor_vt))
@@ -885,26 +913,20 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
         String string = simpleDateFormat.format(data);
         return string;
     }
-    private void main(String time){
+    private String getEndTime(int dayCode){
         Calendar c = Calendar.getInstance();//获得一个bai日历的实du例
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date dates = null;
         try{
-            dates = sdf.parse(time);//初始日期
+            dates = sdf.parse(startTime);//初始日期
         }catch(Exception e){
 
         }
         c.setTime(dates);//设置日历时间zhi
-        c.add(Calendar.MONTH,monthsListattrCode1);//在日历的月份上增加6个月
-        System.out.println(sdf.format(c.getTime()));//得到dao6个月后的日期
-        Log.e("TAG", "main: "+sdf.format(c.getTime()) );
-
-        dateDiff(time,sdf.format(c.getTime()),"yyyy-MM-dd");
-
-
+        c.add(Calendar.MONTH,dayCode);//在日历的月份上增加6个月
+        return sdf.format(c.getTime());
     }
-    //计算天数
-    public long dateDiff(String startTime, String endTime, String format) {
+    private long calculateDays(String startTime, String endTime, String format){
         // 按照传入的格式生成一个simpledateformate对象
         SimpleDateFormat sd = new SimpleDateFormat(format);
         long nd = 1000 * 24 * 60 * 60;// 一天的毫秒数
@@ -950,16 +972,6 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
             mDetectBeans = (ArrayList<DetectBean>) data.getSerializableExtra("detect");
             if (mDetectBeans != null) {
                 linTime.setVisibility(View.VISIBLE);
-                for (int i = 0; i < mDetectBeans.size(); i++) {
-                    double price =mDetectBeans.get(i).getPrice();
-                    Detectprice = Detectprice + price;
-                }
-                if (Coachingprice == 0||Detectprice!=0) {
-                    totalprice.setText(Detectprice + "");
-                }
-                else if (Coachingprice != 0) {
-                    totalprice.setText(Coachingprice + Detectprice + "");
-                }
                 rv_detectAdapter.setDate(mDetectBeans);
                 rv_detectAdapter.notifyDataSetChanged();
             }
@@ -972,15 +984,6 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
                 totalprice.setText("");
             }
             if (mCoachingBean != null) {
-                for (int i = 0; i < mCoachingBean.size(); i++) {
-                    double price = mCoachingBean.get(i).getPrice();
-                    Coachingprice = Coachingprice + price;
-                }
-                if (Detectprice == 0||Coachingprice!=0) {
-                    totalprice.setText(Coachingprice + "");
-                } else if (Detectprice != 0) {
-                    totalprice.setText(Coachingprice + Detectprice + "");
-                }
                 rvCoachingAdapter.setDate(mCoachingBean);
                 rvCoachingAdapter.notifyDataSetChanged();
             }
@@ -991,25 +994,75 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
     @SuppressLint("SetTextI18n")
     private void setTotalprice(List<DetectBean> monitorDetectBeans,List<DetectBean> coatchDetectBeans){
         List<DetectBean> detectBeans=new ArrayList<>();
-        if(monitorDetectBeans!=null&&monitorDetectBeans.size()>0){
-//            if(day1==0||dayListattrCode.equals("")){
-//
-//            }else{
-//                for (int i = 0; i < monitorDetectBeans.size(); i++) {
-//                    double price =day1/dayListattrCode*monitorDetectBeans.get(i).getPrice();
-//                   // Detectprice = Detectprice + price;
-//                }
-//            }
+        if(!CollectionUtils.isEmpty(monitorDetectBeans)){
+            calculateMonitorPrice(monitorDetectBeans);
             detectBeans.addAll(monitorDetectBeans);
         }
-        if(coatchDetectBeans!=null&&coatchDetectBeans.size()>0){
+        if (!CollectionUtils.isEmpty(coatchDetectBeans)) {
+            calculateCoatchPrice(coatchDetectBeans);
             detectBeans.addAll(coatchDetectBeans);
         }
         double totalPrice=0;
         for (DetectBean detectBean : detectBeans) {
-            totalPrice=totalPrice+ detectBean.getPrice();
+            totalPrice=totalPrice+ detectBean.getTotalPrice();
         }
+
         totalprice.setText(totalPrice+"");
+    }
+
+    /**
+     * 计算监测类价格
+     * @param monitorDetectBeans 监测类集合
+     */
+    private void calculateMonitorPrice(List<DetectBean> monitorDetectBeans){
+        if (dayListattrCode!=0&&monthsListattrCode1!=0) {
+            for (DetectBean monitorDetectBean : monitorDetectBeans) {
+                double price = monitorDetectBean.getPrice();
+                long days = calculateDays(startTime, getEndTime(monthsListattrCode1), "yyyy-MM-dd");
+                double calculatePrice=days*price/dayListattrCode;
+                monitorDetectBean.setTotalPrice(calculatePrice);
+            }
+        }
+    }
+
+    /**
+     * 计算辅导类价格
+     * @param coatchDetectBeans 辅导类集合
+     */
+    private void calculateCoatchPrice(List<DetectBean> coatchDetectBeans){
+        if (monthsListattrCode1!=0) {
+            for (DetectBean coatchDetectBean : coatchDetectBeans) {
+                int frequency = coatchDetectBean.getFrequency();
+                int months = coatchDetectBean.getMonths();
+                double price = coatchDetectBean.getPrice();
+                if (frequency!=0&& months !=0) {
+                    double calculatePrice=monthsListattrCode1*frequency*price/frequency/months;
+                    coatchDetectBean.setTotalPrice(calculatePrice);
+                }
+
+            }
+        }
+
+    }
+
+    /**
+     * 是否填写频率
+     * @param coatchDetectBeans 辅导类类别
+     * @return true or false
+     */
+    private boolean isChoosedFrequencyAll(List<DetectBean> coatchDetectBeans){
+        int complateTotal=0;
+        if (!CollectionUtils.isEmpty(coatchDetectBeans)) {
+            for (DetectBean coatchDetectBean : coatchDetectBeans) {
+
+                int frequency = coatchDetectBean.getFrequency();
+                int months = coatchDetectBean.getMonths();
+                if (frequency !=0&&months!=0) {
+                    complateTotal++;
+                }
+            }
+        }
+        return coatchDetectBeans.size()==complateTotal;
     }
     /**
      * 获取进度条
