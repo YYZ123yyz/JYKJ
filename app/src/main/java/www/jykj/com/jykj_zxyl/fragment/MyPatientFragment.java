@@ -175,16 +175,16 @@ public class MyPatientFragment extends Fragment {
         mHZGLRecycleAdapter.setOnYYItemClickListener(new MyPatientRecyclerAdapter.OnYYItemClickListener() {
             @Override
             public void onClick(int position) {
-                if (mHZEntyties.get(position).getSignStatus().equals("140")) {
-                    Log.e("TAG", "onClick: " + "同意解约"+mHZEntyties.get(position).getSignStatus());
-                    agree(position);
-                } else {
+                if(mHZEntyties.get(position).getSignStatus()==null){
                     Intent intent = new Intent();
                     intent.setClass(mContext, TerminationActivity.class);
                     intent.putExtra("patientLable", mHZEntyties.get(position));
                     startActivity(intent);
                 }
-
+              else  if (mHZEntyties.get(position).getSignStatus().equals("140")) {
+                    Log.e("TAG", "onClick: " + "同意解约"+mHZEntyties.get(position).getSignStatus());
+                    agree(position);
+                }
             }
 
             @Override
@@ -212,7 +212,13 @@ public class MyPatientFragment extends Fragment {
         mHZGLRecycleAdapter.setOnTXHZItemClickListener(new MyPatientRecyclerAdapter.OnTXHZItemClickListener() {
             @Override
             public void onClick(int position) {
-                if (mHZEntyties.get(position).getSignStatus().equals("140")) {
+                if(mHZEntyties.get(position).getSignStatus()==null){
+                    Intent intent = new Intent();
+                    intent.setClass(mContext, HZGLTXHZActivity.class);
+                    intent.putExtra("patientLable", mHZEntyties.get(position));
+                    startActivity(intent);
+                }
+              else  if (mHZEntyties.get(position).getSignStatus().equals("140")) {
                     Log.e("TAG", "onClick: " + "拒绝解约"+mHZEntyties.get(position).getSignStatus());
                     Intent intent = new Intent();
                     intent.setClass(mContext, RefuseActivity.class);
@@ -221,11 +227,6 @@ public class MyPatientFragment extends Fragment {
                 } else if (mHZEntyties.get(position).getSignStatus().equals("150")) {
                     Log.e("TAG", "onClick: " + "撤销解约"+mHZEntyties.get(position).getSignStatus());
                     Revoke(position);
-                } else {
-                    Intent intent = new Intent();
-                    intent.setClass(mContext, HZGLTXHZActivity.class);
-                    intent.putExtra("patientLable", mHZEntyties.get(position));
-                    startActivity(intent);
                 }
 
             }
@@ -348,23 +349,42 @@ public class MyPatientFragment extends Fragment {
                 switch (msg.what) {
                     case 1:
                         cacerProgress();
-                        mHZGLRecycleAdapter.setDate(mHZEntyties);
-                        mHZGLRecycleAdapter.notifyDataSetChanged();
+                        if(mHZEntyties!=null){
+                            mHZGLRecycleAdapter.setDate(mHZEntyties);
+                            mHZGLRecycleAdapter.notifyDataSetChanged();
+                        }else{
+
+                        }
+
                         break;
                     case 2:
                         cacerProgress();
-                        mHZGLRecycleAdapter.setDate(mHZEntyties);
-                        mHZGLRecycleAdapter.notifyDataSetChanged();
+                        if(mHZEntyties!=null){
+                            mHZGLRecycleAdapter.setDate(mHZEntyties);
+                            mHZGLRecycleAdapter.notifyDataSetChanged();
+                        }else{
+
+                        }
+
                         break;
                     case 3:
                         cacerProgress();
-                        mHZGLRecycleAdapter.setDate(mHZEntyties);
-                        mHZGLRecycleAdapter.notifyDataSetChanged();
+                        if(mHZEntyties!=null){
+                            mHZGLRecycleAdapter.setDate(mHZEntyties);
+                            mHZGLRecycleAdapter.notifyDataSetChanged();
+                        }else{
+
+                        }
+
                         break;
                     case 4:
                         cacerProgress();
-                        mHZGLRecycleAdapter.setDate(mHZEntyties);
-                        mHZGLRecycleAdapter.notifyDataSetChanged();
+                        if(mHZEntyties!=null){
+                            mHZGLRecycleAdapter.setDate(mHZEntyties);
+                            mHZGLRecycleAdapter.notifyDataSetChanged();
+                        }else{
+
+                        }
                         break;
                     case 10:
                         if(!TextUtils.isEmpty(mNetLoginRetStr)){

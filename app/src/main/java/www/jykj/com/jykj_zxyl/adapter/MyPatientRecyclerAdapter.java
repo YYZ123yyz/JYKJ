@@ -57,18 +57,24 @@ public class MyPatientRecyclerAdapter extends RecyclerView.Adapter<MyPatientRecy
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, @SuppressLint("RecyclerView") int position) {
         viewHolder.mHzName.setText(datas.get(position).getUserName());
         Log.e("TAG", "onBindViewHolder: "+datas.get(position).getSignStatus() );
-        if (datas.get(position).getSignStatus().equals("140")) {
-            viewHolder.mXY.setVisibility(View.INVISIBLE);
-            viewHolder.agree_tv.setText("同意解约");
-            viewHolder.agree_image.setImageResource(R.mipmap.agree);
-            viewHolder.noagree_tv.setText("拒绝解约");
-            viewHolder.noagree_image.setImageResource(R.mipmap.disagree);
-        } else if (datas.get(position).getSignStatus().equals("160")) {
-            viewHolder.mXY.setVisibility(View.INVISIBLE);
-            viewHolder.mYY.setVisibility(View.INVISIBLE);
-            viewHolder.noagree_tv.setText("撤销解约");
-            viewHolder.noagree_image.setImageResource(R.mipmap.revoke);
+        if(datas.get(position).getSignStatus()==null){
+
+        }else{
+            if (datas.get(position).getSignStatus().equals("140")) {
+                viewHolder.mXY.setVisibility(View.INVISIBLE);
+                viewHolder.agree_tv.setText("同意解约");
+                viewHolder.agree_image.setImageResource(R.mipmap.agree);
+                viewHolder.noagree_tv.setText("拒绝解约");
+                viewHolder.noagree_image.setImageResource(R.mipmap.disagree);
+            } else if (datas.get(position).getSignStatus().equals("160")) {
+                viewHolder.mXY.setVisibility(View.INVISIBLE);
+                viewHolder.mYY.setVisibility(View.INVISIBLE);
+                viewHolder.noagree_tv.setText("撤销解约");
+                viewHolder.noagree_image.setImageResource(R.mipmap.revoke);
+            }
+
         }
+
         try {
             viewHolder.mHzAge.setText(DateUtils.getAgeFromBirthDate(datas.get(position).getBirthday()) + "");
         } catch (Exception e) {

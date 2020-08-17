@@ -240,7 +240,6 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
         totalprice = (TextView) findViewById(R.id.Totalprice);
         tvGson = (TextView) findViewById(R.id.tv_gson);
         ivBackLeft = (LinearLayout) findViewById(R.id.iv_back_left);
-        ivBackLeft.setOnClickListener(this);
         ivBackLeft.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
