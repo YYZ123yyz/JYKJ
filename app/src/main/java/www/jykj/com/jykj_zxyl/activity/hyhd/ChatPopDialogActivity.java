@@ -9,10 +9,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
-import android.os.Build;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
+import android.os.*;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -355,6 +352,9 @@ public abstract class ChatPopDialogActivity extends AppCompatActivity implements
 
 
     protected void joinChatroom(){
+        if(true){
+            return;
+        }
         if(chatType==EaseConstant.CHATTYPE_CHATROOM){
             EMClient.getInstance().chatroomManager().joinChatRoom(toChatUsername, new EMValueCallBack<EMChatRoom>() {
 
@@ -381,7 +381,13 @@ public abstract class ChatPopDialogActivity extends AppCompatActivity implements
         }
     }
 
+    boolean issetview = false;
+
     protected void setUpView() {
+        if(issetview){
+            return;
+        }
+        issetview = true;
         titleBar.setTitle(toChatUsernameName);
         if (chatType == EaseConstant.CHATTYPE_SINGLE) {
             // set title
@@ -603,6 +609,8 @@ public abstract class ChatPopDialogActivity extends AppCompatActivity implements
                     addMsg.setFrom(StrUtils.defaulObjToStr(msg.obj));
                     EMTextMessageBody body = new EMTextMessageBody("加入直播间了");
                     addMsg.addBody(body);*/
+                   //conversation.clearAllMessages();
+                    //messageList.refresh();
                     doSend("加入直播间了");
                     //EMMessage.createReceiveMessage(EMMessage.Type.TXT);
                     //EMMessage message = EMMessage.createTxtSendMessage("加入直播间了", StrUtils.defaulObjToStr(msg.obj));
@@ -769,31 +777,60 @@ public abstract class ChatPopDialogActivity extends AppCompatActivity implements
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (groupListener != null) {
-            EMClient.getInstance().groupManager().removeGroupChangeListener(groupListener);
+        if(isbacked){
+            return;
         }
-
-        if (chatRoomListener != null) {
-            EMClient.getInstance().chatroomManager().removeChatRoomListener(chatRoomListener);
-        }
-
-        if(chatType == EaseConstant.CHATTYPE_CHATROOM){
+        if(chatType == EaseConstant.CHATTYPE_CHATROOM && !isbacked) {
             doSend("离开直播间了");
-            EMClient.getInstance().chatroomManager().leaveChatRoom(toChatUsername);
         }
+        closeRoom();
     }
+
+    boolean isbacked = false;
 
     public void onBackPressed() {
         if (inputMenu.onBackPressed()) {
-            myActivity.finish();
             if(chatType == CHATTYPE_GROUP){
                 EaseAtMessageHelper.get().removeAtMeGroup(toChatUsername);
                 EaseAtMessageHelper.get().cleanToAtUserList();
             }
             if (chatType == EaseConstant.CHATTYPE_CHATROOM) {
+                isbacked = true;
                 doSend("离开直播间了");
+            }
+            closeRoom();
+        }
+    }
+
+    public void closeRoom(){
+        CloseRoomTask closeRoomTask = new CloseRoomTask();
+        closeRoomTask.execute();
+    }
+
+    class CloseRoomTask extends AsyncTask<Void,Void,Boolean> {
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            if (groupListener != null) {
+                EMClient.getInstance().groupManager().removeGroupChangeListener(groupListener);
+            }
+
+            if (chatRoomListener != null) {
+                EMClient.getInstance().chatroomManager().removeChatRoomListener(chatRoomListener);
+            }
+            if(chatType == EaseConstant.CHATTYPE_CHATROOM){
                 EMClient.getInstance().chatroomManager().leaveChatRoom(toChatUsername);
             }
+            myActivity.finish();
         }
     }
 
@@ -809,7 +846,12 @@ public abstract class ChatPopDialogActivity extends AppCompatActivity implements
                         if(myActivity.isFinishing() || !toChatUsername.equals(value.getId()))
                             return;
                         pd.dismiss();
+                        Message themsg = new Message();
+                        themsg.what = ADD_ENTERROOM_MSG;
+                        messagehandler.sendMessage(themsg);
+                        upJoinUsernum(1);
                         EMChatRoom room = EMClient.getInstance().chatroomManager().getChatRoom(toChatUsername);
+
 
                         if (room != null) {
                             titleBar.setTitle(room.getName());
@@ -1049,6 +1091,8 @@ public abstract class ChatPopDialogActivity extends AppCompatActivity implements
             if (roomId.equals(toChatUsername)) {
                 myActivity.runOnUiThread(new Runnable() {
                     public void run() {
+                        upJoinUsernum(1);
+                        //doSend("加入直播间了");
                         /*Toast.makeText(myActivity, "member join:" + participant, Toast.LENGTH_LONG).show();
                         Message themsg = new Message();
                         themsg.what = ADD_ENTERROOM_MSG;
@@ -1060,7 +1104,7 @@ public abstract class ChatPopDialogActivity extends AppCompatActivity implements
                         if(null!=members && members.size()>=0) {
                             upJoinUsernum(members.size());
                         }*/
-                        upJoinUsernum(1);
+                        //upJoinUsernum(1);
                        /* Map<String, EMConversation> conversationMap = EMClient.getInstance().chatManager().getAllConversations();
                         EMClient.getInstance().chatManager().loadAllConversations();
                         if(null!=conversationMap && null!=conversationMap.keySet()) {
@@ -1076,6 +1120,8 @@ public abstract class ChatPopDialogActivity extends AppCompatActivity implements
             if (roomId.equals(toChatUsername)) {
                 myActivity.runOnUiThread(new Runnable() {
                     public void run() {
+                        //doSend("离开直播间了");
+                        upJoinUsernum(-1);
                         /*Toast.makeText(myActivity, "member exit:" + participant, Toast.LENGTH_LONG).show();
                         Message themsg = new Message();
                         themsg.what = ADD_EXITROOM_MSG;
@@ -1086,7 +1132,6 @@ public abstract class ChatPopDialogActivity extends AppCompatActivity implements
                         if(null!=members && members.size()>=0) {
                             upJoinUsernum(members.size());
                         }*/
-                        upJoinUsernum(-1);
                         /*Map<String, EMConversation> conversationMap = EMClient.getInstance().chatManager().getAllConversations();
                         if(null!=conversationMap && null!=conversationMap.keySet()) {
                             upJoinUsernum(conversationMap.keySet().size());
@@ -1736,7 +1781,7 @@ public abstract class ChatPopDialogActivity extends AppCompatActivity implements
         }
 
         if(forward_msg.getChatType() == EMMessage.ChatType.ChatRoom){
-            doSend("离开直播间了");
+            //doSend("离开直播间了");
             EMClient.getInstance().chatroomManager().leaveChatRoom(forward_msg.getTo());
         }
     }

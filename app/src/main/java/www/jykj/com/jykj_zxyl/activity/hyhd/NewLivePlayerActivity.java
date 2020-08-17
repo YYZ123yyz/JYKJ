@@ -103,7 +103,7 @@ public class NewLivePlayerActivity extends ChatPopDialogActivity implements ITXL
     List<String> headpics = new ArrayList();
     TextView tv_head_tit;
     String mdetailCode = "";
-    int joinUserNum = 0;
+    int joinUserNum = 1;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -333,7 +333,7 @@ public class NewLivePlayerActivity extends ChatPopDialogActivity implements ITXL
         initChatView();
         chatViewLayout.setVisibility(View.VISIBLE);
         joinChatroom();
-        setUpView();
+        //setUpView();
         isopenchat = true;
     }
 
