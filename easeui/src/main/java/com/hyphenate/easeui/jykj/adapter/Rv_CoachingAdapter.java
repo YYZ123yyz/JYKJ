@@ -59,6 +59,7 @@ public class Rv_CoachingAdapter extends RecyclerView.Adapter<Rv_CoachingAdapter.
      * @param viewHolder
      * @param position
      */
+    @SuppressLint({"SetTextI18n", "DefaultLocale"})
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, @SuppressLint("RecyclerView") final int position) {
 //        if(TextUtils.isEmpty(datas.get(position).getMonth())&&TextUtils.isEmpty(datas.get(position).getTime())&&TextUtils.isEmpty(datas.get(position).getTimes())){
@@ -67,7 +68,23 @@ public class Rv_CoachingAdapter extends RecyclerView.Adapter<Rv_CoachingAdapter.
 //            viewHolder.time.setText(datas.get(position).getTime()+"分钟");
 //            viewHolder.frequency.setText(datas.get(position).getTimes()+"/"+ datas.get(position).getMonth());
 //        }
-         if(datas.get(position).getConfigDetailCode().equals("10")){
+
+        DetectBean detectBean = datas.get(position);
+        int minute = detectBean.getMinute();
+        if (minute!=0) {
+            viewHolder.time.setText(minute+"分钟，");
+        }else{
+            viewHolder.time.setText(" 分钟数，");
+
+        }
+        int frequency = detectBean.getFrequency();
+        int months = detectBean.getMonths();
+        if (frequency!=0&&months!=0) {
+            viewHolder.frequency.setText(String.format("%d次/%d月", frequency, months));
+        }else{
+            viewHolder.frequency.setText("频次");
+        }
+        if(datas.get(position).getConfigDetailCode().equals("10")){
             viewHolder.time.setVisibility(View.GONE);
             //频次
             viewHolder.lin_frequency.setOnClickListener(new View.OnClickListener() {
