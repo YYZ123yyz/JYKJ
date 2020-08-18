@@ -307,7 +307,32 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
 //        //创建并设置Adapter
         rv_detectAdapter = new Rv_detectAdapter(mDetectBeans, mContext, mActivity);
         rvqbzz.setAdapter(rv_detectAdapter);
+        rv_detectAdapter.setOnItemClickListener(new Rv_detectAdapter.OnItemClickListener() {
+            @Override
+            public void onClick(int position) {
 
+            }
+
+            @Override
+            public void onLongClick(int position) {
+
+            }
+
+            @Override
+            public void onTextChanged(int pos, String value) {
+                if (!CollectionUtils.isEmpty(mDetectBeans)
+                        &&pos<mDetectBeans.size()) {
+                    if (!TextUtils.isEmpty(value)) {
+                        mDetectBeans.get(pos).setPrice(Double.valueOf(value));
+                    }else{
+                        mDetectBeans.get(pos).setPrice(0);
+                    }
+
+                    setTotalprice(mDetectBeans,mCoachingBean);
+                }
+
+            }
+        });
         //辅导类别
         LinearLayoutManager mLinearLayoutManager2 = new LinearLayoutManager(mContext);
         mLinearLayoutManager2.setOrientation(LinearLayout.VERTICAL);
@@ -545,8 +570,13 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
         map.put("signDuration", monthsListattrCode1 + "");
         map.put("signUnit", "月");
         map.put("signDurationUnit", monthsListattrCode1 + "");
-        map.put("signPrice", totalprice.getText().toString());
+        String totalPrice = totalprice.getText().toString();
+        if (!TextUtils.isEmpty(totalPrice)) {
+            double price = Double.parseDouble(totalPrice);
+            double ceil = Math.ceil(price);
+            map.put("signPrice", (int) ceil);
 
+        }
         map.put("signStartTime", tvStartTime.getText().toString());
         java.util.List<OrderItemBean> uploadOrderItems = getUploadOrderItems(mDetectBeans);
         java.util.List<OrderItemBean> uploadOrderItems1 = getUploadOrderItems(mCoachingBean);
@@ -576,6 +606,23 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
              //   mHandler.sendEmptyMessage(1);
             }
         }.start();
+    }
+
+
+
+    /**
+     * double 取整数
+     * @param totalPrice 价格
+     * @return 整数
+     */
+    private int priceDoubleToInteger(String totalPrice){
+        int subPrice=0;
+        if (!TextUtils.isEmpty(totalPrice)) {
+            double price = Double.parseDouble(totalPrice);
+            double ceil = Math.ceil(price);
+            subPrice= ((int) ceil);
+        }
+        return subPrice;
     }
 
     @SuppressLint("HandlerLeak")
@@ -713,6 +760,7 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
         });
     }
     //订单详情设置布局显示
+    @SuppressLint("SetTextI18n")
     private void setLayoutData() {
 
         patientName.setText(patientName1);
@@ -781,7 +829,9 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
         Log.e("TAG", "setLayoutDate:  id " + getdetailsBeans.getSignStatus());
         tvDuration.setText(getdetailsBeans.getSignDurationUnit());
         //总价
-        totalprice.setText(getdetailsBeans.getSignPrice() + "");
+        int totalPrice = priceDoubleToInteger(
+                getdetailsBeans.getSignPrice() + "");
+        totalprice.setText(totalPrice+ "");
         patientName1=getdetailsBeans.getMainUserName();
         patientAlias=getdetailsBeans.getMainUserNameAlias();
     }
@@ -991,7 +1041,7 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
 
         setTotalprice(mDetectBeans,mCoachingBean);
     }
-    @SuppressLint("SetTextI18n")
+    @SuppressLint({"SetTextI18n", "DefaultLocale"})
     private void setTotalprice(List<DetectBean> monitorDetectBeans,List<DetectBean> coatchDetectBeans){
         List<DetectBean> detectBeans=new ArrayList<>();
         if(!CollectionUtils.isEmpty(monitorDetectBeans)){
@@ -1006,8 +1056,8 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
         for (DetectBean detectBean : detectBeans) {
             totalPrice=totalPrice+ detectBean.getTotalPrice();
         }
-
-        totalprice.setText(totalPrice+"");
+        int price = priceDoubleToInteger(totalPrice + "");
+        totalprice.setText(String.format("%d", price));
     }
 
     /**
