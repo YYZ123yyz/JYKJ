@@ -57,8 +57,9 @@ public class Rv_detectAdapter extends RecyclerView.Adapter<Rv_detectAdapter.View
      */
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, @SuppressLint("RecyclerView") final int position) {
+        viewHolder.ed_price.setCursorVisible(false);
         viewHolder.tv_name.setText(datas.get(position).getConfigDetailName());
-        viewHolder.ed_price.setText(datas.get(position).getPrice()+"");
+        viewHolder.ed_price.setText(datas.get(position).getPrice() + "");
         if (mOnItemClickListener != null) {
             viewHolder.mClickLinearLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -91,13 +92,13 @@ public class Rv_detectAdapter extends RecyclerView.Adapter<Rv_detectAdapter.View
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public LinearLayout mClickLinearLayout;                     //整个布局，用来监听点击事件
-        public TextView tv_name,ed_price;                                //类型
+        public TextView tv_name, ed_price;                                //类型
 
         public ViewHolder(View view) {
             super(view);
-         //   mClickLinearLayout = (LinearLayout) view.findViewById(R.id.item_fragmentYLZX_rmjxLayout);
-            tv_name = (TextView)view.findViewById(R.id.tv_name);
-            ed_price = (TextView)view.findViewById(R.id.ed_price);
+            //   mClickLinearLayout = (LinearLayout) view.findViewById(R.id.item_fragmentYLZX_rmjxLayout);
+            tv_name = (TextView) view.findViewById(R.id.tv_name);
+            ed_price = (TextView) view.findViewById(R.id.ed_price);
         }
     }
 

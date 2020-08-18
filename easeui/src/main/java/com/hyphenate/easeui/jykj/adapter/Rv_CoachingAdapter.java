@@ -68,7 +68,7 @@ public class Rv_CoachingAdapter extends RecyclerView.Adapter<Rv_CoachingAdapter.
 //            viewHolder.time.setText(datas.get(position).getTime()+"分钟");
 //            viewHolder.frequency.setText(datas.get(position).getTimes()+"/"+ datas.get(position).getMonth());
 //        }
-
+        viewHolder.ed_price.setCursorVisible(false);
         DetectBean detectBean = datas.get(position);
         int minute = detectBean.getMinute();
         if (minute!=0) {

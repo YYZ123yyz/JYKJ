@@ -29,7 +29,7 @@
             android:layout_marginRight="@dimen/margin_chat_activity" />
 
         <RelativeLayout
-            android:layout_width="260dp"
+            android:layout_width="240dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:layout_marginEnd="@dimen/margin_chat_activity"
@@ -79,7 +79,7 @@
                             android:id="@+id/tv_monitor_type"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="检测类型"
+                            android:text="监测类型"
                             android:textColor="@color/color_616266"
                             android:textSize="13sp" />
 
@@ -108,7 +108,7 @@
                             android:id="@+id/tv_coach_rate"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="辅导频次"
+                            android:text="监测频次"
                             android:textColor="@color/color_616266"
                             android:textSize="13sp" />
 

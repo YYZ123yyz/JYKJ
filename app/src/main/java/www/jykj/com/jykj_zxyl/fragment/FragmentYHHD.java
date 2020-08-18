@@ -178,6 +178,7 @@ public class FragmentYHHD extends Fragment {
                     String parment = "jsonDataInfo=" + new Gson().toJson(provideDoctorPatientUserInfo);
                     mNetRetStr = HttpNetService.urlConnectionService(parment, Constant.SERVICEURL + "doctorPatientCommonDataController/getUserInfoList");
                     NetRetEntity netRetEntity = new Gson().fromJson(mNetRetStr, NetRetEntity.class);
+                    Log.e("TAG", "run: 消息列表"+mNetRetStr );
                     if (netRetEntity.getResCode() == 0) {
                         NetRetEntity retEntity = new NetRetEntity();
                         retEntity.setResCode(0);
@@ -481,7 +482,7 @@ public class FragmentYHHD extends Fragment {
                                     intent.putExtra("patientAlias", mProvideDoctorPatientUserInfo.get(clickIndex).getUserNameAlias());
                                     Log.e("tag", "传值别名" + mProvideDoctorPatientUserInfo.get(clickIndex).getUserNameAlias());
                                     intent.putExtra("patientCode", mProvideDoctorPatientUserInfo.get(clickIndex).getUserCode());
-                                    Log.e("TAG", "handleMessage: "+mProvideDoctorPatientUserInfo.get(clickIndex).getUserCode());
+                                    Log.e("TAG", "handleMessage: 传值 年龄"+mProvideDoctorPatientUserInfo.get(clickIndex).getBirthday());
                                     if (TextUtils.isEmpty(mProvideDoctorPatientUserInfo.get(clickIndex).getBirthday())) {
 
                                     } else {

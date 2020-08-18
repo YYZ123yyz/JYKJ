@@ -82,6 +82,7 @@ public class MyPatientFragment extends Fragment {
     private TextView tv_warning;
     private TextView tv_normal;
     private Status statusList;
+    private NetRetEntity netRetEntity;
 
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -94,7 +95,6 @@ public class MyPatientFragment extends Fragment {
         mApp = (JYKJApplication) getActivity().getApplication();
         initLayout(v);
         initHandler();
-        getData(mSearchStateType);
         return v;
     }
 
@@ -102,6 +102,8 @@ public class MyPatientFragment extends Fragment {
     public void onResume() {
         super.onResume();
         getNumber();
+        mHZEntyties.clear();
+        getData(mSearchStateType);
     }
 
     private void getNumber() {
@@ -175,15 +177,13 @@ public class MyPatientFragment extends Fragment {
         mHZGLRecycleAdapter.setOnYYItemClickListener(new MyPatientRecyclerAdapter.OnYYItemClickListener() {
             @Override
             public void onClick(int position) {
-                if(mHZEntyties.get(position).getSignStatus()==null){
+              if (mHZEntyties.get(position).getSignStatus().equals("140")) {
+                    agree(position);
+                }else if(mHZEntyties.get(position).getSignStatus().equals("")&&mHZEntyties.get(position).getSignStatus()==null){
                     Intent intent = new Intent();
                     intent.setClass(mContext, TerminationActivity.class);
                     intent.putExtra("patientLable", mHZEntyties.get(position));
                     startActivity(intent);
-                }
-              else  if (mHZEntyties.get(position).getSignStatus().equals("140")) {
-                    Log.e("TAG", "onClick: " + "同意解约"+mHZEntyties.get(position).getSignStatus());
-                    agree(position);
                 }
             }
 
@@ -212,21 +212,20 @@ public class MyPatientFragment extends Fragment {
         mHZGLRecycleAdapter.setOnTXHZItemClickListener(new MyPatientRecyclerAdapter.OnTXHZItemClickListener() {
             @Override
             public void onClick(int position) {
-                if(mHZEntyties.get(position).getSignStatus()==null){
-                    Intent intent = new Intent();
-                    intent.setClass(mContext, HZGLTXHZActivity.class);
-                    intent.putExtra("patientLable", mHZEntyties.get(position));
-                    startActivity(intent);
-                }
-              else  if (mHZEntyties.get(position).getSignStatus().equals("140")) {
-                    Log.e("TAG", "onClick: " + "拒绝解约"+mHZEntyties.get(position).getSignStatus());
+               if (mHZEntyties.get(position).getSignStatus().equals("140")) {
+                    Log.e("TAG", "onClick: " + "拒绝解约" + mHZEntyties.get(position).getSignStatus());
                     Intent intent = new Intent();
                     intent.setClass(mContext, RefuseActivity.class);
                     intent.putExtra("patientLable", mHZEntyties.get(position));
                     startActivity(intent);
-                } else if (mHZEntyties.get(position).getSignStatus().equals("150")) {
-                    Log.e("TAG", "onClick: " + "撤销解约"+mHZEntyties.get(position).getSignStatus());
+                } else if (mHZEntyties.get(position).getSignStatus().equals("160")) {
+                    Log.e("TAG", "onClick: " + "撤销解约" + mHZEntyties.get(position).getSignStatus());
                     Revoke(position);
+                }else{
+                    Intent intent = new Intent();
+                    intent.setClass(mContext, HZGLTXHZActivity.class);
+                    intent.putExtra("patientLable", mHZEntyties.get(position));
+                    startActivity(intent);
                 }
 
             }
@@ -255,7 +254,7 @@ public class MyPatientFragment extends Fragment {
     }
 
     //同意
-    private void agree(int position ) {
+    private void agree(int position) {
         final HashMap<String, Object> map = new HashMap<>();
         map.put("loginDoctorPosition", "108.93425^34.23053");
         map.put("mainDoctorCode", mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
@@ -268,10 +267,11 @@ public class MyPatientFragment extends Fragment {
             @RequiresApi(api = Build.VERSION_CODES.M)
             public void run() {
                 try {
+                    String mNetRetStr = "";
                     mNetRetStr = com.hyphenate.easeui.netService.HttpNetService.urlConnectionService("jsonDataInfo=" + new Gson().toJson(map), com.hyphenate.easeui.hyhd.model.Constant.SERVICEURL + "doctorSignControlle/operTerminationConfim");
                     Log.e("tag", "同意" + mNetRetStr);
-                    NetRetEntity  netRetEntity1 = new Gson().fromJson(mNetRetStr, NetRetEntity.class);
-                    if(netRetEntity1.getResCode()==1){
+                    NetRetEntity netRetEntity1 = new Gson().fromJson(mNetRetStr, NetRetEntity.class);
+                    if (netRetEntity1.getResCode() == 1) {
                         Intent intent = new Intent(getContext(), ChatActivity.class);
                         //患者
                         intent.putExtra("userCode", mHZEntyties.get(position).getPatientCode());
@@ -281,21 +281,22 @@ public class MyPatientFragment extends Fragment {
                         intent.putExtra("userUrl", mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl());
                         //URL
                         intent.putExtra("doctorUrl", mHZEntyties.get(position).getUserLogoUrl());
-                        intent.putExtra("patientAlias",mHZEntyties.get(position).getUserNameAlias() );
+                        //intent.putExtra("patientAlias", mHZEntyties.get(position).getan);
                         intent.putExtra("patientCode", mHZEntyties.get(position).getPatientCode());
                         intent.putExtra("patientSex", mHZEntyties.get(position).getGender());
-                        if (mHZEntyties.get(position).getBirthday()==0) {
+                        if (mHZEntyties.get(position).getBirthday() == 0) {
 
                         } else {
                             intent.putExtra("patientAge", DateUtils.getDateToString(mHZEntyties.get(position).getBirthday())
                             );
                         }
                         Bundle bundle = new Bundle();
-                        bundle.putSerializable("orderMsg",new OrderMessage(mApp.mViewSysUserDoctorInfoAndHospital.getUserName(),mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl(),mHZEntyties.get(position).getSignCode(),mHZEntyties.get(position).getSignOtherServiceCode()+"项",mHZEntyties.get(position).getDetectRate()+"天/"+mHZEntyties.get(position).getDetectRateUnitCode()+mHZEntyties.get(position).getDetectRateUnitName(),mHZEntyties.get(position).getSignDuration()+mHZEntyties.get(position).getSignDurationUnit(),mHZEntyties.get(position).getSignPrice()+"",mHZEntyties.get(position).getSignNo(),"1","terminationOrder",mHZEntyties.get(position).getPatientCode()));
-                        EventBus.getDefault().post(bundle);
+                        bundle.putSerializable("orderMsg", new OrderMessage(mApp.mViewSysUserDoctorInfoAndHospital.getUserName(), mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl(), mHZEntyties.get(position).getSignCode(), mHZEntyties.get(position).getSignOtherServiceCode() + "项", mHZEntyties.get(position).getDetectRate() + "天/" + mHZEntyties.get(position).getDetectRateUnitCode() + mHZEntyties.get(position).getDetectRateUnitName(), mHZEntyties.get(position).getSignDuration() + mHZEntyties.get(position).getSignDurationUnit(), mHZEntyties.get(position).getSignPrice() + "", mHZEntyties.get(position).getSignNo(), "1", "terminationOrder", mHZEntyties.get(position).getPatientCode()));
+                     //   EventBus.getDefault().post(bundle);
+                        intent.putExtras(bundle);
                         startActivity(intent);
                         Toast.makeText(mContext, netRetEntity1.getResMsg(), Toast.LENGTH_SHORT).show();
-                    }else{
+                    } else {
                         Toast.makeText(mContext, netRetEntity1.getResMsg(), Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception e) {
@@ -323,7 +324,7 @@ public class MyPatientFragment extends Fragment {
         map.put("mainUserName", mHZEntyties.get(position).getUserName());
         new Thread() {
             public void run() {
-                String mNetRetStr="";
+                String mNetRetStr = "";
                 try {
                     mNetRetStr = com.hyphenate.easeui.netService.HttpNetService.urlConnectionService("jsonDataInfo=" + new Gson().toJson(map), com.hyphenate.easeui.hyhd.model.Constant.SERVICEURL + "doctorSignControlle/operTerminationRevoke");
                     Log.e("tag", "撤销解约" + mNetRetStr);
@@ -335,7 +336,7 @@ public class MyPatientFragment extends Fragment {
                     e.printStackTrace();
 
                 }
-               mHandler.sendEmptyMessage(20);
+                mHandler.sendEmptyMessage(20);
             }
         }.start();
     }
@@ -346,86 +347,104 @@ public class MyPatientFragment extends Fragment {
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void handleMessage(Message msg) {
+                String result = "";
+                NetRetEntity netRetEntity;
+                Bundle data = msg.getData();
+                if (data != null) {
+                    result = data.getString("result");
+                }
+
                 switch (msg.what) {
                     case 1:
                         cacerProgress();
-                        if(mHZEntyties!=null){
-                            mHZGLRecycleAdapter.setDate(mHZEntyties);
-                            mHZGLRecycleAdapter.notifyDataSetChanged();
-                        }else{
+                        if (result != null && !result.equals("")) {
+                            netRetEntity = new Gson().fromJson(result, NetRetEntity.class);
+                            if (netRetEntity.getResCode() == 1) {
+                                List<ProvideViewPatientLablePunchClockState> list = JSON.parseArray(netRetEntity.getResJsonData(), ProvideViewPatientLablePunchClockState.class);
+                                mHZEntyties.addAll(list);
+                                mHZGLRecycleAdapter.setDate(mHZEntyties);
+                                mHZGLRecycleAdapter.notifyDataSetChanged();
+                            } else {
 
+                            }
                         }
 
                         break;
                     case 2:
                         cacerProgress();
-                        if(mHZEntyties!=null){
+                        if (mHZEntyties != null) {
                             mHZGLRecycleAdapter.setDate(mHZEntyties);
                             mHZGLRecycleAdapter.notifyDataSetChanged();
-                        }else{
+                        } else {
 
                         }
 
                         break;
                     case 3:
                         cacerProgress();
-                        if(mHZEntyties!=null){
+                        if (mHZEntyties != null) {
                             mHZGLRecycleAdapter.setDate(mHZEntyties);
                             mHZGLRecycleAdapter.notifyDataSetChanged();
-                        }else{
+                        } else {
 
                         }
 
                         break;
                     case 4:
                         cacerProgress();
-                        if(mHZEntyties!=null){
+                        if (mHZEntyties != null) {
                             mHZGLRecycleAdapter.setDate(mHZEntyties);
                             mHZGLRecycleAdapter.notifyDataSetChanged();
-                        }else{
+                        } else {
 
                         }
                         break;
                     case 10:
-                        if(!TextUtils.isEmpty(mNetLoginRetStr)){
-                            NetRetEntity netRetEntity = new Gson().fromJson(mNetLoginRetStr, NetRetEntity.class);
+                        if (!TextUtils.isEmpty(mNetLoginRetStr)) {
+                            netRetEntity = new Gson().fromJson(mNetLoginRetStr, NetRetEntity.class);
                             statusList = JSON.parseObject(netRetEntity.getResJsonData(), Status.class);
-                            if(statusList!=null){
-                                if(statusList.getStateType_0().equals("")){
+                            if (statusList != null) {
+                                if (statusList.getStateType_0().equals("")) {
 
-                                }else{
-                                    tv_all.setText("全部"+"("+statusList.getStateType_0()+")");
+                                } else {
+                                    tv_all.setText("全部" + "(" + statusList.getStateType_0() + ")");
                                 }
-                                if(statusList.getStateType_3().equals("")){
+                                if (statusList.getStateType_3().equals("")) {
 
-                                }else{
-                                    tv_warning.setText("预警"+"("+statusList.getStateType_3()+")");
+                                } else {
+                                    tv_warning.setText("预警" + "(" + statusList.getStateType_3() + ")");
 
-                                } if(statusList.getStateType_2().equals("")){
+                                }
+                                if (statusList.getStateType_2().equals("")) {
 
-                                }else{
-                                    tv_remind.setText("提醒"+"("+statusList.getStateType_2()+")");
+                                } else {
+                                    tv_remind.setText("提醒" + "(" + statusList.getStateType_2() + ")");
 
-                                } if(statusList.getStateType_1().equals("")){
+                                }
+                                if (statusList.getStateType_1().equals("")) {
 
-                                }else{
-                                    tv_normal.setText("正常"+"("+statusList.getStateType_1()+")");
+                                } else {
+                                    tv_normal.setText("正常" + "(" + statusList.getStateType_1() + ")");
 
                                 }
                             }
 
-                        }else{
+                        } else {
 
                         }
 
                         break;
                     case 20:
-                        NetRetEntity  netRetEntity = new Gson().fromJson(mNetRetStr, NetRetEntity.class);
-                        if(netRetEntity.getResCode()==1){
-                            Toast.makeText(mContext, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
-                        }else{
-                            Toast.makeText(mContext, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
+                        netRetEntity = new Gson().fromJson(mNetRetStr, NetRetEntity.class);
+                        if(mNetRetStr!=null){
+                            if (netRetEntity.getResCode() == 1) {
+                                Toast.makeText(mContext, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
+                            } else {
+                                Log.e("TAG", "handleMessage:  撤销解约 "+netRetEntity.getResMsg() );
+                                Toast.makeText(mContext, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
+                            }
                         }
+
                         break;
                     case 30:
 
@@ -447,7 +466,7 @@ public class MyPatientFragment extends Fragment {
                     mSearchStateType = 0;
                     mHZEntyties.clear();
                     getData(mSearchStateType);
-                    mHandler.sendEmptyMessage(1);
+                    //      mHandler.sendEmptyMessage(1);
                     break;
                 case R.id.li_fragmentHZGL_yj:
                     cutDefault();
@@ -455,7 +474,7 @@ public class MyPatientFragment extends Fragment {
                     mSearchStateType = 3;
                     mHZEntyties.clear();
                     getData(mSearchStateType);
-                    mHandler.sendEmptyMessage(2);
+                    //      mHandler.sendEmptyMessage(2);
                     break;
                 case R.id.li_fragmentHZGL_tx:
                     cutDefault();
@@ -463,7 +482,7 @@ public class MyPatientFragment extends Fragment {
                     mSearchStateType = 2;
                     mHZEntyties.clear();
                     getData(mSearchStateType);
-                    mHandler.sendEmptyMessage(3);
+                    //        mHandler.sendEmptyMessage(3);
                     break;
                 case R.id.li_fragmentHZGL_zc:
                     cutDefault();
@@ -471,7 +490,7 @@ public class MyPatientFragment extends Fragment {
                     mSearchStateType = 1;
                     mHZEntyties.clear();
                     getData(mSearchStateType);
-                    mHandler.sendEmptyMessage(4);
+                    //        mHandler.sendEmptyMessage(4);
                     break;
 
             }
@@ -479,12 +498,12 @@ public class MyPatientFragment extends Fragment {
     }
 
 
-
     private void getData(int searchStateType) {
 
         getProgressBar("请稍候...", "正在获取数据");
         new Thread() {
             public void run() {
+                String netResultJson="";
                 try {
                     ProvideViewPatientInfo provideViewPatientInfo = new ProvideViewPatientInfo();
                     provideViewPatientInfo.setLoginDoctorPosition(mApp.loginDoctorPosition);
@@ -493,35 +512,23 @@ public class MyPatientFragment extends Fragment {
                     provideViewPatientInfo.setPageNum(mPageNum);
                     provideViewPatientInfo.setRowNum(mRowNum);
                     String jsonString = JSON.toJSONString(provideViewPatientInfo);
-                    mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + jsonString, Constant.SERVICEURL + "bindingDoctorPatientControlle/searchDoctorManagePatientDataByParam");
-                    NetRetEntity netRetEntity = new Gson().fromJson(mNetRetStr, NetRetEntity.class);
-                    Log.e("tag", "run: 全部患者" + mNetRetStr);
-                    if (netRetEntity.getResCode() == 0) {
-                        loadDate = false;
-                        NetRetEntity retEntity = new NetRetEntity();
-                        retEntity.setResCode(0);
-                        retEntity.setResMsg("获取信息失败：" + netRetEntity.getResMsg());
-                        mNetRetStr = new Gson().toJson(retEntity);
-                        mHandler.sendEmptyMessage(1);
-                        return;
-                    }
-                    List<ProvideViewPatientLablePunchClockState> list = JSON.parseArray(netRetEntity.getResJsonData(), ProvideViewPatientLablePunchClockState.class);
-                    if (list != null) {
-                        mHZEntyties.addAll(list);
-                    } else {
-
-                    }
-
+                    netResultJson = HttpNetService.urlConnectionService("jsonDataInfo=" + jsonString, Constant.SERVICEURL + "bindingDoctorPatientControlle/searchDoctorManagePatientDataByParam");
+                    Log.e("tag", "全部患者 " + mNetRetStr);
                 } catch (Exception e) {
                     loadDate = false;
                     NetRetEntity retEntity = new NetRetEntity();
                     retEntity.setResCode(0);
                     retEntity.setResMsg("网络连接异常，请联系管理员：" + e.getMessage());
-                    mNetRetStr = new Gson().toJson(retEntity);
+                    netResultJson = new Gson().toJson(retEntity);
                     e.printStackTrace();
                 }
-
-                mHandler.sendEmptyMessage(1);
+                Message message = new Message();
+                message.what = 1;
+                Bundle bundle = new Bundle();
+                bundle.putString("result", netResultJson);
+                message.setData(bundle);
+                mHandler.sendMessage(message);
+                //   mHandler.sendEmptyMessage(1);
             }
         }.start();
 

@@ -56,24 +56,40 @@ public class MyPatientRecyclerAdapter extends RecyclerView.Adapter<MyPatientRecy
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, @SuppressLint("RecyclerView") int position) {
         viewHolder.mHzName.setText(datas.get(position).getUserName());
-        Log.e("TAG", "onBindViewHolder: "+datas.get(position).getSignStatus() );
-        if(datas.get(position).getSignStatus()==null){
-
-        }else{
-            if (datas.get(position).getSignStatus().equals("140")) {
+        Log.e("TAG", "onBindViewHolder: " + datas.get(position).getSignStatus());
+        String signStatus = datas.get(position).getSignStatus();
+        if (!TextUtils.isEmpty(signStatus)) {
+            if (signStatus.equals("140")) {
                 viewHolder.mXY.setVisibility(View.INVISIBLE);
                 viewHolder.agree_tv.setText("同意解约");
                 viewHolder.agree_image.setImageResource(R.mipmap.agree);
                 viewHolder.noagree_tv.setText("拒绝解约");
                 viewHolder.noagree_image.setImageResource(R.mipmap.disagree);
-            } else if (datas.get(position).getSignStatus().equals("160")) {
+            }  else if (signStatus.equals("160")) {
                 viewHolder.mXY.setVisibility(View.INVISIBLE);
                 viewHolder.mYY.setVisibility(View.INVISIBLE);
                 viewHolder.noagree_tv.setText("撤销解约");
                 viewHolder.noagree_image.setImageResource(R.mipmap.revoke);
+            } else {
+                viewHolder.mXY.setVisibility(View.VISIBLE);
+                viewHolder.mYY.setVisibility(View.VISIBLE);
+                viewHolder.mTXHZ.setVisibility(View.VISIBLE);
+                viewHolder.agree_tv.setText("解除签约");
+                viewHolder.agree_image.setImageResource(R.mipmap.qy);
+                viewHolder.noagree_tv.setText("提醒患者");
+                viewHolder.noagree_image.setImageResource(R.mipmap.txhz);
             }
 
+        }else{
+            viewHolder.mXY.setVisibility(View.VISIBLE);
+            viewHolder.mYY.setVisibility(View.VISIBLE);
+            viewHolder.mTXHZ.setVisibility(View.VISIBLE);
+            viewHolder.agree_tv.setText("解除签约");
+            viewHolder.agree_image.setImageResource(R.mipmap.qy);
+            viewHolder.noagree_tv.setText("提醒患者");
+            viewHolder.noagree_image.setImageResource(R.mipmap.txhz);
         }
+
 
         try {
             viewHolder.mHzAge.setText(DateUtils.getAgeFromBirthDate(datas.get(position).getBirthday()) + "");
@@ -223,6 +239,7 @@ public class MyPatientRecyclerAdapter extends RecyclerView.Adapter<MyPatientRecy
             mHzLaber = (TextView) view.findViewById(R.id.item_fragmentHZGL_hzLaber);
 
             agree_tv = (TextView) view.findViewById(R.id.agree_tv);
+            //   agree_tv = (TextView) view.findViewById(R.id.tv_user_msg);
             noagree_tv = (TextView) view.findViewById(R.id.noagree_tv);
 
             agree_image = (ImageView) view.findViewById(R.id.agree_image);

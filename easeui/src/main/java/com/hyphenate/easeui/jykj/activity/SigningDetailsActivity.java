@@ -70,6 +70,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import static android.icu.text.DateTimePatternGenerator.DAY;
+import static android.widget.Toast.LENGTH_SHORT;
 
 
 public class SigningDetailsActivity extends AppCompatActivity implements View.OnClickListener {
@@ -444,6 +445,10 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
 
     //修改提交
     private void ModificationSubmission() {
+        if (!mAgree) {
+            Toast.makeText(mContext, "请先同意用户签约协议", LENGTH_SHORT).show();
+            return;
+        }
         if (!CollectionUtils.isEmpty(mDetectBeans)) {
             if (dayListattrCode==0) {
                 Toast.makeText(mActivity, "请选择频率时长", Toast.LENGTH_SHORT).show();
@@ -475,7 +480,7 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
         map.put("signDuration", monthsListattrCode1 + "");
         map.put("signUnit", "月");
         map.put("signPrice", totalprice.getText().toString());
-        map.put("signDurationUnit", monthsListattrCode1 + "");
+        map.put("signDurationUnit", "月");
         map.put("signStartTime", tvStartTime.getText().toString());
         java.util.List<OrderItemBean> uploadOrderItems = getUploadOrderItems(mDetectBeans);
         java.util.List<OrderItemBean> uploadOrderItems1 = getUploadOrderItems(mCoachingBean);
@@ -511,7 +516,10 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
 
     //提交
     private void commit() {
-
+        if (!mAgree) {
+            Toast.makeText(mContext, "请先同意用户签约协议", LENGTH_SHORT).show();
+            return;
+        }
         if (!CollectionUtils.isEmpty(mDetectBeans)) {
             if (dayListattrCode==0) {
                 Toast.makeText(mActivity, "请选择频率时长", Toast.LENGTH_SHORT).show();
@@ -543,7 +551,7 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
         map.put("age", ageFromBirthTime + "");
         map.put("signDuration", monthsListattrCode1 + "");
         map.put("signUnit", "月");
-        map.put("signDurationUnit", monthsListattrCode1 + "");
+        map.put("signDurationUnit", "月");
         map.put("signPrice", totalprice.getText().toString());
 
         map.put("signStartTime", tvStartTime.getText().toString());
@@ -605,19 +613,18 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
                                 }
                                 Log.e("TAG", "handleMessage: " + patientCode);
                                 String monitorRate="";
-
-
                                 if (dayListattrCode!=0) {
-                                    monitorRate = "一次/"+code+"天";
+                                    monitorRate = "一次/"+dayListattrCode+"天";
                                 }
                                 orderMessage = new OrderMessage(name, doctorUrl, signOrderCode, mDetectBeans.size() + "项",
-                                        monitorRate, tvDuration.getText().toString(), Coachingprice + Detectprice + "", signNo, "", "card", patientCode);
-                                OrderMessage orderMessage = new OrderMessage(name, doctorUrl, signOrderCode, mDetectBeans.size() + "项", videosecondaryListattrName + "/" + videomonthListattrName, tvDuration.getText().toString(), Coachingprice + Detectprice + "", signNo, "", "card", patientCode);
+                                        monitorRate, tvDuration.getText().toString(), totalprice.getText().toString(), signNo, "", "card", patientCode);
+                                OrderMessage orderMessage = new OrderMessage(name, doctorUrl, signOrderCode, mDetectBeans.size() + "项", monitorRate, tvDuration.getText().toString(), totalprice.getText().toString(), signNo, "", "card", patientCode);
                                 EventBus.getDefault().post(orderMessage);
                                 finish();
                             }
-                        } else {
-                            Toast.makeText(mContext, "" + netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
+                            else {
+                                Toast.makeText(mContext, "" + netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
+                            }
                         }
                         break;
                     case 4:
@@ -773,12 +780,12 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
         rvCoachingAdapter.notifyDataSetChanged();
 
         //开始时间
-        tvStartTime.setText(DateUtils.getDateToString(getdetailsBeans.getSignStartTime()));
+        tvStartTime.setText(DateUtils.stampToDate(getdetailsBeans.getSignStartTime()));
          monthsListattrCode1= getdetailsBeans.getSignDuration();
         //签约时长
         //   int signDuration = getdetailsBeans.getSignDuration();
         Log.e("TAG", "setLayoutDate:  id " + getdetailsBeans.getSignStatus());
-        tvDuration.setText(getdetailsBeans.getSignDurationUnit());
+        tvDuration.setText(getdetailsBeans.getSignDuration()+"个"+getdetailsBeans.getSignDurationUnit());
         //总价
         totalprice.setText(getdetailsBeans.getSignPrice() + "");
         patientName1=getdetailsBeans.getMainUserName();
