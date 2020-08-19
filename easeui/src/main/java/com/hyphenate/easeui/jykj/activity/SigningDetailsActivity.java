@@ -58,7 +58,10 @@ import com.hyphenate.easeui.utils.MainMessage;
 import org.greenrobot.eventbus.EventBus;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -399,7 +402,7 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
         optionPickUnit.show();
     }
 
-    //音视频弹框
+
     private void Videofrequency(final int pos) {
         OptionsPickerView optionPickUnit = new OptionsPickerBuilder(mContext, new OnOptionsSelectListener() {
             @Override
@@ -412,7 +415,7 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
                 videomonthListattrCode = monthList.get(options3).getAttrCode();
                 videomonthListattrName = monthList.get(options3).getAttrName();
                 double price = mCoachingBean.get(pos).getPrice();
-                mCoachingBean.get(pos).setPrice(price*videosecondaryListattrCode);
+                mCoachingBean.get(pos).setTotalPrice(price*videosecondaryListattrCode);
                 mCoachingBean.get(pos).setValue(videosecondaryListattrCode);
                 mCoachingBean.get(pos).setMinute(videominuteListattrCode);
                 mCoachingBean.get(pos).setFrequency(videosecondaryListattrCode);
@@ -505,7 +508,15 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
         map.put("age", ageFromBirthTime + "");
         map.put("signDuration", monthsListattrCode1 + "");
         map.put("signUnit", "月");
-        map.put("signPrice", totalprice.getText().toString());
+        map.put("version","1");
+        String totalPrice = totalprice.getText().toString();
+//        if (!TextUtils.isEmpty(totalPrice)) {
+//            double price = Double.parseDouble(totalPrice);
+//            double ceil = Math.ceil(price);
+//            map.put("signPrice", (int) ceil+"");
+//
+//        }
+        map.put("signPrice", totalPrice);
         map.put("signDurationUnit", "月");
         map.put("signStartTime", tvStartTime.getText().toString());
         java.util.List<OrderItemBean> uploadOrderItems = getUploadOrderItems(mDetectBeans);
@@ -577,16 +588,15 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
         map.put("age", ageFromBirthTime + "");
         map.put("signDuration", monthsListattrCode1 + "");
         map.put("signUnit", "月");
-        map.put("signDurationUnit", monthsListattrCode1 + "");
-        String totalPrice = totalprice.getText().toString();
-        if (!TextUtils.isEmpty(totalPrice)) {
-            double price = Double.parseDouble(totalPrice);
-            double ceil = Math.ceil(price);
-            map.put("signPrice", (int) ceil);
         map.put("signDurationUnit", "月");
-        map.put("signPrice", totalprice.getText().toString());
-
-        }
+        String totalPrice = totalprice.getText().toString();
+//        if (!TextUtils.isEmpty(totalPrice)) {
+//            double price = Double.parseDouble(totalPrice);
+//            double ceil = Math.ceil(price);
+//            map.put("signPrice", (int) ceil+"");
+//
+//        }
+        map.put("signPrice", totalPrice);
         map.put("signStartTime", tvStartTime.getText().toString());
         java.util.List<OrderItemBean> uploadOrderItems = getUploadOrderItems(mDetectBeans);
         java.util.List<OrderItemBean> uploadOrderItems1 = getUploadOrderItems(mCoachingBean);
@@ -932,11 +942,13 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
         List<OrderItemBean> itemBeans = new ArrayList<>();
         for (DetectBean detectBean : detectBeans) {
             OrderItemBean orderItemBean = new OrderItemBean();
-            orderItemBean.setTotlePrice((int) detectBean.getPrice());
+            orderItemBean.setTotlePrice( detectBean.getPrice());
             orderItemBean.setConfigDetailTypeCode(detectBean.getConfigDetailTypeCode());
             orderItemBean.setConfigDetailTypeName(detectBean.getConfigDetailTypeName());
             orderItemBean.setMainConfigDetailName(detectBean.getConfigDetailName());
             String configDetailTypeName = detectBean.getConfigDetailTypeName();
+            String configDetailTypeCode = detectBean.getConfigDetailTypeCode();
+
             if (!TextUtils.isEmpty(configDetailTypeName)&&configDetailTypeName.equals("监测类型")) {
                 orderItemBean.setDuration(0);
                 orderItemBean.setDurationUnitCode("");
@@ -950,7 +962,11 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
             orderItemBean.setDuration(1);
             orderItemBean.setMainConfigDetailCode(detectBean.getConfigDetailCode());
             orderItemBean.setValue(detectBean.getValue());
-            orderItemBean.setRate(dayListattrCode);
+            if (configDetailTypeCode.equals("10")) {
+                orderItemBean.setRate(dayListattrCode);
+            }else if(configDetailTypeCode.equals("20")){
+                orderItemBean.setRate(videosecondaryListattrCode);
+            }
             orderItemBean.setDurationUnitName("分钟");
             orderItemBean.setRateUnitName("天");
             orderItemBean.setRateUnitCode(dayListattrCode + "");
@@ -1088,7 +1104,12 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
                 double price = monitorDetectBean.getPrice();
                 long days = calculateDays(startTime, getEndTime(monthsListattrCode1), "yyyy-MM-dd");
                 double calculatePrice=days*price/dayListattrCode;
-                monitorDetectBean.setTotalPrice(calculatePrice);
+//                DecimalFormat df = new DecimalFormat("#.00000000");
+//                String format = df.format(calculatePrice);
+                BigDecimal big = new BigDecimal(calculatePrice);
+                double v = big.setScale(8, RoundingMode.HALF_UP).doubleValue();
+                //monitorDetectBean.setPrice(vv);
+                monitorDetectBean.setTotalPrice(v);
             }
         }
     }
@@ -1105,7 +1126,12 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
                 double price = coatchDetectBean.getPrice();
                 if (frequency!=0&& months !=0) {
                     double calculatePrice=monthsListattrCode1*frequency*price/frequency/months;
-                    coatchDetectBean.setTotalPrice(calculatePrice);
+//                    DecimalFormat df = new DecimalFormat("#.00000000");
+//                    String format = df.format(calculatePrice);
+                    BigDecimal big = new BigDecimal(calculatePrice);
+                    double v = big.setScale(8, RoundingMode.HALF_UP).doubleValue();
+                    //coatchDetectBean.setPrice(vv);
+                    coatchDetectBean.setTotalPrice(v);
                 }
 
             }
