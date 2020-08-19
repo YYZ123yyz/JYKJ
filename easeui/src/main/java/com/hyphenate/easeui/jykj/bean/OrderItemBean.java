@@ -17,7 +17,7 @@ public class OrderItemBean {
      * rateUnitName : 天
      */
 
-    private int totlePrice;
+    private double totlePrice;
     private String configDetailTypeCode;
     private String configDetailTypeName;
     private int duration;
@@ -30,8 +30,12 @@ public class OrderItemBean {
     private String durationUnitName;
     private String rateUnitName;
 
-    public int getTotlePrice() {
+    public double getTotlePrice() {
         return totlePrice;
+    }
+
+    public void setTotlePrice(double totlePrice) {
+        this.totlePrice = totlePrice;
     }
 
     public void setTotlePrice(int totlePrice) {

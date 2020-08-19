@@ -17,7 +17,7 @@ import com.hyphenate.easeui.EaseConstant;
 
 public class Constant extends EaseConstant{
 	public final static String SERVICEURL = "https://www.jiuyihtn.com:28081/";
-	public final static String LocalUrl = "https://192.168.0.120:28081/";
+	public final static String LocalUrl = "https://192.168.0.109:28081/";
 	public static final String NEW_FRIENDS_USERNAME = "item_new_friends";
 	public static final String GROUP_USERNAME = "item_groups";
 	public static final String CHAT_ROOM = "item_chatroom";
