@@ -33,7 +33,8 @@ public class DateUtils {
      */
     public static String stampToDate(long s){
         String res;
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd ");
+      //  SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         long lt = new Long(s);
         Date date = new Date(lt);
         res = simpleDateFormat.format(date);

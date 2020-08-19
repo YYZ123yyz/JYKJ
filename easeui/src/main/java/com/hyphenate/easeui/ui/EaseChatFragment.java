@@ -234,8 +234,9 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
 
         patientAlias = fragmentArgs.getString("patientAlias");
         patientCode = fragmentArgs.getString("patientCode");
-        Log.e(TAG, "onActivityCreated:   code "+patientCode );
+
         patientAge = fragmentArgs.getString("patientAge");
+        Log.e(TAG, "onActivityCreated:   patientAge "+patientAge );
         patientSex = fragmentArgs.getString("patientSex");
 
         // userId you are chat with or group id
@@ -1048,7 +1049,7 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
                     break;
 
                 case ITEM_WJ:
-                    Log.e(TAG, "onClick: "+patientCode );
+                    Log.e(TAG, "onClick: 患者年龄"+patientAge );
                     startActivity(new Intent(getActivity(), SigningDetailsActivity.class)
                             .putExtra("patientAlias", patientAlias)
                             .putExtra("patientCode", patientCode)
@@ -1058,6 +1059,7 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
                             .putExtra("singCode", "")
                             .putExtra("doctorUrl", Constant.doctorUrl)
                     );
+
                   //   showCard();
 //                    //调用系统文件管理器打开指定路径目录
 //                    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);

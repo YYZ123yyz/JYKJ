@@ -147,7 +147,7 @@ public class EaseChatRowOrderCard extends EaseChatRow {
             mTvCardTitle.setText("签约订单");
         }
         EMMessage.Direct direct = message.direct();
-        if (direct == EMMessage.Direct.RECEIVE) {
+        if (direct== EMMessage.Direct.RECEIVE) {
             if (messageType.equals("card")) {
                 mRlCancelContractOrderRoot.setVisibility(View.GONE);
                 mTvOperMsg.setVisibility(View.VISIBLE);
@@ -175,9 +175,28 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                     default:
                 }
             } else if (messageType.equals("terminationOrder")) {
-                mTvOperMsg.setVisibility(View.GONE);
-                ivStampIcon.setVisibility(View.GONE);
-                mRlCancelContractOrderRoot.setVisibility(View.VISIBLE);
+                if (!TextUtils.isEmpty(orderType)) {
+                    if (orderType.equals("1")) {
+                        mRlCancelContractOrderRoot.setVisibility(View.GONE);
+                        tvOrderReceivedUpdateBtn.setVisibility(View.GONE);
+                        ivStampIcon.setVisibility(View.VISIBLE);
+                        ivStampIcon.setImageResource(R.mipmap.bg_agree_stamp);
+                        mTvOperMsg.setVisibility(View.VISIBLE);
+                        mTvOperMsg.setText("对方已同意");
+                    }else if(orderType.equals("2")){
+                        ivStampIcon.setVisibility(View.VISIBLE);
+                        ivStampIcon.setImageResource(R.mipmap.bg_refuse_stamp);
+                        mTvOperMsg.setText("对方已拒绝");
+                        tvOrderReceivedUpdateBtn.setVisibility(View.GONE);
+                        mTvOperMsg.setVisibility(View.VISIBLE);
+                        mRlCancelContractOrderRoot.setVisibility(View.GONE);
+                    }
+                }else{
+                    mTvOperMsg.setVisibility(View.GONE);
+                    ivStampIcon.setVisibility(View.GONE);
+                    mRlCancelContractOrderRoot.setVisibility(View.VISIBLE);
+                }
+
 
             }
 
@@ -407,6 +426,7 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                         NetRetEntity netRetEntity = new Gson().fromJson(mNetRetStr, NetRetEntity.class);
                         if (netRetEntity.getResCode() == 1) {
                             Toast.makeText(mContext, "" + netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
+                            Log.e(TAG, "handleMessage: 类型type "+messageType);
                             EventBus.getDefault().post(new OrderMessage(nickName,imageUrl,orderId
                                     ,monitoringType,coach,signUpTime,price,singNO,"1",messageType,patientCode));
                         } else {
