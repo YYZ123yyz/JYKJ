@@ -338,15 +338,15 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                 public void onClick(View v) {
                     boolean isValid = message.getBooleanAttribute("isValid", false);
                     if(isValid){
-                        OrderMessage orderMessage=new OrderMessage(nickName,imageUrl,orderId
+                        OrderMessage orderMessage=new OrderMessage(nickName,mViewSysUserDoctorInfoAndHospital.getUserLogoUrl(),orderId
                                 ,monitoringType,coach,signUpTime,price,singNO,"2"
                                 ,messageType,patientCode);
                         //处理拒绝解约逻辑  跳转页面
                         Bundle bundle = new Bundle();
                         bundle.putString("orderId", orderId);
                         bundle.putString("signNo", singNO);
-                        bundle.putString("patientName", nickName);
-                        bundle.putString("patientCode", message.getFrom());
+                        bundle.putString("patientName", mViewSysUserDoctorInfoAndHospital.getUserName());
+                        bundle.putString("patientCode", mViewSysUserDoctorInfoAndHospital.getDoctorCode());
                         bundle.putSerializable("orderMsg",orderMessage);
                         startActivity(TerminationActivity.class, bundle);
                     }
@@ -394,6 +394,8 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                     bundle.putString("singNo", singNO);
                     bundle.putString("patientName", nickName);
                     bundle.putString("patientCode", patientCode);
+                    bundle.putString("DoctorName", mViewSysUserDoctorInfoAndHospital.getUserName());
+                    bundle.putString("DoctoCode", mViewSysUserDoctorInfoAndHospital.getDoctorCode());
                     startActivity(CancellationActivity.class, bundle);
 
                 } else if (messageType.equals("card")) {

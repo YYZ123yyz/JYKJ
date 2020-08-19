@@ -638,7 +638,15 @@ public class CancelContractOrderBean {
         private int duration;
         private String durationUnitCode;
         private String durationUnitName;
-        private int value;
+        private Integer  value;
+
+        public Integer getValue() {
+            return value;
+        }
+
+        public void setValue(Integer value) {
+            this.value = value;
+        }
 
         public String getConfigDetailTypeCode() {
             return configDetailTypeCode;
@@ -752,12 +760,5 @@ public class CancelContractOrderBean {
             this.durationUnitName = durationUnitName;
         }
 
-        public int getValue() {
-            return value;
-        }
-
-        public void setValue(int value) {
-            this.value = value;
-        }
     }
 }

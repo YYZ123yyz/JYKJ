@@ -33,7 +33,7 @@ import java.util.HashMap;
 public class CancellationActivity extends AppCompatActivity implements View.OnClickListener {
 
     private String mNetRetStr;
-  //  private JYKJApplication mApp;
+    //  private JYKJApplication mApp;
     private Handler mHandler;
     private CancelContractOrderBean signPatientDoctorOrderBean;
     private LinearLayout llBack;
@@ -56,6 +56,8 @@ public class CancellationActivity extends AppCompatActivity implements View.OnCl
     private String nickName;
     private String patientCode;
     private NetRetEntity netRetEntity;
+    private String doctorName;
+    private String doctoCode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,25 +66,30 @@ public class CancellationActivity extends AppCompatActivity implements View.OnCl
         sharedPreferences = getSharedPreferences("sp", Activity.MODE_PRIVATE);
         name = sharedPreferences.getString("name", "");
         code = sharedPreferences.getString("code", "");
+//        bundle.putString("DoctorName", mViewSysUserDoctorInfoAndHospital.getUserName());
+//        bundle.putString("DoctoCode", mViewSysUserDoctorInfoAndHospital.getDoctorCode());
+      //  Log.e("TAG", "onCreate  医生 ", code+"");
         Bundle extras = this.getIntent().getExtras();
-        if (extras!=null) {
+        if (extras != null) {
             orderId = extras.getString("singCode");
             singNO = extras.getString("singNO");
             nickName = extras.getString("nickName");
             patientCode = extras.getString("patientCode");
-
+            doctorName = extras.getString("DoctorName");
+            doctoCode = extras.getString("DoctoCode");
         }
         initView();
         getdata();
         initHandler();
     }
-//获取解约订单详情
+
+    //获取解约订单详情
     private void getdata() {
         final HashMap<String, Object> map = new HashMap<>();
         map.put("loginDoctorPosition", "108.93425^34.23053");
-        map.put("operDoctorCode", code);
-        map.put("operDoctorName", name);
-        map.put("signOrderCode",orderId );
+        map.put("operDoctorCode", doctoCode);
+        map.put("operDoctorName", doctorName);
+        map.put("signOrderCode", orderId);
 
         new Thread() {
             public void run() {
@@ -113,20 +120,20 @@ public class CancellationActivity extends AppCompatActivity implements View.OnCl
                 switch (msg.what) {
                     case 1:
                         netRetEntity = new Gson().fromJson(mNetRetStr, NetRetEntity.class);
-                        if (netRetEntity.getResCode()==1) {
+                        if (netRetEntity.getResCode() == 1) {
                             signPatientDoctorOrderBean = JSON.parseObject(netRetEntity.getResJsonData(), CancelContractOrderBean.class);
                             setShow();
-                        }else{
+                        } else {
                             Toast.makeText(CancellationActivity.this, "" + netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
                         }
                         break;
-                    case  2:
-                         netRetEntity = new Gson().fromJson(mNetRetStr, NetRetEntity.class);
-                         if(netRetEntity.getResCode()==1){
-                             Toast.makeText(CancellationActivity.this, "" + netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
-                         }else{
-                             Toast.makeText(CancellationActivity.this, "" + netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
-                         }
+                    case 2:
+                        netRetEntity = new Gson().fromJson(mNetRetStr, NetRetEntity.class);
+                        if (netRetEntity.getResCode() == 1) {
+                            Toast.makeText(CancellationActivity.this, "" + netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(CancellationActivity.this, "" + netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
+                        }
                         break;
                 }
             }
@@ -141,14 +148,14 @@ public class CancellationActivity extends AppCompatActivity implements View.OnCl
 
 
         //签约时长
-        cancellationDuration.setText(signPatientDoctorOrderBean.getSignDurationUnit());
+        cancellationDuration.setText(signPatientDoctorOrderBean.getSignDuration() + "个" + signPatientDoctorOrderBean.getSignDurationUnit());
         //监测类型
         String signOtherServiceCode = signPatientDoctorOrderBean.getSignOtherServiceCode();
-        String [] temp = null;
+        String[] temp = null;
         temp = signOtherServiceCode.split(",");
-        cancellationClass.setText(temp.length+"项");
+        cancellationClass.setText(temp.length + "项");
         //辅导类型
-        cancellationTimes.setText(signPatientDoctorOrderBean.getDetectRate()+signPatientDoctorOrderBean.getDetectRateUnitName());
+        cancellationTimes.setText(signPatientDoctorOrderBean.getDetectRate() + signPatientDoctorOrderBean.getDetectRateUnitName());
         //签约价格
         double signPrice = signPatientDoctorOrderBean.getSignPrice();
         cancellationPrice.setText(signPrice + "");
@@ -156,6 +163,12 @@ public class CancellationActivity extends AppCompatActivity implements View.OnCl
 
     private void initView() {
         llBack = (LinearLayout) findViewById(R.id.ll_back);
+        llBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         rl = (RelativeLayout) findViewById(R.id.rl);
         tvName = (TextView) findViewById(R.id.tv_name);
         linDetect = (LinearLayout) findViewById(R.id.lin_Detect);
@@ -185,13 +198,15 @@ public class CancellationActivity extends AppCompatActivity implements View.OnCl
             }
         });
     }
-   //同意
+
+    //同意
     private void agree() {
-//处理同意解约逻辑
+        //处理同意解约逻辑
+      //  Log.e("TAG", "agree: ",code );
         final HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("loginDoctorPosition", "108.93425^34.23053");
-        hashMap.put("mainDoctorCode", code);
-        hashMap.put("mainDoctorName", name);
+        hashMap.put("mainDoctorCode", doctoCode);
+        hashMap.put("mainDoctorName", doctorName);
         hashMap.put("signCode", signPatientDoctorOrderBean.getSignCode());
         hashMap.put("signNo", signPatientDoctorOrderBean.getSignNo());
         hashMap.put("mainPatientCode", patientCode);

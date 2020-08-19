@@ -346,7 +346,7 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
         rvCoachingAdapter.setOnItemCoachingClickListener(new Rv_CoachingAdapter.OnItemCoachingClickListener() {
             @Override
             public void onClick(int position) {
-                time();
+                time(position);
             }
 
             @Override
@@ -895,7 +895,7 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
     }
 
     //辅导类别时长
-    private void time() {
+    private void time(final int pos) {
         OptionsPickerView optionPickUnit = new OptionsPickerBuilder(mContext, new OnOptionsSelectListener() {
             @Override
             public void onOptionsSelect(int options1, int options2, int options3, View v) {
@@ -903,6 +903,15 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
                 secondaryListattrName = secondaryList.get(options1).getAttrName();
                 monthListattrCode = monthList.get(options2).getAttrCode();
                 monthListattrName = monthList.get(options2).getAttrName();
+
+//                double price = mCoachingBean.get(pos).getPrice();
+//                mCoachingBean.get(pos).setPrice(price*videosecondaryListattrCode);
+//                mCoachingBean.get(pos).setValue(videosecondaryListattrCode);
+//                mCoachingBean.get(pos).setMinute(videominuteListattrCode);
+                mCoachingBean.get(pos).setFrequency(secondaryListattrCode);
+                mCoachingBean.get(pos).setMonths(monthListattrCode);
+                rvCoachingAdapter.notifyDataSetChanged();
+           //     setTotalprice(mDetectBeans,mCoachingBean);
             }
         })
                 .setCancelColor(getResources().getColor(R.color.textColor_vt))

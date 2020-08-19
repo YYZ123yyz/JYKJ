@@ -177,9 +177,11 @@ public class MyPatientFragment extends Fragment {
         mHZGLRecycleAdapter.setOnYYItemClickListener(new MyPatientRecyclerAdapter.OnYYItemClickListener() {
             @Override
             public void onClick(int position) {
-              if (mHZEntyties.get(position).getSignStatus().equals("140")) {
+                if (TextUtils.isEmpty(mHZEntyties.get(position).getSignStatus())) {
+                    Toast.makeText(mContext, "暂无订单", Toast.LENGTH_SHORT).show();
+                } else if (mHZEntyties.get(position).getSignStatus().equals("140")) {
                     agree(position);
-                }else if(mHZEntyties.get(position).getSignStatus().equals("")&&mHZEntyties.get(position).getSignStatus()==null){
+                } else {
                     Intent intent = new Intent();
                     intent.setClass(mContext, TerminationActivity.class);
                     intent.putExtra("patientLable", mHZEntyties.get(position));
@@ -212,7 +214,7 @@ public class MyPatientFragment extends Fragment {
         mHZGLRecycleAdapter.setOnTXHZItemClickListener(new MyPatientRecyclerAdapter.OnTXHZItemClickListener() {
             @Override
             public void onClick(int position) {
-               if (mHZEntyties.get(position).getSignStatus().equals("140")) {
+                if (mHZEntyties.get(position).getSignStatus().equals("140")) {
                     Log.e("TAG", "onClick: " + "拒绝解约" + mHZEntyties.get(position).getSignStatus());
                     Intent intent = new Intent();
                     intent.setClass(mContext, RefuseActivity.class);
@@ -221,7 +223,7 @@ public class MyPatientFragment extends Fragment {
                 } else if (mHZEntyties.get(position).getSignStatus().equals("160")) {
                     Log.e("TAG", "onClick: " + "撤销解约" + mHZEntyties.get(position).getSignStatus());
                     Revoke(position);
-                }else{
+                } else {
                     Intent intent = new Intent();
                     intent.setClass(mContext, HZGLTXHZActivity.class);
                     intent.putExtra("patientLable", mHZEntyties.get(position));
@@ -292,7 +294,7 @@ public class MyPatientFragment extends Fragment {
                         }
                         Bundle bundle = new Bundle();
                         bundle.putSerializable("orderMsg", new OrderMessage(mApp.mViewSysUserDoctorInfoAndHospital.getUserName(), mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl(), mHZEntyties.get(position).getSignCode(), mHZEntyties.get(position).getSignOtherServiceCode() + "项", mHZEntyties.get(position).getDetectRate() + "天/" + mHZEntyties.get(position).getDetectRateUnitCode() + mHZEntyties.get(position).getDetectRateUnitName(), mHZEntyties.get(position).getSignDuration() + mHZEntyties.get(position).getSignDurationUnit(), mHZEntyties.get(position).getSignPrice() + "", mHZEntyties.get(position).getSignNo(), "1", "terminationOrder", mHZEntyties.get(position).getPatientCode()));
-                     //   EventBus.getDefault().post(bundle);
+                        //   EventBus.getDefault().post(bundle);
                         intent.putExtras(bundle);
                         startActivity(intent);
                         Toast.makeText(mContext, netRetEntity1.getResMsg(), Toast.LENGTH_SHORT).show();
@@ -436,11 +438,11 @@ public class MyPatientFragment extends Fragment {
                         break;
                     case 20:
                         netRetEntity = new Gson().fromJson(mNetRetStr, NetRetEntity.class);
-                        if(mNetRetStr!=null){
+                        if (mNetRetStr != null) {
                             if (netRetEntity.getResCode() == 1) {
                                 Toast.makeText(mContext, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
                             } else {
-                                Log.e("TAG", "handleMessage:  撤销解约 "+netRetEntity.getResMsg() );
+                                Log.e("TAG", "handleMessage:  撤销解约 " + netRetEntity.getResMsg());
                                 Toast.makeText(mContext, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
                             }
                         }
@@ -503,7 +505,7 @@ public class MyPatientFragment extends Fragment {
         getProgressBar("请稍候...", "正在获取数据");
         new Thread() {
             public void run() {
-                String netResultJson="";
+                String netResultJson = "";
                 try {
                     ProvideViewPatientInfo provideViewPatientInfo = new ProvideViewPatientInfo();
                     provideViewPatientInfo.setLoginDoctorPosition(mApp.loginDoctorPosition);
