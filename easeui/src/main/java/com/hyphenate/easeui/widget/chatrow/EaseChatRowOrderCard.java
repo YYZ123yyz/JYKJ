@@ -30,12 +30,8 @@ import com.hyphenate.easeui.netService.HttpNetService;
 import com.hyphenate.easeui.netService.entity.NetRetEntity;
 import com.hyphenate.easeui.utils.SharedPreferences_DataSave;
 import com.hyphenate.easeui.widget.EaseImageView;
-
 import org.greenrobot.eventbus.EventBus;
-
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 
 /**
@@ -176,20 +172,32 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                 }
             } else if (messageType.equals("terminationOrder")) {
                 if (!TextUtils.isEmpty(orderType)) {
-                    if (orderType.equals("1")) {
-                        mRlCancelContractOrderRoot.setVisibility(View.GONE);
-                        tvOrderReceivedUpdateBtn.setVisibility(View.GONE);
-                        ivStampIcon.setVisibility(View.VISIBLE);
-                        ivStampIcon.setImageResource(R.mipmap.bg_agree_stamp);
-                        mTvOperMsg.setVisibility(View.VISIBLE);
-                        mTvOperMsg.setText("对方已同意");
-                    }else if(orderType.equals("2")){
-                        ivStampIcon.setVisibility(View.VISIBLE);
-                        ivStampIcon.setImageResource(R.mipmap.bg_refuse_stamp);
-                        mTvOperMsg.setText("对方已拒绝");
-                        tvOrderReceivedUpdateBtn.setVisibility(View.GONE);
-                        mTvOperMsg.setVisibility(View.VISIBLE);
-                        mRlCancelContractOrderRoot.setVisibility(View.GONE);
+                    switch (orderType) {
+                        case "1":
+                            mRlCancelContractOrderRoot.setVisibility(View.GONE);
+                            tvOrderReceivedUpdateBtn.setVisibility(View.GONE);
+                            ivStampIcon.setVisibility(View.VISIBLE);
+                            ivStampIcon.setImageResource(R.mipmap.bg_agree_stamp);
+                            mTvOperMsg.setVisibility(View.VISIBLE);
+                            mTvOperMsg.setText("对方已同意");
+                            break;
+                        case "2":
+                            ivStampIcon.setVisibility(View.VISIBLE);
+                            ivStampIcon.setImageResource(R.mipmap.bg_refuse_stamp);
+                            mTvOperMsg.setVisibility(View.VISIBLE);
+                            mTvOperMsg.setText("对方已拒绝");
+                            tvOrderReceivedUpdateBtn.setVisibility(View.GONE);
+                            mRlCancelContractOrderRoot.setVisibility(View.GONE);
+                            break;
+                        case "3":
+                            ivStampIcon.setVisibility(View.GONE);
+                            mTvOperMsg.setVisibility(View.VISIBLE);
+                            mTvOperMsg.setText("对方已撤销解约");
+                            tvOrderReceivedUpdateBtn.setVisibility(View.GONE);
+                            mRlCancelContractOrderRoot.setVisibility(View.GONE);
+
+                            break;
+                            default:
                     }
                 }else{
                     mTvOperMsg.setVisibility(View.GONE);
@@ -203,24 +211,35 @@ public class EaseChatRowOrderCard extends EaseChatRow {
         } else if (direct == EMMessage.Direct.SEND) {
 
             if (messageType.equals("terminationOrder")) {
-                if(orderType.equals("1")){
-                    ivStampIcon.setVisibility(View.VISIBLE);
-                    ivStampIcon.setImageResource(R.mipmap.bg_agree_stamp);
-                    mTvCancelContractMsg.setVisibility(View.VISIBLE);
-                    mTvOrderUpdateBtn.setVisibility(View.GONE);
-                    mTvCancelContractMsg.setText("您已同意");
-                }else if(orderType.equals("2")){
-                    ivStampIcon.setVisibility(View.VISIBLE);
-                    ivStampIcon.setImageResource(R.mipmap.bg_refuse_stamp);
-                    mTvCancelContractMsg.setVisibility(View.VISIBLE);
-                    mTvOrderUpdateBtn.setVisibility(View.GONE);
-                    mTvCancelContractMsg.setText("您已拒绝");
-                }else{
-                    mTvCancelContractMsg.setVisibility(View.VISIBLE);
-                    mTvOrderUpdateBtn.setVisibility(View.GONE);
-                    ivStampIcon.setVisibility(View.GONE);
-                    mTvCancelContractMsg.setText("您已成功发起解约，等待对方确认");
+                switch (orderType) {
+                    case "1":
+                        ivStampIcon.setVisibility(View.VISIBLE);
+                        ivStampIcon.setImageResource(R.mipmap.bg_agree_stamp);
+                        mTvCancelContractMsg.setVisibility(View.VISIBLE);
+                        mTvOrderUpdateBtn.setVisibility(View.GONE);
+                        mTvCancelContractMsg.setText("您已同意");
+                        break;
+                    case "2":
+                        ivStampIcon.setVisibility(View.VISIBLE);
+                        ivStampIcon.setImageResource(R.mipmap.bg_refuse_stamp);
+                        mTvCancelContractMsg.setVisibility(View.VISIBLE);
+                        mTvOrderUpdateBtn.setVisibility(View.GONE);
+                        mTvCancelContractMsg.setText("您已拒绝");
+                        break;
+                    case "3":
+                        ivStampIcon.setVisibility(View.GONE);
+                        mTvOrderUpdateBtn.setVisibility(View.GONE);
+                        mTvCancelContractMsg.setVisibility(View.VISIBLE);
+                        mTvCancelContractMsg.setText("您已撤销解约");
+                        break;
+                    default:
+                        mTvCancelContractMsg.setVisibility(View.VISIBLE);
+                        mTvOrderUpdateBtn.setVisibility(View.GONE);
+                        ivStampIcon.setVisibility(View.GONE);
+                        mTvCancelContractMsg.setText("您已成功发起解约，等待对方确认");
+                        break;
                 }
+
 
             } else if (messageType.equals("card")) {
                 mTvOrderUpdateBtn.setVisibility(View.VISIBLE);
@@ -232,7 +251,6 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                         //卡片发出点击修改跳转订单修改页面
                         Bundle bundle = new Bundle();
                         bundle.putString("singCode", orderId);
-                        Log.e(TAG, "onClick:  订单编号   222 "+orderId);
                         startActivity(SigningDetailsActivity.class, bundle);
                     }
                 });
@@ -253,37 +271,45 @@ public class EaseChatRowOrderCard extends EaseChatRow {
             if (mTvOrderUpdateBtn!=null) {
                 mTvOrderUpdateBtn.setBackgroundResource(R.drawable.bg_round_7a9eff_15);
                 mTvOrderUpdateBtn.setTextColor(ContextCompat.getColor(mContext,R.color.writeColor));
+                mTvOrderUpdateBtn.setTag(1);
             }
             if (tvCancelContractAgreeBtn != null) {
                 tvCancelContractAgreeBtn.setBackgroundResource(R.drawable.bg_oval_frame_7a9eff_13);
                 tvCancelContractAgreeBtn.setTextColor(ContextCompat.getColor(mContext, R.color.color_7a9eff));
+                tvCancelContractAgreeBtn.setTag(1);
             }
             if (tvCancelContractRefuseBtn != null) {
                 tvCancelContractRefuseBtn.setBackgroundResource(R.drawable.bg_oval_frame_7a9eff_13);
                 tvCancelContractRefuseBtn.setTextColor(ContextCompat.getColor(mContext, R.color.color_7a9eff));
+                tvCancelContractRefuseBtn.setTag(1);
             }
             if (tvOrderReceivedUpdateBtn!=null) {
                 tvOrderReceivedUpdateBtn.setBackgroundResource(R.drawable.bg_gradient_a6bffe_13);
                 tvOrderReceivedUpdateBtn.setTextColor(ContextCompat.getColor(mContext, R.color.writeColor));
+                tvOrderReceivedUpdateBtn.setTag(1);
             }
         }else{
             if (tvCancelContractAgreeBtn != null) {
                 tvCancelContractAgreeBtn.setBackgroundResource(R.drawable.bg_oval_frame_999999_13);
                 tvCancelContractAgreeBtn.setTextColor(ContextCompat.getColor(mContext, R.color.color_999999));
+                tvCancelContractAgreeBtn.setTag(0);
             }
             if (tvCancelContractRefuseBtn != null) {
                 tvCancelContractRefuseBtn.setBackgroundResource(R.drawable.bg_oval_frame_999999_13);
                 tvCancelContractRefuseBtn.setTextColor(ContextCompat.getColor(mContext, R.color.color_999999));
+                tvCancelContractRefuseBtn.setTag(0);
             }
 
             if (tvOrderReceivedUpdateBtn!=null) {
                 tvOrderReceivedUpdateBtn.setBackgroundResource(R.drawable.bg_round_999999_15);
                 tvOrderReceivedUpdateBtn.setTextColor(ContextCompat.getColor(mContext, R.color.writeColor));
+                tvOrderReceivedUpdateBtn.setTag(0);
             }
 
             if (mTvOrderUpdateBtn!=null) {
                 mTvOrderUpdateBtn.setBackgroundResource(R.drawable.bg_round_999999_15);
                 mTvOrderUpdateBtn.setTextColor(ContextCompat.getColor(mContext,R.color.writeColor));
+                mTvOrderUpdateBtn.setTag(0);
             }
         }
     }
@@ -298,37 +324,43 @@ public class EaseChatRowOrderCard extends EaseChatRow {
             tvCancelContractAgreeBtn.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    boolean isValid = message.getBooleanAttribute("isValid", false);
-                    if (isValid) {
-                        nickName = message.getStringAttribute("nickName", "");
-                        if (message.direct() == EMMessage.Direct.RECEIVE) {
-                            //处理同意解约逻辑
-                            final HashMap<String, Object> hashMap = new HashMap<>();
-                            hashMap.put("loginDoctorPosition", "108.93425^34.23053");
-                            hashMap.put("mainDoctorCode", mViewSysUserDoctorInfoAndHospital.getDoctorCode());
-                            hashMap.put("mainDoctorName", mViewSysUserDoctorInfoAndHospital.getUserName());
-                            hashMap.put("signCode", orderId);
-                            hashMap.put("signNo", singNO);
-                            hashMap.put("mainPatientCode", message.getFrom());
-                            hashMap.put("mainUserName", nickName);
-                            hashMap.put("confimresult", "1");
-                            new Thread() {
-                                public void run() {
-                                    try {
-                                        mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + new Gson().toJson(hashMap), Constant.SERVICEURL + "doctorSignControlle/operTerminationConfim");
-                                        Log.e("tag", "同意" + mNetRetStr);
-                                    } catch (Exception e) {
-                                        NetRetEntity retEntity = new NetRetEntity();
-                                        retEntity.setResCode(0);
-                                        retEntity.setResMsg("网络连接异常，请联系管理员：" + e.getMessage());
-                                        mNetRetStr = new Gson().toJson(retEntity);
-                                        e.printStackTrace();
+                    Object tag = tvCancelContractAgreeBtn.getTag();
+                    if (tag!=null) {
+                        String strTag = tag.toString();
+                        if (!TextUtils.isEmpty(strTag)) {
+                            int isValid = Integer.parseInt(strTag);
+                            if(isValid==1){
+                                nickName = message.getStringAttribute("nickName", "");
+                                if (message.direct() == EMMessage.Direct.RECEIVE) {
+                                    //处理同意解约逻辑
+                                    final HashMap<String, Object> hashMap = new HashMap<>();
+                                    hashMap.put("loginDoctorPosition", "108.93425^34.23053");
+                                    hashMap.put("mainDoctorCode", mViewSysUserDoctorInfoAndHospital.getDoctorCode());
+                                    hashMap.put("mainDoctorName", mViewSysUserDoctorInfoAndHospital.getUserName());
+                                    hashMap.put("signCode", orderId);
+                                    hashMap.put("signNo", singNO);
+                                    hashMap.put("mainPatientCode", message.getFrom());
+                                    hashMap.put("mainUserName", nickName);
+                                    hashMap.put("confimresult", "1");
+                                    new Thread() {
+                                        public void run() {
+                                            try {
+                                                mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + new Gson().toJson(hashMap), Constant.SERVICEURL + "doctorSignControlle/operTerminationConfim");
+                                                Log.e("tag", "同意" + mNetRetStr);
+                                            } catch (Exception e) {
+                                                NetRetEntity retEntity = new NetRetEntity();
+                                                retEntity.setResCode(0);
+                                                retEntity.setResMsg("网络连接异常，请联系管理员：" + e.getMessage());
+                                                mNetRetStr = new Gson().toJson(retEntity);
+                                                e.printStackTrace();
 
-                                    }
+                                            }
 
-                                    mHandler.sendEmptyMessage(1);
+                                            mHandler.sendEmptyMessage(1);
+                                        }
+                                    }.start();
                                 }
-                            }.start();
+                            }
                         }
                     }
 
@@ -337,6 +369,9 @@ public class EaseChatRowOrderCard extends EaseChatRow {
             tvCancelContractRefuseBtn.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    Object tag = tvCancelContractRefuseBtn.getTag();
+                    if (tag!=null) {
+                        String strTag = tag.toString();
                     boolean isValid = message.getBooleanAttribute("isValid", false);
                     if(isValid){
                         OrderMessage orderMessage=new OrderMessage(nickName,mViewSysUserDoctorInfoAndHospital.getUserLogoUrl(),orderId
@@ -350,6 +385,8 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                         bundle.putString("patientCode", mViewSysUserDoctorInfoAndHospital.getDoctorCode());
                         bundle.putSerializable("orderMsg",orderMessage);
                         startActivity(TerminationActivity.class, bundle);
+                    }
+
                     }
 
                 }
@@ -366,7 +403,9 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                         startActivity(SigningDetailsActivity.class, bundle);
                     }
 
-                }
+                    }
+
+
             });
 
 
@@ -382,6 +421,7 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                         Log.e(TAG, "onClick:  订单编号   333 "+orderId);
                         startActivity(SigningDetailsActivity.class, bundle);
                     }
+
                 }
             });
 
@@ -391,6 +431,15 @@ public class EaseChatRowOrderCard extends EaseChatRow {
             @Override
             public void onClick(View v) {
                 if (messageType.equals("terminationOrder")) {
+                    if (!orderType.equals("3")) {
+                        //解约详情
+                        Bundle bundle = new Bundle();
+                        bundle.putString("singCode", orderId);
+                        bundle.putString("singNo", singNO);
+                        bundle.putString("patientName", nickName);
+                        bundle.putString("patientCode", patientCode);
+                        startActivity(CancellationActivity.class, bundle);
+                    }
                     //解约详情
                     Bundle bundle = new Bundle();
                     bundle.putString("singCode", orderId);
@@ -408,7 +457,6 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                     bundle.putString("signNo", singNO);
                     bundle.putString("patientName", nickName);
                     bundle.putString("patientCode", patientCode);
-                    Log.e(TAG, "onClick:  订单编号   4444 "+orderId);
                     startActivity(SigningDetailsActivity.class, bundle);
                 }
 
