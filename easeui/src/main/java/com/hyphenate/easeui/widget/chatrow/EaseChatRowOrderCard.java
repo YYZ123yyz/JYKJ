@@ -232,6 +232,7 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                         //卡片发出点击修改跳转订单修改页面
                         Bundle bundle = new Bundle();
                         bundle.putString("singCode", orderId);
+                        Log.e(TAG, "onClick:  订单编号   222 "+orderId);
                         startActivity(SigningDetailsActivity.class, bundle);
                     }
                 });
@@ -361,6 +362,7 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                         //跳转修改页面
                         Bundle bundle = new Bundle();
                         bundle.putString("singCode", orderId);
+                        Log.e(TAG, "onClick:  订单编号   1111 "+orderId);
                         startActivity(SigningDetailsActivity.class, bundle);
                     }
 
@@ -377,6 +379,7 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                         //跳转修改页面
                         Bundle bundle = new Bundle();
                         bundle.putString("singCode", orderId);
+                        Log.e(TAG, "onClick:  订单编号   333 "+orderId);
                         startActivity(SigningDetailsActivity.class, bundle);
                     }
                 }
@@ -405,6 +408,7 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                     bundle.putString("signNo", singNO);
                     bundle.putString("patientName", nickName);
                     bundle.putString("patientCode", patientCode);
+                    Log.e(TAG, "onClick:  订单编号   4444 "+orderId);
                     startActivity(SigningDetailsActivity.class, bundle);
                 }
 

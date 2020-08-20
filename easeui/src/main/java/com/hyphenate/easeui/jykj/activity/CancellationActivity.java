@@ -58,6 +58,7 @@ public class CancellationActivity extends AppCompatActivity implements View.OnCl
     private NetRetEntity netRetEntity;
     private String doctorName;
     private String doctoCode;
+    private LinearLayout details_rl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,9 +67,6 @@ public class CancellationActivity extends AppCompatActivity implements View.OnCl
         sharedPreferences = getSharedPreferences("sp", Activity.MODE_PRIVATE);
         name = sharedPreferences.getString("name", "");
         code = sharedPreferences.getString("code", "");
-//        bundle.putString("DoctorName", mViewSysUserDoctorInfoAndHospital.getUserName());
-//        bundle.putString("DoctoCode", mViewSysUserDoctorInfoAndHospital.getDoctorCode());
-      //  Log.e("TAG", "onCreate  医生 ", code+"");
         Bundle extras = this.getIntent().getExtras();
         if (extras != null) {
             orderId = extras.getString("singCode");
@@ -124,6 +122,7 @@ public class CancellationActivity extends AppCompatActivity implements View.OnCl
                             signPatientDoctorOrderBean = JSON.parseObject(netRetEntity.getResJsonData(), CancelContractOrderBean.class);
                             setShow();
                         } else {
+                            details_rl.setVisibility(View.GONE);
                             Toast.makeText(CancellationActivity.this, "" + netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
                         }
                         break;
@@ -144,9 +143,7 @@ public class CancellationActivity extends AppCompatActivity implements View.OnCl
     private void setShow() {
         tvName.setText(signPatientDoctorOrderBean.getRefuseReasonClassName());
         tvTermination.setText(signPatientDoctorOrderBean.getRefuseRemark());
-        cancellationTime.setText((CharSequence) DateUtils.getDate(signPatientDoctorOrderBean.getSignDurationUnit()));
-
-
+        cancellationTime.setText(DateUtils.stampToDate(signPatientDoctorOrderBean.getSignStartTime()));
         //签约时长
         cancellationDuration.setText(signPatientDoctorOrderBean.getSignDuration() + "个" + signPatientDoctorOrderBean.getSignDurationUnit());
         //监测类型
@@ -154,14 +151,15 @@ public class CancellationActivity extends AppCompatActivity implements View.OnCl
         String[] temp = null;
         temp = signOtherServiceCode.split(",");
         cancellationClass.setText(temp.length + "项");
-        //辅导类型
-        cancellationTimes.setText(signPatientDoctorOrderBean.getDetectRate() + signPatientDoctorOrderBean.getDetectRateUnitName());
+        //监测类型
+        cancellationTimes.setText("1次/" + signPatientDoctorOrderBean.getDetectRate() + signPatientDoctorOrderBean.getDetectRateUnitName());
         //签约价格
         double signPrice = signPatientDoctorOrderBean.getSignPrice();
         cancellationPrice.setText(signPrice + "");
     }
 
     private void initView() {
+        details_rl = (LinearLayout) findViewById(R.id.details_lin);
         llBack = (LinearLayout) findViewById(R.id.ll_back);
         llBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -178,39 +176,39 @@ public class CancellationActivity extends AppCompatActivity implements View.OnCl
         cancellationTimes = (TextView) findViewById(R.id.cancellation_times);
         cancellationDuration = (TextView) findViewById(R.id.cancellation_duration);
         cancellationPrice = (TextView) findViewById(R.id.cancellation_price);
-        btnRefuse = (Button) findViewById(R.id.btn_Refuse);
-        btnAgree = (Button) findViewById(R.id.btn_agree);
+        //   btnRefuse = (Button) findViewById(R.id.btn_Refuse);
+        //   btnAgree = (Button) findViewById(R.id.btn_agree);
         //拒绝
-        btnRefuse.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(CancellationActivity.this, TerminationActivity.class)
-//                        .putExtra("singCode", signPatientDoctorOrderBean.getSignCode())
-//                        .putExtra("signNo", signPatientDoctorOrderBean.getSignNo())
-                );
-            }
-        });
-        //同意
-        btnAgree.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                agree();
-            }
-        });
+//        btnRefuse.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                startActivity(new Intent(CancellationActivity.this, TerminationActivity.class)
+////                        .putExtra("singCode", signPatientDoctorOrderBean.getSignCode())
+////                        .putExtra("signNo", signPatientDoctorOrderBean.getSignNo())
+//                );
+//            }
+//        });
+//        //同意
+//        btnAgree.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                agree();
+//            }
+//        });
     }
 
     //同意
     private void agree() {
         //处理同意解约逻辑
-      //  Log.e("TAG", "agree: ",code );
+        //  Log.e("TAG", "agree: ",code );
         final HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("loginDoctorPosition", "108.93425^34.23053");
         hashMap.put("mainDoctorCode", doctoCode);
         hashMap.put("mainDoctorName", doctorName);
         hashMap.put("signCode", signPatientDoctorOrderBean.getSignCode());
         hashMap.put("signNo", signPatientDoctorOrderBean.getSignNo());
-        hashMap.put("mainPatientCode", patientCode);
-        hashMap.put("mainUserName", nickName);
+        hashMap.put("mainPatientCode", signPatientDoctorOrderBean.getMainPatientCode());
+        hashMap.put("mainUserName", signPatientDoctorOrderBean.getMainUserName());
         hashMap.put("confimresult", "1");
         new Thread() {
             public void run() {

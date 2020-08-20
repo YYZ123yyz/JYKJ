@@ -287,7 +287,7 @@ public class MyPatientFragment extends Fragment {
                         intent.putExtra("patientCode", mHZEntyties.get(position).getPatientCode());
                         intent.putExtra("patientSex", mHZEntyties.get(position).getGender());
                         if (mHZEntyties.get(position).getBirthday() == 0) {
-
+                            Toast.makeText(mContext, netRetEntity1.getResMsg(), Toast.LENGTH_SHORT).show();
                         } else {
                             intent.putExtra("patientAge", DateUtils.getDateToString(mHZEntyties.get(position).getBirthday())
                             );
@@ -441,6 +441,7 @@ public class MyPatientFragment extends Fragment {
                         if (mNetRetStr != null) {
                             if (netRetEntity.getResCode() == 1) {
                                 Toast.makeText(mContext, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
+
                             } else {
                                 Log.e("TAG", "handleMessage:  撤销解约 " + netRetEntity.getResMsg());
                                 Toast.makeText(mContext, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();

@@ -35,6 +35,7 @@
 
     </RelativeLayout>
     <LinearLayout
+        android:id="@+id/details_lin"
         android:background="#F6F6F6"
         android:layout_below="@+id/rl"
         android:orientation="vertical"
@@ -66,7 +67,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:text="原因" />
+                    android:text="" />
 
             </LinearLayout>
 
@@ -131,7 +132,7 @@
                 android:layout_height="wrap_content"/>
             <TextView
                 android:layout_gravity="center_vertical"
-                android:text="trtrtr"
+                android:text=""
                 android:id="@+id/cancellation_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
@@ -152,7 +153,6 @@
                     android:layout_height="wrap_content"/>
                 <TextView
                     android:layout_gravity="center_vertical"
-                    android:text="trtrtr"
                     android:id="@+id/cancellation_class"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
@@ -173,7 +173,6 @@
                     android:layout_height="wrap_content"/>
                 <TextView
                     android:layout_gravity="center_vertical"
-                    android:text="trtrtr"
                     android:id="@+id/cancellation_times"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
@@ -194,7 +193,6 @@
                     android:layout_height="wrap_content"/>
                 <TextView
                     android:layout_gravity="center_vertical"
-                    android:text="trtrtr"
                     android:id="@+id/cancellation_duration"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
@@ -214,7 +212,6 @@
                 <TextView
                     android:textColor="#F14646"
                     android:layout_gravity="center_vertical"
-                    android:text="99.00"
                     android:textSize="17sp"
                     android:id="@+id/cancellation_price"
                     android:layout_width="wrap_content"
@@ -223,7 +220,7 @@
         </LinearLayout>
 
     </LinearLayout>
-   <LinearLayout
+   <!--<LinearLayout
        android:orientation="horizontal"
        android:layout_marginBottom="@dimen/dp_60"
        android:layout_alignParentBottom="true"
@@ -251,6 +248,6 @@
            android:text="同意"
            android:textColor="@color/writeColor"
            android:textSize="8pt" />
-   </LinearLayout>
+   </LinearLayout>-->
 
 </RelativeLayout>

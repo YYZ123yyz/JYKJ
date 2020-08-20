@@ -49,8 +49,28 @@ public class GetdetailsBean {
     private String signStatus;
     private String signUnit;
     private int version;
+    private int videoCaochRateUnitCode;
+    private String videoCaochRateUnitName;
     private List<OrderDetailListBean> orderDetailList;
+    private  int detectRate;  //检测频次  3
 
+    public int getDetectRate() {
+        return detectRate;
+    }
+
+    public void setDetectRate(int detectRate) {
+        this.detectRate = detectRate;
+    }
+
+    public String getDetectRateUnitName() {
+        return detectRateUnitName;
+    }
+
+    public void setDetectRateUnitName(String detectRateUnitName) {
+        this.detectRateUnitName = detectRateUnitName;
+    }
+
+    private  String detectRateUnitName;  //检测频次单位名称  天
     public int getAge() {
         return age;
     }
@@ -69,6 +89,22 @@ public class GetdetailsBean {
 
     public String getGenderName() {
         return genderName;
+    }
+
+    public int getVideoCaochRateUnitCode() {
+        return videoCaochRateUnitCode;
+    }
+
+    public void setVideoCaochRateUnitCode(int videoCaochRateUnitCode) {
+        this.videoCaochRateUnitCode = videoCaochRateUnitCode;
+    }
+
+    public String getVideoCaochRateUnitName() {
+        return videoCaochRateUnitName;
+    }
+
+    public void setVideoCaochRateUnitName(String videoCaochRateUnitName) {
+        this.videoCaochRateUnitName = videoCaochRateUnitName;
     }
 
     public void setGenderName(String genderName) {
@@ -251,6 +287,17 @@ public class GetdetailsBean {
         private String signOrderConfigDetailCode;
         private int signOrderConfigDetailId;
         private double totlePrice;
+        private  int value;  //次数
+
+        public int getValue() {
+            return value;
+        }
+
+        public void setValue(int value) {
+            this.value = value;
+        }
+
+       
 
         public String getConfigDetailTypeCode() {
             return configDetailTypeCode;
@@ -364,4 +411,6 @@ public class GetdetailsBean {
             this.totlePrice = totlePrice;
         }
     }
+
+
 }
