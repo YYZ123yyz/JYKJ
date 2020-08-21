@@ -835,6 +835,7 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
         }else if (status==null&&status.equals("")){
 
         }
+        singNO=getdetailsBeans.getSignNo();
         dayListattrCode = getdetailsBeans.getVideoCaochRateUnitCode();
         monthsListattrCode1 = getdetailsBeans.getSignDuration();
         startTime = DateUtils.stampToDate(getdetailsBeans.getSignStartTime());
@@ -924,6 +925,7 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
             }
             detectBean.setFrequency(orderDetailListBean.getValue());
             detectBean.setMonths(orderDetailListBean.getRate());
+            detectBean.setValue(orderDetailListBean.getValue());
             detectBeans.add(detectBean);
         }
         return detectBeans;
@@ -975,10 +977,12 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
 //                mCoachingBean.get(pos).setPrice(price*videosecondaryListattrCode);
 //                mCoachingBean.get(pos).setValue(videosecondaryListattrCode);
 //                mCoachingBean.get(pos).setMinute(videominuteListattrCode);
+                mCoachingBean.get(pos).setValue(secondaryListattrCode);
                 mCoachingBean.get(pos).setFrequency(secondaryListattrCode);
                 mCoachingBean.get(pos).setMonths(monthListattrCode);
+
                 rvCoachingAdapter.notifyDataSetChanged();
-                //     setTotalprice(mDetectBeans,mCoachingBean);
+                setTotalprice(mDetectBeans,mCoachingBean);
             }
         })
                 .setCancelColor(getResources().getColor(R.color.textColor_vt))
@@ -1022,10 +1026,11 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
             if (configDetailTypeCode.equals("10")) {
                 orderItemBean.setRate(dayListattrCode);
             } else {
-                orderItemBean.setRate(detectBean.getFrequency());
+                orderItemBean.setRate(detectBean.getMonths());
             }
             orderItemBean.setDurationUnitCode(detectBean.getMinute()+"");
             orderItemBean.setDurationUnitName("分钟");
+
             orderItemBean.setRateUnitName("天");
             orderItemBean.setRateUnitCode(dayListattrCode + "");
             orderItemBean.setDurationUnitCode(videominuteListattrCode + "");
@@ -1189,7 +1194,7 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
                 int months = coatchDetectBean.getMonths();
                 double price = coatchDetectBean.getPrice();
                 if (frequency != 0 && months != 0) {
-                    double calculatePrice = monthsListattrCode1 * frequency * price / frequency / months;
+                    double calculatePrice = monthsListattrCode1 * frequency * price / months ;
 //                    DecimalFormat df = new DecimalFormat("#.00000000");
 //                    String format = df.format(calculatePrice);
                     BigDecimal big = new BigDecimal(calculatePrice);
