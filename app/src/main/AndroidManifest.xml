@@ -44,12 +44,10 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.GET_PACKAGE_SIZE" />
-
-    <uses-permission android:name="com.sonyericsson.home.permission.BROADCAST_BADGE"/>
-    <uses-permission android:name="com.sec.android.provider.badge.permission.READ"/>
-    <uses-permission android:name="com.sec.android.provider.badge.permission.WRITE"/>
-    <!-- 申请华为角标权限  -->
-    <uses-permission android:name="com.huawei.android.launcher.permission.CHANGE_BADGE"/>
+    <uses-permission android:name="com.sonyericsson.home.permission.BROADCAST_BADGE" />
+    <uses-permission android:name="com.sec.android.provider.badge.permission.READ" />
+    <uses-permission android:name="com.sec.android.provider.badge.permission.WRITE" /> <!-- 申请华为角标权限 -->
+    <uses-permission android:name="com.huawei.android.launcher.permission.CHANGE_BADGE" />
     <uses-permission android:name="com.huawei.android.launcher.permission.READ_SETTINGS" />
     <uses-permission android:name="com.huawei.android.launcher.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.READ_LOGS" />
@@ -58,6 +56,7 @@
     <uses-feature android:name="android.hardware.camera.autofocus" />
     <uses-permission android:name="com.coloros.mcs.permission.RECIEVE_MCS_MESSAGE" />
     <uses-permission android:name="com.heytap.mcs.permission.RECIEVE_MCS_MESSAGE"/>
+
 
     <application
         android:name=".application.JYKJApplication"
@@ -70,7 +69,7 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:allowBackup,android:icon">
-        <activity android:name="yyz_exploit.activity.activity.CancellationActivity"></activity>
+        <activity android:name="yyz_exploit.activity.activity.CancellationActivity" />
         <activity android:name="yyz_exploit.activity.activity.CancellationDetailsActivity" />
         <activity android:name="yyz_exploit.activity.activity.TerminationActivity" />
         <activity android:name="yyz_exploit.activity.activity.ServiceActivity" /> <!-- 签约详情 -->
@@ -87,6 +86,8 @@
         <activity android:name="yyz_exploit.activity.activity.CustomizeActivity" />
         <activity android:name="yyz_exploit.activity.activity.KeywordActivity" />
         <activity android:name="yyz_exploit.activity.activity.BeforesettingActivity" />
+        <activity android:name="yyz_exploit.activity.activity.RefuseActivity" />
+
         <activity android:name="yyz_exploit.activity.activity.NoticeActivity" />
         <activity android:name="yyz_exploit.activity.activity.LectureActivity" />
         <activity android:name="yyz_exploit.activity.activity.FeedbackActivity" /> <!-- 意见反馈页面 -->
@@ -384,16 +385,18 @@
         <activity
             android:name=".activity.liveroom.LiveroomDetailActivity"
             android:screenOrientation="portrait" />
-                android:name="www.jykj.com.jykj_zxyl.activity.liveroom.LiveroomDetailActivity"
-                android:screenOrientation="portrait" />
-        <activity android:name="www.jykj.com.jykj_zxyl.activity.hyhd.LivePlayerActivity"
-                  android:screenOrientation="portrait"/>
-        <activity android:name="www.jykj.com.jykj_zxyl.activity.hyhd.NewLivePlayerActivity"
-                  android:screenOrientation="portrait"/>
-        <activity android:name="www.jykj.com.jykj_zxyl.activity.hyhd.QRCodeScanActivity"
-                  android:screenOrientation="portrait"/>
-        <activity android:name="www.jykj.com.jykj_zxyl.activity.hyhd.TCVideoPreviewActivity"
-                  android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.hyhd.LivePlayerActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.hyhd.NewLivePlayerActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.hyhd.QRCodeScanActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.hyhd.TCVideoPreviewActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.tencent.rtmp.video.TXScreenCapture$TXScreenCaptureAssistantActivity"
             android:theme="@android:style/Theme.Translucent" />
@@ -509,24 +512,19 @@
 
         <uses-library
             android:name="org.apache.http.legacy"
-            android:required="false" />
-        <!--Android-autoSize 设计稿目标宽高-->
+            android:required="false" /> <!-- Android-autoSize 设计稿目标宽高 -->
         <meta-data
             android:name="design_width_in_dp"
-            android:value="375"/>
+            android:value="375" />
         <meta-data
             android:name="design_height_in_dp"
-            android:value="667"/>
-
-        <!-- 适配全面屏 -->
+            android:value="667" /> <!-- 适配全面屏 -->
         <meta-data
             android:name="android.max_aspect"
-            android:value="2.4" />
-        <!-- 适配华为(hua wei)刘海屏 -->
+            android:value="2.4" /> <!-- 适配华为(hua wei)刘海屏 -->
         <meta-data
             android:name="android.notch_support"
-            android:value="true" />
-        <!-- 适配小米(xiao mi)刘海屏 -->
+            android:value="true" /> <!-- 适配小米(xiao mi)刘海屏 -->
         <meta-data
             android:name="notch.config"
             android:value="portrait|landscape" />

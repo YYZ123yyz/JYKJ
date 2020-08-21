@@ -22,7 +22,7 @@ import com.google.gson.Gson;
 import com.hyphenate.easeui.R;
 import com.hyphenate.easeui.hyhd.model.Constant;
 import com.hyphenate.easeui.jykj.adapter.Coaching_RVAdapter;
-import com.hyphenate.easeui.jykj.bean.CoachingBean;
+import com.hyphenate.easeui.jykj.bean.DetectBean;
 import com.hyphenate.easeui.netService.HttpNetService;
 import com.hyphenate.easeui.netService.entity.NetRetEntity;
 
@@ -38,7 +38,7 @@ public class CoachingActivity extends AppCompatActivity implements View.OnClickL
     private Handler mHandler;
     private String mNetRetStr;
  //   private JYKJApplication mApp;
-    private List<CoachingBean> coachingBeans;
+    private List<DetectBean> coachingBeans;
     private Coaching_RVAdapter detect_rvAdapter;
     private CoachingActivity mActivity;
     private LinearLayout liBack;
@@ -47,18 +47,18 @@ public class CoachingActivity extends AppCompatActivity implements View.OnClickL
     private SharedPreferences sharedPreferences;
     private String name;
     private String code;
+    private List<DetectBean> mCoachingList = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coaching);
-     //   ButterKnife.bind(this);
-     //   mApp = (JYKJApplication) getApplication();
+        mCoachingList = (ArrayList<DetectBean>) getIntent().getSerializableExtra("coaching");
         mContext = this;
         mActivity = this;
+        coachingBeans=new ArrayList<>();
         sharedPreferences = getSharedPreferences("sp", Activity.MODE_PRIVATE);
         name = sharedPreferences.getString("name", "");
         code = sharedPreferences.getString("code", "");
-      //  ActivityUtil.setStatusBarMain(mActivity);
         initView();
         Detect();
         OnClickListener();
@@ -66,9 +66,9 @@ public class CoachingActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void OnClickListener() {
-      //  btCoaching.setOnClickListener(this);
     }
 
+    @SuppressLint("HandlerLeak")
     private void initHandler() {
         mHandler = new Handler() {
             @SuppressLint("HandlerLeak")
@@ -78,22 +78,22 @@ public class CoachingActivity extends AppCompatActivity implements View.OnClickL
                 switch (msg.what) {
                     case 1:
                         if (mNetRetStr != null && !mNetRetStr.equals("")) {
-                            coachingBeans = JSON.parseArray(JSON.parseObject(mNetRetStr, NetRetEntity.class).getResJsonData(), CoachingBean.class);
-                            detect_rvAdapter = new Coaching_RVAdapter(coachingBeans, mContext);
-                            rvCoaching.setAdapter(detect_rvAdapter);
-                            detect_rvAdapter.setOnItemClickListener(new Coaching_RVAdapter.OnItemClickListener() {
-                                @Override
-                                public void onClick(int position) {
-                                    coachingBeans.get(position).setChoice(!coachingBeans.get(position).isChoice());
-                                    detect_rvAdapter.setDate(coachingBeans);
-                                    detect_rvAdapter.notifyDataSetChanged();
+                            coachingBeans = JSON.parseArray(JSON.parseObject(mNetRetStr, NetRetEntity.class).getResJsonData(), DetectBean.class);
+                            for (int i = 0; i < coachingBeans.size(); i++) {
+                                for (int j = 0; j < mCoachingList.size(); j++) {
+                                    if (coachingBeans.get(i).getConfigDetailCode()
+                                            .equals(mCoachingList.get(j).getConfigDetailCode())) {
+                                        DetectBean detectBean = mCoachingList.get(j);
+                                        coachingBeans.get(i).setChoice(true);
+                                        coachingBeans.get(i).setTotalPrice(detectBean.getTotalPrice());
+                                        coachingBeans.get(i).setMinute(detectBean.getMinute());
+                                        coachingBeans.get(i).setMonths(detectBean.getMonths());
+                                        coachingBeans.get(i).setFrequency(detectBean.getFrequency());
+                                    }
                                 }
-
-                                @Override
-                                public void onLongClick(int position) {
-
-                                }
-                            });
+                            }
+                            detect_rvAdapter.setDate(coachingBeans);
+                            detect_rvAdapter.notifyDataSetChanged();
                         }
 
                         break;
@@ -155,6 +155,21 @@ public class CoachingActivity extends AppCompatActivity implements View.OnClickL
         rvCoaching.setLayoutManager(linearLayoutManager);
         //如果可以确定每个item的高度是固定的，设置这个选项可以提高性能
         rvCoaching.setHasFixedSize(true);
+        detect_rvAdapter = new Coaching_RVAdapter(coachingBeans, mContext);
+        rvCoaching.setAdapter(detect_rvAdapter);
+        detect_rvAdapter.setOnItemClickListener(new Coaching_RVAdapter.OnItemClickListener() {
+            @Override
+            public void onClick(int position) {
+                coachingBeans.get(position).setChoice(!coachingBeans.get(position).isChoice());
+                detect_rvAdapter.setDate(coachingBeans);
+                detect_rvAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onLongClick(int position) {
+
+            }
+        });
     }
 
     @Override
@@ -166,7 +181,7 @@ public class CoachingActivity extends AppCompatActivity implements View.OnClickL
 
     //提交
     private void commit() {
-        List<CoachingBean> list = new ArrayList<>();
+        List<DetectBean> list = new ArrayList<>();
         for (int i = 0; i < coachingBeans.size(); i++) {
             if (coachingBeans.get(i).isChoice())
                 list.add(coachingBeans.get(i));

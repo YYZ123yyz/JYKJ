@@ -1,5 +1,6 @@
 package com.hyphenate.easeui.ui;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ClipboardManager;
@@ -58,6 +59,7 @@ import com.hyphenate.easeui.hyhd.VideoCallActivity;
 import com.hyphenate.easeui.hyhd.VoiceCallActivity;
 import com.hyphenate.easeui.hyhd.model.Constant;
 import com.hyphenate.easeui.jykj.activity.SigningDetailsActivity;
+import com.hyphenate.easeui.jykj.bean.OrderMessage;
 import com.hyphenate.easeui.mainPjDateInteface.MainProjectDateShareInteface;
 import com.hyphenate.easeui.model.EaseAtMessageHelper;
 import com.hyphenate.easeui.model.EaseCompat;
@@ -79,6 +81,10 @@ import com.hyphenate.exceptions.EMServiceNotReadyException;
 import com.hyphenate.exceptions.HyphenateException;
 import com.hyphenate.util.EMLog;
 import com.hyphenate.util.PathUtil;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -194,7 +200,7 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
     private String patientCode;
     private String patientAge;
     private String patientSex;
-
+    private OrderMessage orderMessage;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.ease_fragment_chat, container, false);
@@ -207,7 +213,7 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-
+        EventBus.getDefault().register(this);
         fragmentArgs = getArguments();
         // check if single chat or group chat
         chatType = fragmentArgs.getInt(EaseConstant.EXTRA_CHAT_TYPE, EaseConstant.CHATTYPE_SINGLE);
@@ -221,16 +227,17 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
         operDoctorCode = fragmentArgs.getString("operDoctorCode", "");
         operDoctorName = fragmentArgs.getString("operDoctorName", "");
         orderCode = fragmentArgs.getString("orderCode", "");
-
+        orderMessage =(OrderMessage) fragmentArgs.getSerializable("orderMessage");
 
         Constant.doctorUrl=fragmentArgs.getString("userUrl");
         Constant.patientUrl=fragmentArgs.getString("doctorUrl");
 
         patientAlias = fragmentArgs.getString("patientAlias");
         patientCode = fragmentArgs.getString("patientCode");
+
         patientAge = fragmentArgs.getString("patientAge");
+        Log.e(TAG, "onActivityCreated:   patientAge "+patientAge );
         patientSex = fragmentArgs.getString("patientSex");
-        Log.e(TAG, "onActivityCreated: 患者  性别vvvvvvv"+patientSex );
 
         // userId you are chat with or group id
         toChatUsername = fragmentArgs.getString(EaseConstant.EXTRA_USER_ID);
@@ -260,7 +267,9 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
             itemIds = new int[]{ITEM_VIDEO};
         }
         this.turnOnTyping = turnOnTyping();
-
+        if(orderMessage!=null){
+            sendOrderCardMsg(orderMessage);
+        }
         super.onActivityCreated(savedInstanceState);
     }
 
@@ -326,7 +335,6 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
                 sendBigExpressionMessage(emojicon.getName(), emojicon.getIdentityCode());
             }
         });
-        inputMenu.showMoreOption();
 
         swipeRefreshLayout = messageList.getSwipeRefreshLayout();
         swipeRefreshLayout.setColorSchemeResources(R.color.holo_blue_bright, R.color.holo_green_light,
@@ -404,7 +412,7 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
             if (EaseUserUtils.getUserInfo(toChatUsername) != null) {
                 EaseUser user = EaseUserUtils.getUserInfo(toChatUsername);
                 if (user != null) {
-                //    titleBar.setTitle(user.getNickname());
+                    //    titleBar.setTitle(user.getNickname());
                 }
             }
             titleBar.setRightImageResource(R.drawable.ease_mm_title_remove);
@@ -834,17 +842,17 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
                 username = message.getUserName();
             } else {
 
-   DemoHelper.getInstance().registerMessageListener();
-             //   try {
+                DemoHelper.getInstance().registerMessageListener();
+                //   try {
 //                    String nikeName = message.getStringAttribute("nickName");
 //                    Log.e(TAG, "onMessageReceived: "+nikeName );
 //                    String imageUrl = message.getStringAttribute("imageUrl");
 //                    Log.e(TAG, "onMessageReceived: "+imageUrl );
 //
 
-          //      } catch (HyphenateException e) {
-             //       e.printStackTrace();
-          //      }
+                //      } catch (HyphenateException e) {
+                //       e.printStackTrace();
+                //      }
 
                 // single chat message
                 username = message.getFrom();
@@ -1041,13 +1049,18 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
                     break;
 
                 case ITEM_WJ:
+                    Log.e(TAG, "onClick: 患者年龄"+patientAge );
                     startActivity(new Intent(getActivity(), SigningDetailsActivity.class)
                             .putExtra("patientAlias", patientAlias)
                             .putExtra("patientCode", patientCode)
                             .putExtra("patientName", toChatUsernameName)
                             .putExtra("patientAge", patientAge)
                             .putExtra("patientSex", patientSex)
+                            .putExtra("singCode", "")
+                            .putExtra("doctorUrl", Constant.doctorUrl)
                     );
+
+                  //   showCard();
 //                    //调用系统文件管理器打开指定路径目录
 //                    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
 //                    intent.addCategory(Intent.CATEGORY_OPENABLE);
@@ -1059,6 +1072,24 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
             }
         }
 
+    }
+
+    private void showCard() {
+        //发送扩展消息
+        EMMessage message = EMMessage.createTxtSendMessage("[签约订单]",toChatUsername);
+        //增加自己的属性
+        message.setAttribute("messageType","card");
+
+        //设置群聊和聊天室发送消息
+        if (chatType == EaseConstant.CHATTYPE_GROUP){
+            message.setChatType(ChatType.GroupChat);
+        }else if (chatType == EaseConstant.CHATTYPE_CHATROOM){
+            message.setChatType(ChatType.ChatRoom);
+        }
+        //发送扩展消息
+        EMClient.getInstance().chatManager().sendMessage(message);
+        messageList.refresh();//刷新消息数据
+        //TODO 第二步 修改easeUi的 EaseMessageAdapter
     }
 
     /**
@@ -1697,6 +1728,55 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
          * @return
          */
         EaseCustomChatRowProvider onSetCustomChatRowProvider();
+    }
+
+    //主线程中执行
+    @SuppressLint("DefaultLocale")
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMainEventBus(OrderMessage msg) {
+        sendOrderCardMsg(msg);
+    }
+
+    /**
+     * 发送订单
+     * @param msg 消息
+     */
+    private void sendOrderCardMsg( OrderMessage msg) {
+        //发送扩展消息
+        EMMessage message = EMMessage.createTxtSendMessage("[签约订单]",toChatUsername);
+        //增加自己的属性
+        message.setAttribute("nickName",msg.getNickName());
+        message.setAttribute("imageUrl",msg.getImageUrl());
+        message.setAttribute("messageType",msg.getMessageType());
+        message.setAttribute("orderId",msg.getOrderId());
+        message.setAttribute("coach",msg.getCoach());
+        message.setAttribute("signUpTime",msg.getSignUpTime());
+        message.setAttribute("price",msg.getPrice());
+        message.setAttribute("monitoringType",msg.getMonitoringType());
+        message.setAttribute("orderType",msg.getOrderType());
+        message.setAttribute("patientCode",msg.getPatientCode());
+        Log.e(TAG, "sendOrderCardMsg: "+ msg.getPatientCode());
+        message.setAttribute("singNo",msg.getSingNo());
+
+        //设置群聊和聊天室发送消息
+        if (chatType == EaseConstant.CHATTYPE_GROUP){
+            message.setChatType(ChatType.GroupChat);
+        }else if (chatType == EaseConstant.CHATTYPE_CHATROOM){
+            message.setChatType(ChatType.ChatRoom);
+        }
+        //发送扩展消息
+        EMClient.getInstance().chatManager().sendMessage(message);
+        if (messageList!=null) {
+            messageList.refresh();//刷新消息数据
+            //TODO 第二步 修改easeUi的 EaseMessageAdapter
+        }
+
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        EventBus.getDefault().unregister(this);
     }
 
 }

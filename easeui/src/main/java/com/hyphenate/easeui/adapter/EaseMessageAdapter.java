@@ -1,10 +1,10 @@
 /**
  * Copyright (C) 2016 Hyphenate Inc. All rights reserved.
- * <p>
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -35,7 +35,6 @@ import com.hyphenate.easeui.widget.presenter.EaseChatBigExpressionPresenter;
 import com.hyphenate.easeui.widget.presenter.EaseChatFilePresenter;
 import com.hyphenate.easeui.widget.presenter.EaseChatImagePresenter;
 import com.hyphenate.easeui.widget.presenter.EaseChatLocationPresenter;
-import com.hyphenate.easeui.widget.presenter.EaseChatRoomTextPresenter;
 import com.hyphenate.easeui.widget.presenter.EaseChatOrderPresenter;
 import com.hyphenate.easeui.widget.presenter.EaseChatRowPresenter;
 import com.hyphenate.easeui.widget.presenter.EaseChatTextPresenter;
@@ -43,10 +42,9 @@ import com.hyphenate.easeui.widget.presenter.EaseChatVideoPresenter;
 import com.hyphenate.easeui.widget.presenter.EaseChatVoicePresenter;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
-public class EaseMessageAdapter extends BaseAdapter {
+public class EaseMessageAdapter extends BaseAdapter{
 
 	private final static String TAG = "msg";
 
@@ -70,10 +68,9 @@ public class EaseMessageAdapter extends BaseAdapter {
 	private static final int MESSAGE_TYPE_RECV_FILE = 11;
 	private static final int MESSAGE_TYPE_SENT_EXPRESSION = 12;
 	private static final int MESSAGE_TYPE_RECV_EXPRESSION = 13;
+
 	private static final int MESSAGE_TYPE_SEND_ORDER_CARD = 14;
 	private static final int MESSAGE_TYPE_RECV_ORDER_CARD = 15;
-	private static final int MESSAGE_TYPE_SEND_TXT_ROOM=16;
-	private static final int MESSAGE_TYPE_RECV_TXT_ROOM=17;
 
 	public int itemTypeCount;
 
@@ -106,9 +103,9 @@ public class EaseMessageAdapter extends BaseAdapter {
 		private void refreshList() {
 			// you should not call getAllMessages() in UI thread
 			// otherwise there is problem when refreshing UI and there is new message arrive
-			List<EMMessage> var = conversation.getAllMessages();
-			List<EMMessage> messages = handleData(var);
-			EaseMessageAdapter.this.messages = messages.toArray(new EMMessage[messages.size()]);
+			java.util.List<EMMessage> var = conversation.getAllMessages();
+			handleData(var);
+			messages = var.toArray(new EMMessage[var.size()]);
 			conversation.markAllMessagesAsRead();
 			notifyDataSetChanged();
 		}
@@ -138,7 +135,7 @@ public class EaseMessageAdapter extends BaseAdapter {
 	 * 处理数据
 	 * @param list 数据列表
 	 */
-	private List<EMMessage> handleData(List<EMMessage> list){
+	private void handleData(List<EMMessage> list){
 		List<Integer> cards=new ArrayList<>();
 		if (!CollectionUtils.isEmpty(list)) {
 
@@ -166,8 +163,7 @@ public class EaseMessageAdapter extends BaseAdapter {
 			}
 
 		}
-		List<EMMessage> messages = new ArrayList<>(list);
-		return messages;
+
 	}
 
 	/**
@@ -188,8 +184,6 @@ public class EaseMessageAdapter extends BaseAdapter {
 		}
 		return isFlag;
 	}
-
-
 
 	public void refresh() {
 		if (handler.hasMessages(HANDLER_MESSAGE_REFRESH_LIST)) {
@@ -240,9 +234,9 @@ public class EaseMessageAdapter extends BaseAdapter {
 	 */
 	public int getViewTypeCount() {
 		if(customRowProvider != null && customRowProvider.getCustomChatRowTypeCount() > 0){
-			return customRowProvider.getCustomChatRowTypeCount() + 14+4;
+			return customRowProvider.getCustomChatRowTypeCount() + 14+2;
 		}
-		return 14+4;
+		return 14+2;
 	}
 
 
@@ -256,7 +250,7 @@ public class EaseMessageAdapter extends BaseAdapter {
 		}
 
 		if(customRowProvider != null && customRowProvider.getCustomChatRowType(message) > 0){
-			return customRowProvider.getCustomChatRowType(message) + 13+4;
+			return customRowProvider.getCustomChatRowType(message) + 13;
 		}
 
 		if (message.getType() == EMMessage.Type.TXT) {
@@ -266,10 +260,7 @@ public class EaseMessageAdapter extends BaseAdapter {
 				String messageType = message.getStringAttribute("messageType", "");
 				if (messageType.equals("card")||messageType.equals("terminationOrder")){
 					return message.direct() == EMMessage.Direct.RECEIVE ? MESSAGE_TYPE_RECV_ORDER_CARD : MESSAGE_TYPE_SEND_ORDER_CARD;
-				}else if(itemStyle!=null&&itemStyle.isShowChatRoom()){
-					return message.direct() == EMMessage.Direct.RECEIVE ? MESSAGE_TYPE_RECV_TXT_ROOM : MESSAGE_TYPE_SEND_TXT_ROOM;
 				}
-
 			}
 			return message.direct() == EMMessage.Direct.RECEIVE ? MESSAGE_TYPE_RECV_TXT : MESSAGE_TYPE_SENT_TXT;
 		}
@@ -294,7 +285,7 @@ public class EaseMessageAdapter extends BaseAdapter {
 	}
 
 	protected EaseChatRowPresenter createChatRowPresenter(EMMessage message, int position) {
-		if (customRowProvider != null && customRowProvider.getCustomChatRow(message, position, this) != null) {
+		if(customRowProvider != null && customRowProvider.getCustomChatRow(message, position, this) != null){
 			return customRowProvider.getCustomChatRow(message, position, this);
 		}
 
@@ -309,12 +300,8 @@ public class EaseMessageAdapter extends BaseAdapter {
 					if (messageType
 							.equals("card")||messageType.equals("terminationOrder")) {
 						presenter = new EaseChatOrderPresenter();
-					}else{
-						if (itemStyle.isShowChatRoom()) {
-							presenter=new EaseChatRoomTextPresenter();
-						}else{
-							presenter = new EaseChatTextPresenter();
-						}
+					} else {
+						presenter = new EaseChatTextPresenter();
 					}
 				}
 				break;
@@ -361,16 +348,16 @@ public class EaseMessageAdapter extends BaseAdapter {
 	}
 
 
-	public void setItemStyle(EaseMessageListItemStyle itemStyle) {
+	public void setItemStyle(EaseMessageListItemStyle itemStyle){
 		this.itemStyle = itemStyle;
 	}
 
 
-	public void setItemClickListener(MessageListItemClickListener listener) {
+	public void setItemClickListener(MessageListItemClickListener listener){
 		itemClickListener = listener;
 	}
 
-	public void setCustomChatRowProvider(EaseCustomChatRowProvider rowProvider) {
+	public void setCustomChatRowProvider(EaseCustomChatRowProvider rowProvider){
 		customRowProvider = rowProvider;
 	}
 

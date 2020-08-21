@@ -57,8 +57,6 @@ public class Coaching_RVAdapter extends RecyclerView.Adapter<Coaching_RVAdapter.
 
     @Override
     public int getItemCount() {
-        if (coachingBeans == null)
-            return 0;
         return coachingBeans.size();
     }
 
