@@ -326,6 +326,7 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
                 sendBigExpressionMessage(emojicon.getName(), emojicon.getIdentityCode());
             }
         });
+        inputMenu.showMoreOption();
 
         swipeRefreshLayout = messageList.getSwipeRefreshLayout();
         swipeRefreshLayout.setColorSchemeResources(R.color.holo_blue_bright, R.color.holo_green_light,

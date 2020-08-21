@@ -11,7 +11,7 @@ import com.hyphenate.easeui.widget.chatrow.EaseChatRowBigExpression;
  * Created by zhangsong on 17-10-12.
  */
 
-public class EaseChatBigExpressionPresenter extends EaseChatTextPresenter {
+public class EaseChatBigExpressionPresenter extends EaseChatRoomTextPresenter {
     @Override
     protected EaseChatRow onCreateChatRow(Context cxt, EMMessage message, int position, BaseAdapter adapter) {
         return new EaseChatRowBigExpression(cxt, message, position, adapter);

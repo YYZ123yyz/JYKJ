@@ -4,6 +4,7 @@ import android.content.Context;
 import android.text.Spannable;
 import android.view.View;
 import android.widget.BaseAdapter;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TextView.BufferType;
 
@@ -15,23 +16,24 @@ import com.hyphenate.easeui.utils.EaseSmileUtils;
 
 import java.util.List;
 
-public class EaseChatRowText extends EaseChatRow{
+public class EaseChatRoomRowText extends EaseChatRow{
 
 	private TextView contentView;
-
-    public EaseChatRowText(Context context, EMMessage message, int position, BaseAdapter adapter) {
+    protected RelativeLayout chat_gridrow_layout;
+    public EaseChatRoomRowText(Context context, EMMessage message, int position, BaseAdapter adapter) {
 		super(context, message, position, adapter);
 	}
 
 	@Override
 	protected void onInflateView() {
 		inflater.inflate(message.direct() == EMMessage.Direct.RECEIVE ?
-				R.layout.ease_row_received_message : R.layout.ease_row_sent_message, this);
+				R.layout.ease_row_room_received_message : R.layout.ease_row_room_sent_message, this);
 	}
 
 	@Override
 	protected void onFindViewById() {
 		contentView = (TextView) findViewById(R.id.tv_chatcontent);
+        chat_gridrow_layout = (RelativeLayout)findViewById(R.id.chat_gridrow_lay);
 	}
 
     @Override
@@ -40,6 +42,13 @@ public class EaseChatRowText extends EaseChatRow{
         Spannable span = EaseSmileUtils.getSmiledText(context, txtBody.getMessage());
         // 设置内容
         contentView.setText(span, BufferType.SPANNABLE);
+        if(null!=txtBody.getMessage() && txtBody.getMessage().contains("加入直播间了")){
+            chat_gridrow_layout.setBackgroundColor(getResources().getColor(R.color.colorEnterroomBack));
+        }else if(null!=txtBody.getMessage() && txtBody.getMessage().contains("离开直播间了")){
+            chat_gridrow_layout.setBackgroundColor(getResources().getColor(R.color.colorExitroomBack));
+        }else{
+            chat_gridrow_layout.setBackgroundColor(getResources().getColor(R.color.colorNomalroomRow));
+        }
     }
 
     @Override

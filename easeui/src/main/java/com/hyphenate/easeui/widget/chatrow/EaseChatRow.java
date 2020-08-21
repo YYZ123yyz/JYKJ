@@ -4,11 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.BaseAdapter;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
-import android.widget.TextView;
+import android.widget.*;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -62,7 +58,6 @@ public abstract class EaseChatRow extends LinearLayout {
 
     protected MessageListItemClickListener itemClickListener;
     protected EaseMessageListItemStyle itemStyle;
-
     private EaseChatRowActionCallback itemActionCallback;
 
     public EaseChatRow(Context context, EMMessage message, int position, BaseAdapter adapter) {
@@ -175,7 +170,10 @@ public abstract class EaseChatRow extends LinearLayout {
                             .into(userAvatarView);
                 }
             }
-            userAvatarView.setVisibility(View.GONE);
+            if (itemStyle.isShowChatRoom()) {
+                userAvatarView.setVisibility(View.GONE);
+            }
+
         }
         if (EMClient.getInstance().getOptions().getRequireDeliveryAck()) {
             if(deliveredView != null){
@@ -218,14 +216,20 @@ public abstract class EaseChatRow extends LinearLayout {
                 } else {
                     userAvatarView.setVisibility(View.GONE);
                 }
-                userAvatarView.setVisibility(View.GONE);
+                if (itemStyle.isShowChatRoom()) {
+                    userAvatarView.setVisibility(View.GONE);
+                }
+
             }
             if (usernickView != null) {
                 if (itemStyle.isShowUserNick())
                     usernickView.setVisibility(View.VISIBLE);
                 else
                     usernickView.setVisibility(View.GONE);
-                usernickView.setVisibility(View.VISIBLE);
+                if (itemStyle.isShowChatRoom()) {
+                    usernickView.setVisibility(View.VISIBLE);
+                }
+
             }
             if (bubbleLayout != null) {
                 if (message.direct() == Direct.SEND) {
@@ -240,14 +244,12 @@ public abstract class EaseChatRow extends LinearLayout {
             }
         }
         if(null!=usernickView){
-            usernickView.setVisibility(View.VISIBLE);
             if (message.direct() == Direct.SEND) {
                 EaseUserUtils.setUserNick(ExtEaseUtils.getInstance().getNickName(),usernickView);
             }else{
                 EaseUserUtils.setUserNick(message.getUserName(),usernickView);
             }
         }
-
     }
 
     private void setClickListener() {
