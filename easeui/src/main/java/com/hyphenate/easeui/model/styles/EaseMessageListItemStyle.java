@@ -9,6 +9,7 @@ import android.graphics.drawable.Drawable;
 public class EaseMessageListItemStyle {
     private boolean showUserNick;
     private boolean showAvatar;
+    private boolean showChatRoom;
     private Drawable myBubbleBg;
     private Drawable otherBubbleBg;
 
@@ -51,10 +52,18 @@ public class EaseMessageListItemStyle {
         this.otherBubbleBg = otherBubbleBg;
     }
 
+    public boolean isShowChatRoom() {
+        return showChatRoom;
+    }
+
+    public void setShowChatRoom(boolean showChatRoom) {
+        this.showChatRoom = showChatRoom;
+    }
 
     public static final class Builder{
         private boolean showUserNick;
         private boolean showAvatar;
+        private boolean showChatRoom;
         private Drawable myBubbleBg;
         private Drawable otherBubbleBg;
 
@@ -76,6 +85,11 @@ public class EaseMessageListItemStyle {
         public Builder otherBuddleBg(Drawable otherBuddleBg){
             this.otherBubbleBg = otherBuddleBg;
             return  this;
+        }
+        public Builder showChatRoom(boolean showChatRoom){
+            this.showChatRoom=showChatRoom;
+            return this;
+
         }
 
 
