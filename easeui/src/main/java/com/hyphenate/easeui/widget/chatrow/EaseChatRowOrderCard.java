@@ -87,7 +87,6 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                 R.layout.ease_row_received_order : R.layout.ease_row_send_order, this);
         initHandler();
     }
-
     @Override
     protected void onFindViewById() {
         mUserHead = findViewById(R.id.iv_userhead);
@@ -251,6 +250,8 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                         //卡片发出点击修改跳转订单修改页面
                         Bundle bundle = new Bundle();
                         bundle.putString("singCode", orderId);
+                        bundle.putString("singNO", singNO);
+                        bundle.putString("status", "2");
                         startActivity(SigningDetailsActivity.class, bundle);
                     }
                 });
@@ -379,7 +380,7 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                                 ,messageType,patientCode);
                         //处理拒绝解约逻辑  跳转页面
                         Bundle bundle = new Bundle();
-                        bundle.putString("orderId", orderId);
+                        bundle.putString("singCode", orderId);
                         bundle.putString("signNo", singNO);
                         bundle.putString("patientName", mViewSysUserDoctorInfoAndHospital.getUserName());
                         bundle.putString("patientCode", mViewSysUserDoctorInfoAndHospital.getDoctorCode());
@@ -399,6 +400,8 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                         //跳转修改页面
                         Bundle bundle = new Bundle();
                         bundle.putString("singCode", orderId);
+                        bundle.putString("status", "2");
+                        bundle.putString("singNO", singNO);
                         Log.e(TAG, "onClick:  订单编号   1111 "+orderId);
                         startActivity(SigningDetailsActivity.class, bundle);
                     }
@@ -418,6 +421,8 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                         //跳转修改页面
                         Bundle bundle = new Bundle();
                         bundle.putString("singCode", orderId);
+                        bundle.putString("status", "2");
+                        bundle.putString("singNO", singNO);
                         Log.e(TAG, "onClick:  订单编号   333 "+orderId);
                         startActivity(SigningDetailsActivity.class, bundle);
                     }
@@ -438,17 +443,10 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                         bundle.putString("singNo", singNO);
                         bundle.putString("patientName", nickName);
                         bundle.putString("patientCode", patientCode);
+                        bundle.putString("DoctorName", mViewSysUserDoctorInfoAndHospital.getUserName());
+                        bundle.putString("DoctoCode", mViewSysUserDoctorInfoAndHospital.getDoctorCode());
                         startActivity(CancellationActivity.class, bundle);
                     }
-                    //解约详情
-                    Bundle bundle = new Bundle();
-                    bundle.putString("singCode", orderId);
-                    bundle.putString("singNo", singNO);
-                    bundle.putString("patientName", nickName);
-                    bundle.putString("patientCode", patientCode);
-                    bundle.putString("DoctorName", mViewSysUserDoctorInfoAndHospital.getUserName());
-                    bundle.putString("DoctoCode", mViewSysUserDoctorInfoAndHospital.getDoctorCode());
-                    startActivity(CancellationActivity.class, bundle);
 
                 } else if (messageType.equals("card")) {
                     //签约订单详情
@@ -457,6 +455,7 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                     bundle.putString("signNo", singNO);
                     bundle.putString("patientName", nickName);
                     bundle.putString("patientCode", patientCode);
+                    bundle.putString("status", "1");
                     startActivity(SigningDetailsActivity.class, bundle);
                 }
 

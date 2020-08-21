@@ -104,6 +104,8 @@ public class MyPatientFragment extends Fragment {
         getNumber();
         mHZEntyties.clear();
         getData(mSearchStateType);
+        mHZGLRecycleAdapter.notifyDataSetChanged();
+
     }
 
     private void getNumber() {
@@ -325,13 +327,47 @@ public class MyPatientFragment extends Fragment {
         map.put("mainPatientCode", mHZEntyties.get(position).getPatientCode());
         map.put("mainUserName", mHZEntyties.get(position).getUserName());
         new Thread() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
             public void run() {
                 String mNetRetStr = "";
                 try {
                     mNetRetStr = com.hyphenate.easeui.netService.HttpNetService.urlConnectionService("jsonDataInfo=" + new Gson().toJson(map), com.hyphenate.easeui.hyhd.model.Constant.SERVICEURL + "doctorSignControlle/operTerminationRevoke");
                     Log.e("tag", "撤销解约" + mNetRetStr);
+                    netRetEntity = new Gson().fromJson(mNetRetStr, NetRetEntity.class);
+                    if (mNetRetStr != null) {
+                        if (netRetEntity.getResCode() == 1) {
+                            Toast.makeText(mContext, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(getContext(), ChatActivity.class);
+                            //患者
+                            intent.putExtra("userCode", mHZEntyties.get(position).getPatientCode());
+                            intent.putExtra("userName", mHZEntyties.get(position).getUserName());
+                            //医生
+                            intent.putExtra("usersName", mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
+                            intent.putExtra("userUrl", mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl());
+                            //URL
+                            intent.putExtra("doctorUrl", mHZEntyties.get(position).getUserLogoUrl());
+                            //intent.putExtra("patientAlias", mHZEntyties.get(position).getan);
+                            intent.putExtra("patientCode", mHZEntyties.get(position).getPatientCode());
+                            intent.putExtra("patientSex", mHZEntyties.get(position).getGender());
+                            if (mHZEntyties.get(position).getBirthday() == 0) {
+                                Toast.makeText(mContext, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
+                            } else {
+                                intent.putExtra("patientAge", DateUtils.getDateToString(mHZEntyties.get(position).getBirthday())
+                                );
+                            }
+                            Bundle bundle = new Bundle();
+                            bundle.putSerializable("orderMsg", new OrderMessage(mApp.mViewSysUserDoctorInfoAndHospital.getUserName(), mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl(), mHZEntyties.get(position).getSignCode(), mHZEntyties.get(position).getDetectRate() + "项", mHZEntyties.get(position).getDetectRate() + "天/" + mHZEntyties.get(position).getDetectRateUnitCode() + mHZEntyties.get(position).getDetectRateUnitName(), mHZEntyties.get(position).getSignDuration() + mHZEntyties.get(position).getSignDurationUnit(), mHZEntyties.get(position).getSignPrice() + "", mHZEntyties.get(position).getSignNo(), "3", "terminationOrder", mHZEntyties.get(position).getPatientCode()));
+                            //   EventBus.getDefault().post(bundle);
+                            intent.putExtras(bundle);
+                            startActivity(intent);
+                            Toast.makeText(mContext, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(mContext, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
                 } catch (Exception e) {
-                    com.hyphenate.easeui.netService.entity.NetRetEntity retEntity = new com.hyphenate.easeui.netService.entity.NetRetEntity();
+                    NetRetEntity retEntity = new NetRetEntity();
                     retEntity.setResCode(0);
                     retEntity.setResMsg("网络连接异常，请联系管理员：" + e.getMessage());
                     mNetRetStr = new Gson().toJson(retEntity);
@@ -437,16 +473,6 @@ public class MyPatientFragment extends Fragment {
 
                         break;
                     case 20:
-                        netRetEntity = new Gson().fromJson(mNetRetStr, NetRetEntity.class);
-                        if (mNetRetStr != null) {
-                            if (netRetEntity.getResCode() == 1) {
-                                Toast.makeText(mContext, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
-
-                            } else {
-                                Log.e("TAG", "handleMessage:  撤销解约 " + netRetEntity.getResMsg());
-                                Toast.makeText(mContext, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
-                            }
-                        }
 
                         break;
                     case 30:

@@ -165,6 +165,9 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
     private long day1;
     private TextView tv_prices;
     private ProvideDoctorPatientUserInfo provideDoctorPatientUserInfo;
+    private String status;
+    private LinearLayout protocol_lin;
+    private String singNO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -197,11 +200,12 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
         Bundle extras = this.getIntent().getExtras();
         if (extras != null) {
             type = extras.getString("singCode");
-            if (!TextUtils.isEmpty(type)) {
+            status = extras.getString("status");
+            singNO = extras.getString("singNO");
+            if (!TextUtils.isEmpty(type)){
                 Getdetails();
             }
         }
-
         initHandler();
     }
 
@@ -268,6 +272,7 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
     }
 
     private void initView() {
+        protocol_lin = (LinearLayout) findViewById(R.id.protocol_lin);
         day_tv = (TextView) findViewById(R.id.day_tv);
         //图标
         linStartTime = (LinearLayout) findViewById(R.id.lin_start_time_s);
@@ -412,9 +417,9 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
      */
     private void setAgreeImg() {
         if (mAgree)
-            iv_activityLogin_agreeImg.setImageResource(R.mipmap.choice);
-        else
             iv_activityLogin_agreeImg.setImageResource(R.mipmap.nochoice);
+        else
+            iv_activityLogin_agreeImg.setImageResource(R.mipmap.choice);
     }
 
 
@@ -510,7 +515,7 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
 
     //修改提交
     private void ModificationSubmission() {
-        if (!mAgree) {
+        if (mAgree) {
             Toast.makeText(mContext, "请先同意用户签约协议", LENGTH_SHORT).show();
             return;
         }
@@ -541,7 +546,7 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
         map.put("mainUserName", patientName1);
         map.put("mainUserNameAlias", patientName1);
         map.put("gender", "1");
-        map.put("age", ageFromBirthTime + "");
+        map.put("age", patientAge.getText().toString());
         map.put("signDuration", monthsListattrCode1 + "");
         map.put("signUnit", "月");
         map.put("version", getdetailsBeans.getVersion());
@@ -584,7 +589,7 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
 
     //提交
     private void commit() {
-        if (!mAgree) {
+        if (mAgree) {
             Toast.makeText(mContext, "请先同意用户签约协议", LENGTH_SHORT).show();
             return;
         }
@@ -616,17 +621,11 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
         map.put("mainUserName", patientName1);
         map.put("mainUserNameAlias", patientName1);
         map.put("gender", "1");
-        map.put("age", ageFromBirthTime + "");
+        map.put("age", patientAge.getText().toString());
         map.put("signDuration", monthsListattrCode1 + "");
         map.put("signUnit", "月");
         map.put("signDurationUnit", "月");
         String totalPrice = totalprice.getText().toString();
-//        if (!TextUtils.isEmpty(totalPrice)) {
-//            double price = Double.parseDouble(totalPrice);
-//            double ceil = Math.ceil(price);
-//            map.put("signPrice", (int) ceil+"");
-//
-//        }
         map.put("signPrice", totalPrice);
         map.put("signStartTime", tvStartTime.getText().toString());
         java.util.List<OrderItemBean> uploadOrderItems = getUploadOrderItems(mDetectBeans);
@@ -707,9 +706,8 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
                                 if (dayListattrCode != 0) {
                                     monitorRate = "一次/" + dayListattrCode + "天";
                                 }
-                                int size = mDetectBeans.size();
                                 if (TextUtils.isEmpty(signOrderCode)) {
-                                    OrderMessage orderMessage = new OrderMessage(name, doctorUrl, type, mDetectBeans.size() + "项", monitorRate, tvDuration.getText().toString(), totalprice.getText().toString(), signNo, "", "card", patientCode);
+                                    OrderMessage orderMessage = new OrderMessage(name, doctorUrl, type, mDetectBeans.size() + "项", monitorRate, tvDuration.getText().toString(), totalprice.getText().toString(), singNO, "", "card", patientCode);
                                     EventBus.getDefault().post(orderMessage);
                                     finish();
                                 } else {
@@ -760,10 +758,9 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
                             NetRetEntity netRetEntity = new Gson().fromJson(result, NetRetEntity.class);
                             if (netRetEntity.getResCode() == 1) {
                                 getdetailsBeans = JSON.parseObject(netRetEntity.getResJsonData(), GetdetailsBean.class);
-
                                 setLayoutData();
                             } else {
-                                Toast.makeText(mContext, "" + netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
+
                             }
                         }
                         break;
@@ -775,7 +772,7 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
                                         ProvideDoctorPatientUserInfo.class);
                                 patientAge.setText( DateUtils.getAgeFromBirthTime(provideDoctorPatientUserInfo.getBirthday())+"");
                             } else {
-                                Toast.makeText(mContext, "" + netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
+
                             }
                         }
                         break;
@@ -832,17 +829,17 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
     //订单详情设置布局显示
     @SuppressLint("SetTextI18n")
     private void setLayoutData() {
+        if(status.equals("1")){
+            protocol_lin.setVisibility(View.GONE);
+            btActivityMySelfSettingExitButton.setVisibility(View.GONE);
+        }else if (status==null&&status.equals("")){
+
+        }
         dayListattrCode = getdetailsBeans.getVideoCaochRateUnitCode();
         monthsListattrCode1 = getdetailsBeans.getSignDuration();
         startTime = DateUtils.stampToDate(getdetailsBeans.getSignStartTime());
         patientName.setText(patientName1);
-   //     patientAge.setText(getdetailsBeans.getAge()+"");
-//        if (TextUtils.isEmpty(patientAge1)) {
-//
-//        } else {
-//            ageFromBirthTime = DateUtils.getAgeFromBirthTime(patientAge1);
-//        }
-        day_tv.setText(getdetailsBeans.getDetectRate() + getdetailsBeans.getDetectRateUnitName());
+        day_tv.setText(getdetailsBeans.getOrderDetailList().get(0).getRate() + getdetailsBeans.getOrderDetailList().get(0).getRateUnitName());
         wzxxSc = (ScrollView) findViewById(R.id.wzxx_sc);
         //检测类型
         LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(mContext);
@@ -920,14 +917,17 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
             detectBean.setConfigDetailTypeCode(orderDetailListBean.getConfigDetailTypeCode());
             detectBean.setConfigDetailTypeName(orderDetailListBean.getConfigDetailTypeName());
             detectBean.setPrice(orderDetailListBean.getTotlePrice());
-            detectBean.setMinute(orderDetailListBean.getDuration());
+            if(!TextUtils.isEmpty(orderDetailListBean.getDurationUnitCode())){
+                int i = Integer.valueOf(orderDetailListBean.getDurationUnitCode()).intValue();
+                Log.e("TAG", "convertData:  分钟数"+i  );
+                detectBean.setMinute(i);
+            }
             detectBean.setFrequency(orderDetailListBean.getValue());
             detectBean.setMonths(orderDetailListBean.getRate());
             detectBeans.add(detectBean);
         }
         return detectBeans;
     }
-
 
     //获取订单详情
     private void Getdetails() {
@@ -936,14 +936,12 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
         map.put("operDoctorCode", code);
         map.put("operDoctorName", name);
         map.put("signOrderCode", type);
-
-
         new Thread() {
             public void run() {
                 String mNetRetStr = "";
                 try {
                     mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + new Gson().toJson(map), Constant.SERVICEURL + "doctorSignControlle/searchSignPatientDoctorOrder");
-                    Log.e("tag", "获取详情 " + mNetRetStr);
+                    Log.e("TAG", "run:   订单详情"+mNetRetStr );
                 } catch (Exception e) {
                     NetRetEntity retEntity = new NetRetEntity();
                     retEntity.setResCode(0);
@@ -1026,6 +1024,7 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
             } else {
                 orderItemBean.setRate(detectBean.getFrequency());
             }
+            orderItemBean.setDurationUnitCode(detectBean.getMinute()+"");
             orderItemBean.setDurationUnitName("分钟");
             orderItemBean.setRateUnitName("天");
             orderItemBean.setRateUnitCode(dayListattrCode + "");

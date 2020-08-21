@@ -67,25 +67,24 @@ public class TerminationActivity extends AppCompatActivity implements View.OnCli
         setContentView(R.layout.activity_termination);
         mTerminationActivity = this;
         cancelContractDialog = new CancelContractDialog(TerminationActivity.this);
-//        if (getIntent() != null) {
-//            mData = (ProvideViewPatientLablePunchClockState) getIntent().getSerializableExtra("patientLable");
-//        }
         sharedPreferences = getSharedPreferences("sp", Activity.MODE_PRIVATE);
         name = sharedPreferences.getString("name", "");
         code = sharedPreferences.getString("code", "");
         Bundle extras = this.getIntent().getExtras();
         if (extras!=null) {
-            orderId = extras.getString("orderId");
+            orderId = extras.getString("singCode");
+            Log.e("TAG", "订单 "+orderId );
             singNO = extras.getString("signNo");
+            Log.e("TAG", "订单 "+singNO );
             nickName = extras.getString("patientName");
             patientCode = extras.getString("patientCode");
             orderMessage=(OrderMessage) extras.getSerializable("orderMsg");
-
-        }else{
-            Intent intent = getIntent();
-            singCode = intent.getStringExtra("signCode");
-             cansignNo = intent.getStringExtra("signNo");
         }
+//        else{
+//            Intent intent = getIntent();
+//            singCode = intent.getStringExtra("signCode");
+//             cansignNo = intent.getStringExtra("signNo");
+//        }
         initView();
         initHandler();
     }
@@ -105,7 +104,7 @@ public class TerminationActivity extends AppCompatActivity implements View.OnCli
                             Toast.makeText(mTerminationActivity, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
                             TerminationActivity.this.finish();
                         } else {
-                            Log.e("tag", "handleMessage: " + "提交失败");
+                            Toast.makeText(mTerminationActivity, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
                         }
                         break;
                     case 2:
@@ -164,13 +163,13 @@ public class TerminationActivity extends AppCompatActivity implements View.OnCli
                     map.put("loginDoctorPosition", "108.93425^34.23053");
                     map.put("mainDoctorCode", code);
                     map.put("mainDoctorName", name);
-                    if(TextUtils.isEmpty(orderId)&&TextUtils.isEmpty(singNO)){
-                        map.put("signCode", singCode);
-                        map.put("signNo", cansignNo);
-                    }else{
+//                    if(TextUtils.isEmpty(orderId)&&TextUtils.isEmpty(singNO)){
+//                        map.put("signCode", singCode);
+//                        map.put("signNo", cansignNo);
+//                    }else{
                         map.put("signCode", orderId);
                         map.put("signNo", singNO);
-                    }
+              //      }
                     map.put("mainPatientCode", patientCode);
                     map.put("mainUserName",nickName);
                     // 	解约原因分类编码

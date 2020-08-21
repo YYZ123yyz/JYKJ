@@ -59,6 +59,7 @@ public class CancellationActivity extends AppCompatActivity implements View.OnCl
     private String doctorName;
     private String doctoCode;
     private LinearLayout details_rl;
+    private LinearLayout details;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -155,10 +156,20 @@ public class CancellationActivity extends AppCompatActivity implements View.OnCl
         cancellationTimes.setText("1次/" + signPatientDoctorOrderBean.getDetectRate() + signPatientDoctorOrderBean.getDetectRateUnitName());
         //签约价格
         double signPrice = signPatientDoctorOrderBean.getSignPrice();
-        cancellationPrice.setText(signPrice + "");
+        cancellationPrice.setText("￥"+signPrice + "");
+        details.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putString("singCode", signPatientDoctorOrderBean.getSignCode());
+                bundle.putString("status", "1");
+                startActivity(SigningDetailsActivity.class,bundle);
+            }
+        });
     }
 
     private void initView() {
+        details = (LinearLayout) findViewById(R.id.details);
         details_rl = (LinearLayout) findViewById(R.id.details_lin);
         llBack = (LinearLayout) findViewById(R.id.ll_back);
         llBack.setOnClickListener(new View.OnClickListener() {
@@ -176,25 +187,6 @@ public class CancellationActivity extends AppCompatActivity implements View.OnCl
         cancellationTimes = (TextView) findViewById(R.id.cancellation_times);
         cancellationDuration = (TextView) findViewById(R.id.cancellation_duration);
         cancellationPrice = (TextView) findViewById(R.id.cancellation_price);
-        //   btnRefuse = (Button) findViewById(R.id.btn_Refuse);
-        //   btnAgree = (Button) findViewById(R.id.btn_agree);
-        //拒绝
-//        btnRefuse.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                startActivity(new Intent(CancellationActivity.this, TerminationActivity.class)
-////                        .putExtra("singCode", signPatientDoctorOrderBean.getSignCode())
-////                        .putExtra("signNo", signPatientDoctorOrderBean.getSignNo())
-//                );
-//            }
-//        });
-//        //同意
-//        btnAgree.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                agree();
-//            }
-//        });
     }
 
     //同意
@@ -235,4 +227,20 @@ public class CancellationActivity extends AppCompatActivity implements View.OnCl
 
         }
     }
+    /**
+     * 跳转Activity
+     *
+     * @param paramClass  跳转目标Activity
+     * @param paramBundle 需要携带的参数
+     */
+    @SuppressWarnings("rawtypes")
+    protected void startActivity(Class paramClass, Bundle paramBundle) {
+        Intent localIntent = new Intent();
+        if (paramBundle != null) {
+            localIntent.putExtras(paramBundle);
+        }
+        localIntent.setClass(this, paramClass);
+        this.startActivity(localIntent);
+    }
+
 }
