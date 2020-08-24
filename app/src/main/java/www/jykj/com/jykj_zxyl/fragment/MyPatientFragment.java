@@ -47,6 +47,7 @@ import www.jykj.com.jykj_zxyl.adapter.MyPatientRecyclerAdapter;
 import www.jykj.com.jykj_zxyl.application.Constant;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.util.DateUtils;
+import www.jykj.com.jykj_zxyl.util.StringUtils;
 import yyz_exploit.activity.activity.RefuseActivity;
 import yyz_exploit.activity.activity.TerminationActivity;
 import yyz_exploit.bean.Status;
@@ -405,7 +406,7 @@ public class MyPatientFragment extends Fragment {
                         cacerProgress();
                         if (result != null && !result.equals("")) {
                             netRetEntity = new Gson().fromJson(result, NetRetEntity.class);
-                            if (netRetEntity.getResCode() == 1) {
+                            if (netRetEntity.getResCode() == 1&& StringUtils.isNotEmpty(netRetEntity.getResJsonData())) {
                                 List<ProvideViewPatientLablePunchClockState> list = JSON.parseArray(netRetEntity.getResJsonData(), ProvideViewPatientLablePunchClockState.class);
                                 mHZEntyties.addAll(list);
                                 mHZGLRecycleAdapter.setDate(mHZEntyties);
