@@ -2,6 +2,7 @@ package com.hyphenate.easeui.widget.chatrow;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.*;
@@ -147,24 +148,27 @@ public abstract class EaseChatRow extends LinearLayout {
             if (message.direct() == Direct.SEND) {
 //                EaseUserUtils.setUserAvatar(context, EMClient.getInstance().getCurrentUser(), userAvatarView);
                 try {
-                    int avatarResId = Integer.parseInt(Constant.patientUrl);
+
+                    int avatarResId = Integer.parseInt(Constant.doctorUrl);
                     Glide.with(context).load(avatarResId).into(userAvatarView);
+                    Log.e(TAG, "setUpBaseView: "+userAvatarView.toString());
                 } catch (Exception e) {
                     //use default avatar
-                    Glide.with(context).load(Constant.patientUrl)
+                    Glide.with(context).load(Constant.doctorUrl)
                             .apply(RequestOptions.placeholderOf(R.mipmap.docter_heard)
                                     .diskCacheStrategy(DiskCacheStrategy.ALL))
                             .into(userAvatarView);
                 }
             } else {
 //                EaseUserUtils.setUserAvatar(context, message.getFrom(), userAvatarView);
-//                EaseUserUtils.setUserNick(message.getFrom(), usernickView);
+                EaseUserUtils.setUserNick(message.getFrom(), usernickView);
                 try {
-                    int avatarResId = Integer.parseInt(Constant.doctorUrl);
+                    int avatarResId = Integer.parseInt(Constant.patientUrl);
                     Glide.with(context).load(avatarResId).into(userAvatarView);
+                    Log.e(TAG, "setUpBaseView: "+userAvatarView.toString());
                 } catch (Exception e) {
                     //use default avatar
-                    Glide.with(context).load(Constant.doctorUrl)
+                    Glide.with(context).load(Constant.patientUrl)
                             .apply(RequestOptions.placeholderOf(R.mipmap.docter_heard)
                                     .diskCacheStrategy(DiskCacheStrategy.ALL))
                             .into(userAvatarView);

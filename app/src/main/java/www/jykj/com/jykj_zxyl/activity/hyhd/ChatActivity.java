@@ -273,6 +273,7 @@ public class ChatActivity extends AppCompatActivity {
                 return false;
             }
         });
+        inputMenu.showMoreOption();
 
 
     }
