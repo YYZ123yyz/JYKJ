@@ -9,58 +9,66 @@ package com.hyphenate.easeui.jykj.bean;
  * @author JiaQ
  */
 public class ProvideBasicsDomain extends SecondaryList implements java.io.Serializable {
-	private Integer basicsDomainId;//编号
-	private Integer baseCode;//基础编码
+	private int basicsDomainId;//编号
+	private int baseCode;//基础编码
 	private String baseName;//基础名称
-	private Integer attrCode;//属性编码
+	private int attrCode;//属性编码
 	private String attrName;//属性名称
 	private String selectState = "0";
 
-
-	public Integer getBasicsDomainId() {
+	@Override
+	public int getBasicsDomainId() {
 		return basicsDomainId;
 	}
 
-	public void setBasicsDomainId(Integer basicsDomainId) {
+	public void setBasicsDomainId(int basicsDomainId) {
 		this.basicsDomainId = basicsDomainId;
 	}
 
-	public Integer getBaseCode() {
+	@Override
+	public int getBaseCode() {
 		return baseCode;
 	}
 
-	public void setBaseCode(Integer baseCode) {
+	public void setBaseCode(int baseCode) {
 		this.baseCode = baseCode;
 	}
 
+	@Override
 	public String getBaseName() {
 		return baseName;
 	}
 
+	@Override
 	public void setBaseName(String baseName) {
 		this.baseName = baseName;
 	}
 
-	public Integer getAttrCode() {
+	@Override
+	public int getAttrCode() {
 		return attrCode;
 	}
 
-	public void setAttrCode(Integer attrCode) {
+	public void setAttrCode(int attrCode) {
 		this.attrCode = attrCode;
 	}
 
+	@Override
 	public String getAttrName() {
 		return attrName;
 	}
 
+	@Override
 	public void setAttrName(String attrName) {
 		this.attrName = attrName;
 	}
 
+	@Override
 	public String getSelectState() {
 		return selectState;
 	}
 
+	@Override
 	public void setSelectState(String selectState) {
 		this.selectState = selectState;
 	}

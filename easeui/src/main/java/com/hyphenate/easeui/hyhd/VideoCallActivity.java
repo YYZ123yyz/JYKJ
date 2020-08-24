@@ -131,7 +131,7 @@ public class VideoCallActivity extends CallActivity implements OnClickListener {
 
         msgid = UUID.randomUUID().toString();
         isInComingCall = getIntent().getBooleanExtra("isComingCall", false);
-        username = getIntent().getStringExtra("username");
+        username = getIntent().getStringExtra("nickName");
         nickName = getIntent().getStringExtra("nickName");
         nickTextView.setText(nickName);
 
@@ -268,8 +268,7 @@ public class VideoCallActivity extends CallActivity implements OnClickListener {
                                 } catch (Exception e) {
                                 }
                                 openSpeakerOn();
-                                ((TextView)findViewById(R.id.tv_is_p2p)).setText(EMClient.getInstance().callManager().isDirectCall()
-                                        ? R.string.direct_call : R.string.relay_call);
+                                ((TextView)findViewById(R.id.tv_is_p2p)).setText(nickName);
                                 handsFreeImage.setImageResource(R.mipmap.em_icon_speaker_on);
                                 isHandsfreeState = true;
                                 isInCalling = true;

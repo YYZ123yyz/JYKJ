@@ -280,6 +280,10 @@ public class EaseChatInputMenu extends LinearLayout {
         }
     }
 
+    public void showMoreOption(){
+        chatPrimaryMenu.showMoreOption();
+    }
+
     /**
      * show or hide emojicon
      */

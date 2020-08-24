@@ -94,7 +94,7 @@ public class EaseChatPrimaryMenu extends EaseChatPrimaryMenuBase implements OnCl
                     buttonMore.setVisibility(View.GONE);
                     buttonSend.setVisibility(View.VISIBLE);
                 } else {
-                    buttonMore.setVisibility(View.VISIBLE);
+                    buttonMore.setVisibility(View.GONE);
                     buttonSend.setVisibility(View.GONE);
                 }
 
@@ -136,8 +136,8 @@ public class EaseChatPrimaryMenu extends EaseChatPrimaryMenuBase implements OnCl
                 EMLog.i("EaseChatPrimaryMenu", "actionId: " + actionId);
                 if (actionId == EditorInfo.IME_ACTION_SEND ||
                         (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER &&
-                                event.getAction() == KeyEvent.ACTION_DOWN &&
-                                ctrlPress == true)) {
+                         event.getAction() == KeyEvent.ACTION_DOWN &&
+                         ctrlPress == true)) {
                     String s = editText.getText().toString();
                     editText.setText("");
                     listener.onSendBtnClicked(s);
@@ -244,8 +244,8 @@ public class EaseChatPrimaryMenu extends EaseChatPrimaryMenuBase implements OnCl
         edittext_layout.setVisibility(View.GONE);
         buttonSetModeVoice.setVisibility(View.GONE);
         buttonSetModeKeyboard.setVisibility(View.VISIBLE);
-        buttonSend.setVisibility(View.GONE);
-        buttonMore.setVisibility(View.VISIBLE);
+        buttonSend.setVisibility(View.VISIBLE);
+        buttonMore.setVisibility(View.GONE);
         buttonPressToSpeak.setVisibility(View.VISIBLE);
         faceNormal.setVisibility(View.VISIBLE);
         faceChecked.setVisibility(View.INVISIBLE);
@@ -264,7 +264,7 @@ public class EaseChatPrimaryMenu extends EaseChatPrimaryMenuBase implements OnCl
         // buttonSend.setVisibility(View.VISIBLE);
         buttonPressToSpeak.setVisibility(View.GONE);
         if (TextUtils.isEmpty(editText.getText())) {
-            buttonMore.setVisibility(View.VISIBLE);
+            buttonMore.setVisibility(View.GONE);
             buttonSend.setVisibility(View.GONE);
         } else {
             buttonMore.setVisibility(View.GONE);
@@ -300,15 +300,22 @@ public class EaseChatPrimaryMenu extends EaseChatPrimaryMenuBase implements OnCl
 
     @Override
     public void onTextInsert(CharSequence text) {
-        int start = editText.getSelectionStart();
-        Editable editable = editText.getEditableText();
-        editable.insert(start, text);
-        setModeKeyboard();
+       int start = editText.getSelectionStart();
+       Editable editable = editText.getEditableText();
+       editable.insert(start, text);
+       setModeKeyboard();
     }
 
     @Override
     public EditText getEditText() {
         return editText;
+    }
+
+    @Override
+    public void showMoreOption() {
+        buttonSetModeVoice.setVisibility(View.VISIBLE);
+        faceNormal.setVisibility(View.VISIBLE);
+        buttonMore.setVisibility(View.VISIBLE);
     }
 
 }

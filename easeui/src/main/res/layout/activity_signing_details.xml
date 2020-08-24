@@ -233,7 +233,11 @@
                             android:text="频率时长"
                             android:textColor="@color/tabColor_nomal"
                             />
-
+                        <TextView
+                            android:id="@+id/day_tv"
+                            android:layout_gravity="center_vertical"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
                         <ImageView
                             android:layout_width="@dimen/dp_12"
                             android:layout_height="@dimen/dp_18"
@@ -246,13 +250,20 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/dp_1"
                         android:background=" #F0F0F0 " />
-
-                    <android.support.v7.widget.RecyclerView
-                        android:id="@+id/rvqbzz"
+                    <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingLeft="@dimen/dp_10"
-                        android:paddingRight="@dimen/dp_10" />
+                        android:descendantFocusability="blocksDescendants">
+
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/rvqbzz"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="@dimen/dp_10"
+                            android:paddingRight="@dimen/dp_10" />
+                    </RelativeLayout>
+
+
 
 
                     <LinearLayout
@@ -284,12 +295,21 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/dp_1"
                         android:background="#F0F0F0  " />
-
-                    <android.support.v7.widget.RecyclerView
-                        android:id="@+id/rv_class"
+                    <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                      />
+                        android:descendantFocusability="blocksDescendants">
+
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/rv_class"
+                            android:paddingLeft="@dimen/dp_10"
+                            android:paddingRight="@dimen/dp_10"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            />
+                    </RelativeLayout>
+
+
 
                     <LinearLayout
                         android:id="@+id/lin_start_time_s"
@@ -380,6 +400,8 @@
                             />
 
                         <TextView
+                            android:visibility="visible"
+                            android:id="@+id/tv_prices"
                             android:layout_gravity="center_vertical"
                            android:text="￥"
                             android:textColor="#FA4A4A"
@@ -399,6 +421,7 @@
 
                 </LinearLayout>
                 <LinearLayout
+                    android:id="@+id/protocol_lin"
                     android:layout_marginLeft="@dimen/dp_10"
                     android:layout_marginRight="@dimen/dp_10"
                     android:layout_width="wrap_content"
@@ -411,7 +434,7 @@
                         android:layout_height="13.5dp"
                         android:id="@+id/iv_activityLogin_agreeImg"
                         android:layout_gravity="center_vertical"
-                        android:src="@mipmap/choice"/>
+                        android:src="@mipmap/nochoice"/>
                     <TextView
                         android:text="点击即代表您已同意"
                         android:textSize="13sp"

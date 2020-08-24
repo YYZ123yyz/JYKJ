@@ -157,7 +157,14 @@ public class LivePlayerActivity extends ChatPopDialogActivity implements ITXLive
         //createChat();
     }
 
+    @Override
+    public void upJoinUsernum(int modnum) {
+
+    }
+
     boolean isopenchat = false;
+    static final int GO_CHAT_ACT = 999;
+    static final int LOGIN_CHAT_FAIL = 997;
     @Override
     public void createChat() {
         Bundle parbund = new Bundle();

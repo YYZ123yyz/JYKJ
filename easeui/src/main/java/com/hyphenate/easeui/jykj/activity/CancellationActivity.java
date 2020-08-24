@@ -20,6 +20,7 @@ import com.alibaba.fastjson.JSON;
 import com.google.gson.Gson;
 import com.hyphenate.easeui.R;
 import com.hyphenate.easeui.hyhd.model.Constant;
+import com.hyphenate.easeui.jykj.bean.CancelContractOrderBean;
 import com.hyphenate.easeui.jykj.bean.Restcommit;
 import com.hyphenate.easeui.jykj.bean.SignPatientDoctorOrderBean;
 import com.hyphenate.easeui.jykj.utils.DateUtils;
@@ -32,9 +33,9 @@ import java.util.HashMap;
 public class CancellationActivity extends AppCompatActivity implements View.OnClickListener {
 
     private String mNetRetStr;
-  //  private JYKJApplication mApp;
+    //  private JYKJApplication mApp;
     private Handler mHandler;
-    private SignPatientDoctorOrderBean signPatientDoctorOrderBean;
+    private CancelContractOrderBean signPatientDoctorOrderBean;
     private LinearLayout llBack;
     private RelativeLayout rl;
     private TextView tvName;
@@ -55,6 +56,12 @@ public class CancellationActivity extends AppCompatActivity implements View.OnCl
     private String nickName;
     private String patientCode;
     private NetRetEntity netRetEntity;
+    private String doctorName;
+    private String doctoCode;
+    private LinearLayout details_rl;
+    private LinearLayout details;
+    private String from;
+    private TextView name1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,24 +71,27 @@ public class CancellationActivity extends AppCompatActivity implements View.OnCl
         name = sharedPreferences.getString("name", "");
         code = sharedPreferences.getString("code", "");
         Bundle extras = this.getIntent().getExtras();
-        if (extras!=null) {
+        if (extras != null) {
             orderId = extras.getString("singCode");
             singNO = extras.getString("singNO");
             nickName = extras.getString("nickName");
             patientCode = extras.getString("patientCode");
-
+            doctorName = extras.getString("DoctorName");
+            doctoCode = extras.getString("DoctoCode");
+            from = extras.getString("from");
         }
         initView();
         getdata();
         initHandler();
     }
-//获取解约订单详情
+
+    //获取解约订单详情
     private void getdata() {
         final HashMap<String, Object> map = new HashMap<>();
         map.put("loginDoctorPosition", "108.93425^34.23053");
-        map.put("operDoctorCode", code);
-        map.put("operDoctorName", name);
-        map.put("signOrderCode",orderId );
+        map.put("operDoctorCode", doctoCode);
+        map.put("operDoctorName", doctorName);
+        map.put("signOrderCode", orderId);
 
         new Thread() {
             public void run() {
@@ -102,6 +112,7 @@ public class CancellationActivity extends AppCompatActivity implements View.OnCl
         }.start();
     }
 
+    @SuppressLint("HandlerLeak")
     private void initHandler() {
         mHandler = new Handler() {
             @SuppressLint("HandlerLeak")
@@ -111,20 +122,21 @@ public class CancellationActivity extends AppCompatActivity implements View.OnCl
                 switch (msg.what) {
                     case 1:
                         netRetEntity = new Gson().fromJson(mNetRetStr, NetRetEntity.class);
-                        if (netRetEntity.getResCode()==1) {
-                            signPatientDoctorOrderBean = JSON.parseObject(netRetEntity.getResJsonData(), SignPatientDoctorOrderBean.class);
+                        if (netRetEntity.getResCode() == 1) {
+                            signPatientDoctorOrderBean = JSON.parseObject(netRetEntity.getResJsonData(), CancelContractOrderBean.class);
                             setShow();
-                        }else{
+                        } else {
+                            details_rl.setVisibility(View.GONE);
                             Toast.makeText(CancellationActivity.this, "" + netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
                         }
                         break;
-                    case  2:
-                         netRetEntity = new Gson().fromJson(mNetRetStr, NetRetEntity.class);
-                         if(netRetEntity.getResCode()==1){
-                             Toast.makeText(CancellationActivity.this, "" + netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
-                         }else{
-                             Toast.makeText(CancellationActivity.this, "" + netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
-                         }
+                    case 2:
+                        netRetEntity = new Gson().fromJson(mNetRetStr, NetRetEntity.class);
+                        if (netRetEntity.getResCode() == 1) {
+                            Toast.makeText(CancellationActivity.this, "" + netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(CancellationActivity.this, "" + netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
+                        }
                         break;
                 }
             }
@@ -135,26 +147,41 @@ public class CancellationActivity extends AppCompatActivity implements View.OnCl
     private void setShow() {
         tvName.setText(signPatientDoctorOrderBean.getRefuseReasonClassName());
         tvTermination.setText(signPatientDoctorOrderBean.getRefuseRemark());
-        cancellationTime.setText((CharSequence) DateUtils.getDate(signPatientDoctorOrderBean.getSignDurationUnit()));
-
-
+        cancellationTime.setText(DateUtils.stampToDate(signPatientDoctorOrderBean.getSignStartTime()));
         //签约时长
-        cancellationDuration.setText(signPatientDoctorOrderBean.getSignDurationUnit());
+        cancellationDuration.setText(signPatientDoctorOrderBean.getSignDuration() + "个" + signPatientDoctorOrderBean.getSignDurationUnit());
         //监测类型
         String signOtherServiceCode = signPatientDoctorOrderBean.getSignOtherServiceCode();
-        String [] temp = null;
+        String[] temp = null;
         temp = signOtherServiceCode.split(",");
-        cancellationClass.setText(temp.length+"项");
-        //辅导类型
-        cancellationTimes.setText(signPatientDoctorOrderBean.getDetectRate()+signPatientDoctorOrderBean.getDetectRateUnitName());
+        cancellationClass.setText(temp.length + "项");
+        //监测类型
+        cancellationTimes.setText("1次/" + signPatientDoctorOrderBean.getDetectRate() + signPatientDoctorOrderBean.getDetectRateUnitName());
         //签约价格
-        BigDecimal signPrice = signPatientDoctorOrderBean.getSignPrice();
-        double c = signPrice.doubleValue();  // 转 double
-        cancellationPrice.setText(c + "");
+        double signPrice = signPatientDoctorOrderBean.getSignPrice();
+        cancellationPrice.setText("￥"+signPrice + "");
+        details.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putString("singCode", signPatientDoctorOrderBean.getSignCode());
+                bundle.putString("status", "1");
+                startActivity(SigningDetailsActivity.class,bundle);
+            }
+        });
     }
 
     private void initView() {
+        name1 = (TextView) findViewById(R.id.name);
+        details = (LinearLayout) findViewById(R.id.details);
+        details_rl = (LinearLayout) findViewById(R.id.details_lin);
         llBack = (LinearLayout) findViewById(R.id.ll_back);
+        llBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         rl = (RelativeLayout) findViewById(R.id.rl);
         tvName = (TextView) findViewById(R.id.tv_name);
         linDetect = (LinearLayout) findViewById(R.id.lin_Detect);
@@ -164,37 +191,27 @@ public class CancellationActivity extends AppCompatActivity implements View.OnCl
         cancellationTimes = (TextView) findViewById(R.id.cancellation_times);
         cancellationDuration = (TextView) findViewById(R.id.cancellation_duration);
         cancellationPrice = (TextView) findViewById(R.id.cancellation_price);
-        btnRefuse = (Button) findViewById(R.id.btn_Refuse);
-        btnAgree = (Button) findViewById(R.id.btn_agree);
-        //拒绝
-        btnRefuse.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(CancellationActivity.this, TerminationActivity.class)
-//                        .putExtra("singCode", signPatientDoctorOrderBean.getSignCode())
-//                        .putExtra("signNo", signPatientDoctorOrderBean.getSignNo())
-                );
-            }
-        });
-        //同意
-        btnAgree.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                agree();
-            }
-        });
+        if(from.equals("1")){
+            details.setVisibility(View.GONE);
+            name1.setVisibility(View.GONE);
+        }else if(from.equals("2")){
+            details.setVisibility(View.VISIBLE);
+            name1.setVisibility(View.VISIBLE);
+        }
     }
-   //同意
+
+    //同意
     private void agree() {
-//处理同意解约逻辑
+        //处理同意解约逻辑
+        //Log.e("TAG", "agree: ",code );
         final HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("loginDoctorPosition", "108.93425^34.23053");
-        hashMap.put("mainDoctorCode", code);
-        hashMap.put("mainDoctorName", name);
+        hashMap.put("mainDoctorCode", doctoCode);
+        hashMap.put("mainDoctorName", doctorName);
         hashMap.put("signCode", signPatientDoctorOrderBean.getSignCode());
         hashMap.put("signNo", signPatientDoctorOrderBean.getSignNo());
-        hashMap.put("mainPatientCode", patientCode);
-        hashMap.put("mainUserName", nickName);
+        hashMap.put("mainPatientCode", signPatientDoctorOrderBean.getMainPatientCode());
+        hashMap.put("mainUserName", signPatientDoctorOrderBean.getMainUserName());
         hashMap.put("confimresult", "1");
         new Thread() {
             public void run() {
@@ -221,4 +238,20 @@ public class CancellationActivity extends AppCompatActivity implements View.OnCl
 
         }
     }
+    /**
+     * 跳转Activity
+     *
+     * @param paramClass  跳转目标Activity
+     * @param paramBundle 需要携带的参数
+     */
+    @SuppressWarnings("rawtypes")
+    protected void startActivity(Class paramClass, Bundle paramBundle) {
+        Intent localIntent = new Intent();
+        if (paramBundle != null) {
+            localIntent.putExtras(paramBundle);
+        }
+        localIntent.setClass(this, paramClass);
+        this.startActivity(localIntent);
+    }
+
 }

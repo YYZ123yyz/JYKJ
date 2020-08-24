@@ -178,7 +178,7 @@ public class SplashActivity extends AppCompatActivity {
                                 finish();
                             }
                         } else {
-                            Toast.makeText(SplashActivity.this, "网络异常，请联系管理员", Toast.LENGTH_SHORT).show();
+                           // Toast.makeText(SplashActivity.this, "网络异常，请联系管理员", Toast.LENGTH_SHORT).show();
                         }
                         break;
                     case 2:
@@ -228,7 +228,7 @@ public class SplashActivity extends AppCompatActivity {
                 } catch (Exception e) {
                     NetRetEntity retEntity = new NetRetEntity();
                     retEntity.setResCode(0);
-                    retEntity.setResMsg("网络连接异常，请联系管理员：" + e.getMessage());
+                   // retEntity.setResMsg("网络连接异常，请联系管理员：" + e.getMessage());
                     mNetRegionRetStr = new Gson().toJson(retEntity);
                     e.printStackTrace();
                 }

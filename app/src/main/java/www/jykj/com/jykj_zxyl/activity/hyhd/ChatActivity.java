@@ -18,6 +18,7 @@ import com.google.gson.Gson;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.easeui.EaseConstant;
 import com.hyphenate.easeui.domain.EaseEmojicon;
+import com.hyphenate.easeui.jykj.bean.OrderMessage;
 import com.hyphenate.easeui.ui.EaseChatFragment;
 import com.hyphenate.easeui.widget.EaseChatInputMenu;
 import com.hyphenate.easeui.widget.EaseChatMessageList;
@@ -27,6 +28,7 @@ import java.util.HashMap;
 
 import netService.HttpNetService;
 import netService.entity.NetRetEntity;
+import util.ActivityStackManager;
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.activity.home.ZhlyReplyActivity;
 import www.jykj.com.jykj_zxyl.activity.home.wdzs.ProvideDoctorSetServiceState;
@@ -52,14 +54,19 @@ public class ChatActivity extends AppCompatActivity {
 
     private String mNetRetStr;
     private Handler mHandler;
+    private OrderMessage orderMessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_chat);
+        ActivityStackManager.getInstance().add(this);
         ActivityUtil.setStatusBarMain(ChatActivity.this);
-
+        Bundle extras = this.getIntent().getExtras();
+        if (extras!=null) {
+            orderMessage =(OrderMessage)extras.getSerializable("orderMsg");
+        }
         mContext = this;
         mActivity = this;
         mApp = (JYKJApplication) getApplication();
@@ -103,7 +110,7 @@ public class ChatActivity extends AppCompatActivity {
         args.putString("orderCode", orderCode);
         args.putString("usersName", usersName);
         args.putString("userUrl", userUrl);
-
+        args.putSerializable("orderMessage",orderMessage);
         args.putString("doctorUrl", doctorUrl);
         args.putString("Url", mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl());
 
@@ -266,6 +273,7 @@ public class ChatActivity extends AppCompatActivity {
                 return false;
             }
         });
+        inputMenu.showMoreOption();
 
 
     }

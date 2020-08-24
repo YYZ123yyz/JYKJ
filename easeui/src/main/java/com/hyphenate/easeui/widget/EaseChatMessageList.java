@@ -134,6 +134,13 @@ public class EaseChatMessageList extends RelativeLayout{
         return itemStyle.isShowUserNick();
     }
 
+    public void setShowChatRoom(boolean showChatRoom){
+        itemStyle.setShowChatRoom(showChatRoom);
+    }
+
+    public boolean isShowChatRoom(){
+        return itemStyle.isShowChatRoom();
+    }
 
     public interface MessageListItemClickListener{
 	    /**

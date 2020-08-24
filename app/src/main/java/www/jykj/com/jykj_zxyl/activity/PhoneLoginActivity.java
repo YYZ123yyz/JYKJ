@@ -381,7 +381,7 @@ public class PhoneLoginActivity extends AppCompatActivity {
             Toast.makeText(mContext, "请输入验证码", Toast.LENGTH_SHORT).show();
             return;
         }
-        if(isMobileNO(mPhoneNum.getText().toString())){
+        if(!isMobileNO(mPhoneNum.getText().toString())){
             Toast.makeText(mContext, "请输入正确手机号", Toast.LENGTH_SHORT).show();
         }
         UserInfo userInfo = new UserInfo();

@@ -10,13 +10,18 @@ public class DetectBean implements java.io.Serializable{
      * configDetailTypeName : 健康检测
      * price : 10.0
      */
+
     private String configDetailCode;
     private int configDetailId;
     private String configDetailName;
     private String configDetailTypeCode;
     private String configDetailTypeName;
     private double price;
-
+    private int value=1;
+    private int minute;//分钟数
+    private int frequency;//次数
+    private int months;//月数
+    private double totalPrice;
     private boolean choice;			//是否选中
 
     public boolean isChoice() {
@@ -73,6 +78,46 @@ public class DetectBean implements java.io.Serializable{
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public int getValue() {
+        return value;
+    }
+
+    public void setValue(int value) {
+        this.value = value;
+    }
+
+    public int getMinute() {
+        return minute;
+    }
+
+    public void setMinute(int minute) {
+        this.minute = minute;
+    }
+
+    public int getFrequency() {
+        return frequency;
+    }
+
+    public void setFrequency(int frequency) {
+        this.frequency = frequency;
+    }
+
+    public int getMonths() {
+        return months;
+    }
+
+    public void setMonths(int months) {
+        this.months = months;
+    }
+
+    public double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
     }
 
     @Override

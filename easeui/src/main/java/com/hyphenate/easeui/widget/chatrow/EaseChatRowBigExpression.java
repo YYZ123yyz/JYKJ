@@ -17,7 +17,7 @@ import com.hyphenate.easeui.domain.EaseEmojicon;
  * big emoji icons
  *
  */
-public class EaseChatRowBigExpression extends EaseChatRowText{
+public class EaseChatRowBigExpression extends EaseChatRoomRowText {
 
     private ImageView imageView;
 
