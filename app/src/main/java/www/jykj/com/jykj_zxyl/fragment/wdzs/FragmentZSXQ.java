@@ -449,7 +449,7 @@ public class FragmentZSXQ extends Fragment {
                                             intent.setClass(mContext, ChatActivity.class);
                                             intent.putExtra("usersName", mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
                                             intent.putExtra("userUrl", mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl());
-                                               intent.putExtra("doctorUrl",mProvideViewSysUserPatientInfoAndRegion.getUserLogoUrl());
+                                               intent.putExtra("doctorUrl",mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl());
                                             intent.putExtra("userCode", provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getPatientCode());
                                             intent.putExtra("userName", provideViewInteractOrderTreatmentAndPatientInterrogations.get(position).getPatientName());
                                             intent.putExtra("chatType", "twjz");

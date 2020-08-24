@@ -16,6 +16,8 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSON;
 import com.google.gson.Gson;
 
+import java.util.HashMap;
+
 import entity.home.newsMessage.ProvideMsgPushReminderCount;
 import netService.HttpNetService;
 import netService.entity.NetRetEntity;
@@ -79,13 +81,13 @@ public class NewsActivity extends AppCompatActivity implements View.OnClickListe
     protected void onResume() {
         super.onResume();
         //更新一下未读消息数
-        ProvideMsgPushReminderCount provideMsgPushReminderCount = new ProvideMsgPushReminderCount();
-        provideMsgPushReminderCount.setLoginDoctorPosition(mApp.loginDoctorPosition);
-        provideMsgPushReminderCount.setSearchDoctorCode(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
+        HashMap<String ,String> hashMap=new HashMap<>();
+        hashMap.put("loginDoctorPosition",mApp.loginDoctorPosition);
+        hashMap.put("searchDoctorCode",mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
         new Thread() {
             public void run() {
                 try {
-                    String string = new Gson().toJson(provideMsgPushReminderCount);
+                    String string = new Gson().toJson(hashMap);
                     mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + string, Constant.SERVICEURL + "msgDataControlle/searchMsgPushReminderAllCount");
                     Log.e("tag", "消息 "+mNetRetStr );
                 } catch (Exception e) {
