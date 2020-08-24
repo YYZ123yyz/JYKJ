@@ -89,6 +89,7 @@ public class CoachingActivity extends AppCompatActivity implements View.OnClickL
                                         coachingBeans.get(i).setMinute(detectBean.getMinute());
                                         coachingBeans.get(i).setMonths(detectBean.getMonths());
                                         coachingBeans.get(i).setFrequency(detectBean.getFrequency());
+                                        coachingBeans.get(i).setValue(detectBean.getValue());
                                     }
                                 }
                             }

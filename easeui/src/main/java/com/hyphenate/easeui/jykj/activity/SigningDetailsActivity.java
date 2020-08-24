@@ -279,7 +279,7 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
         tvStartTime = (TextView) findViewById(R.id.tv_start_time);
         rvClass = (RecyclerView) findViewById(R.id.rv_class);
         iv_activityLogin_agreeImg = (ImageView) findViewById(R.id.iv_activityLogin_agreeImg);
-        iv_activityLogin_agreeImg.setOnClickListener(new View.OnClickListener() {
+        protocol_lin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mAgree = !mAgree;
@@ -344,9 +344,13 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
         wzxxSc = (ScrollView) findViewById(R.id.wzxx_sc);
 
         //检测类型
-        LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(mContext);
-        mLinearLayoutManager.setOrientation(LinearLayout.VERTICAL);
-        rvqbzz.setLayoutManager(mLinearLayoutManager);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this){
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        };
+        rvqbzz.setLayoutManager(layoutManager);
         //如果可以确定每个item的高度是固定的，设置这个选项可以提高性能
         rvqbzz.setHasFixedSize(true);
 //        //创建并设置Adapter
@@ -379,9 +383,15 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
             }
         });
         //辅导类别
-        LinearLayoutManager mLinearLayoutManager2 = new LinearLayoutManager(mContext);
-        mLinearLayoutManager2.setOrientation(LinearLayout.VERTICAL);
-        rvClass.setLayoutManager(mLinearLayoutManager2);
+        LinearLayoutManager layoutManager2 = new LinearLayoutManager(this){
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        };
+     //   LinearLayoutManager mLinearLayoutManager2 = new LinearLayoutManager(mContext,new S);
+        layoutManager2.setOrientation(LinearLayout.VERTICAL);
+        rvClass.setLayoutManager(layoutManager2);
         //如果可以确定每个item的高度是固定的，设置这个选项可以提高性能
         rvClass.setHasFixedSize(true);
 //        //创建并设置Adapter
@@ -668,9 +678,10 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
     private int priceDoubleToInteger(String totalPrice) {
         int subPrice = 0;
         if (!TextUtils.isEmpty(totalPrice)) {
-            double price = Double.parseDouble(totalPrice);
-            double ceil = Math.ceil(price);
-            subPrice = ((int) ceil);
+            double calculatePrice = Double.parseDouble(totalPrice);
+            BigDecimal big = new BigDecimal(calculatePrice);
+            int v = big.setScale(0, BigDecimal.ROUND_UP).intValue();
+            subPrice = v;
         }
         return subPrice;
     }
@@ -704,7 +715,7 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
                                 Log.e("TAG", "handleMessage: " + patientCode);
                                 String monitorRate = "";
                                 if (dayListattrCode != 0) {
-                                    monitorRate = "一次/" + dayListattrCode + "天";
+                                    monitorRate = "1次/" + dayListattrCode + "天";
                                 }
                                 if (TextUtils.isEmpty(signOrderCode)) {
                                     OrderMessage orderMessage = new OrderMessage(name, doctorUrl, type, mDetectBeans.size() + "项", monitorRate, tvDuration.getText().toString(), totalprice.getText().toString(), singNO, "", "card", patientCode);
@@ -836,24 +847,24 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
 
         }
         singNO=getdetailsBeans.getSignNo();
-        dayListattrCode = getdetailsBeans.getVideoCaochRateUnitCode();
+        dayListattrCode = Integer.parseInt(getdetailsBeans.getOrderDetailList().get(0).getRateUnitCode());
         monthsListattrCode1 = getdetailsBeans.getSignDuration();
         startTime = DateUtils.stampToDate(getdetailsBeans.getSignStartTime());
         patientName.setText(patientName1);
         day_tv.setText(getdetailsBeans.getOrderDetailList().get(0).getRate() + getdetailsBeans.getOrderDetailList().get(0).getRateUnitName());
         wzxxSc = (ScrollView) findViewById(R.id.wzxx_sc);
         //检测类型
-        LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(mContext);
-        mLinearLayoutManager.setOrientation(LinearLayout.VERTICAL);
-        rvqbzz.setLayoutManager(mLinearLayoutManager);
+//        LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(mContext);
+//        mLinearLayoutManager.setOrientation(LinearLayout.VERTICAL);
+//        rvqbzz.setLayoutManager(mLinearLayoutManager);
         //如果可以确定每个item的高度是固定的，设置这个选项可以提高性能
-        rvqbzz.setHasFixedSize(true);
+        //rvqbzz.setHasFixedSize(true);
         //辅导类别
-        LinearLayoutManager mLinearLayoutManager2 = new LinearLayoutManager(mContext);
-        mLinearLayoutManager2.setOrientation(LinearLayout.VERTICAL);
-        rvClass.setLayoutManager(mLinearLayoutManager2);
+//        LinearLayoutManager mLinearLayoutManager2 = new LinearLayoutManager(mContext);
+//        mLinearLayoutManager2.setOrientation(LinearLayout.VERTICAL);
+//        rvClass.setLayoutManager(mLinearLayoutManager2);
         //如果可以确定每个item的高度是固定的，设置这个选项可以提高性能
-        rvClass.setHasFixedSize(true);
+        //rvClass.setHasFixedSize(true);
         //名称
         patientName.setText(getdetailsBeans.getMainUserName());
         //性别
@@ -1013,14 +1024,7 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
             if (!TextUtils.isEmpty(configDetailTypeName) && configDetailTypeName.equals("监测类型")) {
                 orderItemBean.setDuration(0);
                 orderItemBean.setDurationUnitCode("");
-
             }orderItemBean.setDurationUnitName("");
-//            if (detectBean.getConfigDetailName().equals("图文")) {
-//                orderItemBean.setDuration(0);
-//                orderItemBean.setDurationUnitCode("");
-//                orderItemBean.setDurationUnitName("");
-//            }
-            orderItemBean.setDuration(1);
             orderItemBean.setMainConfigDetailCode(detectBean.getConfigDetailCode());
             orderItemBean.setValue(detectBean.getValue());
             if (configDetailTypeCode.equals("10")) {
@@ -1028,12 +1032,19 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
             } else {
                 orderItemBean.setRate(detectBean.getMonths());
             }
-            orderItemBean.setDurationUnitCode(detectBean.getMinute()+"");
-            orderItemBean.setDurationUnitName("分钟");
+            if(configDetailTypeCode.equals("10")){
+                orderItemBean.setRateUnitName("天");
+                orderItemBean.setRateUnitCode(dayListattrCode + "");
 
-            orderItemBean.setRateUnitName("天");
-            orderItemBean.setRateUnitCode(dayListattrCode + "");
-            orderItemBean.setDurationUnitCode(videominuteListattrCode + "");
+            }else if(configDetailTypeCode.equals("20")){
+                orderItemBean.setDurationUnitCode(detectBean.getMinute()+"");
+                orderItemBean.setDurationUnitName("分钟");
+                orderItemBean.setRateUnitName("月");
+                orderItemBean.setRateUnitCode(detectBean.getMonths()+"");
+                orderItemBean.setDuration(detectBean.getMinute());
+            }
+
+
             itemBeans.add(orderItemBean);
         }
         return itemBeans;
@@ -1172,10 +1183,8 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
                 double price = monitorDetectBean.getPrice();
                 long days = calculateDays(startTime, getEndTime(monthsListattrCode1), "yyyy-MM-dd");
                 double calculatePrice = days * price / dayListattrCode;
-//                DecimalFormat df = new DecimalFormat("#.00000000");
-//                String format = df.format(calculatePrice);
                 BigDecimal big = new BigDecimal(calculatePrice);
-                double v = big.setScale(8, RoundingMode.HALF_UP).doubleValue();
+                double v = big.setScale(8, BigDecimal.ROUND_UP).doubleValue();
                 //monitorDetectBean.setPrice(vv);
                 monitorDetectBean.setTotalPrice(v);
             }
@@ -1195,11 +1204,8 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
                 double price = coatchDetectBean.getPrice();
                 if (frequency != 0 && months != 0) {
                     double calculatePrice = monthsListattrCode1 * frequency * price / months ;
-//                    DecimalFormat df = new DecimalFormat("#.00000000");
-//                    String format = df.format(calculatePrice);
                     BigDecimal big = new BigDecimal(calculatePrice);
-                    double v = big.setScale(8, RoundingMode.HALF_UP).doubleValue();
-                    //coatchDetectBean.setPrice(vv);
+                    double v = big.setScale(8, BigDecimal.ROUND_UP).doubleValue();
                     coatchDetectBean.setTotalPrice(v);
                 }
 

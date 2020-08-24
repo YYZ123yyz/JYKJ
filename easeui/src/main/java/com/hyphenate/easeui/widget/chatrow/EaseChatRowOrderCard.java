@@ -339,6 +339,7 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                                     hashMap.put("mainDoctorCode", mViewSysUserDoctorInfoAndHospital.getDoctorCode());
                                     hashMap.put("mainDoctorName", mViewSysUserDoctorInfoAndHospital.getUserName());
                                     hashMap.put("signCode", orderId);
+                                    Log.e(TAG, "同意  订单号 "+orderId );
                                     hashMap.put("signNo", singNO);
                                     hashMap.put("mainPatientCode", message.getFrom());
                                     hashMap.put("mainUserName", nickName);
@@ -382,8 +383,8 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                         Bundle bundle = new Bundle();
                         bundle.putString("singCode", orderId);
                         bundle.putString("signNo", singNO);
-                        bundle.putString("patientName", mViewSysUserDoctorInfoAndHospital.getUserName());
-                        bundle.putString("patientCode", mViewSysUserDoctorInfoAndHospital.getDoctorCode());
+                        bundle.putString("patientName", nickName);
+                        bundle.putString("patientCode",message.getFrom() );
                         bundle.putSerializable("orderMsg",orderMessage);
                         startActivity(TerminationActivity.class, bundle);
                     }
@@ -438,9 +439,17 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                 if (messageType.equals("terminationOrder")) {
                     if (!orderType.equals("3")) {
                         //解约详情
+                        String from="";
+                        EMMessage.Direct direct = message.direct();
+                        if(direct== EMMessage.Direct.RECEIVE) {
+                            from="2";
+                        }else if(direct==EMMessage.Direct.SEND){
+                            from="1";
+                        }
                         Bundle bundle = new Bundle();
                         bundle.putString("singCode", orderId);
                         bundle.putString("singNo", singNO);
+                        bundle.putString("from",from);
                         bundle.putString("patientName", nickName);
                         bundle.putString("patientCode", patientCode);
                         bundle.putString("DoctorName", mViewSysUserDoctorInfoAndHospital.getUserName());

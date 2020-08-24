@@ -60,6 +60,8 @@ public class CancellationActivity extends AppCompatActivity implements View.OnCl
     private String doctoCode;
     private LinearLayout details_rl;
     private LinearLayout details;
+    private String from;
+    private TextView name1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +78,7 @@ public class CancellationActivity extends AppCompatActivity implements View.OnCl
             patientCode = extras.getString("patientCode");
             doctorName = extras.getString("DoctorName");
             doctoCode = extras.getString("DoctoCode");
+            from = extras.getString("from");
         }
         initView();
         getdata();
@@ -169,6 +172,7 @@ public class CancellationActivity extends AppCompatActivity implements View.OnCl
     }
 
     private void initView() {
+        name1 = (TextView) findViewById(R.id.name);
         details = (LinearLayout) findViewById(R.id.details);
         details_rl = (LinearLayout) findViewById(R.id.details_lin);
         llBack = (LinearLayout) findViewById(R.id.ll_back);
@@ -187,12 +191,19 @@ public class CancellationActivity extends AppCompatActivity implements View.OnCl
         cancellationTimes = (TextView) findViewById(R.id.cancellation_times);
         cancellationDuration = (TextView) findViewById(R.id.cancellation_duration);
         cancellationPrice = (TextView) findViewById(R.id.cancellation_price);
+        if(from.equals("1")){
+            details.setVisibility(View.GONE);
+            name1.setVisibility(View.GONE);
+        }else if(from.equals("2")){
+            details.setVisibility(View.VISIBLE);
+            name1.setVisibility(View.VISIBLE);
+        }
     }
 
     //同意
     private void agree() {
         //处理同意解约逻辑
-        //  Log.e("TAG", "agree: ",code );
+        //Log.e("TAG", "agree: ",code );
         final HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("loginDoctorPosition", "108.93425^34.23053");
         hashMap.put("mainDoctorCode", doctoCode);
