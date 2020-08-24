@@ -1,16 +1,3 @@
-/**
- * Copyright (C) 2016 Hyphenate Inc. All rights reserved.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *     http://www.apache.org/licenses/LICENSE-2.0
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package com.hyphenate.easeui.hyhd;
 
 import android.media.AudioManager;
@@ -86,7 +73,7 @@ public class VideoCallActivity extends CallActivity implements OnClickListener {
     private Handler uiHandler;
 
     private boolean isInCalling;
-//    private Button recordBtn;
+    //    private Button recordBtn;
     private EMVideoCallHelper callHelper;
     private Button toggleVideoBtn;
 
@@ -98,8 +85,8 @@ public class VideoCallActivity extends CallActivity implements OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if(savedInstanceState != null){
-        	finish();
-        	return;
+            finish();
+            return;
         }
         setContentView(R.layout.em_activity_video_call);
         mVedioTime = getIntent().getIntExtra(EaseConstant.EXTRA_VEDIO_NUM, 0);
@@ -146,7 +133,7 @@ public class VideoCallActivity extends CallActivity implements OnClickListener {
         isInComingCall = getIntent().getBooleanExtra("isComingCall", false);
         username = getIntent().getStringExtra("username");
         nickName = getIntent().getStringExtra("nickName");
-        nickTextView.setText(username);
+        nickTextView.setText(nickName);
 
         // local surfaceview
         localSurface = (EMCallSurfaceView) findViewById(R.id.local_surface);
@@ -208,16 +195,16 @@ public class VideoCallActivity extends CallActivity implements OnClickListener {
             public void handleMessage(Message msg) {
                 switch (msg.what)
                 {                    case 1:
-                        /**
-                         * 挂断通话
-                         */
-                        try {
-                            EMClient.getInstance().callManager().endCall();
-                        } catch (EMNoActiveCallException e) {
-                            e.printStackTrace();
-                        }
-                        Toast.makeText(VideoCallActivity.this,"视频时长已用尽",Toast.LENGTH_SHORT).show();
-                        break;
+                    /**
+                     * 挂断通话
+                     */
+                    try {
+                        EMClient.getInstance().callManager().endCall();
+                    } catch (EMNoActiveCallException e) {
+                        e.printStackTrace();
+                    }
+                    Toast.makeText(VideoCallActivity.this,"视频时长已用尽",Toast.LENGTH_SHORT).show();
+                    break;
                 }
             }
         };
@@ -246,239 +233,239 @@ public class VideoCallActivity extends CallActivity implements OnClickListener {
             public void onCallStateChanged(final CallState callState, final CallError error) {
                 switch (callState) {
 
-                case CONNECTING: // is connecting
-                    runOnUiThread(new Runnable() {
+                    case CONNECTING: // is connecting
+                        runOnUiThread(new Runnable() {
 
-                        @Override
-                        public void run() {
-                            callStateTextView.setText(R.string.Are_connected_to_each_other);
-                        }
+                            @Override
+                            public void run() {
+                                callStateTextView.setText(R.string.Are_connected_to_each_other);
+                            }
 
-                    });
-                    break;
-                case CONNECTED: // connected
-                    runOnUiThread(new Runnable() {
+                        });
+                        break;
+                    case CONNECTED: // connected
+                        runOnUiThread(new Runnable() {
 
-                        @Override
-                        public void run() {
+                            @Override
+                            public void run() {
 //                            callStateTextView.setText(R.string.have_connected_with);
-                        }
-
-                    });
-                    break;
-
-                case ACCEPTED: // call is accepted
-                    surfaceState = 0;
-                    handler.removeCallbacks(timeoutHangup);
-                    runOnUiThread(new Runnable() {
-
-                        @Override
-                        public void run() {
-                            try {
-                                if (soundPool != null)
-                                    soundPool.stop(streamID);
-                                EMLog.d("EMCallManager", "soundPool stop ACCEPTED");
-                            } catch (Exception e) {
                             }
-                            openSpeakerOn();
-                            ((TextView)findViewById(R.id.tv_is_p2p)).setText(EMClient.getInstance().callManager().isDirectCall()
-                                    ? R.string.direct_call : R.string.relay_call);
-                            handsFreeImage.setImageResource(R.mipmap.em_icon_speaker_on);
-                            isHandsfreeState = true;
-                            isInCalling = true;
-                            chronometer.setVisibility(View.VISIBLE);
-                            chronometer.setBase(SystemClock.elapsedRealtime());
-                            // call durations start
-                            chronometer.start();
-                            nickTextView.setVisibility(View.INVISIBLE);
-                            callStateTextView.setText(R.string.In_the_call);
+
+                        });
+                        break;
+
+                    case ACCEPTED: // call is accepted
+                        surfaceState = 0;
+                        handler.removeCallbacks(timeoutHangup);
+                        runOnUiThread(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                try {
+                                    if (soundPool != null)
+                                        soundPool.stop(streamID);
+                                    EMLog.d("EMCallManager", "soundPool stop ACCEPTED");
+                                } catch (Exception e) {
+                                }
+                                openSpeakerOn();
+                                ((TextView)findViewById(R.id.tv_is_p2p)).setText(EMClient.getInstance().callManager().isDirectCall()
+                                        ? R.string.direct_call : R.string.relay_call);
+                                handsFreeImage.setImageResource(R.mipmap.em_icon_speaker_on);
+                                isHandsfreeState = true;
+                                isInCalling = true;
+                                chronometer.setVisibility(View.VISIBLE);
+                                chronometer.setBase(SystemClock.elapsedRealtime());
+                                // call durations start
+                                chronometer.start();
+                                nickTextView.setVisibility(View.INVISIBLE);
+                                callStateTextView.setText(R.string.In_the_call);
 //                            recordBtn.setVisibility(View.VISIBLE);
-                            callingState = CallingState.NORMAL;
-                            startMonitor();
-                            // Start to watch the phone call state.
-                            PhoneStateManager.get(VideoCallActivity.this).addStateCallback(phoneStateCallback);
-                            //启动定时器，监听剩余时间
-                            final Timer timer = new Timer();
-                            final TimerTask task = new TimerTask() {
-                                @Override
-                                public void run() {
-                                    if (mVedioTime <= 0)
-                                    {
-                                        //挂断电话
-                                        mHandler.sendEmptyMessage(1);
-                                        //结束计时器
-                                        timer.cancel();
+                                callingState = CallingState.NORMAL;
+                                startMonitor();
+                                // Start to watch the phone call state.
+                                PhoneStateManager.get(VideoCallActivity.this).addStateCallback(phoneStateCallback);
+                                //启动定时器，监听剩余时间
+                                final Timer timer = new Timer();
+                                final TimerTask task = new TimerTask() {
+                                    @Override
+                                    public void run() {
+                                        if (mVedioTime <= 0)
+                                        {
+                                            //挂断电话
+                                            mHandler.sendEmptyMessage(1);
+                                            //结束计时器
+                                            timer.cancel();
 
+                                        }
+                                        else
+                                            mVedioTime -= 1;
                                     }
-                                    else
-                                        mVedioTime -= 1;
-                                }
-                            };
-                            timer.schedule(task, 0, 1000);
-                        }
-
-                    });
-                    break;
-                case NETWORK_DISCONNECTED:
-                    runOnUiThread(new Runnable() {
-                        public void run() {
-                            netwrokStatusVeiw.setVisibility(View.VISIBLE);
-                            netwrokStatusVeiw.setText(R.string.network_unavailable);
-                        }
-                    });
-                    break;
-                case NETWORK_UNSTABLE:
-                    runOnUiThread(new Runnable() {
-                        public void run() {
-                            netwrokStatusVeiw.setVisibility(View.VISIBLE);
-                            if(error == CallError.ERROR_NO_DATA){
-                                netwrokStatusVeiw.setText("没有通话数据");
-                            }else{
-                                netwrokStatusVeiw.setText("网络不稳定");
+                                };
+                                timer.schedule(task, 0, 1000);
                             }
-                        }
-                    });
-                    break;
-                case NETWORK_NORMAL:
-                    runOnUiThread(new Runnable() {
-                        public void run() {
-                            netwrokStatusVeiw.setVisibility(View.INVISIBLE);
-                        }
-                    });
-                    break;
-                case VIDEO_PAUSE:
-                    runOnUiThread(new Runnable() {
-                        public void run() {
-                            Toast.makeText(getApplicationContext(), "VIDEO_PAUSE", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                    break;
-                case VIDEO_RESUME:
-                    runOnUiThread(new Runnable() {
-                        public void run() {
-                            Toast.makeText(getApplicationContext(), "VIDEO_RESUME", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                    break;
-                case VOICE_PAUSE:
-                    runOnUiThread(new Runnable() {
-                        public void run() {
-                            Toast.makeText(getApplicationContext(), "VOICE_PAUSE", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                    break;
-                case VOICE_RESUME:
-                    runOnUiThread(new Runnable() {
-                        public void run() {
-                            Toast.makeText(getApplicationContext(), "VOICE_RESUME", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                    break;
-                case DISCONNECTED: // call is disconnected
-                    handler.removeCallbacks(timeoutHangup);
-                    @SuppressWarnings("UnnecessaryLocalVariable")final CallError fError = error;
-                    runOnUiThread(new Runnable() {
-                        private void postDelayedCloseMsg() {
-                            uiHandler.postDelayed(new Runnable() {
 
-                                @Override
-                                public void run() {
-                                    removeCallStateListener();
-
-                                    // Stop to watch the phone call state.
-                                    PhoneStateManager.get(VideoCallActivity.this).removeStateCallback(phoneStateCallback);
-
-                                    saveCallRecord();
-                                    Animation animation = new AlphaAnimation(1.0f, 0.0f);
-                                    animation.setDuration(1200);
-                                    rootContainer.startAnimation(animation);
-                                    finish();
+                        });
+                        break;
+                    case NETWORK_DISCONNECTED:
+                        runOnUiThread(new Runnable() {
+                            public void run() {
+                                netwrokStatusVeiw.setVisibility(View.VISIBLE);
+                                netwrokStatusVeiw.setText(R.string.network_unavailable);
+                            }
+                        });
+                        break;
+                    case NETWORK_UNSTABLE:
+                        runOnUiThread(new Runnable() {
+                            public void run() {
+                                netwrokStatusVeiw.setVisibility(View.VISIBLE);
+                                if(error == CallError.ERROR_NO_DATA){
+                                    netwrokStatusVeiw.setText("没有通话数据");
+                                }else{
+                                    netwrokStatusVeiw.setText("网络不稳定");
                                 }
+                            }
+                        });
+                        break;
+                    case NETWORK_NORMAL:
+                        runOnUiThread(new Runnable() {
+                            public void run() {
+                                netwrokStatusVeiw.setVisibility(View.INVISIBLE);
+                            }
+                        });
+                        break;
+                    case VIDEO_PAUSE:
+                        runOnUiThread(new Runnable() {
+                            public void run() {
+                                Toast.makeText(getApplicationContext(), "VIDEO_PAUSE", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        break;
+                    case VIDEO_RESUME:
+                        runOnUiThread(new Runnable() {
+                            public void run() {
+                                Toast.makeText(getApplicationContext(), "VIDEO_RESUME", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        break;
+                    case VOICE_PAUSE:
+                        runOnUiThread(new Runnable() {
+                            public void run() {
+                                Toast.makeText(getApplicationContext(), "VOICE_PAUSE", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        break;
+                    case VOICE_RESUME:
+                        runOnUiThread(new Runnable() {
+                            public void run() {
+                                Toast.makeText(getApplicationContext(), "VOICE_RESUME", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        break;
+                    case DISCONNECTED: // call is disconnected
+                        handler.removeCallbacks(timeoutHangup);
+                        @SuppressWarnings("UnnecessaryLocalVariable")final CallError fError = error;
+                        runOnUiThread(new Runnable() {
+                            private void postDelayedCloseMsg() {
+                                uiHandler.postDelayed(new Runnable() {
 
-                            }, 200);
-                        }
+                                    @Override
+                                    public void run() {
+                                        removeCallStateListener();
 
-                        @Override
-                        public void run() {
-                            chronometer.stop();
-                            callDruationText = chronometer.getText().toString();
-                            String s1 = getResources().getString(R.string.The_other_party_refused_to_accept);
-                            String s2 = getResources().getString(R.string.Connection_failure);
-                            String s3 = getResources().getString(R.string.The_other_party_is_not_online);
-                            String s4 = getResources().getString(R.string.The_other_is_on_the_phone_please);
-                            String s5 = getResources().getString(R.string.The_other_party_did_not_answer);
+                                        // Stop to watch the phone call state.
+                                        PhoneStateManager.get(VideoCallActivity.this).removeStateCallback(phoneStateCallback);
 
-                            String s6 = getResources().getString(R.string.hang_up);
-                            String s7 = getResources().getString(R.string.The_other_is_hang_up);
-                            String s8 = getResources().getString(R.string.did_not_answer);
-                            String s9 = getResources().getString(R.string.Has_been_cancelled);
-                            String s10 = getResources().getString(R.string.Refused);
-                            String st12 = "service not enable";
-                            String st13 = "service arrearages";
-                            String st14 = "service forbidden";
-
-                            if (fError == CallError.REJECTED) {
-                                callingState = CallingState.BEREFUSED;
-                                callStateTextView.setText(s1);
-                            } else if (fError == CallError.ERROR_TRANSPORT) {
-                                callStateTextView.setText(s2);
-                            } else if (fError == CallError.ERROR_UNAVAILABLE) {
-                                callingState = CallingState.OFFLINE;
-                                callStateTextView.setText(s3);
-                            } else if (fError == CallError.ERROR_BUSY) {
-                                callingState = CallingState.BUSY;
-                                callStateTextView.setText(s4);
-                            } else if (fError == CallError.ERROR_NORESPONSE) {
-                                callingState = CallingState.NO_RESPONSE;
-                                callStateTextView.setText(s5);
-                            }else if (fError == CallError.ERROR_LOCAL_SDK_VERSION_OUTDATED || fError == CallError.ERROR_REMOTE_SDK_VERSION_OUTDATED){
-                                callingState = CallingState.VERSION_NOT_SAME;
-                                callStateTextView.setText("通话协议版本不一致");
-                            } else if(fError == CallError.ERROR_SERVICE_NOT_ENABLE) {
-                                callingState = CallingState.SERVICE_NOT_ENABLE;
-                                callStateTextView.setText(st12);
-                            } else if(fError == CallError.ERROR_SERVICE_ARREARAGES) {
-                                callingState = CallingState.SERVICE_ARREARAGES;
-                                callStateTextView.setText(st13);
-                            } else if(fError == CallError.ERROR_SERVICE_FORBIDDEN) {
-                                callingState = CallingState.SERVICE_NOT_ENABLE;
-                                callStateTextView.setText(st14);
-                            } else {
-                                if (isRefused) {
-                                    callingState = CallingState.REFUSED;
-                                    callStateTextView.setText(s10);
-                                }
-                                else if (isAnswered) {
-                                    callingState = CallingState.NORMAL;
-                                    if (endCallTriggerByMe) {
-//                                        callStateTextView.setText(s6);
-                                    } else {
-                                        callStateTextView.setText(s7);
+                                        saveCallRecord();
+                                        Animation animation = new AlphaAnimation(1.0f, 0.0f);
+                                        animation.setDuration(1200);
+                                        rootContainer.startAnimation(animation);
+                                        finish();
                                     }
+
+                                }, 200);
+                            }
+
+                            @Override
+                            public void run() {
+                                chronometer.stop();
+                                callDruationText = chronometer.getText().toString();
+                                String s1 = getResources().getString(R.string.The_other_party_refused_to_accept);
+                                String s2 = getResources().getString(R.string.Connection_failure);
+                                String s3 = getResources().getString(R.string.The_other_party_is_not_online);
+                                String s4 = getResources().getString(R.string.The_other_is_on_the_phone_please);
+                                String s5 = getResources().getString(R.string.The_other_party_did_not_answer);
+
+                                String s6 = getResources().getString(R.string.hang_up);
+                                String s7 = getResources().getString(R.string.The_other_is_hang_up);
+                                String s8 = getResources().getString(R.string.did_not_answer);
+                                String s9 = getResources().getString(R.string.Has_been_cancelled);
+                                String s10 = getResources().getString(R.string.Refused);
+                                String st12 = "service not enable";
+                                String st13 = "service arrearages";
+                                String st14 = "service forbidden";
+
+                                if (fError == CallError.REJECTED) {
+                                    callingState = CallingState.BEREFUSED;
+                                    callStateTextView.setText(s1);
+                                } else if (fError == CallError.ERROR_TRANSPORT) {
+                                    callStateTextView.setText(s2);
+                                } else if (fError == CallError.ERROR_UNAVAILABLE) {
+                                    callingState = CallingState.OFFLINE;
+                                    callStateTextView.setText(s3);
+                                } else if (fError == CallError.ERROR_BUSY) {
+                                    callingState = CallingState.BUSY;
+                                    callStateTextView.setText(s4);
+                                } else if (fError == CallError.ERROR_NORESPONSE) {
+                                    callingState = CallingState.NO_RESPONSE;
+                                    callStateTextView.setText(s5);
+                                }else if (fError == CallError.ERROR_LOCAL_SDK_VERSION_OUTDATED || fError == CallError.ERROR_REMOTE_SDK_VERSION_OUTDATED){
+                                    callingState = CallingState.VERSION_NOT_SAME;
+                                    callStateTextView.setText("通话协议版本不一致");
+                                } else if(fError == CallError.ERROR_SERVICE_NOT_ENABLE) {
+                                    callingState = CallingState.SERVICE_NOT_ENABLE;
+                                    callStateTextView.setText(st12);
+                                } else if(fError == CallError.ERROR_SERVICE_ARREARAGES) {
+                                    callingState = CallingState.SERVICE_ARREARAGES;
+                                    callStateTextView.setText(st13);
+                                } else if(fError == CallError.ERROR_SERVICE_FORBIDDEN) {
+                                    callingState = CallingState.SERVICE_NOT_ENABLE;
+                                    callStateTextView.setText(st14);
                                 } else {
-                                    if (isInComingCall) {
-                                        callingState = CallingState.UNANSWERED;
-                                        callStateTextView.setText(s8);
-                                    } else {
-                                        if (callingState != CallingState.NORMAL) {
-                                            callingState = CallingState.CANCELLED;
-                                            callStateTextView.setText(s9);
+                                    if (isRefused) {
+                                        callingState = CallingState.REFUSED;
+                                        callStateTextView.setText(s10);
+                                    }
+                                    else if (isAnswered) {
+                                        callingState = CallingState.NORMAL;
+                                        if (endCallTriggerByMe) {
+//                                        callStateTextView.setText(s6);
                                         } else {
-                                            callStateTextView.setText(s6);
+                                            callStateTextView.setText(s7);
+                                        }
+                                    } else {
+                                        if (isInComingCall) {
+                                            callingState = CallingState.UNANSWERED;
+                                            callStateTextView.setText(s8);
+                                        } else {
+                                            if (callingState != CallingState.NORMAL) {
+                                                callingState = CallingState.CANCELLED;
+                                                callStateTextView.setText(s9);
+                                            } else {
+                                                callStateTextView.setText(s6);
+                                            }
                                         }
                                     }
                                 }
+                                Toast.makeText(VideoCallActivity.this, callStateTextView.getText(), Toast.LENGTH_SHORT).show();
+                                postDelayedCloseMsg();
                             }
-                            Toast.makeText(VideoCallActivity.this, callStateTextView.getText(), Toast.LENGTH_SHORT).show();
-                            postDelayedCloseMsg();
-                        }
 
-                    });
+                        });
 
-                    break;
+                        break;
 
-                default:
-                    break;
+                    default:
+                        break;
                 }
 
             }
@@ -648,7 +635,7 @@ public class VideoCallActivity extends CallActivity implements OnClickListener {
         localSurface.getRenderer().dispose();
         localSurface = null;
         oppositeSurface.getRenderer().dispose();
-		oppositeSurface = null;
+        oppositeSurface = null;
         super.onDestroy();
     }
 
@@ -677,16 +664,16 @@ public class VideoCallActivity extends CallActivity implements OnClickListener {
                 while(monitor){
                     runOnUiThread(new Runnable() {
                         public void run() {
-                            monitorTextView.setText("WidthxHeight："+callHelper.getVideoWidth()+"x"+callHelper.getVideoHeight()
-                                    + "\nDelay：" + callHelper.getVideoLatency()
-                                    + "\nFramerate：" + callHelper.getVideoFrameRate()
-                                    + "\nLost：" + callHelper.getVideoLostRate()
-                                    + "\nLocalBitrate：" + callHelper.getLocalBitrate()
-                                    + "\nRemoteBitrate：" + callHelper.getRemoteBitrate()
-                                    + "\n" + recordString);
-
-                            ((TextView)findViewById(R.id.tv_is_p2p)).setText(EMClient.getInstance().callManager().isDirectCall()
-                                    ? R.string.direct_call : R.string.relay_call);
+//                            monitorTextView.setText("WidthxHeight："+callHelper.getVideoWidth()+"x"+callHelper.getVideoHeight()
+//                                    + "\nDelay：" + callHelper.getVideoLatency()
+//                                    + "\nFramerate：" + callHelper.getVideoFrameRate()
+//                                    + "\nLost：" + callHelper.getVideoLostRate()
+//                                    + "\nLocalBitrate：" + callHelper.getLocalBitrate()
+//                                    + "\nRemoteBitrate：" + callHelper.getRemoteBitrate()
+//                                    + "\n" + recordString);
+//
+//                            ((TextView)findViewById(R.id.tv_is_p2p)).setText(EMClient.getInstance().callManager().isDirectCall()
+//                                    ? R.string.direct_call : R.string.relay_call);
                         }
                     });
                     try {
