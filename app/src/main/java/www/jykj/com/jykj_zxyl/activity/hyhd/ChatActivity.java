@@ -90,6 +90,7 @@ public class ChatActivity extends AppCompatActivity {
 
         //患者
         String patientAlias = getIntent().getStringExtra("patientAlias");
+        Log.e("TAG", "onCreate: 患者姓名"+patientAlias );
         String patientCode = getIntent().getStringExtra("patientCode");
         String patientAge = getIntent().getStringExtra("patientAge");
         Log.e("tag", "onCreate: 患者"+patientAge );
