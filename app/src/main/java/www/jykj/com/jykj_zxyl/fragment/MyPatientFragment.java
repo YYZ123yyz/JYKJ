@@ -104,8 +104,7 @@ public class MyPatientFragment extends Fragment {
         getNumber();
         mHZEntyties.clear();
         getData(mSearchStateType);
-        mHZGLRecycleAdapter.notifyDataSetChanged();
-
+        //     mHZGLRecycleAdapter.notifyDataSetChanged();
     }
 
     private void getNumber() {
@@ -179,6 +178,7 @@ public class MyPatientFragment extends Fragment {
         mHZGLRecycleAdapter.setOnYYItemClickListener(new MyPatientRecyclerAdapter.OnYYItemClickListener() {
             @Override
             public void onClick(int position) {
+                Log.e("TAG", "点击"+mHZEntyties.get(position).getSignStatus() );
                 if (TextUtils.isEmpty(mHZEntyties.get(position).getSignStatus())) {
                     Toast.makeText(mContext, "暂无订单", Toast.LENGTH_SHORT).show();
                 } else if (mHZEntyties.get(position).getSignStatus().equals("140")) {
@@ -216,15 +216,21 @@ public class MyPatientFragment extends Fragment {
         mHZGLRecycleAdapter.setOnTXHZItemClickListener(new MyPatientRecyclerAdapter.OnTXHZItemClickListener() {
             @Override
             public void onClick(int position) {
+                if(TextUtils.isEmpty(mHZEntyties.get(position).getSignStatus())){
+                    Intent intent = new Intent();
+                    intent.setClass(mContext, HZGLTXHZActivity.class);
+                    intent.putExtra("patientLable", mHZEntyties.get(position));
+                    startActivity(intent);
+                    return;
+                }
                 if (mHZEntyties.get(position).getSignStatus().equals("140")) {
-                    Log.e("TAG", "onClick: " + "拒绝解约" + mHZEntyties.get(position).getSignStatus());
                     Intent intent = new Intent();
                     intent.setClass(mContext, RefuseActivity.class);
                     intent.putExtra("patientLable", mHZEntyties.get(position));
                     startActivity(intent);
-                } else if (mHZEntyties.get(position).getSignStatus().equals("160")) {
-                    Log.e("TAG", "onClick: " + "撤销解约" + mHZEntyties.get(position).getSignStatus());
+                } else if (mHZEntyties.get(position).getSignStatus().equals("150")) {
                     Revoke(position);
+                    Log.e("TAG", "撤销: "+"走了" );
                 } else {
                     Intent intent = new Intent();
                     intent.setClass(mContext, HZGLTXHZActivity.class);
@@ -265,6 +271,7 @@ public class MyPatientFragment extends Fragment {
         map.put("mainDoctorName", mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
         map.put("signCode", mHZEntyties.get(position).getSignCode());
         map.put("signNo", mHZEntyties.get(position).getSignNo());
+        map.put("confimresult","1");
         map.put("mainPatientCode", mHZEntyties.get(position).getPatientCode());
         map.put("mainUserName", mHZEntyties.get(position).getUserName());
         new Thread() {
@@ -295,7 +302,7 @@ public class MyPatientFragment extends Fragment {
                             );
                         }
                         Bundle bundle = new Bundle();
-                        bundle.putSerializable("orderMsg", new OrderMessage(mApp.mViewSysUserDoctorInfoAndHospital.getUserName(), mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl(), mHZEntyties.get(position).getSignCode(), mHZEntyties.get(position).getSignOtherServiceCode() + "项", mHZEntyties.get(position).getDetectRate() + "天/" + mHZEntyties.get(position).getDetectRateUnitCode() + mHZEntyties.get(position).getDetectRateUnitName(), mHZEntyties.get(position).getSignDuration() + mHZEntyties.get(position).getSignDurationUnit(), mHZEntyties.get(position).getSignPrice() + "", mHZEntyties.get(position).getSignNo(), "1", "terminationOrder", mHZEntyties.get(position).getPatientCode()));
+                        bundle.putSerializable("orderMsg", new OrderMessage(mApp.mViewSysUserDoctorInfoAndHospital.getUserName(), mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl(), mHZEntyties.get(position).getSignCode(), getMonitorTypeSize(mHZEntyties.get(position).getSignOtherServiceCode()) + "项", mHZEntyties.get(position).getDetectRate() + "天/" + mHZEntyties.get(position).getDetectRateUnitCode() + mHZEntyties.get(position).getDetectRateUnitName(), mHZEntyties.get(position).getSignDuration() +"个"+ mHZEntyties.get(position).getSignDurationUnit(), mHZEntyties.get(position).getSignPrice() + "", mHZEntyties.get(position).getSignNo(), "1", "terminationOrder", mHZEntyties.get(position).getPatientCode()));
                         //   EventBus.getDefault().post(bundle);
                         intent.putExtras(bundle);
                         startActivity(intent);
@@ -334,9 +341,11 @@ public class MyPatientFragment extends Fragment {
                     mNetRetStr = com.hyphenate.easeui.netService.HttpNetService.urlConnectionService("jsonDataInfo=" + new Gson().toJson(map), com.hyphenate.easeui.hyhd.model.Constant.SERVICEURL + "doctorSignControlle/operTerminationRevoke");
                     Log.e("tag", "撤销解约" + mNetRetStr);
                     netRetEntity = new Gson().fromJson(mNetRetStr, NetRetEntity.class);
-                    if (mNetRetStr != null) {
+            //        if (mNetRetStr != null) {
                         if (netRetEntity.getResCode() == 1) {
-                            Toast.makeText(mContext, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
+
+                          //  Toast.makeText(mContext, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
+                            Log.e("TAG", "撤銷成功 " );
                             Intent intent = new Intent(getContext(), ChatActivity.class);
                             //患者
                             intent.putExtra("userCode", mHZEntyties.get(position).getPatientCode());
@@ -349,25 +358,24 @@ public class MyPatientFragment extends Fragment {
                             //intent.putExtra("patientAlias", mHZEntyties.get(position).getan);
                             intent.putExtra("patientCode", mHZEntyties.get(position).getPatientCode());
                             intent.putExtra("patientSex", mHZEntyties.get(position).getGender());
-                            if (mHZEntyties.get(position).getBirthday() == 0) {
-                                Toast.makeText(mContext, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
-                            } else {
-                                intent.putExtra("patientAge", DateUtils.getDateToString(mHZEntyties.get(position).getBirthday())
-                                );
-                            }
+//                            if (mHZEntyties.get(position).getBirthday() == 0) {
+//                                Toast.makeText(mContext, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
+//                            } else {
+//                                intent.putExtra("patientAge", DateUtils.getDateToString(mHZEntyties.get(position).getBirthday())
+//                                );
+//                            }
                             Bundle bundle = new Bundle();
-                            bundle.putSerializable("orderMsg", new OrderMessage(mApp.mViewSysUserDoctorInfoAndHospital.getUserName(), mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl(), mHZEntyties.get(position).getSignCode(), mHZEntyties.get(position).getDetectRate() + "项", mHZEntyties.get(position).getDetectRate() + "天/" + mHZEntyties.get(position).getDetectRateUnitCode() + mHZEntyties.get(position).getDetectRateUnitName(), mHZEntyties.get(position).getSignDuration() + mHZEntyties.get(position).getSignDurationUnit(), mHZEntyties.get(position).getSignPrice() + "", mHZEntyties.get(position).getSignNo(), "3", "terminationOrder", mHZEntyties.get(position).getPatientCode()));
-                            //   EventBus.getDefault().post(bundle);
+                            bundle.putSerializable("orderMsg", new OrderMessage(mApp.mViewSysUserDoctorInfoAndHospital.getUserName(), mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl(), mHZEntyties.get(position).getSignCode(), getMonitorTypeSize(mHZEntyties.get(position).getSignOtherServiceCode()) + "项", "1次/" + mHZEntyties.get(position).getDetectRateUnitCode() + mHZEntyties.get(position).getDetectRateUnitName(), mHZEntyties.get(position).getSignDuration() +"个"+ mHZEntyties.get(position).getSignDurationUnit(), mHZEntyties.get(position).getSignPrice() + "", mHZEntyties.get(position).getSignNo(), "3", "terminationOrder", mHZEntyties.get(position).getPatientCode()));
                             intent.putExtras(bundle);
                             startActivity(intent);
-                            Toast.makeText(mContext, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
+                            mHZGLRecycleAdapter.notifyDataSetChanged();
                         } else {
-                            Toast.makeText(mContext, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
+                          //  Toast.makeText(mContext, ""+netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
                         }
-                    }
+                 //   }
 
                 } catch (Exception e) {
-                    NetRetEntity retEntity = new NetRetEntity();
+                    com.hyphenate.easeui.netService.entity.NetRetEntity retEntity = new com.hyphenate.easeui.netService.entity.NetRetEntity();
                     retEntity.setResCode(0);
                     retEntity.setResMsg("网络连接异常，请联系管理员：" + e.getMessage());
                     mNetRetStr = new Gson().toJson(retEntity);
@@ -606,4 +614,18 @@ public class MyPatientFragment extends Fragment {
         dialog.setView(dialogView);
         dialog.show();
     }
+
+    /**
+     * 获取监测类型项目数量
+     * @param monitorType 监测类型
+     * @return size
+     */
+    private int getMonitorTypeSize(String monitorType){
+        if (!TextUtils.isEmpty(monitorType)) {
+                String[] split = monitorType.split(",");
+            return split.length;
+        }
+        return 0;
+    }
+
 }

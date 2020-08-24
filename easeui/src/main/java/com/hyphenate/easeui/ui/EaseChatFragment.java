@@ -201,6 +201,7 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
     private String patientAge;
     private String patientSex;
     private OrderMessage orderMessage;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.ease_fragment_chat, container, false);
@@ -227,16 +228,16 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
         operDoctorCode = fragmentArgs.getString("operDoctorCode", "");
         operDoctorName = fragmentArgs.getString("operDoctorName", "");
         orderCode = fragmentArgs.getString("orderCode", "");
-        orderMessage =(OrderMessage) fragmentArgs.getSerializable("orderMessage");
+        orderMessage = (OrderMessage) fragmentArgs.getSerializable("orderMessage");
 
-        Constant.doctorUrl=fragmentArgs.getString("userUrl");
-        Constant.patientUrl=fragmentArgs.getString("doctorUrl");
+        Constant.doctorUrl = fragmentArgs.getString("userUrl");
+        Constant.patientUrl = fragmentArgs.getString("doctorUrl");
 
         patientAlias = fragmentArgs.getString("patientAlias");
         patientCode = fragmentArgs.getString("patientCode");
 
         patientAge = fragmentArgs.getString("patientAge");
-        Log.e(TAG, "onActivityCreated:   patientAge "+patientAge );
+        Log.e(TAG, "onActivityCreated:   patientAge " + patientAge);
         patientSex = fragmentArgs.getString("patientSex");
 
         // userId you are chat with or group id
@@ -267,7 +268,7 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
             itemIds = new int[]{ITEM_VIDEO};
         }
         this.turnOnTyping = turnOnTyping();
-        if(orderMessage!=null){
+        if (orderMessage != null) {
             sendOrderCardMsg(orderMessage);
         }
         super.onActivityCreated(savedInstanceState);
@@ -468,7 +469,6 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
             forwardMessage(forward_msg_id);
         }
     }
-
 
 
     /**
@@ -1034,7 +1034,9 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
                         }
                     }
                     startActivity(new Intent(getActivity(), VideoCallActivity.class).putExtra("username", toChatUsername)
-                            .putExtra("isComingCall", false).putExtra(EaseConstant.EXTRA_VEDIO_NUM, mVedioTime));
+                            .putExtra("isComingCall", false).putExtra(EaseConstant.EXTRA_VEDIO_NUM, mVedioTime)
+                            .putExtra("nickName", toChatUsernameName)
+                    );
                     break;
                 case ITEM_CALL:
                     /**
@@ -1042,7 +1044,6 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
                      * @param to
                      * @throws EMServiceNotReadyException
                      */
-
                     startActivity(new Intent(getActivity(), VoiceCallActivity.class).putExtra("username", toChatUsername)
                             .putExtra("isComingCall", false)
                             .putExtra("nickName", toChatUsernameName)
@@ -1050,7 +1051,6 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
                     break;
 
                 case ITEM_WJ:
-                    Log.e(TAG, "onClick: 患者年龄"+patientAge );
                     startActivity(new Intent(getActivity(), SigningDetailsActivity.class)
                             .putExtra("patientAlias", patientAlias)
                             .putExtra("patientCode", patientCode)
@@ -1060,13 +1060,6 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
                             .putExtra("singCode", "")
                             .putExtra("doctorUrl", Constant.doctorUrl)
                     );
-
-                  //   showCard();
-//                    //调用系统文件管理器打开指定路径目录
-//                    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-//                    intent.addCategory(Intent.CATEGORY_OPENABLE);
-//                    intent.setType("*/*");
-//                    startActivityForResult(intent, REQUEST_CODE_FILE);
                     break;
                 default:
                     break;
@@ -1077,14 +1070,14 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
 
     private void showCard() {
         //发送扩展消息
-        EMMessage message = EMMessage.createTxtSendMessage("[签约订单]",toChatUsername);
+        EMMessage message = EMMessage.createTxtSendMessage("[签约订单]", toChatUsername);
         //增加自己的属性
-        message.setAttribute("messageType","card");
+        message.setAttribute("messageType", "card");
 
         //设置群聊和聊天室发送消息
-        if (chatType == EaseConstant.CHATTYPE_GROUP){
+        if (chatType == EaseConstant.CHATTYPE_GROUP) {
             message.setChatType(ChatType.GroupChat);
-        }else if (chatType == EaseConstant.CHATTYPE_CHATROOM){
+        } else if (chatType == EaseConstant.CHATTYPE_CHATROOM) {
             message.setChatType(ChatType.ChatRoom);
         }
         //发送扩展消息
@@ -1220,7 +1213,7 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
         message.setAttribute("imageUrl", userUrl);
         // Send message.
         EMClient.getInstance().chatManager().sendMessage(message);
-        Log.e(TAG, "sendMessage:..... "+message.ext().toString() );
+        Log.e(TAG, "sendMessage:..... " + message.ext().toString());
         //refresh ui
         if (isMessageListInited) {
             messageList.refreshSelectLast();
@@ -1740,34 +1733,35 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
 
     /**
      * 发送订单
+     *
      * @param msg 消息
      */
-    private void sendOrderCardMsg( OrderMessage msg) {
+    private void sendOrderCardMsg(OrderMessage msg) {
         //发送扩展消息
-        EMMessage message = EMMessage.createTxtSendMessage("[签约订单]",toChatUsername);
+        EMMessage message = EMMessage.createTxtSendMessage("[签约订单]", toChatUsername);
         //增加自己的属性
-        message.setAttribute("nickName",msg.getNickName());
-        message.setAttribute("imageUrl",msg.getImageUrl());
-        message.setAttribute("messageType",msg.getMessageType());
-        message.setAttribute("orderId",msg.getOrderId());
-        message.setAttribute("coach",msg.getCoach());
-        message.setAttribute("signUpTime",msg.getSignUpTime());
-        message.setAttribute("price",msg.getPrice());
-        message.setAttribute("monitoringType",msg.getMonitoringType());
-        message.setAttribute("orderType",msg.getOrderType());
-        message.setAttribute("patientCode",msg.getPatientCode());
-        Log.e(TAG, "sendOrderCardMsg: "+ msg.getPatientCode());
-        message.setAttribute("singNo",msg.getSingNo());
+        message.setAttribute("nickName", msg.getNickName());
+        message.setAttribute("imageUrl", msg.getImageUrl());
+        message.setAttribute("messageType", msg.getMessageType());
+        message.setAttribute("orderId", msg.getOrderId());
+        message.setAttribute("coach", msg.getCoach());
+        message.setAttribute("signUpTime", msg.getSignUpTime());
+        message.setAttribute("price", msg.getPrice());
+        message.setAttribute("monitoringType", msg.getMonitoringType());
+        message.setAttribute("orderType", msg.getOrderType());
+        message.setAttribute("patientCode", msg.getPatientCode());
+        Log.e(TAG, "sendOrderCardMsg: " + msg.getPatientCode());
+        message.setAttribute("singNo", msg.getSingNo());
 
         //设置群聊和聊天室发送消息
-        if (chatType == EaseConstant.CHATTYPE_GROUP){
+        if (chatType == EaseConstant.CHATTYPE_GROUP) {
             message.setChatType(ChatType.GroupChat);
-        }else if (chatType == EaseConstant.CHATTYPE_CHATROOM){
+        } else if (chatType == EaseConstant.CHATTYPE_CHATROOM) {
             message.setChatType(ChatType.ChatRoom);
         }
         //发送扩展消息
         EMClient.getInstance().chatManager().sendMessage(message);
-        if (messageList!=null) {
+        if (messageList != null) {
             messageList.refresh();//刷新消息数据
             //TODO 第二步 修改easeUi的 EaseMessageAdapter
         }

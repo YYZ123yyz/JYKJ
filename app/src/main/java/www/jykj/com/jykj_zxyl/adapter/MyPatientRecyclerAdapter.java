@@ -65,7 +65,7 @@ public class MyPatientRecyclerAdapter extends RecyclerView.Adapter<MyPatientRecy
                 viewHolder.agree_image.setImageResource(R.mipmap.agree);
                 viewHolder.noagree_tv.setText("拒绝解约");
                 viewHolder.noagree_image.setImageResource(R.mipmap.disagree);
-            }  else if (signStatus.equals("160")) {
+            }  else if (signStatus.equals("150")) {
                 viewHolder.mXY.setVisibility(View.INVISIBLE);
                 viewHolder.mYY.setVisibility(View.INVISIBLE);
                 viewHolder.noagree_tv.setText("撤销解约");

@@ -32,6 +32,7 @@ import com.tbruyelle.rxpermissions.RxPermissions;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import entity.basicDate.ProvideBasicsDomain;
@@ -53,6 +54,8 @@ import www.jykj.com.jykj_zxyl.activity.hyhd.BindDoctorFriend;
 import www.jykj.com.jykj_zxyl.activity.myself.UserAuthenticationActivity;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.custom.MoreFeaturesPopupWindow;
+import www.jykj.com.jykj_zxyl.util.GsonUtils;
+import www.jykj.com.jykj_zxyl.util.StringUtils;
 import yyz_exploit.Utils.MyImageView;
 import yyz_exploit.activity.activity.Home_DetailsActivity;
 import yyz_exploit.activity.activity.Home_FeaturedActivity;
@@ -71,7 +74,7 @@ import static android.app.Activity.RESULT_OK;
 public class FragmentShouYe extends Fragment implements View.OnClickListener {
     private Context mContext;
     private MainActivity mActivity;
-    private String mNetRetStr;                 //返回字符串
+    //private String mNetRetStr;                 //返回字符串
     private Handler mHandler;
     private JYKJApplication mApp;
     private LinearLayout mQrCode;
@@ -139,6 +142,11 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
             @Override
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
+                String mNetRetStr="";
+                Bundle data = msg.getData();
+                if (data!=null) {
+                    mNetRetStr = data.getString("result");
+                }
                 switch (msg.what) {
                     case 0:
                         cacerProgress();
@@ -206,8 +214,9 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
                         break;
                     case 2:
                         netRetEntity = JSON.parseObject(mNetRetStr, NetRetEntity.class);
-                        if(netRetEntity.getResCode()==1){
-                            ProvideMsgPushReminderCount   mProvideMsgPushReminderCount = JSON.parseObject(netRetEntity.getResJsonData(), ProvideMsgPushReminderCount.class);
+                        if(netRetEntity.getResCode()==1&& StringUtils.isNotEmpty(netRetEntity.getResJsonData())){
+                            ProvideMsgPushReminderCount   mProvideMsgPushReminderCount =
+                                    JSON.parseObject(netRetEntity.getResJsonData(), ProvideMsgPushReminderCount.class);
                             if(mProvideMsgPushReminderCount.getMsgTypeCountSum()==0){
                                 mNewMessageLayout.setVisibility(View.GONE);
                             }
@@ -242,7 +251,9 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
         //开始识别
         new Thread() {
             public void run() {
+                String mNetRetStr;
                 try {
+
                     ProvideBasicsDomain provideBasicsDomain = new ProvideBasicsDomain();
                     provideBasicsDomain.setBaseCode(30001);
 
@@ -256,7 +267,12 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
                         retEntity.setResCode(0);
                         //   retEntity.setResMsg("获取失败：" + netRetEntity.getResMsg());
                         mNetRetStr = new Gson().toJson(retEntity);
-                        mHandler.sendEmptyMessage(10);
+                        Message message=new Message();
+                        message.what=10;
+                        Bundle bundle=new Bundle();
+                        bundle.putString("result",mNetRetStr);
+                        message.setData(bundle);
+                        mHandler.sendMessage(message);
                         return;
                     }
 
@@ -265,11 +281,20 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
                     retEntity.setResCode(0);
                     retEntity.setResMsg("网络连接异常，请联系管理员：" + e.getMessage());
                     mNetRetStr = new Gson().toJson(retEntity);
-                    mHandler.sendEmptyMessage(10);
+                    Message message=new Message();
+                    message.what=10;
+                    Bundle bundle=new Bundle();
+                    bundle.putString("result",mNetRetStr);
+                    message.setData(bundle);
+                    mHandler.sendMessage(message);
                     return;
                 }
-
-                mHandler.sendEmptyMessage(10);
+                Message message=new Message();
+                message.what=10;
+                Bundle bundle=new Bundle();
+                bundle.putString("result",mNetRetStr);
+                message.setData(bundle);
+                mHandler.sendMessage(message);
             }
         }.start();
     }
@@ -288,14 +313,16 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
      * 获取未读消息数量
      */
     private void getMessageCount() {
-        ProvideMsgPushReminderCount provideMsgPushReminderCount = new ProvideMsgPushReminderCount();
+
         if(mApp.mViewSysUserDoctorInfoAndHospital!=null){
-            provideMsgPushReminderCount.setLoginDoctorPosition(mApp.loginDoctorPosition);
-            provideMsgPushReminderCount.setSearchDoctorCode(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
+            HashMap<String ,String> hashMap=new HashMap<>();
+            hashMap.put("loginDoctorPosition",mApp.loginDoctorPosition);
+            hashMap.put("searchDoctorCode",mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
             new Thread() {
                 public void run() {
+                    String mNetRetStr;
                     try {
-                        String string = new Gson().toJson(provideMsgPushReminderCount);
+                        String string = new Gson().toJson(hashMap);
                         mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + string, www.jykj.com.jykj_zxyl.application.Constant.SERVICEURL + "msgDataControlle/searchMsgPushReminderAllCount");
                     } catch (Exception e) {
                         NetRetEntity retEntity = new NetRetEntity();
@@ -304,7 +331,12 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
                         mNetRetStr = new Gson().toJson(retEntity);
                         e.printStackTrace();
                     }
-                    mHandler.sendEmptyMessage(2);
+                    Message message=new Message();
+                    Bundle bundle=new Bundle();
+                    bundle.putString("result",mNetRetStr);
+                    message.setData(bundle);
+                    message.what=2;
+                    mHandler.sendMessage(message);
                 }
             }.start();
         }
@@ -754,6 +786,7 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
 
         new Thread() {
             public void run() {
+                String mNetRetStr="";
                 try {
                     String string = new Gson().toJson(operScanQrCodeInside);
                     mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + string, www.jykj.com.jykj_zxyl.application.Constant.SERVICEURL + "doctorDataControlle/operScanQrCodeInside");
@@ -765,7 +798,11 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
                     mNetRetStr = new Gson().toJson(retEntity);
                     e.printStackTrace();
                 }
-                mHandler.sendEmptyMessage(0);
+                Message message=new Message();
+                message.what=0;
+                Bundle bundle=new Bundle();
+                bundle.putString("result",mNetRetStr);
+                mHandler.sendMessage(message);
             }
         }.start();
     }
@@ -784,6 +821,7 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
 
         new Thread() {
             public void run() {
+                String mNetRetStr="";
                 try {
                     String string = new Gson().toJson(bindDoctorFriend);
                     mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + string, www.jykj.com.jykj_zxyl.application.Constant.SERVICEURL + "/" + url);
@@ -795,7 +833,12 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
                     mNetRetStr = new Gson().toJson(retEntity);
                     e.printStackTrace();
                 }
-                mHandler.sendEmptyMessage(1);
+                Message message=new Message();
+                message.what=1;
+                Bundle bundle=new Bundle();
+                bundle.putString("result",mNetRetStr);
+                message.setData(bundle);
+                mHandler.sendMessage(message);
             }
         }.start();
     }
@@ -817,6 +860,7 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
 
         new Thread() {
             public void run() {
+                String mNetRetStr="";
                 try {
                     String string = new Gson().toJson(bindDoctorFriend);
                     mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + string, www.jykj.com.jykj_zxyl.application.Constant.SERVICEURL + "/" + url);
@@ -828,7 +872,12 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
                     mNetRetStr = new Gson().toJson(retEntity);
                     e.printStackTrace();
                 }
-                mHandler.sendEmptyMessage(3);
+                Message message=new Message();
+                message.what=3;
+                Bundle bundle=new Bundle();
+                bundle.putString("result",mNetRetStr);
+                message.setData(bundle);
+                mHandler.sendMessage(message);
             }
         }.start();
     }

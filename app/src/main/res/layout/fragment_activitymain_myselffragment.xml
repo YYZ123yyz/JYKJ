@@ -1,246 +1,265 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:orientation="vertical"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@color/pBackColor"
-    android:layout_height="match_parent">
+    android:orientation="vertical">
 
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="match_parent">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginBottom="60dp"
             android:orientation="vertical">
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="120dp"
                 android:background="@mipmap/usercenter_pbackgroud">
+
                 <www.jykj.com.jykj_zxyl.util.CircleImageView
+                    android:id="@+id/iv_fragmentMyself_userHeadImage"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
+                    android:layout_centerHorizontal="true"
                     android:layout_marginTop="10dp"
-                    android:src="@mipmap/doctor_head"
-                    android:id="@+id/iv_fragmentMyself_userHeadImage"
-                    android:layout_centerHorizontal="true"/>
+                    android:src="@mipmap/doctor_head" />
+
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_below="@id/iv_fragmentMyself_userHeadImage"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="10dp"
-                    android:layout_below="@id/iv_fragmentMyself_userHeadImage"
                     android:orientation="horizontal">
+
                     <TextView
+                        android:id="@+id/tv_fragmentMySelf_nameText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text=""
-                        android:gravity="end"
-                        android:textSize="10pt" android:id="@+id/tv_fragmentMySelf_nameText"
                         android:layout_marginRight="10dp"
-                        android:textColor="@color/writeColor"/>
+                        android:gravity="end"
+                        android:text=""
+                        android:textColor="@color/writeColor"
+                        android:textSize="10pt" />
+
                     <ImageView
+                        android:id="@+id/iv_fragmentMyself_userAuthentication"
                         android:layout_width="60dp"
                         android:layout_height="30dp"
-                        android:id="@+id/iv_fragmentMyself_userAuthentication"
-                        android:src="@mipmap/fragmentmyself_yrz"
-                     />
+                        android:src="@mipmap/fragmentmyself_yrz" />
                 </LinearLayout>
             </RelativeLayout>
+
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@color/writeColor"
                 android:id="@+id/li_fragmentMySelf_MyAccount"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
                 android:layout_marginTop="15dp"
+                android:background="@color/writeColor"
                 android:orientation="horizontal">
 
                 <ImageView
                     android:layout_width="22dp"
                     android:layout_height="22dp"
-                    android:src="@mipmap/fragmentmyself_wdzh"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="15dp"/>
+                    android:layout_marginLeft="15dp"
+                    android:src="@mipmap/fragmentmyself_wdzh" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
                     android:text="我的账户"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
-                    android:layout_marginLeft="10dp"
-                    android:textSize="8pt"
-                    android:textColor="@color/textColor_vo"/>
+                    android:textColor="@color/textColor_vo"
+                    android:textSize="8pt" />
+
                 <ImageView
                     android:layout_width="12dp"
                     android:layout_height="18dp"
-                    android:layout_marginRight="15dp"
-                    android:src="@mipmap/fragmentmyself_jt_r"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="10dp"/>
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="15dp"
+                    android:src="@mipmap/fragmentmyself_jt_r" />
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@color/writeColor"
-                android:layout_marginTop="1dp"
                 android:id="@+id/li_fragmentMySelf_PB"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="1dp"
+                android:background="@color/writeColor"
                 android:orientation="horizontal">
 
                 <ImageView
                     android:layout_width="22dp"
                     android:layout_height="22dp"
-                    android:src="@mipmap/fragmentmyself_wdpb"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="15dp"/>
+                    android:layout_marginLeft="15dp"
+                    android:src="@mipmap/fragmentmyself_wdpb" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
                     android:text="我的排班"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
-                    android:layout_marginLeft="10dp"
-                    android:textSize="8pt"
-                    android:textColor="@color/textColor_vo"/>
+                    android:textColor="@color/textColor_vo"
+                    android:textSize="8pt" />
+
                 <ImageView
                     android:layout_width="12dp"
                     android:layout_height="18dp"
-                    android:layout_marginRight="15dp"
-                    android:src="@mipmap/fragmentmyself_jt_r"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="10dp"/>
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="15dp"
+                    android:src="@mipmap/fragmentmyself_jt_r" />
             </LinearLayout>
+
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@color/writeColor"
-                android:layout_marginTop="1dp"
                 android:id="@+id/li_fragmentMySelf_servicePermission"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="1dp"
+                android:background="@color/writeColor"
                 android:orientation="horizontal">
 
                 <ImageView
                     android:layout_width="22dp"
                     android:layout_height="22dp"
-                    android:src="@mipmap/fragmentmyself_fwqxkt"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="15dp"/>
+                    android:layout_marginLeft="15dp"
+                    android:src="@mipmap/fragmentmyself_fwqxkt" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
                     android:text="服务权限开通"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
-                    android:layout_marginLeft="10dp"
-                    android:textSize="8pt"
-                    android:textColor="@color/textColor_vo"/>
+                    android:textColor="@color/textColor_vo"
+                    android:textSize="8pt" />
+
                 <ImageView
                     android:layout_width="12dp"
                     android:layout_height="18dp"
-                    android:layout_marginRight="15dp"
-                    android:src="@mipmap/fragmentmyself_jt_r"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="10dp"/>
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="15dp"
+                    android:src="@mipmap/fragmentmyself_jt_r" />
             </LinearLayout>
 
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@color/writeColor"
-                android:layout_marginTop="1dp"
                 android:id="@+id/lin_Notice"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="1dp"
+                android:background="@color/writeColor"
                 android:orientation="horizontal">
 
                 <ImageView
                     android:layout_width="22dp"
                     android:layout_height="22dp"
-                    android:src="@mipmap/my_notice"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="15dp"/>
+                    android:layout_marginLeft="15dp"
+                    android:src="@mipmap/my_notice" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
                     android:text="直播预告"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
-                    android:layout_marginLeft="10dp"
-                    android:textSize="8pt"
-                    android:textColor="@color/textColor_vo"/>
+                    android:textColor="@color/textColor_vo"
+                    android:textSize="8pt" />
+
                 <ImageView
                     android:layout_width="12dp"
                     android:layout_height="18dp"
-                    android:layout_marginRight="15dp"
-                    android:src="@mipmap/fragmentmyself_jt_r"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="10dp"/>
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="15dp"
+                    android:src="@mipmap/fragmentmyself_jt_r" />
             </LinearLayout>
 
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@color/writeColor"
-                android:layout_marginTop="1dp"
                 android:id="@+id/lin_Lecture"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="1dp"
+                android:background="@color/writeColor"
                 android:orientation="horizontal">
 
                 <ImageView
                     android:layout_width="22dp"
                     android:layout_height="22dp"
-                    android:src="@mipmap/my_lecture"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="15dp"/>
+                    android:layout_marginLeft="15dp"
+                    android:src="@mipmap/my_lecture" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="专题讲座"
                     android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
                     android:layout_marginLeft="10dp"
-                    android:textSize="8pt"
-                    android:textColor="@color/textColor_vo"/>
+                    android:layout_weight="1"
+                    android:text="专题讲座"
+                    android:textColor="@color/textColor_vo"
+                    android:textSize="8pt" />
+
                 <ImageView
                     android:layout_width="12dp"
                     android:layout_height="18dp"
-                    android:layout_marginRight="15dp"
-                    android:src="@mipmap/fragmentmyself_jt_r"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="10dp"/>
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="15dp"
+                    android:src="@mipmap/fragmentmyself_jt_r" />
             </LinearLayout>
 
 
             <LinearLayout
+                android:id="@+id/li_fragmentMySelf_shareDataSet"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:background="@color/writeColor"
-                android:id="@+id/li_fragmentMySelf_shareDataSet"
                 android:layout_marginTop="1dp"
+                android:background="@color/writeColor"
                 android:orientation="horizontal">
 
                 <ImageView
                     android:layout_width="22dp"
                     android:layout_height="22dp"
-                    android:src="@mipmap/fragmentmyself_hzsjgxsz"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="15dp"/>
+                    android:layout_marginLeft="15dp"
+                    android:src="@mipmap/fragmentmyself_hzsjgxsz" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="会诊"
                     android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
                     android:layout_marginLeft="10dp"
-                    android:textSize="8pt"
-                    android:textColor="@color/textColor_vo"/>
+                    android:layout_weight="1"
+                    android:text="会诊"
+                    android:textColor="@color/textColor_vo"
+                    android:textSize="8pt" />
+
                 <ImageView
                     android:layout_width="12dp"
                     android:layout_height="18dp"
-                    android:layout_marginRight="15dp"
-                    android:src="@mipmap/fragmentmyself_jt_r"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="10dp"/>
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="15dp"
+                    android:src="@mipmap/fragmentmyself_jt_r" />
             </LinearLayout>
 
 
@@ -248,160 +267,166 @@
                 android:id="@+id/myself_service"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:background="@color/writeColor"
                 android:layout_marginTop="1dp"
+                android:background="@color/writeColor"
                 android:orientation="horizontal">
 
                 <ImageView
                     android:layout_width="22dp"
                     android:layout_height="22dp"
-                    android:src="@mipmap/fragmentmyself_wdfwls"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="15dp"/>
+                    android:layout_marginLeft="15dp"
+                    android:src="@mipmap/fragmentmyself_wdfwls" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="服务历史"
                     android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
                     android:layout_marginLeft="10dp"
-                    android:textSize="8pt"
-                    android:textColor="@color/textColor_vo"/>
+                    android:layout_weight="1"
+                    android:text="服务历史"
+                    android:textColor="@color/textColor_vo"
+                    android:textSize="8pt" />
+
                 <ImageView
                     android:layout_width="12dp"
                     android:layout_height="18dp"
-                    android:layout_marginRight="15dp"
-                    android:src="@mipmap/fragmentmyself_jt_r"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="10dp"/>
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="15dp"
+                    android:src="@mipmap/fragmentmyself_jt_r" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/lin_invite"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:background="@color/writeColor"
                 android:layout_marginTop="1dp"
+                android:background="@color/writeColor"
                 android:orientation="horizontal">
 
                 <ImageView
                     android:layout_width="22dp"
                     android:layout_height="22dp"
-                    android:src="@mipmap/invite"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="15dp"/>
+                    android:layout_marginLeft="15dp"
+                    android:src="@mipmap/invite" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
                     android:text="邀请同行"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
-                    android:layout_marginLeft="10dp"
-                    android:textSize="8pt"
-                    android:textColor="@color/textColor_vo"/>
+                    android:textColor="@color/textColor_vo"
+                    android:textSize="8pt" />
+
                 <ImageView
                     android:layout_width="12dp"
                     android:layout_height="18dp"
-                    android:layout_marginRight="15dp"
-                    android:src="@mipmap/fragmentmyself_jt_r"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="10dp"/>
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="15dp"
+                    android:src="@mipmap/fragmentmyself_jt_r" />
             </LinearLayout>
 
-          <!--  <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@color/writeColor"
-                android:layout_marginTop="1dp"
-                android:id="@+id/li_fragmentMySelf_platformLicenses"
-                android:orientation="horizontal">
+            <!--  <LinearLayout
+                  android:layout_width="match_parent"
+                  android:layout_height="50dp"
+                  android:background="@color/writeColor"
+                  android:layout_marginTop="1dp"
+                  android:id="@+id/li_fragmentMySelf_platformLicenses"
+                  android:orientation="horizontal">
 
-                <ImageView
-                    android:layout_width="22dp"
-                    android:layout_height="22dp"
-                    android:src="@mipmap/fragmentmyself_ptsq"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="15dp"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="平台授权"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
-                    android:layout_marginLeft="10dp"
-                    android:textSize="8pt"
-                    android:textColor="@color/textColor_vo"/>
-                <ImageView
-                    android:layout_width="12dp"
-                    android:layout_height="18dp"
-                    android:layout_marginRight="15dp"
-                    android:src="@mipmap/fragmentmyself_jt_r"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="10dp"/>
-            </LinearLayout>
+                  <ImageView
+                      android:layout_width="22dp"
+                      android:layout_height="22dp"
+                      android:src="@mipmap/fragmentmyself_ptsq"
+                      android:layout_gravity="center_vertical"
+                      android:layout_marginLeft="15dp"/>
+                  <TextView
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text="平台授权"
+                      android:layout_gravity="center_vertical"
+                      android:layout_weight="1"
+                      android:layout_marginLeft="10dp"
+                      android:textSize="8pt"
+                      android:textColor="@color/textColor_vo"/>
+                  <ImageView
+                      android:layout_width="12dp"
+                      android:layout_height="18dp"
+                      android:layout_marginRight="15dp"
+                      android:src="@mipmap/fragmentmyself_jt_r"
+                      android:layout_gravity="center_vertical"
+                      android:layout_marginLeft="10dp"/>
+              </LinearLayout>
+
+              <LinearLayout
+                  android:layout_width="match_parent"
+                  android:layout_height="50dp"
+                  android:background="@color/writeColor"
+                  android:layout_marginTop="1dp"
+                  android:id="@+id/li_fragmentMySelf_exitAlliance"
+                  android:orientation="horizontal">
+
+                  <ImageView
+                      android:layout_width="22dp"
+                      android:layout_height="22dp"
+                      android:src="@mipmap/fragmentmyself_tclm"
+                      android:layout_gravity="center_vertical"
+                      android:layout_marginLeft="15dp"/>
+                  <TextView
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text="退出联盟"
+                      android:layout_gravity="center_vertical"
+                      android:layout_weight="1"
+                      android:layout_marginLeft="10dp"
+                      android:textSize="8pt"
+                      android:textColor="@color/textColor_vo"/>
+                  <ImageView
+                      android:layout_width="12dp"
+                      android:layout_height="18dp"
+                      android:layout_marginRight="15dp"
+                      android:src="@mipmap/fragmentmyself_jt_r"
+                      android:layout_gravity="center_vertical"
+                      android:layout_marginLeft="10dp"/>
+              </LinearLayout>-->
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@color/writeColor"
-                android:layout_marginTop="1dp"
-                android:id="@+id/li_fragmentMySelf_exitAlliance"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="22dp"
-                    android:layout_height="22dp"
-                    android:src="@mipmap/fragmentmyself_tclm"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="15dp"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="退出联盟"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
-                    android:layout_marginLeft="10dp"
-                    android:textSize="8pt"
-                    android:textColor="@color/textColor_vo"/>
-                <ImageView
-                    android:layout_width="12dp"
-                    android:layout_height="18dp"
-                    android:layout_marginRight="15dp"
-                    android:src="@mipmap/fragmentmyself_jt_r"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="10dp"/>
-            </LinearLayout>-->
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@color/writeColor"
-                android:layout_marginTop="1dp"
                 android:id="@+id/li_fragmentMySelf_setting"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="1dp"
+                android:background="@color/writeColor"
                 android:orientation="horizontal">
 
                 <ImageView
                     android:layout_width="22dp"
                     android:layout_height="22dp"
-                    android:src="@mipmap/fragmentmyself_sz"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="15dp"/>
+                    android:layout_marginLeft="15dp"
+                    android:src="@mipmap/fragmentmyself_sz" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="设置"
                     android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
                     android:layout_marginLeft="10dp"
-                    android:textSize="8pt"
-                    android:textColor="@color/textColor_vo"/>
+                    android:layout_weight="1"
+                    android:text="设置"
+                    android:textColor="@color/textColor_vo"
+                    android:textSize="8pt" />
+
                 <ImageView
                     android:layout_width="12dp"
                     android:layout_height="18dp"
-                    android:layout_marginRight="15dp"
-                    android:src="@mipmap/fragmentmyself_jt_r"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="10dp"/>
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="15dp"
+                    android:src="@mipmap/fragmentmyself_jt_r" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
