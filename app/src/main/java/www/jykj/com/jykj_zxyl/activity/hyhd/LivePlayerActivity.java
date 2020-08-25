@@ -186,6 +186,7 @@ public class LivePlayerActivity extends ChatPopDialogActivity implements ITXLive
         try {
             String parname = StrUtils.defaulObjToStr(paramMessage.getStringAttribute("nickName"));
             String parhead = StrUtils.defaulObjToStr(paramMessage.getStringAttribute("imageUrl"));
+
             if(parname.length()>0){
                 msgnamesb.append("&#160;&#160;&#160;&#160;");
                 EMTextMessageBody txtBody = (EMTextMessageBody) paramMessage.getBody();

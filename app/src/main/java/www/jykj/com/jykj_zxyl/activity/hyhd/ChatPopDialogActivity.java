@@ -797,7 +797,7 @@ public abstract class ChatPopDialogActivity extends AppCompatActivity implements
             }
             if (chatType == EaseConstant.CHATTYPE_CHATROOM) {
                 isbacked = true;
-                doSend("离开直播间了");
+                //doSend("离开直播间了");
             }
             closeRoom();
         }
