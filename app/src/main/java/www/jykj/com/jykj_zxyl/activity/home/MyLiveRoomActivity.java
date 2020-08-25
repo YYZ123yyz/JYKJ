@@ -246,6 +246,7 @@ public class MyLiveRoomActivity extends AppCompatActivity implements View.OnClic
 
             }
         });
+        roompager.setOffscreenPageLimit(2);
         live_banner.setOnBannerListener(new OnBannerListener() {
             @Override
             public void OnBannerClick(int position) {

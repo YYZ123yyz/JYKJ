@@ -67,7 +67,9 @@ public abstract class EaseChatPrimaryMenuBase extends RelativeLayout{
     public abstract void onTextInsert(CharSequence text);
     
     public abstract EditText getEditText();
-    
+
+    public abstract void showMoreOption();
+
     /**
      * hide keyboard
      */

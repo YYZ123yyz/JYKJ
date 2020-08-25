@@ -2,9 +2,11 @@ package www.jykj.com.jykj_zxyl.activity.hyhd;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.app.Service;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.*;
@@ -101,6 +103,7 @@ public class NewLivePlayerActivity extends ChatPopDialogActivity implements ITXL
     List<String> headpics = new ArrayList();
     TextView tv_head_tit;
     String mdetailCode = "";
+    int joinUserNum = 1;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -138,6 +141,7 @@ public class NewLivePlayerActivity extends ChatPopDialogActivity implements ITXL
             mImageViewRecycleAdapter.setDate(headpics);
             mImageViewRecycleAdapter.notifyDataSetChanged();
         }
+        createChat();
     }
 
     /**
@@ -152,6 +156,15 @@ public class NewLivePlayerActivity extends ChatPopDialogActivity implements ITXL
         mDialogProgress.setMessage(progressPrompt);
         mDialogProgress.setCancelable(false);
         mDialogProgress.show();
+    }
+
+    static final int UP_JOINNUM_ACT = 511;
+    @Override
+    public void upJoinUsernum(int modnum) {
+        Message semsg = new Message();
+        semsg.what = UP_JOINNUM_ACT;
+        semsg.obj = modnum;
+        myHandler.sendMessage(semsg);
     }
 
     /**
@@ -237,7 +250,22 @@ public class NewLivePlayerActivity extends ChatPopDialogActivity implements ITXL
                 goChat();
             }
         });
-
+        btnShut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+                builder.setTitle("提示");
+                builder.setMessage("确认退出直播间吗?");
+                builder.setNegativeButton("取消", null);
+                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        NewLivePlayerActivity.this.finish();
+                    }
+                });
+                builder.show();
+            }
+        });
     }
 
     boolean isopenchat = false;
@@ -305,7 +333,7 @@ public class NewLivePlayerActivity extends ChatPopDialogActivity implements ITXL
         initChatView();
         chatViewLayout.setVisibility(View.VISIBLE);
         joinChatroom();
-        setUpView();
+        //setUpView();
         isopenchat = true;
     }
 
@@ -335,7 +363,7 @@ public class NewLivePlayerActivity extends ChatPopDialogActivity implements ITXL
                             if (!msgmap.containsKey(parname)) {
                                 msgmap.put(parname, "1");
                                 if (null != msgmap.keySet() && msgmap.keySet().size() > 0) {
-                                    tv_chat_num.setText(String.valueOf(msgmap.keySet().size()) + "人");
+                                    //tv_chat_num.setText(String.valueOf(msgmap.keySet().size()) + "人");
                                 }
                                 if (parhead.length() > 0) {
                                     headpics.add(parhead);
@@ -365,6 +393,13 @@ public class NewLivePlayerActivity extends ChatPopDialogActivity implements ITXL
                     break;
                 case LOGIN_CHAT_FAIL:
                     Toast.makeText(mContext,"登录聊天室失败，请稍后重试！",Toast.LENGTH_SHORT);
+                    break;
+                case UP_JOINNUM_ACT:
+                    Integer paincnum = (Integer)msg.obj;
+                    joinUserNum = joinUserNum + paincnum;
+                    if(joinUserNum>=0) {
+                        tv_chat_num.setText(String.valueOf(joinUserNum) + "人");
+                    }
                     break;
             }
             super.handleMessage(msg);
@@ -762,7 +797,6 @@ public class NewLivePlayerActivity extends ChatPopDialogActivity implements ITXL
             } else {
                 try {
                     createChat();
-                    chatViewLayout.setVisibility(View.VISIBLE);
                 }catch (Exception ex){
                     ex.printStackTrace();
                 }

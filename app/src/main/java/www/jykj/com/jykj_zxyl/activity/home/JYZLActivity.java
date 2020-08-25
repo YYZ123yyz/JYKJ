@@ -25,15 +25,15 @@ import www.jykj.com.jykj_zxyl.util.ActivityUtil;
 public class JYZLActivity extends AppCompatActivity {
 
 
-    private Context mContext;
-    private TWJZ_CFQActivity mActivity;
-    private Handler mHandler;
-    private JYKJApplication mApp;
-    private RecyclerView mRecycleView;
+    private         Context                 mContext;
+    private         TWJZ_CFQActivity        mActivity;
+    private         Handler                 mHandler;
+    private         JYKJApplication         mApp;
+    private         RecyclerView            mRecycleView;
 
-    private LinearLayoutManager layoutManager;
-    private JYZLecycleAdapter mJYZLecycleAdapter;       //适配器
-    private List<HZIfno> mHZEntyties = new ArrayList<>();            //所有数据
+    private         LinearLayoutManager     layoutManager;
+    private         JYZLecycleAdapter       mJYZLecycleAdapter;       //适配器
+    private         List<HZIfno>            mHZEntyties = new ArrayList<>();            //所有数据
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -57,12 +57,12 @@ public class JYZLActivity extends AppCompatActivity {
         //如果可以确定每个item的高度是固定的，设置这个选项可以提高性能
         mRecycleView.setHasFixedSize(true);
         //创建并设置Adapter
-        mJYZLecycleAdapter = new JYZLecycleAdapter(mHZEntyties, mContext);
+        mJYZLecycleAdapter = new JYZLecycleAdapter(mHZEntyties,mContext);
         mRecycleView.setAdapter(mJYZLecycleAdapter);
         mJYZLecycleAdapter.setOnItemClickListener(new JYZLecycleAdapter.OnItemClickListener() {
             @Override
             public void onClick(int position) {
-                startActivity(new Intent(mContext, JYZL_GRZLActivity.class));
+                startActivity(new Intent(mContext,JYZL_GRZLActivity.class));
             }
 
             @Override

@@ -157,7 +157,14 @@ public class LivePlayerActivity extends ChatPopDialogActivity implements ITXLive
         //createChat();
     }
 
+    @Override
+    public void upJoinUsernum(int modnum) {
+
+    }
+
     boolean isopenchat = false;
+    static final int GO_CHAT_ACT = 999;
+    static final int LOGIN_CHAT_FAIL = 997;
     @Override
     public void createChat() {
         Bundle parbund = new Bundle();
@@ -179,6 +186,7 @@ public class LivePlayerActivity extends ChatPopDialogActivity implements ITXLive
         try {
             String parname = StrUtils.defaulObjToStr(paramMessage.getStringAttribute("nickName"));
             String parhead = StrUtils.defaulObjToStr(paramMessage.getStringAttribute("imageUrl"));
+
             if(parname.length()>0){
                 msgnamesb.append("&#160;&#160;&#160;&#160;");
                 EMTextMessageBody txtBody = (EMTextMessageBody) paramMessage.getBody();

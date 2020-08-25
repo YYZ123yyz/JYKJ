@@ -336,6 +336,7 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
                 sendBigExpressionMessage(emojicon.getName(), emojicon.getIdentityCode());
             }
         });
+        inputMenu.showMoreOption();
 
         swipeRefreshLayout = messageList.getSwipeRefreshLayout();
         swipeRefreshLayout.setColorSchemeResources(R.color.holo_blue_bright, R.color.holo_green_light,
@@ -552,7 +553,7 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
             @Override
             public boolean onResendClick(final EMMessage message) {
                 EMLog.i(TAG, "onResendClick");
-                new EaseAlertDialog(getContext(), R.string.resend, R.string.confirm_resend, null, new EaseAlertDialog.AlertDialogUser() {
+                new EaseAlertDialog(getContext(), R.string.resend, R.string.confirm_resend, null, new AlertDialogUser() {
                     @Override
                     public void onResult(boolean confirmed, Bundle bundle) {
                         if (!confirmed) {

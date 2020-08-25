@@ -1055,6 +1055,29 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
             @Override
             public void onTimeSelect(Date date, View v) {
                 startTime = getDate(date);
+                String currentTime = DateUtils.getDeviceTimeOfYMD();
+                int compareTo=0;
+                @SuppressLint("SimpleDateFormat")
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+                Date nowDate_Date=null;
+                Date endDate_Date=null;
+                try {
+                    nowDate_Date = sdf.parse(startTime);
+                    endDate_Date= sdf.parse(currentTime);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                compareTo = nowDate_Date.compareTo(endDate_Date);
+
+                if(compareTo == -1){
+
+                    Toast.makeText(mContext, "签约日期不能小于当前日期", LENGTH_SHORT).show();
+
+                    return;
+                }
+
                 tvStartTime.setText(startTime);
             }
         })

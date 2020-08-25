@@ -10,6 +10,7 @@ public class DetectBean implements java.io.Serializable{
      * configDetailTypeName : 健康检测
      * price : 10.0
      */
+
     private String configDetailCode;
     private int configDetailId;
     private String configDetailName;

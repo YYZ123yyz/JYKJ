@@ -2,17 +2,10 @@ package com.hyphenate.easeui.widget.chatrow;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.BaseAdapter;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
-import android.widget.TextView;
+import android.widget.*;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -27,7 +20,7 @@ import com.hyphenate.easeui.domain.EaseAvatarOptions;
 import com.hyphenate.easeui.hyhd.model.Constant;
 import com.hyphenate.easeui.model.styles.EaseMessageListItemStyle;
 import com.hyphenate.easeui.utils.EaseUserUtils;
-import com.hyphenate.easeui.widget.EaseChatMessageList;
+import com.hyphenate.easeui.utils.ExtEaseUtils;
 import com.hyphenate.easeui.widget.EaseChatMessageList.MessageListItemClickListener;
 import com.hyphenate.easeui.widget.EaseImageView;
 import com.hyphenate.util.DateUtils;
@@ -35,9 +28,6 @@ import com.hyphenate.util.DateUtils;
 import java.util.Date;
 
 public abstract class EaseChatRow extends LinearLayout {
-
-    private String userUrl;
-
     public interface EaseChatRowActionCallback {
         void onResendClick(EMMessage message);
 
@@ -69,10 +59,8 @@ public abstract class EaseChatRow extends LinearLayout {
 
     protected MessageListItemClickListener itemClickListener;
     protected EaseMessageListItemStyle itemStyle;
-
     private EaseChatRowActionCallback itemActionCallback;
 
-    protected Bundle fragmentArgs;
     public EaseChatRow(Context context, EMMessage message, int position, BaseAdapter adapter) {
         super(context);
         this.context = context;
@@ -104,7 +92,6 @@ public abstract class EaseChatRow extends LinearLayout {
         onInflateView();
         timeStampView = (TextView) findViewById(R.id.timestamp);
         userAvatarView = (ImageView) findViewById(R.id.iv_userhead);
-
         bubbleLayout = findViewById(R.id.bubble);
         usernickView = (TextView) findViewById(R.id.tv_userid);
 
@@ -123,7 +110,7 @@ public abstract class EaseChatRow extends LinearLayout {
      * @param position
      */
     public void setUpView(EMMessage message, int position,
-                          EaseChatMessageList.MessageListItemClickListener itemClickListener,
+                          MessageListItemClickListener itemClickListener,
                           EaseChatRowActionCallback itemActionCallback,
                           EaseMessageListItemStyle itemStyle) {
         this.message = message;
@@ -140,7 +127,6 @@ public abstract class EaseChatRow extends LinearLayout {
     private void setUpBaseView() {
         // set nickname, avatar and background of bubble
         TextView timestamp = (TextView) findViewById(R.id.timestamp);
-        userAvatarView=findViewById(R.id.iv_userhead);
         if (timestamp != null) {
             if (position == 0) {
                 timestamp.setText(DateUtils.getTimestampString(new Date(message.getMsgTime())));
@@ -155,6 +141,7 @@ public abstract class EaseChatRow extends LinearLayout {
                     timestamp.setVisibility(View.VISIBLE);
                 }
             }
+            timestamp.setVisibility(View.GONE);
         }
         if(userAvatarView != null) {
             //set nickname and avatar
@@ -187,6 +174,10 @@ public abstract class EaseChatRow extends LinearLayout {
                             .into(userAvatarView);
                 }
             }
+            if (itemStyle.isShowChatRoom()) {
+                userAvatarView.setVisibility(View.GONE);
+            }
+
         }
         if (EMClient.getInstance().getOptions().getRequireDeliveryAck()) {
             if(deliveredView != null){
@@ -229,12 +220,20 @@ public abstract class EaseChatRow extends LinearLayout {
                 } else {
                     userAvatarView.setVisibility(View.GONE);
                 }
+                if (itemStyle.isShowChatRoom()) {
+                    userAvatarView.setVisibility(View.GONE);
+                }
+
             }
             if (usernickView != null) {
                 if (itemStyle.isShowUserNick())
                     usernickView.setVisibility(View.VISIBLE);
                 else
                     usernickView.setVisibility(View.GONE);
+                if (itemStyle.isShowChatRoom()) {
+                    usernickView.setVisibility(View.VISIBLE);
+                }
+
             }
             if (bubbleLayout != null) {
                 if (message.direct() == Direct.SEND) {
@@ -248,7 +247,13 @@ public abstract class EaseChatRow extends LinearLayout {
                 }
             }
         }
-
+        if(null!=usernickView){
+            if (message.direct() == Direct.SEND) {
+                EaseUserUtils.setUserNick(ExtEaseUtils.getInstance().getNickName(),usernickView);
+            }else{
+                EaseUserUtils.setUserNick(message.getUserName(),usernickView);
+            }
+        }
     }
 
     private void setClickListener() {
