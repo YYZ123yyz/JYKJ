@@ -632,9 +632,9 @@ public class VideoCallActivity extends CallActivity implements OnClickListener {
     protected void onDestroy() {
         DemoHelper.getInstance().isVideoCalling = false;
         stopMonitor();
-        localSurface.getRenderer().dispose();
+        //localSurface.getRenderer().dispose();
         localSurface = null;
-        oppositeSurface.getRenderer().dispose();
+        //oppositeSurface.getRenderer().dispose();
         oppositeSurface = null;
         super.onDestroy();
     }
