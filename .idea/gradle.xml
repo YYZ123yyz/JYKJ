@@ -13,6 +13,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/app_base" />
             <option value="$PROJECT_DIR$/beauty" />
             <option value="$PROJECT_DIR$/easeui" />
             <option value="$PROJECT_DIR$/lvb" />

@@ -1,0 +1,76 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 28
+    buildToolsVersion "28.0.3"
+
+
+    defaultConfig {
+        minSdkVersion 21
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles 'consumer-rules.pro'
+    }
+
+    buildTypes {
+        //本地开发环境[开启日志打印;测试环境ip;不混淆]
+        debug {
+            //是否打印日志
+            buildConfigField "boolean", "IS_DEBUG", "true"
+            //轻说测试环境ip
+            buildConfigField "boolean", "API_DETEST", "false"
+            //轻说环境ip
+            buildConfigField "boolean", "API_ONLINE", "false"
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
+        //线下测试
+        detest {
+            //是否打印日志
+            buildConfigField "boolean", "IS_DEBUG", "false"
+            //轻说测试环境ip
+            buildConfigField "boolean", "API_DETEST", "true"
+            //轻说环境ip
+            buildConfigField "boolean", "API_ONLINE", "false"
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        //线上
+        release {
+            //是否打印日志
+            buildConfigField "boolean", "IS_DEBUG", "false"
+            //轻说测试环境ip
+            buildConfigField "boolean", "API_DETEST", "false"
+            //轻说环境ip
+            buildConfigField "boolean", "API_ONLINE", "true"
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        //线上渠道包
+        release_channel {
+            //是否打印日志
+            buildConfigField "boolean", "IS_DEBUG", "false"
+            //轻说环境ip
+            buildConfigField "boolean", "API_DETEST", "false"
+            //轻说环境ip
+            buildConfigField "boolean", "API_ONLINE", "true"
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    sourceSets {
+        main {
+            res.srcDirs = ['src/main/res', 'src/main/res-night']
+        }
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+//    implementation 'androidx.appcompat:appcompat:1.0.2'
+//    testImplementation 'junit:junit:4.12'
+//    androidTestImplementation 'androidx.test.ext:junit:1.1.0'
+//    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+}

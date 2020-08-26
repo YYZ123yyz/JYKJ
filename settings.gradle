@@ -1,1 +1,1 @@
-include ':app', ':easeui',':lvb',':beauty'
+include ':app', ':easeui',':lvb',':beauty', ':app_base'
