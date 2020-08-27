@@ -53,6 +53,7 @@ import www.jykj.com.jykj_zxyl.activity.home.tjhz.AddPatientActivity;
 import www.jykj.com.jykj_zxyl.activity.hyhd.BindDoctorFriend;
 import www.jykj.com.jykj_zxyl.activity.myself.UserAuthenticationActivity;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
+import www.jykj.com.jykj_zxyl.appointment.activity.MyOnlineScheduActivity;
 import www.jykj.com.jykj_zxyl.custom.MoreFeaturesPopupWindow;
 import www.jykj.com.jykj_zxyl.util.GsonUtils;
 import www.jykj.com.jykj_zxyl.util.StringUtils;
@@ -87,6 +88,7 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
     private LinearLayout mScan;      //扫一扫
     private LinearLayout mMyClinic;//我的诊所
     private LinearLayout mMyPatient;
+    private LinearLayout rlDoctorCircle;
     public static final int REQUEST_CODE_SCAN = 0x123;
 
     private TextView mUserNameText;                //用户名
@@ -108,10 +110,10 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
     private Button button;
     private LinearLayout home_lin;
     private LinearLayout lin;
-    private LinearLayout lin_featured,lin_featured2;
-    private MyImageView img_one,img_two,img_three;
-    private MyImageView imgs_one,imgs_two,imgs_three;
-    private MyImageView img_ones,img_twos,img_threes;
+    private LinearLayout lin_featured, lin_featured2;
+    private MyImageView img_one, img_two, img_three;
+    private MyImageView imgs_one, imgs_two, imgs_three;
+    private MyImageView img_ones, img_twos, img_threes;
     private yyz_exploit.dialog.Home_imageDialog imageView1;
     private ImageView back;
     private AddPatientAcitvityDialog addPatientAcitvityDialog;
@@ -119,6 +121,7 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
     private List<ProvideBasicsDomain> mList = new ArrayList<>();
 
     private BindPatientParment mBindPatientParment;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_activitymain_shouyefragment, container, false);
@@ -142,21 +145,20 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
             @Override
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
-                String mNetRetStr="";
+                String mNetRetStr = "";
                 Bundle data = msg.getData();
-                if (data!=null) {
+                if (data != null) {
                     mNetRetStr = data.getString("result");
                 }
                 switch (msg.what) {
                     case 0:
                         cacerProgress();
                         NetRetEntity netRetEntity = JSON.parseObject(mNetRetStr, NetRetEntity.class);
-                        if (netRetEntity.getResCode() == 0){
+                        if (netRetEntity.getResCode() == 0) {
 
-                        }
-                        else {
+                        } else {
                             if ("1".equals(netRetEntity.getResData())) {
-                                Log.e("tag", "handleMessage: "+"走了" );
+                                Log.e("tag", "handleMessage: " + "走了");
                                 //医生扫医生二维码，绑定医生好友
                                 final EditText et = new EditText(mContext);
                                 new AlertDialog.Builder(mContext).setTitle("请输入申请描述")
@@ -195,7 +197,7 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
                                 addPatientAcitvityDialog.findViewById(R.id.bt_commit).setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-                                        bindPatientFriend(netRetEntity.getResMsg(), ed, qrCode,mBindPatientParment.getPatientLabelId(), mBindPatientParment.getPatientLabelName());
+                                        bindPatientFriend(netRetEntity.getResMsg(), ed, qrCode, mBindPatientParment.getPatientLabelId(), mBindPatientParment.getPatientLabelName());
                                     }
                                 });
                             }
@@ -205,35 +207,34 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
                     case 1:
                         cacerProgress();
                         netRetEntity = JSON.parseObject(mNetRetStr, NetRetEntity.class);
-                        if(netRetEntity.getResCode()==0){
+                        if (netRetEntity.getResCode() == 0) {
 
-                        }else{
-                              Toast.makeText(mContext, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(mContext, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
                         }
 
                         break;
                     case 2:
                         netRetEntity = JSON.parseObject(mNetRetStr, NetRetEntity.class);
-                        if(netRetEntity.getResCode()==1&& StringUtils.isNotEmpty(netRetEntity.getResJsonData())){
-                            ProvideMsgPushReminderCount   mProvideMsgPushReminderCount =
+                        if (netRetEntity.getResCode() == 1 && StringUtils.isNotEmpty(netRetEntity.getResJsonData())) {
+                            ProvideMsgPushReminderCount mProvideMsgPushReminderCount =
                                     JSON.parseObject(netRetEntity.getResJsonData(), ProvideMsgPushReminderCount.class);
-                            if(mProvideMsgPushReminderCount.getMsgTypeCountSum()==0){
+                            if (mProvideMsgPushReminderCount.getMsgTypeCountSum() == 0) {
                                 mNewMessageLayout.setVisibility(View.GONE);
-                            }
-                            else  {
+                            } else {
                                 mNewMessageLayout.setVisibility(View.VISIBLE);
-                                mNewMessage.setText( "您有" + mProvideMsgPushReminderCount.getMsgTypeCountSum() + "条未读消息!");
+                                mNewMessage.setText("您有" + mProvideMsgPushReminderCount.getMsgTypeCountSum() + "条未读消息!");
                             }
-                        }else{
+                        } else {
                             mNewMessageLayout.setVisibility(View.GONE);
                         }
                         break;
                     case 3:
                         cacerProgress();
                         netRetEntity = JSON.parseObject(mNetRetStr, NetRetEntity.class);
-                        if(netRetEntity.getResCode()==0){
+                        if (netRetEntity.getResCode() == 0) {
 
-                        }else{
+                        } else {
                             Toast.makeText(mContext, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
                         }
                         break;
@@ -267,10 +268,10 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
                         retEntity.setResCode(0);
                         //   retEntity.setResMsg("获取失败：" + netRetEntity.getResMsg());
                         mNetRetStr = new Gson().toJson(retEntity);
-                        Message message=new Message();
-                        message.what=10;
-                        Bundle bundle=new Bundle();
-                        bundle.putString("result",mNetRetStr);
+                        Message message = new Message();
+                        message.what = 10;
+                        Bundle bundle = new Bundle();
+                        bundle.putString("result", mNetRetStr);
                         message.setData(bundle);
                         mHandler.sendMessage(message);
                         return;
@@ -281,24 +282,23 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
                     retEntity.setResCode(0);
                     retEntity.setResMsg("网络连接异常，请联系管理员：" + e.getMessage());
                     mNetRetStr = new Gson().toJson(retEntity);
-                    Message message=new Message();
-                    message.what=10;
-                    Bundle bundle=new Bundle();
-                    bundle.putString("result",mNetRetStr);
+                    Message message = new Message();
+                    message.what = 10;
+                    Bundle bundle = new Bundle();
+                    bundle.putString("result", mNetRetStr);
                     message.setData(bundle);
                     mHandler.sendMessage(message);
                     return;
                 }
-                Message message=new Message();
-                message.what=10;
-                Bundle bundle=new Bundle();
-                bundle.putString("result",mNetRetStr);
+                Message message = new Message();
+                message.what = 10;
+                Bundle bundle = new Bundle();
+                bundle.putString("result", mNetRetStr);
                 message.setData(bundle);
                 mHandler.sendMessage(message);
             }
         }.start();
     }
-
 
 
     @Override
@@ -314,10 +314,10 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
      */
     private void getMessageCount() {
 
-        if(mApp.mViewSysUserDoctorInfoAndHospital!=null){
-            HashMap<String ,String> hashMap=new HashMap<>();
-            hashMap.put("loginDoctorPosition",mApp.loginDoctorPosition);
-            hashMap.put("searchDoctorCode",mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
+        if (mApp.mViewSysUserDoctorInfoAndHospital != null) {
+            HashMap<String, String> hashMap = new HashMap<>();
+            hashMap.put("loginDoctorPosition", mApp.loginDoctorPosition);
+            hashMap.put("searchDoctorCode", mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
             new Thread() {
                 public void run() {
                     String mNetRetStr;
@@ -331,11 +331,11 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
                         mNetRetStr = new Gson().toJson(retEntity);
                         e.printStackTrace();
                     }
-                    Message message=new Message();
-                    Bundle bundle=new Bundle();
-                    bundle.putString("result",mNetRetStr);
+                    Message message = new Message();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("result", mNetRetStr);
                     message.setData(bundle);
-                    message.what=2;
+                    message.what = 2;
                     mHandler.sendMessage(message);
                 }
             }.start();
@@ -352,6 +352,7 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
     private void initView(View view) {
         //第一张图片
         img_one = view.findViewById(R.id.img_one);
+        rlDoctorCircle = view.findViewById(R.id.rl_doctor_circle);
         img_one.setImageURL("http://jiuyihtn.com/AppAssembly/img/doctor1.png");
         img_one.setOnClickListener(new View.OnClickListener() {
 
@@ -509,7 +510,13 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
             }
 
         }
-
+        rlDoctorCircle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(FragmentShouYe.this.getContext(), MyOnlineScheduActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
 
@@ -530,7 +537,7 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
             public void onClick(DialogInterface arg0, int arg1) {
                 // TODO Auto-generated method stub
                 TextView tv_label = addPatientAcitvityDialog.findViewById(R.id.tv_label);
-                tv_label .setText(items[arg1]);
+                tv_label.setText(items[arg1]);
                 mBindPatientParment.setPatientLabelId(mList.get(arg1).getAttrCode() + "");
                 mBindPatientParment.setPatientLabelName(mList.get(arg1).getAttrName());
             }
@@ -538,7 +545,6 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
         builder.create().show();
 
     }
-
 
 
     private void imgs_one() {
@@ -666,7 +672,7 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
                 mPopupWindow.setSouYeFragment(mFragment);
                 if (mPopupWindow != null && !mPopupWindow.isShowing()) {
                     mPopupWindow.showAsDropDown(llQuickApplication, 0, 0);
-                }else
+                } else
                     mPopupWindow.dismiss();
                 break;
             //医师资格认证
@@ -786,11 +792,11 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
 
         new Thread() {
             public void run() {
-                String mNetRetStr="";
+                String mNetRetStr = "";
                 try {
                     String string = new Gson().toJson(operScanQrCodeInside);
                     mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + string, www.jykj.com.jykj_zxyl.application.Constant.SERVICEURL + "doctorDataControlle/operScanQrCodeInside");
-                    Log.e("tag", "添加 "+mNetRetStr );
+                    Log.e("tag", "添加 " + mNetRetStr);
                 } catch (Exception e) {
                     NetRetEntity retEntity = new NetRetEntity();
                     retEntity.setResCode(0);
@@ -798,10 +804,10 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
                     mNetRetStr = new Gson().toJson(retEntity);
                     e.printStackTrace();
                 }
-                Message message=new Message();
-                message.what=0;
-                Bundle bundle=new Bundle();
-                bundle.putString("result",mNetRetStr);
+                Message message = new Message();
+                message.what = 0;
+                Bundle bundle = new Bundle();
+                bundle.putString("result", mNetRetStr);
                 mHandler.sendMessage(message);
             }
         }.start();
@@ -821,7 +827,7 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
 
         new Thread() {
             public void run() {
-                String mNetRetStr="";
+                String mNetRetStr = "";
                 try {
                     String string = new Gson().toJson(bindDoctorFriend);
                     mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + string, www.jykj.com.jykj_zxyl.application.Constant.SERVICEURL + "/" + url);
@@ -833,10 +839,10 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
                     mNetRetStr = new Gson().toJson(retEntity);
                     e.printStackTrace();
                 }
-                Message message=new Message();
-                message.what=1;
-                Bundle bundle=new Bundle();
-                bundle.putString("result",mNetRetStr);
+                Message message = new Message();
+                message.what = 1;
+                Bundle bundle = new Bundle();
+                bundle.putString("result", mNetRetStr);
                 message.setData(bundle);
                 mHandler.sendMessage(message);
             }
@@ -845,9 +851,9 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
 
     /**
      * 医患绑定
-     *    bindPatientFriend(netRetEntity.getResMsg(), ed, qrCode,mBindPatientParment.getPatientLabelId(), mBindPatientParment.getPatientLabelName());
+     * bindPatientFriend(netRetEntity.getResMsg(), ed, qrCode,mBindPatientParment.getPatientLabelId(), mBindPatientParment.getPatientLabelName());
      */
-    private void bindPatientFriend(String url, String reason, String qrCode,String patientLabel,String patientLabelName) {
+    private void bindPatientFriend(String url, String reason, String qrCode, String patientLabel, String patientLabelName) {
         getProgressBar("请稍候", "正在处理");
         BindPatient bindDoctorFriend = new BindPatient();
         bindDoctorFriend.setLoginDoctorPosition(mApp.loginDoctorPosition);
@@ -860,11 +866,11 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
 
         new Thread() {
             public void run() {
-                String mNetRetStr="";
+                String mNetRetStr = "";
                 try {
                     String string = new Gson().toJson(bindDoctorFriend);
                     mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + string, www.jykj.com.jykj_zxyl.application.Constant.SERVICEURL + "/" + url);
-                    Log.e("tag", "医患绑定 "+mNetRetStr );
+                    Log.e("tag", "医患绑定 " + mNetRetStr);
                 } catch (Exception e) {
                     NetRetEntity retEntity = new NetRetEntity();
                     retEntity.setResCode(0);
@@ -872,10 +878,10 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
                     mNetRetStr = new Gson().toJson(retEntity);
                     e.printStackTrace();
                 }
-                Message message=new Message();
-                message.what=3;
-                Bundle bundle=new Bundle();
-                bundle.putString("result",mNetRetStr);
+                Message message = new Message();
+                message.what = 3;
+                Bundle bundle = new Bundle();
+                bundle.putString("result", mNetRetStr);
                 message.setData(bundle);
                 mHandler.sendMessage(message);
             }
@@ -905,7 +911,6 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
             mDialogProgress.dismiss();
         }
     }
-
 
 
 }

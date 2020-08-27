@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/color_f5f5f5"
+    >
+    <include layout="@layout/item_toolbar"
+        android:id="@+id/title_bar"
+        >
+
+
+    </include>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="34.5dp"
+        >
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginStart="60dp"
+            android:id="@+id/ll_sign_up_treatment"
+            >
+
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/bg_sign_up"
+                android:layout_gravity="center_horizontal"
+                >
+
+
+            </ImageView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_333333"
+                android:textSize="15sp"
+                android:layout_marginTop="18dp"
+                android:text="签约就诊"
+                android:layout_gravity="center_horizontal"
+                >
+
+            </TextView>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:orientation="vertical"
+            android:id="@+id/ll_one_treatment"
+            >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/bg_one_treatment"
+                android:layout_gravity="center_horizontal"
+                >
+
+
+            </ImageView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_333333"
+                android:textSize="15sp"
+                android:layout_marginTop="18dp"
+                android:text="一次性就诊"
+                android:layout_gravity="center_horizontal"
+                >
+
+            </TextView>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginEnd="60dp"
+            android:layout_alignParentEnd="true"
+            android:id="@+id/ll_timely_treatment"
+            >
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/bg_timely_treatment"
+                android:layout_gravity="center_horizontal"
+                >
+
+
+            </ImageView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_333333"
+                android:textSize="15sp"
+                android:layout_marginTop="18dp"
+                android:text="及时接诊"
+                android:layout_gravity="center_horizontal"
+                >
+
+            </TextView>
+
+        </LinearLayout>
+
+
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/color_333333"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:text="预约日期"
+            android:drawablePadding="5dp"
+            android:drawableEnd="@mipmap/bg_more_menu"
+            >
+
+
+        </TextView>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/color_333333"
+            android:textSize="15sp"
+            android:text="价格"
+            android:drawablePadding="5dp"
+            android:drawableEnd="@mipmap/bg_more_menu"
+            >
+
+
+        </TextView>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/color_333333"
+            android:textSize="15sp"
+            android:text="接诊状态"
+            android:drawablePadding="5dp"
+            android:drawableEnd="@mipmap/bg_more_menu"
+            >
+
+
+        </TextView>
+
+    </LinearLayout>
+
+</LinearLayout>

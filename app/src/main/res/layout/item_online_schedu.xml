@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="19dp"
+        android:layout_marginBottom="19dp"
+        android:id="@+id/tv_time_slotß"
+        android:text="8:30-9:00"
+        android:layout_marginStart="42.5dp"
+        android:textColor="@color/color_000000"
+        android:textSize="15sp"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="19dp"
+            android:layout_marginBottom="19dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="42.5dp"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_000000"
+                android:text="号源数量"
+                android:textSize="15sp"
+
+                >
+
+
+            </TextView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:text="15"
+                android:layout_marginStart="22dp"
+                android:id="@+id/tv_signal_num"
+                android:textColor="@color/color_666666"
+                >
+
+
+            </TextView>
+        </LinearLayout>
+</RelativeLayout>
