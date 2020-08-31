@@ -411,9 +411,6 @@
 
         </activity>
         <activity
-            android:name=".appointment.activity.OnLineScheduTemplateActivity"
-            android:screenOrientation="portrait"/>
-        <activity
             android:name=".appointment.activity.MyClinicDetialActivity"
             android:screenOrientation="portrait">
 

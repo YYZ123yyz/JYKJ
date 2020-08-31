@@ -11,19 +11,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.allen.library.utils.ToastUtils;
-import com.hyphenate.easeui.utils.CollectionUtils;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.BaseReasonBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.CalendarItemBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.DcotorScheduTimesWeekBean;
-import www.jykj.com.jykj_zxyl.app_base.base_bean.DoctorScheduTimesBean;
 import www.jykj.com.jykj_zxyl.app_base.base_view.BaseToolBar;
 import www.jykj.com.jykj_zxyl.app_base.base_view.LoadingLayoutManager;
 import www.jykj.com.jykj_zxyl.app_base.base_view.SwipeItemLayout;
@@ -32,11 +27,9 @@ import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.appointment.OnlineScheduTemplateContract;
 import www.jykj.com.jykj_zxyl.appointment.OnlineScheduTemplatePresenter;
 import www.jykj.com.jykj_zxyl.appointment.adapter.CalendarAdapter;
-import www.jykj.com.jykj_zxyl.appointment.adapter.DoctorSeheduTimeAdapter;
 import www.jykj.com.jykj_zxyl.appointment.adapter.DoctorSeheduTimeWeekAdapter;
 import www.jykj.com.jykj_zxyl.appointment.dialog.AddSignalSourceDialog;
 import www.jykj.com.jykj_zxyl.appointment.dialog.AppointTimeDialog;
-import www.jykj.com.jykj_zxyl.appointment.dialog.AppointTypeDialog;
 import www.jykj.com.jykj_zxyl.util.DateUtils;
 import www.jykj.com.jykj_zxyl.util.StringUtils;
 
@@ -79,7 +72,6 @@ public class MyOnlineScheduTemplateActivity extends AbstractMvpBaseActivity<
     private DoctorSeheduTimeWeekAdapter doctorSeheduTimeAdapter;
     private AddSignalSourceDialog addSignalSourceDialog;
     private AppointTimeDialog appointTimeDialog;
-
     private List<DcotorScheduTimesWeekBean> doctorScheduTimesBeans;
     private List<CalendarItemBean> calendarItemBeans;
     private String mStartTime;//开始时间
@@ -88,6 +80,7 @@ public class MyOnlineScheduTemplateActivity extends AbstractMvpBaseActivity<
     private CalendarItemBean currentCalendarItemBean;//当前日期
     private String mSignalSourceNum;//号源数量
     private String reserveDateRosterCode;//医生排班明细编号
+    private int currentPos;
     @Override
     protected void onBeforeSetContentLayout() {
         super.onBeforeSetContentLayout();
@@ -228,6 +221,7 @@ public class MyOnlineScheduTemplateActivity extends AbstractMvpBaseActivity<
         mCalendarAdapter.setOnClickItemListener(new CalendarAdapter.OnClickItemListener() {
             @Override
             public void onClickItem(int pos) {
+                currentPos=pos;
                 currentCalendarItemBean=calendarItemBeans.get(pos);
                 setChoosedCalendar(pos);
                 mPresenter.sendSearchReserveDoctorRosterInfoRequest(
@@ -308,8 +302,11 @@ public class MyOnlineScheduTemplateActivity extends AbstractMvpBaseActivity<
         this.calendarItemBeans=itemBeans;
         mCalendarAdapter.setData(calendarItemBeans);
         mCalendarAdapter.notifyDataSetChanged();
-
-        currentCalendarItemBean = getCurrentWeekCalendar(calendarItemBeans);
+        if(currentCalendarItemBean==null){
+            currentCalendarItemBean = getCurrentWeekCalendar(calendarItemBeans);
+        }else{
+            setChoosedCalendar(currentPos);
+        }
         mPresenter.sendSearchReserveDoctorRosterInfoRequest(
                 mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(),
                 currentCalendarItemBean.getWeek()+"",this);
@@ -345,9 +342,8 @@ public class MyOnlineScheduTemplateActivity extends AbstractMvpBaseActivity<
     @Override
     public void getOperDelReserveDoctorRosterInfoResult(boolean isSucess, String msg) {
         if(isSucess){
-            mPresenter.sendSearchReserveDoctorRosterInfoRequest(
-                    mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(),
-                    currentCalendarItemBean.getWeek()+"",this);
+            mPresenter.sendSearchReserveDoctorRosterInfoHeaderRequest(
+                    mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(),this);
         }else{
             ToastUtils.showToast(msg);
         }
@@ -356,9 +352,8 @@ public class MyOnlineScheduTemplateActivity extends AbstractMvpBaseActivity<
     @Override
     public void getOperUpdReserveDoctorRosterInfoRequest(boolean isSucess, String msg) {
         if(isSucess){
-            mPresenter.sendSearchReserveDoctorRosterInfoRequest(
-                    mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(),
-                    currentCalendarItemBean.getWeek()+"",this);
+            mPresenter.sendSearchReserveDoctorRosterInfoHeaderRequest(
+                    mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(),this);
         }else{
             ToastUtils.showToast(msg);
         }
