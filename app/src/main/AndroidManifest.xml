@@ -404,6 +404,12 @@
             >
 
         </activity>
+        <activity android:name=".appointment.activity.MyOnlineScheduTemplateActivity"
+            android:screenOrientation="portrait"
+            >
+
+
+        </activity>
         <activity
             android:name=".appointment.activity.OnLineScheduTemplateActivity"
             android:screenOrientation="portrait"/>

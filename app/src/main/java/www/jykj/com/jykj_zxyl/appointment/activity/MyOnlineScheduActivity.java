@@ -36,7 +36,6 @@ import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.appointment.OnlineScheduContract;
 import www.jykj.com.jykj_zxyl.appointment.OnlineScheduPresenter;
 import www.jykj.com.jykj_zxyl.appointment.adapter.DoctorSeheduTimeAdapter;
-import www.jykj.com.jykj_zxyl.appointment.data.DataUtil;
 import www.jykj.com.jykj_zxyl.appointment.dialog.AddSignalSourceDialog;
 import www.jykj.com.jykj_zxyl.appointment.dialog.AppointTimeDialog;
 import www.jykj.com.jykj_zxyl.appointment.dialog.AppointTypeDialog;
@@ -124,10 +123,16 @@ public class MyOnlineScheduActivity extends AbstractMvpBaseActivity<OnlineSchedu
      * 设置Title，方法内的参数可自己定义，如左边文字，颜色，图片
      */
     private void setToolBar() {
-        toolbar.setMainTitle("我的线上排班设置");
+        toolbar.setMainTitle("我的线上排班");
         toolbar.setRightTitleDrawable(R.mipmap.bg_schedu_set);
         //返回键
         toolbar.setLeftTitleClickListener(view -> finish());
+        toolbar.setRightTitleClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(MyOnlineScheduTemplateActivity.class,null);
+            }
+        });
     }
 
     @Override
@@ -212,19 +217,16 @@ public class MyOnlineScheduActivity extends AbstractMvpBaseActivity<OnlineSchedu
      * 添加监听
      */
     private void addListener(){
-        tvAddBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mStartTime=null;
-                mEndTime=null;
-                currentBaseReasonBean=null;
-                mSignalSourceNum=null;
-                reserveDateRosterCode=null;
-                addSignalSourceDialog.show();
-                addSignalSourceDialog.setAppointTime(mStartTime,mEndTime);
-                addSignalSourceDialog.setSignalType(currentBaseReasonBean);
-                addSignalSourceDialog.setSignalNum(mSignalSourceNum);
-            }
+        tvAddBtn.setOnClickListener(v -> {
+            mStartTime=null;
+            mEndTime=null;
+            currentBaseReasonBean=null;
+            mSignalSourceNum=null;
+            reserveDateRosterCode=null;
+            addSignalSourceDialog.show();
+            addSignalSourceDialog.setAppointTime(mStartTime,mEndTime);
+            addSignalSourceDialog.setSignalType(currentBaseReasonBean);
+            addSignalSourceDialog.setSignalNum(mSignalSourceNum);
         });
         addSignalSourceDialog.setOnClickDialogListener(new AddSignalSourceDialog.OnClickDialogListener() {
             @Override
@@ -290,15 +292,14 @@ public class MyOnlineScheduActivity extends AbstractMvpBaseActivity<OnlineSchedu
                 addSignalSourceDialog.setAppointTime(startTime,endTime);
             }
         });
-        appointTypeDialog.setOnChoosedItemListener(new AppointTypeDialog.OnChoosedItemListener() {
-            @Override
-            public void onChoosedSignalTypeItem(BaseReasonBean baseReasonBean) {
-                currentBaseReasonBean=baseReasonBean;
-                if (addSignalSourceDialog.isShowing()) {
-                    addSignalSourceDialog.setSignalType(baseReasonBean);
-                }
+        appointTypeDialog.setOnChoosedItemListener(baseReasonBean -> {
+            currentBaseReasonBean=baseReasonBean;
+            if (addSignalSourceDialog.isShowing()) {
+                addSignalSourceDialog.setSignalType(baseReasonBean);
             }
         });
+
+
 
     }
 

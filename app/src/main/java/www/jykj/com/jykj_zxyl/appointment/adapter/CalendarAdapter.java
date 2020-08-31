@@ -30,6 +30,11 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.ViewHo
     private Context mContext;
     private List<CalendarItemBean> list;
     private OnClickItemListener onClickItemListener;
+    private boolean isShowDate=true;
+
+    public void setShowDate(boolean showDate) {
+        isShowDate = showDate;
+    }
 
     public void setOnClickItemListener(OnClickItemListener onClickItemListener) {
         this.onClickItemListener = onClickItemListener;
@@ -53,6 +58,11 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull CalendarAdapter.ViewHolder holder, int position) {
         CalendarItemBean calendarItemBean = list.get(position);
+        if (isShowDate) {
+            holder.tvDateTime.setVisibility(View.VISIBLE);
+        }else{
+            holder.tvDateTime.setVisibility(View.GONE);
+        }
         holder.tvDateTime.setText(DateUtils.getDateToStringMMDD(calendarItemBean.getTimes()));
         holder.tvWeek.setText(getWeekStr(calendarItemBean.getWeek()));
         holder.tvSignalNum.setText(String.format("%d", calendarItemBean.getReserveTotal()));
@@ -125,6 +135,10 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.ViewHo
        return weekName;
     }
 
+
+    public void setData(List<CalendarItemBean> calendarItemBeans){
+        this.list=calendarItemBeans;
+    }
     public interface OnClickItemListener{
 
         void onClickItem(int pos);

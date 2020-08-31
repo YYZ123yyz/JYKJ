@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_f5f5f5">
+
+    <include
+        android:id="@+id/title_bar"
+        layout="@layout/item_toolbar">
+
+
+    </include>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/ll_content_root"
+        android:layout_above="@+id/rl_bottom"
+        android:layout_below="@+id/title_bar"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/rv_list_head"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            >
+
+
+        </android.support.v7.widget.RecyclerView>
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </android.support.v7.widget.RecyclerView>
+    </LinearLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/rl_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="49dp"
+        android:layout_alignParentBottom="true">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="49dp"
+            android:layout_toStartOf="@+id/tv_add_btn"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+
+            android:paddingStart="10dp"
+            android:text="添加临时放号"
+            android:textColor="@color/color_333333"
+            android:textSize="15sp"
+
+            />
+
+        <TextView
+            android:id="@+id/tv_add_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="49dp"
+            android:layout_alignParentEnd="true"
+            android:background="@color/color_799dfe"
+            android:gravity="center_vertical"
+            android:paddingStart="22.5dp"
+            android:paddingEnd="22.5dp"
+            android:text="立即添加"
+            android:textColor="@color/white"
+            android:textSize="15sp">
+
+
+        </TextView>
+    </RelativeLayout>
+</RelativeLayout>

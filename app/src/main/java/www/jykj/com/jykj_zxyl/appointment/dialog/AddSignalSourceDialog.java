@@ -38,7 +38,10 @@ public class AddSignalSourceDialog extends Dialog {
     private TextView tvSaveBtn;
     private TextView tvTime;
     private TextView tvType;
+    private boolean isShowSignalType=true;
     private OnClickDialogListener onClickDialogListener;
+
+
 
     public void setOnClickDialogListener(OnClickDialogListener onClickDialogListener) {
         this.onClickDialogListener = onClickDialogListener;
@@ -76,6 +79,11 @@ public class AddSignalSourceDialog extends Dialog {
         ivCloseBtn=view.findViewById(R.id.iv_close_btn);
         rlChooseTime=view.findViewById(R.id.rl_choose_time);
         rlChooseType=view.findViewById(R.id.rl_choose_type);
+        if(isShowSignalType){
+            rlChooseType.setVisibility(View.VISIBLE);
+        }else{
+            rlChooseType.setVisibility(View.GONE);
+        }
         edInput=view.findViewById(R.id.ed_input);
         tvSaveBtn=view.findViewById(R.id.tv_save_btn);
         tvTime=view.findViewById(R.id.tv_time);
@@ -107,6 +115,14 @@ public class AddSignalSourceDialog extends Dialog {
             edInput.setText("");
         }
 
+    }
+    public void setShowSignalType(boolean showSignalType) {
+        isShowSignalType = showSignalType;
+        if(isShowSignalType){
+            rlChooseType.setVisibility(View.VISIBLE);
+        }else{
+            rlChooseType.setVisibility(View.GONE);
+        }
     }
     /**
      * 添加监听

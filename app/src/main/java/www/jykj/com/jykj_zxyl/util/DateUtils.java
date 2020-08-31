@@ -167,6 +167,51 @@ public class DateUtils {
     }
 
     /**
+     * 获取当前日期星期数
+     *
+     * @param dt
+     * @return 当前日期是星期几
+     */
+    public static int getWeekOfDateNum(Date dt) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(dt);
+
+        int w = cal.get(Calendar.DAY_OF_WEEK);
+
+
+        return w;
+    }
+
+
+    public static String getWeekStr(int weekNum){
+        String weekName="";
+        switch (weekNum){
+            case 1:
+                weekName="日";
+                break;
+            case 2:
+                weekName="一";
+                break;
+            case 3:
+                weekName="二";
+                break;
+            case 4:
+                weekName="三";
+                break;
+            case 5:
+                weekName="四";
+                break;
+            case 6:
+                weekName="五";
+                break;
+            case 7:
+                weekName="六";
+                break;
+            default:
+        }
+        return weekName;
+    }
+    /**
      * 将字符串时间转为Long时间
      *
      * @param time yyyy-MM-dd
