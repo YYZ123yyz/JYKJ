@@ -26,7 +26,23 @@ public class DateUtils {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         return format.format(date);
     }
+    public static String getDateToStringMMDD(long milSecond) {
+        Date date = new Date(milSecond);
+        SimpleDateFormat format = new SimpleDateFormat("MM-dd");
+        return format.format(date);
+    }
 
+    public static String getDateToStringDD(long milSecond) {
+        Date date = new Date(milSecond);
+        SimpleDateFormat format = new SimpleDateFormat("H:mm");
+        return format.format(date);
+    }
+
+    public static String getDateToYYYYMMDD(long milSecond) {
+        Date date = new Date(milSecond);
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        return format.format(date);
+    }
 
     /*
      * 将时间戳转换为时间

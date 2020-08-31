@@ -399,14 +399,16 @@
         <activity
             android:name=".activity.hyhd.TCVideoPreviewActivity"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".appointment.activity.MyOnlineScheduActivity"
-            android:screenOrientation="portrait" />
+        <activity android:name=".appointment.activity.MyOnlineScheduActivity"
+            android:screenOrientation="portrait"
+            >
+
+        </activity>
         <activity
             android:name=".appointment.activity.OnLineScheduTemplateActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".appointment.activity.MyClinicActivity"
+            android:name=".appointment.activity.MyClinicDetialActivity"
             android:screenOrientation="portrait">
 
 

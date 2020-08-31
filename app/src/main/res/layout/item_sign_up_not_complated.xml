@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_date_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="11dp"
+            android:layout_marginBottom="11dp"
+            android:text="2019-11-30 11:8"
+            android:textColor="@color/color_666666"
+            android:textSize="15sp">
+
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/tv_order_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="11dp"
+            android:layout_marginEnd="22.5dp"
+            android:layout_marginBottom="11dp"
+            android:text="未处理"
+            android:textColor="@color/color_d80000"
+            android:textSize="15sp">
+
+
+        </TextView>
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.7dp"
+        android:background="@color/color_ebebeb">
+
+
+    </View>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="9dp">
+
+        <TextView
+            android:id="@+id/tv_user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="李某某"
+            android:textColor="@color/color_010101"
+            android:textSize="16sp">
+
+
+        </TextView>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+
+            android:layout_toEndOf="@+id/tv_user_name"
+            android:background="@drawable/bg_round_eb6877_6">
+
+            <ImageView
+                android:id="@+id/iv_gender_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="5dp"
+                android:src="@mipmap/bg_gender_icon">
+
+
+            </ImageView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="2dp"
+                android:layout_marginEnd="5dp"
+                android:layout_toEndOf="@+id/iv_gender_icon"
+                android:text="女"
+                android:textColor="@color/white"
+                android:textSize="8.5sp">
+
+
+            </TextView>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_service_start_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:text="服务开始时间"
+        android:textColor="@color/color_999999"
+        android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/tv_service_end_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="7.5dp"
+        android:layout_marginEnd="10dp"
+        android:text="服务结束时间"
+        android:textColor="@color/color_999999"
+        android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/tv_surplus_msg_num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="7.5dp"
+        android:layout_marginEnd="10dp"
+        android:text="剩余图文消息数量"
+        android:textColor="@color/color_999999"
+        android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/tv_surplus_phone_duration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="7.5dp"
+        android:layout_marginEnd="10dp"
+        android:text="剩余电话时长"
+        android:textColor="@color/color_999999"
+        android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/tv_surplus_audio_duration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="7.5dp"
+        android:layout_marginEnd="10dp"
+        android:text="剩余音频时长"
+        android:textColor="@color/color_999999"
+        android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/tv_surplus_video_duration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="7.5dp"
+        android:layout_marginEnd="10dp"
+        android:text="剩余视频时长"
+        android:textColor="@color/color_999999"
+        android:textSize="13sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="34.5dp"
+        android:layout_marginBottom="14.5dp"
+        android:background="@drawable/bg_round_7a9eff_14"
+        android:paddingStart="25.5dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="25.5dp"
+        android:paddingBottom="8dp"
+        android:text="接诊"
+        android:id="@+id/tv_receive_treatment_btn"
+        android:textColor="@color/white"
+        android:textSize="15sp">
+
+
+    </TextView>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:id="@+id/rl_bottom_root"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="咨询信息"
+            android:textSize="15sp"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:paddingTop="7dp"
+            android:layout_marginStart="35dp"
+            android:id="@+id/tv_consult_msg_btn"
+            android:paddingBottom="7dp"
+            android:textColor="@color/color_7A9EFF"
+            android:background="@drawable/bg_oval_7a9eff_14"
+           />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="医患互动"
+            android:textSize="15sp"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:paddingTop="7dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="35dp"
+            android:id="@+id/tv_interaction_btn"
+            android:paddingBottom="7dp"
+            android:textColor="@color/color_7A9EFF"
+            android:background="@drawable/bg_oval_7a9eff_14"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="病例详情"
+            android:textSize="15sp"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:paddingTop="7dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="35dp"
+            android:id="@+id/tv_case_detial"
+            android:paddingBottom="7dp"
+            android:layout_marginEnd="35dp"
+            android:textColor="@color/color_7A9EFF"
+            android:background="@drawable/bg_oval_7a9eff_14"
+            />
+    </RelativeLayout>
+</LinearLayout>

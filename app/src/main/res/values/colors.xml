@@ -66,5 +66,11 @@
     <color name="color_999999">#999999</color>
     <color name="color_b3b3b3">#b3b3b3</color>
     <color name="color_333333">#333333</color>
+    <color name="color_d80000">#D80000</color>
+    <color name="color_ebebeb">#EBEBEB</color>
+    <color name="color_010101">#010101</color>
+    <color name="color_EB6877">#EB6877</color>
+    <color name="color_7A9EFF">#7A9EFF</color>
+    <color name="color_799def">#799DFE</color>
 
 </resources>

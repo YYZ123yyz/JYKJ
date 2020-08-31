@@ -55,7 +55,6 @@ import www.jykj.com.jykj_zxyl.activity.myself.UserAuthenticationActivity;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.appointment.activity.MyOnlineScheduActivity;
 import www.jykj.com.jykj_zxyl.custom.MoreFeaturesPopupWindow;
-import www.jykj.com.jykj_zxyl.util.GsonUtils;
 import www.jykj.com.jykj_zxyl.util.StringUtils;
 import yyz_exploit.Utils.MyImageView;
 import yyz_exploit.activity.activity.Home_DetailsActivity;
