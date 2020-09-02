@@ -55,5 +55,9 @@ public interface ApiService {
     //我的诊所-医生操作[取消预约]
     @POST("/doctorReserveControlle/operCancelReservePatientDoctorInfo")
     Observable<String> operCancelReservePatientDoctorInfo(@Query(value = "jsonDataInfo", encoded = true) String queryJson);
+    //我的诊所-预约单查询(签约患者、一次性就诊)
+    @POST("/doctorReserveControlle/searchReserveDoctorDateRosterInfoImmediate")
+    Observable<String> searchReserveDoctorDateRosterInfoImmediate(@Query(value = "jsonDataInfo", encoded = true) String queryJson);
+
 }
 

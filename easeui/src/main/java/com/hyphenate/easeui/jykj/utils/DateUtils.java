@@ -29,6 +29,12 @@ public class DateUtils {
     }
 
 
+    public static String getDateToYYYYMMDD(long milSecond){
+        Date date = new Date(milSecond);
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        return format.format(date);
+    }
+
     /*
      * 将时间戳转换为时间
      */

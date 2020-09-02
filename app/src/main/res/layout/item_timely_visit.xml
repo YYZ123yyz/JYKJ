@@ -12,7 +12,7 @@
         android:layout_marginStart="39.5dp"
         android:layout_marginEnd="39.5dp"
         android:layout_marginTop="15dp"
-        android:layout_marginBottom="19.5dp"
+        android:id="@+id/rl_layout_root"
         android:background="@drawable/bg_oval_999999_1"
         >
 
@@ -27,6 +27,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/color_000000"
                 android:textSize="15sp"
+                android:id="@+id/tv_time_slot"
                 android:layout_marginStart="22.5dp"
                 android:layout_marginTop="9.5dp"
                 android:layout_marginBottom="9.5dp"
@@ -40,9 +41,21 @@
                 android:layout_marginStart="22.5dp"
                 android:textColor="@color/color_7a9eff"
                 android:textSize="15sp"
+                android:id="@+id/tv_signal_num"
                 android:text="排班号源数量 20"
                 />
 
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/iv_eidt"
+                    android:id="@+id/iv_eidt_btn"
+                    android:layout_marginStart="9.5dp"
+                    android:layout_gravity="center_vertical"
+                    >
+
+
+                </ImageView>
         </LinearLayout>
 
     </RelativeLayout>
@@ -53,6 +66,7 @@
         android:layout_marginTop="19.5dp"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
+        android:layout_marginBottom="15dp"
         >
 
         <LinearLayout
@@ -144,4 +158,11 @@
 
         </LinearLayout>
     </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:background="@color/color_f5f5f5"
+        >
+
+    </View>
 </LinearLayout>

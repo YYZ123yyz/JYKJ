@@ -5,7 +5,9 @@ import android.app.Activity;
 import java.util.List;
 
 import www.jykj.com.jykj_zxyl.app_base.base_bean.BaseReasonBean;
+import www.jykj.com.jykj_zxyl.app_base.base_bean.OperDoctorScheduResultBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.PatientInfoBean;
+import www.jykj.com.jykj_zxyl.app_base.base_bean.TimelyTreatmentBean;
 import www.jykj.com.jykj_zxyl.app_base.mvp.BasePresenter;
 import www.jykj.com.jykj_zxyl.app_base.mvp.BaseView;
 
@@ -49,6 +51,30 @@ public class MyClinicDetialContract {
          * @param baseReasonBeans 价格区间列表
          */
         void getPriceRegionReasonResult(List<BaseReasonBean> baseReasonBeans);
+
+        /**
+         * 获取号源类型
+         * @param baseReasonBeans 号源类型返回类别
+         */
+        void getSignalSourceTypeResult(List<BaseReasonBean> baseReasonBeans);
+
+        /**
+         * 获取及时接诊返回列表结果
+         * @param timelyTreatmentBeans 及时接诊返回列表
+         */
+        void getTimelyTreatmentListResult(List<TimelyTreatmentBean> timelyTreatmentBeans);
+
+        /**
+         * 获取操作医生排班返回结果
+         * @param operDoctorScheduResult 返回结果
+         */
+        void getOperDoctorScheduResult(OperDoctorScheduResultBean operDoctorScheduResult);
+
+        /**
+         * 操作失败
+         * @param msg 信息
+         */
+        void getOperDoctorScheduError(String msg);
     }
 
     public interface Presenter extends BasePresenter<View> {
@@ -111,5 +137,38 @@ public class MyClinicDetialContract {
          */
         void sendPriceRegionReasonRequest(String baseCode);
 
+        /**
+         * 发送及时接诊信息
+         * @param mainDoctorCode 医生code
+         */
+        void sendSearchReserveDoctorDateRosterInfoImmediateRequest(String mainDoctorCode,Activity activity);
+
+        /**
+         * 获取号源类型
+         * @param baseCode code
+         */
+        void sendGetSignalSourceTypeRequest(String baseCode);
+
+        /**
+         * 发送排班设置请求
+         * @param mainDoctorCode
+         * @param mainDoctorName
+         * @param mainDoctorAlias
+         * @param week
+         * @param reserveType
+         * @param reserveTypeName
+         * @param times
+         * @param startTimes
+         * @param endTimes
+         * @param reserveCount
+         * @param checkStep
+         * @param reserveDateRosterCode
+         * @param activity
+         */
+        void sendOperUpdDoctorDateRosterInfoRequest(String mainDoctorCode,
+                                                    String mainDoctorName,String mainDoctorAlias
+                ,String week,String reserveType,String reserveTypeName
+                ,String times,String startTimes,String endTimes, String reserveCount,String checkStep
+                ,String reserveDateRosterCode,Activity activity);
     }
 }

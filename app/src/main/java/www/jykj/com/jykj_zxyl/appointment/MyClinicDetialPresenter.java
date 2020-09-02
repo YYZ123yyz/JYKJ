@@ -11,7 +11,9 @@ import java.util.List;
 
 import www.jykj.com.jykj_zxyl.app_base.base_bean.BaseBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.BaseReasonBean;
+import www.jykj.com.jykj_zxyl.app_base.base_bean.OperDoctorScheduResultBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.PatientInfoBean;
+import www.jykj.com.jykj_zxyl.app_base.base_bean.TimelyTreatmentBean;
 import www.jykj.com.jykj_zxyl.app_base.http.ApiHelper;
 import www.jykj.com.jykj_zxyl.app_base.http.CommonDataObserver;
 import www.jykj.com.jykj_zxyl.app_base.http.ParameUtil;
@@ -36,11 +38,21 @@ public class MyClinicDetialPresenter extends BasePresenterImpl<MyClinicDetialCon
     private static final String SEND_GET_CANCEL_APPOINT_REQUEST_TAG="send_get_cancel_appoint_request_tag";
 
     private static final String SEND_GET_PRICE_REGION_REQUEST_TAG="send_get_price_region_request_tag";
+
+    private static final String SEND_GET_RESERVE_DOCTOR_DATE_INFO_IMMEDIATE_REQUEST_TAG="" +
+            "send_get_reserve_doctor_date_info_immediate_request_tag";
+
+    private static final String SEND_GET_SIGNAL_SOURCE_TYPE_REQUEST_TAG="send_get_signal_source_type_request_tag";
+
+    private static final String SEND_OPER_UPD_DOCTOR_REQUEST_TAG="send_oper_upd_doctor_request_tag";
     @Override
     protected Object[] getRequestTags() {
         return new Object[]{SEND_SEARCH_RESERVE_PATIENT_DOCTOR_INFO_REQUEST_TAG
                 ,SEND_OPERCONFIRM_RESERVE_PATIENT_DOCTOR_REQUEST_TAG
-                ,SEND_GET_CANCEL_APPOINT_REQUEST_TAG,SEND_GET_PRICE_REGION_REQUEST_TAG};
+                ,SEND_GET_CANCEL_APPOINT_REQUEST_TAG
+                ,SEND_GET_PRICE_REGION_REQUEST_TAG
+                ,SEND_GET_RESERVE_DOCTOR_DATE_INFO_IMMEDIATE_REQUEST_TAG
+                ,SEND_GET_SIGNAL_SOURCE_TYPE_REQUEST_TAG,SEND_OPER_UPD_DOCTOR_REQUEST_TAG};
     }
 
 
@@ -277,4 +289,152 @@ public class MyClinicDetialPresenter extends BasePresenterImpl<MyClinicDetialCon
                     }
                 });
     }
+
+    @Override
+    public void sendSearchReserveDoctorDateRosterInfoImmediateRequest(String mainDoctorCode, Activity activity) {
+        HashMap<String, Object> hashMap = ParameUtil.buildBaseDoctorParam(activity);
+        hashMap.put("mainDoctorCode",mainDoctorCode);
+        String s = RetrofitUtil.encodeParam(hashMap);
+        ApiHelper.getApiService().searchReserveDoctorDateRosterInfoImmediate(s).compose(Transformer.switchSchedulers(new ILoadingView() {
+            @Override
+            public void showLoadingView() {
+                if (mView!=null) {
+                    mView.showLoading(103);
+                }
+            }
+
+            @Override
+            public void hideLoadingView() {
+                if (mView!=null) {
+                    mView.hideLoading();
+                }
+
+            }
+        })).subscribe(new CommonDataObserver() {
+            @Override
+            protected void onSuccessResult(BaseBean baseBean) {
+                if (mView!=null) {
+                    int resCode = baseBean.getResCode();
+                    if (resCode==1) {
+                        String resJsonData = baseBean.getResJsonData();
+                        if (StringUtils.isNotEmpty(resJsonData)) {
+                            List<TimelyTreatmentBean> timelyTreatmentBeans
+                                    = GsonUtils.jsonToList(resJsonData, TimelyTreatmentBean.class);
+
+                            mView.getTimelyTreatmentListResult(timelyTreatmentBeans);
+                        }else{
+                            mView.getTimelyTreatmentListResult(new ArrayList<>());
+                        }
+                    }else{
+                        mView.showRetry();
+                    }
+                }
+            }
+
+            @Override
+            protected void onError(String s) {
+                super.onError(s);
+                if (mView!=null) {
+                    mView.showRetry();
+                }
+            }
+
+            @Override
+            protected String setTag() {
+                return SEND_GET_RESERVE_DOCTOR_DATE_INFO_IMMEDIATE_REQUEST_TAG;
+            }
+        });
+    }
+
+    @Override
+    public void sendGetSignalSourceTypeRequest(String baseCode) {
+
+        HashMap<String, Object> hashMap = ParameUtil.buildBaseParam();
+        hashMap.put("baseCode", baseCode);
+        String s = RetrofitUtil.encodeParam(hashMap);
+        ApiHelper.getApiService().getBasicsDomain(s).compose(Transformer.switchSchedulers())
+                .subscribe(new CommonDataObserver() {
+                    @Override
+                    protected void onSuccessResult(BaseBean baseBean) {
+                        if (mView!=null) {
+                            int resCode = baseBean.getResCode();
+                            if (resCode==1) {
+                                List<BaseReasonBean> baseReasonBeans =
+                                        GsonUtils.jsonToList(baseBean.getResJsonData(), BaseReasonBean.class);
+                                mView.getSignalSourceTypeResult(baseReasonBeans);
+                            }
+                        }
+                    }
+
+                    @Override
+                    protected String setTag() {
+                        return SEND_GET_SIGNAL_SOURCE_TYPE_REQUEST_TAG;
+                    }
+                });
+
+    }
+
+    @Override
+    public void sendOperUpdDoctorDateRosterInfoRequest(String mainDoctorCode, String mainDoctorName, String mainDoctorAlias, String week, String reserveType, String reserveTypeName, String times, String startTimes, String endTimes, String reserveCount, String checkStep, String reserveDateRosterCode, Activity activity) {
+        HashMap<String, Object> hashMap = ParameUtil.buildBaseDoctorParam(activity);
+        hashMap.put("mainDoctorCode",mainDoctorCode);
+        hashMap.put("mainDoctorName",mainDoctorName);
+        hashMap.put("mainDoctorAlias",mainDoctorAlias);
+        hashMap.put("week",week);
+        hashMap.put("reserveType",reserveType);
+        hashMap.put("reserveTypeName",reserveTypeName);
+        hashMap.put("times",times);
+        hashMap.put("startTimes",startTimes);
+        hashMap.put("endTimes",endTimes);
+        hashMap.put("reserveCount",reserveCount);
+        hashMap.put("checkStep",checkStep);
+        if (StringUtils.isNotEmpty(reserveDateRosterCode)) {
+            hashMap.put("reserveDateRosterCode",reserveDateRosterCode);
+        }
+        String s = RetrofitUtil.encodeParam(hashMap);
+        ApiHelper.getApiService().operUpdDoctorDateRosterInfo(s).compose(Transformer.switchSchedulers(new ILoadingView() {
+            @Override
+            public void showLoadingView() {
+                if (mView!=null) {
+                    mView.showLoading(104);
+                }
+            }
+
+            @Override
+            public void hideLoadingView() {
+                if (mView!=null) {
+                    mView.hideLoading();
+                }
+            }
+        })).subscribe(new CommonDataObserver() {
+            @Override
+            protected void onSuccessResult(BaseBean baseBean) {
+                if (mView!=null) {
+                    int resCode = baseBean.getResCode();
+                    if (resCode==1) {
+                        OperDoctorScheduResultBean operDoctorScheduResult =
+                                GsonUtils.fromJson(baseBean.getResJsonData(), OperDoctorScheduResultBean.class);
+                        mView.getOperDoctorScheduResult(operDoctorScheduResult);
+                    }else{
+                        mView.getOperDoctorScheduError(baseBean.getResMsg());
+                    }
+                }
+            }
+
+            @Override
+            protected void onError(String s) {
+                super.onError(s);
+                if (mView!=null) {
+                    mView.getOperDoctorScheduError(s);
+                }
+            }
+
+            @Override
+            protected String setTag() {
+                return SEND_OPER_UPD_DOCTOR_REQUEST_TAG;
+            }
+        });
+    }
+
+
 }
