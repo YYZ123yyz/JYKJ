@@ -8,44 +8,56 @@
 
 
     <TextView
-        android:id="@+id/btn_one"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:background="@color/colorPrimary"
-        android:gravity="center"
-        android:padding="8dp"
-        android:text="Android"
-        android:textColor="@color/white"
-        android:textSize="16sp" />
+        android:layout_height="40.5dp"
+        android:textColor="@color/color_666666"
+        android:textSize="15sp"
+        android:layout_marginTop="10dp"
+        android:text="默认"
+        android:gravity="center_vertical"
+        android:layout_marginStart="13.5dp"
+        android:layout_marginEnd="13.5dp"
+        android:id="@+id/tv_price_default_btn"
+        >
 
-    <LinearLayout
+
+    </TextView>
+    <View
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="0.5dp"
+        android:background="@color/color_ededed"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="40.5dp"
+        android:textColor="@color/color_666666"
+        android:textSize="15sp"
+        android:text="价格降序"
+        android:gravity="center_vertical"
+        android:layout_marginStart="13.5dp"
+        android:layout_marginEnd="13.5dp"
+        android:id="@+id/tv_price_desc_btn"
+        >
 
-        <TextView
-            android:id="@+id/btn_two"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_margin="10dp"
-            android:gravity="center"
-            android:padding="8dp"
-            android:text="Java"
-            android:textColor="@color/white"
-            android:textSize="16sp" />
-        <TextView
-            android:id="@+id/btn_three"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_margin="10dp"
-            android:gravity="center"
-            android:padding="8dp"
-            android:text="HTML"
-            android:textColor="@color/white"
-            android:textSize="16sp" />
-    </LinearLayout>
 
+    </TextView>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/color_ededed"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="40.5dp"
+        android:layout_marginStart="13.5dp"
+        android:layout_marginEnd="13.5dp"
+        android:textSize="15sp"
+        android:text="价格升序"
+        android:id="@+id/tv_price_asc_btn"
+        android:gravity="center_vertical"
+        android:textColor="@color/color_666666"
+        >
+
+
+    </TextView>
 </LinearLayout>

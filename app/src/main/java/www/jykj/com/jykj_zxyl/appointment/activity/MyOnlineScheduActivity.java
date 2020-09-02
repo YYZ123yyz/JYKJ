@@ -81,6 +81,8 @@ public class MyOnlineScheduActivity extends AbstractMvpBaseActivity<OnlineSchedu
     RelativeLayout rlBottom;
     @BindView(R.id.ll_content_root)
     LinearLayout llContentRoot;
+    @BindView(R.id.tv_no_data)
+    TextView tvNoData;
     private JYKJApplication mApp;
     private LoadingLayoutManager mLoadingLayoutManager;//重新加载布局
     private AddSignalSourceDialog addSignalSourceDialog;
@@ -94,9 +96,10 @@ public class MyOnlineScheduActivity extends AbstractMvpBaseActivity<OnlineSchedu
     private String mEndTime;//结束时间
     private BaseReasonBean currentBaseReasonBean;//号源类型
     private CalendarItemBean currentCalendarItemBean;//当前日期
+    private int currentPos;
     private String mSignalSourceNum;//号源数量
     private String reserveDateRosterCode;//医生排班明细编号
-
+    private DoctorScheduTimesBean currentDoctorScheduTimesBean;//当前排班明细
     @Override
     protected int setLayoutId() {
         return R.layout.activity_online_scheduling_2;
@@ -138,9 +141,10 @@ public class MyOnlineScheduActivity extends AbstractMvpBaseActivity<OnlineSchedu
     @Override
     protected void initData() {
         super.initData();
+
+        mPresenter.sendGetSignalSourceTypeRequest("900060");
         mPresenter.sendSearchSchedulingMsgCalandarRequest(
                 mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(),this);
-        mPresenter.sendGetSignalSourceTypeRequest("900060");
     }
 
     /**
@@ -167,15 +171,15 @@ public class MyOnlineScheduActivity extends AbstractMvpBaseActivity<OnlineSchedu
                 new DoctorSeheduTimeAdapter.OnClickItemListener() {
             @Override
             public void onClickUpdate(int pos) {
-                DoctorScheduTimesBean doctorScheduTimesBean = doctorScheduTimesBeans.get(pos);
-                long startTimes = doctorScheduTimesBean.getStartTimes();
+                 currentDoctorScheduTimesBean = doctorScheduTimesBeans.get(pos);
+                long startTimes = currentDoctorScheduTimesBean.getStartTimes();
                 mStartTime = DateUtils.getDateToStringDD(startTimes);
-                long endTimes = doctorScheduTimesBean.getEndTimes();
+                long endTimes = currentDoctorScheduTimesBean.getEndTimes();
                 mEndTime=DateUtils.getDateToStringDD(endTimes);
-                int reserveType = doctorScheduTimesBean.getReserveType();
+                int reserveType = currentDoctorScheduTimesBean.getReserveType();
                 currentBaseReasonBean = getCurrentReserveBean(reserveType);
-                mSignalSourceNum=doctorScheduTimesBean.getReserveCount()+"";
-                reserveDateRosterCode=doctorScheduTimesBean.getReserveDateRosterCode();
+                mSignalSourceNum=currentDoctorScheduTimesBean.getReserveCount()+"";
+                reserveDateRosterCode=currentDoctorScheduTimesBean.getReserveDateRosterCode();
                 addSignalSourceDialog.show();
                 addSignalSourceDialog.setAppointTime(mStartTime,mEndTime);
                 addSignalSourceDialog.setSignalType(currentBaseReasonBean);
@@ -184,9 +188,9 @@ public class MyOnlineScheduActivity extends AbstractMvpBaseActivity<OnlineSchedu
 
             @Override
             public void onClickDelete(int pos) {
-                DoctorScheduTimesBean doctorScheduTimesBean = doctorScheduTimesBeans.get(pos);
+                currentDoctorScheduTimesBean = doctorScheduTimesBeans.get(pos);
                 mPresenter.sendOperDelDoctorDateRosterInfoRequest(
-                        doctorScheduTimesBean.getReserveDateRosterCode(),
+                        currentDoctorScheduTimesBean.getReserveDateRosterCode(),
                         MyOnlineScheduActivity.this);
             }
         });
@@ -318,13 +322,32 @@ public class MyOnlineScheduActivity extends AbstractMvpBaseActivity<OnlineSchedu
     @Override
     public void getSearchSchedulingMsgCalandarResult(List<CalendarItemBean> calendarItemBeans) {
         this.calendarItemBeans =calendarItemBeans;
-        currentCalendarItemBean = getCurrentCalendarItemBeans();
-        PagerAdapter mPagerAdapter=new MyPagerAdapter(this,calendarItemBeans);
+        if (currentCalendarItemBean==null) {
+            currentCalendarItemBean = getCurrentCalendarItemBeans();
+        }else{
+            setCurrentChoosedCalendarItem(currentPos);
+        }
+        PagerAdapter mPagerAdapter=new MyPagerAdapter(this,this.calendarItemBeans);
         viewPager.setAdapter(mPagerAdapter);
         mLoadingLayoutManager.showContent();
         long times = currentCalendarItemBean.getTimes();
         mPresenter.searchReserveDoctorDateRosterInfoRequest(
                 mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(), DateUtils.getDateToYYYYMMDD(times),this);
+    }
+
+    /**
+     * 设置当前选中item
+     * @param pos 位置
+     */
+    private void setCurrentChoosedCalendarItem(int pos){
+        for (int i = 0; i < calendarItemBeans.size(); i++) {
+            if(pos==i){
+                calendarItemBeans.get(i).setChoosed(true);
+            }else{
+                calendarItemBeans.get(i).setChoosed(false);
+            }
+
+        }
     }
 
     private CalendarItemBean getCurrentCalendarItemBeans(){
@@ -353,16 +376,14 @@ public class MyOnlineScheduActivity extends AbstractMvpBaseActivity<OnlineSchedu
 
     @Override
     public void getOperDoctorScheduResult(OperDoctorScheduResultBean operDoctorScheduResultBean) {
-        long times = currentCalendarItemBean.getTimes();
-        mPresenter.searchReserveDoctorDateRosterInfoRequest(
-                mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode()
-                ,DateUtils.getDateToYYYYMMDD(times),this);
-        ToastUtils.showToast("操作成功");
+        mPresenter.sendSearchSchedulingMsgCalandarRequest(
+                mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(),this);
+       // ToastUtils.showToast("操作成功");
     }
 
     @Override
-    public void getOperDoctorScheduError() {
-        ToastUtils.showToast("操作失败");
+    public void getOperDoctorScheduError(String msg) {
+        ToastUtils.showToast(msg);
     }
 
     @Override
@@ -371,15 +392,19 @@ public class MyOnlineScheduActivity extends AbstractMvpBaseActivity<OnlineSchedu
         this.doctorScheduTimesBeans = doctorScheduTimesBeans;
         doctorSeheduTimeAdapter.setData(this.doctorScheduTimesBeans);
         doctorSeheduTimeAdapter.notifyDataSetChanged();
+        if(!CollectionUtils.isEmpty(doctorScheduTimesBeans)){
+           tvNoData.setVisibility(View.GONE);
+        }else{
+            tvNoData.setVisibility(View.VISIBLE);
+        }
+
     }
 
     @Override
     public void getOperDelDoctorDateRosterInfoResult(boolean isSucess, String msg) {
         if (isSucess) {
-            long times = currentCalendarItemBean.getTimes();
-            mPresenter.searchReserveDoctorDateRosterInfoRequest(
-                    mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode()
-                    ,DateUtils.getDateToYYYYMMDD(times),this);
+            mPresenter.sendSearchSchedulingMsgCalandarRequest(
+                    mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(),this);
         }else{
             ToastUtils.showToast(msg);
         }
@@ -397,60 +422,65 @@ public class MyOnlineScheduActivity extends AbstractMvpBaseActivity<OnlineSchedu
                 List<CalendarItemBean> calendarItemBeans =
                         this.calendarItemBeans.subList(0, 7);
                 CalendarView calendarView=new CalendarView(context);
-                calendarView.setOnClickCalendarListener(calendarItemBean -> {
-                    currentCalendarItemBean=calendarItemBean;
+                calendarView.setOnClickCalendarListener((calendarItemBean, pos) -> {
+                    currentCalendarItemBean = calendarItemBean;
+                    currentPos=pos;
                     long times = currentCalendarItemBean.getTimes();
                     mPresenter.searchReserveDoctorDateRosterInfoRequest(
                             mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(),
-                            DateUtils.getDateToYYYYMMDD(times),MyOnlineScheduActivity.this);
+                            DateUtils.getDateToYYYYMMDD(times), MyOnlineScheduActivity.this);
                 });
                 calendarView.setData(calendarItemBeans);
                 views.add(calendarView);
                 List<CalendarItemBean> calendarItemBeans1 =
                         this.calendarItemBeans.subList(7, 14);
                 CalendarView calendarView1=new CalendarView(context);
-                calendarView1.setOnClickCalendarListener(calendarItemBean -> {
-                    currentCalendarItemBean=calendarItemBean;
+                calendarView1.setOnClickCalendarListener((calendarItemBean, pos) -> {
+                    currentCalendarItemBean = calendarItemBean;
+                    currentPos=pos;
                     long times = currentCalendarItemBean.getTimes();
                     mPresenter.searchReserveDoctorDateRosterInfoRequest(
                             mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(),
-                            DateUtils.getDateToYYYYMMDD(times),MyOnlineScheduActivity.this);
+                            DateUtils.getDateToYYYYMMDD(times), MyOnlineScheduActivity.this);
                 });
                 calendarView1.setData(calendarItemBeans1);
                 views.add(calendarView1);
                 List<CalendarItemBean> calendarItemBeans2 =
                         this.calendarItemBeans.subList(14, 21);
                 CalendarView calendarView2=new CalendarView(context);
-                calendarView2.setOnClickCalendarListener(calendarItemBean -> {
-                    currentCalendarItemBean=calendarItemBean;
+                calendarView2.setOnClickCalendarListener((calendarItemBean, pos) -> {
+                    currentCalendarItemBean = calendarItemBean;
+                    currentPos=pos;
                     long times = currentCalendarItemBean.getTimes();
                     mPresenter.searchReserveDoctorDateRosterInfoRequest(
                             mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(),
-                            DateUtils.getDateToYYYYMMDD(times),MyOnlineScheduActivity.this);
+                            DateUtils.getDateToYYYYMMDD(times), MyOnlineScheduActivity.this);
                 });
                 calendarView2.setData(calendarItemBeans2);
                 views.add(calendarView2);
                 List<CalendarItemBean> calendarItemBeans3 =
                         this.calendarItemBeans.subList(21, 28);
                 CalendarView calendarView3=new CalendarView(context);
-                calendarView3.setOnClickCalendarListener(calendarItemBean -> {
-                    currentCalendarItemBean=calendarItemBean;
+                calendarView3.setOnClickCalendarListener((calendarItemBean, pos) -> {
+                    currentCalendarItemBean = calendarItemBean;
+                    currentPos=pos;
                     long times = currentCalendarItemBean.getTimes();
                     mPresenter.searchReserveDoctorDateRosterInfoRequest(
                             mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(),
-                            DateUtils.getDateToYYYYMMDD(times),MyOnlineScheduActivity.this);
+                            DateUtils.getDateToYYYYMMDD(times), MyOnlineScheduActivity.this);
                 });
                 calendarView3.setData(calendarItemBeans3);
                 views.add(calendarView3);
                 List<CalendarItemBean> calendarItemBeans4 =
                         this.calendarItemBeans.subList(28, this.calendarItemBeans.size());
                 CalendarView calendarView4=new CalendarView(context);
-                calendarView4.setOnClickCalendarListener(calendarItemBean -> {
-                    currentCalendarItemBean=calendarItemBean;
+                calendarView4.setOnClickCalendarListener((calendarItemBean, pos) -> {
+                    currentCalendarItemBean = calendarItemBean;
+                    currentPos=pos;
                     long times = currentCalendarItemBean.getTimes();
                     mPresenter.searchReserveDoctorDateRosterInfoRequest(
                             mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(),
-                            DateUtils.getDateToYYYYMMDD(times),MyOnlineScheduActivity.this);
+                            DateUtils.getDateToYYYYMMDD(times), MyOnlineScheduActivity.this);
                 });
                 calendarView4.setData(calendarItemBeans4);
                 views.add(calendarView4);

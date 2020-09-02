@@ -39,10 +39,12 @@ public class OnlineScheduContract {
          */
         void getOperDoctorScheduResult(OperDoctorScheduResultBean operDoctorScheduResult);
 
+
         /**
-         * 操作医生排班结果失败
+         * 操作失败
+         * @param msg 信息
          */
-        void getOperDoctorScheduError();
+        void getOperDoctorScheduError(String msg);
 
         /**
          * 获取排班明细返回结果

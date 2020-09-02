@@ -17,6 +17,7 @@ import androidx.annotation.NonNull;
 import com.allen.library.utils.ToastUtils;
 import com.allin.refreshandload.loadmore.HeaderAndFooterRecyclerViewAdapter;
 import com.allin.refreshandload.loadmore.RecyclerViewFinal;
+import com.hyphenate.easeui.jykj.utils.DateUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +49,7 @@ public class AppointTimeDialog extends Dialog {
     private OnClickChoosedTimeListener onClickChoosedTimeListener;
     private String startTime;
     private String endTime;
+    private CommonConfirmDialog confirmDialog;
     public void setOnClickChoosedTimeListener(OnClickChoosedTimeListener onClickChoosedTimeListener) {
         this.onClickChoosedTimeListener = onClickChoosedTimeListener;
     }
@@ -56,6 +58,7 @@ public class AppointTimeDialog extends Dialog {
         super(context, R.style.DialogTheme);
         startAppointTimeBeans=new ArrayList<>();
         endAppointTimeBeans=new ArrayList<>();
+        confirmDialog=new CommonConfirmDialog(context);
         setCanceledOnTouchOutside(true);//禁止点击空白区域消失
         Objects.requireNonNull(this.getWindow()).setDimAmount(0f);//核心代码 解决了无法去除遮罩
         init(context);
@@ -137,6 +140,11 @@ public class AppointTimeDialog extends Dialog {
                     }
                     if(!StringUtils.isNotEmpty(endTime)){
                         ToastUtils.showToast("请选择结束时间");
+                        return;
+                    }
+                    boolean lessThanEndDate = DateUtils.isLessThanEndDate(startTime, endTime);
+                    if(!lessThanEndDate){
+                        confirmDialog.show();
                         return;
                     }
                     onClickChoosedTimeListener.onChoosedTimeChange(startTime,endTime);

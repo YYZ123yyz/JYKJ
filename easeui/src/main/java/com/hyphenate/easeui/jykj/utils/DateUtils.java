@@ -1,5 +1,6 @@
 package com.hyphenate.easeui.jykj.utils;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -54,6 +55,62 @@ public class DateUtils {
         return date;
     }
 
+    public static String getDate(Date data) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(
+                "yyyy-MM-dd");
+        String string = simpleDateFormat.format(data);
+        return string;
+    }
+
+
+    /**
+     * 是否小于当前日期
+     * @param startTime 开始时间
+     * @return true or false
+     */
+    public static boolean isLessThanCurrentDate(String startTime){
+        String currentTime = com.hyphenate.easeui.jykj.utils.DateUtils.getDeviceTimeOfYMD();
+        int compareTo=0;
+        @SuppressLint("SimpleDateFormat")
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+        Date nowDate_Date=null;
+        Date endDate_Date=null;
+        try {
+            nowDate_Date = sdf.parse(startTime);
+            endDate_Date= sdf.parse(currentTime);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        compareTo = nowDate_Date.compareTo(endDate_Date);
+        if (compareTo==-1) {
+            return true;
+        }
+        return false;
+
+    }
+
+    public static boolean isLessThanEndDate(String startTime,String endTime){
+        int compareTo=0;
+        Date nowDate_Date=null;
+        Date endDate_Date=null;
+
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+            nowDate_Date = sdf.parse(getDeviceTimeOfYMD()+" "+startTime);
+            endDate_Date= sdf.parse(getDeviceTimeOfYMD()+" "+endTime);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        compareTo = nowDate_Date.compareTo(endDate_Date);
+        if (compareTo==-1) {
+            return true;
+        }
+        return false;
+
+    }
     public static int getAgeFromBirthTime(String birthTimeString) {
         // 先截取到字符串中的年、月、日
         String strs[] = birthTimeString.trim().split("-");

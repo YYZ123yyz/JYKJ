@@ -1,12 +1,14 @@
 package www.jykj.com.jykj_zxyl.app_base.base_bean;
 
+import java.io.Serializable;
+
 /**
  * Description:
  *
  * @author: qiuxinhai
  * @date: 2020-07-31 18:48
  */
-public class BaseReasonBean {
+public class BaseReasonBean implements Serializable {
 
 
     /**

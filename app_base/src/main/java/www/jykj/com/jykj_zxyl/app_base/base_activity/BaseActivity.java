@@ -39,6 +39,8 @@ public abstract class BaseActivity extends AppCompatActivity {
     private Dialog dialog;
     private TextView tvMessage;
     private View view;
+    protected int pageIndex=1;
+    protected int pageSize=10;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

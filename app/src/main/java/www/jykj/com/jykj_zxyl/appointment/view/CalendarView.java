@@ -65,7 +65,7 @@ public class CalendarView extends LinearLayout {
             @Override
             public void onClickItem(int pos) {
                 if (onClickCalendarListener!=null) {
-                    onClickCalendarListener.onClickCalendarItem(list.get(pos));
+                    onClickCalendarListener.onClickCalendarItem(list.get(pos),pos);
                     setChoosedItem(pos);
 
                 }
@@ -92,7 +92,7 @@ public class CalendarView extends LinearLayout {
 
     public interface OnClickCalendarListener{
 
-        void onClickCalendarItem(CalendarItemBean calendarItemBean);
+        void onClickCalendarItem(CalendarItemBean calendarItemBean,int pos);
     }
 
 

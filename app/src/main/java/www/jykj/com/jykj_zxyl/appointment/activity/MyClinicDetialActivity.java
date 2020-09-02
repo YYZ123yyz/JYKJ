@@ -1,32 +1,63 @@
 package www.jykj.com.jykj_zxyl.appointment.activity;
-
-
+import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.allen.library.utils.ToastUtils;
+import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
+import com.bigkoo.pickerview.builder.TimePickerBuilder;
+import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
+import com.bigkoo.pickerview.listener.OnTimeSelectListener;
+import com.bigkoo.pickerview.view.OptionsPickerView;
+import com.bigkoo.pickerview.view.TimePickerView;
+import com.hyphenate.easeui.jykj.utils.DateUtils;
+import com.hyphenate.easeui.utils.CollectionUtils;
+import com.scwang.smart.refresh.footer.ClassicsFooter;
+import com.scwang.smart.refresh.header.ClassicsHeader;
+import com.scwang.smart.refresh.layout.SmartRefreshLayout;
+import com.scwang.smart.refresh.layout.api.RefreshLayout;
+import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
 import com.yyydjk.library.DropDownMenu;
-
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
-
 import butterknife.BindView;
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.activity.myself.couponFragment.FragmentAdapter;
-import www.jykj.com.jykj_zxyl.app_base.base_activity.BaseActivity;
+import www.jykj.com.jykj_zxyl.app_base.base_bean.BaseReasonBean;
+import www.jykj.com.jykj_zxyl.app_base.base_bean.PatientInfoBean;
 import www.jykj.com.jykj_zxyl.app_base.base_view.BaseToolBar;
+import www.jykj.com.jykj_zxyl.app_base.mvp.AbstractMvpBaseActivity;
+import www.jykj.com.jykj_zxyl.application.JYKJApplication;
+import www.jykj.com.jykj_zxyl.appointment.MyClinicDetialContract;
+import www.jykj.com.jykj_zxyl.appointment.MyClinicDetialPresenter;
+import www.jykj.com.jykj_zxyl.appointment.adapter.OneVisitPatientAdapter;
 import www.jykj.com.jykj_zxyl.appointment.fragment.HistoryRecordsListFragment;
 import www.jykj.com.jykj_zxyl.appointment.fragment.NotComplateListFragment;
 import www.jykj.com.jykj_zxyl.appointment.listener.MyItemClickListener;
 import www.jykj.com.jykj_zxyl.appointment.view.FirstView;
 import www.jykj.com.jykj_zxyl.appointment.view.SecView;
+import www.jykj.com.jykj_zxyl.appointment.view.ThirdView;
 
 /**
  * Description:我的诊所
@@ -34,7 +65,8 @@ import www.jykj.com.jykj_zxyl.appointment.view.SecView;
  * @author: qiuxinhai
  * @date: 2020-08-26 18:12
  */
-public class MyClinicDetialActivity extends BaseActivity implements MyItemClickListener {
+public class MyClinicDetialActivity extends AbstractMvpBaseActivity<MyClinicDetialContract.View,
+        MyClinicDetialPresenter> implements MyItemClickListener,MyClinicDetialContract.View {
     @BindView(R.id.txt_left_title)
     TextView txtLeftTitle;
     @BindView(R.id.left_image_id)
@@ -69,12 +101,58 @@ public class MyClinicDetialActivity extends BaseActivity implements MyItemClickL
     ViewPager viewPager;
     @BindView(R.id.dropDownMenu)
     DropDownMenu dropDownMenu;
+    @BindView(R.id.dr_layout)
+    DrawerLayout drawerLayout;
+    @BindView(R.id.ll_more_right)
+    LinearLayout llMoreRight;
+    @BindView(R.id.ed_patient_name)
+    EditText edPatientName;
+    @BindView(R.id.tv_start_age)
+    TextView tvStartAge;
+    @BindView(R.id.tv_end_age)
+    TextView tvEndAge;
+    @BindView(R.id.tv_start_time)
+    TextView tvStartTime;
+    @BindView(R.id.tv_end_time)
+    TextView tvEndTime;
+    @BindView(R.id.tv_price)
+    TextView tvPrice;
+    @BindView(R.id.tv_disease_type)
+    TextView tvDiseaseType;
+    @BindView(R.id.ed_patient_chief)
+    EditText edPatientChief;
+    @BindView(R.id.tv_cancel_btn)
+    TextView tvCancelBtn;
+    @BindView(R.id.tv_confirm_btn)
+    TextView tvConfirmBtn;
+    @BindView(R.id.rl_current_date_root)
+    RelativeLayout rlCurrentDateRoot;
+    TextView tvNoData;
+    private TimePickerView timePickerView;
+    private RecyclerView rvList;
+    private SmartRefreshLayout mRefreshLayout;//刷新列表
     private int visitType=1;//就诊类型 1签约就诊 2一次性就诊 3及时就诊
     private String headers[] = {"预约日期", "价格","接诊状态","更多筛选"};
     private List<String> mTitles;
     private List<View> popupViews;
     private List<Fragment> fragments;
+    private JYKJApplication mApp;
+
     private int mPageSelect;
+    private List<PatientInfoBean> list;
+    private List<BaseReasonBean> baseReasonBeans;
+    private List<BaseReasonBean> priceBaseReasonBeans;
+    private PatientInfoBean currentPatientInfoBean;
+    private OneVisitPatientAdapter oneVisitPatientAdapter;
+    private String appointStartTime;
+    private String appointEndTime;
+    private String startAge;
+    private String endAge;
+    private String reserveStatus="";
+    private String dateSort="";
+    private String priceSort="";
+    private String treatmentType="2";
+    private String priceRegion="";
 
     @Override
     protected void onBeforeSetContentLayout() {
@@ -82,6 +160,9 @@ public class MyClinicDetialActivity extends BaseActivity implements MyItemClickL
         mTitles=new ArrayList<>();
         fragments=new ArrayList<>();
         popupViews=new ArrayList<>();
+        list=new ArrayList<>();
+        baseReasonBeans=new ArrayList<>();
+        priceBaseReasonBeans=new ArrayList<>();
     }
 
     @Override
@@ -92,6 +173,7 @@ public class MyClinicDetialActivity extends BaseActivity implements MyItemClickL
     @Override
     protected void initView() {
         super.initView();
+        mApp = (JYKJApplication) getApplication();
         mTitles.add("未完成");
         mTitles.add("历史记录");
         setToolBar();
@@ -103,8 +185,54 @@ public class MyClinicDetialActivity extends BaseActivity implements MyItemClickL
         setChooseStatus(visitType);
         //初始化viewpager
         initViewPager();
+        initOneVisitAdapter();
     }
 
+
+    @Override
+    protected void initData() {
+        super.initData();
+        mPresenter.sendCancelAppointReasonRequest("900061");
+        mPresenter.sendPriceRegionReasonRequest("900058");
+        mPresenter.sendSearchReservePatientDoctorInfoRequest(
+                mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(),
+                treatmentType,pageSize+"",pageIndex+"",
+                edPatientName.getText().toString(),endAge,startAge,
+                appointStartTime,appointEndTime,priceRegion,reserveStatus,dateSort,priceSort,this);
+
+    }
+
+    /**
+     * 初始化一次性就诊适配器
+     */
+    private void initOneVisitAdapter(){
+        oneVisitPatientAdapter=new OneVisitPatientAdapter(this,list);
+        oneVisitPatientAdapter.setOnClickItemListener(new OneVisitPatientAdapter.OnClickItemListener() {
+            @Override
+            public void onClickCancelAppointment(int pos) {
+                currentPatientInfoBean = list.get(pos);
+                Bundle bundle=new Bundle();
+                bundle.putSerializable("baseReasonBeans", (Serializable) baseReasonBeans);
+                bundle.putSerializable("currentPatientInfoBean",currentPatientInfoBean);
+                startActivity(CancelAppointActivity.class,bundle,100);
+
+            }
+
+            @Override
+            public void onClickReceiveTreatment(int pos) {
+                PatientInfoBean patientInfoBean = list.get(pos);
+                mPresenter.sendOperConfirmReservePatientDoctorInfoRequest(
+                        patientInfoBean.getReserveCode(),
+                        patientInfoBean.getReserveRosterDateCode()
+                        ,patientInfoBean.getMainDoctorCode(),
+                        patientInfoBean.getMainDoctorName(),
+                        patientInfoBean.getMainPatientCode(),
+                        patientInfoBean.getMainPatientName(),"0",MyClinicDetialActivity.this);
+            }
+        });
+        rvList.setLayoutManager(new LinearLayoutManager(this));
+        rvList.setAdapter(oneVisitPatientAdapter);
+    }
 
     /**
      * 初始化popupView
@@ -118,7 +246,7 @@ public class MyClinicDetialActivity extends BaseActivity implements MyItemClickL
         secView.setListener(this);
         popupViews.add(secView.secView());
 
-        SecView thirdView = new SecView(this);
+        ThirdView thirdView = new ThirdView(this);
         thirdView.setListener(this);
         popupViews.add(thirdView.secView());
 
@@ -127,12 +255,21 @@ public class MyClinicDetialActivity extends BaseActivity implements MyItemClickL
         fourView.setListener(this);
         popupViews.add(fourView.secView());
 
-        /**
-         * Dropdownmenu下面的主体部分
-         * */
+
         View fifthView = LayoutInflater.from(this).inflate(R.layout.activity_one_visit, null);
+        LinearLayout.LayoutParams lParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+        fifthView.setLayoutParams(lParams);
+        rvList=fifthView.findViewById(R.id.rv_list);
+        tvNoData=fifthView.findViewById(R.id.tv_no_data);
+        mRefreshLayout=fifthView.findViewById(R.id.refreshLayout);
+
         dropDownMenu.setDropDownMenu(Arrays.asList(headers), popupViews, fifthView);
+
     }
+
+
+
 
     /**
      * 初始化viewpager
@@ -167,7 +304,6 @@ public class MyClinicDetialActivity extends BaseActivity implements MyItemClickL
      */
     private void setToolBar() {
         toolbar.setMainTitle("我的诊所");
-        toolbar.setRightTitleDrawable(R.mipmap.bg_schedu_set);
         //返回键
         toolbar.setLeftTitleClickListener(view -> finish());
     }
@@ -180,22 +316,32 @@ public class MyClinicDetialActivity extends BaseActivity implements MyItemClickL
         switch (visitType) {
             case 1:
                 llSignUpRoot.setVisibility(View.VISIBLE);
-                dropDownMenu.setVisibility(View.GONE);
+                dropDownMenu.setVisibility(View.VISIBLE);
+                llMoreRight.setVisibility(View.VISIBLE);
+                rlCurrentDateRoot.setVisibility(View.GONE);
                 ivSignUpTreatment.setImageResource(R.mipmap.bg_sign_up_treatment_press);
                 ivOneTreatment.setImageResource(R.mipmap.bg_one_treatment);
                 ivTimelyTreatment.setImageResource(R.mipmap.bg_timely_treatment);
+                treatmentType="2";
                 break;
             case 2:
                 llSignUpRoot.setVisibility(View.GONE);
                 dropDownMenu.setVisibility(View.VISIBLE);
+                llMoreRight.setVisibility(View.VISIBLE);
+                rlCurrentDateRoot.setVisibility(View.GONE);
                 ivSignUpTreatment.setImageResource(R.mipmap.bg_sign_up_treatment);
                 ivOneTreatment.setImageResource(R.mipmap.bg_one_treatment_press);
                 ivTimelyTreatment.setImageResource(R.mipmap.bg_timely_treatment);
+                treatmentType="1";
                 break;
             case 3:
+                llSignUpRoot.setVisibility(View.GONE);
+                dropDownMenu.setVisibility(View.GONE);
                 ivSignUpTreatment.setImageResource(R.mipmap.bg_sign_up_treatment);
                 ivOneTreatment.setImageResource(R.mipmap.bg_one_treatment);
                 ivTimelyTreatment.setImageResource(R.mipmap.bg_timely_treatment_press);
+                llMoreRight.setVisibility(View.GONE);
+                rlCurrentDateRoot.setVisibility(View.VISIBLE);
                 break;
             default:
         }
@@ -209,24 +355,235 @@ public class MyClinicDetialActivity extends BaseActivity implements MyItemClickL
         llSignUpTreatment.setOnClickListener(v -> {
             visitType=1;
             setChooseStatus(visitType);
+            mPresenter.sendSearchReservePatientDoctorInfoRequest(
+                    mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(),
+                    treatmentType,pageSize+"",pageIndex+"",
+                    edPatientName.getText().toString(),endAge,startAge,
+                    appointStartTime,appointEndTime,priceRegion,reserveStatus,dateSort,priceSort,this);
         });
         llOneTreatment.setOnClickListener(v -> {
             visitType=2;
             setChooseStatus(visitType);
+            mPresenter.sendSearchReservePatientDoctorInfoRequest(
+                    mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(),
+                    treatmentType,pageSize+"",pageIndex+"",
+                    edPatientName.getText().toString(),endAge,startAge,
+                    appointStartTime,appointEndTime,priceRegion,reserveStatus,dateSort,priceSort,this);
         });
         llTimelyTreatment.setOnClickListener(v -> {
             visitType=3;
             setChooseStatus(visitType);
         });
+        mRefreshLayout.setRefreshHeader(new ClassicsHeader(this));
+        mRefreshLayout.setRefreshFooter(new ClassicsFooter(this));
+        mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                pageIndex=1;
+                mPresenter.sendSearchReservePatientDoctorInfoRequest(
+                        mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(),
+                        treatmentType,pageSize+"",pageIndex+"",
+                        edPatientName.getText().toString(),endAge,startAge,
+                        appointStartTime,appointEndTime,priceRegion,reserveStatus,dateSort,priceSort
+                        ,MyClinicDetialActivity.this);
+            }
+        });
+        mRefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore(RefreshLayout refreshlayout) {
+                pageIndex++;
+                mPresenter.sendSearchReservePatientDoctorInfoRequest(
+                        mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(),
+                        treatmentType,pageSize+"",pageIndex+"",
+                        edPatientName.getText().toString(),endAge,startAge,
+                        appointStartTime,appointEndTime,priceRegion,reserveStatus,dateSort,priceSort,
+                        MyClinicDetialActivity.this);
+            }
+
+        });
+
+        llMoreRight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawerLayout.openDrawer(Gravity.RIGHT);
+            }
+        });
+        tvStartAge.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showChoosedAgeDialog(1);
+            }
+        });
+        tvEndAge.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showChoosedAgeDialog(2);
+            }
+        });
+        tvStartTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showChoosedTimeDialog(1);
+            }
+        });
+        tvEndTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showChoosedTimeDialog(2);
+            }
+        });
+
+        tvPrice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!CollectionUtils.isEmpty(priceBaseReasonBeans)) {
+                    showChoosedPriceDialog(priceBaseReasonBeans);
+                }
+
+            }
+        });
+        tvDiseaseType.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        tvCancelBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawerLayout.closeDrawer(Gravity.RIGHT);
+            }
+        });
+        tvConfirmBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawerLayout.closeDrawer(Gravity.RIGHT);
+                pageIndex=1;
+                mPresenter.sendSearchReservePatientDoctorInfoRequest(
+                        mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(),
+                        treatmentType,pageSize+"",pageIndex+"",
+                        edPatientName.getText().toString(),endAge,startAge,
+                        appointStartTime,appointEndTime,priceRegion,reserveStatus,dateSort,priceSort,
+                        MyClinicDetialActivity.this);
+
+            }
+        });
     }
-    @Override
-    protected void initData() {
-        super.initData();
+
+    /**
+     * 预约选择时间弹框
+     * @param type 1为预约开始时间 2为预约结束时间
+     */
+    private void showChoosedTimeDialog(int type) {
+        timePickerView = new TimePickerBuilder(this, new OnTimeSelectListener() {
+            @Override
+            public void onTimeSelect(Date date, View v) {
+                if (DateUtils.isLessThanCurrentDate(DateUtils.getDate(date))) {
+                    ToastUtils.showToast("预约日期不能小于当前日期");
+                    return;
+                }
+                if (type==1) {
+                    appointStartTime=DateUtils.getDate(date);
+                    tvStartTime.setText(appointStartTime);
+                }else if(type==2){
+                    appointEndTime=DateUtils.getDate(date);
+                    tvEndTime.setText(appointEndTime);
+                }
+
+            }
+        }).setCancelColor(getResources().getColor(com.hyphenate.easeui.R.color.textColor_vt))
+                .setSubmitColor(getResources().getColor(com.hyphenate.easeui.R.color.textColor_hzgltabzc))
+                .setType(new boolean[]{true, true, true, false, false, false})
+                .setLabel("年", "月", "日", "", "", "").build();
+        timePickerView.show();
     }
+
+
+    /**
+     * 选择年龄范围弹框
+     * @param type 1为开始年龄 2为结束年龄
+     */
+    private void showChoosedAgeDialog(int type) {
+        List<String> stringList=new ArrayList<>();
+        for(int i=0;i<100;i++) {
+            stringList.add(i+1+"");
+        }
+
+        OptionsPickerView optionPickUnit = new OptionsPickerBuilder(this, new OnOptionsSelectListener() {
+            @Override
+            public void onOptionsSelect(int options1, int options2, int options3, View v) {
+                if (type==1) {
+                    startAge=options1+"";
+                    tvStartAge.setText(startAge);
+                }else if(type==2){
+                    endAge=options1+"";
+                    tvEndAge.setText(endAge);
+                }
+            }
+        }).setCancelColor(getResources().getColor(com.hyphenate.easeui.R.color.textColor_vt))
+                .setSubmitColor(getResources().getColor(com.hyphenate.easeui.R.color.textColor_hzgltabzc))
+                .setSelectOptions(0).build();
+
+        optionPickUnit.setNPicker(stringList, null, null);
+        optionPickUnit.show();
+    }
+
+
+    /**
+     * 选择价格区间
+     * @param list 价格区间列表
+     */
+    private void showChoosedPriceDialog(List<BaseReasonBean> list){
+        OptionsPickerView optionPickUnit = new OptionsPickerBuilder(this,
+                new OnOptionsSelectListener() {
+            @Override
+            public void onOptionsSelect(int options1, int options2, int options3, View v) {
+                tvPrice.setText(list.get(options1).getAttrName());
+                priceRegion=list.get(options1).getAttrCode()+"";
+            }
+        }).setCancelColor(getResources().getColor(com.hyphenate.easeui.R.color.textColor_vt))
+                .setSubmitColor(getResources().getColor(com.hyphenate.easeui.R.color.textColor_hzgltabzc))
+                .setSelectOptions(0).build();
+        optionPickUnit.setNPicker(convertDataToPriceType(list), null, null);
+        optionPickUnit.show();
+    }
+
+    private List<String> convertDataToPriceType(List<BaseReasonBean> priceBaseReasonBeans){
+        List<String> priceTypeList=new ArrayList<>();
+        for (BaseReasonBean priceBaseReasonBean : priceBaseReasonBeans) {
+            priceTypeList.add(priceBaseReasonBean.getAttrName());
+        }
+        return priceTypeList;
+    }
+
+
+
 
     @Override
     public void onItemClick(View view, int postion, String string) {
+        switch (postion){
+            case 1:
+                dateSort=string;
+                break;
+            case 2:
+                priceSort=string;
+                break;
+            case 3:
+                reserveStatus=string;
+                break;
+                default:
+        }
 
+        if (dropDownMenu.isShowing()) {
+            dropDownMenu.closeMenu();
+        }
+        pageIndex=1;
+        mPresenter.sendSearchReservePatientDoctorInfoRequest(
+                mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(),
+                treatmentType,pageSize+"",pageIndex+"",
+                edPatientName.getText().toString(),endAge,startAge,
+                appointStartTime,appointEndTime,priceRegion,reserveStatus,dateSort,priceSort,
+                MyClinicDetialActivity.this);
     }
 
     @Override
@@ -236,6 +593,93 @@ public class MyClinicDetialActivity extends BaseActivity implements MyItemClickL
             dropDownMenu.closeMenu();
         } else {
             super.onBackPressed();
+        }
+    }
+
+    @Override
+    public void showLoading(int code) {
+        if (code==100) {
+            mRefreshLayout.autoRefresh();
+        }else if(code==101){
+            showLoading("",null);
+        }
+    }
+
+    @Override
+    public void hideLoading() {
+        dismissLoading();
+    }
+
+    @Override
+    public void getSearchReservePatientDoctorInfoResult(List<PatientInfoBean> patientInfoBeans) {
+        if (pageIndex == 1) {
+            list.clear();
+            mRefreshLayout.finishRefresh(500);
+        }
+        if (!CollectionUtils.isEmpty(patientInfoBeans)) {
+            list.addAll(patientInfoBeans);
+            oneVisitPatientAdapter.setData(list);
+            oneVisitPatientAdapter.notifyDataSetChanged();
+            mRefreshLayout.finishLoadMore();
+            tvNoData.setVisibility(View.GONE);
+        } else {
+            if (pageIndex == 1) {
+                oneVisitPatientAdapter.setData(list);
+                oneVisitPatientAdapter.notifyDataSetChanged();
+                tvNoData.setVisibility(View.VISIBLE);
+            } else {
+                mRefreshLayout.finishLoadMore();
+            }
+        }
+
+
+    }
+
+    @Override
+    public void getOperConfirmReservePatientDoctorInfoResult(boolean isSucess, String msg) {
+        pageIndex=1;
+        mPresenter.sendSearchReservePatientDoctorInfoRequest(
+                mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(),
+                treatmentType,pageSize+"",pageIndex+"",
+                edPatientName.getText().toString(),endAge,startAge,
+                appointStartTime,appointEndTime,priceRegion,reserveStatus,dateSort,priceSort,
+                MyClinicDetialActivity.this);
+    }
+
+    @Override
+    public void getOperCancelReservePatientDoctorInfoResult(boolean isSucess, String msg) {
+        pageIndex=1;
+        mPresenter.sendSearchReservePatientDoctorInfoRequest(
+                mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(),
+                treatmentType,pageSize+"",pageIndex+"",
+                edPatientName.getText().toString(),endAge,startAge,
+                appointStartTime,appointEndTime,priceRegion,reserveStatus,dateSort,priceSort,
+                MyClinicDetialActivity.this);
+    }
+
+    @Override
+    public void getCancelAppointReasonResult(List<BaseReasonBean> baseReasonBeans) {
+        this.baseReasonBeans=baseReasonBeans;
+
+    }
+
+    @Override
+    public void getPriceRegionReasonResult(List<BaseReasonBean> baseReasonBeans) {
+        this.priceBaseReasonBeans=baseReasonBeans;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(resultCode==1001){
+            pageIndex=1;
+            mPresenter.sendSearchReservePatientDoctorInfoRequest(
+                    mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(),
+                    treatmentType,pageSize+"",pageIndex+"",
+                    edPatientName.getText().toString(),endAge,startAge,
+                    appointStartTime,appointEndTime,priceRegion,reserveStatus,dateSort,priceSort,
+                    MyClinicDetialActivity.this);
         }
     }
 }

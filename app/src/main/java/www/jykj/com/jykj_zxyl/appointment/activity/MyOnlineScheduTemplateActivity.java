@@ -11,6 +11,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.allen.library.utils.ToastUtils;
+import com.hyphenate.easeui.utils.CollectionUtils;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -66,6 +68,8 @@ public class MyOnlineScheduTemplateActivity extends AbstractMvpBaseActivity<
     TextView tvAddBtn;
     @BindView(R.id.rl_bottom)
     RelativeLayout rlBottom;
+    @BindView(R.id.tv_no_data)
+    TextView tvNoData;
     private JYKJApplication mApp;
     private LoadingLayoutManager mLoadingLayoutManager;//重新加载布局
     private CalendarAdapter mCalendarAdapter;
@@ -337,6 +341,11 @@ public class MyOnlineScheduTemplateActivity extends AbstractMvpBaseActivity<
         this.doctorScheduTimesBeans = doctorScheduTimesBeans;
         doctorSeheduTimeAdapter.setData(this.doctorScheduTimesBeans);
         doctorSeheduTimeAdapter.notifyDataSetChanged();
+        if(!CollectionUtils.isEmpty(doctorScheduTimesBeans)){
+            tvNoData.setVisibility(View.GONE);
+        }else{
+            tvNoData.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override

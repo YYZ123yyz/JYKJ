@@ -414,6 +414,11 @@
             android:name=".appointment.activity.MyClinicDetialActivity"
             android:screenOrientation="portrait">
 
+        </activity>
+        <activity android:name=".appointment.activity.CancelAppointActivity"
+            android:screenOrientation="portrait"
+            >
+
 
         </activity>
 

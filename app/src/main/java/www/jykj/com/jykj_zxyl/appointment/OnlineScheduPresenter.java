@@ -245,7 +245,7 @@ public class OnlineScheduPresenter extends
                                 GsonUtils.fromJson(baseBean.getResJsonData(), OperDoctorScheduResultBean.class);
                         mView.getOperDoctorScheduResult(operDoctorScheduResult);
                     }else{
-                        mView.getOperDoctorScheduError();
+                        mView.getOperDoctorScheduError(baseBean.getResMsg());
                     }
                 }
             }
@@ -254,7 +254,7 @@ public class OnlineScheduPresenter extends
             protected void onError(String s) {
                 super.onError(s);
                 if (mView!=null) {
-                    mView.getOperDoctorScheduError();
+                    mView.getOperDoctorScheduError(s);
                 }
             }
 

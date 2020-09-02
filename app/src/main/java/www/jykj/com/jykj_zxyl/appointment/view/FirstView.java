@@ -24,10 +24,12 @@ public class FirstView {
 
     public View firstView() {
         View view = LayoutInflater.from(context).inflate(R.layout.layout_clinic_first, null);
-        TextView tvBtnOne = (TextView) view.findViewById(R.id.btn_one);
-        TextView tvBtnTwo = (TextView) view.findViewById(R.id.btn_two);
-        tvBtnOne.setOnClickListener(new mClick("第一个"));
-        tvBtnTwo.setOnClickListener(new mClick("第二个"));
+        TextView tvDateDescBtn = view.findViewById(R.id.tv_date_desc_btn);
+        TextView tvDateAscBtn =  view.findViewById(R.id.tv_date_asc_btn);
+        TextView tvDateDefaultBtn = view.findViewById(R.id.tv_date_default_btn);
+        tvDateDescBtn.setOnClickListener(new mClick(""));
+        tvDateAscBtn.setOnClickListener(new mClick("2"));
+        tvDateDefaultBtn.setOnClickListener(new mClick("1"));
         return view;
     }
 

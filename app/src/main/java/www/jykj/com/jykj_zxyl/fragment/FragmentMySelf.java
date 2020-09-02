@@ -29,6 +29,7 @@ import www.jykj.com.jykj_zxyl.activity.myself.ShareDataSetActivity;
 import www.jykj.com.jykj_zxyl.activity.myself.UserAuthenticationActivity;
 import www.jykj.com.jykj_zxyl.activity.myself.UserCenterActivity;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
+import www.jykj.com.jykj_zxyl.appointment.activity.MyOnlineScheduActivity;
 import www.jykj.com.jykj_zxyl.util.ImageViewUtil;
 import yyz_exploit.activity.Myself_Service;
 import yyz_exploit.activity.activity.LectureActivity;
@@ -162,7 +163,7 @@ public class FragmentMySelf extends Fragment {
                 case R.id.li_fragmentMySelf_PB:
                     //我的排班
                     intent = new Intent();
-                    intent.setClass(mContext, MyPBActivity.class);
+                    intent.setClass(mContext, MyOnlineScheduActivity.class);
                     startActivity(intent);
                     break;
                 case R.id.li_fragmentMySelf_shareDataSet:

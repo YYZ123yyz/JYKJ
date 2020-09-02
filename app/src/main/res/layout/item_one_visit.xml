@@ -7,7 +7,10 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        >
 
         <com.meg7.widget.CircleImageView
             android:id="@+id/iv_userhead"
@@ -49,6 +52,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="7dp"
+                    android:id="@+id/rl_age_and_gendar_root"
                     android:background="@drawable/bg_round_2581ff_6">
 
                     <ImageView
@@ -69,7 +73,8 @@
                         android:layout_marginStart="2dp"
                         android:layout_marginEnd="5dp"
                         android:layout_toEndOf="@+id/iv_gender_icon"
-                        android:text="女"
+                        android:text="32"
+                        android:id="@+id/tv_age_num"
                         android:textColor="@color/white"
                         android:textSize="8.5sp">
 
@@ -164,6 +169,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="14sp"
+                    android:maxLines="1"
+                    android:ellipsize="end"
                     android:id="@+id/tv_patient_chief"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="10dp"
@@ -186,6 +193,7 @@
         android:layout_gravity="end"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="15.5dp"
+        android:id="@+id/ll_receive_root"
         >
         <TextView
             android:layout_width="wrap_content"
@@ -225,6 +233,8 @@
         android:layout_marginTop="20.5dp"
         android:layout_marginBottom="15.5dp"
         android:orientation="horizontal"
+        android:id="@+id/ll_receive_sucess_root"
+
         >
 
         <RelativeLayout

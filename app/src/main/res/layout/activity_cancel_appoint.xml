@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_f6f6f6"
+    android:orientation="vertical">
+
+    <include layout="@layout/item_toolbar" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="48.5dp"
+        android:id="@+id/rl_cancel_contract"
+        android:background="@color/white">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="10dp"
+            android:text="解约原因"
+            android:textColor="@color/color_000000"
+            android:textSize="15sp">
+
+
+        </TextView>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="请选择"
+                android:id="@+id/tv_cancel_contract"
+                android:drawablePadding="10dp"
+                android:drawableEnd="@mipmap/bg_right_forward"
+                android:textColor="@color/color_999999"
+                android:textSize="14sp">
+
+
+            </TextView>
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/color_f7f7f7">
+
+
+    </View>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="17dp"
+            android:text="解约描述"
+            android:textColor="@color/color_000000"
+            android:textSize="15sp">
+
+
+        </TextView>
+
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_marginStart="23.5dp"
+            android:layout_marginEnd="23.5dp"
+            android:layout_marginBottom="20.5dp"
+            android:layout_marginTop="16.5dp"
+            android:gravity="start"
+            android:padding="8dp"
+            android:id="@+id/ed_cancel_contract_desc"
+            android:background="@drawable/bg_round_f6f6f6_8"
+            android:layout_height="143dp">
+
+
+        </EditText>
+    </LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_round_799dfe_17"
+        android:text="提交"
+        android:id="@+id/tv_submit_btn"
+        android:textColor="@color/white"
+        android:layout_marginTop="275dp"
+        android:textSize="15sp"
+        android:paddingTop="9.5dp"
+        android:layout_gravity="center_horizontal"
+        android:paddingBottom="9.5dp"
+        android:paddingStart="102dp"
+        android:paddingEnd="102dp"
+
+        >
+
+
+    </TextView>
+
+</LinearLayout>

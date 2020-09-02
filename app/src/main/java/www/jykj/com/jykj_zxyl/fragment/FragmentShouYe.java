@@ -53,6 +53,7 @@ import www.jykj.com.jykj_zxyl.activity.home.tjhz.AddPatientActivity;
 import www.jykj.com.jykj_zxyl.activity.hyhd.BindDoctorFriend;
 import www.jykj.com.jykj_zxyl.activity.myself.UserAuthenticationActivity;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
+import www.jykj.com.jykj_zxyl.appointment.activity.MyClinicDetialActivity;
 import www.jykj.com.jykj_zxyl.appointment.activity.MyOnlineScheduActivity;
 import www.jykj.com.jykj_zxyl.custom.MoreFeaturesPopupWindow;
 import www.jykj.com.jykj_zxyl.util.StringUtils;
@@ -512,7 +513,9 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
         rlDoctorCircle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(FragmentShouYe.this.getContext(), MyOnlineScheduActivity.class);
+//                Intent intent=new Intent(FragmentShouYe.this.getContext(), MyOnlineScheduActivity.class);
+//                startActivity(intent);
+                Intent intent=new Intent(FragmentShouYe.this.getContext(), MyClinicDetialActivity.class);
                 startActivity(intent);
             }
         });
@@ -661,7 +664,7 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
                 break;
             //我的诊所
             case R.id.ll_wdzs:
-                startActivity(new Intent(getActivity(), MyClinicActivity.class));
+                startActivity(new Intent(getActivity(), MyClinicDetialActivity.class));
                 break;
             case R.id.ll_wdhz:
                 startActivity(new Intent(getActivity(), MyPatientActivity.class));

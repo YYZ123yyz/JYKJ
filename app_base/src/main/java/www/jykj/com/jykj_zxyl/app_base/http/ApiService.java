@@ -29,23 +29,31 @@ public interface ApiService {
 
     //排班-医生线上排班设置(天)
     @POST("/doctorReserveControlle/operUpdDoctorDateRosterInfo")
-    Observable<String> operUpdDoctorDateRosterInfo(@Query(value = "jsonDataInfo", encoded = true) String queryJso);
+    Observable<String> operUpdDoctorDateRosterInfo(@Query(value = "jsonDataInfo", encoded = true) String queryJson);
 
     //排班-线上排班删除(天)
     @POST("/doctorReserveControlle/operDelDoctorDateRosterInfo")
-    Observable<String> operDelDoctorDateRosterInfo(@Query(value = "jsonDataInfo", encoded = true) String queryJso);
+    Observable<String> operDelDoctorDateRosterInfo(@Query(value = "jsonDataInfo", encoded = true) String queryJson);
     //排班-医生查看排班信息-头信息(周)
     @POST("/doctorReserveControlle/searchReserveDoctorRosterInfoHeader")
-    Observable<String> searchReserveDoctorRosterInfoHeader(@Query(value = "jsonDataInfo", encoded = true) String queryJso);
+    Observable<String> searchReserveDoctorRosterInfoHeader(@Query(value = "jsonDataInfo", encoded = true) String queryJson);
     //排班-医生查看排班信息(周)
     @POST("/doctorReserveControlle/searchReserveDoctorRosterInfo")
-    Observable<String> searchReserveDoctorRosterInfo(@Query(value = "jsonDataInfo", encoded = true) String queryJso);
+    Observable<String> searchReserveDoctorRosterInfo(@Query(value = "jsonDataInfo", encoded = true) String queryJson);
     //排班-医生设置排班信息(周)
     @POST("/doctorReserveControlle/operDelReserveDoctorRosterInfo")
-    Observable<String> operDelReserveDoctorRosterInfo(@Query(value = "jsonDataInfo", encoded = true) String queryJso);
+    Observable<String> operDelReserveDoctorRosterInfo(@Query(value = "jsonDataInfo", encoded = true) String queryJson);
     //排班-医生设置排班信息(周)
     @POST("/doctorReserveControlle/operUpdReserveDoctorRosterInfo")
-    Observable<String> operUpdReserveDoctorRosterInfo(@Query(value = "jsonDataInfo", encoded = true) String queryJso);
-
+    Observable<String> operUpdReserveDoctorRosterInfo(@Query(value = "jsonDataInfo", encoded = true) String queryJson);
+    //我的诊所-预约单查询(签约患者、一次性就诊)
+    @POST("/doctorReserveControlle/searchReservePatientDoctorInfo")
+    Observable<String> searchReservePatientDoctorInfo(@Query(value = "jsonDataInfo", encoded = true) String queryJson);
+    //我的诊所-医生操作[确认接诊]
+    @POST("/doctorReserveControlle/operConfirmReservePatientDoctorInfo")
+    Observable<String> operConfirmReservePatientDoctorInfo(@Query(value = "jsonDataInfo", encoded = true) String queryJson);
+    //我的诊所-医生操作[取消预约]
+    @POST("/doctorReserveControlle/operCancelReservePatientDoctorInfo")
+    Observable<String> operCancelReservePatientDoctorInfo(@Query(value = "jsonDataInfo", encoded = true) String queryJson);
 }
 

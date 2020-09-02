@@ -1,5 +1,6 @@
 package www.jykj.com.jykj_zxyl.util;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -32,6 +33,12 @@ public class DateUtils {
         return format.format(date);
     }
 
+    public static String getDateToStringYYYMMDDHHMM(long milSecond) {
+        Date date = new Date(milSecond);
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        return format.format(date);
+    }
+
     public static String getDateToStringDD(long milSecond) {
         Date date = new Date(milSecond);
         SimpleDateFormat format = new SimpleDateFormat("H:mm");
@@ -44,6 +51,12 @@ public class DateUtils {
         return format.format(date);
     }
 
+    public static String getDate(Date data) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(
+                "yyyy-MM-dd");
+        String string = simpleDateFormat.format(data);
+        return string;
+    }
     /*
      * 将时间戳转换为时间
      */
@@ -187,25 +200,25 @@ public class DateUtils {
         String weekName="";
         switch (weekNum){
             case 1:
-                weekName="日";
+                weekName="星期日";
                 break;
             case 2:
-                weekName="一";
+                weekName="星期一";
                 break;
             case 3:
-                weekName="二";
+                weekName="星期二";
                 break;
             case 4:
-                weekName="三";
+                weekName="星期三";
                 break;
             case 5:
-                weekName="四";
+                weekName="星期四";
                 break;
             case 6:
-                weekName="五";
+                weekName="星期五";
                 break;
             case 7:
-                weekName="六";
+                weekName="星期六";
                 break;
             default:
         }
@@ -292,6 +305,8 @@ public class DateUtils {
         }
         return date;
     }
+
+
 
     /**
      * 当前的时间(年月日)

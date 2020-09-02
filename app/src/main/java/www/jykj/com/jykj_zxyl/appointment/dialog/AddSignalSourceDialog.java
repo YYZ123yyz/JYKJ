@@ -92,7 +92,7 @@ public class AddSignalSourceDialog extends Dialog {
 
     public void setAppointTime(String startTime,String endTime){
         if (StringUtils.isNotEmpty(startTime)&&StringUtils.isNotEmpty(endTime)) {
-            tvTime.setText(startTime+"  "+endTime);
+            tvTime.setText(startTime+"-"+endTime);
         }else{
             tvTime.setText("请选择放号时间");
         }

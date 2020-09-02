@@ -24,12 +24,12 @@ public class SecView {
 
     public View secView() {
         View view = LayoutInflater.from(context).inflate(R.layout.layout_clinic_sec, null);
-        TextView tvBtnOne = (TextView) view.findViewById(R.id.btn_one);
-        TextView tvBtnTwo = (TextView) view.findViewById(R.id.btn_two);
-        TextView tvBtnThree = (TextView) view.findViewById(R.id.btn_three);
-        tvBtnOne.setOnClickListener(new mClick("Android"));
-        tvBtnTwo.setOnClickListener(new mClick("Java"));
-        tvBtnThree.setOnClickListener(new mClick("HTML"));
+        TextView tvPriceDefaultBtn =  view.findViewById(R.id.tv_price_default_btn);
+        TextView tvPriceDescBtn =  view.findViewById(R.id.tv_price_desc_btn);
+        TextView tvPriceAscBtn =  view.findViewById(R.id.tv_price_asc_btn);
+        tvPriceDefaultBtn.setOnClickListener(new mClick(""));
+        tvPriceDescBtn.setOnClickListener(new mClick("2"));
+        tvPriceAscBtn.setOnClickListener(new mClick("1"));
         return view;
     }
 

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_80000000"
+    >
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/white"
+        android:layout_alignParentBottom="true"
+        >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:layout_marginBottom="18dp"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:id="@+id/tv_dialog_title"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:textColor="@color/color_000000"
+                android:text="退款原因"
+                >
+
+
+            </TextView>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/bg_dialog_close"
+                android:layout_alignParentEnd="true"
+                android:padding="5dp"
+                android:id="@+id/iv_close_btn"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="10dp"
+                >
+
+
+            </ImageView>
+
+        </RelativeLayout>
+        <com.allin.refreshandload.loadmore.RecyclerViewFinal
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:id="@+id/rv_list"
+            >
+
+
+        </com.allin.refreshandload.loadmore.RecyclerViewFinal>
+    </LinearLayout>
+
+</RelativeLayout>
