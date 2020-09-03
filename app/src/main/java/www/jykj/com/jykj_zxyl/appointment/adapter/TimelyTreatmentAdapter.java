@@ -76,6 +76,31 @@ public class TimelyTreatmentAdapter extends RecyclerView.Adapter<TimelyTreatment
                 }
             }
         });
+        holder.llAppointRoot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onClickItemListener!=null) {
+                    onClickItemListener.onClickAppoint(position);
+                }
+            }
+        });
+
+        holder.llReceiveRoot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onClickItemListener!=null) {
+                    onClickItemListener.onClickReceive(position);
+                }
+            }
+        });
+        holder.llCancelAppointRoot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onClickItemListener!=null) {
+                    onClickItemListener.onClickCancelAppoint(position);
+                }
+            }
+        });
 
     }
 
@@ -97,6 +122,9 @@ public class TimelyTreatmentAdapter extends RecyclerView.Adapter<TimelyTreatment
         private TextView tvCancelAppointmentNum;
         private ImageView ivEditBtn;
         private RelativeLayout rlLayoutRoot;
+        private LinearLayout llAppointRoot;
+        private LinearLayout llReceiveRoot;
+        private LinearLayout llCancelAppointRoot;
 
         public ViewHolder(View view) {
             super(view);
@@ -107,11 +135,21 @@ public class TimelyTreatmentAdapter extends RecyclerView.Adapter<TimelyTreatment
             tvCancelAppointmentNum = view.findViewById(R.id.tv_cancel_appointment_num);
             ivEditBtn = view.findViewById(R.id.iv_eidt_btn);
             rlLayoutRoot=view.findViewById(R.id.rl_layout_root);
+            llAppointRoot=view.findViewById(R.id.ll_appoint_root);
+            llReceiveRoot=view.findViewById(R.id.ll_receive_root);
+            llCancelAppointRoot=view.findViewById(R.id.ll_cancel_appoint_root);
+
         }
     }
 
     public interface OnClickItemListener{
         void onClickItem(int pos);
+
+        void onClickAppoint(int pos);
+
+        void onClickReceive(int pos);
+
+        void onClickCancelAppoint(int pos);
     }
 
 }

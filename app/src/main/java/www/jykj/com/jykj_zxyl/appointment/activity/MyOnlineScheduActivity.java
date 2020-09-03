@@ -2,6 +2,7 @@ package www.jykj.com.jykj_zxyl.appointment.activity;
 
 
 import android.content.Context;
+import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,8 +22,11 @@ import org.jsoup.Connection;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import butterknife.BindView;
+import jsc.kit.wheel.base.WheelItem;
+import jsc.kit.wheel.dialog.ColumnWheelDialog;
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.BaseReasonBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.CalendarItemBean;
@@ -36,6 +40,7 @@ import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.appointment.OnlineScheduContract;
 import www.jykj.com.jykj_zxyl.appointment.OnlineScheduPresenter;
 import www.jykj.com.jykj_zxyl.appointment.adapter.DoctorSeheduTimeAdapter;
+import www.jykj.com.jykj_zxyl.appointment.data.DataUtil;
 import www.jykj.com.jykj_zxyl.appointment.dialog.AddSignalSourceDialog;
 import www.jykj.com.jykj_zxyl.appointment.dialog.AppointTimeDialog;
 import www.jykj.com.jykj_zxyl.appointment.dialog.AppointTypeDialog;
@@ -235,15 +240,17 @@ public class MyOnlineScheduActivity extends AbstractMvpBaseActivity<OnlineSchedu
         addSignalSourceDialog.setOnClickDialogListener(new AddSignalSourceDialog.OnClickDialogListener() {
             @Override
             public void onClickChooseTime() {
-                appointTimeDialog.show();
+               // appointTimeDialog.show();
+                showChoosedTimesDialog();
             }
 
             @Override
             public void onClickChooseType() {
-                if (!CollectionUtils.isEmpty(baseReasonBeans)) {
-                    appointTypeDialog.show();
-                    appointTypeDialog.setData(baseReasonBeans);
-                }
+//                if (!CollectionUtils.isEmpty(baseReasonBeans)) {
+//                    appointTypeDialog.show();
+//                    appointTypeDialog.setData(baseReasonBeans);
+//                }
+                showSignalSourceTypeDialog(baseReasonBeans);
 
             }
 
@@ -408,6 +415,66 @@ public class MyOnlineScheduActivity extends AbstractMvpBaseActivity<OnlineSchedu
         }else{
             ToastUtils.showToast(msg);
         }
+    }
+
+
+    /**
+     * 选择时间弹框
+     */
+    private void showChoosedTimesDialog(){
+        ColumnWheelDialog<WheelItem, WheelItem, WheelItem, WheelItem, WheelItem>
+                columnWheelDialog=new ColumnWheelDialog<>(this);
+        columnWheelDialog.show();
+        columnWheelDialog.setShowTitle(true);
+        columnWheelDialog.setCancelButton("取消", null);
+        columnWheelDialog.setOKButton("确定", new ColumnWheelDialog.OnClickCallBack<WheelItem, WheelItem, WheelItem, WheelItem, WheelItem>() {
+            @Override
+            public boolean callBack(View v, @Nullable WheelItem item0, @Nullable WheelItem item1,
+                                    @Nullable WheelItem item2, @Nullable WheelItem item3, @Nullable WheelItem item4) {
+                //tvResult.setText(result);
+                mStartTime=item0.getShowText();
+                mEndTime=item1.getShowText();
+                if (addSignalSourceDialog.isShowing()) {
+                    addSignalSourceDialog.setAppointTime(mStartTime,mEndTime);
+                }
+                return false;
+            }
+        });
+        List<String> startTimes = DataUtil.getStartTimes();
+        List<String> endTimes = DataUtil.getEndTimes();
+        WheelItem[] wheelItems = DataUtil.convertStrToWheelArry(startTimes);
+        WheelItem[] wheelItems1 = DataUtil.convertStrToWheelArry(endTimes);
+        columnWheelDialog.setItems(wheelItems,wheelItems1,null,null,null);
+        columnWheelDialog.setSelected(new Random().nextInt(startTimes.size())
+                ,new Random().nextInt(endTimes.size()),0,0,0);
+    }
+
+
+    /**
+     * 号源类型弹框
+     * @param baseReasonBeans 号源类型列表
+     */
+    private void showSignalSourceTypeDialog(List<BaseReasonBean> baseReasonBeans){
+        ColumnWheelDialog<WheelItem, WheelItem, WheelItem, WheelItem, WheelItem>
+                columnWheelDialog=new ColumnWheelDialog<>(this);
+        columnWheelDialog.show();
+        columnWheelDialog.setCancelButton("取消", null);
+        columnWheelDialog.setOKButton("确定", new ColumnWheelDialog.OnClickCallBack<WheelItem, WheelItem, WheelItem, WheelItem, WheelItem>() {
+            @Override
+            public boolean callBack(View v, @Nullable WheelItem item0, @Nullable WheelItem item1,
+                                    @Nullable WheelItem item2, @Nullable WheelItem item3, @Nullable WheelItem item4) {
+                //tvResult.setText(result);
+                currentBaseReasonBean=DataUtil.getBaseReasonBeanByAttrName(item0.getShowText(),
+                        baseReasonBeans);;
+                if (addSignalSourceDialog.isShowing()) {
+                    addSignalSourceDialog.setSignalType(currentBaseReasonBean);
+                }
+                return false;
+            }
+        });
+        columnWheelDialog.setItems(DataUtil.convertObjToWheelArry(baseReasonBeans),null,null,null,null);
+        columnWheelDialog.setSelected(new Random().nextInt(baseReasonBeans.size())
+                ,0,0,0,0);
     }
 
     class MyPagerAdapter extends PagerAdapter {

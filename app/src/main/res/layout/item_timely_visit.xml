@@ -73,6 +73,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:id="@+id/ll_appoint_root"
             >
             <TextView
                 android:layout_width="wrap_content"
@@ -103,6 +104,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_centerHorizontal="true"
+            android:id="@+id/ll_receive_root"
             >
             <TextView
                 android:layout_width="wrap_content"
@@ -133,6 +135,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_alignParentEnd="true"
+            android:id="@+id/ll_cancel_appoint_root"
             >
             <TextView
                 android:layout_width="wrap_content"

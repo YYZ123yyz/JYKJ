@@ -32,8 +32,13 @@ import com.yyydjk.library.DropDownMenu;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
+import java.util.Random;
+
 import butterknife.BindView;
+import jsc.kit.wheel.base.WheelItem;
+import jsc.kit.wheel.dialog.ColumnWheelDialog;
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.BaseReasonBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.OperDoctorScheduResultBean;
@@ -46,6 +51,7 @@ import www.jykj.com.jykj_zxyl.appointment.MyClinicDetialContract;
 import www.jykj.com.jykj_zxyl.appointment.MyClinicDetialPresenter;
 import www.jykj.com.jykj_zxyl.appointment.adapter.OneVisitPatientAdapter;
 import www.jykj.com.jykj_zxyl.appointment.adapter.TimelyTreatmentAdapter;
+import www.jykj.com.jykj_zxyl.appointment.data.DataUtil;
 import www.jykj.com.jykj_zxyl.appointment.dialog.AddSignalSourceDialog;
 import www.jykj.com.jykj_zxyl.appointment.dialog.AppointTimeDialog;
 import www.jykj.com.jykj_zxyl.appointment.dialog.AppointTypeDialog;
@@ -278,6 +284,45 @@ public class MyClinicDetialActivity extends AbstractMvpBaseActivity<MyClinicDeti
                 }
 
             }
+
+            @Override
+            public void onClickAppoint(int pos) {
+                TimelyTreatmentBean timelyTreatmentBean = mTimelyTreatmentBeans.get(pos);
+                int reserveType = timelyTreatmentBean.getReserveType();
+                long times = timelyTreatmentBean.getTimes();
+                String  reserveDate = DateUtils.getDateToYYYYMMDD(times);
+                Bundle bundle=new Bundle();
+                bundle.putString("reserveDate",reserveDate);
+                bundle.putString("reserveStatus",reserveType+"");
+                startActivity(AppointPatientListActivity.class,bundle);
+
+
+            }
+
+            @Override
+            public void onClickReceive(int pos) {
+                TimelyTreatmentBean timelyTreatmentBean = mTimelyTreatmentBeans.get(pos);
+                int reserveType = timelyTreatmentBean.getReserveType();
+                long times = timelyTreatmentBean.getTimes();
+                String  reserveDate = DateUtils.getDateToYYYYMMDD(times);
+                Bundle bundle=new Bundle();
+                bundle.putString("reserveDate",reserveDate);
+                bundle.putString("reserveStatus",reserveType+"");
+                startActivity(AppointPatientListActivity.class,bundle);
+            }
+
+            @Override
+            public void onClickCancelAppoint(int pos) {
+                TimelyTreatmentBean timelyTreatmentBean = mTimelyTreatmentBeans.get(pos);
+                int reserveType = timelyTreatmentBean.getReserveType();
+                long times = timelyTreatmentBean.getTimes();
+                String  reserveDate = DateUtils.getDateToYYYYMMDD(times);
+                Bundle bundle=new Bundle();
+                bundle.putString("reserveDate",reserveDate);
+                bundle.putString("reserveStatus",reserveType+"");
+                startActivity(AppointPatientListActivity.class,bundle);
+
+            }
         });
     }
 
@@ -491,15 +536,14 @@ public class MyClinicDetialActivity extends AbstractMvpBaseActivity<MyClinicDeti
         addSignalSourceDialog.setOnClickDialogListener(new AddSignalSourceDialog.OnClickDialogListener() {
             @Override
             public void onClickChooseTime() {
-                appointTimeDialog.show();
+
+                showChoosedTimesDialog();
             }
 
             @Override
             public void onClickChooseType() {
-                if (!CollectionUtils.isEmpty(signalSourceTypeReasonBeans)) {
-                    appointTypeDialog.show();
-                    appointTypeDialog.setData(signalSourceTypeReasonBeans);
-                }
+
+                showSignalSourceTypeDialog(signalSourceTypeReasonBeans);
 
             }
 
@@ -510,10 +554,10 @@ public class MyClinicDetialActivity extends AbstractMvpBaseActivity<MyClinicDeti
 
             @Override
             public void onClickEnsure() {
-                if (currentWeek==-1) {
-                    ToastUtils.showToast("请选择星期数");
-                    return;
-                }
+//                if (currentWeek==-1) {
+//                    ToastUtils.showToast("请选择星期数");
+//                    return;
+//                }
                 if (!StringUtils.isNotEmpty(mStartTime)) {
                     ToastUtils.showToast("请选择放号时间");
                     return;
@@ -527,7 +571,7 @@ public class MyClinicDetialActivity extends AbstractMvpBaseActivity<MyClinicDeti
                     ToastUtils.showToast("号源数量不能为空");
                     return;
                 }
-
+                currentWeek = www.jykj.com.jykj_zxyl.util.DateUtils.getWeekOfDateNum(new Date());
                 addSignalSourceDialog.dismiss();
                 mPresenter.sendOperUpdDoctorDateRosterInfoRequest(
                         mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(),
@@ -764,6 +808,7 @@ public class MyClinicDetialActivity extends AbstractMvpBaseActivity<MyClinicDeti
         }
         if (!CollectionUtils.isEmpty(timelyTreatmentBeans)) {
             long times = timelyTreatmentBeans.get(0).getTimes();
+            currentWeek = timelyTreatmentBeans.get(0).getWeek();
             tvCurrentDate.setText(DateUtils.stampToDate(times));
             mTimelyTreatmentBeans.addAll(timelyTreatmentBeans);
             timelyTreatmentAdapter.setData(mTimelyTreatmentBeans);
@@ -806,4 +851,67 @@ public class MyClinicDetialActivity extends AbstractMvpBaseActivity<MyClinicDeti
                     MyClinicDetialActivity.this);
         }
     }
+
+
+
+
+    /**
+     * 选择时间弹框
+     */
+    private void showChoosedTimesDialog(){
+        ColumnWheelDialog<WheelItem, WheelItem, WheelItem, WheelItem, WheelItem>
+                columnWheelDialog=new ColumnWheelDialog<>(this);
+        columnWheelDialog.show();
+        columnWheelDialog.setShowTitle(true);
+        columnWheelDialog.setCancelButton("取消", null);
+        columnWheelDialog.setOKButton("确定", new ColumnWheelDialog.OnClickCallBack<WheelItem, WheelItem, WheelItem, WheelItem, WheelItem>() {
+            @Override
+            public boolean callBack(View v, @Nullable WheelItem item0, @Nullable WheelItem item1,
+                                    @Nullable WheelItem item2, @Nullable WheelItem item3, @Nullable WheelItem item4) {
+                //tvResult.setText(result);
+                mStartTime=item0.getShowText();
+                mEndTime=item1.getShowText();
+                if (addSignalSourceDialog.isShowing()) {
+                    addSignalSourceDialog.setAppointTime(mStartTime,mEndTime);
+                }
+                return false;
+            }
+        });
+        List<String> startTimes = DataUtil.getStartTimes();
+        List<String> endTimes = DataUtil.getEndTimes();
+        WheelItem[] wheelItems = DataUtil.convertStrToWheelArry(startTimes);
+        WheelItem[] wheelItems1 = DataUtil.convertStrToWheelArry(endTimes);
+        columnWheelDialog.setItems(wheelItems,wheelItems1,null,null,null);
+        columnWheelDialog.setSelected(new Random().nextInt(startTimes.size())
+                ,new Random().nextInt(endTimes.size()),0,0,0);
+    }
+
+
+    /**
+     * 号源类型弹框
+     * @param baseReasonBeans 号源类型列表
+     */
+    private void showSignalSourceTypeDialog(List<BaseReasonBean> baseReasonBeans){
+        ColumnWheelDialog<WheelItem, WheelItem, WheelItem, WheelItem, WheelItem>
+                columnWheelDialog=new ColumnWheelDialog<>(this);
+        columnWheelDialog.show();
+        columnWheelDialog.setCancelButton("取消", null);
+        columnWheelDialog.setOKButton("确定", new ColumnWheelDialog.OnClickCallBack<WheelItem, WheelItem, WheelItem, WheelItem, WheelItem>() {
+            @Override
+            public boolean callBack(View v, @Nullable WheelItem item0, @Nullable WheelItem item1,
+                                    @Nullable WheelItem item2, @Nullable WheelItem item3, @Nullable WheelItem item4) {
+                //tvResult.setText(result);
+                currentBaseReasonBean=DataUtil.getBaseReasonBeanByAttrName(item0.getShowText(),
+                        baseReasonBeans);
+                if (addSignalSourceDialog.isShowing()) {
+                    addSignalSourceDialog.setSignalType(currentBaseReasonBean);
+                }
+                return false;
+            }
+        });
+        columnWheelDialog.setItems(DataUtil.convertObjToWheelArry(baseReasonBeans),null,null,null,null);
+        columnWheelDialog.setSelected(new Random().nextInt(baseReasonBeans.size())
+                ,0,0,0,0);
+    }
+
 }

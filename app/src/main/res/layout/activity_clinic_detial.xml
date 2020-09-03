@@ -133,7 +133,6 @@
                 android:layout_marginTop="22.5dp">
 
 
-
                 <com.yyydjk.library.DropDownMenu
                     android:id="@+id/dropDownMenu"
                     android:layout_width="match_parent"
@@ -185,21 +184,20 @@
                 </LinearLayout>
 
                 <RelativeLayout
+                    android:id="@+id/rl_current_date_root"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:background="@color/white"
-                    android:visibility="gone"
-                    android:id="@+id/rl_current_date_root"
-                    >
+                    android:visibility="gone">
+
                     <TextView
+                        android:id="@+id/tv_current_date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/color_000000"
-                        android:textSize="15sp"
                         android:layout_centerInParent="true"
                         android:text="2020年8月10日"
-                        android:id="@+id/tv_current_date"
-                        >
+                        android:textColor="@color/color_000000"
+                        android:textSize="15sp">
 
 
                     </TextView>
@@ -210,27 +208,27 @@
 
 
             <RelativeLayout
+                android:id="@+id/rl_timely_treatment_root"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:visibility="gone"
                 android:orientation="vertical"
-                android:id="@+id/rl_timely_treatment_root"
-                >
+                android:visibility="gone">
+
                 <View
+                    android:id="@+id/view_line"
                     android:layout_width="match_parent"
                     android:layout_height="5dp"
-                    android:id="@+id/view_line"
-                    android:background="@color/color_f5f5f5"
-                    >
+                    android:background="@color/color_f5f5f5">
 
                 </View>
+
                 <com.scwang.smart.refresh.layout.SmartRefreshLayout
+                    android:id="@+id/refreshLayout2"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:id="@+id/refreshLayout2"
-                    android:layout_below="@+id/view_line"
                     android:layout_above="@+id/rl_bottom"
-                    >
+                    android:layout_below="@+id/view_line">
+
                     <com.scwang.smart.refresh.header.ClassicsHeader
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
@@ -239,34 +237,29 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
+
                         <android.support.v7.widget.RecyclerView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
                             android:id="@+id/rv_timely_list"
-                            >
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
 
 
                         </android.support.v7.widget.RecyclerView>
 
                         <TextView
+                            android:id="@+id/tv_no_data_2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerInParent="true"
+                            android:text="暂无数据"
                             android:textColor="@color/color_666666"
                             android:textSize="18sp"
-                            android:text="暂无数据"
-                            android:visibility="gone"
-                            android:id="@+id/tv_no_data_2"
-                            >
+                            android:visibility="gone">
 
 
                         </TextView>
 
                     </RelativeLayout>
-
-
-
-
 
 
                     <com.scwang.smart.refresh.footer.ClassicsFooter
