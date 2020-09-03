@@ -30,6 +30,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import www.jykj.com.jykj_zxyl.app_base.base_bean.ViewSysUserDoctorInfoAndHospital;
+import www.jykj.com.jykj_zxyl.app_base.base_utils.GsonUtils;
+import www.jykj.com.jykj_zxyl.app_base.base_utils.SharedPreferences_DataSave;
+
 
 public class DetectActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -45,7 +49,6 @@ public class DetectActivity extends AppCompatActivity implements View.OnClickLis
     private LinearLayout liBack;
     private RecyclerView rvDetect;
     private Button btActivityMySelfSettingExitButton;
-    private SharedPreferences sharedPreferences;
     private String name;
     private String code;
     private List<DetectBean> mDetectList = new ArrayList<>();
@@ -57,9 +60,16 @@ public class DetectActivity extends AppCompatActivity implements View.OnClickLis
         mContext = this;
         mActivity = this;
         mDetectList = (ArrayList<DetectBean>) getIntent().getSerializableExtra("detect");
-        sharedPreferences = getSharedPreferences("sp", Activity.MODE_PRIVATE);
-        name = sharedPreferences.getString("name", "");
-        code = sharedPreferences.getString("code", "");
+        SharedPreferences_DataSave m_persist = new SharedPreferences_DataSave(this,
+                "JYKJDOCTER");
+        String userInfoSuLogin = m_persist.getString("viewSysUserDoctorInfoAndHospital", "");
+        ViewSysUserDoctorInfoAndHospital mProvideViewSysUserPatientInfoAndRegion
+                = GsonUtils.fromJson(userInfoSuLogin, ViewSysUserDoctorInfoAndHospital.class);
+        if (mProvideViewSysUserPatientInfoAndRegion!=null) {
+            name=mProvideViewSysUserPatientInfoAndRegion.getUserName();
+            code=mProvideViewSysUserPatientInfoAndRegion.getDoctorCode();
+        }
+
         initView();
         //   OnClickListener();
         Detect();
@@ -106,6 +116,7 @@ public class DetectActivity extends AppCompatActivity implements View.OnClickLis
     }
 
 
+    @SuppressLint("HandlerLeak")
     private void initHandler() {
         mHandler = new Handler() {
             @SuppressLint("HandlerLeak")
@@ -115,16 +126,21 @@ public class DetectActivity extends AppCompatActivity implements View.OnClickLis
                 switch (msg.what) {
                     case 1:
                         if (mNetRetStr != null && !mNetRetStr.equals("")) {
-                            detectBeans = JSON.parseArray(JSON.parseObject(mNetRetStr, NetRetEntity.class).getResJsonData(), DetectBean.class);
-                            for (int i = 0; i < detectBeans.size(); i++) {
-                                for (int j = 0; j < mDetectList.size(); j++) {
-                                    if (detectBeans.get(i).getConfigDetailCode().equals(mDetectList.get(j).getConfigDetailCode())) {
-                                        detectBeans.get(i).setChoice(true);
+                            NetRetEntity netRetEntity = GsonUtils.fromJson(mNetRetStr, NetRetEntity.class);
+                            int resCode = netRetEntity.getResCode();
+                            if (resCode==1) {
+                                detectBeans = GsonUtils.jsonToList(netRetEntity.getResJsonData(), DetectBean.class);
+                                for (int i = 0; i < detectBeans.size(); i++) {
+                                    for (int j = 0; j < mDetectList.size(); j++) {
+                                        if (detectBeans.get(i).getConfigDetailCode().equals(mDetectList.get(j).getConfigDetailCode())) {
+                                            detectBeans.get(i).setChoice(true);
+                                        }
                                     }
                                 }
+                                detect_rvAdapter.setDate(detectBeans);
+                                detect_rvAdapter.notifyDataSetChanged();
                             }
-                            detect_rvAdapter.setDate(detectBeans);
-                            detect_rvAdapter.notifyDataSetChanged();
+
                         }
 
                         break;

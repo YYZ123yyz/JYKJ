@@ -62,10 +62,10 @@ public class OneVisitPatientAdapter extends RecyclerView.Adapter<OneVisitPatient
         }
         String reserveStatus = patientInfoBean.getReserveStatus();
         if (reserveStatus.equals("10")) {
-            holder.llReceiveRoot.setVisibility(View.VISIBLE);
+            holder.llAppointPatientRoot.setVisibility(View.VISIBLE);
             holder.llReceiveSucessRoot.setVisibility(View.GONE);
         } else if (reserveStatus.equals("20")) {
-            holder.llReceiveRoot.setVisibility(View.GONE);
+            holder.llAppointPatientRoot.setVisibility(View.GONE);
             holder.llReceiveSucessRoot.setVisibility(View.VISIBLE);
         }
         holder.tvAgeNum.setText(patientInfoBean.getPatientAge());
@@ -117,7 +117,7 @@ public class OneVisitPatientAdapter extends RecyclerView.Adapter<OneVisitPatient
         private TextView tvComprehensiveSurfaceBtn;
         private TextView tvVideoInteractionBtn;
         private TextView tvMedicalRecordDetialBtn;
-        private LinearLayout llReceiveRoot;
+        private LinearLayout llAppointPatientRoot;
         private LinearLayout llReceiveSucessRoot;
         public ViewHolder(View view) {
             super(view);
@@ -135,7 +135,7 @@ public class OneVisitPatientAdapter extends RecyclerView.Adapter<OneVisitPatient
             tvComprehensiveSurfaceBtn=view.findViewById(R.id.tv_comprehensive_surface_btn);
             tvVideoInteractionBtn=view.findViewById(R.id.tv_video_interaction_btn);
             tvMedicalRecordDetialBtn=view.findViewById(R.id.tv_medical_record_detial_btn);
-            llReceiveRoot=view.findViewById(R.id.ll_receive_root);
+            llAppointPatientRoot=view.findViewById(R.id.ll_appoint_patient_root);
             llReceiveSucessRoot=view.findViewById(R.id.ll_receive_sucess_root);
 
 

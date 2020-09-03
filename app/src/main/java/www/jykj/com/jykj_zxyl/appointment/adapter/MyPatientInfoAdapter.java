@@ -45,7 +45,7 @@ public class MyPatientInfoAdapter extends RecyclerView.Adapter<MyPatientInfoAdap
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_one_visit, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_my_paitent_info, parent, false);
         ViewHolder vh = new ViewHolder(view);
         return vh;
     }
@@ -62,12 +62,19 @@ public class MyPatientInfoAdapter extends RecyclerView.Adapter<MyPatientInfoAdap
         }
         String reserveStatus = patientInfoBean.getReserveStatus();
         if (reserveStatus.equals("10")) {
-            holder.llReceiveRoot.setVisibility(View.VISIBLE);
+            holder.llAppointPatientRoot.setVisibility(View.VISIBLE);
             holder.llReceiveSucessRoot.setVisibility(View.GONE);
+            holder.rlCancelledRoot.setVisibility(View.GONE);
         } else if (reserveStatus.equals("20")) {
-            holder.llReceiveRoot.setVisibility(View.GONE);
+            holder.llAppointPatientRoot.setVisibility(View.GONE);
             holder.llReceiveSucessRoot.setVisibility(View.VISIBLE);
+            holder.rlCancelledRoot.setVisibility(View.GONE);
+        }else if(reserveStatus.equals("130")){
+            holder.llAppointPatientRoot.setVisibility(View.GONE);
+            holder.llReceiveSucessRoot.setVisibility(View.GONE);
+            holder.rlCancelledRoot.setVisibility(View.VISIBLE);
         }
+
         holder.tvAgeNum.setText(patientInfoBean.getPatientAge());
         long reserveConfigStart = patientInfoBean.getReserveConfigStart();
         holder.tvAppointmentTime.setText(DateUtils.getDateToStringYYYMMDDHHMM(reserveConfigStart));
@@ -97,6 +104,8 @@ public class MyPatientInfoAdapter extends RecyclerView.Adapter<MyPatientInfoAdap
 
     }
 
+
+
     @Override
     public int getItemCount() {
         return list.size();
@@ -117,7 +126,6 @@ public class MyPatientInfoAdapter extends RecyclerView.Adapter<MyPatientInfoAdap
         private TextView tvComprehensiveSurfaceBtn;
         private TextView tvVideoInteractionBtn;
         private TextView tvMedicalRecordDetialBtn;
-        private LinearLayout llReceiveRoot;
         private LinearLayout llReceiveSucessRoot;
         private LinearLayout llAppointPatientRoot;
         private LinearLayout rlCancelledRoot;
@@ -137,7 +145,6 @@ public class MyPatientInfoAdapter extends RecyclerView.Adapter<MyPatientInfoAdap
             tvComprehensiveSurfaceBtn=view.findViewById(R.id.tv_comprehensive_surface_btn);
             tvVideoInteractionBtn=view.findViewById(R.id.tv_video_interaction_btn);
             tvMedicalRecordDetialBtn=view.findViewById(R.id.tv_medical_record_detial_btn);
-            llReceiveRoot=view.findViewById(R.id.ll_receive_root);
             llReceiveSucessRoot=view.findViewById(R.id.ll_receive_sucess_root);
             llAppointPatientRoot=view.findViewById(R.id.ll_appoint_patient_root);
             rlCancelledRoot=view.findViewById(R.id.rl_cancelled_root);

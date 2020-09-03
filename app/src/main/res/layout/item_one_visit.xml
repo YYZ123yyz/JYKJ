@@ -186,44 +186,98 @@
     </RelativeLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20.5dp"
-        android:orientation="horizontal"
-        android:layout_gravity="end"
-        android:layout_marginEnd="10dp"
         android:layout_marginBottom="15.5dp"
-        android:id="@+id/ll_receive_root"
+        android:orientation="horizontal"
+        android:id="@+id/ll_appoint_patient_root"
         >
-        <TextView
-            android:layout_width="wrap_content"
+
+        <RelativeLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="取消预约"
-            android:textColor="@color/color_7A9EFF"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
-            android:paddingTop="7dp"
-            android:paddingBottom="7dp"
-            android:id="@+id/tv_cancel_appointment_btn"
-            android:background="@drawable/bg_oval_7a9eff_14"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            android:textSize="15sp"
-            android:text="接诊"
-            android:id="@+id/tv_receive_treatment_btn"
-            android:layout_marginStart="11.5dp"
-            android:paddingTop="7dp"
-            android:paddingBottom="7dp"
-            android:paddingStart="25.5dp"
-            android:paddingEnd="25.5dp"
-            android:background="@drawable/bg_round_7a9eff_14"
+            android:layout_weight="1"
             >
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="问诊资料"
+                android:textColor="@color/color_7A9EFF"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:paddingTop="7dp"
+                android:paddingBottom="7dp"
+                android:id="@+id/tv_consult_data_btn_1"
+                android:background="@drawable/bg_oval_7a9eff_14"
+                />
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="综合表"
+                android:layout_centerInParent="true"
+                android:textColor="@color/color_7A9EFF"
+                android:paddingStart="18.5dp"
+                android:paddingEnd="18.5dp"
+                android:paddingTop="7dp"
+                android:paddingBottom="7dp"
+                android:id="@+id/tv_comprehensive_surface_btn_1"
+                android:background="@drawable/bg_oval_7a9eff_14"
+                />
 
-        </TextView>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="取消预约"
+                android:layout_centerInParent="true"
+                android:textColor="@color/color_7A9EFF"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:paddingTop="7dp"
+                android:paddingBottom="7dp"
+                android:id="@+id/tv_cancel_appointment_btn"
+                android:background="@drawable/bg_oval_7a9eff_14"
+                />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="15sp"
+                android:text="接诊"
+                android:id="@+id/tv_receive_treatment_btn"
+                android:layout_marginStart="11.5dp"
+                android:paddingTop="7dp"
+                android:paddingBottom="7dp"
+                android:paddingStart="25.5dp"
+                android:paddingEnd="25.5dp"
+                android:background="@drawable/bg_round_7a9eff_14"
+                />
+        </RelativeLayout>
+
 
     </LinearLayout>
 

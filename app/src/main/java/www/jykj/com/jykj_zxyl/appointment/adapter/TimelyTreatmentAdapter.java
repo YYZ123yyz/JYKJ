@@ -54,7 +54,7 @@ public class TimelyTreatmentAdapter extends RecyclerView.Adapter<TimelyTreatment
         holder.tvTimeSlot.setText(String.format("%s-%s", timelyTreatmentBean.getStartTimes()
                 , timelyTreatmentBean.getEndTimes()));
 
-        holder.tvAppointmentNum.setText(String.format("%d", timelyTreatmentBean.getReservedCount()));
+        holder.tvAppointmentNum.setText(String.format("%d", timelyTreatmentBean.getReserveCount()));
         holder.tvReceiveTreatmentNum.setText(String.format("%s", timelyTreatmentBean.getConfirmCount()));
         holder.tvCancelAppointmentNum.setText(String.format("%s", timelyTreatmentBean.getCancelCount()));
 

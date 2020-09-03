@@ -291,12 +291,11 @@ public class MyClinicDetialActivity extends AbstractMvpBaseActivity<MyClinicDeti
             @Override
             public void onClickAppoint(int pos) {
                 TimelyTreatmentBean timelyTreatmentBean = mTimelyTreatmentBeans.get(pos);
-                int reserveType = timelyTreatmentBean.getReserveType();
                 long times = timelyTreatmentBean.getTimes();
                 String  reserveDate = DateUtils.getDateToYYYYMMDD(times);
                 Bundle bundle=new Bundle();
                 bundle.putString("reserveDate",reserveDate);
-                bundle.putString("reserveStatus",reserveType+"");
+                bundle.putString("reserveStatus","10");
                 startActivity(AppointPatientListActivity.class,bundle);
 
 
@@ -305,24 +304,22 @@ public class MyClinicDetialActivity extends AbstractMvpBaseActivity<MyClinicDeti
             @Override
             public void onClickReceive(int pos) {
                 TimelyTreatmentBean timelyTreatmentBean = mTimelyTreatmentBeans.get(pos);
-                int reserveType = timelyTreatmentBean.getReserveType();
                 long times = timelyTreatmentBean.getTimes();
                 String  reserveDate = DateUtils.getDateToYYYYMMDD(times);
                 Bundle bundle=new Bundle();
                 bundle.putString("reserveDate",reserveDate);
-                bundle.putString("reserveStatus",reserveType+"");
+                bundle.putString("reserveStatus","20");
                 startActivity(AppointPatientListActivity.class,bundle);
             }
 
             @Override
             public void onClickCancelAppoint(int pos) {
                 TimelyTreatmentBean timelyTreatmentBean = mTimelyTreatmentBeans.get(pos);
-                int reserveType = timelyTreatmentBean.getReserveType();
                 long times = timelyTreatmentBean.getTimes();
                 String  reserveDate = DateUtils.getDateToYYYYMMDD(times);
                 Bundle bundle=new Bundle();
                 bundle.putString("reserveDate",reserveDate);
-                bundle.putString("reserveStatus",reserveType+"");
+                bundle.putString("reserveStatus","130");
                 startActivity(AppointPatientListActivity.class,bundle);
 
             }

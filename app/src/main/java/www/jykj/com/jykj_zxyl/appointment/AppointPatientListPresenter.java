@@ -4,6 +4,7 @@ import android.app.Activity;
 
 import com.allen.library.interceptor.Transformer;
 import com.allen.library.interfaces.ILoadingView;
+import com.hyphenate.easeui.utils.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,6 +43,7 @@ public class AppointPatientListPresenter extends BasePresenterImpl<AppointPatien
                                                                   String rowNum,
                                                                   String pageNum, Activity activity) {
         HashMap<String, Object> hashMap = ParameUtil.buildBaseDoctorParam(activity);
+        hashMap.put("mainDoctorCode",mainDoctorCode);
         hashMap.put("reserveDate",reserveDate);
         hashMap.put("reserveStatus",reserveStatus);
         hashMap.put("rowNum",rowNum);
@@ -71,13 +73,21 @@ public class AppointPatientListPresenter extends BasePresenterImpl<AppointPatien
                         String resJsonData = baseBean.getResJsonData();
                         if (StringUtils.isNotEmpty(resJsonData)) {
                             List<PatientInfoBean>
-                                    patientInfoBeans = GsonUtils.jsonToList(resJsonData, PatientInfoBean.class);
+                                    patientInfoBeans = GsonUtils.jsonToList(resJsonData,
+                                    PatientInfoBean.class);
                             mView.getSearchReservePaitentDoctorInfoByStatusResult(patientInfoBeans);
 
+                            if (!CollectionUtils.isEmpty(patientInfoBeans)) {
+                                mView.getSearchReservePaitentDoctorInfoByStatusResult(patientInfoBeans);
+                            }else{
+                                mView.showEmpty();
+                            }
                         }else{
                             mView.getSearchReservePaitentDoctorInfoByStatusResult(new ArrayList<>());
                         }
 
+                    }else{
+                        mView.showRetry();
                     }
                 }
             }
