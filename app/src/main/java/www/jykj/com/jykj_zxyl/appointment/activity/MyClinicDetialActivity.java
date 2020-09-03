@@ -55,6 +55,7 @@ import www.jykj.com.jykj_zxyl.appointment.data.DataUtil;
 import www.jykj.com.jykj_zxyl.appointment.dialog.AddSignalSourceDialog;
 import www.jykj.com.jykj_zxyl.appointment.dialog.AppointTimeDialog;
 import www.jykj.com.jykj_zxyl.appointment.dialog.AppointTypeDialog;
+import www.jykj.com.jykj_zxyl.appointment.dialog.CommonConfirmDialog;
 import www.jykj.com.jykj_zxyl.appointment.listener.MyItemClickListener;
 import www.jykj.com.jykj_zxyl.appointment.view.FirstView;
 import www.jykj.com.jykj_zxyl.appointment.view.SecView;
@@ -154,6 +155,7 @@ public class MyClinicDetialActivity extends AbstractMvpBaseActivity<MyClinicDeti
     private AddSignalSourceDialog addSignalSourceDialog;
     private AppointTimeDialog appointTimeDialog;
     private AppointTypeDialog appointTypeDialog;
+    private CommonConfirmDialog confirmDialog;
     private String appointStartTime;
     private String appointEndTime;
     private String startAge;
@@ -193,6 +195,7 @@ public class MyClinicDetialActivity extends AbstractMvpBaseActivity<MyClinicDeti
         addSignalSourceDialog=new AddSignalSourceDialog(this);
         appointTimeDialog=new AppointTimeDialog(this);
         appointTypeDialog=new AppointTypeDialog(this);
+        confirmDialog=new CommonConfirmDialog(this);
         mApp = (JYKJApplication) getApplication();
         setToolBar();
         //初始化popview
@@ -571,8 +574,13 @@ public class MyClinicDetialActivity extends AbstractMvpBaseActivity<MyClinicDeti
                     ToastUtils.showToast("号源数量不能为空");
                     return;
                 }
+                String dateToYYYYMMDD = DateUtils.getDateToYYYYMMDD(currentTimes);
                 currentWeek = www.jykj.com.jykj_zxyl.util.DateUtils.getWeekOfDateNum(new Date());
                 addSignalSourceDialog.dismiss();
+                if(currentTimes==0){
+                    dateToYYYYMMDD=DateUtils.getDeviceTimeOfYMD();
+                }
+
                 mPresenter.sendOperUpdDoctorDateRosterInfoRequest(
                         mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(),
                         mApp.mViewSysUserDoctorInfoAndHospital.getUserName()
@@ -580,7 +588,7 @@ public class MyClinicDetialActivity extends AbstractMvpBaseActivity<MyClinicDeti
                         currentWeek+"",
                         currentBaseReasonBean.getAttrCode()+""
                         ,currentBaseReasonBean.getAttrName(),
-                        DateUtils.getDateToYYYYMMDD(currentTimes),
+                        dateToYYYYMMDD,
                         mStartTime,mEndTime,mSignalSourceNum,"1",
                         reserveDateRosterCode,MyClinicDetialActivity.this
                 );
@@ -871,6 +879,12 @@ public class MyClinicDetialActivity extends AbstractMvpBaseActivity<MyClinicDeti
                 //tvResult.setText(result);
                 mStartTime=item0.getShowText();
                 mEndTime=item1.getShowText();
+                boolean lessThanEndDate = DateUtils.isLessThanEndDate(mStartTime, mEndTime);
+                if(!lessThanEndDate){
+                    confirmDialog.show();
+                    return true;
+                }
+
                 if (addSignalSourceDialog.isShowing()) {
                     addSignalSourceDialog.setAppointTime(mStartTime,mEndTime);
                 }

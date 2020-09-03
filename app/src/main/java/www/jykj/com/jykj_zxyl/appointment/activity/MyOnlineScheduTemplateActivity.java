@@ -38,6 +38,7 @@ import www.jykj.com.jykj_zxyl.appointment.adapter.DoctorSeheduTimeWeekAdapter;
 import www.jykj.com.jykj_zxyl.appointment.data.DataUtil;
 import www.jykj.com.jykj_zxyl.appointment.dialog.AddSignalSourceDialog;
 import www.jykj.com.jykj_zxyl.appointment.dialog.AppointTimeDialog;
+import www.jykj.com.jykj_zxyl.appointment.dialog.CommonConfirmDialog;
 import www.jykj.com.jykj_zxyl.util.DateUtils;
 import www.jykj.com.jykj_zxyl.util.StringUtils;
 
@@ -82,6 +83,7 @@ public class MyOnlineScheduTemplateActivity extends AbstractMvpBaseActivity<
     private DoctorSeheduTimeWeekAdapter doctorSeheduTimeAdapter;
     private AddSignalSourceDialog addSignalSourceDialog;
     private AppointTimeDialog appointTimeDialog;
+    private CommonConfirmDialog confirmDialog;
     private List<DcotorScheduTimesWeekBean> doctorScheduTimesBeans;
     private List<CalendarItemBean> calendarItemBeans;
     private String mStartTime;//开始时间
@@ -97,6 +99,7 @@ public class MyOnlineScheduTemplateActivity extends AbstractMvpBaseActivity<
         calendarItemBeans=new ArrayList<>();
         addSignalSourceDialog=new AddSignalSourceDialog(this);
         appointTimeDialog=new AppointTimeDialog(this);
+        confirmDialog=new CommonConfirmDialog(this);
     }
 
     @Override
@@ -342,6 +345,12 @@ public class MyOnlineScheduTemplateActivity extends AbstractMvpBaseActivity<
                 //tvResult.setText(result);
                 mStartTime=item0.getShowText();
                 mEndTime=item1.getShowText();
+
+                boolean lessThanEndDate = com.hyphenate.easeui.jykj.utils.DateUtils.isLessThanEndDate(mStartTime, mEndTime);
+                if(!lessThanEndDate){
+                    confirmDialog.show();
+                    return true;
+                }
                 if (addSignalSourceDialog.isShowing()) {
                     addSignalSourceDialog.setAppointTime(mStartTime,mEndTime);
                 }

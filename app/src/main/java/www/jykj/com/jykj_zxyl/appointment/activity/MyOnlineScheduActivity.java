@@ -44,6 +44,7 @@ import www.jykj.com.jykj_zxyl.appointment.data.DataUtil;
 import www.jykj.com.jykj_zxyl.appointment.dialog.AddSignalSourceDialog;
 import www.jykj.com.jykj_zxyl.appointment.dialog.AppointTimeDialog;
 import www.jykj.com.jykj_zxyl.appointment.dialog.AppointTypeDialog;
+import www.jykj.com.jykj_zxyl.appointment.dialog.CommonConfirmDialog;
 import www.jykj.com.jykj_zxyl.appointment.view.CalendarView;
 import www.jykj.com.jykj_zxyl.util.DateUtils;
 import www.jykj.com.jykj_zxyl.util.StringUtils;
@@ -93,6 +94,7 @@ public class MyOnlineScheduActivity extends AbstractMvpBaseActivity<OnlineSchedu
     private AddSignalSourceDialog addSignalSourceDialog;
     private AppointTimeDialog appointTimeDialog;
     private AppointTypeDialog appointTypeDialog;
+    private CommonConfirmDialog confirmDialog;
     private DoctorSeheduTimeAdapter doctorSeheduTimeAdapter;
     private List<DoctorScheduTimesBean> doctorScheduTimesBeans;
     private List<CalendarItemBean> calendarItemBeans;
@@ -117,6 +119,7 @@ public class MyOnlineScheduActivity extends AbstractMvpBaseActivity<OnlineSchedu
         addSignalSourceDialog=new AddSignalSourceDialog(this);
         appointTimeDialog=new AppointTimeDialog(this);
         appointTypeDialog=new AppointTypeDialog(this);
+        confirmDialog=new CommonConfirmDialog(this);
         mApp = (JYKJApplication) getApplication();
         setToolBar();
         initLoadingAndRetryManager();
@@ -434,6 +437,11 @@ public class MyOnlineScheduActivity extends AbstractMvpBaseActivity<OnlineSchedu
                 //tvResult.setText(result);
                 mStartTime=item0.getShowText();
                 mEndTime=item1.getShowText();
+                boolean lessThanEndDate = com.hyphenate.easeui.jykj.utils.DateUtils.isLessThanEndDate(mStartTime, mEndTime);
+                if(!lessThanEndDate){
+                    confirmDialog.show();
+                    return true;
+                }
                 if (addSignalSourceDialog.isShowing()) {
                     addSignalSourceDialog.setAppointTime(mStartTime,mEndTime);
                 }
@@ -465,7 +473,7 @@ public class MyOnlineScheduActivity extends AbstractMvpBaseActivity<OnlineSchedu
                                     @Nullable WheelItem item2, @Nullable WheelItem item3, @Nullable WheelItem item4) {
                 //tvResult.setText(result);
                 currentBaseReasonBean=DataUtil.getBaseReasonBeanByAttrName(item0.getShowText(),
-                        baseReasonBeans);;
+                        baseReasonBeans);
                 if (addSignalSourceDialog.isShowing()) {
                     addSignalSourceDialog.setSignalType(currentBaseReasonBean);
                 }
