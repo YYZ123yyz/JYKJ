@@ -52,6 +52,10 @@ public class EaseChatRowOrderCard extends EaseChatRow {
     private TextView mTvCancelContractMsg;//解约信息
     private ImageView ivStampIcon;//印章
     private TextView mTvOperMsg;//操作信息
+
+    private TextView tvMonitorType;
+    private TextView tvCoachRate;
+    private TextView tvSignTime;
     private RelativeLayout mRlCancelContractOrderRoot;
     private TextView tvCancelContractAgreeBtn;
     private TextView tvCancelContractRefuseBtn;
@@ -67,6 +71,12 @@ public class EaseChatRowOrderCard extends EaseChatRow {
     private String orderType;
     private String messageType;
 
+    //预约
+    private String statusType;
+    private String startTime;
+    private String appointMentProject;
+    private String appointMentType;
+
     private ViewSysUserDoctorInfoAndHospital mViewSysUserDoctorInfoAndHospital;
     private String mNetRetStr;
     private Handler mHandler;
@@ -74,6 +84,7 @@ public class EaseChatRowOrderCard extends EaseChatRow {
     protected Bundle fragmentArgs;
     private String patientCode;
     private String imageUrl;
+
     //   private List<ProvideDoctorPatientUserInfo> mProvideDoctorPatientUserInfo = new ArrayList<>();
     public EaseChatRowOrderCard(Context context, EMMessage message,
                                 int position, BaseAdapter adapter) {
@@ -104,6 +115,9 @@ public class EaseChatRowOrderCard extends EaseChatRow {
         tvCancelContractAgreeBtn = findViewById(R.id.tv_cancel_contract_agree_btn);
         tvCancelContractRefuseBtn = findViewById(R.id.tv_cancel_contract_refuse_btn);
         tvOrderReceivedUpdateBtn=findViewById(R.id.tv_order_received_update_btn);
+        tvMonitorType=findViewById(R.id.tv_monitor_type);
+        tvCoachRate=findViewById(R.id.tv_coach_rate);
+        tvSignTime=findViewById(R.id.tv_sign_time);
         addListener();
     }
 
@@ -131,6 +145,10 @@ public class EaseChatRowOrderCard extends EaseChatRow {
         patientCode = message.getStringAttribute("patientCode", "");
         nickName = message.getStringAttribute("nickName", "");
         imageUrl = message.getStringAttribute("imageUrl", "");
+        statusType=message.getStringAttribute("statusType","");
+        startTime=message.getStringAttribute("startTime","");
+        appointMentProject=message.getStringAttribute("appointMentProject","");
+        appointMentType=message.getStringAttribute("appointMentType","");
         mTvMonitValue.setText(monitoringType);
         mTvCoachRateValue.setText(coach);
         mTvSignTimeValue.setText(signUpTime);
@@ -140,6 +158,18 @@ public class EaseChatRowOrderCard extends EaseChatRow {
             mTvCardTitle.setText("解约订单");
         } else if (messageType.equals("card")) {
             mTvCardTitle.setText("签约订单");
+        }else if(messageType.equals("appointment")){
+            tvMonitorType.setText("预约时间");
+            tvCoachRate.setText("预约项目");
+            tvSignTime.setText("预约类型");
+            if (statusType.equals("1")) {
+                mTvCardTitle.setText("预约成功");
+            }else if(statusType.equals("2")){
+                mTvCardTitle.setText("取消预约");
+            }
+            mTvMonitValue.setText(startTime);
+            mTvCoachRateValue.setText(appointMentProject);
+            mTvSignTimeValue.setText(appointMentType);
         }
         EMMessage.Direct direct = message.direct();
         if (direct== EMMessage.Direct.RECEIVE) {
@@ -205,10 +235,17 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                 }
 
 
+            }else if(messageType.equals("appointment")){
+                ivStampIcon.setVisibility(View.GONE);
+                mTvPriceValue.setVisibility(View.GONE);
+                if (statusType.equals("1")) {
+                  mTvOperMsg.setText("对方预约成功");
+                }else if(statusType.equals("2")){
+                    mTvOperMsg.setText("对方已取消预约");
+                }
             }
 
         } else if (direct == EMMessage.Direct.SEND) {
-
             if (messageType.equals("terminationOrder")) {
                 switch (orderType) {
                     case "1":
