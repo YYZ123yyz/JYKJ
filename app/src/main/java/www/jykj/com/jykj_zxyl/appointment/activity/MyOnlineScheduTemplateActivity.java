@@ -367,16 +367,21 @@ public class MyOnlineScheduTemplateActivity extends AbstractMvpBaseActivity<
     }
 
 
-
-
+    /**
+     * 获取当前日期
+     * @param list 日历列表
+     * @return 当前日期
+     */
     private CalendarItemBean getCurrentWeekCalendar(List<CalendarItemBean> list){
         CalendarItemBean currentCalendarItemBean=null;
         int weekOfDate = DateUtils.getWeekOfDateNum(new Date());
-        for (CalendarItemBean calendarItemBean : list) {
+        for (int i = 0; i < list.size(); i++) {
+            CalendarItemBean calendarItemBean = list.get(i);
             int week = calendarItemBean.getWeek();
             if (weekOfDate== week) {
                 calendarItemBean.setChoosed(true);
                 currentCalendarItemBean=calendarItemBean;
+                currentPos=i;
                 break;
             }
         }
