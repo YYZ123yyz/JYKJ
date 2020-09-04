@@ -44,6 +44,12 @@ public class OnlineScheduTemplateContract {
          * @param msg 返回信息
          */
       void getOperUpdReserveDoctorRosterInfoRequest(boolean isSucess,String msg);
+
+        /**
+         *加载医生排班信息周
+         * @param msg 信息
+         */
+      void getOperUpdReservedDoctorRosterInfoCheckStepConfirm(String msg);
     }
 
     public interface Presenter extends BasePresenter<View> {

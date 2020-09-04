@@ -84,6 +84,7 @@ public class MyOnlineScheduTemplateActivity extends AbstractMvpBaseActivity<
     private AddSignalSourceDialog addSignalSourceDialog;
     private AppointTimeDialog appointTimeDialog;
     private CommonConfirmDialog confirmDialog;
+    private CommonConfirmDialog checkStepDialog;
     private List<DcotorScheduTimesWeekBean> doctorScheduTimesBeans;
     private List<CalendarItemBean> calendarItemBeans;
     private String mStartTime;//开始时间
@@ -93,6 +94,7 @@ public class MyOnlineScheduTemplateActivity extends AbstractMvpBaseActivity<
     private String mSignalSourceNum;//号源数量
     private String reserveDateRosterCode;//医生排班明细编号
     private int currentPos;
+    private String checkStep="0";//校验步骤
     @Override
     protected void onBeforeSetContentLayout() {
         super.onBeforeSetContentLayout();
@@ -100,6 +102,7 @@ public class MyOnlineScheduTemplateActivity extends AbstractMvpBaseActivity<
         addSignalSourceDialog=new AddSignalSourceDialog(this);
         appointTimeDialog=new AppointTimeDialog(this);
         confirmDialog=new CommonConfirmDialog(this);
+        checkStepDialog=new CommonConfirmDialog(this);
     }
 
     @Override
@@ -147,6 +150,7 @@ public class MyOnlineScheduTemplateActivity extends AbstractMvpBaseActivity<
                 currentBaseReasonBean=null;
                 mSignalSourceNum=null;
                 reserveDateRosterCode=null;
+                checkStep="0";
                 addSignalSourceDialog.setShowSignalType(false);
                 addSignalSourceDialog.show();
                 addSignalSourceDialog.setAppointTime(mStartTime,mEndTime);
@@ -195,7 +199,7 @@ public class MyOnlineScheduTemplateActivity extends AbstractMvpBaseActivity<
                         mApp.mViewSysUserDoctorInfoAndHospital.getUserName()
                         ,mApp.mViewSysUserDoctorInfoAndHospital.getUserNameAlias(),
                         currentCalendarItemBean.getWeek()+"",
-                        weekStr,mStartTime,mEndTime,mSignalSourceNum,"1"
+                        weekStr,mStartTime,mEndTime,mSignalSourceNum,checkStep
                         ,reserveDateRosterCode,MyOnlineScheduTemplateActivity.this
 
                 );
@@ -209,6 +213,16 @@ public class MyOnlineScheduTemplateActivity extends AbstractMvpBaseActivity<
             if (addSignalSourceDialog.isShowing()) {
                 addSignalSourceDialog.setAppointTime(startTime,endTime);
             }
+        });
+        checkStepDialog.setOnClickListener(() -> {
+            String weekStr = DateUtils.getWeekStr(currentCalendarItemBean.getWeek());
+            mPresenter.sendOperUpdReserveDoctorRosterInfoRequest(
+                    mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(),
+                    mApp.mViewSysUserDoctorInfoAndHospital.getUserName()
+                    ,mApp.mViewSysUserDoctorInfoAndHospital.getUserNameAlias(),
+                    currentCalendarItemBean.getWeek()+"",
+                    weekStr,mStartTime,mEndTime,mSignalSourceNum,checkStep
+                    ,reserveDateRosterCode,MyOnlineScheduTemplateActivity.this);
         });
 
     }
@@ -421,5 +435,12 @@ public class MyOnlineScheduTemplateActivity extends AbstractMvpBaseActivity<
         }else{
             ToastUtils.showToast(msg);
         }
+    }
+
+    @Override
+    public void getOperUpdReservedDoctorRosterInfoCheckStepConfirm(String msg) {
+        checkStepDialog.show();
+        checkStepDialog.setContentText(msg);
+        checkStep="1";
     }
 }

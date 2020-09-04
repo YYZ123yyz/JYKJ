@@ -414,7 +414,17 @@ public class MyClinicDetialPresenter extends BasePresenterImpl<MyClinicDetialCon
                     if (resCode==1) {
                         OperDoctorScheduResultBean operDoctorScheduResult =
                                 GsonUtils.fromJson(baseBean.getResJsonData(), OperDoctorScheduResultBean.class);
-                        mView.getOperDoctorScheduResult(operDoctorScheduResult);
+
+                        String status="";
+                        if (operDoctorScheduResult!=null) {
+                            status = operDoctorScheduResult.getStatus();
+                        }
+                        if (StringUtils.isNotEmpty(status)&&status.equals("1")) {
+                            mView.getOperDoctorCheckStepConfirm(operDoctorScheduResult.getMessage());
+                        }else{
+                            mView.getOperDoctorScheduResult(operDoctorScheduResult);
+                        }
+
                     }else{
                         mView.getOperDoctorScheduError(baseBean.getResMsg());
                     }

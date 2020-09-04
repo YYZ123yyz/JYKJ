@@ -95,6 +95,7 @@ public class MyOnlineScheduActivity extends AbstractMvpBaseActivity<OnlineSchedu
     private AppointTimeDialog appointTimeDialog;
     private AppointTypeDialog appointTypeDialog;
     private CommonConfirmDialog confirmDialog;
+    private CommonConfirmDialog checkStepDialog;
     private DoctorSeheduTimeAdapter doctorSeheduTimeAdapter;
     private List<DoctorScheduTimesBean> doctorScheduTimesBeans;
     private List<CalendarItemBean> calendarItemBeans;
@@ -106,6 +107,7 @@ public class MyOnlineScheduActivity extends AbstractMvpBaseActivity<OnlineSchedu
     private int currentPos;
     private String mSignalSourceNum;//号源数量
     private String reserveDateRosterCode;//医生排班明细编号
+    private String checkStep="0";//校验步骤
     private DoctorScheduTimesBean currentDoctorScheduTimesBean;//当前排班明细
     @Override
     protected int setLayoutId() {
@@ -120,6 +122,7 @@ public class MyOnlineScheduActivity extends AbstractMvpBaseActivity<OnlineSchedu
         appointTimeDialog=new AppointTimeDialog(this);
         appointTypeDialog=new AppointTypeDialog(this);
         confirmDialog=new CommonConfirmDialog(this);
+        checkStepDialog=new CommonConfirmDialog(this);
         mApp = (JYKJApplication) getApplication();
         setToolBar();
         initLoadingAndRetryManager();
@@ -235,6 +238,7 @@ public class MyOnlineScheduActivity extends AbstractMvpBaseActivity<OnlineSchedu
             currentBaseReasonBean=null;
             mSignalSourceNum=null;
             reserveDateRosterCode=null;
+            checkStep="0";
             addSignalSourceDialog.show();
             addSignalSourceDialog.setAppointTime(mStartTime,mEndTime);
             addSignalSourceDialog.setSignalType(currentBaseReasonBean);
@@ -292,7 +296,7 @@ public class MyOnlineScheduActivity extends AbstractMvpBaseActivity<OnlineSchedu
                         currentBaseReasonBean.getAttrCode()+""
                         ,currentBaseReasonBean.getAttrName(),
                         DateUtils.getDateToYYYYMMDD(currentCalendarItemBean.getTimes()),
-                        mStartTime,mEndTime,mSignalSourceNum,"1",
+                        mStartTime,mEndTime,mSignalSourceNum,checkStep,
                         reserveDateRosterCode,MyOnlineScheduActivity.this
                         );
 
@@ -313,7 +317,22 @@ public class MyOnlineScheduActivity extends AbstractMvpBaseActivity<OnlineSchedu
             }
         });
 
-
+        checkStepDialog.setOnClickListener(new CommonConfirmDialog.OnClickListener() {
+            @Override
+            public void onConfirm() {
+                mPresenter.sendOperUpdDoctorDateRosterInfoRequest(
+                        mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(),
+                        mApp.mViewSysUserDoctorInfoAndHospital.getUserName()
+                        ,mApp.mViewSysUserDoctorInfoAndHospital.getUserNameAlias(),
+                        currentCalendarItemBean.getWeek()+"",
+                        currentBaseReasonBean.getAttrCode()+""
+                        ,currentBaseReasonBean.getAttrName(),
+                        DateUtils.getDateToYYYYMMDD(currentCalendarItemBean.getTimes()),
+                        mStartTime,mEndTime,mSignalSourceNum,checkStep,
+                        reserveDateRosterCode,MyOnlineScheduActivity.this
+                );
+            }
+        });
 
     }
 
@@ -389,6 +408,13 @@ public class MyOnlineScheduActivity extends AbstractMvpBaseActivity<OnlineSchedu
         mPresenter.sendSearchSchedulingMsgCalandarRequest(
                 mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(),this);
        // ToastUtils.showToast("操作成功");
+    }
+
+    @Override
+    public void getOperDoctorScheduCheckStepConfirm(String msg) {
+        checkStepDialog.show();
+        checkStepDialog.setContentText(msg);
+        checkStep="1";
     }
 
     @Override

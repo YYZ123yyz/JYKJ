@@ -156,6 +156,7 @@ public class MyClinicDetialActivity extends AbstractMvpBaseActivity<MyClinicDeti
     private AppointTimeDialog appointTimeDialog;
     private AppointTypeDialog appointTypeDialog;
     private CommonConfirmDialog confirmDialog;
+    private CommonConfirmDialog checkStepDialog;
     private String appointStartTime;
     private String appointEndTime;
     private String startAge;
@@ -170,6 +171,7 @@ public class MyClinicDetialActivity extends AbstractMvpBaseActivity<MyClinicDeti
     private BaseReasonBean currentBaseReasonBean;//号源类型
     private String mSignalSourceNum;//号源数量
     private String reserveDateRosterCode;//医生排班明细编号
+    private String checkStep="0";//校验步骤
     private int currentWeek=-1;
     private long currentTimes;
 
@@ -196,6 +198,7 @@ public class MyClinicDetialActivity extends AbstractMvpBaseActivity<MyClinicDeti
         appointTimeDialog=new AppointTimeDialog(this);
         appointTypeDialog=new AppointTypeDialog(this);
         confirmDialog=new CommonConfirmDialog(this);
+        checkStepDialog=new CommonConfirmDialog(this);
         mApp = (JYKJApplication) getApplication();
         setToolBar();
         //初始化popview
@@ -527,6 +530,7 @@ public class MyClinicDetialActivity extends AbstractMvpBaseActivity<MyClinicDeti
                 currentBaseReasonBean=null;
                 mSignalSourceNum=null;
                 reserveDateRosterCode=null;
+                checkStep="0";
                 addSignalSourceDialog.show();
                 addSignalSourceDialog.setAppointTime(mStartTime,mEndTime);
                 addSignalSourceDialog.setSignalType(currentBaseReasonBean);
@@ -554,10 +558,7 @@ public class MyClinicDetialActivity extends AbstractMvpBaseActivity<MyClinicDeti
 
             @Override
             public void onClickEnsure() {
-//                if (currentWeek==-1) {
-//                    ToastUtils.showToast("请选择星期数");
-//                    return;
-//                }
+
                 if (!StringUtils.isNotEmpty(mStartTime)) {
                     ToastUtils.showToast("请选择放号时间");
                     return;
@@ -586,7 +587,7 @@ public class MyClinicDetialActivity extends AbstractMvpBaseActivity<MyClinicDeti
                         currentBaseReasonBean.getAttrCode()+""
                         ,currentBaseReasonBean.getAttrName(),
                         dateToYYYYMMDD,
-                        mStartTime,mEndTime,mSignalSourceNum,"1",
+                        mStartTime,mEndTime,mSignalSourceNum,checkStep,
                         reserveDateRosterCode,MyClinicDetialActivity.this
                 );
             }
@@ -604,6 +605,21 @@ public class MyClinicDetialActivity extends AbstractMvpBaseActivity<MyClinicDeti
             currentBaseReasonBean=baseReasonBean;
             if (addSignalSourceDialog.isShowing()) {
                 addSignalSourceDialog.setSignalType(baseReasonBean);
+            }
+        });
+        checkStepDialog.setOnClickListener(new CommonConfirmDialog.OnClickListener() {
+            @Override
+            public void onConfirm() {
+                mPresenter.sendOperUpdDoctorDateRosterInfoRequest(
+                        mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(),
+                        mApp.mViewSysUserDoctorInfoAndHospital.getUserName()
+                        ,mApp.mViewSysUserDoctorInfoAndHospital.getUserNameAlias(),
+                        currentWeek+"",
+                        currentBaseReasonBean.getAttrCode()+""
+                        ,currentBaseReasonBean.getAttrName(),
+                        DateUtils.getDeviceTimeOfYMD(),
+                        mStartTime,mEndTime,mSignalSourceNum,checkStep,
+                        reserveDateRosterCode,MyClinicDetialActivity.this);
             }
         });
     }
@@ -835,6 +851,13 @@ public class MyClinicDetialActivity extends AbstractMvpBaseActivity<MyClinicDeti
     public void getOperDoctorScheduResult(OperDoctorScheduResultBean operDoctorScheduResult) {
         mPresenter.sendSearchReserveDoctorDateRosterInfoImmediateRequest(
                 mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(),this);
+    }
+
+    @Override
+    public void getOperDoctorCheckStepConfirm(String msg) {
+        checkStepDialog.show();
+        checkStepDialog.setContentText(msg);
+        checkStep="1";
     }
 
     @Override

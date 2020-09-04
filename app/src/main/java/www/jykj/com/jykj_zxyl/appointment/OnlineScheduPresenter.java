@@ -243,7 +243,15 @@ public class OnlineScheduPresenter extends
                     if (resCode==1) {
                         OperDoctorScheduResultBean operDoctorScheduResult =
                                 GsonUtils.fromJson(baseBean.getResJsonData(), OperDoctorScheduResultBean.class);
-                        mView.getOperDoctorScheduResult(operDoctorScheduResult);
+                        String status="";
+                        if (operDoctorScheduResult!=null) {
+                             status = operDoctorScheduResult.getStatus();
+                        }
+                        if (StringUtils.isNotEmpty(status)&&status.equals("1")) {
+                            mView.getOperDoctorScheduCheckStepConfirm(operDoctorScheduResult.getMessage());
+                        }else{
+                            mView.getOperDoctorScheduResult(operDoctorScheduResult);
+                        }
                     }else{
                         mView.getOperDoctorScheduError(baseBean.getResMsg());
                     }

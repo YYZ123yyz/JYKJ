@@ -15,6 +15,7 @@ import www.jykj.com.jykj_zxyl.app_base.base_bean.BaseBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.CalendarItemBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.DcotorScheduTimesWeekBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.DoctorScheduTimesBean;
+import www.jykj.com.jykj_zxyl.app_base.base_bean.OperDoctorScheduResultBean;
 import www.jykj.com.jykj_zxyl.app_base.http.ApiHelper;
 import www.jykj.com.jykj_zxyl.app_base.http.CommonDataObserver;
 import www.jykj.com.jykj_zxyl.app_base.http.ParameUtil;
@@ -255,7 +256,19 @@ public class OnlineScheduTemplatePresenter extends BasePresenterImpl<OnlineSched
                 if (mView!=null) {
                     int resCode = baseBean.getResCode();
                     if (resCode==1) {
-                        mView.getOperUpdReserveDoctorRosterInfoRequest(true,baseBean.getResMsg());
+                        String resJsonData = baseBean.getResJsonData();
+                        OperDoctorScheduResultBean operDoctorScheduResult =
+                                GsonUtils.fromJson(resJsonData, OperDoctorScheduResultBean.class);
+                        String status = "";
+                        if (operDoctorScheduResult != null) {
+                            status = operDoctorScheduResult.getStatus();
+                        }
+                        if (StringUtils.isNotEmpty(status) && status.equals("1")) {
+                            mView.getOperUpdReservedDoctorRosterInfoCheckStepConfirm(baseBean.getResMsg());
+                        } else {
+                            mView.getOperUpdReserveDoctorRosterInfoRequest(true, baseBean.getResMsg());
+                        }
+
                     }else{
                         mView.getOperUpdReserveDoctorRosterInfoRequest(false,baseBean.getResMsg());
                     }

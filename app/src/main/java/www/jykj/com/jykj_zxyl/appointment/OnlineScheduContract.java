@@ -41,6 +41,12 @@ public class OnlineScheduContract {
 
 
         /**
+         * 校验确认弹框
+         * @param msg 消息
+         */
+        void getOperDoctorScheduCheckStepConfirm(String msg);
+
+        /**
          * 操作失败
          * @param msg 信息
          */

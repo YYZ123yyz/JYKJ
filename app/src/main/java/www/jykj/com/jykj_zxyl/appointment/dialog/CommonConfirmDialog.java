@@ -26,6 +26,12 @@ public class CommonConfirmDialog extends Dialog {
     private View mRootView;
     private TextView mTvContentMsg;
     private TextView mTvIknowBtn;
+    private OnClickListener onClickListener;
+
+    public void setOnClickListener(OnClickListener onClickListener) {
+        this.onClickListener = onClickListener;
+    }
+
     public CommonConfirmDialog(@NonNull Context context) {
         super(context, R.style.DialogTheme);
         setCanceledOnTouchOutside(true);//禁止点击空白区域消失
@@ -56,6 +62,10 @@ public class CommonConfirmDialog extends Dialog {
         mTvContentMsg = view.findViewById(R.id.tv_content_msg);
         mTvIknowBtn= view.findViewById(R.id.tv_iknow_btn);
     }
+
+    public void setContentText(String content){
+        mTvContentMsg.setText(content);
+    }
     private void addListener(){
         mTvIknowBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,5 +73,9 @@ public class CommonConfirmDialog extends Dialog {
                 CommonConfirmDialog.this.dismiss();
             }
         });
+    }
+
+    public interface OnClickListener{
+        void onConfirm();
     }
 }

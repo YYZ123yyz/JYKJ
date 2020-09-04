@@ -71,6 +71,12 @@ public class MyClinicDetialContract {
         void getOperDoctorScheduResult(OperDoctorScheduResultBean operDoctorScheduResult);
 
         /**
+         * 获取校验返回结果
+         * @param msg 信息
+         */
+        void getOperDoctorCheckStepConfirm(String msg);
+
+        /**
          * 操作失败
          * @param msg 信息
          */
