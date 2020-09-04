@@ -71,6 +71,20 @@ public class EaseChatRowOrderCard extends EaseChatRow {
     private String orderType;
     private String messageType;
 
+    private RelativeLayout rlMonitorType;
+    private RelativeLayout rlMonitorRate;
+    private RelativeLayout rlSignTime;
+
+    private RelativeLayout rlAppointTime;
+    private RelativeLayout rlCancelAppointTime;
+    private RelativeLayout rlAppointProject;
+    private RelativeLayout rlAppointType;
+    private TextView tvAppointTimeValue;
+    private TextView tvCancelAppointTimeValue;
+    private TextView tvAppointProjectValue;
+    private TextView tvAppointTypeValue;
+
+
     //预约
     private String statusType;
     private String startTime;
@@ -118,6 +132,19 @@ public class EaseChatRowOrderCard extends EaseChatRow {
         tvMonitorType=findViewById(R.id.tv_monitor_type);
         tvCoachRate=findViewById(R.id.tv_coach_rate);
         tvSignTime=findViewById(R.id.tv_sign_time);
+        rlMonitorType=findViewById(R.id.rl_monitor_type);
+        rlMonitorRate=findViewById(R.id.rl_monitor_rate);
+        rlSignTime=findViewById(R.id.rl_sign_time);
+
+        rlAppointTime=findViewById(R.id.rl_appoint_time);
+        rlCancelAppointTime=findViewById(R.id.rl_cancel_appoint_time);
+        rlAppointProject=findViewById(R.id.rl_appoint_project);
+        rlAppointType=findViewById(R.id.rl_appoint_type);
+        tvAppointTimeValue=findViewById(R.id.tv_appoint_time_value);
+        tvCancelAppointTimeValue=findViewById(R.id.tv_cancel_appoint_time_value);
+        tvAppointProjectValue=findViewById(R.id.tv_appoint_project_value);
+        tvAppointTypeValue=findViewById(R.id.tv_appoint_type_value);
+
         addListener();
     }
 
