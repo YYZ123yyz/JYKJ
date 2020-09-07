@@ -21,6 +21,13 @@ public class OrderMessage implements Serializable {
     private String messageType;
     private String patientCode;
 
+    private String startTime;
+    private String cancelTime;
+    private String appointMentProject;
+    private String appointMentType;
+    private String statusType;
+
+
     public OrderMessage(String nickName,
                         String imageUrl,
                         String orderId,
@@ -46,6 +53,27 @@ public class OrderMessage implements Serializable {
         this.patientCode = patientCode;
     }
 
+    public OrderMessage(String nickName,
+                        String imageUrl,
+                        String orderId,
+                        String startTime,
+                        String cancelTime,
+                        String appointMentProject,
+                        String appointMentType,
+                        String statusType,
+                        String messageType) {
+        this.nickName = nickName;
+        this.imageUrl = imageUrl;
+        this.orderId = orderId;
+        this.startTime = startTime;
+        this.cancelTime = cancelTime;
+        this.appointMentProject = appointMentProject;
+        this.appointMentType = appointMentType;
+        this.statusType=statusType;
+        this.messageType = messageType;
+
+    }
+
     public String getPatientCode() {
         return patientCode;
     }
@@ -53,7 +81,6 @@ public class OrderMessage implements Serializable {
     public void setPatientCode(String patientCode) {
         this.patientCode = patientCode;
     }
-
 
 
     public String getNickName() {
@@ -134,5 +161,45 @@ public class OrderMessage implements Serializable {
 
     public void setMessageType(String messageType) {
         this.messageType = messageType;
+    }
+
+    public String getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
+    }
+
+    public String getCancelTime() {
+        return cancelTime;
+    }
+
+    public void setCancelTime(String cancelTime) {
+        this.cancelTime = cancelTime;
+    }
+
+    public String getAppointMentProject() {
+        return appointMentProject;
+    }
+
+    public void setAppointMentProject(String appointMentProject) {
+        this.appointMentProject = appointMentProject;
+    }
+
+    public String getAppointMentType() {
+        return appointMentType;
+    }
+
+    public void setAppointMentType(String appointMentType) {
+        this.appointMentType = appointMentType;
+    }
+
+    public String getStatusType() {
+        return statusType;
+    }
+
+    public void setStatusType(String statusType) {
+        this.statusType = statusType;
     }
 }

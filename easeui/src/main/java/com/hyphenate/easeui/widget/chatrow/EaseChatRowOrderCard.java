@@ -53,9 +53,6 @@ public class EaseChatRowOrderCard extends EaseChatRow {
     private ImageView ivStampIcon;//印章
     private TextView mTvOperMsg;//操作信息
 
-    private TextView tvMonitorType;
-    private TextView tvCoachRate;
-    private TextView tvSignTime;
     private RelativeLayout mRlCancelContractOrderRoot;
     private TextView tvCancelContractAgreeBtn;
     private TextView tvCancelContractRefuseBtn;
@@ -88,8 +85,10 @@ public class EaseChatRowOrderCard extends EaseChatRow {
     //预约
     private String statusType;
     private String startTime;
+    private String cancelTime;
     private String appointMentProject;
     private String appointMentType;
+
 
     private ViewSysUserDoctorInfoAndHospital mViewSysUserDoctorInfoAndHospital;
     private String mNetRetStr;
@@ -129,9 +128,6 @@ public class EaseChatRowOrderCard extends EaseChatRow {
         tvCancelContractAgreeBtn = findViewById(R.id.tv_cancel_contract_agree_btn);
         tvCancelContractRefuseBtn = findViewById(R.id.tv_cancel_contract_refuse_btn);
         tvOrderReceivedUpdateBtn=findViewById(R.id.tv_order_received_update_btn);
-        tvMonitorType=findViewById(R.id.tv_monitor_type);
-        tvCoachRate=findViewById(R.id.tv_coach_rate);
-        tvSignTime=findViewById(R.id.tv_sign_time);
         rlMonitorType=findViewById(R.id.rl_monitor_type);
         rlMonitorRate=findViewById(R.id.rl_monitor_rate);
         rlSignTime=findViewById(R.id.rl_sign_time);
@@ -174,6 +170,7 @@ public class EaseChatRowOrderCard extends EaseChatRow {
         imageUrl = message.getStringAttribute("imageUrl", "");
         statusType=message.getStringAttribute("statusType","");
         startTime=message.getStringAttribute("startTime","");
+        cancelTime=message.getStringAttribute("cancelTime","");
         appointMentProject=message.getStringAttribute("appointMentProject","");
         appointMentType=message.getStringAttribute("appointMentType","");
         mTvMonitValue.setText(monitoringType);
@@ -218,6 +215,7 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                 tvAppointTimeValue.setText(startTime);
                 tvAppointProjectValue.setText(appointMentProject);
                 tvAppointTypeValue.setText(appointMentType);
+                tvCancelAppointTimeValue.setText(cancelTime);
                 if (statusType.equals("1")) {
                     mTvCardTitle.setText("预约成功");
                 } else if (statusType.equals("2")) {
@@ -349,6 +347,17 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                         startActivity(SigningDetailsActivity.class, bundle);
                     }
                 });
+            }else if(messageType.equals("appointment")){
+                mTvOrderUpdateBtn.setVisibility(View.GONE);
+                ivStampIcon.setVisibility(View.GONE);
+                mTvPriceValue.setVisibility(View.GONE);
+                mTvCancelContractMsg.setVisibility(View.VISIBLE);
+
+                if (statusType.equals("1")) {
+                    mTvCancelContractMsg.setText("您已预约成功");
+                }else if(statusType.equals("2")){
+                    mTvCancelContractMsg.setText("您已取消预约");
+                }
             }
 
 

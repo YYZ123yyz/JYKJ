@@ -1737,21 +1737,44 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
      * @param msg 消息
      */
     private void sendOrderCardMsg(OrderMessage msg) {
+        String messageType = msg.getMessageType();
+        String msgContent="";
+
+        if (messageType.equals("card")) {
+            msgContent="[签约订单]";
+        }else if(messageType.equals("terminationOrder")){
+            msgContent="[解约订单]";
+        }else if(messageType.equals("appointment")){
+            msgContent="[取消预约订单]";
+        }
         //发送扩展消息
-        EMMessage message = EMMessage.createTxtSendMessage("[签约订单]", toChatUsername);
-        //增加自己的属性
+        EMMessage message = EMMessage.createTxtSendMessage(msgContent, toChatUsername);
         message.setAttribute("nickName", msg.getNickName());
         message.setAttribute("imageUrl", msg.getImageUrl());
         message.setAttribute("messageType", msg.getMessageType());
         message.setAttribute("orderId", msg.getOrderId());
-        message.setAttribute("coach", msg.getCoach());
-        message.setAttribute("signUpTime", msg.getSignUpTime());
-        message.setAttribute("price", msg.getPrice());
-        message.setAttribute("monitoringType", msg.getMonitoringType());
-        message.setAttribute("orderType", msg.getOrderType());
-        message.setAttribute("patientCode", msg.getPatientCode());
-        Log.e(TAG, "sendOrderCardMsg: " + msg.getPatientCode());
-        message.setAttribute("singNo", msg.getSingNo());
+        switch (messageType){
+            case "card":
+            case "terminationOrder":
+                message.setAttribute("coach", msg.getCoach());
+                message.setAttribute("signUpTime", msg.getSignUpTime());
+                message.setAttribute("price", msg.getPrice());
+                message.setAttribute("monitoringType", msg.getMonitoringType());
+                message.setAttribute("orderType", msg.getOrderType());
+                message.setAttribute("patientCode", msg.getPatientCode());
+                Log.e(TAG, "sendOrderCardMsg: " + msg.getPatientCode());
+                message.setAttribute("singNo", msg.getSingNo());
+                break;
+            case "appointment":
+                message.setAttribute("statusType",msg.getStatusType());
+                message.setAttribute("startTime",msg.getStartTime());
+                message.setAttribute("cancelTime",msg.getCancelTime());
+                message.setAttribute("appointMentProject",msg.getAppointMentProject());
+                message.setAttribute("appointMentType",msg.getAppointMentType());
+                break;
+                default:
+        }
+
 
         //设置群聊和聊天室发送消息
         if (chatType == EaseConstant.CHATTYPE_GROUP) {

@@ -325,6 +325,21 @@ public class DateUtils {
     }
 
     /**
+     * 获取当前时间
+     * @return 年月日 时分
+     */
+    public static String getCurrentTimeYYYYMMDDHHSS(){
+        String date = "";
+        try {
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+            date = df.format(new Date());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return date;
+    }
+
+    /**
      * 当前的时间(年月)
      *
      * @return yyyy-MM

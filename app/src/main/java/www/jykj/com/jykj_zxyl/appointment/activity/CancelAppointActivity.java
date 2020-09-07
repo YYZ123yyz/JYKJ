@@ -1,22 +1,24 @@
 package www.jykj.com.jykj_zxyl.appointment.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.allen.library.interceptor.Transformer;
 import com.allen.library.interfaces.ILoadingView;
 import com.allen.library.utils.ToastUtils;
+import com.hyphenate.easeui.jykj.bean.OrderMessage;
 
 import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import www.jykj.com.jykj_zxyl.R;
+import www.jykj.com.jykj_zxyl.activity.hyhd.ChatActivity;
 import www.jykj.com.jykj_zxyl.app_base.base_activity.BaseActivity;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.BaseBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.BaseReasonBean;
@@ -27,6 +29,9 @@ import www.jykj.com.jykj_zxyl.app_base.http.ApiHelper;
 import www.jykj.com.jykj_zxyl.app_base.http.CommonDataObserver;
 import www.jykj.com.jykj_zxyl.app_base.http.ParameUtil;
 import www.jykj.com.jykj_zxyl.app_base.http.RetrofitUtil;
+import www.jykj.com.jykj_zxyl.application.JYKJApplication;
+import www.jykj.com.jykj_zxyl.appointment.data.DataUtil;
+import www.jykj.com.jykj_zxyl.util.DateUtils;
 import www.jykj.com.jykj_zxyl.util.StringUtils;
 
 /**
@@ -62,9 +67,11 @@ public class CancelAppointActivity extends BaseActivity {
     private List<BaseReasonBean> baseReasonBeans;
     private PatientInfoBean currentPatientInfoBean;
     private BaseReasonBean currentBaseReasonBean;
+    private JYKJApplication mApp;
     @Override
     protected void onBeforeSetContentLayout() {
         super.onBeforeSetContentLayout();
+        mApp = (JYKJApplication) getApplication();
         baseReasonDialog=new BaseReasonDialog(this,"解约原因");
         Bundle extras = this.getIntent().getExtras();
         if (extras!=null) {
@@ -99,36 +106,27 @@ public class CancelAppointActivity extends BaseActivity {
      * 添加监听
      */
     private void addListener(){
-        rlCancelContract.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                baseReasonDialog.show();
-                baseReasonDialog.setData(baseReasonBeans);
-            }
+        rlCancelContract.setOnClickListener(v -> {
+            baseReasonDialog.show();
+            baseReasonDialog.setData(baseReasonBeans);
         });
-        baseReasonDialog.setOnClickItemListener(new BaseReasonDialog.OnClickItemListener() {
-            @Override
-            public void onClickItem(BaseReasonBean cancelContractBean) {
-                currentBaseReasonBean=cancelContractBean;
-                tvCancelContract.setText(cancelContractBean.getAttrName());
-            }
+        baseReasonDialog.setOnClickItemListener(cancelContractBean -> {
+            currentBaseReasonBean=cancelContractBean;
+            tvCancelContract.setText(cancelContractBean.getAttrName());
         });
-        tvSubmitBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(currentBaseReasonBean==null){
-                    ToastUtils.showToast("请选择解约原因");
-                    return;
-                }
-                String remark = edCancelContractDesc.getText().toString();
-                if (!StringUtils.isNotEmpty(remark)) {
-                    ToastUtils.showToast("解约描述不能为空");
-                    return;
-                }
-
-                sendCancelAppointRequest(currentPatientInfoBean,currentBaseReasonBean);
-
+        tvSubmitBtn.setOnClickListener(v -> {
+            if(currentBaseReasonBean==null){
+                ToastUtils.showToast("请选择解约原因");
+                return;
             }
+            String remark = edCancelContractDesc.getText().toString();
+            if (!StringUtils.isNotEmpty(remark)) {
+                ToastUtils.showToast("解约描述不能为空");
+                return;
+            }
+
+            sendCancelAppointRequest(currentPatientInfoBean,currentBaseReasonBean);
+
         });
     }
 
@@ -161,6 +159,7 @@ public class CancelAppointActivity extends BaseActivity {
             protected void onSuccessResult(BaseBean baseBean) {
                 int resCode = baseBean.getResCode();
                 if (resCode == 1) {
+                    startJumpChatActivity(currentPatientInfoBean);
                     setResult(1001);
                     CancelAppointActivity.this.finish();
                 }
@@ -178,6 +177,47 @@ public class CancelAppointActivity extends BaseActivity {
                 return super.setTag();
             }
         });
+    }
+
+
+    /**
+     * 跳转IM
+     * @param currentPatientInfoBean 患者信息
+     */
+    private void startJumpChatActivity(PatientInfoBean currentPatientInfoBean){
+
+        Intent intent = new Intent(this, ChatActivity.class);
+        //患者
+        intent.putExtra("userCode", currentPatientInfoBean.getMainPatientCode());
+        intent.putExtra("userName", currentPatientInfoBean.getMainPatientName());
+        //医生
+        intent.putExtra("usersName", currentPatientInfoBean.getMainDoctorName());
+        intent.putExtra("userUrl", mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl());
+        //URL
+        intent.putExtra("doctorUrl", mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl());
+        //intent.putExtra("patientAlias", mHZEntyties.get(position).getan);
+        intent.putExtra("patientCode", currentPatientInfoBean.getMainPatientCode());
+        intent.putExtra("patientSex", currentPatientInfoBean.getPatientSex());
+
+        long reserveConfigStart = currentPatientInfoBean.getReserveConfigStart();
+        String appointTime = DateUtils.getDateToStringYYYMMDDHHMM(reserveConfigStart);
+        String currentTime = DateUtils.getCurrentTimeYYYYMMDDHHSS();
+        int treatmentType = currentPatientInfoBean.getTreatmentType();
+        String treatmentTypeValue="";
+        if(treatmentType==1){
+            treatmentTypeValue="一次性就诊";
+        }else if(treatmentType==2){
+            treatmentTypeValue="签约就诊";
+        }
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("orderMsg",
+                new OrderMessage(mApp.mViewSysUserDoctorInfoAndHospital.getUserName(),
+                        mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl(),
+                        currentPatientInfoBean.getReserveCode(),appointTime,
+                        currentTime,currentPatientInfoBean.getReserveProjectName()
+                        ,treatmentTypeValue,"2","appointment"));
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 
     @Override
