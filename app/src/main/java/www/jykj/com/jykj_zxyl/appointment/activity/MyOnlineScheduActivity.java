@@ -94,7 +94,6 @@ public class MyOnlineScheduActivity extends AbstractMvpBaseActivity<OnlineSchedu
     private AddSignalSourceDialog addSignalSourceDialog;
     private AppointTimeDialog appointTimeDialog;
     private AppointTypeDialog appointTypeDialog;
-    private CommonConfirmDialog confirmDialog;
     private CommonConfirmDialog checkStepDialog;
     private DoctorSeheduTimeAdapter doctorSeheduTimeAdapter;
     private List<DoctorScheduTimesBean> doctorScheduTimesBeans;
@@ -121,7 +120,6 @@ public class MyOnlineScheduActivity extends AbstractMvpBaseActivity<OnlineSchedu
         addSignalSourceDialog=new AddSignalSourceDialog(this);
         appointTimeDialog=new AppointTimeDialog(this);
         appointTypeDialog=new AppointTypeDialog(this);
-        confirmDialog=new CommonConfirmDialog(this);
         checkStepDialog=new CommonConfirmDialog(this);
         mApp = (JYKJApplication) getApplication();
         setToolBar();
@@ -465,7 +463,7 @@ public class MyOnlineScheduActivity extends AbstractMvpBaseActivity<OnlineSchedu
                 mEndTime=item1.getShowText();
                 boolean lessThanEndDate = com.hyphenate.easeui.jykj.utils.DateUtils.isLessThanEndDate(mStartTime, mEndTime);
                 if(!lessThanEndDate){
-                    confirmDialog.show();
+                    ToastUtils.showToast("结束时间不能小于开始时间");
                     return true;
                 }
                 if (addSignalSourceDialog.isShowing()) {

@@ -3,8 +3,6 @@ package www.jykj.com.jykj_zxyl.appointment.dialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +13,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import com.allen.library.utils.ToastUtils;
-import com.allin.refreshandload.loadmore.HeaderAndFooterRecyclerViewAdapter;
 import com.allin.refreshandload.loadmore.RecyclerViewFinal;
 import com.hyphenate.easeui.jykj.utils.DateUtils;
 
@@ -49,7 +46,6 @@ public class AppointTimeDialog extends Dialog {
     private OnClickChoosedTimeListener onClickChoosedTimeListener;
     private String startTime;
     private String endTime;
-    private CommonConfirmDialog confirmDialog;
     public void setOnClickChoosedTimeListener(OnClickChoosedTimeListener onClickChoosedTimeListener) {
         this.onClickChoosedTimeListener = onClickChoosedTimeListener;
     }
@@ -58,7 +54,6 @@ public class AppointTimeDialog extends Dialog {
         super(context, R.style.DialogTheme);
         startAppointTimeBeans=new ArrayList<>();
         endAppointTimeBeans=new ArrayList<>();
-        confirmDialog=new CommonConfirmDialog(context);
         setCanceledOnTouchOutside(true);//禁止点击空白区域消失
         Objects.requireNonNull(this.getWindow()).setDimAmount(0f);//核心代码 解决了无法去除遮罩
         init(context);
@@ -123,48 +118,34 @@ public class AppointTimeDialog extends Dialog {
      * 添加监听
      */
     private void addListener(){
-        tvCancelBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        tvCancelBtn.setOnClickListener(v -> AppointTimeDialog.this.dismiss());
+
+        tvEnsureBtn.setOnClickListener(v -> {
+            if (onClickChoosedTimeListener!=null) {
+                if (!StringUtils.isNotEmpty(startTime)) {
+                    ToastUtils.showToast("请选择开始时间");
+                    return;
+                }
+                if(!StringUtils.isNotEmpty(endTime)){
+                    ToastUtils.showToast("请选择结束时间");
+                    return;
+                }
+                boolean lessThanEndDate = DateUtils.isLessThanEndDate(startTime, endTime);
+                if(!lessThanEndDate){
+                    ToastUtils.showToast("结束时间不能小于开始时间");
+                    return;
+                }
+                onClickChoosedTimeListener.onChoosedTimeChange(startTime,endTime);
                 AppointTimeDialog.this.dismiss();
             }
         });
-
-        tvEnsureBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (onClickChoosedTimeListener!=null) {
-                    if (!StringUtils.isNotEmpty(startTime)) {
-                        ToastUtils.showToast("请选择开始时间");
-                        return;
-                    }
-                    if(!StringUtils.isNotEmpty(endTime)){
-                        ToastUtils.showToast("请选择结束时间");
-                        return;
-                    }
-                    boolean lessThanEndDate = DateUtils.isLessThanEndDate(startTime, endTime);
-                    if(!lessThanEndDate){
-                        confirmDialog.show();
-                        return;
-                    }
-                    onClickChoosedTimeListener.onChoosedTimeChange(startTime,endTime);
-                    AppointTimeDialog.this.dismiss();
-                }
-            }
+        rvStartList.setOnItemClickListener((viewHolder, i) -> {
+            startTime=startAppointTimeBeans.get(i).getAppointTime();
+            setStarTimeChoosed(i);
         });
-        rvStartList.setOnItemClickListener(new HeaderAndFooterRecyclerViewAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(RecyclerView.ViewHolder viewHolder, int i) {
-                startTime=startAppointTimeBeans.get(i).getAppointTime();
-                setStarTimeChoosed(i);
-            }
-        });
-        rvEndList.setOnItemClickListener(new HeaderAndFooterRecyclerViewAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(RecyclerView.ViewHolder viewHolder, int i) {
-                endTime=endAppointTimeBeans.get(i).getAppointTime();
-                setEndTimeChoosed(i);
-            }
+        rvEndList.setOnItemClickListener((viewHolder, i) -> {
+            endTime=endAppointTimeBeans.get(i).getAppointTime();
+            setEndTimeChoosed(i);
         });
 
     }

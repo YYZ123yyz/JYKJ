@@ -155,7 +155,6 @@ public class MyClinicDetialActivity extends AbstractMvpBaseActivity<MyClinicDeti
     private AddSignalSourceDialog addSignalSourceDialog;
     private AppointTimeDialog appointTimeDialog;
     private AppointTypeDialog appointTypeDialog;
-    private CommonConfirmDialog confirmDialog;
     private CommonConfirmDialog checkStepDialog;
     private String appointStartTime;
     private String appointEndTime;
@@ -197,7 +196,6 @@ public class MyClinicDetialActivity extends AbstractMvpBaseActivity<MyClinicDeti
         addSignalSourceDialog=new AddSignalSourceDialog(this);
         appointTimeDialog=new AppointTimeDialog(this);
         appointTypeDialog=new AppointTypeDialog(this);
-        confirmDialog=new CommonConfirmDialog(this);
         checkStepDialog=new CommonConfirmDialog(this);
         mApp = (JYKJApplication) getApplication();
         setToolBar();
@@ -892,24 +890,20 @@ public class MyClinicDetialActivity extends AbstractMvpBaseActivity<MyClinicDeti
         columnWheelDialog.show();
         columnWheelDialog.setShowTitle(true);
         columnWheelDialog.setCancelButton("取消", null);
-        columnWheelDialog.setOKButton("确定", new ColumnWheelDialog.OnClickCallBack<WheelItem, WheelItem, WheelItem, WheelItem, WheelItem>() {
-            @Override
-            public boolean callBack(View v, @Nullable WheelItem item0, @Nullable WheelItem item1,
-                                    @Nullable WheelItem item2, @Nullable WheelItem item3, @Nullable WheelItem item4) {
-                //tvResult.setText(result);
-                mStartTime=item0.getShowText();
-                mEndTime=item1.getShowText();
-                boolean lessThanEndDate = DateUtils.isLessThanEndDate(mStartTime, mEndTime);
-                if(!lessThanEndDate){
-                    confirmDialog.show();
-                    return true;
-                }
-
-                if (addSignalSourceDialog.isShowing()) {
-                    addSignalSourceDialog.setAppointTime(mStartTime,mEndTime);
-                }
-                return false;
+        columnWheelDialog.setOKButton("确定", (v, item0, item1, item2, item3, item4) -> {
+            //tvResult.setText(result);
+            mStartTime=item0.getShowText();
+            mEndTime=item1.getShowText();
+            boolean lessThanEndDate = DateUtils.isLessThanEndDate(mStartTime, mEndTime);
+            if(!lessThanEndDate){
+                ToastUtils.showToast("结束时间不能小于开始时间");
+                return true;
             }
+
+            if (addSignalSourceDialog.isShowing()) {
+                addSignalSourceDialog.setAppointTime(mStartTime,mEndTime);
+            }
+            return false;
         });
         List<String> startTimes = DataUtil.getStartTimes();
         List<String> endTimes = DataUtil.getEndTimes();
@@ -930,18 +924,14 @@ public class MyClinicDetialActivity extends AbstractMvpBaseActivity<MyClinicDeti
                 columnWheelDialog=new ColumnWheelDialog<>(this);
         columnWheelDialog.show();
         columnWheelDialog.setCancelButton("取消", null);
-        columnWheelDialog.setOKButton("确定", new ColumnWheelDialog.OnClickCallBack<WheelItem, WheelItem, WheelItem, WheelItem, WheelItem>() {
-            @Override
-            public boolean callBack(View v, @Nullable WheelItem item0, @Nullable WheelItem item1,
-                                    @Nullable WheelItem item2, @Nullable WheelItem item3, @Nullable WheelItem item4) {
-                //tvResult.setText(result);
-                currentBaseReasonBean=DataUtil.getBaseReasonBeanByAttrName(item0.getShowText(),
-                        baseReasonBeans);
-                if (addSignalSourceDialog.isShowing()) {
-                    addSignalSourceDialog.setSignalType(currentBaseReasonBean);
-                }
-                return false;
+        columnWheelDialog.setOKButton("确定", (v, item0, item1, item2, item3, item4) -> {
+            //tvResult.setText(result);
+            currentBaseReasonBean=DataUtil.getBaseReasonBeanByAttrName(item0.getShowText(),
+                    baseReasonBeans);
+            if (addSignalSourceDialog.isShowing()) {
+                addSignalSourceDialog.setSignalType(currentBaseReasonBean);
             }
+            return false;
         });
         columnWheelDialog.setItems(DataUtil.convertObjToWheelArry(baseReasonBeans),null,null,null,null);
 //        columnWheelDialog.setSelected(new Random().nextInt(baseReasonBeans.size())

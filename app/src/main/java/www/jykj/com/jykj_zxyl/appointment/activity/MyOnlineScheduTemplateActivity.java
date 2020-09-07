@@ -83,7 +83,6 @@ public class MyOnlineScheduTemplateActivity extends AbstractMvpBaseActivity<
     private DoctorSeheduTimeWeekAdapter doctorSeheduTimeAdapter;
     private AddSignalSourceDialog addSignalSourceDialog;
     private AppointTimeDialog appointTimeDialog;
-    private CommonConfirmDialog confirmDialog;
     private CommonConfirmDialog checkStepDialog;
     private List<DcotorScheduTimesWeekBean> doctorScheduTimesBeans;
     private List<CalendarItemBean> calendarItemBeans;
@@ -101,7 +100,6 @@ public class MyOnlineScheduTemplateActivity extends AbstractMvpBaseActivity<
         calendarItemBeans=new ArrayList<>();
         addSignalSourceDialog=new AddSignalSourceDialog(this);
         appointTimeDialog=new AppointTimeDialog(this);
-        confirmDialog=new CommonConfirmDialog(this);
         checkStepDialog=new CommonConfirmDialog(this);
     }
 
@@ -362,7 +360,7 @@ public class MyOnlineScheduTemplateActivity extends AbstractMvpBaseActivity<
 
                 boolean lessThanEndDate = com.hyphenate.easeui.jykj.utils.DateUtils.isLessThanEndDate(mStartTime, mEndTime);
                 if(!lessThanEndDate){
-                    confirmDialog.show();
+                    ToastUtils.showToast("结束时间不能小于开始时间");
                     return true;
                 }
                 if (addSignalSourceDialog.isShowing()) {

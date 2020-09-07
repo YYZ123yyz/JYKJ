@@ -68,12 +68,52 @@
                 android:textColor="@color/color_799def"
                 android:textSize="15sp"
                 android:text="我知道了"
+                android:visibility="gone"
                 android:layout_centerInParent="true"
                 android:id="@+id/tv_iknow_btn"
                 >
 
 
             </TextView>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="64.5dp"
+                android:orientation="horizontal"
+                >
+
+
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="64.5dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textColor="@color/color_999999"
+                    android:textSize="15sp"
+                    android:text="取消"
+                    android:id="@+id/tv_cancel_btn"
+                    >
+
+                </TextView>
+
+                <View
+                    android:layout_width="0.5dp"
+                    android:layout_height="64.5dp"
+                    android:background="@color/color_EEEEEE"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="64.5dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textSize="15sp"
+                    android:text="确定"
+                    android:textColor="@color/color_799dfe"
+                    android:id="@+id/tv_confirm_btn"
+                    >
+
+
+                </TextView>
+            </LinearLayout>
 
         </RelativeLayout>
 

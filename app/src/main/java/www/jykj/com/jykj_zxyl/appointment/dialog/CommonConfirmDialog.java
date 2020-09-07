@@ -26,6 +26,8 @@ public class CommonConfirmDialog extends Dialog {
     private View mRootView;
     private TextView mTvContentMsg;
     private TextView mTvIknowBtn;
+    private TextView mTvCancelBtn;
+    private TextView mTvConfirmBtn;
     private OnClickListener onClickListener;
 
     public void setOnClickListener(OnClickListener onClickListener) {
@@ -61,6 +63,8 @@ public class CommonConfirmDialog extends Dialog {
     private void initView(View view){
         mTvContentMsg = view.findViewById(R.id.tv_content_msg);
         mTvIknowBtn= view.findViewById(R.id.tv_iknow_btn);
+        mTvCancelBtn=view.findViewById(R.id.tv_cancel_btn);
+        mTvConfirmBtn=view.findViewById(R.id.tv_confirm_btn);
     }
 
     public void setContentText(String content){
@@ -68,6 +72,22 @@ public class CommonConfirmDialog extends Dialog {
     }
     private void addListener(){
         mTvIknowBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               CommonConfirmDialog.this.dismiss();
+                if (onClickListener!=null) {
+                    onClickListener.onConfirm();
+                }
+            }
+        });
+        mTvCancelBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CommonConfirmDialog.this.dismiss();
+
+            }
+        });
+        mTvConfirmBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 CommonConfirmDialog.this.dismiss();
@@ -79,6 +99,7 @@ public class CommonConfirmDialog extends Dialog {
     }
 
     public interface OnClickListener{
+
         void onConfirm();
     }
 }

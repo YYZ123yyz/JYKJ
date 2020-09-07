@@ -181,23 +181,53 @@ public class EaseChatRowOrderCard extends EaseChatRow {
         mTvSignTimeValue.setText(signUpTime);
         mTvPriceValue.setText(String.format("¥%s", price));
         orderType = message.getStringAttribute("orderType", "");//1已同意 2 修改 3 拒绝（由患者操作发起时会携带此参数）
-        if (messageType.equals("terminationOrder")) {
-            mTvCardTitle.setText("解约订单");
-        } else if (messageType.equals("card")) {
-            mTvCardTitle.setText("签约订单");
-        }else if(messageType.equals("appointment")){
-            tvMonitorType.setText("预约时间");
-            tvCoachRate.setText("预约项目");
-            tvSignTime.setText("预约类型");
-            if (statusType.equals("1")) {
-                mTvCardTitle.setText("预约成功");
-            }else if(statusType.equals("2")){
-                mTvCardTitle.setText("取消预约");
-            }
-            mTvMonitValue.setText(startTime);
-            mTvCoachRateValue.setText(appointMentProject);
-            mTvSignTimeValue.setText(appointMentType);
+        switch (messageType) {
+            case "terminationOrder":
+                mTvCardTitle.setText("解约订单");
+                rlMonitorType.setVisibility(View.VISIBLE);
+                rlMonitorRate.setVisibility(View.VISIBLE);
+                rlSignTime.setVisibility(View.VISIBLE);
+
+                rlAppointTime.setVisibility(View.GONE);
+                rlCancelAppointTime.setVisibility(View.GONE);
+                rlAppointProject.setVisibility(View.GONE);
+                rlAppointType.setVisibility(View.GONE);
+                break;
+            case "card":
+                mTvCardTitle.setText("签约订单");
+                rlMonitorType.setVisibility(View.VISIBLE);
+                rlMonitorRate.setVisibility(View.VISIBLE);
+                rlSignTime.setVisibility(View.VISIBLE);
+
+                rlAppointTime.setVisibility(View.GONE);
+                rlCancelAppointTime.setVisibility(View.GONE);
+                rlAppointProject.setVisibility(View.GONE);
+                rlAppointType.setVisibility(View.GONE);
+
+                break;
+            case "appointment":
+                rlMonitorType.setVisibility(View.GONE);
+                rlMonitorRate.setVisibility(View.GONE);
+                rlSignTime.setVisibility(View.GONE);
+
+                rlAppointTime.setVisibility(View.VISIBLE);
+                rlCancelAppointTime.setVisibility(View.VISIBLE);
+                rlAppointProject.setVisibility(View.VISIBLE);
+                rlAppointType.setVisibility(View.VISIBLE);
+
+                tvAppointTimeValue.setText(startTime);
+                tvAppointProjectValue.setText(appointMentProject);
+                tvAppointTypeValue.setText(appointMentType);
+                if (statusType.equals("1")) {
+                    mTvCardTitle.setText("预约成功");
+                } else if (statusType.equals("2")) {
+                    mTvCardTitle.setText("取消预约");
+                }
+                break;
+            default:
+
         }
+
         EMMessage.Direct direct = message.direct();
         if (direct== EMMessage.Direct.RECEIVE) {
             if (messageType.equals("card")) {

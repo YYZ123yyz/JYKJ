@@ -72,7 +72,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="18.5dp"
                         android:layout_marginTop="8.5dp"
-                        android:layout_marginEnd="18.5dp">
+                        android:layout_marginEnd="18.5dp"
+                        android:id="@+id/rl_monitor_type"
+                        >
 
                         <TextView
                             android:id="@+id/tv_monitor_type"
@@ -100,7 +102,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="18.5dp"
                         android:layout_marginTop="7dp"
-                        android:layout_marginEnd="18.5dp">
+                        android:layout_marginEnd="18.5dp"
+                        android:id="@+id/rl_monitor_rate"
+                        >
 
                         <TextView
                             android:id="@+id/tv_coach_rate"
@@ -128,7 +132,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="18.5dp"
                         android:layout_marginTop="7dp"
-                        android:layout_marginEnd="18.5dp">
+                        android:layout_marginEnd="18.5dp"
+                        android:id="@+id/rl_sign_time"
+                        >
 
                         <TextView
                             android:id="@+id/tv_sign_time"
@@ -143,6 +149,133 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
+                            android:textColor="@color/color_303133"
+                            android:textSize="13sp"
+                            android:layout_alignParentRight="true">
+
+
+                        </TextView>
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="18.5dp"
+                        android:layout_marginTop="7dp"
+                        android:layout_marginEnd="18.5dp"
+                        android:id="@+id/rl_appoint_time"
+                        android:visibility="gone"
+                        >
+
+                        <TextView
+                            android:id="@+id/tv_appoint_time"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="预约时间"
+                            android:textColor="@color/color_616266"
+                            android:textSize="13sp" />
+
+                        <TextView
+                            android:id="@+id/tv_appoint_time_value"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:text="2020-08-07"
+                            android:textColor="@color/color_303133"
+                            android:textSize="13sp"
+                            android:layout_alignParentRight="true">
+
+
+                        </TextView>
+                    </RelativeLayout>
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="18.5dp"
+                        android:layout_marginTop="7dp"
+                        android:layout_marginEnd="18.5dp"
+                        android:visibility="gone"
+                        android:id="@+id/rl_cancel_appoint_time"
+                        >
+
+                        <TextView
+                            android:id="@+id/tv_cancel_appoint_time"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="取消时间"
+                            android:textColor="@color/color_616266"
+                            android:textSize="13sp" />
+
+                        <TextView
+                            android:id="@+id/tv_cancel_appoint_time_value"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:text="2020-08-07"
+                            android:textColor="@color/color_303133"
+                            android:textSize="13sp"
+                            android:layout_alignParentRight="true">
+
+
+                        </TextView>
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        android:layout_marginStart="18.5dp"
+                        android:layout_marginTop="7dp"
+                        android:layout_marginEnd="18.5dp"
+                        android:id="@+id/rl_appoint_project"
+                        >
+
+                        <TextView
+                            android:id="@+id/tv_appoint_project"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="预约项目"
+                            android:textColor="@color/color_616266"
+                            android:textSize="13sp" />
+
+                        <TextView
+                            android:id="@+id/tv_appoint_project_value"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:text="图文咨询"
+                            android:textColor="@color/color_303133"
+                            android:textSize="13sp"
+                            android:layout_alignParentRight="true">
+
+
+                        </TextView>
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="18.5dp"
+                        android:layout_marginTop="7dp"
+                        android:layout_marginEnd="18.5dp"
+                        android:id="@+id/rl_appoint_type"
+                        android:visibility="gone"
+                        >
+
+                        <TextView
+                            android:id="@+id/tv_appoint_type"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="预约类型"
+                            android:textColor="@color/color_616266"
+                            android:textSize="13sp" />
+
+                        <TextView
+                            android:id="@+id/tv_appoint_type_value"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:text="一次就诊"
                             android:textColor="@color/color_303133"
                             android:textSize="13sp"
                             android:layout_alignParentRight="true">
