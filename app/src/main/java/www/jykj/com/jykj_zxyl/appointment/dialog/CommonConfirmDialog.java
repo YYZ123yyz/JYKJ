@@ -71,6 +71,9 @@ public class CommonConfirmDialog extends Dialog {
             @Override
             public void onClick(View v) {
                 CommonConfirmDialog.this.dismiss();
+                if (onClickListener!=null) {
+                    onClickListener.onConfirm();
+                }
             }
         });
     }

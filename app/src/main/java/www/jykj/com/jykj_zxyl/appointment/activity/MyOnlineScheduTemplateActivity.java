@@ -376,8 +376,8 @@ public class MyOnlineScheduTemplateActivity extends AbstractMvpBaseActivity<
         WheelItem[] wheelItems = DataUtil.convertStrToWheelArry(startTimes);
         WheelItem[] wheelItems1 = DataUtil.convertStrToWheelArry(endTimes);
         columnWheelDialog.setItems(wheelItems,wheelItems1,null,null,null);
-        columnWheelDialog.setSelected(new Random().nextInt(startTimes.size())
-                ,new Random().nextInt(endTimes.size()),0,0,0);
+//        columnWheelDialog.setSelected(new Random().nextInt(startTimes.size())
+//                ,new Random().nextInt(endTimes.size()),0,0,0);
     }
 
 
