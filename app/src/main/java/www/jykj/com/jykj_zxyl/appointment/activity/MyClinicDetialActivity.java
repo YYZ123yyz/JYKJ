@@ -34,12 +34,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import java.util.Random;
-
 import butterknife.BindView;
 import jsc.kit.wheel.base.WheelItem;
 import jsc.kit.wheel.dialog.ColumnWheelDialog;
 import www.jykj.com.jykj_zxyl.R;
+import www.jykj.com.jykj_zxyl.activity.hyhd.ChatActivity;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.BaseReasonBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.OperDoctorScheduResultBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.PatientInfoBean;
@@ -783,13 +782,67 @@ public class MyClinicDetialActivity extends AbstractMvpBaseActivity<MyClinicDeti
 
     @Override
     public void getOperConfirmReservePatientDoctorInfoResult(boolean isSucess, String msg) {
-        pageIndex=1;
-        mPresenter.sendSearchReservePatientDoctorInfoRequest(
-                mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(),
-                treatmentType,pageSize+"",pageIndex+"",
-                edPatientName.getText().toString(),endAge,startAge,
-                appointStartTime,appointEndTime,priceRegion,reserveStatus,dateSort,priceSort,
-                MyClinicDetialActivity.this);
+//        pageIndex=1;
+//        mPresenter.sendSearchReservePatientDoctorInfoRequest(
+//                mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(),
+//                treatmentType,pageSize+"",pageIndex+"",
+//                edPatientName.getText().toString(),endAge,startAge,
+//                appointStartTime,appointEndTime,priceRegion,reserveStatus,dateSort,priceSort,
+//                MyClinicDetialActivity.this);
+
+    }
+
+
+    /**
+     * 跳转IM
+     * @param currentPatientInfoBean 患者信息
+     */
+    private void startJumpChatActivity(PatientInfoBean currentPatientInfoBean
+            ,String receiveTime
+            ,String endTime,String surplusTimes){
+
+
+        Intent intent = new Intent(this, ChatActivity.class);
+        //患者
+        intent.putExtra("userCode", currentPatientInfoBean.getMainPatientCode());
+        intent.putExtra("userName", currentPatientInfoBean.getMainPatientName());
+        //医生
+        intent.putExtra("usersName", currentPatientInfoBean.getMainDoctorName());
+        intent.putExtra("userUrl", mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl());
+        //URL
+        intent.putExtra("doctorUrl", mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl());
+        //intent.putExtra("patientAlias", mHZEntyties.get(position).getan);
+        intent.putExtra("patientCode", currentPatientInfoBean.getMainPatientCode());
+        intent.putExtra("patientSex", currentPatientInfoBean.getPatientSex());
+        String reserveProjectCode = currentPatientInfoBean.getReserveProjectCode();
+        String appointMentType="";
+        switch (reserveProjectCode){
+            case "1":
+                appointMentType="10";
+                break;
+            case "2":
+                appointMentType="20";
+                break;
+            case "3":
+                appointMentType="30";
+                break;
+            case "4":
+                appointMentType="40";
+                break;
+            case "5":
+                appointMentType="40";
+                break;
+                default:
+        }
+  //      Bundle bundle = new Bundle();
+//        bundle.putSerializable("orderMsg",
+//                new OrderMessage(mApp.mViewSysUserDoctorInfoAndHospital.getUserName(),
+//                        mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl(),
+//                        currentPatientInfoBean.getReserveCode(),receiveTime,
+//                        endTime,surplusTimes,"",
+//                        ,"receiveTreatment"));
+//        intent.putExtras(bundle);
+//        startActivityForResult(intent,1000);
     }
 
     @Override
@@ -867,7 +920,7 @@ public class MyClinicDetialActivity extends AbstractMvpBaseActivity<MyClinicDeti
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(resultCode==1001){
+        if(resultCode==1001||requestCode==1000){
             pageIndex=1;
             mPresenter.sendSearchReservePatientDoctorInfoRequest(
                     mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(),
@@ -937,5 +990,7 @@ public class MyClinicDetialActivity extends AbstractMvpBaseActivity<MyClinicDeti
 //        columnWheelDialog.setSelected(new Random().nextInt(baseReasonBeans.size())
 //                ,0,0,0,0);
     }
+
+
 
 }

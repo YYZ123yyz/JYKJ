@@ -250,6 +250,12 @@ public class DateUtils {
         return sdf.format(date);
     }
 
+    public static String getStringTimeOfYYYYMMDDHHMM(Long time){
+        Date date = new Date(time);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        return sdf.format(date);
+    }
+
     /**
      * 将Long时间转成String时间
      *

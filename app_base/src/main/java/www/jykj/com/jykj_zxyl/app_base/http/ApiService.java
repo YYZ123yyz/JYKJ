@@ -61,5 +61,6 @@ public interface ApiService {
     //我的诊所-查看医生当前日期的预约患者、接诊患者、取消预约患者列表
     @POST("/doctorReserveControlle/searchReservePatientDoctorInfoByStatus")
     Observable<String> searchReservePatientDoctorInfoByStatus(@Query(value = "jsonDataInfo", encoded = true) String queryJson);
+
 }
 

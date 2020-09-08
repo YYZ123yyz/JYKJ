@@ -22,6 +22,7 @@ import www.jykj.com.jykj_zxyl.activity.hyhd.ChatActivity;
 import www.jykj.com.jykj_zxyl.app_base.base_activity.BaseActivity;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.BaseBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.BaseReasonBean;
+import www.jykj.com.jykj_zxyl.app_base.base_bean.CancelAppointResultBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.PatientInfoBean;
 import www.jykj.com.jykj_zxyl.app_base.base_dialog.BaseReasonDialog;
 import www.jykj.com.jykj_zxyl.app_base.base_view.BaseToolBar;
@@ -30,8 +31,8 @@ import www.jykj.com.jykj_zxyl.app_base.http.CommonDataObserver;
 import www.jykj.com.jykj_zxyl.app_base.http.ParameUtil;
 import www.jykj.com.jykj_zxyl.app_base.http.RetrofitUtil;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
-import www.jykj.com.jykj_zxyl.appointment.data.DataUtil;
 import www.jykj.com.jykj_zxyl.util.DateUtils;
+import www.jykj.com.jykj_zxyl.util.GsonUtils;
 import www.jykj.com.jykj_zxyl.util.StringUtils;
 
 /**
@@ -68,6 +69,7 @@ public class CancelAppointActivity extends BaseActivity {
     private PatientInfoBean currentPatientInfoBean;
     private BaseReasonBean currentBaseReasonBean;
     private JYKJApplication mApp;
+    private CancelAppointResultBean cancelAppointResultBean;
     @Override
     protected void onBeforeSetContentLayout() {
         super.onBeforeSetContentLayout();
@@ -159,8 +161,13 @@ public class CancelAppointActivity extends BaseActivity {
             protected void onSuccessResult(BaseBean baseBean) {
                 int resCode = baseBean.getResCode();
                 if (resCode == 1) {
-                    startJumpChatActivity(currentPatientInfoBean);
-                    setResult(1001);
+                    String resJsonData = baseBean.getResJsonData();
+                    if (StringUtils.isNotEmpty(resJsonData)) {
+                        cancelAppointResultBean =
+                                GsonUtils.fromJson(resJsonData, CancelAppointResultBean.class);
+                        startJumpChatActivity(currentPatientInfoBean,cancelAppointResultBean);
+                        setResult(1001);
+                    }
                     CancelAppointActivity.this.finish();
                 }
             }
@@ -184,7 +191,7 @@ public class CancelAppointActivity extends BaseActivity {
      * 跳转IM
      * @param currentPatientInfoBean 患者信息
      */
-    private void startJumpChatActivity(PatientInfoBean currentPatientInfoBean){
+    private void startJumpChatActivity(PatientInfoBean currentPatientInfoBean,CancelAppointResultBean cancelAppointResultBean){
 
         Intent intent = new Intent(this, ChatActivity.class);
         //患者
@@ -201,7 +208,7 @@ public class CancelAppointActivity extends BaseActivity {
 
         long reserveConfigStart = currentPatientInfoBean.getReserveConfigStart();
         String appointTime = DateUtils.getDateToStringYYYMMDDHHMM(reserveConfigStart);
-        String currentTime = DateUtils.getCurrentTimeYYYYMMDDHHSS();
+        String cancelTime = DateUtils.getStringTimeOfYYYYMMDDHHMM(cancelAppointResultBean.getUpdateDate());
         int treatmentType = currentPatientInfoBean.getTreatmentType();
         String treatmentTypeValue="";
         if(treatmentType==1){
@@ -214,7 +221,7 @@ public class CancelAppointActivity extends BaseActivity {
                 new OrderMessage(mApp.mViewSysUserDoctorInfoAndHospital.getUserName(),
                         mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl(),
                         currentPatientInfoBean.getReserveCode(),appointTime,
-                        currentTime,currentPatientInfoBean.getReserveProjectName()
+                        cancelTime,currentPatientInfoBean.getReserveProjectName()
                         ,treatmentTypeValue,"2","appointment"));
         intent.putExtras(bundle);
         startActivity(intent);

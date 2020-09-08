@@ -1739,14 +1739,37 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
     private void sendOrderCardMsg(OrderMessage msg) {
         String messageType = msg.getMessageType();
         String msgContent="";
-
-        if (messageType.equals("card")) {
-            msgContent="[签约订单]";
-        }else if(messageType.equals("terminationOrder")){
-            msgContent="[解约订单]";
-        }else if(messageType.equals("appointment")){
-            msgContent="[取消预约订单]";
+        switch (messageType){
+            case "card":
+                msgContent="[签约订单]";
+                break;
+            case "terminationOrder":
+                msgContent="[解约订单]";
+                break;
+            case "appointment":
+                msgContent="[取消预约]";
+                break;
+            case "receiveTreatment":
+                String appointMentProject = msg.getAppointMentProject();
+                switch (appointMentProject) {
+                    case "10":
+                        msgContent = "[图文接诊]";
+                        break;
+                    case "20":
+                        msgContent = "[音频接诊]";
+                        break;
+                    case "30":
+                        msgContent = "[视频接诊]";
+                        break;
+                    case "40":
+                        msgContent = "[电话接诊]";
+                        break;
+                        default:
+                }
+                break;
+                default:
         }
+
         //发送扩展消息
         EMMessage message = EMMessage.createTxtSendMessage(msgContent, toChatUsername);
         message.setAttribute("nickName", msg.getNickName());

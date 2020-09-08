@@ -426,6 +426,12 @@
 
 
         </activity>
+        <activity android:name=".appointment.activity.AppointOrderDetialActivity"
+            android:screenOrientation="portrait"
+            >
+
+
+        </activity>
 
         <activity
             android:name="com.tencent.rtmp.video.TXScreenCapture$TXScreenCaptureAssistantActivity"

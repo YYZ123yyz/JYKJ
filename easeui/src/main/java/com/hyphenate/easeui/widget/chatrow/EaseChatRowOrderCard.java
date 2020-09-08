@@ -68,6 +68,10 @@ public class EaseChatRowOrderCard extends EaseChatRow {
     private String orderType;
     private String messageType;
 
+    private String receiveTime;
+    private String endTime;
+    private String surplusTimes;
+
     private RelativeLayout rlMonitorType;
     private RelativeLayout rlMonitorRate;
     private RelativeLayout rlSignTime;
@@ -81,6 +85,18 @@ public class EaseChatRowOrderCard extends EaseChatRow {
     private TextView tvAppointProjectValue;
     private TextView tvAppointTypeValue;
 
+
+    //接诊
+    private RelativeLayout rlReceiveTime;
+    private RelativeLayout rlEndTime;
+    private RelativeLayout rlReceiveDoctor;
+    private RelativeLayout rlSurplusTimes;
+    private RelativeLayout rlSurplusDuration;
+    private TextView tvReceiveTimeValue;
+    private TextView tvEndTimeValue;
+    private TextView tvReceivieDoctorValue;
+    private TextView tvSurplusTimesValue;
+    private TextView tvSurplusDuration;
 
     //预约
     private String statusType;
@@ -141,6 +157,18 @@ public class EaseChatRowOrderCard extends EaseChatRow {
         tvAppointProjectValue=findViewById(R.id.tv_appoint_project_value);
         tvAppointTypeValue=findViewById(R.id.tv_appoint_type_value);
 
+        rlReceiveTime=findViewById(R.id.rl_receive_time);
+        rlEndTime=findViewById(R.id.rl_end_time);
+        rlReceiveDoctor=findViewById(R.id.rl_receive_doctor);
+        rlSurplusTimes=findViewById(R.id.rl_surplus_times);
+        rlSurplusDuration=findViewById(R.id.rl_surplus_duration);
+        tvReceiveTimeValue=findViewById(R.id.tv_receive_time_value);
+        tvEndTimeValue=findViewById(R.id.tv_end_time_value);
+        tvReceivieDoctorValue=findViewById(R.id.tv_receive_doctor_value);
+        tvSurplusTimesValue=findViewById(R.id.tv_surplus_times_value);
+        tvSurplusDuration=findViewById(R.id.tv_surplus_duration);
+
+
         addListener();
     }
 
@@ -173,6 +201,10 @@ public class EaseChatRowOrderCard extends EaseChatRow {
         cancelTime=message.getStringAttribute("cancelTime","");
         appointMentProject=message.getStringAttribute("appointMentProject","");
         appointMentType=message.getStringAttribute("appointMentType","");
+        receiveTime=message.getStringAttribute("receiveTime","");
+        endTime=message.getStringAttribute("endTime","");
+        surplusTimes=message.getStringAttribute("surplusTimes","");
+
         mTvMonitValue.setText(monitoringType);
         mTvCoachRateValue.setText(coach);
         mTvSignTimeValue.setText(signUpTime);
@@ -189,6 +221,14 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                 rlCancelAppointTime.setVisibility(View.GONE);
                 rlAppointProject.setVisibility(View.GONE);
                 rlAppointType.setVisibility(View.GONE);
+
+                rlReceiveTime.setVisibility(View.GONE);
+                rlEndTime.setVisibility(View.GONE);
+                rlReceiveDoctor.setVisibility(View.GONE);
+                rlSurplusTimes.setVisibility(View.GONE);
+                rlSurplusDuration.setVisibility(View.GONE);
+
+
                 break;
             case "card":
                 mTvCardTitle.setText("签约订单");
@@ -201,6 +241,12 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                 rlAppointProject.setVisibility(View.GONE);
                 rlAppointType.setVisibility(View.GONE);
 
+                rlReceiveTime.setVisibility(View.GONE);
+                rlEndTime.setVisibility(View.GONE);
+                rlReceiveDoctor.setVisibility(View.GONE);
+                rlSurplusTimes.setVisibility(View.GONE);
+                rlSurplusDuration.setVisibility(View.GONE);
+
                 break;
             case "appointment":
                 rlMonitorType.setVisibility(View.GONE);
@@ -212,6 +258,12 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                 rlAppointProject.setVisibility(View.VISIBLE);
                 rlAppointType.setVisibility(View.VISIBLE);
 
+                rlReceiveTime.setVisibility(View.GONE);
+                rlEndTime.setVisibility(View.GONE);
+                rlReceiveDoctor.setVisibility(View.GONE);
+                rlSurplusTimes.setVisibility(View.GONE);
+                rlSurplusDuration.setVisibility(View.GONE);
+
                 tvAppointTimeValue.setText(startTime);
                 tvAppointProjectValue.setText(appointMentProject);
                 tvAppointTypeValue.setText(appointMentType);
@@ -222,6 +274,52 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                     mTvCardTitle.setText("取消预约");
                 }
                 break;
+            case "receiveTreatment":
+                rlMonitorType.setVisibility(View.GONE);
+                rlMonitorRate.setVisibility(View.GONE);
+                rlSignTime.setVisibility(View.GONE);
+
+                rlAppointTime.setVisibility(View.GONE);
+                rlCancelAppointTime.setVisibility(View.GONE);
+                rlAppointProject.setVisibility(View.GONE);
+                rlAppointType.setVisibility(View.GONE);
+
+                rlReceiveTime.setVisibility(View.VISIBLE);
+                rlEndTime.setVisibility(View.VISIBLE);
+                rlSurplusTimes.setVisibility(View.VISIBLE);
+                rlSurplusDuration.setVisibility(View.VISIBLE);
+                tvReceiveTimeValue.setText(receiveTime);
+                tvEndTimeValue.setText(endTime);
+                switch (appointMentProject) {
+                    case "10":
+                        mTvCardTitle.setText("图文");
+                        break;
+                    case "20":
+                        mTvCardTitle.setText("音频");
+                        break;
+                    case "30":
+                        mTvCardTitle.setText("视频");
+                        break;
+                    case "40":
+                        mTvCardTitle.setText("电话");
+                        break;
+                    default:
+                }
+                if (appointMentProject.equals("10")) {
+                    rlReceiveDoctor.setVisibility(View.VISIBLE);
+                    rlSurplusTimes.setVisibility(View.VISIBLE);
+                    rlSurplusDuration.setVisibility(View.GONE);
+                    tvSurplusTimesValue.setText(surplusTimes);
+                }else{
+                    rlReceiveDoctor.setVisibility(View.GONE);
+                    rlSurplusTimes.setVisibility(View.GONE);
+                    rlSurplusDuration.setVisibility(View.VISIBLE);
+                    tvSurplusDuration.setText(surplusTimes);
+                }
+                tvReceivieDoctorValue.setText(mViewSysUserDoctorInfoAndHospital.getUserName());
+                break;
+
+
             default:
 
         }
@@ -358,6 +456,12 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                 }else if(statusType.equals("2")){
                     mTvCancelContractMsg.setText("您已取消预约");
                 }
+            }else if(messageType.equals("receiveTreatment")){
+                mTvOrderUpdateBtn.setVisibility(View.GONE);
+                ivStampIcon.setVisibility(View.GONE);
+                mTvPriceValue.setVisibility(View.GONE);
+                mTvCancelContractMsg.setVisibility(View.VISIBLE);
+                mTvCancelContractMsg.setText("您已接诊");
             }
 
 

@@ -291,5 +291,8 @@ public class ChatActivity extends AppCompatActivity {
         }
     }
 
-
+    @Override
+    public void finish() {
+        super.finish();
+    }
 }

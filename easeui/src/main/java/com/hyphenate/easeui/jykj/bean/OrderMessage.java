@@ -28,6 +28,11 @@ public class OrderMessage implements Serializable {
     private String statusType;
 
 
+    private String receiveTime;
+    private String endTime;
+    private String surplusTimes;
+
+
     public OrderMessage(String nickName,
                         String imageUrl,
                         String orderId,
@@ -71,8 +76,28 @@ public class OrderMessage implements Serializable {
         this.appointMentType = appointMentType;
         this.statusType=statusType;
         this.messageType = messageType;
+    }
+
+
+    public OrderMessage(String nickName,
+                        String imageUrl,
+                        String orderId,
+                        String receiveTime,
+                        String endTime,
+                        String surplusTimes,
+                        String appointMentProject,
+                        String messageType){
+        this.nickName=nickName;
+        this.imageUrl=imageUrl;
+        this.orderId=orderId;
+        this.receiveTime=receiveTime;
+        this.endTime=endTime;
+        this.surplusTimes=surplusTimes;
+        this.appointMentProject=appointMentProject;
+        this.messageType=messageType;
 
     }
+
 
     public String getPatientCode() {
         return patientCode;
@@ -201,5 +226,29 @@ public class OrderMessage implements Serializable {
 
     public void setStatusType(String statusType) {
         this.statusType = statusType;
+    }
+
+    public String getReceiveTime() {
+        return receiveTime;
+    }
+
+    public void setReceiveTime(String receiveTime) {
+        this.receiveTime = receiveTime;
+    }
+
+    public String getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
+    }
+
+    public String getSurplusTimes() {
+        return surplusTimes;
+    }
+
+    public void setSurplusTimes(String surplusTimes) {
+        this.surplusTimes = surplusTimes;
     }
 }

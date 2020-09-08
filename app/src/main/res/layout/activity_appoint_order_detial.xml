@@ -1,0 +1,628 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_f5f5f5"
+    android:orientation="vertical">
+
+    <include layout="@layout/item_toolbar">
+
+    </include>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="订单类型"
+                    android:textColor="@color/color_000000"
+                    android:textSize="15sp"
+
+                    >
+
+
+                </TextView>
+
+                <TextView
+                    android:id="@+id/tv_order_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:text="视频就诊"
+                    android:textColor="@color/color_666666"
+                    android:textSize="15sp">
+
+
+                </TextView>
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/color_f7f7f7">
+
+
+            </View>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="支付状态"
+                    android:textColor="@color/color_000000"
+                    android:textSize="15sp"
+
+                    >
+
+
+                </TextView>
+
+                <TextView
+                    android:id="@+id/tv_payment_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:text="已支付"
+                    android:textColor="@color/color_666666"
+                    android:textSize="15sp">
+
+
+                </TextView>
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/color_f7f7f7">
+
+
+            </View>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="咨询医生"
+                    android:textColor="@color/color_000000"
+                    android:textSize="15sp"
+
+                    >
+
+
+                </TextView>
+
+                <TextView
+                    android:id="@+id/tv_consult_doctor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:text="某某某"
+                    android:textColor="@color/color_666666"
+                    android:textSize="15sp">
+
+                </TextView>
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/color_f7f7f7">
+
+
+            </View>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="诊询人"
+                    android:textColor="@color/color_000000"
+                    android:textSize="15sp"
+
+                    >
+
+
+                </TextView>
+
+                <TextView
+                    android:id="@+id/tv_consultant"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:text="某某某"
+                    android:textColor="@color/color_666666"
+                    android:textSize="15sp">
+
+                </TextView>
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/color_f7f7f7">
+
+
+            </View>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="诊询人电话"
+                    android:textColor="@color/color_000000"
+                    android:textSize="15sp"
+
+                    >
+
+
+                </TextView>
+
+                <TextView
+                    android:id="@+id/tv_consultant_phone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:text="12345555"
+                    android:textColor="@color/color_666666"
+                    android:textSize="15sp">
+
+                </TextView>
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/color_f7f7f7">
+
+
+            </View>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="订单日期"
+                    android:textColor="@color/color_000000"
+                    android:textSize="15sp"
+
+                    >
+
+
+                </TextView>
+
+                <TextView
+                    android:id="@+id/tv_order_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:text="2020-05-11"
+                    android:textColor="@color/color_666666"
+                    android:textSize="15sp">
+
+                </TextView>
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/color_f7f7f7">
+
+
+            </View>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="预约服务时间"
+                    android:textColor="@color/color_000000"
+                    android:textSize="15sp"
+
+                    >
+
+
+                </TextView>
+
+                <TextView
+                    android:id="@+id/tv_appoint_service_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:text="2020-05-11"
+                    android:textColor="@color/color_666666"
+                    android:textSize="15sp">
+
+                </TextView>
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/color_f7f7f7">
+
+
+            </View>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="服务总价"
+                    android:textColor="@color/color_000000"
+                    android:textSize="15sp"
+
+                    >
+
+
+                </TextView>
+
+                <TextView
+                    android:id="@+id/tv_service_total_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:text="80"
+                    android:textColor="@color/color_666666"
+                    android:textSize="15sp">
+
+                </TextView>
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/color_f7f7f7">
+
+
+            </View>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="优惠券"
+                    android:textColor="@color/color_000000"
+                    android:textSize="15sp"
+
+                    >
+
+
+                </TextView>
+
+                <TextView
+                    android:id="@+id/tv_coupon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:text="无优惠券可用"
+                    android:textColor="@color/color_666666"
+                    android:textSize="15sp">
+
+                </TextView>
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/color_f7f7f7">
+
+
+            </View>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="积分"
+                    android:textColor="@color/color_000000"
+                    android:textSize="15sp"
+
+                    >
+
+
+                </TextView>
+
+                <TextView
+                    android:id="@+id/tv_integral"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:text="无积分可用"
+                    android:textColor="@color/color_666666"
+                    android:textSize="15sp">
+
+                </TextView>
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="6dp"
+                android:background="@color/color_f7f7f7">
+
+
+            </View>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="订单描述"
+                    android:textColor="@color/color_000000"
+                    android:textSize="15sp"
+
+                    >
+
+
+                </TextView>
+
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/color_f7f7f7"
+                android:orientation="vertical">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="服务时效:"
+                        android:textColor="@color/color_333333"
+                        android:textSize="15sp">
+
+
+                    </TextView>
+
+                    <TextView
+                        android:id="@+id/tv_service_validity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:text="有效期7天"
+                        android:textColor="@color/color_333333"
+                        android:textSize="15sp">
+
+
+                    </TextView>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginBottom="43dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="服务项目:"
+                        android:textColor="@color/color_333333"
+                        android:textSize="15sp">
+
+
+                    </TextView>
+
+                    <TextView
+                        android:id="@+id/tv_service_project"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:text="10分钟"
+                        android:textColor="@color/color_333333"
+                        android:textSize="15sp">
+
+
+                    </TextView>
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="实付款"
+                    android:textColor="@color/color_000000"
+                    android:textSize="15sp"
+
+                    >
+
+
+                </TextView>
+
+                <TextView
+                    android:id="@+id/tv_actual_payment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:text="80元"
+                    android:textColor="@color/color_666666"
+                    android:textSize="15sp">
+
+                </TextView>
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="6dp"
+                android:background="@color/color_f7f7f7">
+
+
+            </View>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="支付方式"
+                    android:textColor="@color/color_000000"
+                    android:textSize="15sp"
+
+                    >
+
+
+                </TextView>
+
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_payment_mode"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="微信支付"
+                        android:textColor="@color/color_666666"
+                        android:textSize="15sp">
+
+
+                    </TextView>
+
+
+                    <ImageView
+                        android:id="@+id/iv_payment_icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="10dp"
+                        android:src="@mipmap/bg_weixin_icon">
+
+
+                    </ImageView>
+
+                </LinearLayout>
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="6dp"
+                android:background="@color/color_f7f7f7">
+
+
+            </View>
+        </LinearLayout>
+
+    </ScrollView>
+</LinearLayout>
