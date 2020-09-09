@@ -128,7 +128,7 @@ public class MyPatientInfoAdapter extends RecyclerView.Adapter<MyPatientInfoAdap
         private TextView tvMedicalRecordDetialBtn;
         private LinearLayout llReceiveSucessRoot;
         private LinearLayout llAppointPatientRoot;
-        private LinearLayout rlCancelledRoot;
+        private RelativeLayout rlCancelledRoot;
         public ViewHolder(View view) {
             super(view);
             ivUserHead = view.findViewById(R.id.iv_userhead);

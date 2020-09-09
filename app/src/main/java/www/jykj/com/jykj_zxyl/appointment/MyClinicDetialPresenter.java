@@ -22,7 +22,6 @@ import www.jykj.com.jykj_zxyl.app_base.http.RetrofitUtil;
 import www.jykj.com.jykj_zxyl.app_base.mvp.BasePresenterImpl;
 import www.jykj.com.jykj_zxyl.util.GsonUtils;
 import www.jykj.com.jykj_zxyl.util.StringUtils;
-import yyz_exploit.Utils.GsonUtil;
 
 /**
  * Description:我的诊所详情Presenter

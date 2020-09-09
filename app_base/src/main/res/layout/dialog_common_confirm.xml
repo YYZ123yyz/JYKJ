@@ -8,7 +8,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="234dp"
+        android:layout_height="200dp"
         android:background="@drawable/bg_round_ffffff_7"
         android:layout_centerInParent="true"
         android:layout_marginStart="35dp"

@@ -18,11 +18,8 @@ import android.widget.TextView;
 import com.allen.library.utils.ToastUtils;
 import com.hyphenate.easeui.utils.CollectionUtils;
 
-import org.jsoup.Connection;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import butterknife.BindView;
 import jsc.kit.wheel.base.WheelItem;
@@ -44,7 +41,7 @@ import www.jykj.com.jykj_zxyl.appointment.data.DataUtil;
 import www.jykj.com.jykj_zxyl.appointment.dialog.AddSignalSourceDialog;
 import www.jykj.com.jykj_zxyl.appointment.dialog.AppointTimeDialog;
 import www.jykj.com.jykj_zxyl.appointment.dialog.AppointTypeDialog;
-import www.jykj.com.jykj_zxyl.appointment.dialog.CommonConfirmDialog;
+import www.jykj.com.jykj_zxyl.app_base.base_dialog.CommonConfirmDialog;
 import www.jykj.com.jykj_zxyl.appointment.view.CalendarView;
 import www.jykj.com.jykj_zxyl.util.DateUtils;
 import www.jykj.com.jykj_zxyl.util.StringUtils;

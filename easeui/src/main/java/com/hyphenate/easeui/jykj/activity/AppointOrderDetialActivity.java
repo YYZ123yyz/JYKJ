@@ -43,7 +43,6 @@ public class AppointOrderDetialActivity
     private ScrollView mScrollView;
     private LoadingLayoutManager mLoadingLayoutManager;//重新加载布局
     private String orderCode;
-//    private String orderType;
     @Override
     protected int setLayoutId() {
         return R.layout.activity_appoint_order_detial;
@@ -55,7 +54,6 @@ public class AppointOrderDetialActivity
         Bundle extras = this.getIntent().getExtras();
         if (extras!=null) {
             orderCode= extras.getString("orderCode");
-            //orderType=extras.getString("orderType");
         }
     }
 

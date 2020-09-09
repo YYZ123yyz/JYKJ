@@ -35,58 +35,60 @@ public class AppointOrderDetialPresenter
     }
 
     @Override
-    public void sendSearchReserveInfoRequest( String orderCode, Activity activity) {
+    public void sendSearchReserveInfoRequest(String orderCode, Activity activity) {
         HashMap<String, Object> hashMap = ParameUtil.buildBaseDoctorParam(activity);
-        hashMap.put("orderCode",orderCode);
+        hashMap.put("orderCode", orderCode);
         String s = RetrofitUtil.encodeParam(hashMap);
-       ApiHelper.getApiService().searchReserveInfo(s).compose(Transformer.<String>switchSchedulers(new ILoadingView() {
-           @Override
-           public void showLoadingView() {
-               if (mView!=null) {
-                   mView.showLoading(100);
-               }
-           }
+        ApiHelper.getApiService().searchReserveInfo(s).compose(Transformer.<String>switchSchedulers(new ILoadingView() {
+            @Override
+            public void showLoadingView() {
+                if (mView != null) {
+                    mView.showLoading(100);
+                }
+            }
 
-           @Override
-           public void hideLoadingView() {
-               if (mView!=null) {
-                   mView.hideLoading();
-               }
-           }
-       })).subscribe(new CommonDataObserver() {
-           @Override
-           protected void onSuccessResult(BaseBean baseBean) {
-               if (mView!=null) {
-                   int resCode = baseBean.getResCode();
-                   if (resCode==1) {
-                       String resJsonData = baseBean.getResJsonData();
-                       if (StringUtils.isNotEmpty(resJsonData)) {
-                           OrderInfoBean orderInfoBean = GsonUtils.fromJson(resJsonData, OrderInfoBean.class);
-                           if (orderInfoBean!=null) {
-                               mView.getSearchReserveInfoResult(orderInfoBean);
-                           }else{
-                               mView.showEmpty();
-                           }
-                       }
-                   }else{
-                       mView.showRetry();
-                   }
-               }
-           }
+            @Override
+            public void hideLoadingView() {
+                if (mView != null) {
+                    mView.hideLoading();
+                }
+            }
+        })).subscribe(new CommonDataObserver() {
+            @Override
+            protected void onSuccessResult(BaseBean baseBean) {
+                if (mView != null) {
+                    int resCode = baseBean.getResCode();
+                    if (resCode == 1) {
+                        String resJsonData = baseBean.getResJsonData();
+                        if (StringUtils.isNotEmpty(resJsonData) && !resJsonData.equals("{}")) {
+                            OrderInfoBean orderInfoBean = GsonUtils.fromJson(resJsonData, OrderInfoBean.class);
+                            if (orderInfoBean != null) {
+                                mView.getSearchReserveInfoResult(orderInfoBean);
+                            } else {
+                                mView.showEmpty();
+                            }
+                        } else {
+                            mView.showEmpty();
+                        }
+                    } else {
+                        mView.showRetry();
+                    }
+                }
+            }
 
 
-           @Override
-           protected void onError(String s) {
-               super.onError(s);
-               if (mView!=null) {
-                   mView.showRetry();
-               }
-           }
+            @Override
+            protected void onError(String s) {
+                super.onError(s);
+                if (mView != null) {
+                    mView.showRetry();
+                }
+            }
 
-           @Override
-           protected String setTag() {
-               return SEND_ORDER_INFO_REQUEST_TAG;
-           }
-       });
+            @Override
+            protected String setTag() {
+                return SEND_ORDER_INFO_REQUEST_TAG;
+            }
+        });
     }
 }

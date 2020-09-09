@@ -56,7 +56,7 @@ import www.jykj.com.jykj_zxyl.appointment.data.DataUtil;
 import www.jykj.com.jykj_zxyl.appointment.dialog.AddSignalSourceDialog;
 import www.jykj.com.jykj_zxyl.appointment.dialog.AppointTimeDialog;
 import www.jykj.com.jykj_zxyl.appointment.dialog.AppointTypeDialog;
-import www.jykj.com.jykj_zxyl.appointment.dialog.CommonConfirmDialog;
+import www.jykj.com.jykj_zxyl.app_base.base_dialog.CommonConfirmDialog;
 import www.jykj.com.jykj_zxyl.appointment.listener.MyItemClickListener;
 import www.jykj.com.jykj_zxyl.appointment.view.FirstView;
 import www.jykj.com.jykj_zxyl.appointment.view.SecView;
@@ -225,7 +225,7 @@ public class MyClinicDetialActivity extends AbstractMvpBaseActivity<MyClinicDeti
                 edPatientName.getText().toString(),endAge,startAge,
                 appointStartTime,appointEndTime,priceRegion,reserveStatus,dateSort,priceSort,this);
 
-        mPresenter.sendGetUserInfoRequest(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
+        //mPresenter.sendGetUserInfoRequest(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
     }
 
     /**
@@ -254,7 +254,8 @@ public class MyClinicDetialActivity extends AbstractMvpBaseActivity<MyClinicDeti
                         ,patientInfoBean.getMainDoctorCode(),
                         patientInfoBean.getMainDoctorName(),
                         patientInfoBean.getMainPatientCode(),
-                        patientInfoBean.getMainPatientName(),"0",MyClinicDetialActivity.this);
+                        patientInfoBean.getMainPatientName(),"0"
+                        ,MyClinicDetialActivity.this);
             }
         });
         rvList.setLayoutManager(new LinearLayoutManager(this));
@@ -300,6 +301,7 @@ public class MyClinicDetialActivity extends AbstractMvpBaseActivity<MyClinicDeti
                 Bundle bundle=new Bundle();
                 bundle.putString("reserveDate",reserveDate);
                 bundle.putString("reserveStatus","10");
+                bundle.putString("title","预约患者");
                 startActivity(AppointPatientListActivity.class,bundle);
 
 
@@ -313,6 +315,7 @@ public class MyClinicDetialActivity extends AbstractMvpBaseActivity<MyClinicDeti
                 Bundle bundle=new Bundle();
                 bundle.putString("reserveDate",reserveDate);
                 bundle.putString("reserveStatus","20");
+                bundle.putString("title","接诊患者");
                 startActivity(AppointPatientListActivity.class,bundle);
             }
 
@@ -324,6 +327,7 @@ public class MyClinicDetialActivity extends AbstractMvpBaseActivity<MyClinicDeti
                 Bundle bundle=new Bundle();
                 bundle.putString("reserveDate",reserveDate);
                 bundle.putString("reserveStatus","130");
+                bundle.putString("title","取消预约患者");
                 startActivity(AppointPatientListActivity.class,bundle);
 
             }
@@ -795,17 +799,6 @@ public class MyClinicDetialActivity extends AbstractMvpBaseActivity<MyClinicDeti
         ToastUtils.showToast(msg);
     }
 
-//    @Override
-//    public void getOperConfirmReservePatientDoctorInfoResult(boolean isSucess, String msg) {
-//        pageIndex=1;
-//        mPresenter.sendSearchReservePatientDoctorInfoRequest(
-//                mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(),
-//                treatmentType,pageSize+"",pageIndex+"",
-//                edPatientName.getText().toString(),endAge,startAge,
-//                appointStartTime,appointEndTime,priceRegion,reserveStatus,dateSort,priceSort,
-//                MyClinicDetialActivity.this);
-//
-//    }
 
 
     /**
@@ -908,11 +901,13 @@ public class MyClinicDetialActivity extends AbstractMvpBaseActivity<MyClinicDeti
             timelyTreatmentAdapter.notifyDataSetChanged();
             mRefreshLayout2.finishLoadMore();
             tvNoData2.setVisibility(View.GONE);
+            rlCurrentDateRoot.setVisibility(View.VISIBLE);
         } else {
             if (pageIndex == 1) {
                 timelyTreatmentAdapter.setData(mTimelyTreatmentBeans);
                 timelyTreatmentAdapter.notifyDataSetChanged();
                 tvNoData2.setVisibility(View.VISIBLE);
+                rlCurrentDateRoot.setVisibility(View.GONE);
             } else {
                 mRefreshLayout2.finishLoadMore();
             }

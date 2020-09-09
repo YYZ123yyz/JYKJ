@@ -24,6 +24,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
+import com.allen.library.interceptor.Transformer;
+import com.allen.library.interfaces.ILoadingView;
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
 import com.bigkoo.pickerview.builder.TimePickerBuilder;
 import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
@@ -36,7 +38,6 @@ import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.easeui.EaseConstant;
 import com.hyphenate.easeui.R;
-import com.hyphenate.easeui.entity.ViewSysUserDoctorInfoAndHospital;
 import com.hyphenate.easeui.hyhd.model.Constant;
 import com.hyphenate.easeui.jykj.adapter.Item_Rv_CoachingAdapter;
 import com.hyphenate.easeui.jykj.adapter.Item_Rv_detectAdapter;
@@ -50,13 +51,13 @@ import com.hyphenate.easeui.jykj.bean.OrderMessage;
 import com.hyphenate.easeui.jykj.bean.ProvideBasicsDomain;
 import com.hyphenate.easeui.jykj.bean.ProvideDoctorPatientUserInfo;
 import com.hyphenate.easeui.jykj.bean.Restcommit;
+import com.hyphenate.easeui.jykj.bean.UserInfoBean;
 import com.hyphenate.easeui.jykj.utils.DateUtils;
 import com.hyphenate.easeui.netService.HttpNetService;
 import com.hyphenate.easeui.netService.entity.NetRetEntity;
 import com.hyphenate.easeui.ui.EaseChatFragment;
 import com.hyphenate.easeui.utils.CollectionUtils;
 import com.hyphenate.easeui.utils.MainMessage;
-import com.hyphenate.easeui.utils.SharedPreferences_DataSave;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -74,6 +75,16 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
+
+import www.jykj.com.jykj_zxyl.app_base.base_bean.BaseBean;
+import www.jykj.com.jykj_zxyl.app_base.base_bean.ViewSysUserDoctorInfoAndHospital;
+import www.jykj.com.jykj_zxyl.app_base.base_dialog.CommonConfirmDialog;
+import www.jykj.com.jykj_zxyl.app_base.base_utils.GsonUtils;
+import www.jykj.com.jykj_zxyl.app_base.base_utils.SharedPreferences_DataSave;
+import www.jykj.com.jykj_zxyl.app_base.http.ApiHelper;
+import www.jykj.com.jykj_zxyl.app_base.http.CommonDataObserver;
+import www.jykj.com.jykj_zxyl.app_base.http.ParameUtil;
+import www.jykj.com.jykj_zxyl.app_base.http.RetrofitUtil;
 
 import static android.icu.text.DateTimePatternGenerator.DAY;
 import static android.widget.Toast.LENGTH_SHORT;
@@ -168,6 +179,7 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
     private String status;
     private LinearLayout protocol_lin;
     private String singNO;
+    private CommonConfirmDialog commonConfirmDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -175,11 +187,17 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
         setContentView(R.layout.activity_signing_details);
         mContext = this;
         mActivity = this;
-        sharedPreferences = getSharedPreferences("sp", Activity.MODE_PRIVATE);
-        name = sharedPreferences.getString("name", "");
-        Log.e("TAG", "onCreate: " + name);
-        code = sharedPreferences.getString("code", "");
-        doctorAlias = sharedPreferences.getString("mainDoctorAlias", "");
+        commonConfirmDialog=new CommonConfirmDialog(this);
+        SharedPreferences_DataSave m_persist = new SharedPreferences_DataSave(this,
+                "JYKJDOCTER");
+        String userInfoSuLogin = m_persist.getString("viewSysUserDoctorInfoAndHospital", "");
+        ViewSysUserDoctorInfoAndHospital mProvideViewSysUserPatientInfoAndRegion
+                = GsonUtils.fromJson(userInfoSuLogin, ViewSysUserDoctorInfoAndHospital.class);
+        if (mProvideViewSysUserPatientInfoAndRegion!=null) {
+            name=mProvideViewSysUserPatientInfoAndRegion.getUserName();
+            code=mProvideViewSysUserPatientInfoAndRegion.getDoctorCode();
+            doctorAlias=mProvideViewSysUserPatientInfoAndRegion.getUserNameAlias();
+        }
 
         //跳转传值
         Intent intent = getIntent();
@@ -192,8 +210,8 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
         doctorUrl = intent.getStringExtra("doctorUrl");
         Log.e("TAG", "onCreate: " + doctorUrl);
         duration();
-        //获取患者信息
-
+        //获取医生信息;
+        sendGetUserInfoRequest(code);
         //订单详情的标识
         initView();
         addListener();
@@ -213,6 +231,35 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
     protected void onResume() {
         super.onResume();
         getUser();
+    }
+
+    private void sendGetUserInfoRequest(String userCodeList){
+        HashMap<String, Object> hashMap = ParameUtil.buildBaseParam();
+        hashMap.put("userCodeList",userCodeList);
+        String s = RetrofitUtil.encodeParam(hashMap);
+        ApiHelper.getApiService().getUserInfoListAndService(s)
+                .compose(Transformer.switchSchedulers())
+                .subscribe(new CommonDataObserver() {
+            @Override
+            protected void onSuccessResult(BaseBean baseBean) {
+                int resCode = baseBean.getResCode();
+                if (resCode==1) {
+                    String resJsonData = baseBean.getResJsonData();
+                    List<UserInfoBean> userInfoBeans =
+                            GsonUtils.jsonToList(resJsonData, UserInfoBean.class);
+                    if (!CollectionUtils.isEmpty(userInfoBeans)) {
+                        UserInfoBean userInfoBean = userInfoBeans.get(0);
+                        int flagOpening = userInfoBean.getFlagOpening();
+                        if (flagOpening==0) {
+                            commonConfirmDialog.setContentText("请开通服签约服务权限");
+                            commonConfirmDialog.show();
+                            commonConfirmDialog.setShowCancelBtn(false);
+                        }
+                    }
+                }
+            }
+
+        });
     }
 
     private void getUser() {
@@ -833,6 +880,12 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
                 } else {
                     Duration();
                 }
+            }
+        });
+        commonConfirmDialog.setOnClickListener(new CommonConfirmDialog.OnClickListener() {
+            @Override
+            public void onConfirm() {
+                SigningDetailsActivity.this.finish();
             }
         });
     }

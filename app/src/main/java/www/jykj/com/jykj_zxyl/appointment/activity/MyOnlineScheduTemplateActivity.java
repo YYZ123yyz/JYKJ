@@ -1,7 +1,6 @@
 package www.jykj.com.jykj_zxyl.appointment.activity;
 
 
-import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,7 +16,6 @@ import com.hyphenate.easeui.utils.CollectionUtils;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Random;
 
 import butterknife.BindView;
 import jsc.kit.wheel.base.WheelItem;
@@ -38,7 +36,7 @@ import www.jykj.com.jykj_zxyl.appointment.adapter.DoctorSeheduTimeWeekAdapter;
 import www.jykj.com.jykj_zxyl.appointment.data.DataUtil;
 import www.jykj.com.jykj_zxyl.appointment.dialog.AddSignalSourceDialog;
 import www.jykj.com.jykj_zxyl.appointment.dialog.AppointTimeDialog;
-import www.jykj.com.jykj_zxyl.appointment.dialog.CommonConfirmDialog;
+import www.jykj.com.jykj_zxyl.app_base.base_dialog.CommonConfirmDialog;
 import www.jykj.com.jykj_zxyl.util.DateUtils;
 import www.jykj.com.jykj_zxyl.util.StringUtils;
 

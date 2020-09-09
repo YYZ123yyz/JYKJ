@@ -11,7 +11,9 @@ import java.util.HashMap;
 import java.util.List;
 
 import www.jykj.com.jykj_zxyl.app_base.base_bean.BaseBean;
+import www.jykj.com.jykj_zxyl.app_base.base_bean.BaseReasonBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.PatientInfoBean;
+import www.jykj.com.jykj_zxyl.app_base.base_bean.ReceiveTreatmentResultBean;
 import www.jykj.com.jykj_zxyl.app_base.http.ApiHelper;
 import www.jykj.com.jykj_zxyl.app_base.http.CommonDataObserver;
 import www.jykj.com.jykj_zxyl.app_base.http.ParameUtil;
@@ -30,10 +32,15 @@ public class AppointPatientListPresenter extends BasePresenterImpl<AppointPatien
         implements AppointPatientListContract.Presenter {
     private static final String SEND_APPOINT_PATIENT_LIST_REQUEST_TAG="" +
             "send_appoint_patient_list_request_tag";
+    private static final String SEND_GET_USER_INFO_REQUEST_TAG="send_get_user_info_request_tag";
 
+    private static final String SEND_GET_CANCEL_APPOINT_REQUEST_TAG="send_get_cancel_appoint_request_tag";
+
+    private static final String SEND_OPERCONFIRM_RESERVE_PATIENT_DOCTOR_REQUEST_TAG="" +
+            "send_operconfirm_reserve_patient_doctor_request_tag";
     @Override
     protected Object[] getRequestTags() {
-        return new Object[]{SEND_APPOINT_PATIENT_LIST_REQUEST_TAG};
+        return new Object[]{SEND_APPOINT_PATIENT_LIST_REQUEST_TAG,SEND_GET_USER_INFO_REQUEST_TAG};
     }
 
     @Override
@@ -75,7 +82,6 @@ public class AppointPatientListPresenter extends BasePresenterImpl<AppointPatien
                             List<PatientInfoBean>
                                     patientInfoBeans = GsonUtils.jsonToList(resJsonData,
                                     PatientInfoBean.class);
-                            mView.getSearchReservePaitentDoctorInfoByStatusResult(patientInfoBeans);
 
                             if (!CollectionUtils.isEmpty(patientInfoBeans)) {
                                 mView.getSearchReservePaitentDoctorInfoByStatusResult(patientInfoBeans);
@@ -103,6 +109,120 @@ public class AppointPatientListPresenter extends BasePresenterImpl<AppointPatien
             @Override
             protected String setTag() {
                 return SEND_APPOINT_PATIENT_LIST_REQUEST_TAG;
+            }
+        });
+    }
+
+    @Override
+    public void sendGetUserInfoRequest(String userCodeList) {
+        HashMap<String, Object> hashMap = ParameUtil.buildBaseParam();
+        hashMap.put("userCodeList",userCodeList);
+        String s = RetrofitUtil.encodeParam(hashMap);
+        ApiHelper.getApiService().getUserInfoListAndService(s).compose(Transformer.switchSchedulers(new ILoadingView() {
+            @Override
+            public void showLoadingView() {
+
+            }
+
+            @Override
+            public void hideLoadingView() {
+
+            }
+        })).subscribe(new CommonDataObserver() {
+            @Override
+            protected void onSuccessResult(BaseBean baseBean) {
+                System.out.println(baseBean);
+            }
+
+            @Override
+            protected String setTag() {
+                return SEND_GET_USER_INFO_REQUEST_TAG;
+            }
+        });
+    }
+
+    @Override
+    public void sendCancelAppointReasonRequest(String baseCode) {
+        HashMap<String, Object> hashMap = ParameUtil.buildBaseParam();
+        hashMap.put("baseCode", baseCode);
+        String s = RetrofitUtil.encodeParam(hashMap);
+        ApiHelper.getApiService().getBasicsDomain(s).compose(Transformer.switchSchedulers())
+                .subscribe(new CommonDataObserver() {
+                    @Override
+                    protected void onSuccessResult(BaseBean baseBean) {
+                        if (mView!=null) {
+                            int resCode = baseBean.getResCode();
+                            if (resCode==1) {
+                                List<BaseReasonBean> baseReasonBeans =
+                                        GsonUtils.jsonToList(baseBean.getResJsonData(), BaseReasonBean.class);
+                                mView.getCancelAppointReasonResult(baseReasonBeans);
+                            }
+                        }
+                    }
+
+                    @Override
+                    protected String setTag() {
+                        return SEND_GET_CANCEL_APPOINT_REQUEST_TAG;
+                    }
+                });
+    }
+
+    @Override
+    public void sendOperConfirmReservePatientDoctorInfoRequest(String reserveCode, String reserveRosterDateCode, String mainDoctorCode, String mainDoctorName, String mainPatientCode, String mainPatientName, String version, Activity activity) {
+        HashMap<String, Object> hashMap = ParameUtil.buildBaseDoctorParam(activity);
+        hashMap.put("reserveCode",reserveCode);
+        hashMap.put("reserveRosterDateCode",reserveRosterDateCode);
+        hashMap.put("mainDoctorCode",mainDoctorCode);
+        hashMap.put("mainDoctorName",mainDoctorName);
+        hashMap.put("mainPatientCode",mainPatientCode);
+        hashMap.put("mainPatientName",mainPatientName);
+        hashMap.put("version",version);
+        String s = RetrofitUtil.encodeParam(hashMap);
+        ApiHelper.getApiService().operConfirmReservePatientDoctorInfo(s).compose(Transformer.switchSchedulers(new ILoadingView() {
+            @Override
+            public void showLoadingView() {
+                if (mView!=null) {
+                    mView.showLoading(101);
+                }
+            }
+
+            @Override
+            public void hideLoadingView() {
+                if (mView!=null) {
+                    mView.hideLoading();
+                }
+
+            }
+        })).subscribe(new CommonDataObserver() {
+            @Override
+            protected void onSuccessResult(BaseBean baseBean) {
+                if (mView!=null) {
+                    int resCode = baseBean.getResCode();
+                    if (resCode==1) {
+                        String resJsonData = baseBean.getResJsonData();
+                        if (StringUtils.isNotEmpty(resJsonData)) {
+                            ReceiveTreatmentResultBean receiveTreatmentResultBean
+                                    = GsonUtils.fromJson(resJsonData, ReceiveTreatmentResultBean.class);
+                            mView.getOperConfirmReservePatientDoctorInfoResult(receiveTreatmentResultBean);
+                        }
+
+                    }else{
+                        mView.getOperConfirmReservePatientDoctorInfoError(baseBean.getResMsg());
+                    }
+                }
+            }
+
+            @Override
+            protected void onError(String s) {
+                super.onError(s);
+                if (mView!=null) {
+                    mView.getOperConfirmReservePatientDoctorInfoError(s);
+                }
+            }
+
+            @Override
+            protected String setTag() {
+                return SEND_OPERCONFIRM_RESERVE_PATIENT_DOCTOR_REQUEST_TAG;
             }
         });
     }

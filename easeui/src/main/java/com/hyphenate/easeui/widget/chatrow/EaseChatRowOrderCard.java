@@ -98,7 +98,7 @@ public class EaseChatRowOrderCard extends EaseChatRow {
     private TextView tvEndTimeValue;
     private TextView tvReceivieDoctorValue;
     private TextView tvSurplusTimesValue;
-    private TextView tvSurplusDuration;
+    private TextView tvSurplusDurationValue;
 
     //预约
     private String statusType;
@@ -168,9 +168,7 @@ public class EaseChatRowOrderCard extends EaseChatRow {
         tvEndTimeValue=findViewById(R.id.tv_end_time_value);
         tvReceivieDoctorValue=findViewById(R.id.tv_receive_doctor_value);
         tvSurplusTimesValue=findViewById(R.id.tv_surplus_times_value);
-        tvSurplusDuration=findViewById(R.id.tv_surplus_duration);
-
-
+        tvSurplusDurationValue=findViewById(R.id.tv_surplus_duration_value);
         addListener();
     }
 
@@ -316,7 +314,7 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                     rlReceiveDoctor.setVisibility(View.GONE);
                     rlSurplusTimes.setVisibility(View.GONE);
                     rlSurplusDuration.setVisibility(View.VISIBLE);
-                    tvSurplusDuration.setText(surplusTimes);
+                    tvSurplusDurationValue.setText(surplusTimes);
                 }
                 tvReceivieDoctorValue.setText(mViewSysUserDoctorInfoAndHospital.getUserName());
                 break;

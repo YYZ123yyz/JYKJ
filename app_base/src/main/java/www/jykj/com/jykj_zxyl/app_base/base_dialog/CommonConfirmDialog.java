@@ -1,7 +1,8 @@
-package www.jykj.com.jykj_zxyl.appointment.dialog;
+package www.jykj.com.jykj_zxyl.app_base.base_dialog;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,11 +10,11 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 
 import java.util.Objects;
 
-import www.jykj.com.jykj_zxyl.R;
+import www.jykj.com.jykj_zxyl.app_base.R;
+
 
 /**
  * Description:
@@ -29,6 +30,9 @@ public class CommonConfirmDialog extends Dialog {
     private TextView mTvCancelBtn;
     private TextView mTvConfirmBtn;
     private OnClickListener onClickListener;
+    private boolean isShowCancelBtn;
+
+
 
     public void setOnClickListener(OnClickListener onClickListener) {
         this.onClickListener = onClickListener;
@@ -69,6 +73,17 @@ public class CommonConfirmDialog extends Dialog {
 
     public void setContentText(String content){
         mTvContentMsg.setText(content);
+    }
+
+    public void setShowCancelBtn(boolean showCancelBtn) {
+        isShowCancelBtn = showCancelBtn;
+        if(isShowing()){
+            if (isShowCancelBtn) {
+                mTvCancelBtn.setVisibility(View.VISIBLE);
+            }else{
+                mTvCancelBtn.setVisibility(View.GONE);
+            }
+        }
     }
     private void addListener(){
         mTvIknowBtn.setOnClickListener(new View.OnClickListener() {

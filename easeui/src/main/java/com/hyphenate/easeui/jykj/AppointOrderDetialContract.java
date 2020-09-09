@@ -9,7 +9,7 @@ import www.jykj.com.jykj_zxyl.app_base.mvp.BasePresenter;
 import www.jykj.com.jykj_zxyl.app_base.mvp.BaseView;
 
 /**
- * Description:
+ * Description:预约详情契约类
  *
  * @author: qiuxinhai
  * @date: 2020-09-08 10:49
