@@ -91,7 +91,7 @@ public class MyPatientFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_my_patient, container, false);
-        mContext = getContext();
+        mContext = getActivity();
         mActivity = (MyPatientActivity) getActivity();
         mApp = (JYKJApplication) getActivity().getApplication();
         initLayout(v);

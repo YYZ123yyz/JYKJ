@@ -264,7 +264,7 @@ public class OnlineScheduTemplatePresenter extends BasePresenterImpl<OnlineSched
                             status = operDoctorScheduResult.getStatus();
                         }
                         if (StringUtils.isNotEmpty(status) && status.equals("1")) {
-                            mView.getOperUpdReservedDoctorRosterInfoCheckStepConfirm(baseBean.getResMsg());
+                            mView.getOperUpdReservedDoctorRosterInfoCheckStepConfirm(operDoctorScheduResult.getMessage());
                         } else {
                             mView.getOperUpdReserveDoctorRosterInfoRequest(true, baseBean.getResMsg());
                         }

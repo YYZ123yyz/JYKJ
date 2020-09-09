@@ -22,6 +22,8 @@ import com.hyphenate.chat.EMMessage;
 import com.hyphenate.easeui.R;
 import com.hyphenate.easeui.entity.ViewSysUserDoctorInfoAndHospital;
 import com.hyphenate.easeui.hyhd.model.Constant;
+import com.hyphenate.easeui.jykj.activity.AppointOrderDetialActivity;
+import com.hyphenate.easeui.jykj.activity.CancelAppointDetialActivity;
 import com.hyphenate.easeui.jykj.activity.CancellationActivity;
 import com.hyphenate.easeui.jykj.activity.SigningDetailsActivity;
 import com.hyphenate.easeui.jykj.activity.TerminationActivity;
@@ -643,36 +645,55 @@ public class EaseChatRowOrderCard extends EaseChatRow {
         mLLRootView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (messageType.equals("terminationOrder")) {
-                    if (!orderType.equals("3")) {
-                        //解约详情
-                        String from="";
-                        EMMessage.Direct direct = message.direct();
-                        if(direct== EMMessage.Direct.RECEIVE) {
-                            from="2";
-                        }else if(direct==EMMessage.Direct.SEND){
-                            from="1";
+                switch (messageType) {
+                    case "terminationOrder":
+                        if (!orderType.equals("3")) {
+                            //解约详情
+                            String from = "";
+                            EMMessage.Direct direct = message.direct();
+                            if (direct == EMMessage.Direct.RECEIVE) {
+                                from = "2";
+                            } else if (direct == EMMessage.Direct.SEND) {
+                                from = "1";
+                            }
+                            Bundle bundle = new Bundle();
+                            bundle.putString("singCode", orderId);
+                            bundle.putString("singNo", singNO);
+                            bundle.putString("from", from);
+                            bundle.putString("patientName", nickName);
+                            bundle.putString("patientCode", patientCode);
+                            bundle.putString("DoctorName", mViewSysUserDoctorInfoAndHospital.getUserName());
+                            bundle.putString("DoctoCode", mViewSysUserDoctorInfoAndHospital.getDoctorCode());
+                            startActivity(CancellationActivity.class, bundle);
                         }
+
+                        break;
+                    case "card": {
+                        //签约订单详情
                         Bundle bundle = new Bundle();
                         bundle.putString("singCode", orderId);
-                        bundle.putString("singNo", singNO);
-                        bundle.putString("from",from);
+                        bundle.putString("signNo", singNO);
                         bundle.putString("patientName", nickName);
                         bundle.putString("patientCode", patientCode);
-                        bundle.putString("DoctorName", mViewSysUserDoctorInfoAndHospital.getUserName());
-                        bundle.putString("DoctoCode", mViewSysUserDoctorInfoAndHospital.getDoctorCode());
-                        startActivity(CancellationActivity.class, bundle);
+                        bundle.putString("status", "1");
+                        startActivity(SigningDetailsActivity.class, bundle);
+                        break;
+                    }
+                    case "appointment": {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("orderCode", orderId);
+                        startActivity(CancelAppointDetialActivity.class, bundle);
+                        break;
+                    }
+                    case "receiveTreatment":{
+                        Bundle bundle=new Bundle();
+                        bundle.putString("orderCode",orderId);
+                        startActivity(AppointOrderDetialActivity.class,bundle);
+
+                        break;
                     }
 
-                } else if (messageType.equals("card")) {
-                    //签约订单详情
-                    Bundle bundle = new Bundle();
-                    bundle.putString("singCode", orderId);
-                    bundle.putString("signNo", singNO);
-                    bundle.putString("patientName", nickName);
-                    bundle.putString("patientCode", patientCode);
-                    bundle.putString("status", "1");
-                    startActivity(SigningDetailsActivity.class, bundle);
+                    default:
                 }
 
             }

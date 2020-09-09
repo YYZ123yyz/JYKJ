@@ -13,6 +13,7 @@ import www.jykj.com.jykj_zxyl.app_base.base_bean.BaseBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.BaseReasonBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.OperDoctorScheduResultBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.PatientInfoBean;
+import www.jykj.com.jykj_zxyl.app_base.base_bean.ReceiveTreatmentResultBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.TimelyTreatmentBean;
 import www.jykj.com.jykj_zxyl.app_base.http.ApiHelper;
 import www.jykj.com.jykj_zxyl.app_base.http.CommonDataObserver;
@@ -21,6 +22,7 @@ import www.jykj.com.jykj_zxyl.app_base.http.RetrofitUtil;
 import www.jykj.com.jykj_zxyl.app_base.mvp.BasePresenterImpl;
 import www.jykj.com.jykj_zxyl.util.GsonUtils;
 import www.jykj.com.jykj_zxyl.util.StringUtils;
+import yyz_exploit.Utils.GsonUtil;
 
 /**
  * Description:我的诊所详情Presenter
@@ -45,6 +47,8 @@ public class MyClinicDetialPresenter extends BasePresenterImpl<MyClinicDetialCon
     private static final String SEND_GET_SIGNAL_SOURCE_TYPE_REQUEST_TAG="send_get_signal_source_type_request_tag";
 
     private static final String SEND_OPER_UPD_DOCTOR_REQUEST_TAG="send_oper_upd_doctor_request_tag";
+
+    private static final String SEND_GET_USER_INFO_REQUEST_TAG="send_get_user_info_request_tag";
     @Override
     protected Object[] getRequestTags() {
         return new Object[]{SEND_SEARCH_RESERVE_PATIENT_DOCTOR_INFO_REQUEST_TAG
@@ -52,7 +56,8 @@ public class MyClinicDetialPresenter extends BasePresenterImpl<MyClinicDetialCon
                 ,SEND_GET_CANCEL_APPOINT_REQUEST_TAG
                 ,SEND_GET_PRICE_REGION_REQUEST_TAG
                 ,SEND_GET_RESERVE_DOCTOR_DATE_INFO_IMMEDIATE_REQUEST_TAG
-                ,SEND_GET_SIGNAL_SOURCE_TYPE_REQUEST_TAG,SEND_OPER_UPD_DOCTOR_REQUEST_TAG};
+                ,SEND_GET_SIGNAL_SOURCE_TYPE_REQUEST_TAG
+                ,SEND_OPER_UPD_DOCTOR_REQUEST_TAG,SEND_GET_USER_INFO_REQUEST_TAG};
     }
 
 
@@ -159,9 +164,15 @@ public class MyClinicDetialPresenter extends BasePresenterImpl<MyClinicDetialCon
                 if (mView!=null) {
                     int resCode = baseBean.getResCode();
                     if (resCode==1) {
-                        mView.getOperConfirmReservePatientDoctorInfoResult(true,baseBean.getResMsg());
+                        String resJsonData = baseBean.getResJsonData();
+                        if (StringUtils.isNotEmpty(resJsonData)) {
+                            ReceiveTreatmentResultBean receiveTreatmentResultBean
+                                    = GsonUtils.fromJson(resJsonData, ReceiveTreatmentResultBean.class);
+                            mView.getOperConfirmReservePatientDoctorInfoResult(receiveTreatmentResultBean);
+                        }
+
                     }else{
-                        mView.getOperConfirmReservePatientDoctorInfoResult(false,baseBean.getResMsg());
+                        mView.getOperConfirmReservePatientDoctorInfoError(baseBean.getResMsg());
                     }
                 }
             }
@@ -170,7 +181,7 @@ public class MyClinicDetialPresenter extends BasePresenterImpl<MyClinicDetialCon
             protected void onError(String s) {
                 super.onError(s);
                 if (mView!=null) {
-                    mView.getOperConfirmReservePatientDoctorInfoResult(false,s);
+                    mView.getOperConfirmReservePatientDoctorInfoError(s);
                 }
             }
 
@@ -442,6 +453,34 @@ public class MyClinicDetialPresenter extends BasePresenterImpl<MyClinicDetialCon
             @Override
             protected String setTag() {
                 return SEND_OPER_UPD_DOCTOR_REQUEST_TAG;
+            }
+        });
+    }
+
+    @Override
+    public void sendGetUserInfoRequest(String userCodeList) {
+        HashMap<String, Object> hashMap = ParameUtil.buildBaseParam();
+        hashMap.put("userCodeList",userCodeList);
+        String s = RetrofitUtil.encodeParam(hashMap);
+        ApiHelper.getApiService().getUserInfoListAndService(s).compose(Transformer.switchSchedulers(new ILoadingView() {
+            @Override
+            public void showLoadingView() {
+
+            }
+
+            @Override
+            public void hideLoadingView() {
+
+            }
+        })).subscribe(new CommonDataObserver() {
+            @Override
+            protected void onSuccessResult(BaseBean baseBean) {
+                System.out.println(baseBean);
+            }
+
+            @Override
+            protected String setTag() {
+                return SEND_GET_USER_INFO_REQUEST_TAG;
             }
         });
     }

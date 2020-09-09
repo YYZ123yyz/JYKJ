@@ -44,6 +44,7 @@ public class ParameUtil {
         paramMap.put("requestClientType","1");
         paramMap.put("operDoctorCode",mProvideViewSysUserPatientInfoAndRegion.getDoctorCode());
         paramMap.put("operDoctorName",mProvideViewSysUserPatientInfoAndRegion.getUserName());
+        paramMap.put("operDoctorAlias",mProvideViewSysUserPatientInfoAndRegion.getUserNameAlias());
         return paramMap;
     }
 

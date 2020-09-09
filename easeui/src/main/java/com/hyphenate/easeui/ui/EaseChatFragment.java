@@ -1795,6 +1795,12 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
                 message.setAttribute("appointMentProject",msg.getAppointMentProject());
                 message.setAttribute("appointMentType",msg.getAppointMentType());
                 break;
+            case "receiveTreatment":
+                message.setAttribute("receiveTime",msg.getReceiveTime());
+                message.setAttribute("endTime",msg.getEndTime());
+                message.setAttribute("surplusTimes",msg.getSurplusTimes());
+                message.setAttribute("appointMentProject",msg.getAppointMentProject());
+                break;
                 default:
         }
 

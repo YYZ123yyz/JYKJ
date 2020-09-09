@@ -61,6 +61,20 @@ public interface ApiService {
     //我的诊所-查看医生当前日期的预约患者、接诊患者、取消预约患者列表
     @POST("/doctorReserveControlle/searchReservePatientDoctorInfoByStatus")
     Observable<String> searchReservePatientDoctorInfoByStatus(@Query(value = "jsonDataInfo", encoded = true) String queryJson);
-
+    //订单详情信息查看
+    @POST("/doctorReserveControlle/searchReserveInfo")
+    Observable<String> searchReserveInfo(@Query(value = "jsonDataInfo", encoded = true) String queryJson);
+    //解约订单详情
+    @POST("/doctorSignControlle/searchSignPatientDoctorOrder")
+    Observable<String> searchSignPatientDoctorOrder(@Query(value = "jsonDataInfo", encoded = true) String queryJson);
+    //医生配置-读取签约服务项目信息到价格表
+    @POST("/doctorSignControlle/searchDoctorSignConfigDetail")
+    Observable<String> searchDoctorSignConfigDetail(@Query(value = "jsonDataInfo", encoded = true) String queryJson);
+    //医生配置-签约服务价格变更【批量修改】
+    @POST("/doctorSignControlle/operDoctorSignConfigPriceBatch")
+    Observable<String> operDoctorSignConfigPriceBatch(@Query(value = "jsonDataInfo", encoded = true) String queryJson);
+    //获取用户(医生、患者)的[简要]信息
+    @POST("/doctorPatientCommonDataController/getUserInfoListAndService")
+    Observable<String> getUserInfoListAndService(@Query(value = "jsonDataInfo", encoded = true) String queryJson);
 }
 

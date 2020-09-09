@@ -1,4 +1,4 @@
-package www.jykj.com.jykj_zxyl.appointment;
+package com.hyphenate.easeui.jykj;
 
 import android.app.Activity;
 
@@ -31,10 +31,9 @@ public class AppointOrderDetialContract {
 
         /**
          * 发送搜查询详情
-         * @param orderType 订单类型
          * @param orderCode 订单Id
          */
-        void sendSearchReserveInfoRequest(String orderType, String orderCode, Activity activity);
+        void sendSearchReserveInfoRequest(String orderCode, Activity activity);
 
     }
 }

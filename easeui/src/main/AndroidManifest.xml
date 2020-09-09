@@ -6,6 +6,13 @@
          <activity android:name=".jykj.activity.SigningDetailsActivity"/>
          <activity android:name=".jykj.activity.CoachingActivity"/>
          <activity android:name=".jykj.activity.DetectActivity"/>
+         <activity android:name=".jykj.activity.CancelAppointDetialActivity">
+
+         </activity>
+         <activity android:name=".jykj.activity.AppointOrderDetialActivity">
+
+
+         </activity>
 
      </application>
 </manifest>

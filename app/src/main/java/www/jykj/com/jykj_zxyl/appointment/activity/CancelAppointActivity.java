@@ -1,5 +1,6 @@
 package www.jykj.com.jykj_zxyl.appointment.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.EditText;
@@ -70,6 +71,7 @@ public class CancelAppointActivity extends BaseActivity {
     private BaseReasonBean currentBaseReasonBean;
     private JYKJApplication mApp;
     private CancelAppointResultBean cancelAppointResultBean;
+
     @Override
     protected void onBeforeSetContentLayout() {
         super.onBeforeSetContentLayout();
@@ -91,8 +93,15 @@ public class CancelAppointActivity extends BaseActivity {
     @Override
     protected void initView() {
         super.initView();
+
         setToolBar();
         addListener();
+    }
+
+
+    @Override
+    protected void initData() {
+        super.initData();
     }
 
     /**
@@ -131,6 +140,9 @@ public class CancelAppointActivity extends BaseActivity {
 
         });
     }
+
+
+
 
     private void sendCancelAppointRequest(PatientInfoBean currentPatientInfoBean,BaseReasonBean baseReasonBean){
         HashMap<String, Object> hashMap = ParameUtil.buildBaseDoctorParam(this);
@@ -187,6 +199,7 @@ public class CancelAppointActivity extends BaseActivity {
     }
 
 
+
     /**
      * 跳转IM
      * @param currentPatientInfoBean 患者信息
@@ -227,8 +240,5 @@ public class CancelAppointActivity extends BaseActivity {
         startActivity(intent);
     }
 
-    @Override
-    protected void initData() {
-        super.initData();
-    }
+
 }

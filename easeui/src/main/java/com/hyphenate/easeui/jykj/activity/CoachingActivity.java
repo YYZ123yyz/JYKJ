@@ -31,13 +31,17 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import www.jykj.com.jykj_zxyl.app_base.base_bean.ViewSysUserDoctorInfoAndHospital;
+import www.jykj.com.jykj_zxyl.app_base.base_utils.GsonUtils;
+import www.jykj.com.jykj_zxyl.app_base.base_utils.SharedPreferences_DataSave;
+
 
 public class CoachingActivity extends AppCompatActivity implements View.OnClickListener {
 
     private Context mContext;
     private Handler mHandler;
     private String mNetRetStr;
- //   private JYKJApplication mApp;
+    //   private JYKJApplication mApp;
     private List<DetectBean> coachingBeans;
     private Coaching_RVAdapter detect_rvAdapter;
     private CoachingActivity mActivity;
@@ -48,6 +52,7 @@ public class CoachingActivity extends AppCompatActivity implements View.OnClickL
     private String name;
     private String code;
     private List<DetectBean> mCoachingList = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,10 +60,17 @@ public class CoachingActivity extends AppCompatActivity implements View.OnClickL
         mCoachingList = (ArrayList<DetectBean>) getIntent().getSerializableExtra("coaching");
         mContext = this;
         mActivity = this;
-        coachingBeans=new ArrayList<>();
-        sharedPreferences = getSharedPreferences("sp", Activity.MODE_PRIVATE);
-        name = sharedPreferences.getString("name", "");
-        code = sharedPreferences.getString("code", "");
+        coachingBeans = new ArrayList<>();
+        SharedPreferences_DataSave m_persist = new SharedPreferences_DataSave(this,
+                "JYKJDOCTER");
+
+        String userInfoSuLogin = m_persist.getString("viewSysUserDoctorInfoAndHospital", "");
+        ViewSysUserDoctorInfoAndHospital mProvideViewSysUserPatientInfoAndRegion
+                = GsonUtils.fromJson(userInfoSuLogin, ViewSysUserDoctorInfoAndHospital.class);
+        if (mProvideViewSysUserPatientInfoAndRegion != null) {
+            name = mProvideViewSysUserPatientInfoAndRegion.getUserName();
+            code = mProvideViewSysUserPatientInfoAndRegion.getDoctorCode();
+        }
         initView();
         Detect();
         OnClickListener();
@@ -78,23 +90,29 @@ public class CoachingActivity extends AppCompatActivity implements View.OnClickL
                 switch (msg.what) {
                     case 1:
                         if (mNetRetStr != null && !mNetRetStr.equals("")) {
-                            coachingBeans = JSON.parseArray(JSON.parseObject(mNetRetStr, NetRetEntity.class).getResJsonData(), DetectBean.class);
-                            for (int i = 0; i < coachingBeans.size(); i++) {
-                                for (int j = 0; j < mCoachingList.size(); j++) {
-                                    if (coachingBeans.get(i).getConfigDetailCode()
-                                            .equals(mCoachingList.get(j).getConfigDetailCode())) {
-                                        DetectBean detectBean = mCoachingList.get(j);
-                                        coachingBeans.get(i).setChoice(true);
-                                        coachingBeans.get(i).setTotalPrice(detectBean.getTotalPrice());
-                                        coachingBeans.get(i).setMinute(detectBean.getMinute());
-                                        coachingBeans.get(i).setMonths(detectBean.getMonths());
-                                        coachingBeans.get(i).setFrequency(detectBean.getFrequency());
-                                        coachingBeans.get(i).setValue(detectBean.getValue());
+
+                            NetRetEntity netRetEntity = GsonUtils.fromJson(mNetRetStr, NetRetEntity.class);
+                            int resCode = netRetEntity.getResCode();
+                            if (resCode == 1) {
+                                coachingBeans = GsonUtils.jsonToList(netRetEntity.getResJsonData(), DetectBean.class);
+                                for (int i = 0; i < coachingBeans.size(); i++) {
+                                    for (int j = 0; j < mCoachingList.size(); j++) {
+                                        if (coachingBeans.get(i).getConfigDetailCode()
+                                                .equals(mCoachingList.get(j).getConfigDetailCode())) {
+                                            DetectBean detectBean = mCoachingList.get(j);
+                                            coachingBeans.get(i).setChoice(true);
+                                            coachingBeans.get(i).setTotalPrice(detectBean.getTotalPrice());
+                                            coachingBeans.get(i).setMinute(detectBean.getMinute());
+                                            coachingBeans.get(i).setMonths(detectBean.getMonths());
+                                            coachingBeans.get(i).setFrequency(detectBean.getFrequency());
+                                            coachingBeans.get(i).setValue(detectBean.getValue());
+                                        }
                                     }
                                 }
+                                detect_rvAdapter.setDate(coachingBeans);
+                                detect_rvAdapter.notifyDataSetChanged();
                             }
-                            detect_rvAdapter.setDate(coachingBeans);
-                            detect_rvAdapter.notifyDataSetChanged();
+
                         }
 
                         break;
@@ -111,7 +129,7 @@ public class CoachingActivity extends AppCompatActivity implements View.OnClickL
         map.put("loginDoctorPosition", "108.93425^34.23053");
         map.put("configDetailTypeCode", "20");
         map.put("operDoctorCode", code);
-        map.put("operDoctorName",name);
+        map.put("operDoctorName", name);
 
         new Thread() {
             public void run() {

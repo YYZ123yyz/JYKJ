@@ -21,6 +21,7 @@ import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
 import com.bigkoo.pickerview.builder.TimePickerBuilder;
 import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.bigkoo.pickerview.view.TimePickerView;
+import com.hyphenate.easeui.jykj.bean.OrderMessage;
 import com.hyphenate.easeui.jykj.utils.DateUtils;
 import com.hyphenate.easeui.utils.CollectionUtils;
 import com.scwang.smart.refresh.footer.ClassicsFooter;
@@ -42,6 +43,7 @@ import www.jykj.com.jykj_zxyl.activity.hyhd.ChatActivity;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.BaseReasonBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.OperDoctorScheduResultBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.PatientInfoBean;
+import www.jykj.com.jykj_zxyl.app_base.base_bean.ReceiveTreatmentResultBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.TimelyTreatmentBean;
 import www.jykj.com.jykj_zxyl.app_base.base_view.BaseToolBar;
 import www.jykj.com.jykj_zxyl.app_base.mvp.AbstractMvpBaseActivity;
@@ -223,6 +225,7 @@ public class MyClinicDetialActivity extends AbstractMvpBaseActivity<MyClinicDeti
                 edPatientName.getText().toString(),endAge,startAge,
                 appointStartTime,appointEndTime,priceRegion,reserveStatus,dateSort,priceSort,this);
 
+        mPresenter.sendGetUserInfoRequest(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
     }
 
     /**
@@ -244,6 +247,7 @@ public class MyClinicDetialActivity extends AbstractMvpBaseActivity<MyClinicDeti
             @Override
             public void onClickReceiveTreatment(int pos) {
                 PatientInfoBean patientInfoBean = mPatientInfoBeans.get(pos);
+                currentPatientInfoBean=patientInfoBean;
                 mPresenter.sendOperConfirmReservePatientDoctorInfoRequest(
                         patientInfoBean.getReserveCode(),
                         patientInfoBean.getReserveRosterDateCode()
@@ -781,7 +785,18 @@ public class MyClinicDetialActivity extends AbstractMvpBaseActivity<MyClinicDeti
     }
 
     @Override
-    public void getOperConfirmReservePatientDoctorInfoResult(boolean isSucess, String msg) {
+    public void getOperConfirmReservePatientDoctorInfoResult(ReceiveTreatmentResultBean
+                                                                         receiveTreatmentResultBean) {
+        startJumpChatActivity(currentPatientInfoBean,receiveTreatmentResultBean);
+    }
+
+    @Override
+    public void getOperConfirmReservePatientDoctorInfoError(String msg) {
+        ToastUtils.showToast(msg);
+    }
+
+//    @Override
+//    public void getOperConfirmReservePatientDoctorInfoResult(boolean isSucess, String msg) {
 //        pageIndex=1;
 //        mPresenter.sendSearchReservePatientDoctorInfoRequest(
 //                mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(),
@@ -789,17 +804,16 @@ public class MyClinicDetialActivity extends AbstractMvpBaseActivity<MyClinicDeti
 //                edPatientName.getText().toString(),endAge,startAge,
 //                appointStartTime,appointEndTime,priceRegion,reserveStatus,dateSort,priceSort,
 //                MyClinicDetialActivity.this);
-
-    }
+//
+//    }
 
 
     /**
      * 跳转IM
      * @param currentPatientInfoBean 患者信息
      */
-    private void startJumpChatActivity(PatientInfoBean currentPatientInfoBean
-            ,String receiveTime
-            ,String endTime,String surplusTimes){
+    private void startJumpChatActivity(PatientInfoBean currentPatientInfoBean,
+                                       ReceiveTreatmentResultBean receiveTreatmentResultBean){
 
 
         Intent intent = new Intent(this, ChatActivity.class);
@@ -826,23 +840,30 @@ public class MyClinicDetialActivity extends AbstractMvpBaseActivity<MyClinicDeti
             case "3":
                 appointMentType="30";
                 break;
-            case "4":
-                appointMentType="40";
-                break;
+
             case "5":
                 appointMentType="40";
                 break;
                 default:
         }
-  //      Bundle bundle = new Bundle();
-//        bundle.putSerializable("orderMsg",
-//                new OrderMessage(mApp.mViewSysUserDoctorInfoAndHospital.getUserName(),
-//                        mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl(),
-//                        currentPatientInfoBean.getReserveCode(),receiveTime,
-//                        endTime,surplusTimes,"",
-//                        ,"receiveTreatment"));
-//        intent.putExtras(bundle);
-//        startActivityForResult(intent,1000);
+        String surplusTimes="";
+        if(appointMentType.equals("10")){
+            surplusTimes=receiveTreatmentResultBean.getReserveProjectLastCount()+"次";
+        }else{
+            surplusTimes=(receiveTreatmentResultBean.getSumDuration()
+                    -receiveTreatmentResultBean.getUseDuration())+"分钟";
+        }
+        String receiveTime= www.jykj.com.jykj_zxyl.util.DateUtils.getDateToStringYYYMMDDHHMM(
+                receiveTreatmentResultBean.getAdmissionStartTimes());
+        String endTime = www.jykj.com.jykj_zxyl.util.DateUtils.getDateToStringYYYMMDDHHMM(receiveTreatmentResultBean.getAdmissionEndTimes());
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("orderMsg",
+                new OrderMessage(mApp.mViewSysUserDoctorInfoAndHospital.getUserName(),
+                        mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl(),
+                        currentPatientInfoBean.getReserveCode(),receiveTime,
+                        endTime,surplusTimes,appointMentType,"receiveTreatment"));
+        intent.putExtras(bundle);
+        startActivityForResult(intent,1000);
     }
 
     @Override

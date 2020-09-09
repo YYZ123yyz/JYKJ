@@ -2,11 +2,14 @@ package www.jykj.com.jykj_zxyl.appointment.activity;
 
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import butterknife.BindView;
 import www.jykj.com.jykj_zxyl.R;
+import www.jykj.com.jykj_zxyl.app_base.base_bean.OrderInfoBean;
 import www.jykj.com.jykj_zxyl.app_base.base_view.BaseToolBar;
+import www.jykj.com.jykj_zxyl.app_base.base_view.LoadingLayoutManager;
 import www.jykj.com.jykj_zxyl.app_base.mvp.AbstractMvpBaseActivity;
 import www.jykj.com.jykj_zxyl.appointment.AppointOrderDetialContract;
 import www.jykj.com.jykj_zxyl.appointment.AppointOrderDetialPresenter;
@@ -34,6 +37,8 @@ public class AppointOrderDetialActivity
     ImageButton rightImageId;
     @BindView(R.id.toolbar)
     BaseToolBar toolbar;
+    @BindView(R.id.scroll_view)
+    ScrollView scrollView;
     @BindView(R.id.tv_order_type)
     TextView tvOrderType;
     @BindView(R.id.tv_payment_status)
@@ -64,7 +69,7 @@ public class AppointOrderDetialActivity
     TextView tvPaymentMode;
     @BindView(R.id.iv_payment_icon)
     ImageView ivPaymentIcon;
-
+    private LoadingLayoutManager mLoadingLayoutManager;//重新加载布局
     @Override
     protected int setLayoutId() {
         return R.layout.activity_appoint_order_detial;
@@ -74,16 +79,58 @@ public class AppointOrderDetialActivity
     @Override
     protected void initView() {
         super.initView();
+        setToolBar();
+        initLoadingAndRetryManager();
     }
 
 
     @Override
     protected void initData() {
         super.initData();
+
+
+    }
+
+
+    /**
+     * 设置Title，方法内的参数可自己定义，如左边文字，颜色，图片
+     */
+    private void setToolBar() {
+        toolbar.setMainTitle("订单详情");
+        //返回键
+        toolbar.setLeftTitleClickListener(view -> finish());
+    }
+
+    /**
+     * 初始化loading页面
+     */
+    private void initLoadingAndRetryManager() {
+        mLoadingLayoutManager = LoadingLayoutManager.wrap(scrollView);
+        mLoadingLayoutManager.setRetryListener(v -> {
+
+        });
+        mLoadingLayoutManager.showLoading();
+
     }
 
     @Override
     public void showLoading(int code) {
 
+    }
+
+    @Override
+    public void getSearchReserveInfoResult(OrderInfoBean orderInfoBeans) {
+
+        mLoadingLayoutManager.showContent();
+    }
+
+    @Override
+    public void getSearchReserveInfoError() {
+        mLoadingLayoutManager.showError();
+    }
+
+    @Override
+    public void showEmpty() {
+        mLoadingLayoutManager.showEmpty();
     }
 }

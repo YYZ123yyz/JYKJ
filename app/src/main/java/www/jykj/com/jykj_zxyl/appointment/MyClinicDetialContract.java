@@ -7,6 +7,7 @@ import java.util.List;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.BaseReasonBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.OperDoctorScheduResultBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.PatientInfoBean;
+import www.jykj.com.jykj_zxyl.app_base.base_bean.ReceiveTreatmentResultBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.TimelyTreatmentBean;
 import www.jykj.com.jykj_zxyl.app_base.mvp.BasePresenter;
 import www.jykj.com.jykj_zxyl.app_base.mvp.BaseView;
@@ -28,10 +29,15 @@ public class MyClinicDetialContract {
 
         /**
          * 获取接诊请求返回结果
-         * @param isSucess ture or false
-         * @param msg 信息
+         * @param receiveTreatmentResultBean 接诊返回结果
          */
-        void getOperConfirmReservePatientDoctorInfoResult(boolean isSucess,String msg);
+        void getOperConfirmReservePatientDoctorInfoResult(ReceiveTreatmentResultBean receiveTreatmentResultBean);
+
+        /**
+         * 获取接诊请求返回错误
+         * @param msg 错误信息
+         */
+        void getOperConfirmReservePatientDoctorInfoError(String msg);
 
         /**
          * 发送取消预约请求返回结果
@@ -176,5 +182,11 @@ public class MyClinicDetialContract {
                 ,String week,String reserveType,String reserveTypeName
                 ,String times,String startTimes,String endTimes, String reserveCount,String checkStep
                 ,String reserveDateRosterCode,Activity activity);
+
+        /**
+         * 发送获取用户信息请求
+         * @param userCodeList 用户Id列表
+         */
+        void sendGetUserInfoRequest(String userCodeList);
     }
 }
