@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/color_000000"
+        android:textSize="15sp"
+        android:text="血常规三项检查"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="13dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="13dp"
+        android:id="@+id/tv_inspection_text"
+        >
+
+
+    </TextView>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="10dp"
+        android:id="@+id/iv_item_choosed"
+        android:src="@mipmap/bg_choosed_normal"
+        >
+
+
+    </ImageView>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_below="@+id/tv_inspection_text"
+        android:background="@color/color_eeeeee"
+        >
+
+
+    </View>
+</RelativeLayout>

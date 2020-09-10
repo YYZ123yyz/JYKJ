@@ -1,5 +1,6 @@
 package www.jykj.com.jykj_zxyl.activity.home.jyzl;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -100,6 +101,7 @@ public class GRXX_GRZK_JBXXActivity extends AppCompatActivity {
         getDate();
     }
 
+    @SuppressLint("HandlerLeak")
     private void initHandler() {
         mHandler = new Handler() {
             @Override
@@ -110,7 +112,9 @@ public class GRXX_GRZK_JBXXActivity extends AppCompatActivity {
                         break;
                     case 1:
                         cacerProgress();
-                        mProvideViewSysUserPatientInfoAndRegion = JSON.parseObject(JSON.parseObject(mNetRetStr, NetRetEntity.class).getResJsonData(), ProvideViewSysUserPatientInfoAndRegion.class);
+                        mProvideViewSysUserPatientInfoAndRegion
+                                = JSON.parseObject(JSON.parseObject(mNetRetStr,
+                                NetRetEntity.class).getResJsonData(), ProvideViewSysUserPatientInfoAndRegion.class);
                         showViewDate();
                         break;
                     case 2:

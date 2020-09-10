@@ -193,5 +193,11 @@
         <item name="colorAccent">#0accac</item>
     </style>
 
+    <style name="AnimTopMiddle" parent="@android:style/Animation">
+        <item name="android:windowEnterAnimation">@anim/top_middle_in</item>
+        <item name="android:windowExitAnimation">@anim/top_middle_out</item>
+    </style>
+
+
 
 </resources>

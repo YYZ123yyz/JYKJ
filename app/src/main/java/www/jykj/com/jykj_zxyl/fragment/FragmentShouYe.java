@@ -56,6 +56,7 @@ import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.appointment.activity.MyClinicDetialActivity;
 import www.jykj.com.jykj_zxyl.appointment.activity.MyOnlineScheduActivity;
 import www.jykj.com.jykj_zxyl.custom.MoreFeaturesPopupWindow;
+import www.jykj.com.jykj_zxyl.medicalrecord.InspectionItemChoosedActivity;
 import www.jykj.com.jykj_zxyl.util.StringUtils;
 import yyz_exploit.Utils.MyImageView;
 import yyz_exploit.activity.activity.Home_DetailsActivity;
@@ -515,7 +516,7 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
             public void onClick(View v) {
 //                Intent intent=new Intent(FragmentShouYe.this.getContext(), MyOnlineScheduActivity.class);
 //                startActivity(intent);
-                Intent intent=new Intent(FragmentShouYe.this.getContext(), MyClinicDetialActivity.class);
+                Intent intent=new Intent(FragmentShouYe.this.getContext(), InspectionItemChoosedActivity.class);
                 startActivity(intent);
             }
         });

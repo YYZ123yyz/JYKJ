@@ -19,6 +19,7 @@ import www.jykj.com.jykj_zxyl.activity.home.jyzl.GRXX_GRZK_HZBQActivity;
 import www.jykj.com.jykj_zxyl.activity.home.jyzl.GRXX_GRZK_JBXXActivity;
 import www.jykj.com.jykj_zxyl.activity.home.jyzl.GRXX_GRZK_JWBSActivity;
 import www.jykj.com.jykj_zxyl.activity.home.jyzl.GRXX_GRZK_ZZXXActivity;
+import www.jykj.com.jykj_zxyl.activity.home.jyzl.PatientBaseInfoActivity;
 import www.jykj.com.jykj_zxyl.util.ActivityUtil;
 
 /**
@@ -84,6 +85,11 @@ public class HZGLHZZLActivity extends AppCompatActivity {
             switch (view.getId()) {
                 case R.id.tv_activityFragmentHzzl_JBXX:
                     startActivity(new Intent(mContext, GRXX_GRZK_JBXXActivity.class).putExtra("patientCode", mProvideViewPatientLablePunchClockState.getPatientCode()));
+//                    Intent intent = new Intent(mContext, PatientBaseInfoActivity.class);
+//                    Bundle bundle = new Bundle();
+//                    bundle.putString("patientCode", mProvideViewPatientLablePunchClockState.getPatientCode());
+//                    intent.putExtras(bundle);
+//                    startActivity(intent);
                     break;
                 case R.id.li_activityHZGL_bqjl:
                     startActivity(new Intent(mContext, GRXX_GRZK_HZBQActivity.class).putExtra("patientCode", mProvideViewPatientLablePunchClockState.getPatientCode()));

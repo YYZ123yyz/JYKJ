@@ -79,5 +79,8 @@ public interface ApiService {
     //我的预约-预约单-查询预约单详情(取消原因)
     @POST("/doctorReserveControlle/searchReservePatientDoctorInfoXx")
     Observable<String> getSearchReservePatientDoctorInfoXx(@Query(value = "jsonDataInfo", encoded = true) String queryJson);
+    //获取患者基本信息
+    @POST("/patientDataControlle/searchDoctorManagePatientStateResBasic")
+    Observable<String> searchDoctorManagePatientStateResBasic(@Query(value = "jsonDataInfo", encoded = true) String queryJson);
 }
 

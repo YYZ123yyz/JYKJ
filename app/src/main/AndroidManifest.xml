@@ -298,6 +298,13 @@
         <activity
             android:name=".activity.home.jyzl.GRXX_GRZK_JBXXActivity"
             android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 个人总览=》 个人状况 ==》患者标签 -->
+
+        <activity android:name=".activity.home.jyzl.PatientBaseInfoActivity"
+            android:screenOrientation="portrait"
+            >
+
+
+        </activity>
         <activity
             android:name=".activity.home.jyzl.GRXX_GRZK_HZBQActivity"
             android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 个人总览=》 个人状况 ==》症状信息 -->
@@ -427,6 +434,12 @@
 
         </activity>
         <activity android:name=".appointment.activity.AppointOrderDetialActivity"
+            android:screenOrientation="portrait"
+            >
+
+
+        </activity>
+        <activity android:name=".medicalrecord.InspectionItemChoosedActivity"
             android:screenOrientation="portrait"
             >
 
