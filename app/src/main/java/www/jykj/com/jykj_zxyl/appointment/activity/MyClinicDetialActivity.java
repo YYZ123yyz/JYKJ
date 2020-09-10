@@ -119,8 +119,8 @@ public class MyClinicDetialActivity extends AbstractMvpBaseActivity<MyClinicDeti
     TextView tvDiseaseType;
     @BindView(R.id.ed_patient_chief)
     EditText edPatientChief;
-    @BindView(R.id.tv_cancel_btn)
-    TextView tvCancelBtn;
+    @BindView(R.id.tv_reset_btn)
+    TextView tvResetBtn;
     @BindView(R.id.tv_confirm_btn)
     TextView tvConfirmBtn;
     @BindView(R.id.rl_current_date_root)
@@ -515,7 +515,25 @@ public class MyClinicDetialActivity extends AbstractMvpBaseActivity<MyClinicDeti
         tvDiseaseType.setOnClickListener(v -> {
 
         });
-        tvCancelBtn.setOnClickListener(v -> drawerLayout.closeDrawer(Gravity.RIGHT));
+        //tvResetBtn.setOnClickListener(v -> drawerLayout.closeDrawer(Gravity.RIGHT));
+        tvResetBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                edPatientName.setText("");
+                tvStartAge.setText("");
+                startAge="";
+                tvEndAge.setText("");
+                endAge="";
+                tvStartTime.setText("");
+                mStartTime="";
+                tvEndTime.setText("");
+                mEndTime="";
+                priceRegion="";
+                tvPrice.setText("");
+                edPatientChief.setText("");
+            }
+        });
         tvConfirmBtn.setOnClickListener(v -> {
             drawerLayout.closeDrawer(Gravity.RIGHT);
             pageIndex=1;

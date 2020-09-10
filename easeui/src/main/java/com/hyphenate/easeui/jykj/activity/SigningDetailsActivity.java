@@ -209,6 +209,7 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
         singCode = intent.getStringExtra("singCode");
         doctorUrl = intent.getStringExtra("doctorUrl");
         Log.e("TAG", "onCreate: " + doctorUrl);
+        initHandler();
         duration();
         //获取医生信息;
         sendGetUserInfoRequest(code);
@@ -224,7 +225,7 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
                 Getdetails();
             }
         }
-        initHandler();
+
     }
 
     @Override
