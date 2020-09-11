@@ -1,29 +1,16 @@
 package www.jykj.com.jykj_zxyl.medicalrecord;
-
-import android.annotation.SuppressLint;
-import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
-import com.yyydjk.library.DropDownMenu;
-
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import butterknife.BindView;
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.app_base.base_activity.BaseActivity;
 import www.jykj.com.jykj_zxyl.app_base.base_view.BaseToolBar;
-import www.jykj.com.jykj_zxyl.appointment.view.FirstView;
 import www.jykj.com.jykj_zxyl.medicalrecord.popup.TopMiddlePopup;
 
 /**

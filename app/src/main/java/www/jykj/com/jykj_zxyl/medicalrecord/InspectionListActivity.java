@@ -1,15 +1,12 @@
 package www.jykj.com.jykj_zxyl.medicalrecord;
 
-import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.app_base.base_activity.BaseActivity;
 import www.jykj.com.jykj_zxyl.app_base.base_view.BaseToolBar;
