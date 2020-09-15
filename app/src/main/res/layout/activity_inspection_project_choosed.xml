@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/title_bar"
+        layout="@layout/item_toolbar"
+        >
+
+
+    </include>
+
+    <RelativeLayout
+        android:id="@+id/rl_search_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title_bar"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginBottom="14dp"
+        android:focusable="true"
+
+        android:focusableInTouchMode="true"
+        >
+
+        <RelativeLayout
+            android:id="@+id/rl_choose_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="20dp">
+
+            <TextView
+                android:id="@+id/tv_title_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="CT"
+                android:textColor="@color/color_000000"
+                android:textSize="18sp">
+
+
+            </TextView>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="8.5dp"
+                android:layout_marginStart="10dp"
+                android:src="@mipmap/bg_more_down_arrow"
+                android:layout_toEndOf="@+id/tv_title_type">
+
+
+            </ImageView>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:layout_toStartOf="@+id/tv_search_btn"
+            android:layout_toEndOf="@+id/rl_choose_type"
+            android:background="@drawable/bg_round_eeeeee_15">
+
+
+            <ImageView
+                android:id="@+id/iv_search_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="37dp"
+                android:src="@mipmap/bg_search_icon">
+
+
+            </ImageView>
+
+            <EditText
+                android:id="@+id/ed_input_content"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginStart="20dp"
+                android:layout_toEndOf="@+id/iv_search_icon"
+                android:background="@null"
+                android:hint="输入校验项目"
+                android:textColor="@color/color_666666">
+
+
+            </EditText>
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tv_search_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="20dp"
+            android:text="搜索"
+            android:textColor="@color/color_799dfe"
+            android:textSize="15sp">
+
+
+        </TextView>
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/color_eeeeee"
+        android:id="@+id/viewl_top_line"
+        android:layout_below="@+id/rl_search_title"
+        >
+
+
+    </View>
+
+    <com.scwang.smart.refresh.layout.SmartRefreshLayout
+        android:id="@+id/refreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/tv_ensure_btn"
+        android:layout_below="@+id/viewl_top_line"
+        android:background="@color/color_eeeeee"
+        >
+
+        <com.scwang.smart.refresh.header.ClassicsHeader
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
+            </android.support.v7.widget.RecyclerView>
+
+            <TextView
+                android:id="@+id/tv_no_data_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="暂无数据"
+                android:textColor="@color/color_666666"
+                android:textSize="18sp"
+                android:visibility="gone">
+
+
+            </TextView>
+
+        </RelativeLayout>
+
+
+        <com.scwang.smart.refresh.footer.ClassicsFooter
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="37.5dp"
+        android:layout_marginTop="10dp"
+        android:id="@+id/tv_ensure_btn"
+        android:text="确定"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        android:paddingTop="9dp"
+        android:paddingBottom="9dp"
+        android:paddingStart="101dp"
+        android:paddingEnd="101dp"
+        android:background="@drawable/bg_round_799dfe_17"
+        >
+
+
+    </TextView>
+
+</RelativeLayout>

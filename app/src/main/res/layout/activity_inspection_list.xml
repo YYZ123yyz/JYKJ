@@ -13,51 +13,17 @@
     </include>
 
 
-    <com.scwang.smart.refresh.layout.SmartRefreshLayout
-        android:id="@+id/refreshLayout"
+
+    <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:id="@+id/rv_list"
         android:layout_below="@+id/title_bar"
         android:layout_above="@+id/rl_operation_buttom_bar"
         >
 
-        <com.scwang.smart.refresh.header.ClassicsHeader
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
 
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_list"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-
-            </android.support.v7.widget.RecyclerView>
-
-            <TextView
-                android:id="@+id/tv_no_data_2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="暂无数据"
-                android:textColor="@color/color_666666"
-                android:textSize="18sp"
-                android:visibility="gone">
-
-
-            </TextView>
-
-        </RelativeLayout>
-
-
-        <com.scwang.smart.refresh.footer.ClassicsFooter
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+    </android.support.v7.widget.RecyclerView>
 
     <RelativeLayout
         android:id="@+id/rl_operation_buttom_bar"

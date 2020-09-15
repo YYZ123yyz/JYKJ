@@ -82,5 +82,35 @@ public interface ApiService {
     //获取患者基本信息
     @POST("/patientDataControlle/searchDoctorManagePatientStateResBasic")
     Observable<String> searchDoctorManagePatientStateResBasic(@Query(value = "jsonDataInfo", encoded = true) String queryJson);
+    //项目-医生查询检查检验项目类别信息列表
+    @POST("/DoctorInspectionControlle/searchInspectionProjectDetailClassList")
+    Observable<String> searchInspectionProjectDetailClassList(@Query(value = "jsonDataInfo"
+            , encoded = true) String queryJson);
+    //检查检验项目类别列表
+    @POST("/DoctorInspectionControlle/searchInspectionProjectDetailList")
+    Observable<String> searchInspectionProjectDetailList(@Query(value = "jsonDataInfo"
+            , encoded = true) String queryJson);
+    //检查检验部位列表
+    @POST("/DoctorInspectionControlle/searchInspectionProjectDetailConfigList")
+    Observable<String> searchInspectionProjectDetailConfigList(@Query(value = "jsonDataInfo"
+            , encoded = true) String queryJson);
+    //查询检查等级列表
+    @POST("/DoctorInspectionControlle/searchInspectionProjectDetailGradeList")
+    Observable<String> searchInspectionProjectDetailGradeList(@Query(value = "jsonDataInfo"
+            , encoded = true) String queryJson);
+    //检查检验单 删除
+    @POST("/DoctorInspectionControlle/operDelInteractOrderInspection")
+    Observable<String> operDelInteractOrderInspection(@Query(value = "jsonDataInfo"
+            , encoded = true) String queryJson);
+    //检查检验单 保存/变更
+    @POST("/DoctorInspectionControlle/operUpdInteractOrderInspection")
+    Observable<String> operUpdInteractOrderInspection(@Query(value = "jsonDataInfo"
+            , encoded = true) String queryJson);
+    //查询检查检验单据
+    @POST("/DoctorInspectionControlle/searchInteractOrderInspectionList")
+    Observable<String> searchInteractOrderInspectionList(@Query(value = "jsonDataInfo"
+            , encoded = true) String queryJson);
+
+
 }
 

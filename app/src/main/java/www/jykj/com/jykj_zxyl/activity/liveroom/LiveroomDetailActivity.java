@@ -43,7 +43,7 @@ public class LiveroomDetailActivity extends AppCompatActivity {
     TextView det_room_type;
     TextView det_room_watchnum;
     TextView det_live_time;
-    Button go_liveroom_btn;
+    TextView go_liveroom_btn;
     DragFloatActionButton room_det_live;
     private String detailCode;
     public ProgressDialog mDialogProgress = null;
