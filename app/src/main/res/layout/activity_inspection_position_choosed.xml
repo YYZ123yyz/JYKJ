@@ -2,12 +2,13 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_eeeeee"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <include
         android:id="@+id/title_bar"
-        layout="@layout/item_toolbar">
+        layout="@layout/item_toolbar"
+        >
 
 
     </include>
@@ -18,52 +19,21 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/title_bar"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="14dp"
         android:layout_marginEnd="10dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginBottom="14dp"
         android:focusable="true"
 
         android:focusableInTouchMode="true"
         >
 
-        <RelativeLayout
-            android:id="@+id/rl_choose_type"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="20dp">
 
-            <TextView
-                android:id="@+id/tv_title_type"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="CT"
-                android:textColor="@color/color_000000"
-                android:textSize="18sp">
-
-
-            </TextView>
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="8.5dp"
-                android:layout_marginStart="10dp"
-                android:src="@mipmap/bg_more_down_arrow"
-                android:layout_toEndOf="@+id/tv_title_type">
-
-
-            </ImageView>
-
-        </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:layout_centerVertical="true"
             android:layout_toStartOf="@+id/tv_search_btn"
-            android:layout_toEndOf="@+id/rl_choose_type"
             android:background="@drawable/bg_round_eeeeee_15">
 
 
@@ -72,8 +42,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginStart="47dp"
-                android:src="@mipmap/bg_search_icon">
+                android:layout_marginStart="37dp"
+                android:src="@mipmap/bg_search_icon"
+
+                >
 
 
             </ImageView>
@@ -85,7 +57,7 @@
                 android:layout_marginStart="20dp"
                 android:layout_toEndOf="@+id/iv_search_icon"
                 android:background="@null"
-                android:text="输入校验项目"
+                android:hint="输入校验部位"
                 android:textColor="@color/color_666666">
 
 
@@ -124,7 +96,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/tv_ensure_btn"
-        android:layout_below="@+id/viewl_top_line">
+        android:layout_below="@+id/viewl_top_line"
+        android:background="@color/color_eeeeee"
+        >
 
         <com.scwang.smart.refresh.header.ClassicsHeader
             android:layout_width="match_parent"

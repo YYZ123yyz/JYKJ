@@ -439,13 +439,18 @@
 
 
         </activity>
-        <activity android:name=".medicalrecord.InspectionItemChoosedActivity"
+        <activity android:name=".medicalrecord.activity.InspectionProjectChoosedActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".medicalrecord.activity.InspectionPositionChoosedActivity"
             android:screenOrientation="portrait"
             >
 
-
         </activity>
 
+        <activity android:name=".medicalrecord.activity.InspectionOrderListActivity"
+            android:screenOrientation="portrait"
+            />
         <activity
             android:name="com.tencent.rtmp.video.TXScreenCapture$TXScreenCaptureAssistantActivity"
             android:theme="@android:style/Theme.Translucent" />

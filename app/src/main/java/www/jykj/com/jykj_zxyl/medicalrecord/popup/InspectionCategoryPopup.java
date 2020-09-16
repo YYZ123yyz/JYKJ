@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,25 +12,33 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import www.jykj.com.jykj_zxyl.R;
+import www.jykj.com.jykj_zxyl.app_base.base_bean.InspectionItemCategoryBean;
+import www.jykj.com.jykj_zxyl.medicalrecord.adapter.InspectionItemCategoryAdapter;
 
 /**
- * Description:
+ * Description:检查检验类别选项popup
  *
  * @author: qiuxinhai
  * @date: 2020-09-10 16:59
  */
-public class TopMiddlePopup extends PopupWindow {
+public class InspectionCategoryPopup extends PopupWindow {
     private Context myContext;
-    private RecyclerView myLv;
+    private RecyclerView rvList;
 
-    private LayoutInflater inflater = null;
-
+    private LayoutInflater inflater ;
+    private InspectionItemCategoryAdapter inspectionItemCategoryAdapter;
     private View myMenuView;
+    private OnClickListener onClickListener;
 
-    public TopMiddlePopup(Context context,
-                          ArrayList<String> items) {
+    public void setOnClickListener(OnClickListener onClickListener) {
+        this.onClickListener = onClickListener;
+    }
+
+    public InspectionCategoryPopup(Context context,
+                                   ArrayList<String> items) {
 
         inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -45,7 +54,7 @@ public class TopMiddlePopup extends PopupWindow {
      * 初始化控件
      */
     private void initWidget() {
-        myLv =  myMenuView.findViewById(R.id.rv_list);
+        rvList =  myMenuView.findViewById(R.id.rv_list);
 
     }
 
@@ -71,10 +80,32 @@ public class TopMiddlePopup extends PopupWindow {
 
     }
 
+
+    /**
+     * 设置数据
+     * @param categoryBeans 数据列表
+     */
+    public void setData(List<InspectionItemCategoryBean> categoryBeans){
+        if (isShowing()) {
+            rvList.setLayoutManager(new LinearLayoutManager(myContext));
+            inspectionItemCategoryAdapter=new InspectionItemCategoryAdapter(myContext,categoryBeans);
+            rvList.setAdapter(inspectionItemCategoryAdapter);
+            inspectionItemCategoryAdapter.setOnItemClickListener(new InspectionItemCategoryAdapter.OnItemClickListener() {
+                @Override
+                public void onClickItem(int pos) {
+                    if (onClickListener!=null) {
+                        onClickListener.onClickChanged(categoryBeans.get(pos));
+                        InspectionCategoryPopup.this.dismiss();
+                    }
+                }
+            });
+        }
+    }
+
     /**
      * 显示弹窗界面
      *
-     * @param anchor
+     * @param anchor 根布局
      */
     public void show(View anchor) {
         if (Build.VERSION.SDK_INT >= 24) {
@@ -84,6 +115,12 @@ public class TopMiddlePopup extends PopupWindow {
             setHeight(h);
         }
         super.showAsDropDown(anchor);
+    }
+
+
+    public interface OnClickListener{
+
+        void onClickChanged(InspectionItemCategoryBean categoryBean);
     }
 
 

@@ -40,7 +40,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import entity.basicDate.ProvideBasicsDomain;
-import entity.home.newsMessage.ProvideMsgPushReminderCount;
 import entity.hzgl.BindPatientParment;
 import entity.shouye.OperScanQrCodeInside;
 import netService.HttpNetService;
@@ -48,7 +47,6 @@ import netService.entity.NetRetEntity;
 import rx.functions.Action1;
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.activity.MainActivity;
-import www.jykj.com.jykj_zxyl.activity.home.MyClinicActivity;
 import www.jykj.com.jykj_zxyl.activity.home.MyLiveRoomActivity;
 import www.jykj.com.jykj_zxyl.activity.home.MyPatientActivity;
 import www.jykj.com.jykj_zxyl.activity.home.NewsActivity;
@@ -56,20 +54,16 @@ import www.jykj.com.jykj_zxyl.activity.home.QRCodeActivity;
 import www.jykj.com.jykj_zxyl.activity.home.tjhz.AddPatientActivity;
 import www.jykj.com.jykj_zxyl.activity.hyhd.BindDoctorFriend;
 import www.jykj.com.jykj_zxyl.activity.myself.UserAuthenticationActivity;
-import www.jykj.com.jykj_zxyl.activity.myself.couponFragment.FragmentAdapter;
 import www.jykj.com.jykj_zxyl.adapter.TittleFragmentAdapter;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.appointment.activity.MyClinicDetialActivity;
-import www.jykj.com.jykj_zxyl.appointment.activity.MyOnlineScheduActivity;
 import www.jykj.com.jykj_zxyl.custom.MoreFeaturesPopupWindow;
 import www.jykj.com.jykj_zxyl.fragment.home.HomeAideoFragment;
 import www.jykj.com.jykj_zxyl.fragment.home.HomeEducationFragment;
 import www.jykj.com.jykj_zxyl.fragment.home.HomeGraphicFragment;
 import www.jykj.com.jykj_zxyl.fragment.home.HomeVideoFragment;
-import www.jykj.com.jykj_zxyl.util.StringUtils;
+import www.jykj.com.jykj_zxyl.medicalrecord.activity.InspectionOrderListActivity;
 import yyz_exploit.Utils.MyImageView;
-import yyz_exploit.activity.activity.Home_DetailsActivity;
-import yyz_exploit.activity.activity.Home_FeaturedActivity;
 import yyz_exploit.bean.BindPatient;
 import yyz_exploit.dialog.AddPatientAcitvityDialog;
 import zxing.android.CaptureActivity;
@@ -804,6 +798,7 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
             //我的诊所
             case R.id.ll_wdzs:
                 startActivity(new Intent(getActivity(), MyClinicDetialActivity.class));
+                //startActivity(new Intent(getActivity(), InspectionProjectChoosedActivity.class));
                 break;
             case R.id.ll_wdhz:
                 startActivity(new Intent(getActivity(), MyPatientActivity.class));
@@ -843,6 +838,8 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
                 break;
             case R.id.lin_myclinic:
                 startActivity(new Intent(getActivity(), MyClinicDetialActivity.class));
+
+                //startActivity(new Intent(getActivity(), InspectionOrderListActivity.class));
                 break;
             case R.id.lin_mypatien:
                 startActivity(new Intent(getActivity(), MyPatientActivity.class));

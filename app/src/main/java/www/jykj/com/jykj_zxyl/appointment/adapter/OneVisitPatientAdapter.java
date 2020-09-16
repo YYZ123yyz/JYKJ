@@ -94,6 +94,14 @@ public class OneVisitPatientAdapter extends RecyclerView.Adapter<OneVisitPatient
                 }
             }
         });
+        holder.tvMedicalRecordDetialBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onClickItemListener!=null) {
+                    onClickItemListener.onClickMedicalRecordDetial(position);
+                }
+            }
+        });
 
     }
 
@@ -152,5 +160,7 @@ public class OneVisitPatientAdapter extends RecyclerView.Adapter<OneVisitPatient
         void onClickCancelAppointment(int pos);
 
         void onClickReceiveTreatment(int pos);
+
+        void onClickMedicalRecordDetial(int pos);
     }
 }
