@@ -433,6 +433,7 @@ public class EaseChatRowOrderCard extends EaseChatRow {
             } else if (messageType.equals("card")) {
                 mTvOrderUpdateBtn.setVisibility(View.VISIBLE);
                 mTvCancelContractMsg.setVisibility(View.GONE);
+                mTvPriceValue.setVisibility(View.VISIBLE);
                 //修改
                 mTvOrderUpdateBtn.setOnClickListener(new OnClickListener() {
                     @Override

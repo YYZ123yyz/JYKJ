@@ -62,7 +62,9 @@ import www.jykj.com.jykj_zxyl.fragment.home.HomeAideoFragment;
 import www.jykj.com.jykj_zxyl.fragment.home.HomeEducationFragment;
 import www.jykj.com.jykj_zxyl.fragment.home.HomeGraphicFragment;
 import www.jykj.com.jykj_zxyl.fragment.home.HomeVideoFragment;
+import www.jykj.com.jykj_zxyl.medicalrecord.activity.ChoosedMedicinalListActivity;
 import www.jykj.com.jykj_zxyl.medicalrecord.activity.InspectionOrderListActivity;
+import www.jykj.com.jykj_zxyl.medicalrecord.activity.PrescriptionMedicinalListActivity;
 import yyz_exploit.Utils.MyImageView;
 import yyz_exploit.bean.BindPatient;
 import yyz_exploit.dialog.AddPatientAcitvityDialog;
@@ -839,7 +841,7 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
             case R.id.lin_myclinic:
                 startActivity(new Intent(getActivity(), MyClinicDetialActivity.class));
 
-                //startActivity(new Intent(getActivity(), InspectionOrderListActivity.class));
+                //startActivity(new Intent(getActivity(), PrescriptionMedicinalListActivity.class));
                 break;
             case R.id.lin_mypatien:
                 startActivity(new Intent(getActivity(), MyPatientActivity.class));

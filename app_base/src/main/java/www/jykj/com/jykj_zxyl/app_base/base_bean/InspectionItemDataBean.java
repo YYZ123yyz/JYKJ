@@ -19,6 +19,9 @@ public class InspectionItemDataBean {
     private String inspectionGradeCode;
     private String inspectionTime;
     private String inspectionPurpose;
+    private String inspectionType;
+    private String inspectionTypeName;
+
 
 
 
@@ -109,5 +112,21 @@ public class InspectionItemDataBean {
 
     public void setInspectionOrderCode(String inspectionOrderCode) {
         this.inspectionOrderCode = inspectionOrderCode;
+    }
+
+    public String getInspectionType() {
+        return inspectionType;
+    }
+
+    public void setInspectionType(String inspectionType) {
+        this.inspectionType = inspectionType;
+    }
+
+    public String getInspectionTypeName() {
+        return inspectionTypeName;
+    }
+
+    public void setInspectionTypeName(String inspectionTypeName) {
+        this.inspectionTypeName = inspectionTypeName;
     }
 }

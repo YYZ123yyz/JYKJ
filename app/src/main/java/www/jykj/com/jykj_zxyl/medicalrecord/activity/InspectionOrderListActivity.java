@@ -375,10 +375,14 @@ public class InspectionOrderListActivity extends AbstractMvpBaseActivity<Inspect
                             String inspectionCode = inspectionProjectBean.getInspectionCode();
                             String hospitalInfoCode = inspectionProjectBean.getHospitalInfoCode();
                             String gradeCode = inspectionProjectBean.getGradeCode();
+                            int inspectionType = inspectionProjectBean.getInspectionType();
+                            String inspectionTypeName = inspectionProjectBean.getInspectionTypeName();
                             dataBeans.get(currentPos).setInspectionName(inspectionName);
                             dataBeans.get(currentPos).setInspectionCode(inspectionCode);
                             dataBeans.get(currentPos).setHospitalInfoCode(hospitalInfoCode);
                             dataBeans.get(currentPos).setGradeCode(gradeCode);
+                            dataBeans.get(currentPos).setInspectionType(inspectionType+"");
+                            dataBeans.get(currentPos).setInspectionTypeName(inspectionTypeName);
                             mInspectionItemProjectAdapter.notifyDataSetChanged();
                             mPresenter.sendSearchInspectionGradeListRequest(
                                     inspectionProjectBean.getHospitalInfoCode(),

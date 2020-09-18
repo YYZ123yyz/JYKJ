@@ -11,25 +11,24 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import www.jykj.com.jykj_zxyl.R;
-import www.jykj.com.jykj_zxyl.app_base.base_bean.InspectionItemCategoryBean;
-import www.jykj.com.jykj_zxyl.medicalrecord.adapter.InspectionItemCategoryAdapter;
+import www.jykj.com.jykj_zxyl.app_base.base_bean.MedicinalTypeBean;
+import www.jykj.com.jykj_zxyl.medicalrecord.adapter.MedicinalItemCategoryAdapter;
 
 /**
- * Description:检查检验类别选项popup
+ * Description:
  *
  * @author: qiuxinhai
- * @date: 2020-09-10 16:59
+ * @date: 2020-09-17 11:48
  */
-public class InspectionCategoryPopup extends PopupWindow {
+public class MedicinalCategoryPopup extends PopupWindow {
     private Context myContext;
     private RecyclerView rvList;
 
     private LayoutInflater inflater ;
-    private InspectionItemCategoryAdapter inspectionItemCategoryAdapter;
+    private MedicinalItemCategoryAdapter medicinalItemCategoryAdapter;
     private View myMenuView;
     private OnClickListener onClickListener;
 
@@ -37,7 +36,7 @@ public class InspectionCategoryPopup extends PopupWindow {
         this.onClickListener = onClickListener;
     }
 
-    public InspectionCategoryPopup(Context context) {
+    public MedicinalCategoryPopup(Context context) {
 
         inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -82,19 +81,19 @@ public class InspectionCategoryPopup extends PopupWindow {
 
     /**
      * 设置数据
-     * @param categoryBeans 数据列表
+     * @param medicinalTypeBeans 数据列表
      */
-    public void setData(List<InspectionItemCategoryBean> categoryBeans){
+    public void setData(List<MedicinalTypeBean> medicinalTypeBeans){
         if (isShowing()) {
             rvList.setLayoutManager(new LinearLayoutManager(myContext));
-            inspectionItemCategoryAdapter=new InspectionItemCategoryAdapter(myContext,categoryBeans);
-            rvList.setAdapter(inspectionItemCategoryAdapter);
-            inspectionItemCategoryAdapter.setOnItemClickListener(new InspectionItemCategoryAdapter.OnItemClickListener() {
+            medicinalItemCategoryAdapter=new MedicinalItemCategoryAdapter(myContext,medicinalTypeBeans);
+            rvList.setAdapter(medicinalItemCategoryAdapter);
+            medicinalItemCategoryAdapter.setOnItemClickListener(new MedicinalItemCategoryAdapter.OnItemClickListener() {
                 @Override
                 public void onClickItem(int pos) {
                     if (onClickListener!=null) {
-                        onClickListener.onClickChanged(categoryBeans.get(pos));
-                        InspectionCategoryPopup.this.dismiss();
+                        onClickListener.onClickChanged(medicinalTypeBeans.get(pos));
+                        MedicinalCategoryPopup.this.dismiss();
                     }
                 }
             });
@@ -119,8 +118,7 @@ public class InspectionCategoryPopup extends PopupWindow {
 
     public interface OnClickListener{
 
-        void onClickChanged(InspectionItemCategoryBean categoryBean);
+        void onClickChanged(MedicinalTypeBean medicinalTypeBean);
     }
-
 
 }

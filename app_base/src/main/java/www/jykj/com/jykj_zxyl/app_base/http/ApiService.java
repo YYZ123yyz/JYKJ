@@ -110,6 +110,18 @@ public interface ApiService {
     @POST("/DoctorInspectionControlle/searchInteractOrderInspectionList")
     Observable<String> searchInteractOrderInspectionList(@Query(value = "jsonDataInfo"
             , encoded = true) String queryJson);
+    //获取签约服务项目基础配置信息
+    @POST("/doctorSignControlle/searchSignConfigDetail")
+    Observable<String> searchSignConfigDetail(@Query(value = "jsonDataInfo"
+            , encoded = true) String queryJson);
+    //[基础数据]药品信息
+    @POST("/doctorInteractDataControlle/searchMyClinicDetailResPrescribeDrugInfo_200915")
+    Observable<String> searchMyClinicDetailResPrescribeDrugInfo_200915(@Query(value = "jsonDataInfo"
+            , encoded = true) String queryJson);
+    //[基础数据]药品信息增加
+    @POST("/doctorInteractDataControlle/operUpdDrugInfo")
+    Observable<String> operUpdDrugInfo(@Query(value = "jsonDataInfo"
+            , encoded = true) String queryJson);
 
 
 }

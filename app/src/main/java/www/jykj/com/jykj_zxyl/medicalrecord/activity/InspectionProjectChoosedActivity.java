@@ -99,7 +99,7 @@ public class InspectionProjectChoosedActivity extends AbstractMvpBaseActivity<
     protected void initView() {
         super.initView();
         mApp = (JYKJApplication) getApplication();
-        inspectionCategoryPopup=new InspectionCategoryPopup(this,new ArrayList<>());
+        inspectionCategoryPopup=new InspectionCategoryPopup(this);
         setToolBar();
         initLoadingAndRetryManager();
         initRecyclerView();
