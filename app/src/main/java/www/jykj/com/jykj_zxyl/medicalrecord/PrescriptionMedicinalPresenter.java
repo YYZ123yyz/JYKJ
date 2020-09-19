@@ -24,10 +24,13 @@ import www.jykj.com.jykj_zxyl.util.GsonUtils;
 public class PrescriptionMedicinalPresenter extends BasePresenterImpl
         <PrescriptionMedicinalContract.View> implements PrescriptionMedicinalContract.Presenter {
 
+    private static final String SEND_TAKE_MEDICINAL_RATE_REQUEST_TAG="send_take_medicinal_rate_request_tag";
     private static final String SEND_PRESCRIPTION_TYPE_REQUEST_TAG="send_prescription_type_request_tag";
+
+
     @Override
     protected Object[] getRequestTags() {
-        return new Object[]{SEND_PRESCRIPTION_TYPE_REQUEST_TAG};
+        return new Object[]{SEND_TAKE_MEDICINAL_RATE_REQUEST_TAG,SEND_PRESCRIPTION_TYPE_REQUEST_TAG};
     }
 
 
@@ -75,13 +78,57 @@ public class PrescriptionMedicinalPresenter extends BasePresenterImpl
 
             @Override
             protected String setTag() {
-                return SEND_PRESCRIPTION_TYPE_REQUEST_TAG;
+                return SEND_TAKE_MEDICINAL_RATE_REQUEST_TAG;
             }
         });
     }
 
     @Override
     public void sendPrescriptionTypeRequest(String baseCode) {
+        HashMap<String, Object> hashMap = ParameUtil.buildBaseParam();
+        hashMap.put("baseCode", baseCode);
+        String s = RetrofitUtil.encodeParam(hashMap);
+        ApiHelper.getApiService().getBasicsDomain(s).compose(Transformer.switchSchedulers(new ILoadingView() {
+            @Override
+            public void showLoadingView() {
+                if (mView!=null) {
+                    mView.showLoading(100);
+                }
+            }
 
+            @Override
+            public void hideLoadingView() {
+                if (mView!=null) {
+                    mView.hideLoading();
+                }
+
+            }
+        })).subscribe(new CommonDataObserver() {
+            @Override
+            protected void onSuccessResult(BaseBean baseBean) {
+                if (mView!=null) {
+                    int resCode = baseBean.getResCode();
+                    String resJsonData = baseBean.getResJsonData();
+                    if (resCode==1) {
+                        List<TakeMedicinalRateBean>
+                                takeMedicinalRateBeans = GsonUtils.jsonToList(resJsonData,
+                                TakeMedicinalRateBean.class);
+                        mView.getTakeMedicinalRateResult(takeMedicinalRateBeans);
+                    }
+
+                }
+            }
+
+            @Override
+            protected void onError(String s) {
+                super.onError(s);
+
+            }
+
+            @Override
+            protected String setTag() {
+                return SEND_PRESCRIPTION_TYPE_REQUEST_TAG;
+            }
+        });
     }
 }

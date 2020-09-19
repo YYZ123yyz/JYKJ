@@ -37,7 +37,7 @@ public class ChoosedMedicinalContract  {
 
         /**
          * 发送药品类型请求Tag
-         * @param baseCode 寄出code
+         * @param baseCode 基础code
          * @param activity activity
          */
         void sendMedicinalTypeListRequest(String baseCode, Activity activity);
@@ -52,5 +52,7 @@ public class ChoosedMedicinalContract  {
          */
         void sendMedicinalInfoListRequest(String drugUseType
                 ,String srarchDrugName,String rowNum,String pageNum,Activity activity);
+
+
     }
 }
