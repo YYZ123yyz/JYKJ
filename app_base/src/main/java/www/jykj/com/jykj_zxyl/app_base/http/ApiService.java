@@ -123,6 +123,19 @@ public interface ApiService {
     Observable<String> operUpdDrugInfo(@Query(value = "jsonDataInfo"
             , encoded = true) String queryJson);
 
+    //获取病历详情
+    @POST("medicalRecordControlle/getMyClinicDetailResPatientMedicalRecord")
+    Observable<String> getPatientMedicalRecord(@Query(value = "jsonDataInfo"
+            , encoded = true) String queryJson);
 
+    //发送病历
+    @POST("/medicalRecordControlle/operMyClinicDetailPatientMedicalRecordSend")
+    Observable<String> sendPatientMedicalRecord(@Query(value = "jsonDataInfo"
+            , encoded = true) String queryJson);
+
+    //发送病历
+    @POST("/medicalRecordControlle/operMyClinicDetailPatientMedicalRecordByAll")
+    Observable<String> savePatientMedicalRecord(@Query(value = "jsonDataInfo"
+            , encoded = true) String queryJson);
 }
 

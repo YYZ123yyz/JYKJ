@@ -636,7 +636,6 @@ public class FragmentShouYe extends Fragment implements View.OnClickListener {
         if (tabLayout.getSelectedTabPosition() ==0){
 
             TextView customView = (TextView) tabLayout.getTabAt(0).getCustomView();
-            Log.e("走没有","111"+customView);
             if (customView!=null){
                 customView.setTextSize(20);
                 customView.setTextColor(getResources().getColor(R.color.textColor_red));
