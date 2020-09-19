@@ -10,7 +10,7 @@ import www.jykj.com.jykj_zxyl.app_base.mvp.BasePresenter;
 import www.jykj.com.jykj_zxyl.app_base.mvp.BaseView;
 
 /**
- * Description:
+ * Description:选择药物契约类
  *
  * @author: qiuxinhai
  * @date: 2020-09-16 11:31

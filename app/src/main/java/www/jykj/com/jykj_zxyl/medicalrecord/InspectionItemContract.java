@@ -11,7 +11,7 @@ import www.jykj.com.jykj_zxyl.app_base.mvp.BasePresenter;
 import www.jykj.com.jykj_zxyl.app_base.mvp.BaseView;
 
 /**
- * Description:
+ * Description:检查检验单列表适配器
  *
  * @author: qiuxinhai
  * @date: 2020-09-11 14:33
