@@ -62,6 +62,8 @@ import www.jykj.com.jykj_zxyl.appointment.view.FirstView;
 import www.jykj.com.jykj_zxyl.appointment.view.SecView;
 import www.jykj.com.jykj_zxyl.appointment.view.ThirdView;
 import www.jykj.com.jykj_zxyl.medicalrecord.activity.InspectionOrderListActivity;
+import www.jykj.com.jykj_zxyl.medicalrecord.activity.PrescriptionMedicinalListActivity;
+import www.jykj.com.jykj_zxyl.medicalrecord.activity.PrescriptionNotesListActivity;
 import www.jykj.com.jykj_zxyl.util.StringUtils;
 
 /**
@@ -266,7 +268,9 @@ public class MyClinicDetialActivity extends AbstractMvpBaseActivity<MyClinicDeti
                 bundle.putString("patientCode",patientInfoBean.getMainPatientCode());
                 bundle.putString("patientName",patientInfoBean.getMainPatientName());
                 bundle.putString("orderId",patientInfoBean.getReserveCode());
-                startActivity(InspectionOrderListActivity.class,bundle);
+                //startActivity(InspectionOrderListActivity.class,bundle);
+                //startActivity(PrescriptionMedicinalListActivity.class,bundle);
+                startActivity(PrescriptionNotesListActivity.class,bundle);
             }
         });
         rvList.setLayoutManager(new LinearLayoutManager(this));

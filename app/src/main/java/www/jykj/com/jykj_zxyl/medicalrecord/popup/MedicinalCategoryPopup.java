@@ -18,7 +18,7 @@ import www.jykj.com.jykj_zxyl.app_base.base_bean.MedicinalTypeBean;
 import www.jykj.com.jykj_zxyl.medicalrecord.adapter.MedicinalItemCategoryAdapter;
 
 /**
- * Description:
+ * Description:药物类型弹框popup
  *
  * @author: qiuxinhai
  * @date: 2020-09-17 11:48

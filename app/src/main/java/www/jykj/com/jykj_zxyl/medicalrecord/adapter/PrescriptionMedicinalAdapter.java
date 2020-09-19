@@ -16,7 +16,7 @@ import www.jykj.com.jykj_zxyl.app_base.base_bean.PrescriptionMedicinalItemDataBe
 import www.jykj.com.jykj_zxyl.util.StringUtils;
 
 /**
- * Description:
+ * Description:处方药品适配器
  *
  * @author: qiuxinhai
  * @date: 2020-09-16 15:54
@@ -54,8 +54,19 @@ public class PrescriptionMedicinalAdapter extends  RecyclerView.Adapter
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         PrescriptionMedicinalItemDataBean itemDataBean = list.get(position);
+        String prescriptionTypeName = itemDataBean.getPrescriptionTypeName();
+        holder.mTvPrescriptionType.setText(StringUtils.isNotEmpty(prescriptionTypeName)
+                ?prescriptionTypeName:"未填写");
         String drugName = itemDataBean.getDrugName();
         holder.mTvMedicinalName.setText(StringUtils.isNotEmpty(drugName)?drugName:"未填写");
+        String takeMedicinalRateName = itemDataBean.getTakeMedicinalRateName();
+        holder.mTvTakeMedicinalRate.setText(StringUtils.isNotEmpty(takeMedicinalRateName)
+                ?takeMedicinalRateName:"未填写");
+        holder.mTvUnitName.setText(itemDataBean.getUnitName());
+        String takeUnmUnitName = itemDataBean.getUnitName();
+        holder.mTvTakeUnmUnit.setText(takeUnmUnitName);
+        String drugPack = itemDataBean.getDrugPack();
+        holder.mTvUnitName.setText(drugPack);
         holder.mIvDeteteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -114,7 +125,6 @@ public class PrescriptionMedicinalAdapter extends  RecyclerView.Adapter
             }
         });
 
-
     }
 
     @Override
@@ -126,11 +136,13 @@ public class PrescriptionMedicinalAdapter extends  RecyclerView.Adapter
         private ImageView mIvDeteteBtn;
         private TextView mTvPrescriptionType;
         private TextView mTvMedicinalName;
-        private TextView mTvBuyMedicinalNum;
-        private TextView mTvTakeMedicinalNum;
+        private EditText mEdBuyMedicinalNum;
+        private EditText mEdTakeMedicinalNum;
         private TextView mTvTakeMedicinalRate;
         private TextView mTvTakeMedicinalCycle;
         private EditText edInputContent;
+        private TextView mTvUnitName;
+        private TextView mTvTakeUnmUnit;
         private RelativeLayout mRlPrescriptionType;
         private RelativeLayout mRlMedicinalName;
         private RelativeLayout mRlbuyMedicinalNum;
@@ -142,10 +154,12 @@ public class PrescriptionMedicinalAdapter extends  RecyclerView.Adapter
             mIvDeteteBtn=view.findViewById(R.id.iv_delete_btn);
             mTvPrescriptionType = view.findViewById(R.id.tv_prescription_type);
             mTvMedicinalName = view.findViewById(R.id.tv_medicinal_name);
-            mTvBuyMedicinalNum=view.findViewById(R.id.tv_buy_medicinal_num);
-            mTvTakeMedicinalNum = view.findViewById(R.id.tv_take_medicinal_num);
+            mEdBuyMedicinalNum=view.findViewById(R.id.ed_buy_medicinal_num);
+            mEdTakeMedicinalNum = view.findViewById(R.id.ed_take_medicinal_num);
             mTvTakeMedicinalRate=view.findViewById(R.id.tv_take_medicinal_rate);
             mTvTakeMedicinalCycle=view.findViewById(R.id.tv_take_medicinal_cycle);
+            mTvUnitName=view.findViewById(R.id.tv_unit_name);
+            mTvTakeUnmUnit=view.findViewById(R.id.tv_take_num_unit);
             edInputContent=view.findViewById(R.id.ed_input_content);
             mRlPrescriptionType=view.findViewById(R.id.rl_prescription_type);
             mRlMedicinalName=view.findViewById(R.id.rl_medicinal_name);
@@ -156,7 +170,6 @@ public class PrescriptionMedicinalAdapter extends  RecyclerView.Adapter
 
         }
     }
-
 
 
 

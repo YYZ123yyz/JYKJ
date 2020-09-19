@@ -32,6 +32,7 @@ public class TimelyTreatmentBean {
     private String endTimes;
     private String mainDoctorCode;
     private String mainDoctorName;
+    private String orderCode;
     private int reserveCount;
     private String reserveDateRosterCode;
     private int reserveType;
@@ -161,5 +162,13 @@ public class TimelyTreatmentBean {
 
     public void setWeek(int week) {
         this.week = week;
+    }
+
+    public String getOrderCode() {
+        return orderCode;
+    }
+
+    public void setOrderCode(String orderCode) {
+        this.orderCode = orderCode;
     }
 }
