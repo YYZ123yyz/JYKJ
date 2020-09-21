@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.blankj.utilcode.util.ToastUtils;
+import com.bumptech.glide.Glide;
 
 import java.util.HashMap;
 
@@ -24,6 +25,7 @@ import www.jykj.com.jykj_zxyl.app_base.http.RetrofitUtil;
 import www.jykj.com.jykj_zxyl.app_base.mvp.AbstractMvpBaseActivity;
 import www.jykj.com.jykj_zxyl.medicalrecord.PatientRecordContract;
 import www.jykj.com.jykj_zxyl.medicalrecord.PatientRecordPresenter;
+import www.jykj.com.jykj_zxyl.util.CircleImageView;
 import www.jykj.com.jykj_zxyl.util.DateUtils;
 
 /**
@@ -94,12 +96,12 @@ public class PatientRecordActivity
     TextView medicalHistoryTv;
     @BindView(R.id.past)
     TextView pastTv;
-    @BindView(R.id.physical)
-    TextView lookTv;
+//    @BindView(R.id.physical)
+//    TextView lookTv;
     @BindView(R.id.examination)
     TextView examinationTv;
-    @BindView(R.id.treatment)
-    TextView suggestTv;
+//    @BindView(R.id.treatment)
+//    TextView suggestTv;
     @BindView(R.id.ed_chief)
     EditText chiefEt;
     @BindView(R.id.ed_history)
@@ -112,7 +114,15 @@ public class PatientRecordActivity
     EditText ed_examinationEt;
     @BindView(R.id.ed_suggest)
     EditText suggestEt;
-
+    @BindView(R.id.patientName)
+    TextView paientName;
+    @BindView(R.id.usergendder)
+    TextView userGendder;
+    @BindView(R.id.userage)
+    TextView userAge;
+    @BindView(R.id.userHead)
+    CircleImageView headView;
+    private String gendder;
     @Override
     protected int setLayoutId() {
         return R.layout.activity_patient_record;
@@ -230,7 +240,7 @@ public class PatientRecordActivity
         docName.setText(det.getDoctorName());
         departmentName.setText(det.getDepartmentSecondName());
         diaOrder.setText(det.getTreatmentCardNum());
-        diaTime.setText(DateUtils.getDateToStringYYYMMDDHHMM(det.getCreateDate()));
+        diaTime.setText(DateUtils.getDateToYYYYMMDD(det.getCreateDate()));
 
 //        chiefState.setVisibility(det.getFlagWriteChiefComplaint() == 1 ? View.VISIBLE : View.GONE);
         chiefState.setImageResource(det.getFlagWriteChiefComplaint() == 1 ? R.mipmap.iv_filled : R.mipmap.iv_noinput);
@@ -249,12 +259,32 @@ public class PatientRecordActivity
 //        checkState.setVisibility(det.getFlagWriteInspection() == 1 ? View.VISIBLE : View.GONE);
         checkState.setImageResource(det.getFlagWriteChiefComplaint() == 1 ? R.mipmap.iv_filled : R.mipmap.iv_noinput);
 
-        chiefTv.setText(det.getChiefComplaint());
-        medicalHistoryTv.setText(det.getHistoryNew());
-        pastTv.setText(det.getHistoryPast());
-        examinationTv.setText(det.getHistoryAllergy());
-        lookTv.setText(det.getMedicalExamination());
-        suggestTv.setText(det.getTreatmentProposal());
+        chiefEt.setText(det.getChiefComplaint());
+        newEt.setText(det.getHistoryNew());
+        pastEt.setText(det.getHistoryPast());
+        ed_examinationEt.setText(det.getHistoryAllergy());
+//        lookTv.setText(det.getMedicalExamination());
+        suggestEt.setText(det.getTreatmentProposal());
+        paientName.setText(det.getPatientName());
+
+        chiefTv.setText(TextUtils.isEmpty(det.getPatientChiefComplaint()) ? "无" : det.getPatientChiefComplaint());
+        medicalHistoryTv.setText(TextUtils.isEmpty(det.getPatientHistoryNew()) ? "无" : det.getPatientHistoryNew());
+        pastTv.setText( TextUtils.isEmpty(det.getPatientHistoryPast()) ? "无" : det.getPatientHistoryPast());
+        examinationTv.setText(TextUtils.isEmpty(det.getPatientHistoryAllergy()) ? "无" : det.getPatientHistoryAllergy());
+        switch (det.getPatientGender()) {
+            case 0:
+                gendder ="未知";
+                break;
+            case 1:
+                gendder ="男";
+                break;
+            case 2:
+                gendder ="女";
+                break;
+        }
+        userGendder.setText(gendder);
+        userAge.setText(String.valueOf(det.getPatientAge()));
+        Glide.with(PatientRecordActivity.this).load(det.getPatientLogoUrl()).into(headView);
     }
 
     @Override
