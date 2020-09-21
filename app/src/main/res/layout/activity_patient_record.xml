@@ -617,7 +617,7 @@
                             android:src="@mipmap/iv_filled"
                             android:layout_gravity="center_vertical"
                             android:layout_marginRight="5dp"
-                            android:visibility="visible"
+                            android:visibility="gone"
                             />
 
 

@@ -32,7 +32,8 @@ import www.jykj.com.jykj_zxyl.util.DateUtils;
 public class PatientRecordActivity
         extends AbstractMvpBaseActivity<PatientRecordContract.View, PatientRecordPresenter>
         implements PatientRecordContract.View {
-
+    @BindView(R.id.txt_main_title)
+    TextView tittle;
     @BindView(R.id.lin_chief_msg)
     LinearLayout chiefMsgLin;
     @BindView(R.id.dispaly_Chief)
@@ -123,6 +124,12 @@ public class PatientRecordActivity
     }
 
     @Override
+    protected void initView() {
+        super.initView();
+        tittle.setText("病历");
+    }
+
+    @Override
     protected void initData() {
         super.initData();
         HashMap<String, Object> hashMap = ParameUtil.buildBaseDoctorParam(this);
@@ -132,7 +139,7 @@ public class PatientRecordActivity
     }
 
     @OnClick({R.id.lin_chief, R.id.lin_history, R.id.lin_past, R.id.lin_look, R.id.lin_examination,
-            R.id.lin_suggest, R.id.confirm, R.id.download
+            R.id.lin_suggest, R.id.confirm, R.id.download,R.id.left_image_id
     })
     public void onClick(View view) {
         switch (view.getId()) {
@@ -163,6 +170,10 @@ public class PatientRecordActivity
                 String s = RetrofitUtil.encodeParam(hashMap);
                 mPresenter.sendPatientRecord(s);
                 break;
+            case R.id.left_image_id:
+                finish();
+                break;
+
         }
     }
 
@@ -230,7 +241,7 @@ public class PatientRecordActivity
 //        lookState.setVisibility(det.getFlagWriteMedicalExamination() == 1 ? View.VISIBLE : View.GONE);
         lookState.setImageResource(det.getFlagWriteChiefComplaint() == 1 ? R.mipmap.iv_filled : R.mipmap.iv_noinput);
 //        diagState.setVisibility(det.getFlagWriteDiagnosis() == 1 ? View.VISIBLE : View.GONE);
-        diagState.setImageResource(det.getFlagWriteChiefComplaint() == 1 ? R.mipmap.iv_filled : R.mipmap.iv_noinput);
+//        diagState.setImageResource(det.getFlagWriteChiefComplaint() == 1 ? R.mipmap.iv_filled : R.mipmap.iv_noinput);
 //        allerState.setVisibility(det.getFlagWriteHistoryAllergy() == 1 ? View.VISIBLE : View.GONE);
         examinationRadio.check(det.getFlagWriteHistoryAllergy() == 1 ? R.id.radio_yes : R.id.radio_no);
 //        suggestState.setVisibility(det.getFlagWriteTreatmentProposal() == 1 ? View.VISIBLE : View.GONE);
