@@ -149,7 +149,7 @@ public interface ApiService {
     Observable<String> sendPatientMedicalRecord(@Query(value = "jsonDataInfo"
             , encoded = true) String queryJson);
 
-    //发送病历
+    //保存病历
     @POST("/medicalRecordControlle/operMyClinicDetailPatientMedicalRecordByAll")
     Observable<String> savePatientMedicalRecord(@Query(value = "jsonDataInfo"
             , encoded = true) String queryJson);

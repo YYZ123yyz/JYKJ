@@ -6,6 +6,7 @@ import com.blankj.utilcode.util.LogUtils;
 
 import www.jykj.com.jykj_zxyl.app_base.base_bean.BaseBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.InspectionItemGradeBean;
+import www.jykj.com.jykj_zxyl.app_base.base_bean.PatientRecordDetBean;
 import www.jykj.com.jykj_zxyl.app_base.http.ApiHelper;
 import www.jykj.com.jykj_zxyl.app_base.http.CommonDataObserver;
 import www.jykj.com.jykj_zxyl.app_base.mvp.BasePresenterImpl;
@@ -49,11 +50,11 @@ public class PatientRecordPresenter extends BasePresenterImpl<PatientRecordContr
                         String resJsonData = baseBean.getResJsonData();
                         LogUtils.e("解析数据"+resJsonData);
 
-//                        InspectionItemGradeBean inspectionItemGradeBean =
-//                                GsonUtils.fromJson(resJsonData, InspectionItemGradeBean.class);
-//                        mView.getSearchInspectionGradeListResult(inspectionItemGradeBean,pos);
+                        PatientRecordDetBean patientRecordDetBean =
+                                GsonUtils.fromJson(resJsonData, PatientRecordDetBean.class);
+                        mView.getPatientRecordDet(patientRecordDetBean);
                     }else{
-//                        mView.getOperUpdDrugInfoResult(false,baseBean.getResMsg());
+                        mView.getDataFailure(baseBean.getResMsg());
                     }
                 }
             }
@@ -62,7 +63,103 @@ public class PatientRecordPresenter extends BasePresenterImpl<PatientRecordContr
             protected void onError(String s) {
                 super.onError(s);
                 if (mView!=null) {
-//                    mView.getOperUpdDrugInfoResult(false,s);
+                    mView.getDataFailure(s);
+                }
+            }
+
+            @Override
+            protected String setTag() {
+                return GET_PATIENT_TAG;
+            }
+        });
+    }
+
+    @Override
+    public void savePatientMedicalRecord(String param) {
+        ApiHelper.getApiService().savePatientMedicalRecord(param).compose(Transformer.switchSchedulers(new ILoadingView() {
+            @Override
+            public void showLoadingView() {
+                if (mView!=null) {
+                    mView.showLoading(100);
+                }
+            }
+
+            @Override
+            public void hideLoadingView() {
+                if (mView!=null) {
+                    mView.hideLoading();
+                }
+            }
+        })).subscribe(new CommonDataObserver() {
+            @Override
+            protected void onSuccessResult(BaseBean baseBean) {
+                if (mView != null) {
+                    int resCode = baseBean.getResCode();
+                    if (resCode==1) {
+
+                        mView.dealDataSucess("保存成功");
+//                        PatientRecordDetBean patientRecordDetBean =
+//                                GsonUtils.fromJson(resJsonData, PatientRecordDetBean.class);
+//                        mView.getPatientRecordDet(patientRecordDetBean);
+                    }else{
+                        mView.getDataFailure(baseBean.getResMsg());
+                    }
+                }
+            }
+
+            @Override
+            protected void onError(String s) {
+                super.onError(s);
+                if (mView!=null) {
+                    mView.getDataFailure(s);
+                }
+            }
+
+            @Override
+            protected String setTag() {
+                return GET_PATIENT_TAG;
+            }
+        });
+    }
+
+    @Override
+    public void sendPatientRecord(String param) {
+        ApiHelper.getApiService().sendPatientMedicalRecord(param).compose(Transformer.switchSchedulers(new ILoadingView() {
+            @Override
+            public void showLoadingView() {
+                if (mView!=null) {
+                    mView.showLoading(100);
+                }
+            }
+
+            @Override
+            public void hideLoadingView() {
+                if (mView!=null) {
+                    mView.hideLoading();
+                }
+            }
+        })).subscribe(new CommonDataObserver() {
+            @Override
+            protected void onSuccessResult(BaseBean baseBean) {
+                if (mView != null) {
+                    int resCode = baseBean.getResCode();
+                    if (resCode==1) {
+
+                        mView.dealDataSucess("发送成功");
+//                        PatientRecordDetBean patientRecordDetBean =
+//                                GsonUtils.fromJson(resJsonData, PatientRecordDetBean.class);
+//                        mView.getPatientRecordDet(patientRecordDetBean);
+                    }else{
+                        mView.getDataFailure(baseBean.getResMsg());
+                    }
+                }
+            }
+
+            @Override
+            protected void onError(String s) {
+                super.onError(s);
+                if (mView!=null) {
+                    mView.getDataFailure(s);
                 }
             }
 
