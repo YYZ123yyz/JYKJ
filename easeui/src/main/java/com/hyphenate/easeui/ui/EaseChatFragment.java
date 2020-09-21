@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.os.Build;
@@ -33,6 +34,12 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.huxq17.floatball.libarary.FloatBallManager;
+import com.huxq17.floatball.libarary.floatball.FloatBallCfg;
+import com.huxq17.floatball.libarary.menu.FloatMenuCfg;
+import com.huxq17.floatball.libarary.menu.MenuItem;
+import com.huxq17.floatball.libarary.utils.BackGroudSeletor;
+import com.huxq17.floatball.libarary.utils.DensityUtil;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.EMMessageListener;
 import com.hyphenate.EMValueCallBack;
@@ -92,6 +99,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -279,6 +287,8 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
         return false;
     }
 
+
+
     /**
      * init view
      */
@@ -406,6 +416,10 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
         };
 
     }
+
+
+
+
 
     protected void setUpView() {
         titleBar.setTitle(toChatUsernameName);

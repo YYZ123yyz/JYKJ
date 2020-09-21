@@ -468,6 +468,9 @@
         <activity
             android:name="com.tencent.rtmp.video.TXScreenCapture$TXScreenCaptureAssistantActivity"
             android:theme="@android:style/Theme.Translucent" />
+        <activity android:name=".medicalrecord.activity.PatientRecordActivity"
+            android:screenOrientation="portrait"
+            />
 
         <meta-data
             android:name="EASEMOB_APPKEY"

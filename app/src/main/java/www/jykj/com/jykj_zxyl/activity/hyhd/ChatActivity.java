@@ -2,6 +2,8 @@ package www.jykj.com.jykj_zxyl.activity.hyhd;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -9,12 +11,23 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
+import com.allen.library.interceptor.Transformer;
+import com.allen.library.interfaces.ILoadingView;
 import com.google.gson.Gson;
+import com.huxq17.floatball.libarary.FloatBallManager;
+import com.huxq17.floatball.libarary.floatball.FloatBallCfg;
+import com.huxq17.floatball.libarary.menu.FloatMenuCfg;
+import com.huxq17.floatball.libarary.menu.MenuItem;
+import com.huxq17.floatball.libarary.utils.BackGroudSeletor;
+import com.huxq17.floatball.libarary.utils.DensityUtil;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.easeui.EaseConstant;
 import com.hyphenate.easeui.domain.EaseEmojicon;
@@ -25,6 +38,7 @@ import com.hyphenate.easeui.widget.EaseChatMessageList;
 import com.hyphenate.easeui.widget.EaseTitleBar;
 
 import java.util.HashMap;
+import java.util.Objects;
 
 import netService.HttpNetService;
 import netService.entity.NetRetEntity;
@@ -32,6 +46,13 @@ import util.ActivityStackManager;
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.activity.home.ZhlyReplyActivity;
 import www.jykj.com.jykj_zxyl.activity.home.wdzs.ProvideDoctorSetServiceState;
+import www.jykj.com.jykj_zxyl.app_base.base_bean.BaseBean;
+import www.jykj.com.jykj_zxyl.app_base.base_dialog.MedcalRecordDialog;
+import www.jykj.com.jykj_zxyl.app_base.http.ApiHelper;
+import www.jykj.com.jykj_zxyl.app_base.http.ApiService;
+import www.jykj.com.jykj_zxyl.app_base.http.CommonDataObserver;
+import www.jykj.com.jykj_zxyl.app_base.http.ParameUtil;
+import www.jykj.com.jykj_zxyl.app_base.http.RetrofitUtil;
 import www.jykj.com.jykj_zxyl.application.Constant;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.util.ActivityUtil;
@@ -51,22 +72,26 @@ public class ChatActivity extends AppCompatActivity {
     private EaseChatMessageList messageList;
     private EaseChatInputMenu inputMenu;
     private JYKJApplication mApp;
-
     private String mNetRetStr;
     private Handler mHandler;
     private OrderMessage orderMessage;
-
+    private FloatBallManager mFloatballManager;
+    private boolean isfull = false;
+    private MedcalRecordDialog medcalRecordDialog;
+    private ImageView ivTransparent;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_chat);
+        ivTransparent=findViewById(R.id.iv_transparent);
         ActivityStackManager.getInstance().add(this);
         ActivityUtil.setStatusBarMain(ChatActivity.this);
         Bundle extras = this.getIntent().getExtras();
         if (extras!=null) {
             orderMessage =(OrderMessage)extras.getSerializable("orderMsg");
         }
+        medcalRecordDialog=new MedcalRecordDialog(this);
         mContext = this;
         mActivity = this;
         mApp = (JYKJApplication) getApplication();
@@ -128,6 +153,44 @@ public class ChatActivity extends AppCompatActivity {
      //   SavePreferences.setData("isNewMsg",false);
             getTime(orderCode,"1","1","1");
         initHandler();
+        boolean showMenu = true;//换成false试试
+        initSinglePageFloatball(showMenu);
+        //5 如果没有添加菜单，可以设置悬浮球点击事件
+        mFloatballManager.setOnFloatBallClickListener(new FloatBallManager.OnFloatBallClickListener() {
+            @Override
+            public void onFloatBallClick() {
+
+                ivTransparent.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onOutSideDismiss() {
+                ivTransparent.setVisibility(View.GONE);
+            }
+        });
+        sendGetCheckRequest(userCode,userName);
+    }
+
+    /**
+     * 发送IM监测请求
+     * @param mainPatientCode 患者code
+     * @param mainPatientName 患者name
+     */
+    private void sendGetCheckRequest(String mainPatientCode,String mainPatientName){
+        HashMap<String, Object> hashMap = ParameUtil.buildBaseDoctorParam(this);
+        hashMap.put("mainPatientCode",mainPatientCode);
+        hashMap.put("mainPatientName",mainPatientName);
+        String s = RetrofitUtil.encodeParam(hashMap);
+        ApiHelper.getApiService().iMTesting(s).compose(Transformer.switchSchedulers()).subscribe(new CommonDataObserver() {
+            @Override
+            protected void onSuccessResult(BaseBean baseBean) {
+            }
+
+            @Override
+            protected void onError(String s) {
+                super.onError(s);
+            }
+        });
     }
 
     private void getTime(String orderCode, String treatmentType, String operType, String limitNum) {
@@ -278,6 +341,141 @@ public class ChatActivity extends AppCompatActivity {
 
     }
 
+
+    @Override
+    public void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        //只有activity被添加到windowmanager上以后才可以调用show方法。
+        mFloatballManager.show();
+    }
+
+    @Override
+    public void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        mFloatballManager.hide();
+    }
+
+    private void exitFullScreen() {
+        final WindowManager.LayoutParams attrs = getWindow().getAttributes();
+        attrs.flags &= (~WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().setAttributes(attrs);
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+        isfull = false;
+    }
+
+
+    public void setFullScreen(View view) {
+        if (isfull == true) {
+            exitFullScreen();
+        } else {
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+            isfull = true;
+        }
+    }
+
+    private void initSinglePageFloatball(boolean showMenu) {
+        //1 初始化悬浮球配置，定义好悬浮球大小和icon的drawable
+        int ballSize = DensityUtil.dip2px(this, 45);
+        Drawable ballIcon = BackGroudSeletor.getdrawble("ic_floatball", this);
+        FloatBallCfg ballCfg = new FloatBallCfg(ballSize, ballIcon, FloatBallCfg.Gravity.RIGHT_CENTER);
+        //设置悬浮球不半隐藏
+//        ballCfg.setHideHalfLater(false);
+        if (showMenu) {
+            //2 需要显示悬浮菜单
+            //2.1 初始化悬浮菜单配置，有菜单item的大小和菜单item的个数
+            int menuSize = DensityUtil.dip2px(this, 550);
+            int menuItemSize = DensityUtil.dip2px(this, 55);
+            FloatMenuCfg menuCfg = new FloatMenuCfg(menuSize, menuItemSize);
+            //3 生成floatballManager
+            //必须传入Activity
+            mFloatballManager = new FloatBallManager(this, ballCfg, menuCfg);
+            addFloatMenuItem();
+        } else {
+            //必须传入Activity
+            mFloatballManager = new FloatBallManager(this, ballCfg);
+        }
+    }
+
+
+    private void addFloatMenuItem() {
+
+        MenuItem itemZS = new MenuItem(BackGroudSeletor.getdrawble("bg_zs",
+                Objects.requireNonNull(this)),"主诉") {
+            @Override
+            public void action() {
+                mFloatballManager.closeMenu();
+                medcalRecordDialog.show();
+            }
+        };
+        MenuItem itemXBS = new MenuItem(BackGroudSeletor.getdrawble("bg_xbs",
+                Objects.requireNonNull(this)),"现病史") {
+            @Override
+            public void action() {
+            }
+        };
+        MenuItem itemJWS = new MenuItem(BackGroudSeletor.getdrawble("bg_jws",
+                Objects.requireNonNull(this)),"既往史") {
+            @Override
+            public void action() {
+                mFloatballManager.closeMenu();
+            }
+        };
+        MenuItem itemCT = new MenuItem(BackGroudSeletor.getdrawble("bg_ct",
+                Objects.requireNonNull(this)),"查体") {
+            @Override
+            public void action() {
+                mFloatballManager.closeMenu();
+            }
+        };
+        MenuItem itemGMS = new MenuItem(BackGroudSeletor.getdrawble("bg_gms",
+                Objects.requireNonNull(this)),"过敏史") {
+            @Override
+            public void action() {
+                mFloatballManager.closeMenu();
+            }
+        };
+        MenuItem itemZLJY = new MenuItem(BackGroudSeletor.getdrawble("bg_zljy",
+                Objects.requireNonNull(this)),"治疗建议") {
+            @Override
+            public void action() {
+                mFloatballManager.closeMenu();
+            }
+        };
+
+        MenuItem itemJCJY = new MenuItem(BackGroudSeletor.getdrawble("bg_jcjy",
+                Objects.requireNonNull(this)),"检查检验") {
+            @Override
+            public void action() {
+                mFloatballManager.closeMenu();
+            }
+        };
+
+        MenuItem itemCFJ = new MenuItem(BackGroudSeletor.getdrawble("bg_cfj",
+                Objects.requireNonNull(this)),"处方笺") {
+            @Override
+            public void action() {
+                mFloatballManager.closeMenu();
+            }
+        };
+
+        MenuItem itemBL = new MenuItem(BackGroudSeletor.getdrawble("bg_bl",
+                Objects.requireNonNull(this)),"") {
+            @Override
+            public void action() {
+                mFloatballManager.closeMenu();
+            }
+        };
+        mFloatballManager.addMenuItem(itemZS)
+                .addMenuItem(itemXBS)
+                .addMenuItem(itemJWS)
+                .addMenuItem(itemCT)
+                .addMenuItem(itemZLJY)
+                .addMenuItem(itemJCJY)
+                .addMenuItem(itemCFJ)
+                .addMenuItem(itemGMS)
+                .addMenuItem(itemBL)
+                .buildMenu();
+    }
 
     /**
      * 点击事件

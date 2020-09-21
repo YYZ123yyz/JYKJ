@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_80000000"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="42dp"
+        android:layout_marginEnd="42dp"
+        android:background="@drawable/bg_round_ffffff_18"
+        android:orientation="vertical">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/bg_medcal_record_header">
+
+            <ImageView
+                android:id="@+id/iv_close_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:padding="15dp"
+                android:src="@mipmap/bg_close_btn">
+
+
+            </ImageView>
+
+            <TextView
+                android:id="@+id/tv_dialog_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="主诉"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold">
+
+
+            </TextView>
+        </RelativeLayout>
+
+
+        <TextView
+            android:id="@+id/tv_dialog_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="15dp"
+            android:background="@drawable/bg_round_f5f5f5_4"
+            android:paddingStart="18dp"
+            android:paddingTop="10dp"
+            android:paddingEnd="18dp"
+            android:paddingBottom="10dp"
+            android:text="你好哈"
+            android:textColor="@color/color_666666"
+            android:textSize="14sp">
+
+
+        </TextView>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginTop="16dp"
+            android:textSize="15sp"
+            android:hint="请填写内容"
+            android:paddingTop="9dp"
+            android:paddingBottom="9dp"
+            android:paddingStart="19dp"
+            android:paddingEnd="19dp"
+            android:gravity="start"
+            android:id="@+id/ed_input_content"
+            android:textColor="@color/color_6b9be4"
+            android:textColorHint="@color/color_6b9be4"
+            android:background="@drawable/round_frame_corner_6a9be4"
+            >
+
+
+        </EditText>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:paddingTop="9dp"
+            android:paddingBottom="9dp"
+            android:paddingStart="56dp"
+            android:paddingEnd="56dp"
+            android:id="@+id/tv_save"
+            android:text="保存"
+            android:background="@drawable/bg_gradient_7a9ed8_18"
+            android:gravity="center"
+            android:layout_marginTop="41dp"
+            android:layout_marginBottom="20dp"
+            >
+
+
+        </TextView>
+    </LinearLayout>
+</RelativeLayout>

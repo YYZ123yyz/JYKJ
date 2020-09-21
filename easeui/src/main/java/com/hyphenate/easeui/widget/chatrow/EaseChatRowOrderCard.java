@@ -493,7 +493,7 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                 tvCancelContractRefuseBtn.setTag(1);
             }
             if (tvOrderReceivedUpdateBtn!=null) {
-                tvOrderReceivedUpdateBtn.setBackgroundResource(R.drawable.bg_gradient_a6bffe_13);
+                tvOrderReceivedUpdateBtn.setBackgroundResource(R.drawable.bg_gradient_7a9ed8_18);
                 tvOrderReceivedUpdateBtn.setTextColor(ContextCompat.getColor(mContext, R.color.writeColor));
                 tvOrderReceivedUpdateBtn.setTag(1);
             }
