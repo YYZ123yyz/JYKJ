@@ -135,6 +135,14 @@ public interface ApiService {
     @POST("/medicalRecordControlle/getMyClinicDetailResPatientMedicalRecord")
     Observable<String> getMyClinicDetailResPatientMedicalRecord(@Query(value = "jsonDataInfo"
             , encoded = true) String queryJson);
+    //处方删除[按处方凭证]
+    @POST("/doctorInteractDataControlle/operDelInteractOrderPrescribeByprescribeVoucher_200915")
+    Observable<String> operDelInteractOrderPrescribeByprescribeVoucher_200915(@Query(value = "jsonDataInfo"
+            , encoded = true) String queryJson);
 
+    //获取处方详细信息[按处方凭证]
+    @POST("/doctorInteractDataControlle/searchInteractOrderPrescribeList")
+    Observable<String> searchInteractOrderPrescribeList(@Query(value = "jsonDataInfo"
+            , encoded = true) String queryJson);
 }
 

@@ -1,6 +1,8 @@
 package www.jykj.com.jykj_zxyl.medicalrecord.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -8,6 +10,7 @@ import android.widget.TextView;
 
 import com.allen.library.interceptor.Transformer;
 import com.allen.library.interfaces.ILoadingView;
+import com.allen.library.utils.ToastUtils;
 import com.scwang.smart.refresh.footer.ClassicsFooter;
 import com.scwang.smart.refresh.header.ClassicsHeader;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
@@ -15,23 +18,19 @@ import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.BindView;
 import www.jykj.com.jykj_zxyl.R;
-import www.jykj.com.jykj_zxyl.app_base.base_bean.BaseBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.PrescriptionNotesBean;
 import www.jykj.com.jykj_zxyl.app_base.base_view.BaseToolBar;
 import www.jykj.com.jykj_zxyl.app_base.base_view.LoadingLayoutManager;
-import www.jykj.com.jykj_zxyl.app_base.http.ApiHelper;
-import www.jykj.com.jykj_zxyl.app_base.http.CommonDataObserver;
-import www.jykj.com.jykj_zxyl.app_base.http.ParameUtil;
-import www.jykj.com.jykj_zxyl.app_base.http.RetrofitUtil;
+import www.jykj.com.jykj_zxyl.app_base.base_view.SimpleDividerItemDecoration;
+import www.jykj.com.jykj_zxyl.app_base.base_view.SlideRecyclerView;
 import www.jykj.com.jykj_zxyl.app_base.mvp.AbstractMvpBaseActivity;
-import www.jykj.com.jykj_zxyl.appointment.activity.MyClinicDetialActivity;
 import www.jykj.com.jykj_zxyl.medicalrecord.PrescriptionNotesContract;
 import www.jykj.com.jykj_zxyl.medicalrecord.PrescriptionNotesPresenter;
 import www.jykj.com.jykj_zxyl.medicalrecord.adapter.PrescriptionNotesAdapter;
-import www.jykj.com.jykj_zxyl.medicalrecord.adapter.PrescriptionNotesChildsAdapter;
 
 /**
  * Description:处方笺列表
@@ -45,7 +44,7 @@ public class PrescriptionNotesListActivity extends AbstractMvpBaseActivity<
     @BindView(R.id.toolbar)
     BaseToolBar toolbar;
     @BindView(R.id.rv_list)
-    RecyclerView rvList;
+    SlideRecyclerView rvList;
     @BindView(R.id.tv_no_data_2)
     TextView tvNoData2;
     @BindView(R.id.refreshLayout)
@@ -78,6 +77,7 @@ public class PrescriptionNotesListActivity extends AbstractMvpBaseActivity<
     @Override
     protected void initView() {
         super.initView();
+        setToolBar();
         //初始化Loading加载页面
         initLoadingAndRetryManager();
         //初始化RecyclerView
@@ -95,12 +95,40 @@ public class PrescriptionNotesListActivity extends AbstractMvpBaseActivity<
     }
 
     /**
+     * 设置Title，方法内的参数可自己定义，如左边文字，颜色，图片
+     */
+    private void setToolBar() {
+        toolbar.setMainTitle("处方笺");
+        //返回键
+        toolbar.setLeftTitleClickListener(view -> finish());
+    }
+
+    /**
      * 初始化RecyclerView
      */
     private void initRecyclerView(){
+        SimpleDividerItemDecoration decor = new SimpleDividerItemDecoration(this, SimpleDividerItemDecoration.VERTICAL,true);
+        decor.setDrawable(getResources().getDrawable(R.drawable.bg_shape_line));
+        rvList.addItemDecoration(decor);
         prescriptionNotesAdapter=new PrescriptionNotesAdapter(this,list);
         rvList.setLayoutManager(new LinearLayoutManager(this));
         rvList.setAdapter(prescriptionNotesAdapter);
+        prescriptionNotesAdapter.setOnClickItemListener(new PrescriptionNotesAdapter.OnClickItemListener() {
+            @Override
+            public void onClickItem(int pos) {
+
+            }
+
+            @Override
+            public void onClickDeleteItem(int pos) {
+                PrescriptionNotesBean prescriptionNotesBean = list.get(pos);
+                List<PrescriptionNotesBean.PrescribeInfoBean> prescribeInfos=
+                        prescriptionNotesBean.getPrescribeInfo();
+                PrescriptionNotesBean.PrescribeInfoBean prescribeInfoBean = prescribeInfos.get(0);
+                mPresenter.sendDeletePrescriptionNotesRequest(
+                        prescribeInfoBean.getPrescribeVoucher(),PrescriptionNotesListActivity.this);
+            }
+        });
     }
 
     /**
@@ -122,13 +150,10 @@ public class PrescriptionNotesListActivity extends AbstractMvpBaseActivity<
     private void addListener(){
 
         mRefreshLayout.setRefreshHeader(new ClassicsHeader(this));
-        mRefreshLayout.setRefreshFooter(new ClassicsFooter(this));
         mRefreshLayout.setOnRefreshListener(refreshlayout -> {
             mPresenter.sendPrescriptionNotesRequest(orderId,this);
         });
-        mRefreshLayout.setOnLoadMoreListener(refreshlayout -> {
-            mPresenter.sendPrescriptionNotesRequest(orderId,this);
-        });
+
         tvAddBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -143,14 +168,44 @@ public class PrescriptionNotesListActivity extends AbstractMvpBaseActivity<
 
     @Override
     public void showLoading(int code) {
-
+        if(code==101){
+            showLoading("",null);
+        }
 
     }
 
     @Override
+    public void hideLoading() {
+        dismissLoading();
+    }
+
+    @Override
     public void getPrescriptionNotesResult(List<PrescriptionNotesBean> prescriptionNotesBeans) {
+        list=prescriptionNotesBeans;
+        mLoadingLayoutManager.showContent();
         prescriptionNotesAdapter.setData(prescriptionNotesBeans);
         mRefreshLayout.finishRefresh();
-        mRefreshLayout.finishLoadMore();
+
+    }
+
+    @Override
+    public void getDeletePrescriptionNotesResult(boolean isSucess, String msg) {
+        if (isSucess) {
+            mPresenter.sendPrescriptionNotesRequest(orderId,this);
+        }else{
+            ToastUtils.showToast(msg);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (resultCode) {
+            case 1000:
+                mPresenter.sendPrescriptionNotesRequest(orderId,this);
+                break;
+                default:
+        }
     }
 }

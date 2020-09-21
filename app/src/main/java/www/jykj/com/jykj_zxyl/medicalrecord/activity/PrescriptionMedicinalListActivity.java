@@ -68,7 +68,6 @@ public class PrescriptionMedicinalListActivity extends AbstractMvpBaseActivity<
     private List<PrescriptionMedicinalItemDataBean> dataBeans;
     private List<TakeMedicinalRateBean> takeMedicinalRateBeans;//服药频率
     private List<PrescriptionTypeBean> prescriptionTypeBeans;//处方类型
-    private PrescriptionMedicinalAdapter mPresMedAdapter;//处方适配器
     private SparseArray<MedicinalInfoBean> medicinalInfoSparseArray;//用药信息
     private SparseArray<PrescriptionTypeBean> prescriptionTypeSparseArray;//处方类型
     private SparseArray<TakeMedicinalRateBean> takeMedicinalRateSparseArray;//服药频率
@@ -271,8 +270,6 @@ public class PrescriptionMedicinalListActivity extends AbstractMvpBaseActivity<
         ivAddMore.setOnClickListener(v -> {
             PrescriptionMedicinalItemDataBean itemDataBean = new PrescriptionMedicinalItemDataBean();
             dataBeans.add(itemDataBean);
-//            mPresMedAdapter.notifyDataSetChanged();
-
             llRootView.addView(getView(itemDataBean,dataBeans.size()-1));
             initKeyBoardListener(scrollView);
         });
@@ -349,9 +346,15 @@ public class PrescriptionMedicinalListActivity extends AbstractMvpBaseActivity<
 
     @Override
     public void showLoading(int code) {
-
+        if (code==102) {
+            showLoading("",null);
+        }
     }
 
+    @Override
+    public void hideLoading() {
+        dismissLoading();
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -409,6 +412,11 @@ public class PrescriptionMedicinalListActivity extends AbstractMvpBaseActivity<
 
     @Override
     public void getSaveAndUpdatePrescriptionResult(boolean isSucess, String msg) {
-
+        if(isSucess){
+            setResult(1000);
+            this.finish();
+        }else{
+            ToastUtils.showToast(msg);
+        }
     }
 }

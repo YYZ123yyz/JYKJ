@@ -29,13 +29,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <android.support.v7.widget.RecyclerView
+            <www.jykj.com.jykj_zxyl.app_base.base_view.SlideRecyclerView
                 android:id="@+id/rv_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
 
-            </android.support.v7.widget.RecyclerView>
+            </www.jykj.com.jykj_zxyl.app_base.base_view.SlideRecyclerView>
 
             <TextView
                 android:id="@+id/tv_no_data_2"

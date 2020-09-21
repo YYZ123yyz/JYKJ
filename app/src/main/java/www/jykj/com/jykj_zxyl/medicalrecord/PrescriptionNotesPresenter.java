@@ -28,9 +28,11 @@ public class PrescriptionNotesPresenter extends BasePresenterImpl<PrescriptionNo
         implements PrescriptionNotesContract.Presenter  {
 
     private static final String SEND_PRESCRIPTION_NOTES_REQUEST_TAG="send_prescription_notes_request_tag";
+
+    private static final String SEND_DELETE_PRESCRIPTION_NOTES_REQUEST_TAG="send_delete_prescription_request_tag";
     @Override
     protected Object[] getRequestTags() {
-        return new Object[]{SEND_PRESCRIPTION_NOTES_REQUEST_TAG};
+        return new Object[]{SEND_PRESCRIPTION_NOTES_REQUEST_TAG,SEND_DELETE_PRESCRIPTION_NOTES_REQUEST_TAG};
     }
 
     @Override
@@ -85,6 +87,54 @@ public class PrescriptionNotesPresenter extends BasePresenterImpl<PrescriptionNo
             @Override
             protected String setTag() {
                 return SEND_PRESCRIPTION_NOTES_REQUEST_TAG;
+            }
+        });
+    }
+
+    @Override
+    public void sendDeletePrescriptionNotesRequest(String prescribeVoucher, Activity activity) {
+        HashMap<String, Object> hashMap = ParameUtil.buildBaseDoctorParam(activity);
+        hashMap.put("prescribeVoucher",prescribeVoucher);
+        String s = RetrofitUtil.encodeParam(hashMap);
+        ApiHelper.getApiService().operDelInteractOrderPrescribeByprescribeVoucher_200915(s)
+                .compose(Transformer.switchSchedulers(new ILoadingView() {
+            @Override
+            public void showLoadingView() {
+                if (mView!=null) {
+                    mView.showLoading(101);
+                }
+            }
+
+            @Override
+            public void hideLoadingView() {
+                if (mView!=null) {
+                    mView.hideLoading();
+                }
+            }
+        })).subscribe(new CommonDataObserver() {
+            @Override
+            protected void onSuccessResult(BaseBean baseBean) {
+                if (mView!=null) {
+                    int resCode = baseBean.getResCode();
+                    if (resCode==1) {
+                        mView.getDeletePrescriptionNotesResult(true,baseBean.getResMsg());
+                    }else{
+                        mView.getDeletePrescriptionNotesResult(false,baseBean.getResMsg());
+                    }
+                }
+            }
+
+            @Override
+            protected void onError(String s) {
+                super.onError(s);
+                if (mView!=null) {
+                    mView.getDeletePrescriptionNotesResult(false,s);
+                }
+            }
+
+            @Override
+            protected String setTag() {
+                return SEND_DELETE_PRESCRIPTION_NOTES_REQUEST_TAG;
             }
         });
     }

@@ -24,6 +24,12 @@ public class PrescriptionNotesContract {
          */
         void getPrescriptionNotesResult(List<PrescriptionNotesBean> prescriptionNotesBeans);
 
+        /**
+         * 获取删除处方笺返回结果
+         * @param isSucess true or false
+         * @param msg 返回信息
+         */
+        void getDeletePrescriptionNotesResult(boolean isSucess,String msg);
     }
 
     public interface Presenter extends BasePresenter<View> {
@@ -33,6 +39,13 @@ public class PrescriptionNotesContract {
          * @param activity activity
          */
         void sendPrescriptionNotesRequest(String orderCode, Activity activity);
+
+        /**
+         * 发送删除处方凭证请求
+         * @param prescribeVoucher 处方编码
+         * @param activity activity
+         */
+        void sendDeletePrescriptionNotesRequest(String prescribeVoucher,Activity activity);
 
     }
 }

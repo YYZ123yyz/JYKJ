@@ -27,6 +27,12 @@ public class PrescriptionNotesAdapter extends  RecyclerView.Adapter
         <PrescriptionNotesAdapter.ViewHolder> {
     private Context context;
     private List<PrescriptionNotesBean> list;
+    private OnClickItemListener onClickItemListener;
+
+    public void setOnClickItemListener(OnClickItemListener onClickItemListener) {
+        this.onClickItemListener = onClickItemListener;
+    }
+
     public List<PrescriptionNotesBean> getList() {
         return list;
     }
@@ -53,7 +59,14 @@ public class PrescriptionNotesAdapter extends  RecyclerView.Adapter
                 =new PrescriptionNotesChildsAdapter(context,prescriptionNotesBean.getPrescribeInfo());
         prescriptionNotesChildsAdapter.setData(prescriptionNotesBean.getPrescribeInfo());
         holder.mRvList.setAdapter(prescriptionNotesChildsAdapter);
-
+        holder.mTvDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onClickItemListener!=null) {
+                    onClickItemListener.onClickDeleteItem(position);
+                }
+            }
+        });
     }
 
     @Override
@@ -63,10 +76,11 @@ public class PrescriptionNotesAdapter extends  RecyclerView.Adapter
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
        private RecyclerView mRvList;
-
+       private TextView mTvDelete;
         public ViewHolder(View view) {
             super(view);
             mRvList=view.findViewById(R.id.rv_list);
+            mTvDelete=view.findViewById(R.id.tv_delete);
 
         }
     }
@@ -83,6 +97,8 @@ public class PrescriptionNotesAdapter extends  RecyclerView.Adapter
 
     public interface OnClickItemListener {
         void onClickItem(int pos);
+
+        void onClickDeleteItem(int pos);
     }
 }
 
