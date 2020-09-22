@@ -1,5 +1,6 @@
 package www.jykj.com.jykj_zxyl.medicalrecord.activity;
 
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.RotateAnimation;
@@ -112,6 +113,14 @@ public class PatientRecordActivity
     EditText ed_examinationEt;
     @BindView(R.id.ed_suggest)
     EditText suggestEt;
+    String orderCode;
+
+    @Override
+    protected void onBeforeSetContentLayout() {
+        super.onBeforeSetContentLayout();
+        Bundle extras = this.getIntent().getExtras();
+         orderCode = extras.getString("orderCode");
+    }
 
     @Override
     protected int setLayoutId() {
@@ -133,7 +142,7 @@ public class PatientRecordActivity
     protected void initData() {
         super.initData();
         HashMap<String, Object> hashMap = ParameUtil.buildBaseDoctorParam(this);
-        hashMap.put("orderCode", "0101202009181608445105661560");
+        hashMap.put("orderCode", orderCode);
         String s = RetrofitUtil.encodeParam(hashMap);
         mPresenter.getPatientRecord(s);
     }
@@ -166,7 +175,7 @@ public class PatientRecordActivity
                 break;
             case R.id.download: //发送
                 HashMap<String, Object> hashMap = ParameUtil.buildBaseDoctorParam(this);
-                hashMap.put("orderCode", "0101202009181608445105661560");
+                hashMap.put("orderCode", orderCode);
                 String s = RetrofitUtil.encodeParam(hashMap);
                 mPresenter.sendPatientRecord(s);
                 break;
@@ -179,7 +188,7 @@ public class PatientRecordActivity
 
     private void saveData() {
         HashMap<String, Object> hashMap = ParameUtil.buildBaseDoctorParam(this);
-        hashMap.put("orderCode", "0101202009181608445105661560");
+        hashMap.put("orderCode", orderCode);
 
         hashMap.put("operType", "0");
         hashMap.put("chiefComplaint", TextUtils.isEmpty(chiefEt.getText().toString().trim()) ? "无" : chiefEt.getText().toString().trim());

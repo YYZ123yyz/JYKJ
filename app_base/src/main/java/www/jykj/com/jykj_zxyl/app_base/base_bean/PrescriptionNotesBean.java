@@ -1,5 +1,6 @@
 package www.jykj.com.jykj_zxyl.app_base.base_bean;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -8,7 +9,7 @@ import java.util.List;
  * @author: qiuxinhai
  * @date: 2020-09-19 16:57
  */
-public class PrescriptionNotesBean {
+public class PrescriptionNotesBean implements Serializable{
 
     private List<PrescribeInfoBean> prescribeInfo;
 
@@ -20,7 +21,7 @@ public class PrescriptionNotesBean {
         this.prescribeInfo = prescribeInfo;
     }
 
-    public static class PrescribeInfoBean {
+    public static class PrescribeInfoBean implements Serializable {
         /**
          * drugAmount : 1.0
          * drugAmountName : 1.0(1盒/24粒)

@@ -11,8 +11,10 @@ import www.jykj.com.jykj_zxyl.app_base.base_bean.InspectionItemPositionBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.InspectionItemUploadBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.PrescriptionItemUploadBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.PrescriptionMedicinalItemDataBean;
+import www.jykj.com.jykj_zxyl.app_base.base_bean.PrescriptionNotesBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.PrescriptionTypeBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.TakeMedicinalRateBean;
+import www.jykj.com.jykj_zxyl.app_base.base_utils.CollectionUtils;
 import www.jykj.com.jykj_zxyl.util.DateUtils;
 import www.jykj.com.jykj_zxyl.util.StringUtils;
 
@@ -176,6 +178,7 @@ public class ConvertUtils {
             PrescriptionItemUploadBean uploadBean=new PrescriptionItemUploadBean();
             uploadBean.setOrderCode(orderCode);
             uploadBean.setPrescribeType(itemDataBean.getPrescriptionTypeCode());
+            uploadBean.setDrugOrderCode(itemDataBean.getDrugOrderCode());
             uploadBean.setPatientCode(patientCode);
             uploadBean.setPatientName(patientName);
             uploadBean.setDoctorCode(doctorCode);
@@ -193,6 +196,41 @@ public class ConvertUtils {
 
         }
         return uploadBeans;
+
+    }
+
+    public static List<PrescriptionMedicinalItemDataBean> convertPrescriptionNotesToItem(
+            PrescriptionNotesBean prescriptionNotesBean){
+        List<PrescriptionMedicinalItemDataBean> prescriptionItemBeans=new ArrayList<>();
+        if (prescriptionNotesBean !=null) {
+            List<PrescriptionNotesBean.PrescribeInfoBean>
+                    prescribeInfos = prescriptionNotesBean.getPrescribeInfo();
+            if (!CollectionUtils.isEmpty(prescribeInfos)) {
+
+                for (PrescriptionNotesBean.PrescribeInfoBean prescribeInfo : prescribeInfos) {
+
+                    PrescriptionMedicinalItemDataBean itemDataBean=
+                            new PrescriptionMedicinalItemDataBean();
+                    itemDataBean.setPrescriptionTypeName(prescribeInfo.getPrescribeTypeName());
+                    itemDataBean.setPrescriptionTypeCode(prescribeInfo.getPrescribeType()+"");
+                    itemDataBean.setDrugName(prescribeInfo.getDrugName());
+                    itemDataBean.setDrugCode(prescribeInfo.getDrugCode());
+                    itemDataBean.setBuyMedicinalNum(prescribeInfo.getDrugAmount()+"");
+                    itemDataBean.setUnitName(prescribeInfo.getDrugAmountName());
+                    itemDataBean.setTakeMedicinalNum(prescribeInfo.getUseNum()+"");
+                    itemDataBean.setSpecUnit(prescribeInfo.getSpecUnit());
+                    itemDataBean.setSpecName(prescribeInfo.getSpecName());
+                    itemDataBean.setTakeMedicinalRateName(prescribeInfo.getUseFrequencyName());
+                    itemDataBean.setTakeMedicinalRateCode(prescribeInfo.getUseFrequency()+"");
+                    itemDataBean.setTakeMedicinalRemark(prescribeInfo.getUseDesc());
+                    itemDataBean.setDrugOrderCode(prescribeInfo.getDrugOrderCode());
+                    prescriptionItemBeans.add(itemDataBean);
+                }
+
+            }
+
+        }
+        return prescriptionItemBeans;
 
     }
 }

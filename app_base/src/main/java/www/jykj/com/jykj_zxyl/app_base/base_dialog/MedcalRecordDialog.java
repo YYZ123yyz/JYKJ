@@ -2,7 +2,9 @@ package www.jykj.com.jykj_zxyl.app_base.base_dialog;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +14,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.allen.library.utils.ToastUtils;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.util.Objects;
 
 import www.jykj.com.jykj_zxyl.app_base.R;
@@ -31,6 +37,26 @@ public class MedcalRecordDialog extends Dialog {
     private TextView tvDialogContent;
     private EditText edInputContent;
     private TextView tvSaveBtn;
+    private OnClickListener onClickListener;
+    public static final int CHIEF_COMPLAINT_TYPE=1;//主诉
+    public static final int HISTORY_NEW_TYPE=2;//现病史
+    public static final int HISTORY_PAST_TYPE=3;//既往史
+    public static final int MEDICAL_EXAMINATION_TYPE=4;//查体
+    public static final int TREATMENTPROPOSAL_TYPE=5;//治疗建议
+    public static final int HISTORY_ALLERGY_TYPE=6;//过敏史
+
+    private int contentType;
+    @Retention(RetentionPolicy.SOURCE)
+    @IntDef({CHIEF_COMPLAINT_TYPE, HISTORY_NEW_TYPE, HISTORY_PAST_TYPE,MEDICAL_EXAMINATION_TYPE
+            ,HISTORY_ALLERGY_TYPE,TREATMENTPROPOSAL_TYPE})
+    public @interface ContentType {
+
+    }
+
+    public void setOnClickListener(OnClickListener onClickListener) {
+        this.onClickListener = onClickListener;
+    }
+
     public MedcalRecordDialog(@NonNull Context context) {
         super(context, R.style.DialogTheme);
         setCanceledOnTouchOutside(true);//禁止点击空白区域消失
@@ -69,10 +95,20 @@ public class MedcalRecordDialog extends Dialog {
     }
 
 
-    public void updateData(String title,String content){
+    /**
+     * 更新谁
+     * @param inputType 输入类型
+     * @param title 标题
+     * @param fromContent 来源内容
+     * @param inputContent 填写内容
+     */
+    public void updateData(@ContentType int inputType,String title
+            ,String fromContent,String inputContent){
         if (isShowing()) {
+            contentType=inputType;
             tvDialogTitle.setText(title);
-            tvDialogContent.setText(content);
+            tvDialogContent.setText(fromContent);
+            edInputContent.setText(inputContent);
         }
     }
 
@@ -90,7 +126,13 @@ public class MedcalRecordDialog extends Dialog {
         tvSaveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if (TextUtils.isEmpty(edInputContent.getText().toString())) {
+                    ToastUtils.showToast("填写内容不能为空");
+                }
+                if (onClickListener!=null) {
+                    onClickListener.onClickSaveBtn(edInputContent.getText().toString(),contentType);
+                }
+                MedcalRecordDialog.this.dismiss();
             }
         });
     }
@@ -98,6 +140,7 @@ public class MedcalRecordDialog extends Dialog {
 
     public interface OnClickListener{
 
+        void onClickSaveBtn(String msg,@ContentType int contentType);
     }
 
 }

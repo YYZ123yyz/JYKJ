@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.util.SparseArray;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -46,6 +47,7 @@ import util.ActivityStackManager;
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.activity.home.ZhlyReplyActivity;
 import www.jykj.com.jykj_zxyl.activity.home.wdzs.ProvideDoctorSetServiceState;
+import www.jykj.com.jykj_zxyl.app_base.base_activity.BaseActivity;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.BaseBean;
 import www.jykj.com.jykj_zxyl.app_base.base_dialog.MedcalRecordDialog;
 import www.jykj.com.jykj_zxyl.app_base.http.ApiHelper;
@@ -61,7 +63,7 @@ import www.jykj.com.jykj_zxyl.util.DateUtils;
 /**
  * 聊天界面
  */
-public class ChatActivity extends AppCompatActivity {
+public class ChatActivity extends BaseActivity {
 
     private TextView mPhoneLogin;                //手机号登录
     private TextView mUseRegist;                 //用户注册
@@ -79,11 +81,18 @@ public class ChatActivity extends AppCompatActivity {
     private boolean isfull = false;
     private MedcalRecordDialog medcalRecordDialog;
     private ImageView ivTransparent;
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    private SparseArray<String> stringSparseArray;
+    private String orderCode;
 
-        setContentView(R.layout.activity_chat);
+    @Override
+    protected int setLayoutId() {
+        return R.layout.activity_chat;
+    }
+
+
+    @Override
+    protected void initView() {
+        super.initView();
         ivTransparent=findViewById(R.id.iv_transparent);
         ActivityStackManager.getInstance().add(this);
         ActivityUtil.setStatusBarMain(ChatActivity.this);
@@ -92,10 +101,12 @@ public class ChatActivity extends AppCompatActivity {
             orderMessage =(OrderMessage)extras.getSerializable("orderMsg");
         }
         medcalRecordDialog=new MedcalRecordDialog(this);
+
         mContext = this;
         mActivity = this;
         mApp = (JYKJApplication) getApplication();
         ActivityUtil.setStatusBarMain(mActivity);
+        stringSparseArray= new SparseArray<>();
         String chatType = getIntent().getStringExtra("chatType");
 //        initLayout();
         //new出EaseChatFragment或其子类的实例
@@ -109,7 +120,7 @@ public class ChatActivity extends AppCompatActivity {
         String loginDoctorPosition = getIntent().getStringExtra("loginDoctorPosition");
         String operDoctorCode = getIntent().getStringExtra("operDoctorCode");
         String operDoctorName = getIntent().getStringExtra("operDoctorName");
-        String orderCode = getIntent().getStringExtra("orderCode");
+        orderCode = getIntent().getStringExtra("orderCode");
 
         String doctorUrl = getIntent().getStringExtra("doctorUrl");
 
@@ -150,8 +161,8 @@ public class ChatActivity extends AppCompatActivity {
         args.putString("chatType", chatType);
         chatFragment.setArguments(args);
         getSupportFragmentManager().beginTransaction().add(R.id.container, chatFragment).commit();
-     //   SavePreferences.setData("isNewMsg",false);
-            getTime(orderCode,"1","1","1");
+        //   SavePreferences.setData("isNewMsg",false);
+        getTime(orderCode,"1","1","1");
         initHandler();
         boolean showMenu = true;//换成false试试
         initSinglePageFloatball(showMenu);
@@ -169,6 +180,177 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
         sendGetCheckRequest(userCode,userName);
+        //添加监听
+        addListener();
+    }
+
+
+
+    /**
+     * 添加监听
+     */
+    private void addListener(){
+        medcalRecordDialog.setOnClickListener((msg, contentType) -> {
+
+            String operType="";
+            stringSparseArray.put(contentType,msg);
+            switch (contentType) {
+                case MedcalRecordDialog.CHIEF_COMPLAINT_TYPE:
+                    Drawable bg_zs_choosed = BackGroudSeletor.getdrawble("bg_zs_choosed",
+                            ChatActivity.this);
+                    mFloatballManager.updateMenuItem(0,bg_zs_choosed);
+                    operType="1";
+                    break;
+                case MedcalRecordDialog.HISTORY_NEW_TYPE:
+                    Drawable bg_xbs_choosed = BackGroudSeletor.getdrawble("bg_xbs_choosed",
+                            ChatActivity.this);
+                    mFloatballManager.updateMenuItem(1,bg_xbs_choosed);
+                    operType="2";
+                    break;
+                case MedcalRecordDialog.HISTORY_PAST_TYPE:
+                    Drawable bg_jws_choosed = BackGroudSeletor.getdrawble("bg_jws_choosed",
+                            ChatActivity.this);
+                    mFloatballManager.updateMenuItem(2,bg_jws_choosed);
+                    operType="3";
+                    break;
+                case MedcalRecordDialog.MEDICAL_EXAMINATION_TYPE:
+                    Drawable bg_ct_choosed = BackGroudSeletor.getdrawble("bg_ct_choosed",
+                            ChatActivity.this);
+                    mFloatballManager.updateMenuItem(3,bg_ct_choosed);
+                    operType="5";
+                     break;
+                case MedcalRecordDialog.TREATMENTPROPOSAL_TYPE:
+                    Drawable bg_zljy_choosed = BackGroudSeletor.getdrawble("bg_zljy_choosed",
+                            ChatActivity.this);
+                    mFloatballManager.updateMenuItem(4,bg_zljy_choosed);
+                    operType="6";
+                    break;
+                case MedcalRecordDialog.HISTORY_ALLERGY_TYPE:
+                    Drawable bg_gms_choosed = BackGroudSeletor.getdrawble("bg_gms_choosed",
+                            ChatActivity.this);
+                    mFloatballManager.updateMenuItem(5,bg_gms_choosed);
+                    operType="4";
+                    break;
+                    default:
+
+            }
+
+            sendSaveMedicalRecordRequest(orderCode,operType,msg,msg,msg,msg,msg,msg,msg);
+        });
+
+    }
+
+
+    private void addFloatMenuItem() {
+        MenuItem itemZS = new MenuItem(BackGroudSeletor.getdrawble("bg_zs_normal",
+                Objects.requireNonNull(this)),"主诉") {
+            @Override
+            public void action() {
+                mFloatballManager.closeMenu();
+                medcalRecordDialog.show();
+                int chiefComplaintType = MedcalRecordDialog.CHIEF_COMPLAINT_TYPE;
+                String content = stringSparseArray.get(chiefComplaintType);
+                medcalRecordDialog.updateData(
+                        chiefComplaintType,"主诉","",content);
+            }
+        };
+        MenuItem itemXBS = new MenuItem(BackGroudSeletor.getdrawble("bg_xbs_normal",
+                Objects.requireNonNull(this)),"现病史") {
+            @Override
+            public void action() {
+                mFloatballManager.closeMenu();
+                medcalRecordDialog.show();
+                int historyNewType = MedcalRecordDialog.HISTORY_NEW_TYPE;
+                String content = stringSparseArray.get(historyNewType);
+                medcalRecordDialog.updateData(
+                        historyNewType,"现病史","",content);
+            }
+        };
+        MenuItem itemJWS = new MenuItem(BackGroudSeletor.getdrawble("bg_jws_normal",
+                Objects.requireNonNull(this)),"既往史") {
+            @Override
+            public void action() {
+                mFloatballManager.closeMenu();
+                medcalRecordDialog.show();
+                int historyPastType = MedcalRecordDialog.HISTORY_PAST_TYPE;
+                String content = stringSparseArray.get(historyPastType);
+                medcalRecordDialog.updateData(
+                        historyPastType,"既往史","",content);
+            }
+        };
+        MenuItem itemCT = new MenuItem(BackGroudSeletor.getdrawble("bg_ct_normal",
+                Objects.requireNonNull(this)),"查体") {
+            @Override
+            public void action() {
+                mFloatballManager.closeMenu();
+                medcalRecordDialog.show();
+                int medicalexaminationType = MedcalRecordDialog.MEDICAL_EXAMINATION_TYPE;
+                String content = stringSparseArray.get(medicalexaminationType);
+                medcalRecordDialog.updateData(
+                        medicalexaminationType,"查体","",content);
+
+            }
+        };
+        MenuItem itemGMS = new MenuItem(BackGroudSeletor.getdrawble("bg_gms_normal",
+                Objects.requireNonNull(this)),"过敏史") {
+            @Override
+            public void action() {
+                mFloatballManager.closeMenu();
+                medcalRecordDialog.show();
+                int historyAllergyType = MedcalRecordDialog.HISTORY_ALLERGY_TYPE;
+                String content = stringSparseArray.get(historyAllergyType);
+                medcalRecordDialog.updateData(
+                        historyAllergyType,"过敏史","",content);
+
+            }
+        };
+        MenuItem itemZLJY = new MenuItem(BackGroudSeletor.getdrawble("bg_zljy_normal",
+                Objects.requireNonNull(this)),"治疗建议") {
+            @Override
+            public void action() {
+                mFloatballManager.closeMenu();
+                medcalRecordDialog.show();
+
+                int treatmentproposalType = MedcalRecordDialog.TREATMENTPROPOSAL_TYPE;
+                String content = stringSparseArray.get(treatmentproposalType);
+                medcalRecordDialog.updateData(
+                        treatmentproposalType,"治疗建议","",content);
+            }
+        };
+
+        MenuItem itemJCJY = new MenuItem(BackGroudSeletor.getdrawble("bg_jcjy_normal",
+                Objects.requireNonNull(this)),"检查检验") {
+            @Override
+            public void action() {
+                mFloatballManager.closeMenu();
+            }
+        };
+
+        MenuItem itemCFJ = new MenuItem(BackGroudSeletor.getdrawble("bg_cfj_normal",
+                Objects.requireNonNull(this)),"处方笺") {
+            @Override
+            public void action() {
+                mFloatballManager.closeMenu();
+            }
+        };
+
+        MenuItem itemBL = new MenuItem(BackGroudSeletor.getdrawble("bg_bl",
+                Objects.requireNonNull(this)),"") {
+            @Override
+            public void action() {
+                mFloatballManager.closeMenu();
+            }
+        };
+        mFloatballManager.addMenuItem(itemZS)
+                .addMenuItem(itemXBS)
+                .addMenuItem(itemJWS)
+                .addMenuItem(itemCT)
+                .addMenuItem(itemZLJY)
+                .addMenuItem(itemJCJY)
+                .addMenuItem(itemCFJ)
+                .addMenuItem(itemGMS)
+                .addMenuItem(itemBL)
+                .buildMenu();
     }
 
     /**
@@ -181,9 +363,11 @@ public class ChatActivity extends AppCompatActivity {
         hashMap.put("mainPatientCode",mainPatientCode);
         hashMap.put("mainPatientName",mainPatientName);
         String s = RetrofitUtil.encodeParam(hashMap);
-        ApiHelper.getApiService().iMTesting(s).compose(Transformer.switchSchedulers()).subscribe(new CommonDataObserver() {
+        ApiHelper.getLocalApi().iMTesting(s).compose(Transformer.switchSchedulers())
+                .subscribe(new CommonDataObserver() {
             @Override
             protected void onSuccessResult(BaseBean baseBean) {
+
             }
 
             @Override
@@ -191,6 +375,65 @@ public class ChatActivity extends AppCompatActivity {
                 super.onError(s);
             }
         });
+    }
+
+    /**
+     * 发送保存病例请求
+     *
+     * @param orderCode          订单Id
+     * @param operType           操作类型.0:全部;1:主诉;2:现病史;3:既往史;4:过敏史;5:查体
+     *                           ;6:治疗建议;11:主诉与现病史;12:既往史与过敏史;
+     * @param chiefComplaint     主诉
+     * @param historyNew         现病史
+     * @param flagHistoryAllergy 既往史
+     * @param historyAllergy     过敏史
+     * @param medicalExamination 查体
+     * @param treatmentProposal  治疗建议
+     */
+    private void sendSaveMedicalRecordRequest(String orderCode,
+                                              String operType,
+                                              String chiefComplaint
+            , String historyNew, String historyPast, String flagHistoryAllergy
+            , String historyAllergy, String medicalExamination
+            , String treatmentProposal) {
+        HashMap<String, Object> hashMap = ParameUtil.buildBaseDoctorParam(this);
+        hashMap.put("orderCode", orderCode);
+        hashMap.put("operType", operType);
+        hashMap.put("chiefComplaint", chiefComplaint);
+        hashMap.put("historyNew", historyNew);
+        hashMap.put("flagHistoryAllergy", flagHistoryAllergy);
+        hashMap.put("historyPast", historyPast);
+        hashMap.put("historyAllergy", historyAllergy);
+        hashMap.put("medicalExamination", medicalExamination);
+        hashMap.put("treatmentProposal", treatmentProposal);
+        String s = RetrofitUtil.encodeParam(hashMap);
+        ApiHelper.getApiService().savePatientMedicalRecord(s).compose(Transformer.switchSchedulers(new ILoadingView() {
+            @Override
+            public void showLoadingView() {
+                showLoading("",null);
+            }
+
+            @Override
+            public void hideLoadingView() {
+                dismissLoading();
+            }
+        })).subscribe(new CommonDataObserver() {
+            @Override
+            protected void onSuccessResult(BaseBean baseBean) {
+
+            }
+
+            @Override
+            protected void onError(String s) {
+                super.onError(s);
+            }
+
+            @Override
+            protected String setTag() {
+                return super.setTag();
+            }
+        });
+
     }
 
     private void getTime(String orderCode, String treatmentType, String operType, String limitNum) {
@@ -384,7 +627,7 @@ public class ChatActivity extends AppCompatActivity {
             //2 需要显示悬浮菜单
             //2.1 初始化悬浮菜单配置，有菜单item的大小和菜单item的个数
             int menuSize = DensityUtil.dip2px(this, 550);
-            int menuItemSize = DensityUtil.dip2px(this, 55);
+            int menuItemSize = DensityUtil.dip2px(this, 58);
             FloatMenuCfg menuCfg = new FloatMenuCfg(menuSize, menuItemSize);
             //3 生成floatballManager
             //必须传入Activity
@@ -397,85 +640,6 @@ public class ChatActivity extends AppCompatActivity {
     }
 
 
-    private void addFloatMenuItem() {
-
-        MenuItem itemZS = new MenuItem(BackGroudSeletor.getdrawble("bg_zs",
-                Objects.requireNonNull(this)),"主诉") {
-            @Override
-            public void action() {
-                mFloatballManager.closeMenu();
-                medcalRecordDialog.show();
-            }
-        };
-        MenuItem itemXBS = new MenuItem(BackGroudSeletor.getdrawble("bg_xbs",
-                Objects.requireNonNull(this)),"现病史") {
-            @Override
-            public void action() {
-            }
-        };
-        MenuItem itemJWS = new MenuItem(BackGroudSeletor.getdrawble("bg_jws",
-                Objects.requireNonNull(this)),"既往史") {
-            @Override
-            public void action() {
-                mFloatballManager.closeMenu();
-            }
-        };
-        MenuItem itemCT = new MenuItem(BackGroudSeletor.getdrawble("bg_ct",
-                Objects.requireNonNull(this)),"查体") {
-            @Override
-            public void action() {
-                mFloatballManager.closeMenu();
-            }
-        };
-        MenuItem itemGMS = new MenuItem(BackGroudSeletor.getdrawble("bg_gms",
-                Objects.requireNonNull(this)),"过敏史") {
-            @Override
-            public void action() {
-                mFloatballManager.closeMenu();
-            }
-        };
-        MenuItem itemZLJY = new MenuItem(BackGroudSeletor.getdrawble("bg_zljy",
-                Objects.requireNonNull(this)),"治疗建议") {
-            @Override
-            public void action() {
-                mFloatballManager.closeMenu();
-            }
-        };
-
-        MenuItem itemJCJY = new MenuItem(BackGroudSeletor.getdrawble("bg_jcjy",
-                Objects.requireNonNull(this)),"检查检验") {
-            @Override
-            public void action() {
-                mFloatballManager.closeMenu();
-            }
-        };
-
-        MenuItem itemCFJ = new MenuItem(BackGroudSeletor.getdrawble("bg_cfj",
-                Objects.requireNonNull(this)),"处方笺") {
-            @Override
-            public void action() {
-                mFloatballManager.closeMenu();
-            }
-        };
-
-        MenuItem itemBL = new MenuItem(BackGroudSeletor.getdrawble("bg_bl",
-                Objects.requireNonNull(this)),"") {
-            @Override
-            public void action() {
-                mFloatballManager.closeMenu();
-            }
-        };
-        mFloatballManager.addMenuItem(itemZS)
-                .addMenuItem(itemXBS)
-                .addMenuItem(itemJWS)
-                .addMenuItem(itemCT)
-                .addMenuItem(itemZLJY)
-                .addMenuItem(itemJCJY)
-                .addMenuItem(itemCFJ)
-                .addMenuItem(itemGMS)
-                .addMenuItem(itemBL)
-                .buildMenu();
-    }
 
     /**
      * 点击事件

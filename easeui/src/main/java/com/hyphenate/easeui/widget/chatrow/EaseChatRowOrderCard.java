@@ -26,7 +26,7 @@ import com.hyphenate.easeui.jykj.activity.AppointOrderDetialActivity;
 import com.hyphenate.easeui.jykj.activity.CancelAppointDetialActivity;
 import com.hyphenate.easeui.jykj.activity.CancellationActivity;
 import com.hyphenate.easeui.jykj.activity.SigningDetailsActivity;
-import com.hyphenate.easeui.jykj.activity.TerminationActivity;
+import com.hyphenate.easeui.jykj.activity.TerminationActivity2;
 import com.hyphenate.easeui.jykj.bean.OrderMessage;
 import com.hyphenate.easeui.netService.HttpNetService;
 import com.hyphenate.easeui.netService.entity.NetRetEntity;
@@ -208,7 +208,7 @@ public class EaseChatRowOrderCard extends EaseChatRow {
         mTvMonitValue.setText(monitoringType);
         mTvCoachRateValue.setText(coach);
         mTvSignTimeValue.setText(signUpTime);
-        mTvPriceValue.setText(String.format("¥%s", price));
+        mTvPriceValue.setText(String.format("¥ %s", price));
         orderType = message.getStringAttribute("orderType", "");//1已同意 2 修改 3 拒绝（由患者操作发起时会携带此参数）
         switch (messageType) {
             case "terminationOrder":
@@ -329,6 +329,7 @@ public class EaseChatRowOrderCard extends EaseChatRow {
             if (messageType.equals("card")) {
                 mRlCancelContractOrderRoot.setVisibility(View.GONE);
                 mTvOperMsg.setVisibility(View.VISIBLE);
+                mTvPriceValue.setVisibility(View.VISIBLE);
                 switch (orderType) {
                     case "1":
                         tvOrderReceivedUpdateBtn.setVisibility(View.GONE);
@@ -594,7 +595,7 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                         bundle.putString("patientName", nickName);
                         bundle.putString("patientCode",message.getFrom() );
                         bundle.putSerializable("orderMsg",orderMessage);
-                        startActivity(TerminationActivity.class, bundle);
+                        startActivity(TerminationActivity2.class, bundle);
                     }
 
                     }

@@ -159,7 +159,7 @@ public interface ApiService {
             , encoded = true) String queryJson);
 
     //IM检测接口
-    @POST("/imDataControlle/iMTesting")
+    @POST("/imDataControlle/IMTesting")
     Observable<String> iMTesting(@Query(value = "jsonDataInfo"
             , encoded = true) String queryJson);
 }

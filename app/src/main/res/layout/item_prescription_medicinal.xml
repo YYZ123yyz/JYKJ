@@ -268,7 +268,6 @@
                     android:textColor="@color/color_666666"
                     android:textSize="15sp"
                     android:layout_marginStart="10dp"
-                    android:text="盒"
                     android:id="@+id/tv_unit_name"
                     >
 
@@ -363,7 +362,6 @@
                     android:textColor="@color/color_666666"
                     android:textSize="15sp"
                     android:layout_marginStart="10dp"
-                    android:text="盒"
                     android:id="@+id/tv_take_num_unit"
                     >
 
