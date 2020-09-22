@@ -33,6 +33,8 @@ import com.hyphenate.easeui.netService.entity.NetRetEntity;
 import com.hyphenate.easeui.utils.SharedPreferences_DataSave;
 import com.hyphenate.easeui.widget.EaseImageView;
 import org.greenrobot.eventbus.EventBus;
+
+import java.text.DecimalFormat;
 import java.util.HashMap;
 
 
@@ -115,6 +117,7 @@ public class EaseChatRowOrderCard extends EaseChatRow {
     protected Bundle fragmentArgs;
     private String patientCode;
     private String imageUrl;
+    private String format;
 
     //   private List<ProvideDoctorPatientUserInfo> mProvideDoctorPatientUserInfo = new ArrayList<>();
     public EaseChatRowOrderCard(Context context, EMMessage message,
@@ -208,7 +211,7 @@ public class EaseChatRowOrderCard extends EaseChatRow {
         mTvMonitValue.setText(monitoringType);
         mTvCoachRateValue.setText(coach);
         mTvSignTimeValue.setText(signUpTime);
-        mTvPriceValue.setText(String.format("¥%s", price));
+        mTvPriceValue.setText("￥ "+ price);
         orderType = message.getStringAttribute("orderType", "");//1已同意 2 修改 3 拒绝（由患者操作发起时会携带此参数）
         switch (messageType) {
             case "terminationOrder":

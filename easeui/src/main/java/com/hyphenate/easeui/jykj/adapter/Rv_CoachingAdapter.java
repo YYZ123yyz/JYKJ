@@ -74,7 +74,7 @@ public class Rv_CoachingAdapter extends RecyclerView.Adapter<Rv_CoachingAdapter.
         if (minute!=0) {
             viewHolder.time.setText(minute+"分钟，");
         }else{
-            viewHolder.time.setText(" 分钟数，");
+            viewHolder.time.setText("");
 
         }
         int frequency = detectBean.getFrequency();

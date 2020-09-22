@@ -111,6 +111,21 @@ public interface ApiService {
     Observable<String> searchInteractOrderInspectionList(@Query(value = "jsonDataInfo"
             , encoded = true) String queryJson);
 
-
+    //基本健康信息
+    @POST("/patientDataControlle/searchDoctorManagePatientConditionHealthyResBasics")
+    Observable<String> searchBasichealthinformation(@Query(value = "jsonDataInfo"
+            , encoded = true) String queryJson);
+    //症状信息
+    @POST("/patientDataControlle/searchDoctorManagePatientConditionHealthyResSymptom")
+    Observable<String> searchsymptomformation(@Query(value = "jsonDataInfo"
+            , encoded = true) String queryJson);
+    //标签记录
+    @POST("/patientDataControlle/searchDoctorManagePatientConditionLabel")
+    Observable<String> searchLabelformation(@Query(value = "jsonDataInfo"
+            , encoded = true) String queryJson);
+    //既往病史
+    @POST("/patientDataControlle/searchDoctorManagePatientConditionDiseaseRecordList")
+    Observable<String> searchHistoryformation(@Query(value = "jsonDataInfo"
+            , encoded = true) String queryJson);
 }
 

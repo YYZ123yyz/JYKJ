@@ -59,7 +59,6 @@
     <uses-permission android:name="com.coloros.mcs.permission.RECIEVE_MCS_MESSAGE" />
     <uses-permission android:name="com.heytap.mcs.permission.RECIEVE_MCS_MESSAGE" />
 
-
     <application
         android:name=".application.JYKJApplication"
         android:allowBackup="true"
@@ -71,6 +70,10 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:allowBackup,android:icon">
+        <activity android:name=".activity.home.mypatient.history.HistoryActivity"></activity>
+        <activity android:name=".activity.home.mypatient.label.LabelActivity" />
+        <activity android:name=".activity.home.mypatient.symptom.SymptomActivity" />
+        <activity android:name=".activity.home.mypatient.basicInformation.BasicInformationActivity" />
         <activity android:name="yyz_exploit.activity.activity.CancellationActivity" />
         <activity android:name="yyz_exploit.activity.activity.CancellationDetailsActivity" />
         <activity android:name="yyz_exploit.activity.activity.TerminationActivity" />
@@ -89,7 +92,6 @@
         <activity android:name="yyz_exploit.activity.activity.KeywordActivity" />
         <activity android:name="yyz_exploit.activity.activity.BeforesettingActivity" />
         <activity android:name="yyz_exploit.activity.activity.RefuseActivity" />
-
         <activity android:name="yyz_exploit.activity.activity.NoticeActivity" />
         <activity android:name="yyz_exploit.activity.activity.LectureActivity" />
         <activity android:name="yyz_exploit.activity.activity.FeedbackActivity" /> <!-- 意见反馈页面 -->
@@ -298,13 +300,9 @@
         <activity
             android:name=".activity.home.jyzl.GRXX_GRZK_JBXXActivity"
             android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 个人总览=》 个人状况 ==》患者标签 -->
-
-        <activity android:name=".activity.home.jyzl.PatientBaseInfoActivity"
-            android:screenOrientation="portrait"
-            >
-
-
-        </activity>
+        <activity
+            android:name=".activity.home.jyzl.PatientBaseInfoActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.home.jyzl.GRXX_GRZK_HZBQActivity"
             android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 个人总览=》 个人状况 ==》症状信息 -->
@@ -406,51 +404,33 @@
         <activity
             android:name=".activity.hyhd.TCVideoPreviewActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".appointment.activity.MyOnlineScheduActivity"
-            android:screenOrientation="portrait"
-            >
-
-        </activity>
-        <activity android:name=".appointment.activity.AppointPatientListActivity"
-            android:screenOrientation="portrait"
-            >
-
-        </activity>
-        <activity android:name=".appointment.activity.MyOnlineScheduTemplateActivity"
-            android:screenOrientation="portrait"
-            >
-
-
-        </activity>
+        <activity
+            android:name=".appointment.activity.MyOnlineScheduActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".appointment.activity.AppointPatientListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".appointment.activity.MyOnlineScheduTemplateActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".appointment.activity.MyClinicDetialActivity"
-            android:screenOrientation="portrait">
-
-        </activity>
-        <activity android:name=".appointment.activity.CancelAppointActivity"
-            android:screenOrientation="portrait"
-            >
-
-
-        </activity>
-        <activity android:name=".appointment.activity.AppointOrderDetialActivity"
-            android:screenOrientation="portrait"
-            >
-
-
-        </activity>
-        <activity android:name=".medicalrecord.activity.InspectionProjectChoosedActivity"
-            android:screenOrientation="portrait"
-            />
-        <activity android:name=".medicalrecord.activity.InspectionPositionChoosedActivity"
-            android:screenOrientation="portrait"
-            >
-
-        </activity>
-
-        <activity android:name=".medicalrecord.activity.InspectionOrderListActivity"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".appointment.activity.CancelAppointActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".appointment.activity.AppointOrderDetialActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".medicalrecord.activity.InspectionProjectChoosedActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".medicalrecord.activity.InspectionPositionChoosedActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".medicalrecord.activity.InspectionOrderListActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.tencent.rtmp.video.TXScreenCapture$TXScreenCaptureAssistantActivity"
             android:theme="@android:style/Theme.Translucent" />
@@ -463,8 +443,7 @@
             android:value="67ZtaSY1EyjZZoYqqYVT6e3X" />
         <meta-data
             android:name="com.mob.push.oppo.appsecret"
-            android:value="sK8dkfTwHt11QezBuIO4kjJV" />
-        <!-- 配置bugly组件的APP ID，bugly组件为腾讯提供的用于crash上报和分析的开放组件，如果您不需要该组件，可以自行移除 -->
+            android:value="sK8dkfTwHt11QezBuIO4kjJV" /> <!-- 配置bugly组件的APP ID，bugly组件为腾讯提供的用于crash上报和分析的开放组件，如果您不需要该组件，可以自行移除 -->
         <meta-data
             android:name="BUGLY_APPID"
             android:value="1400372964" /> <!-- 配置bugly组件的APP渠道号 -->
