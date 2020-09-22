@@ -9,6 +9,7 @@ import www.jykj.com.jykj_zxyl.app_base.base_bean.InspectionItemDataBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.InspectionItemGradeBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.InspectionItemPositionBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.InspectionItemUploadBean;
+import www.jykj.com.jykj_zxyl.app_base.base_bean.TakeMedicinalRateBean;
 import www.jykj.com.jykj_zxyl.util.DateUtils;
 import www.jykj.com.jykj_zxyl.util.StringUtils;
 
@@ -135,9 +136,20 @@ public class ConvertUtils {
             dataBean.setInspectionGradeName(itemBean.getGradeContentName());
             dataBean.setInspectionTime(DateUtils.getDateToYYYYMMDD(itemBean.getInspectionTimes()));
             dataBean.setInspectionPurpose(itemBean.getInspectionTarget());
+            dataBean.setInspectionType(itemBean.getInspectionType()+"");
+            dataBean.setInspectionTypeName(itemBean.getInspectionTypeName());
             dataBeans.add(dataBean);
         }
         return dataBeans;
 
+    }
+
+    public static List<String> convertTakeMedicinalRateToString(List<TakeMedicinalRateBean> takeMedicinalRateBeans){
+        List<String> stringList=new ArrayList<>();
+        for (TakeMedicinalRateBean takeMedicinalRateBean : takeMedicinalRateBeans) {
+            String attrName = takeMedicinalRateBean.getAttrName();
+            stringList.add(attrName);
+        }
+        return stringList;
     }
 }

@@ -95,6 +95,7 @@
                     android:layout_alignParentTop="true"
                     android:layout_width="fill_parent"
                     android:id="@+id/tv_termination"
+                    android:padding="5dp"
                     android:layout_height="match_parent"
                     android:background="#ffeeeeee"
                     />

@@ -62,6 +62,7 @@ public class InspectionItemOrderAdapter extends RecyclerView.Adapter
         holder.mTvInspectionTime.setText(StringUtils.isNotEmpty(inspectionTime) ? inspectionTime : "未填写");
         String inspectionPurpose = itemDataBean.getInspectionPurpose();
         holder.edInputContent.setText(inspectionPurpose);
+        holder.mTvInspectionTitle.setText(itemDataBean.getInspectionTypeName());
         holder.rlInspectionProject.setOnClickListener(v -> {
             if (onItemClickListener != null) {
                 onItemClickListener.onClickInspectionProject(position);
@@ -116,6 +117,7 @@ public class InspectionItemOrderAdapter extends RecyclerView.Adapter
         private TextView mTvInspectionPosition;
         private TextView mTvInspectionGrade;
         private TextView mTvInspectionTime;
+        private TextView mTvInspectionTitle;
         private RelativeLayout rlInspectionProject;
         private RelativeLayout rlInspectionPosition;
         private RelativeLayout rlInspectionGrade;
@@ -129,6 +131,7 @@ public class InspectionItemOrderAdapter extends RecyclerView.Adapter
             mTvInspectProject = view.findViewById(R.id.tv_inspect_project);
             mTvInspectionGrade=view.findViewById(R.id.tv_inspection_grade);
             mTvInspectionTime=view.findViewById(R.id.tv_inspection_time);
+            mTvInspectionTitle=view.findViewById(R.id.tv_inspection_title);
             rlInspectionProject = view.findViewById(R.id.rl_inspection_project);
             rlInspectionPosition = view.findViewById(R.id.rl_inspection_position);
             rlInspectionGrade = view.findViewById(R.id.rl_inspection_grade);

@@ -110,6 +110,18 @@ public interface ApiService {
     @POST("/DoctorInspectionControlle/searchInteractOrderInspectionList")
     Observable<String> searchInteractOrderInspectionList(@Query(value = "jsonDataInfo"
             , encoded = true) String queryJson);
+    //获取签约服务项目基础配置信息
+    @POST("/doctorSignControlle/searchSignConfigDetail")
+    Observable<String> searchSignConfigDetail(@Query(value = "jsonDataInfo"
+            , encoded = true) String queryJson);
+    //[基础数据]药品信息
+    @POST("/doctorInteractDataControlle/searchMyClinicDetailResPrescribeDrugInfo_200915")
+    Observable<String> searchMyClinicDetailResPrescribeDrugInfo_200915(@Query(value = "jsonDataInfo"
+            , encoded = true) String queryJson);
+    //[基础数据]药品信息增加
+    @POST("/doctorInteractDataControlle/operUpdDrugInfo")
+    Observable<String> operUpdDrugInfo(@Query(value = "jsonDataInfo"
+            , encoded = true) String queryJson);
 
     //基本健康信息
     @POST("/patientDataControlle/searchDoctorManagePatientConditionHealthyResBasics")
@@ -126,6 +138,20 @@ public interface ApiService {
     //既往病史
     @POST("/patientDataControlle/searchDoctorManagePatientConditionDiseaseRecordList")
     Observable<String> searchHistoryformation(@Query(value = "jsonDataInfo"
+            , encoded = true) String queryJson);
+    //获取病历详情
+    @POST("medicalRecordControlle/getMyClinicDetailResPatientMedicalRecord")
+    Observable<String> getPatientMedicalRecord(@Query(value = "jsonDataInfo"
+            , encoded = true) String queryJson);
+
+    //发送病历
+    @POST("/medicalRecordControlle/operMyClinicDetailPatientMedicalRecordSend")
+    Observable<String> sendPatientMedicalRecord(@Query(value = "jsonDataInfo"
+            , encoded = true) String queryJson);
+
+    //保存病历
+    @POST("/medicalRecordControlle/operMyClinicDetailPatientMedicalRecordByAll")
+    Observable<String> savePatientMedicalRecord(@Query(value = "jsonDataInfo"
             , encoded = true) String queryJson);
 }
 

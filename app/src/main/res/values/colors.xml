@@ -72,5 +72,11 @@
     <color name="color_EB6877">#EB6877</color>
     <color name="color_7A9EFF">#7A9EFF</color>
     <color name="color_799def">#799DFE</color>
-
+    <color name="color_faf4da">#FAF4DA</color>
+    <color name="color_BF5A00">#BF5A00</color>
+    <color name="color_E6E6E6">#E6E6E6</color>
+    <color name="color_343434">#343434</color>
+    <color name="color_A1A1A1">#A1A1A1</color>
+    <color name="color_9A9A9A">#9A9A9A</color>
+    <color name="color_F2F2F2">#F2F2F2</color>
 </resources>
