@@ -216,14 +216,15 @@ public class ConvertUtils {
                     itemDataBean.setDrugName(prescribeInfo.getDrugName());
                     itemDataBean.setDrugCode(prescribeInfo.getDrugCode());
                     itemDataBean.setBuyMedicinalNum(prescribeInfo.getDrugAmount()+"");
-                    itemDataBean.setUnitName(prescribeInfo.getDrugAmountName());
+                    itemDataBean.setUnitName(prescribeInfo.getDrugPack());
                     itemDataBean.setTakeMedicinalNum(prescribeInfo.getUseNum()+"");
                     itemDataBean.setSpecUnit(prescribeInfo.getSpecUnit());
                     itemDataBean.setSpecName(prescribeInfo.getSpecName());
                     itemDataBean.setTakeMedicinalRateName(prescribeInfo.getUseFrequencyName());
-                    itemDataBean.setTakeMedicinalRateCode(prescribeInfo.getUseFrequency()+"");
+                    itemDataBean.setTakeMedicinalRateCode(prescribeInfo.getUseFrequencyCode());
                     itemDataBean.setTakeMedicinalRemark(prescribeInfo.getUseDesc());
                     itemDataBean.setDrugOrderCode(prescribeInfo.getDrugOrderCode());
+                    itemDataBean.setOrderCode(prescribeInfo.getOrderCode());
                     prescriptionItemBeans.add(itemDataBean);
                 }
 

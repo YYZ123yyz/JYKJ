@@ -40,6 +40,14 @@ public class PrescriptionMedicinalContract {
          */
         void getSaveAndUpdatePrescriptionResult(boolean isSucess,String msg);
 
+        /**
+         * 发送删除处方返回结果
+         * @param isSucess ture or false
+         * @param pos 当前位置
+         * @param msg 返回信息
+         */
+        void getDeletePrescriptionResult(boolean isSucess,int pos,String msg);
+
 
     }
 
@@ -64,5 +72,14 @@ public class PrescriptionMedicinalContract {
          */
         void sendSaveAndUpdatePrescriptionRequest(List<PrescriptionItemUploadBean> list, Activity activity);
 
+
+        /**
+         * 发送删除处方请求
+         * @param drugOrderCode 处方编码
+         * @param orderCode 订单code
+         * @param pos 位置
+         * @param activity 当前activity
+         */
+        void sendDeletePrescriptionRequest(String drugOrderCode,String orderCode,int pos,Activity activity);
     }
 }

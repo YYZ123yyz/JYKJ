@@ -489,9 +489,33 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
      * register extend menu, item id need > 3 if you override this method and keep exist item
      */
     protected void registerExtendMenuItem() {
+        inputMenu.clearData();
         for (int i = 0; i < itemStrings.length; i++) {
             inputMenu.registerExtendMenuItem(itemStrings[i], itemdrawables[i], itemIds[i], extendMenuItemClickListener);
         }
+    }
+
+    /**
+     * 是否显示签约按钮
+     * @param isVisible true or false
+     */
+    public void setSignUpBtnStatus(boolean isVisible){
+        if (isAdded()) {
+            if (isVisible) {
+                itemStrings = new int[]{R.string.attach_take_pic, R.string.attach_picture,
+                        R.string.attach_voice_call, R.string.attach_video, R.string.attach_file};
+                itemdrawables = new int[]{R.mipmap.hyhd_pz, R.mipmap.hyhd_tp,
+                        R.mipmap.hyhd_yy, R.mipmap.hyhd_sp, R.mipmap.hyhd_wj};
+                itemIds = new int[]{ITEM_TAKE_PICTURE, ITEM_PICTURE, ITEM_CALL, ITEM_VIDEO, ITEM_WJ};
+            }else{
+                itemStrings = new int[]{R.string.attach_take_pic, R.string.attach_picture,
+                        R.string.attach_voice_call, R.string.attach_video};
+                itemdrawables = new int[]{R.mipmap.hyhd_pz, R.mipmap.hyhd_tp,
+                        R.mipmap.hyhd_yy, R.mipmap.hyhd_sp};
+                itemIds = new int[]{ITEM_TAKE_PICTURE, ITEM_PICTURE, ITEM_CALL, ITEM_VIDEO};
+            }
+        }
+       registerExtendMenuItem();
     }
 
 

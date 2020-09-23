@@ -3,7 +3,6 @@ package www.jykj.com.jykj_zxyl.medicalrecord.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -15,13 +14,9 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-
 import com.allen.library.utils.ToastUtils;
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
 import com.bigkoo.pickerview.view.OptionsPickerView;
-
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.List;
 import butterknife.BindView;
@@ -126,6 +121,12 @@ public class PrescriptionMedicinalListActivity extends AbstractMvpBaseActivity<
                     ConvertUtils.convertPrescriptionNotesToItem(mPrescriptionNotesBean);
             dataBeans.addAll(prescriptionMedicinalItemDataBeans);
             for (int i = 0; i < dataBeans.size(); i++) {
+                MedicinalInfoBean medicinalInfoBean=new MedicinalInfoBean();
+                String drugName = dataBeans.get(i).getDrugName();
+                medicinalInfoBean.setDrugName(drugName);
+                String drugCode = dataBeans.get(i).getDrugCode();
+                medicinalInfoBean.setDrugCode(drugCode);
+                medicinalInfoSparseArray.put(i, medicinalInfoBean);
                 PrescriptionMedicinalItemDataBean itemDataBean = dataBeans.get(i);
                 llRootView.addView(getView(itemDataBean,i));
                 initKeyBoardListener(scrollView);
@@ -142,6 +143,10 @@ public class PrescriptionMedicinalListActivity extends AbstractMvpBaseActivity<
         toolbar.setMainTitle("处方药品");
         //返回键
         toolbar.setLeftTitleClickListener(view -> finish());
+        toolbar.setLeftTitleClickListener(v -> {
+            setResult(1000);
+            PrescriptionMedicinalListActivity.this.finish();
+        });
     }
 
 
@@ -151,7 +156,7 @@ public class PrescriptionMedicinalListActivity extends AbstractMvpBaseActivity<
      * 获取View
      * @param itemDataBean 数据项目
      * @param pos 位置
-     * @return
+     * @return View
      */
     private View getView(PrescriptionMedicinalItemDataBean itemDataBean,int pos){
         View view = View.inflate(context, R.layout.item_prescription_medicinal, null);
@@ -168,8 +173,6 @@ public class PrescriptionMedicinalListActivity extends AbstractMvpBaseActivity<
         EditText edInputContent=view.findViewById(R.id.ed_input_content);
         RelativeLayout mRlPrescriptionType=view.findViewById(R.id.rl_prescription_type);
         RelativeLayout mRlMedicinalName=view.findViewById(R.id.rl_medicinal_name);
-        RelativeLayout mRlbuyMedicinalNum=view.findViewById(R.id.rl_buy_medicinal_num);
-        RelativeLayout mRlTakeMedicinalNum=view.findViewById(R.id.rl_take_medicinal_num);
         RelativeLayout mRlTakeMedicinalRate=view.findViewById(R.id.rl_take_medicinal_rate);
         RelativeLayout mRlTakeMedicinalCycle=view.findViewById(R.id.rl_take_medicinal_cycle);
         String prescriptionTypeName = itemDataBean.getPrescriptionTypeName();
@@ -184,13 +187,13 @@ public class PrescriptionMedicinalListActivity extends AbstractMvpBaseActivity<
         mEdTakeMedicinalNum.setText(takeMedicinalNum);
         mTvTakeUnmUnit.setText(itemDataBean.getSpecUnit());
         String takeMedicinalRateName = itemDataBean.getTakeMedicinalRateName();
-        mTvTakeMedicinalCycle.setText(StringUtils.isNotEmpty(takeMedicinalRateName)
+        mTvTakeMedicinalRate.setText(StringUtils.isNotEmpty(takeMedicinalRateName)
                 ?takeMedicinalRateName:"未填写");
+
         edInputContent.setText(itemDataBean.getTakeMedicinalRemark());
         mRlPrescriptionType.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //llRootView.removeViewAt(pos);
                 if (!CollectionUtils.isEmpty(prescriptionTypeBeans)) {
                     showPrescriptionTypeDialog(mTvPrescriptionType,pos);
                 }
@@ -200,31 +203,28 @@ public class PrescriptionMedicinalListActivity extends AbstractMvpBaseActivity<
             @Override
             public void onClick(View v) {
 
-            }
-        });
-        mRlMedicinalName.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Bundle bundle=new Bundle();
-                bundle.putInt("pos",pos);
-                MedicinalInfoBean medicinalInfoBean = medicinalInfoSparseArray.get(pos);
-                bundle.putSerializable("currentMedicinalInfo",medicinalInfoBean);
-                startActivity(ChoosedMedicinalListActivity.class,
-                        bundle,100);
-            }
-        });
-        mRlbuyMedicinalNum.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+                String orderCode = itemDataBean.getOrderCode();
+
+                if(StringUtils.isNotEmpty(orderCode)){
+                    int itemPos = getItemPos(orderId, dataBeans);
+                    mPresenter.sendDeletePrescriptionRequest(
+                            itemDataBean.getDrugOrderCode(),orderCode,itemPos,
+                            PrescriptionMedicinalListActivity.this);
+                }else{
+                    llRootView.removeView(view);
+                }
 
             }
         });
-        mRlTakeMedicinalNum.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
+        mRlMedicinalName.setOnClickListener(v -> {
+            Bundle bundle=new Bundle();
+            bundle.putInt("pos",pos);
+            MedicinalInfoBean medicinalInfoBean = medicinalInfoSparseArray.get(pos);
+            bundle.putSerializable("currentMedicinalInfo",medicinalInfoBean);
+            startActivity(ChoosedMedicinalListActivity.class,
+                    bundle,100);
         });
+
         mRlTakeMedicinalRate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -314,13 +314,24 @@ public class PrescriptionMedicinalListActivity extends AbstractMvpBaseActivity<
     }
 
 
+    /**
+     * 查询当前位置
+     * @param orderId orderId
+     * @param list 处方列表
+     * @return position
+     */
+    private int getItemPos(String orderId,List<PrescriptionMedicinalItemDataBean> list){
+        int currentPos=-1;
+        for (int i = 0; i < list.size(); i++) {
 
-
-
-
-
-
-
+            String orderCode = list.get(i).getOrderCode();
+            if (orderCode.equals(orderId)) {
+                currentPos=i;
+                break;
+            }
+        }
+        return currentPos;
+    }
 
     /**
      * 处方类型弹框
@@ -330,7 +341,7 @@ public class PrescriptionMedicinalListActivity extends AbstractMvpBaseActivity<
     private void showPrescriptionTypeDialog(TextView textView,int pos) {
         OptionsPickerView optionPickUnit = new OptionsPickerBuilder(this,
                 (options1, options2, options3, v) -> {
-                    PrescriptionTypeBean prescriptionTypeBean = prescriptionTypeBeans.get(pos);
+                    PrescriptionTypeBean prescriptionTypeBean = prescriptionTypeBeans.get(options1);
                     prescriptionTypeSparseArray.put(pos,prescriptionTypeBean);
                     dataBeans.get(pos).setPrescriptionTypeName(prescriptionTypeBean.getAttrName());
                     dataBeans.get(pos).setPrescriptionTypeCode(prescriptionTypeBean.getAttrCode()+"");
@@ -355,7 +366,7 @@ public class PrescriptionMedicinalListActivity extends AbstractMvpBaseActivity<
     private void showTakeMedicinalRateDialog(TextView takeMedicinalRate,int pos) {
         OptionsPickerView optionPickUnit = new OptionsPickerBuilder(this,
                 (options1, options2, options3, v) -> {
-                    TakeMedicinalRateBean takeMedicinalRateBean = takeMedicinalRateBeans.get(pos);
+                    TakeMedicinalRateBean takeMedicinalRateBean = takeMedicinalRateBeans.get(options1);
                     takeMedicinalRateSparseArray.put(pos,takeMedicinalRateBean);
                     dataBeans.get(pos).setTakeMedicinalRateName(takeMedicinalRateBean.getAttrName());
                     dataBeans.get(pos).setTakeMedicinalRateCode(takeMedicinalRateBean.getAttrCode()+"");
@@ -446,5 +457,20 @@ public class PrescriptionMedicinalListActivity extends AbstractMvpBaseActivity<
         }else{
             ToastUtils.showToast(msg);
         }
+    }
+
+    @Override
+    public void getDeletePrescriptionResult(boolean isSucess, int pos, String msg) {
+        if (isSucess) {
+            llRootView.removeViewAt(pos);
+        } else {
+            ToastUtils.showToast(msg);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        setResult(1000);
+        this.finish();
     }
 }

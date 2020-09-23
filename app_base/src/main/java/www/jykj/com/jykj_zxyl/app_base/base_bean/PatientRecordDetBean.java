@@ -9,34 +9,31 @@ public class PatientRecordDetBean {
 
 
     /**
-     * chiefComplaint : 主诉1
-     * createDate : 1600653611000
+     * createDate : 1600682495000
      * departmentSecondName : 呼吸内科
      * doctorName : 医生测试002
      * flagConfirmState : 1
-     * flagHistoryAllergy : 1
+     * flagHistoryAllergy : 0
      * flagSendMedicalRecord : 0
-     * flagWriteChiefComplaint : 1
+     * flagWriteChiefComplaint : 0
      * flagWriteDiagnosis : 0
      * flagWriteDrug : 0
-     * flagWriteHistoryAllergy : 1
-     * flagWriteHistoryNew : 1
-     * flagWriteHistoryPast : 1
+     * flagWriteHistoryAllergy : 0
+     * flagWriteHistoryNew : 0
+     * flagWriteHistoryPast : 0
      * flagWriteInspection : 0
-     * flagWriteMedicalExamination : 1
-     * flagWriteTreatmentProposal : 1
-     * historyAllergy : 过敏史
-     * historyNew : 现病史
-     * historyPast : 既往史
+     * flagWriteMedicalExamination : 0
+     * flagWriteTreatmentProposal : 0
      * interactOrderInspectionList : []
      * interactOrderPrescribeList : []
-     * medicalExamination : 查体
-     * recordCode : 882479693b3e46a59086ad76ddc3cb50
-     * treatmentCardNum :
-     * treatmentProposal : 治疗建议
+     * patientAge : 6
+     * patientGender : 1
+     * patientLogoUrl : https://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eq84OzgEUTZfOS62xVNrkR0wfDIc5rIVWRwwDbcvjQiaxc5X98dDSrdopFmgGuaRtJKFbkWDXpe3Bw/132
+     * patientName : 搬运工
+     * recordCode : 62d2c333c28c4aba8d619e78fb222bd4
+     * treatmentCardNum : 666888
      */
 
-    private String chiefComplaint;
     private long createDate;
     private String departmentSecondName;
     private String doctorName;
@@ -52,15 +49,68 @@ public class PatientRecordDetBean {
     private int flagWriteInspection;
     private int flagWriteMedicalExamination;
     private int flagWriteTreatmentProposal;
-    private String historyAllergy;
-    private String historyNew;
-    private String historyPast;
-    private String medicalExamination;
+    private int patientAge;
+    private int patientGender;
+    private String patientLogoUrl;
+    private String patientName;
     private String recordCode;
     private String treatmentCardNum;
-    private String treatmentProposal;
     private List<?> interactOrderInspectionList;
     private List<?> interactOrderPrescribeList;
+    private String chiefComplaint;
+    private String historyNew;
+    private String historyPast;
+    private String historyAllergy;
+    private String medicalExamination;
+    private String patientChiefComplaint;
+    private String patientHistoryNew;
+
+    public String getPatientChiefComplaint() {
+        return patientChiefComplaint;
+    }
+
+    public void setPatientChiefComplaint(String patientChiefComplaint) {
+        this.patientChiefComplaint = patientChiefComplaint;
+    }
+
+    public String getPatientHistoryNew() {
+        return patientHistoryNew;
+    }
+
+    public void setPatientHistoryNew(String patientHistoryNew) {
+        this.patientHistoryNew = patientHistoryNew;
+    }
+
+    public String getPatientHistoryPast() {
+        return patientHistoryPast;
+    }
+
+    public void setPatientHistoryPast(String patientHistoryPast) {
+        this.patientHistoryPast = patientHistoryPast;
+    }
+
+    public String getPatientHistoryAllergy() {
+        return patientHistoryAllergy;
+    }
+
+    public void setPatientHistoryAllergy(String patientHistoryAllergy) {
+        this.patientHistoryAllergy = patientHistoryAllergy;
+    }
+
+    private String patientHistoryPast;
+    private String patientHistoryAllergy;
+
+
+
+    public String getTreatmentProposal() {
+        return treatmentProposal;
+    }
+
+    public void setTreatmentProposal(String treatmentProposal) {
+        this.treatmentProposal = treatmentProposal;
+    }
+
+    private String treatmentProposal;
 
     public String getChiefComplaint() {
         return chiefComplaint;
@@ -68,6 +118,38 @@ public class PatientRecordDetBean {
 
     public void setChiefComplaint(String chiefComplaint) {
         this.chiefComplaint = chiefComplaint;
+    }
+
+    public String getHistoryNew() {
+        return historyNew;
+    }
+
+    public void setHistoryNew(String historyNew) {
+        this.historyNew = historyNew;
+    }
+
+    public String getHistoryPast() {
+        return historyPast;
+    }
+
+    public void setHistoryPast(String historyPast) {
+        this.historyPast = historyPast;
+    }
+
+    public String getHistoryAllergy() {
+        return historyAllergy;
+    }
+
+    public void setHistoryAllergy(String historyAllergy) {
+        this.historyAllergy = historyAllergy;
+    }
+
+    public String getMedicalExamination() {
+        return medicalExamination;
+    }
+
+    public void setMedicalExamination(String medicalExamination) {
+        this.medicalExamination = medicalExamination;
     }
 
     public long getCreateDate() {
@@ -190,36 +272,36 @@ public class PatientRecordDetBean {
         this.flagWriteTreatmentProposal = flagWriteTreatmentProposal;
     }
 
-    public String getHistoryAllergy() {
-        return historyAllergy;
+    public int getPatientAge() {
+        return patientAge;
     }
 
-    public void setHistoryAllergy(String historyAllergy) {
-        this.historyAllergy = historyAllergy;
+    public void setPatientAge(int patientAge) {
+        this.patientAge = patientAge;
     }
 
-    public String getHistoryNew() {
-        return historyNew;
+    public int getPatientGender() {
+        return patientGender;
     }
 
-    public void setHistoryNew(String historyNew) {
-        this.historyNew = historyNew;
+    public void setPatientGender(int patientGender) {
+        this.patientGender = patientGender;
     }
 
-    public String getHistoryPast() {
-        return historyPast;
+    public String getPatientLogoUrl() {
+        return patientLogoUrl;
     }
 
-    public void setHistoryPast(String historyPast) {
-        this.historyPast = historyPast;
+    public void setPatientLogoUrl(String patientLogoUrl) {
+        this.patientLogoUrl = patientLogoUrl;
     }
 
-    public String getMedicalExamination() {
-        return medicalExamination;
+    public String getPatientName() {
+        return patientName;
     }
 
-    public void setMedicalExamination(String medicalExamination) {
-        this.medicalExamination = medicalExamination;
+    public void setPatientName(String patientName) {
+        this.patientName = patientName;
     }
 
     public String getRecordCode() {
@@ -236,14 +318,6 @@ public class PatientRecordDetBean {
 
     public void setTreatmentCardNum(String treatmentCardNum) {
         this.treatmentCardNum = treatmentCardNum;
-    }
-
-    public String getTreatmentProposal() {
-        return treatmentProposal;
-    }
-
-    public void setTreatmentProposal(String treatmentProposal) {
-        this.treatmentProposal = treatmentProposal;
     }
 
     public List<?> getInteractOrderInspectionList() {

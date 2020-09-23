@@ -49,6 +49,7 @@ import www.jykj.com.jykj_zxyl.activity.home.ZhlyReplyActivity;
 import www.jykj.com.jykj_zxyl.activity.home.wdzs.ProvideDoctorSetServiceState;
 import www.jykj.com.jykj_zxyl.app_base.base_activity.BaseActivity;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.BaseBean;
+import www.jykj.com.jykj_zxyl.app_base.base_bean.CheckImResultBean;
 import www.jykj.com.jykj_zxyl.app_base.base_dialog.MedcalRecordDialog;
 import www.jykj.com.jykj_zxyl.app_base.http.ApiHelper;
 import www.jykj.com.jykj_zxyl.app_base.http.ApiService;
@@ -59,6 +60,9 @@ import www.jykj.com.jykj_zxyl.application.Constant;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.util.ActivityUtil;
 import www.jykj.com.jykj_zxyl.util.DateUtils;
+import www.jykj.com.jykj_zxyl.util.GsonUtils;
+import www.jykj.com.jykj_zxyl.util.StringUtils;
+import yyz_exploit.Utils.GsonUtil;
 
 /**
  * 聊天界面
@@ -73,6 +77,7 @@ public class ChatActivity extends BaseActivity {
     private EaseTitleBar titleBar;
     private EaseChatMessageList messageList;
     private EaseChatInputMenu inputMenu;
+    private EaseChatFragment chatFragment;
     private JYKJApplication mApp;
     private String mNetRetStr;
     private Handler mHandler;
@@ -83,7 +88,7 @@ public class ChatActivity extends BaseActivity {
     private ImageView ivTransparent;
     private SparseArray<String> stringSparseArray;
     private String orderCode;
-
+    private CheckImResultBean checkImResultBean;
     @Override
     protected int setLayoutId() {
         return R.layout.activity_chat;
@@ -110,7 +115,7 @@ public class ChatActivity extends BaseActivity {
         String chatType = getIntent().getStringExtra("chatType");
 //        initLayout();
         //new出EaseChatFragment或其子类的实例
-        EaseChatFragment chatFragment = new EaseChatFragment();
+        chatFragment = new EaseChatFragment();
         String userCode = getIntent().getStringExtra("userCode");
         String userName = getIntent().getStringExtra("userName");
 
@@ -243,7 +248,7 @@ public class ChatActivity extends BaseActivity {
 
     private void addFloatMenuItem() {
         MenuItem itemZS = new MenuItem(BackGroudSeletor.getdrawble("bg_zs_normal",
-                Objects.requireNonNull(this)),"主诉") {
+                this),"主诉") {
             @Override
             public void action() {
                 mFloatballManager.closeMenu();
@@ -255,7 +260,7 @@ public class ChatActivity extends BaseActivity {
             }
         };
         MenuItem itemXBS = new MenuItem(BackGroudSeletor.getdrawble("bg_xbs_normal",
-                Objects.requireNonNull(this)),"现病史") {
+                this),"现病史") {
             @Override
             public void action() {
                 mFloatballManager.closeMenu();
@@ -267,7 +272,7 @@ public class ChatActivity extends BaseActivity {
             }
         };
         MenuItem itemJWS = new MenuItem(BackGroudSeletor.getdrawble("bg_jws_normal",
-                Objects.requireNonNull(this)),"既往史") {
+                this),"既往史") {
             @Override
             public void action() {
                 mFloatballManager.closeMenu();
@@ -279,7 +284,7 @@ public class ChatActivity extends BaseActivity {
             }
         };
         MenuItem itemCT = new MenuItem(BackGroudSeletor.getdrawble("bg_ct_normal",
-                Objects.requireNonNull(this)),"查体") {
+                this),"查体") {
             @Override
             public void action() {
                 mFloatballManager.closeMenu();
@@ -292,7 +297,7 @@ public class ChatActivity extends BaseActivity {
             }
         };
         MenuItem itemGMS = new MenuItem(BackGroudSeletor.getdrawble("bg_gms_normal",
-                Objects.requireNonNull(this)),"过敏史") {
+                this),"过敏史") {
             @Override
             public void action() {
                 mFloatballManager.closeMenu();
@@ -305,7 +310,7 @@ public class ChatActivity extends BaseActivity {
             }
         };
         MenuItem itemZLJY = new MenuItem(BackGroudSeletor.getdrawble("bg_zljy_normal",
-                Objects.requireNonNull(this)),"治疗建议") {
+                this),"治疗建议") {
             @Override
             public void action() {
                 mFloatballManager.closeMenu();
@@ -319,7 +324,7 @@ public class ChatActivity extends BaseActivity {
         };
 
         MenuItem itemJCJY = new MenuItem(BackGroudSeletor.getdrawble("bg_jcjy_normal",
-                Objects.requireNonNull(this)),"检查检验") {
+                this),"检查检验") {
             @Override
             public void action() {
                 mFloatballManager.closeMenu();
@@ -327,7 +332,7 @@ public class ChatActivity extends BaseActivity {
         };
 
         MenuItem itemCFJ = new MenuItem(BackGroudSeletor.getdrawble("bg_cfj_normal",
-                Objects.requireNonNull(this)),"处方笺") {
+                this),"处方笺") {
             @Override
             public void action() {
                 mFloatballManager.closeMenu();
@@ -335,7 +340,7 @@ public class ChatActivity extends BaseActivity {
         };
 
         MenuItem itemBL = new MenuItem(BackGroudSeletor.getdrawble("bg_bl",
-                Objects.requireNonNull(this)),"") {
+               this),"") {
             @Override
             public void action() {
                 mFloatballManager.closeMenu();
@@ -363,11 +368,36 @@ public class ChatActivity extends BaseActivity {
         hashMap.put("mainPatientCode",mainPatientCode);
         hashMap.put("mainPatientName",mainPatientName);
         String s = RetrofitUtil.encodeParam(hashMap);
-        ApiHelper.getLocalApi().iMTesting(s).compose(Transformer.switchSchedulers())
+        ApiHelper.getApiService().iMTesting(s).compose(Transformer.switchSchedulers())
                 .subscribe(new CommonDataObserver() {
             @Override
             protected void onSuccessResult(BaseBean baseBean) {
+                int resCode = baseBean.getResCode();
+                if (resCode == 1) {
+                    String resJsonData = baseBean.getResJsonData();
+                    checkImResultBean = GsonUtils.fromJson(resJsonData, CheckImResultBean.class);
+                    orderCode = checkImResultBean.getOrderCode();
+                    String isBinding = checkImResultBean.getIsBinding();
+                    String isSigning = checkImResultBean.getIsSigning();
+                    String isReserveing = checkImResultBean.getIsReserveing();
+                    if (StringUtils.isNotEmpty(isBinding)&&isBinding.equals("1")) {
+                        if (StringUtils.isNotEmpty(isSigning)&&isSigning.equals("0")) {
+                            chatFragment.setSignUpBtnStatus(true);
+                        }else{
+                            chatFragment.setSignUpBtnStatus(false);
+                        }
+                    }else{
+                        chatFragment.setSignUpBtnStatus(false);
+                    }
 
+                    if (StringUtils.isNotEmpty(isReserveing)&&isReserveing.equals("1")) {
+                        mFloatballManager.show();
+                    }else{
+                        mFloatballManager.hide();
+                    }
+
+
+                }
             }
 
             @Override
@@ -376,6 +406,8 @@ public class ChatActivity extends BaseActivity {
             }
         });
     }
+
+
 
     /**
      * 发送保存病例请求

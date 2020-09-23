@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.RotateAnimation;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.blankj.utilcode.util.ToastUtils;
+import com.bumptech.glide.Glide;
 
 import java.util.HashMap;
 
@@ -25,6 +27,7 @@ import www.jykj.com.jykj_zxyl.app_base.http.RetrofitUtil;
 import www.jykj.com.jykj_zxyl.app_base.mvp.AbstractMvpBaseActivity;
 import www.jykj.com.jykj_zxyl.medicalrecord.PatientRecordContract;
 import www.jykj.com.jykj_zxyl.medicalrecord.PatientRecordPresenter;
+import www.jykj.com.jykj_zxyl.util.CircleImageView;
 import www.jykj.com.jykj_zxyl.util.DateUtils;
 
 /**
@@ -95,12 +98,12 @@ public class PatientRecordActivity
     TextView medicalHistoryTv;
     @BindView(R.id.past)
     TextView pastTv;
-    @BindView(R.id.physical)
-    TextView lookTv;
+//    @BindView(R.id.physical)
+//    TextView lookTv;
     @BindView(R.id.examination)
     TextView examinationTv;
-    @BindView(R.id.treatment)
-    TextView suggestTv;
+//    @BindView(R.id.treatment)
+//    TextView suggestTv;
     @BindView(R.id.ed_chief)
     EditText chiefEt;
     @BindView(R.id.ed_history)
@@ -113,15 +116,29 @@ public class PatientRecordActivity
     EditText ed_examinationEt;
     @BindView(R.id.ed_suggest)
     EditText suggestEt;
-    String orderCode;
-
+    @BindView(R.id.patientName)
+    TextView paientName;
+    @BindView(R.id.usergendder)
+    TextView userGendder;
+    @BindView(R.id.userage)
+    TextView userAge;
+    @BindView(R.id.userHead)
+    CircleImageView headView;
+    private String gendder;
+    private String orderCode;//订单Id
+    private String patientCode;//患者code
+    private String patientName;//患者名称
     @Override
     protected void onBeforeSetContentLayout() {
         super.onBeforeSetContentLayout();
         Bundle extras = this.getIntent().getExtras();
-         orderCode = extras.getString("orderCode");
-    }
+        if (extras!=null) {
+            orderCode = extras.getString("orderCode");
+            patientCode=extras.getString("patientCode");
+            patientName=extras.getString("patientName");
+        }
 
+    }
     @Override
     protected int setLayoutId() {
         return R.layout.activity_patient_record;
@@ -149,6 +166,7 @@ public class PatientRecordActivity
 
     @OnClick({R.id.lin_chief, R.id.lin_history, R.id.lin_past, R.id.lin_look, R.id.lin_examination,
             R.id.lin_suggest, R.id.confirm, R.id.download,R.id.left_image_id
+            ,R.id.ll_prescription_notes_root,R.id.ll_inspection_root
     })
     public void onClick(View view) {
         switch (view.getId()) {
@@ -182,6 +200,22 @@ public class PatientRecordActivity
             case R.id.left_image_id:
                 finish();
                 break;
+            case R.id.ll_prescription_notes_root:
+                Bundle prescriptionBundle=new Bundle();
+                prescriptionBundle.putString("patientCode",patientCode);
+                prescriptionBundle.putString("patientName",patientName);
+                prescriptionBundle.putString("orderId",orderCode);
+                startActivity(PrescriptionNotesListActivity.class,prescriptionBundle);
+                break;
+            case R.id.ll_inspection_root:
+                Bundle inspectionBundle=new Bundle();
+                inspectionBundle.putString("patientCode",patientCode);
+                inspectionBundle.putString("patientName",patientName);
+                inspectionBundle.putString("orderId",orderCode);
+                startActivity(InspectionOrderListActivity.class,inspectionBundle);
+
+                break;
+                default:
 
         }
     }
@@ -239,7 +273,7 @@ public class PatientRecordActivity
         docName.setText(det.getDoctorName());
         departmentName.setText(det.getDepartmentSecondName());
         diaOrder.setText(det.getTreatmentCardNum());
-        diaTime.setText(DateUtils.getDateToStringYYYMMDDHHMM(det.getCreateDate()));
+        diaTime.setText(DateUtils.getDateToYYYYMMDD(det.getCreateDate()));
 
 //        chiefState.setVisibility(det.getFlagWriteChiefComplaint() == 1 ? View.VISIBLE : View.GONE);
         chiefState.setImageResource(det.getFlagWriteChiefComplaint() == 1 ? R.mipmap.iv_filled : R.mipmap.iv_noinput);
@@ -258,12 +292,32 @@ public class PatientRecordActivity
 //        checkState.setVisibility(det.getFlagWriteInspection() == 1 ? View.VISIBLE : View.GONE);
         checkState.setImageResource(det.getFlagWriteChiefComplaint() == 1 ? R.mipmap.iv_filled : R.mipmap.iv_noinput);
 
-        chiefTv.setText(det.getChiefComplaint());
-        medicalHistoryTv.setText(det.getHistoryNew());
-        pastTv.setText(det.getHistoryPast());
-        examinationTv.setText(det.getHistoryAllergy());
-        lookTv.setText(det.getMedicalExamination());
-        suggestTv.setText(det.getTreatmentProposal());
+        chiefEt.setText(det.getChiefComplaint());
+        newEt.setText(det.getHistoryNew());
+        pastEt.setText(det.getHistoryPast());
+        ed_examinationEt.setText(det.getHistoryAllergy());
+//        lookTv.setText(det.getMedicalExamination());
+        suggestEt.setText(det.getTreatmentProposal());
+        paientName.setText(det.getPatientName());
+
+        chiefTv.setText(TextUtils.isEmpty(det.getPatientChiefComplaint()) ? "无" : det.getPatientChiefComplaint());
+        medicalHistoryTv.setText(TextUtils.isEmpty(det.getPatientHistoryNew()) ? "无" : det.getPatientHistoryNew());
+        pastTv.setText( TextUtils.isEmpty(det.getPatientHistoryPast()) ? "无" : det.getPatientHistoryPast());
+        examinationTv.setText(TextUtils.isEmpty(det.getPatientHistoryAllergy()) ? "无" : det.getPatientHistoryAllergy());
+        switch (det.getPatientGender()) {
+            case 0:
+                gendder ="未知";
+                break;
+            case 1:
+                gendder ="男";
+                break;
+            case 2:
+                gendder ="女";
+                break;
+        }
+        userGendder.setText(gendder);
+        userAge.setText(String.valueOf(det.getPatientAge()));
+        Glide.with(PatientRecordActivity.this).load(det.getPatientLogoUrl()).into(headView);
     }
 
     @Override

@@ -267,6 +267,8 @@ public class MyClinicDetialActivity extends AbstractMvpBaseActivity<MyClinicDeti
                 PatientInfoBean patientInfoBean = mPatientInfoBeans.get(pos);
                 Bundle bundle=new Bundle();
                 bundle.putString("orderCode",patientInfoBean.getOrderCode());
+                bundle.putString("patientCode",patientInfoBean.getMainPatientCode());
+                bundle.putString("patientName",patientInfoBean.getMainPatientName());
                 startActivity(PatientRecordActivity.class,bundle);
             }
         });

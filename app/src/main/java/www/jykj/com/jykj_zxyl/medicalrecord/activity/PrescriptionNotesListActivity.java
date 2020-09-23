@@ -45,7 +45,7 @@ public class PrescriptionNotesListActivity extends AbstractMvpBaseActivity<
     private String patientCode;//患者code
     private String patientName;//患者名称
     private PrescriptionNotesAdapter prescriptionNotesAdapter;//处方笺适配器
-    private List<PrescriptionNotesBean> list;
+    private List<PrescriptionNotesBean> list;//处方笺列表
     private LoadingLayoutManager mLoadingLayoutManager;//重新加载布局
     @Override
     protected void onBeforeSetContentLayout() {
@@ -194,14 +194,20 @@ public class PrescriptionNotesListActivity extends AbstractMvpBaseActivity<
     }
 
     @Override
+    public void showEmpty() {
+        mLoadingLayoutManager.showEmpty();
+    }
+
+    @Override
+    public void showRetry() {
+        mLoadingLayoutManager.showError();
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        switch (resultCode) {
-            case 1000:
-                mPresenter.sendPrescriptionNotesRequest(orderId,this);
-                break;
-                default:
+        if (resultCode == 1000) {
+            mPresenter.sendPrescriptionNotesRequest(orderId, this);
         }
     }
 }

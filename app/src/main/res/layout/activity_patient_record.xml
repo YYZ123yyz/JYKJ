@@ -1,20 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:zhy="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    android:orientation="vertical">
+    android:background="@color/white">
 
     <include
         android:id="@+id/title_bar"
-        layout="@layout/item_toolbar">
-    </include>
+        layout="@layout/item_toolbar"/>
 
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title_bar"
+        android:layout_above="@+id/lin_confirm"
+        android:layout_marginBottom="20dp"
+        >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -56,9 +58,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="李医生"
-                            android:textStyle="bold"
                             android:textColor="@color/encode_view"
-                            android:textSize="16sp" />
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/usergendder"
@@ -218,15 +220,14 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <View
-                    style="@style/div_h"/>
+                <View style="@style/div_h" />
 
                 <LinearLayout
 
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#fff"
                     android:animateLayoutChanges="true"
+                    android:background="#fff"
                     android:orientation="vertical">
 
                     <LinearLayout
@@ -243,18 +244,17 @@
                             android:layout_weight="1"
                             android:drawablePadding="10dp"
                             android:text="主诉"
-                            android:textSize="15sp"
-                            android:textColor="@color/black" />
+                            android:textColor="@color/black"
+                            android:textSize="15sp" />
 
                         <ImageView
                             android:id="@+id/input_chief_state"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@mipmap/iv_filled"
                             android:layout_gravity="center_vertical"
                             android:layout_marginRight="5dp"
-                            android:visibility="visible"
-                            />
+                            android:src="@mipmap/iv_filled"
+                            android:visibility="visible" />
 
 
                         <ImageView
@@ -271,11 +271,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:visibility="gone"
-                        >
+                        android:visibility="gone">
 
-                        <View
-                            style="@style/div_h"/>
+                        <View style="@style/div_h" />
 
                         <TextView
                             android:id="@+id/chief"
@@ -288,37 +286,32 @@
                             android:textColor="@color/textColor_vo"
                             android:visibility="visible" />
 
-                        <View
-                            style="@style/div_h"/>
+                        <View style="@style/div_h" />
 
                         <EditText
                             android:id="@+id/ed_chief"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="@null"
-                            android:textColorHint="@color/black"
-                            android:hint="请输入内容"
                             android:layout_marginLeft="20dp"
                             android:layout_marginTop="10dp"
                             android:layout_marginBottom="10dp"
-                            android:textSize="15sp"
-                            />
+                            android:background="@null"
+                            android:hint="请输入内容"
+                            android:textColorHint="@color/black"
+                            android:textSize="15sp" />
                     </LinearLayout>
-
-
 
 
                 </LinearLayout>
 
-                <View
-                    style="@style/div_h"/>
+                <View style="@style/div_h" />
                 <!--病史-->
                 <LinearLayout
 
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#fff"
                     android:animateLayoutChanges="true"
+                    android:background="#fff"
                     android:orientation="vertical">
 
                     <LinearLayout
@@ -335,18 +328,17 @@
                             android:layout_weight="1"
                             android:drawablePadding="10dp"
                             android:text="现病史"
-                            android:textSize="15sp"
-                            android:textColor="@color/black" />
+                            android:textColor="@color/black"
+                            android:textSize="15sp" />
 
                         <ImageView
                             android:id="@+id/input_history_state"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@mipmap/iv_filled"
                             android:layout_gravity="center_vertical"
                             android:layout_marginRight="5dp"
-                            android:visibility="visible"
-                            />
+                            android:src="@mipmap/iv_filled"
+                            android:visibility="visible" />
 
 
                         <ImageView
@@ -364,11 +356,9 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
 
-                        android:visibility="gone"
-                        >
+                        android:visibility="gone">
 
-                        <View
-                            style="@style/div_h"/>
+                        <View style="@style/div_h" />
 
                         <TextView
                             android:id="@+id/medicalhistory"
@@ -382,27 +372,24 @@
                             android:visibility="visible" />
 
 
-                        <View
-                            style="@style/div_h"/>
+                        <View style="@style/div_h" />
 
                         <EditText
                             android:id="@+id/ed_history"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="@null"
-                            android:textColorHint="@color/black"
-                            android:hint="请输入内容"
                             android:layout_marginLeft="20dp"
                             android:layout_marginTop="10dp"
                             android:layout_marginBottom="10dp"
-                            android:textSize="15sp"
-                            />
+                            android:background="@null"
+                            android:hint="请输入内容"
+                            android:textColorHint="@color/black"
+                            android:textSize="15sp" />
                     </LinearLayout>
 
                 </LinearLayout>
 
-                <View
-                    style="@style/div_h"/>
+                <View style="@style/div_h" />
 
 
                 <!--既往病史-->
@@ -410,8 +397,8 @@
 
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#fff"
                     android:animateLayoutChanges="true"
+                    android:background="#fff"
                     android:orientation="vertical">
 
                     <LinearLayout
@@ -423,22 +410,21 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
                             android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="10dp"
                             android:layout_weight="1"
                             android:text="既往病史"
-                            android:textSize="15sp"
-                            android:textColor="@color/black" />
+                            android:textColor="@color/black"
+                            android:textSize="15sp" />
 
                         <ImageView
                             android:id="@+id/input_past_state"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@mipmap/iv_filled"
                             android:layout_gravity="center_vertical"
                             android:layout_marginRight="5dp"
-                            android:visibility="visible"
-                            />
+                            android:src="@mipmap/iv_filled"
+                            android:visibility="visible" />
 
 
                         <ImageView
@@ -455,11 +441,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:visibility="gone"
-                        >
+                        android:visibility="gone">
 
-                        <View
-                            style="@style/div_h"/>
+                        <View style="@style/div_h" />
 
                         <TextView
                             android:id="@+id/past"
@@ -469,39 +453,151 @@
                             android:layout_marginTop="10dp"
                             android:layout_marginBottom="10dp"
                             android:text="66666666666666666"
-                            android:textColor="#666666"
-                            />
+                            android:textColor="#666666" />
 
-                        <View
-                            style="@style/div_h"/>
+                        <View style="@style/div_h" />
 
                         <EditText
                             android:id="@+id/ed_past"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="@null"
-                            android:textColorHint="@color/black"
-                            android:hint="请输入内容"
                             android:layout_marginLeft="20dp"
                             android:layout_marginTop="10dp"
                             android:layout_marginBottom="10dp"
-                            android:textSize="15sp"
-                            />
+                            android:background="@null"
+                            android:hint="请输入内容"
+                            android:textColorHint="@color/black"
+                            android:textSize="15sp" />
                     </LinearLayout>
 
 
                 </LinearLayout>
 
-                <View
-                    style="@style/div_h"/>
+
+                <View style="@style/div_h" />
+
+                <!--过敏史-->
+                <LinearLayout
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:animateLayoutChanges="true"
+                    android:background="#fff"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:id="@+id/lin_examination"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="10dp"
+                            android:layout_weight="1"
+                            android:text="过敏史"
+                            android:textColor="@color/black"
+                            android:textSize="15sp" />
+
+
+                        <ImageView
+                            android:id="@+id/input_aller_state"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginRight="5dp"
+                            android:src="@mipmap/iv_filled"
+                            android:visibility="visible" />
+
+                        <ImageView
+                            android:id="@+id/dispaly_examination"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginRight="10dp"
+                            android:src="@mipmap/dispaly" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/lin_examination_msg"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+                        <View style="@style/div_h" />
+
+                        <TextView
+                            android:id="@+id/examination"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:text="2222222"
+                            android:textColor="@color/textColor_vo" />
+
+                        <View style="@style/div_h" />
+
+                        <RadioGroup
+                            android:id="@+id/examination_radio"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical|end"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginRight="15dp"
+                            android:orientation="horizontal">
+
+                            <RadioButton
+                                android:id="@+id/radio_yes"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:button="@null"
+                                android:drawableLeft="@drawable/selector_check"
+                                android:drawablePadding="4dp"
+                                android:text="有" />
+
+                            <RadioButton
+                                android:id="@+id/radio_no"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:button="@null"
+                                android:drawableLeft="@drawable/selector_check"
+                                android:drawablePadding="4dp"
+                                android:text="无" />
+
+                        </RadioGroup>
+
+
+                        <EditText
+                            android:id="@+id/ed_examination"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:background="@null"
+                            android:hint="请输入内容"
+                            android:textColorHint="@color/black"
+                            android:textSize="15sp" />
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+
+                <View style="@style/div_h" />
 
                 <!--查体情况-->
                 <LinearLayout
 
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#fff"
                     android:animateLayoutChanges="true"
+                    android:background="#fff"
                     android:orientation="vertical">
 
                     <LinearLayout
@@ -513,22 +609,21 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
                             android:layout_marginLeft="10dp"
                             android:layout_weight="1"
-                            android:layout_gravity="center_vertical"
                             android:text="查体"
-                            android:textSize="15sp"
-                            android:textColor="@color/black" />
+                            android:textColor="@color/black"
+                            android:textSize="15sp" />
 
                         <ImageView
                             android:id="@+id/input_look_state"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@mipmap/iv_filled"
                             android:layout_gravity="center_vertical"
                             android:layout_marginRight="5dp"
-                            android:visibility="visible"
-                            />
+                            android:src="@mipmap/iv_filled"
+                            android:visibility="visible" />
 
 
                         <ImageView
@@ -545,11 +640,11 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:visibility="gone"
-                        >
+                        android:visibility="gone">
 
                         <View
-                            style="@style/div_h"/>
+                            style="@style/div_h"
+                            android:visibility="gone" />
 
                         <TextView
                             android:id="@+id/physical"
@@ -560,31 +655,25 @@
                             android:layout_marginBottom="10dp"
                             android:text="2222222"
                             android:textColor="#333333"
-                            />
+                            android:visibility="gone" />
 
-                        <View
-                            style="@style/div_h"/>
+                        <View style="@style/div_h" />
 
                         <EditText
                             android:id="@+id/ed_look"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="@null"
-                            android:textColorHint="@color/black"
-                            android:hint="请输入内容"
                             android:layout_marginLeft="20dp"
                             android:layout_marginTop="10dp"
                             android:layout_marginBottom="10dp"
-                            android:textSize="15sp"
-                            />
+                            android:background="@null"
+                            android:hint="请输入内容"
+                            android:textColorHint="@color/black"
+                            android:textSize="15sp" />
                     </LinearLayout>
 
 
-
-
                 </LinearLayout>
-
-
 
 
                 <!--临床诊断-->
@@ -598,27 +687,26 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="45dp"
-                        android:orientation="horizontal"
-                        >
+                        android:orientation="horizontal">
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
                             android:layout_marginLeft="10dp"
                             android:layout_weight="1"
-                            android:layout_gravity="center_vertical"
                             android:text="临床诊断"
-                            android:textSize="15sp"
-                            android:textColor="@color/black" />
+                            android:textColor="@color/black"
+                            android:textSize="15sp" />
 
                         <ImageView
                             android:id="@+id/input_diag_state"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@mipmap/iv_filled"
                             android:layout_gravity="center_vertical"
                             android:layout_marginRight="5dp"
-                            android:visibility="gone"
-                            />
+                            android:src="@mipmap/iv_filled"
+                            android:visibility="gone" />
 
 
                         <ImageView
@@ -636,11 +724,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:visibility="gone"
-                        >
+                        android:visibility="gone">
 
-                        <View
-                            style="@style/div_h"/>
+                        <View style="@style/div_h" />
 
                         <com.zhy.view.flowlayout.TagFlowLayout
                             android:id="@+id/id_flowlayout"
@@ -651,135 +737,14 @@
 
                     </LinearLayout>
 
-                    <View
-                        style="@style/div_h"/>
+                    <View style="@style/div_h" />
 
-                    <!--过敏史-->
-                    <LinearLayout
-
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="#fff"
-                        android:animateLayoutChanges="true"
-                        android:orientation="vertical">
-
-                        <LinearLayout
-                            android:id="@+id/lin_examination"
-                            android:layout_width="match_parent"
-                            android:layout_height="45dp"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="10dp"
-                                android:layout_gravity="center_vertical"
-                                android:layout_weight="1"
-                                android:text="过敏史"
-                                android:textSize="15sp"
-                                android:textColor="@color/black" />
-
-                            <RadioGroup
-                                android:id="@+id/examination_radio"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:orientation="horizontal"
-                                android:layout_marginRight="5dp"
-                                >
-
-                                <RadioButton
-                                    android:id="@+id/radio_yes"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="有"
-                                    android:button="@null"
-                                    android:drawableLeft="@drawable/selector_check"
-                                    android:drawablePadding="4dp"
-                                    />
-
-                                <RadioButton
-                                    android:id="@+id/radio_no"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="无"
-                                    android:button="@null"
-                                    android:drawableLeft="@drawable/selector_check"
-                                    android:drawablePadding="4dp"
-                                    />
-
-                            </RadioGroup>
-
-
-
-                            <ImageView
-                                android:id="@+id/input_aller_state"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:src="@mipmap/iv_filled"
-                                android:layout_gravity="center_vertical"
-                                android:layout_marginRight="5dp"
-                                android:visibility="gone"
-                                />
-
-                            <ImageView
-                                android:id="@+id/dispaly_examination"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:layout_marginRight="10dp"
-                                android:src="@mipmap/dispaly" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:id="@+id/lin_examination_msg"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:visibility="gone"
-                            >
-                            <View
-                                style="@style/div_h"/>
-
-                            <TextView
-                                android:id="@+id/examination"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="36dp"
-                                android:layout_marginTop="5dp"
-                                android:layout_marginBottom="10dp"
-                                android:text="2222222"
-                                android:textColor="#333333"
-                                />
-
-                            <View
-                                style="@style/div_h"/>
-
-                            <EditText
-                                android:id="@+id/ed_examination"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:background="@null"
-                                android:textColorHint="@color/black"
-                                android:hint="请输入内容"
-                                android:layout_marginLeft="20dp"
-                                android:layout_marginTop="10dp"
-                                android:layout_marginBottom="10dp"
-                                android:textSize="15sp"
-                                />
-
-                        </LinearLayout>
-                        <View
-                            style="@style/div_h"/>
-
-
-                    </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="#fff"
                         android:animateLayoutChanges="true"
+                        android:background="#fff"
                         android:orientation="vertical">
 
                         <LinearLayout
@@ -796,18 +761,17 @@
                                 android:layout_weight="1"
                                 android:drawablePadding="10dp"
                                 android:text="治疗建议"
-                                android:textSize="15sp"
-                                android:textColor="@color/black" />
+                                android:textColor="@color/black"
+                                android:textSize="15sp" />
 
                             <ImageView
                                 android:id="@+id/input_suggest_state"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:src="@mipmap/iv_filled"
                                 android:layout_gravity="center_vertical"
                                 android:layout_marginRight="5dp"
-                                android:visibility="visible"
-                                />
+                                android:src="@mipmap/iv_filled"
+                                android:visibility="visible" />
 
                             <ImageView
                                 android:id="@+id/dispaly_treatment"
@@ -823,45 +787,40 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
-                            android:visibility="gone"
-                            >
-                            <View
-                                style="@style/div_h"/>
+                            android:visibility="gone">
+                            <!--                            <View-->
+                            <!--                                style="@style/div_h"/>-->
 
-                            <TextView
-                                android:id="@+id/treatment"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="36dp"
-                                android:layout_marginTop="5dp"
-                                android:layout_marginBottom="10dp"
-                                android:text="2222222"
-                                android:textColor="#333333"
-                                />
+                            <!--                            <TextView-->
+                            <!--                                android:id="@+id/treatment"-->
+                            <!--                                android:layout_width="wrap_content"-->
+                            <!--                                android:layout_height="wrap_content"-->
+                            <!--                                android:layout_marginLeft="36dp"-->
+                            <!--                                android:layout_marginTop="5dp"-->
+                            <!--                                android:layout_marginBottom="10dp"-->
+                            <!--                                android:text="2222222"-->
+                            <!--                                android:textColor="#333333"-->
+                            <!--                                />-->
 
-                            <View
-                                style="@style/div_h"/>
+                            <View style="@style/div_h" />
 
 
                             <EditText
                                 android:id="@+id/ed_suggest"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:background="@null"
-                                android:textColorHint="@color/black"
-                                android:hint="请输入内容"
                                 android:layout_marginLeft="20dp"
                                 android:layout_marginTop="10dp"
                                 android:layout_marginBottom="10dp"
-                                android:textSize="15sp"
-                                />
+                                android:background="@null"
+                                android:hint="请输入内容"
+                                android:textColorHint="@color/black"
+                                android:textSize="15sp" />
 
                         </LinearLayout>
                     </LinearLayout>
 
                 </LinearLayout>
-
-
 
 
                 <!--检查检验-->
@@ -875,29 +834,30 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="45dp"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:id="@+id/ll_inspection_root"
+                        >
 
                         <TextView
                             android:layout_width="0dp"
-                            android:layout_weight="1"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:layout_marginLeft="10dp"
+                            android:layout_weight="1"
                             android:drawablePadding="10dp"
                             android:text="检查检验"
-                            android:textSize="15sp"
-                            android:textColor="@color/black" />
+                            android:textColor="@color/black"
+                            android:textSize="15sp" />
 
 
                         <ImageView
                             android:id="@+id/input_check_state"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@mipmap/iv_filled"
                             android:layout_gravity="center_vertical"
                             android:layout_marginRight="5dp"
-                            android:visibility="visible"
-                            />
+                            android:src="@mipmap/iv_filled"
+                            android:visibility="visible" />
 
 
                         <ImageView
@@ -912,11 +872,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:visibility="gone"
-                        >
+                        android:visibility="gone">
 
-                        <View
-                            style="@style/div_h"/>
+                        <View style="@style/div_h" />
 
                         <com.zhy.view.flowlayout.TagFlowLayout
                             android:id="@+id/flowlayout_check"
@@ -936,14 +894,16 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
                 android:layout_marginTop="10dp"
+                android:background="@color/white"
                 android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:id="@+id/ll_prescription_notes_root"
+                    >
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -953,8 +913,8 @@
                         android:layout_weight="1"
                         android:drawablePadding="10dp"
                         android:text="处方笺"
-                        android:textSize="15sp"
-                        android:textColor="@color/black" />
+                        android:textColor="@color/black"
+                        android:textSize="15sp" />
 
                     <ImageView
                         android:id="@+id/dispaly_fullpayment"
@@ -968,10 +928,9 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    >
-                    <View
-                        style="@style/div_h"/>
+                    android:orientation="vertical">
+
+                    <View style="@style/div_h" />
 
                     <com.zhy.view.flowlayout.TagFlowLayout
                         android:id="@+id/flowlayout_prescr"
@@ -985,12 +944,10 @@
                         android:id="@+id/drug_recycle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:visibility="gone"
-                        />
+                        android:visibility="gone" />
 
 
                 </LinearLayout>
-
 
 
             </LinearLayout>
@@ -1016,35 +973,44 @@
                     android:textColor="#fff" />
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/lin_confirm"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="120dp"
-                android:layout_marginBottom="60dp">
 
-                <Button
-                    android:id="@+id/download"
-                    android:layout_width="wrap_content"
-                    android:layout_height="35dp"
-                    android:layout_marginLeft="42.5dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/bg_paid"
-                    android:text="取消"
-                    android:textColor="@color/white" />
-
-                <Button
-                    android:id="@+id/confirm"
-                    android:layout_width="wrap_content"
-                    android:layout_height="35dp"
-                    android:layout_marginLeft="90dp"
-                    android:layout_marginRight="42.5dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/bg_paid"
-                    android:text="发送"
-                    android:textColor="@color/white" />
-            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 
-</LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/lin_confirm"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp">
+
+        <Button
+            android:id="@+id/download"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_marginRight="30dp"
+            android:layout_toLeftOf="@+id/middle"
+            android:background="@drawable/bg_paid"
+            android:text="发送"
+            android:textColor="@color/white" />
+
+        <View
+            android:id="@+id/middle"
+            android:layout_width="1dp"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true" />
+
+        <Button
+            android:id="@+id/confirm"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_marginLeft="30dp"
+            android:layout_toRightOf="@+id/middle"
+            android:background="@drawable/bg_paid"
+            android:text="保存"
+            android:textColor="@color/white" />
+
+
+    </RelativeLayout>
+</RelativeLayout>

@@ -11,6 +11,7 @@ public class PrescriptionMedicinalItemDataBean {
     private String drugName;
     private String drugCode;
     private String drugOrderCode;
+    private String orderCode;
     private String prescriptionTypeName;
     private String prescriptionTypeCode;
     private String takeMedicinalRateName;
@@ -153,5 +154,13 @@ public class PrescriptionMedicinalItemDataBean {
 
     public void setDrugOrderCode(String drugOrderCode) {
         this.drugOrderCode = drugOrderCode;
+    }
+
+    public String getOrderCode() {
+        return orderCode;
+    }
+
+    public void setOrderCode(String orderCode) {
+        this.orderCode = orderCode;
     }
 }

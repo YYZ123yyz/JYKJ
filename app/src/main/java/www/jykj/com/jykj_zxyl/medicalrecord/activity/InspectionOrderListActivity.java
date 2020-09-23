@@ -28,6 +28,7 @@ import www.jykj.com.jykj_zxyl.app_base.base_bean.InspectionItemUploadBean;
 import www.jykj.com.jykj_zxyl.app_base.base_utils.CollectionUtils;
 import www.jykj.com.jykj_zxyl.app_base.base_utils.StringUtils;
 import www.jykj.com.jykj_zxyl.app_base.base_view.BaseToolBar;
+import www.jykj.com.jykj_zxyl.app_base.base_view.LoadingLayoutManager;
 import www.jykj.com.jykj_zxyl.app_base.mvp.AbstractMvpBaseActivity;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.medicalrecord.InspectionItemContract;
@@ -51,6 +52,7 @@ public class InspectionOrderListActivity extends AbstractMvpBaseActivity<Inspect
     TextView tvEnsureBtn;
     @BindView(R.id.rv_list)
     RecyclerView rvList;
+    private LoadingLayoutManager mLoadingLayoutManager;//重新加载布局
     private InspectionItemOrderAdapter mInspectionItemProjectAdapter;
     private List<InspectionItemDataBean> dataBeans;
     private SparseArray<InspectionItemProjectBean> projectSparseArray;
@@ -62,6 +64,7 @@ public class InspectionOrderListActivity extends AbstractMvpBaseActivity<Inspect
     private String orderId;
     private JYKJApplication mApp;
     private boolean isShowLoading;
+
     @Override
     protected void onBeforeSetContentLayout() {
         super.onBeforeSetContentLayout();
@@ -88,6 +91,8 @@ public class InspectionOrderListActivity extends AbstractMvpBaseActivity<Inspect
         mApp = (JYKJApplication) getApplication();
         //初始化ToolBar
         setToolBar();
+        //初始化loading
+        initLoadingAndRetryManager();
         //初始化RecyclerView
         initRecyclerView();
         //添加监听
@@ -100,6 +105,22 @@ public class InspectionOrderListActivity extends AbstractMvpBaseActivity<Inspect
         mPresenter.sendSearchInteractOrderInspectionListRequest(
                 mApp.mViewSysUserDoctorInfoAndHospital.getHospitalInfoId()+""
                 ,orderId,"",this);
+    }
+
+
+    /**
+     * 初始化loading页面
+     */
+    private void initLoadingAndRetryManager() {
+        mLoadingLayoutManager = LoadingLayoutManager.wrap(rvList);
+        mLoadingLayoutManager.setRetryListener(v -> {
+            mLoadingLayoutManager.showLoading();
+            mPresenter.sendSearchInteractOrderInspectionListRequest(
+                    mApp.mViewSysUserDoctorInfoAndHospital.getHospitalInfoId()+""
+                    ,orderId,"",this);
+        });
+        mLoadingLayoutManager.showLoading();
+
     }
 
     /**
@@ -321,6 +342,7 @@ public class InspectionOrderListActivity extends AbstractMvpBaseActivity<Inspect
         dataBeans.addAll(itemDataBeans);
         handlerData(dataBeans);
         mInspectionItemProjectAdapter.notifyDataSetChanged();
+        mLoadingLayoutManager.showContent();
     }
 
     @Override
@@ -349,6 +371,16 @@ public class InspectionOrderListActivity extends AbstractMvpBaseActivity<Inspect
             isShowLoading=false;
         }
 
+    }
+
+    @Override
+    public void showEmpty() {
+       mLoadingLayoutManager.showEmpty();
+    }
+
+    @Override
+    public void showRetry() {
+        mLoadingLayoutManager.showError();
     }
 
     @Override
