@@ -130,12 +130,12 @@ public class GRXX_GRZK_JBXXActivity extends AppCompatActivity {
     private void initLayout() {
         mBack = (LinearLayout) this.findViewById(R.id.li_back);
         mBack.setOnClickListener(new ButtonClick());
-        mUserPhoto = (ImageView) this.findViewById(R.id.iv_activityHZZL_userPhoto);
-        mUserQrCode = (ImageView) this.findViewById(R.id.iv_activityHZZL_userQrCode);
-        mUserAuth = (TextView) this.findViewById(R.id.tv_activityHZZL_userAuthState);
+    //    mUserPhoto = (ImageView) this.findViewById(R.id.iv_activityHZZL_userPhoto);
+     //   mUserQrCode = (ImageView) this.findViewById(R.id.iv_activityHZZL_userQrCode);
+      //  mUserAuth = (TextView) this.findViewById(R.id.tv_activityHZZL_userAuthState);
 
-        mUserAuth = (TextView) this.findViewById(R.id.tv_activityHZZL_userAuthState);
-        mUserName = (TextView) this.findViewById(R.id.tv_activityHZZL_userName);
+   //     mUserAuth = (TextView) this.findViewById(R.id.tv_activityHZZL_userAuthState);
+     //   mUserName = (TextView) this.findViewById(R.id.tv_activityHZZL_userName);
         mUserSex = (TextView) this.findViewById(R.id.tv_activityHZZL_sex);
         mUserMZ = (TextView) this.findViewById(R.id.tv_activityHZZL_MZ);
         mUserJG = (TextView) this.findViewById(R.id.tv_activityHZZL_JG);
@@ -155,7 +155,7 @@ public class GRXX_GRZK_JBXXActivity extends AppCompatActivity {
      */
     private void showViewDate() {
 
-        try {
+     /*   try {
             int avatarResId = Integer.parseInt(mProvideViewSysUserPatientInfoAndRegion.getUserLogoUrl());
             Glide.with(mContext).load(avatarResId).into(mUserPhoto);
         } catch (Exception e) {
@@ -164,20 +164,20 @@ public class GRXX_GRZK_JBXXActivity extends AppCompatActivity {
                     .apply(RequestOptions.placeholderOf(com.hyphenate.easeui.R.mipmap.docter_heard)
                             .diskCacheStrategy(DiskCacheStrategy.ALL))
                     .into(mUserPhoto);
-        }
-        Bitmap bitmap = Util.createQRImage(mProvideViewSysUserPatientInfoAndRegion.getQrCode());
-        mUserQrCode.setImageBitmap(bitmap);
+        }*/
+    /*    Bitmap bitmap = Util.createQRImage(mProvideViewSysUserPatientInfoAndRegion.getQrCode());
+        mUserQrCode.setImageBitmap(bitmap);*/
 
-        if (mProvideViewSysUserPatientInfoAndRegion.getFlagPatientStatus() == 0)
+      /*  if (mProvideViewSysUserPatientInfoAndRegion.getFlagPatientStatus() == 0)
             mUserAuth.setText("未认证");
         else
             mUserAuth.setText("已认证");
-
-        if (mProvideViewSysUserPatientInfoAndRegion.getUserName() == null || "".equals(mProvideViewSysUserPatientInfoAndRegion.getUserName()))
+*/
+      /*  if (mProvideViewSysUserPatientInfoAndRegion.getUserName() == null || "".equals(mProvideViewSysUserPatientInfoAndRegion.getUserName()))
             mUserName.setText("未设置");
         else
             mUserName.setText(mProvideViewSysUserPatientInfoAndRegion.getUserName());
-
+*/
         if (mProvideViewSysUserPatientInfoAndRegion.getGender() == 0)
             mUserSex.setText("未知");
         else if (mProvideViewSysUserPatientInfoAndRegion.getGender() == 1)
@@ -262,6 +262,7 @@ public class GRXX_GRZK_JBXXActivity extends AppCompatActivity {
                     provideViewSysUserPatientInfoAndRegion.setSearchPatientCode(mPatientCode);
 
                     mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + new Gson().toJson(provideViewSysUserPatientInfoAndRegion), Constant.SERVICEURL + "patientDataControlle/searchDoctorManagePatientStateResBasic");
+                    Log.e("TAG", "基本信息: "+mNetRetStr );
                     NetRetEntity netRetEntity = new Gson().fromJson(mNetRetStr, NetRetEntity.class);
                     if (netRetEntity.getResCode() == 0) {
                         NetRetEntity retEntity = new NetRetEntity();

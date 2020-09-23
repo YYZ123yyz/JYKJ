@@ -74,7 +74,7 @@ public class Rv_CoachingAdapter extends RecyclerView.Adapter<Rv_CoachingAdapter.
         if (minute!=0) {
             viewHolder.time.setText(minute+"分钟，");
         }else{
-            viewHolder.time.setText(" 分钟数，");
+            viewHolder.time.setText("");
 
         }
         int frequency = detectBean.getFrequency();
@@ -84,7 +84,7 @@ public class Rv_CoachingAdapter extends RecyclerView.Adapter<Rv_CoachingAdapter.
         }else{
             viewHolder.frequency.setText("频次");
         }
-        if(datas.get(position).getConfigDetailCode().equals("10")){
+        if(datas.get(position).getConfigDetailName().equals("图文")){
             viewHolder.time.setVisibility(View.GONE);
             //频次
             viewHolder.lin_frequency.setOnClickListener(new View.OnClickListener() {

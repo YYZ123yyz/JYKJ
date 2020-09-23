@@ -52,6 +52,15 @@ public class DateUtils {
         return res;
     }
 
+    public static String stampToDates(long s){
+        String res;
+         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        long lt = new Long(s);
+        Date date = new Date(lt);
+        res = simpleDateFormat.format(date);
+        return res;
+    }
+
 
     public static Date getDate(String time){
         SimpleDateFormat sdr = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.CHINA);
@@ -72,7 +81,12 @@ public class DateUtils {
         return string;
     }
 
-
+    public static String getDates(Date data) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(
+                "yyyy-MM-dd HH:mm:ss");
+        String string = simpleDateFormat.format(data);
+        return string;
+    }
     /**
      * 是否小于当前日期
      * @param startTime 开始时间

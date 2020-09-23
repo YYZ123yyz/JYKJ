@@ -59,7 +59,7 @@ public class Item_Rv_CoachingAdapter extends RecyclerView.Adapter<Item_Rv_Coachi
      */
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, @SuppressLint("RecyclerView") final int position) {
-         if(datas.get(position).getConfigDetailTypeCode().equals("10")){
+         if(datas.get(position).getMainConfigDetailName().equals("图文")){
              viewHolder.time.setVisibility(View.GONE);
              //频次
              viewHolder.lin_frequency.setOnClickListener(new View.OnClickListener() {

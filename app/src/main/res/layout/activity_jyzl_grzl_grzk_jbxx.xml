@@ -28,7 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="基本信息"
+            android:text="基本健康信息"
             android:textColor="@color/writeColor"
             android:textSize="10pt" />
     </RelativeLayout>
@@ -40,7 +40,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-            <LinearLayout
+          <!--  <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
                 android:background="@color/writeColor"
@@ -63,10 +63,10 @@
                     android:id="@+id/iv_activityHZZL_userPhoto"
                     android:layout_gravity="center_vertical"
                     />
-            </LinearLayout>
+            </LinearLayout>-->
 
 
-            <LinearLayout
+          <!--  <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
                 android:background="@color/writeColor"
@@ -90,9 +90,9 @@
                     android:id="@+id/iv_activityHZZL_userQrCode"
                     android:layout_gravity="center_vertical"
                     />
-            </LinearLayout>
+            </LinearLayout>-->
 
-            <LinearLayout
+            <!--<LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:background="@color/writeColor"
@@ -118,9 +118,9 @@
                     android:textColor="@color/tabColor_nomal"
                     android:layout_gravity="center_vertical"
                     />
-            </LinearLayout>
+            </LinearLayout>-->
 
-            <LinearLayout
+          <!--  <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:background="@color/writeColor"
@@ -146,7 +146,7 @@
                     android:textColor="@color/tabColor_nomal"
                     android:layout_gravity="center_vertical"
                     />
-            </LinearLayout>
+            </LinearLayout>-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
