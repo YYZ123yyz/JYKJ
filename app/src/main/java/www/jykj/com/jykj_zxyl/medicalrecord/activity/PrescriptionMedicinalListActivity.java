@@ -69,6 +69,7 @@ public class PrescriptionMedicinalListActivity extends AbstractMvpBaseActivity<
     private String patientCode;//患者Id
     private String patientName;//患者名称
     private String orderId;//订单Id
+    private String prescribeVoucher;//处方凭证编码(变更用)
     private PrescriptionNotesBean mPrescriptionNotesBean;//当前处方笺
     private JYKJApplication mApp;
 
@@ -81,6 +82,9 @@ public class PrescriptionMedicinalListActivity extends AbstractMvpBaseActivity<
             patientName=extras.getString("patientName");
             orderId=extras.getString("orderId");
             mPrescriptionNotesBean=(PrescriptionNotesBean)extras.getSerializable("result");
+            if (mPrescriptionNotesBean!=null) {
+                prescribeVoucher= mPrescriptionNotesBean.getPrescribeInfo().get(0).getPrescribeVoucher();
+            }
         }
         dataBeans=new ArrayList<>();
         takeMedicinalRateBeans=new ArrayList<>();
@@ -308,7 +312,7 @@ public class PrescriptionMedicinalListActivity extends AbstractMvpBaseActivity<
             }
             List<PrescriptionItemUploadBean> uploadBeans = ConvertUtils.convertPrescriptionLocalToUploadBean(dataBeans, orderId, patientCode, patientName, mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode()
                     , mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
-            mPresenter.sendSaveAndUpdatePrescriptionRequest(uploadBeans,this);
+            mPresenter.sendSaveAndUpdatePrescriptionRequest(uploadBeans,prescribeVoucher,this);
         });
 
     }

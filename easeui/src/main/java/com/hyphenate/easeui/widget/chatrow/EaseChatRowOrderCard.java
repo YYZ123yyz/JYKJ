@@ -109,6 +109,19 @@ public class EaseChatRowOrderCard extends EaseChatRow {
     private String appointMentProject;
     private String appointMentType;
 
+    //病例
+    private RelativeLayout rlMedicalPatient;
+    private RelativeLayout rlMedicalEndTime;
+    private RelativeLayout rlMedicalDoctor;
+    private RelativeLayout rlPatientType;;
+    private TextView tvPatientName;
+    private TextView tvMedicalDoctor;
+    private TextView tvPatientType;
+    private TextView tvMedicalEndTime;
+    private TextView tvOrderConfirmBtn;
+
+    private String patientType;
+    private String opStatus;
 
     private ViewSysUserDoctorInfoAndHospital mViewSysUserDoctorInfoAndHospital;
     private String mNetRetStr;
@@ -172,6 +185,16 @@ public class EaseChatRowOrderCard extends EaseChatRow {
         tvReceivieDoctorValue=findViewById(R.id.tv_receive_doctor_value);
         tvSurplusTimesValue=findViewById(R.id.tv_surplus_times_value);
         tvSurplusDurationValue=findViewById(R.id.tv_surplus_duration_value);
+        rlMedicalPatient=findViewById(R.id.rl_medical_patient);
+        rlMedicalEndTime=findViewById(R.id.rl_medical_end_time);
+        rlMedicalDoctor=findViewById(R.id.rl_medical_doctor);
+        rlPatientType=findViewById(R.id.rl_patient_type);
+        tvPatientName=findViewById(R.id.tv_patient_name);
+        tvMedicalDoctor=findViewById(R.id.tv_medical_doctor);
+        tvPatientType=findViewById(R.id.tv_patient_type);
+        tvMedicalEndTime=findViewById(R.id.tv_medical_end_time);
+        tvOrderConfirmBtn=findViewById(R.id.tv_order_confirm_btn);
+
         addListener();
     }
 
@@ -208,6 +231,8 @@ public class EaseChatRowOrderCard extends EaseChatRow {
         endTime=message.getStringAttribute("endTime","");
         surplusTimes=message.getStringAttribute("surplusTimes","");
 
+        patientType=message.getStringAttribute("patientType","");
+
         mTvMonitValue.setText(monitoringType);
         mTvCoachRateValue.setText(coach);
         mTvSignTimeValue.setText(signUpTime);
@@ -232,6 +257,12 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                 rlSurplusTimes.setVisibility(View.GONE);
                 rlSurplusDuration.setVisibility(View.GONE);
 
+                rlMedicalPatient.setVisibility(View.GONE);
+                rlMedicalEndTime.setVisibility(View.GONE);
+                rlMedicalDoctor.setVisibility(View.GONE);
+                rlPatientType.setVisibility(View.GONE);
+                tvOrderConfirmBtn.setVisibility(View.GONE);
+
 
                 break;
             case "card":
@@ -251,6 +282,12 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                 rlSurplusTimes.setVisibility(View.GONE);
                 rlSurplusDuration.setVisibility(View.GONE);
 
+                rlMedicalPatient.setVisibility(View.GONE);
+                rlMedicalEndTime.setVisibility(View.GONE);
+                rlMedicalDoctor.setVisibility(View.GONE);
+                rlPatientType.setVisibility(View.GONE);
+                tvOrderConfirmBtn.setVisibility(View.GONE);;
+
                 break;
             case "appointment":
                 rlMonitorType.setVisibility(View.GONE);
@@ -268,6 +305,11 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                 rlSurplusTimes.setVisibility(View.GONE);
                 rlSurplusDuration.setVisibility(View.GONE);
 
+                rlMedicalPatient.setVisibility(View.GONE);
+                rlMedicalEndTime.setVisibility(View.GONE);
+                rlMedicalDoctor.setVisibility(View.GONE);
+                rlPatientType.setVisibility(View.GONE);
+                tvOrderConfirmBtn.setVisibility(View.GONE);
                 tvAppointTimeValue.setText(startTime);
                 tvAppointProjectValue.setText(appointMentProject);
                 tvAppointTypeValue.setText(appointMentType);
@@ -292,8 +334,16 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                 rlEndTime.setVisibility(View.VISIBLE);
                 rlSurplusTimes.setVisibility(View.VISIBLE);
                 rlSurplusDuration.setVisibility(View.VISIBLE);
+
+                rlMedicalPatient.setVisibility(View.GONE);
+                rlMedicalEndTime.setVisibility(View.GONE);
+                rlMedicalDoctor.setVisibility(View.GONE);
+                rlPatientType.setVisibility(View.GONE);
+                tvOrderConfirmBtn.setVisibility(View.GONE);
                 tvReceiveTimeValue.setText(receiveTime);
                 tvEndTimeValue.setText(endTime);
+
+                ;
                 switch (appointMentProject) {
                     case "10":
                         mTvCardTitle.setText("图文");
@@ -322,7 +372,32 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                 }
                 tvReceivieDoctorValue.setText(mViewSysUserDoctorInfoAndHospital.getUserName());
                 break;
+            case "medicalRecord":
+                rlMonitorType.setVisibility(View.GONE);
+                rlMonitorRate.setVisibility(View.GONE);
+                rlSignTime.setVisibility(View.GONE);
 
+                rlAppointTime.setVisibility(View.GONE);
+                rlCancelAppointTime.setVisibility(View.GONE);
+                rlAppointProject.setVisibility(View.GONE);
+                rlAppointType.setVisibility(View.GONE);
+
+                rlReceiveTime.setVisibility(View.GONE);
+                rlEndTime.setVisibility(View.GONE);
+                rlSurplusTimes.setVisibility(View.GONE);
+                rlSurplusDuration.setVisibility(View.GONE);
+
+                rlMedicalPatient.setVisibility(View.VISIBLE);
+                rlMedicalEndTime.setVisibility(View.VISIBLE);
+                rlMedicalDoctor.setVisibility(View.VISIBLE);
+                rlPatientType.setVisibility(View.VISIBLE);
+                tvOrderConfirmBtn.setVisibility(View.VISIBLE);
+                tvPatientName.setText(nickName);
+                tvMedicalEndTime.setText(endTime);
+                tvMedicalDoctor.setText(mViewSysUserDoctorInfoAndHospital.getUserName());
+                tvPatientType.setText(patientType);
+
+                break;
 
             default:
 

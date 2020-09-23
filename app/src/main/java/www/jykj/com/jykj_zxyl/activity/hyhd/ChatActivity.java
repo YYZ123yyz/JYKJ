@@ -195,6 +195,7 @@ public class ChatActivity extends BaseActivity {
                 Drawable ballIcon = BackGroudSeletor.getdrawble("bg_bl"
                         , ChatActivity.this);
                 mFloatballManager.updateFloatBallBg(ballIcon);
+                sendMedicalRecordRequest(orderCode);
             }
         });
         sendGetCheckRequest(userCode,userName);
@@ -601,6 +602,34 @@ public class ChatActivity extends BaseActivity {
             }
         });
 
+    }
+
+
+    /**
+     * 发送病例
+     * @param orderCode 订单code
+     */
+    private void sendMedicalRecordRequest(String orderCode){
+        HashMap<String, Object> hashMap = ParameUtil.buildBaseDoctorParam(this);
+        hashMap.put("orderCode",orderCode);
+        String s = RetrofitUtil.encodeParam(hashMap);
+        ApiHelper.getApiService().sendPatientMedicalRecord(s)
+                .compose(Transformer.switchSchedulers()).subscribe(new CommonDataObserver() {
+            @Override
+            protected void onSuccessResult(BaseBean baseBean) {
+                int resCode = baseBean.getResCode();
+                if (resCode==1) {
+
+                }else{
+
+                }
+            }
+
+            @Override
+            protected void onError(String s) {
+                super.onError(s);
+            }
+        });
     }
 
     private void getTime(String orderCode, String treatmentType, String operType, String limitNum) {

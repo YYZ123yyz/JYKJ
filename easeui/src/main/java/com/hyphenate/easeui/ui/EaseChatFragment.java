@@ -1805,6 +1805,9 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
                         default:
                 }
                 break;
+            case "medicalRecord":
+                msgContent=" 病例 ";
+                break;
                 default:
         }
 
@@ -1838,6 +1841,11 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
                 message.setAttribute("endTime",msg.getEndTime());
                 message.setAttribute("surplusTimes",msg.getSurplusTimes());
                 message.setAttribute("appointMentProject",msg.getAppointMentProject());
+                break;
+            case "medicalRecord":
+                message.setAttribute("endTime",msg.getEndTime());
+                message.setAttribute("patientType",msg.getPatientType());
+                message.setAttribute("opStatus",msg.getOpStatus());
                 break;
                 default:
         }

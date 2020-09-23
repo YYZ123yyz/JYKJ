@@ -70,7 +70,8 @@ public class PrescriptionMedicinalContract {
          * @param list 保存更新处方请求
          * @param activity 当前activity
          */
-        void sendSaveAndUpdatePrescriptionRequest(List<PrescriptionItemUploadBean> list, Activity activity);
+        void sendSaveAndUpdatePrescriptionRequest(List<PrescriptionItemUploadBean> list
+                ,String prescribeVoucher, Activity activity);
 
 
         /**

@@ -33,6 +33,9 @@ public class OrderMessage implements Serializable {
     private String surplusTimes;
 
 
+    private String patientType;
+    private String opStatus;
+
     public OrderMessage(String nickName,
                         String imageUrl,
                         String orderId,
@@ -98,6 +101,18 @@ public class OrderMessage implements Serializable {
 
     }
 
+
+    public OrderMessage(String endTime,
+                        String patientType,
+                        String opStatus,
+                        String orderId,
+                        String messageType){
+        this.endTime=endTime;
+        this.patientType=patientType;
+        this.opStatus=opStatus;
+        this.orderId=orderId;
+        this.messageType=messageType;
+    }
 
     public String getPatientCode() {
         return patientCode;
@@ -250,5 +265,21 @@ public class OrderMessage implements Serializable {
 
     public void setSurplusTimes(String surplusTimes) {
         this.surplusTimes = surplusTimes;
+    }
+
+    public String getPatientType() {
+        return patientType;
+    }
+
+    public void setPatientType(String patientType) {
+        this.patientType = patientType;
+    }
+
+    public String getOpStatus() {
+        return opStatus;
+    }
+
+    public void setOpStatus(String opStatus) {
+        this.opStatus = opStatus;
     }
 }

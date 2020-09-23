@@ -920,10 +920,8 @@ public class MyClinicDetialActivity extends AbstractMvpBaseActivity<MyClinicDeti
 
     @Override
     public void getTimelyTreatmentListResult(List<TimelyTreatmentBean> timelyTreatmentBeans) {
-        if (pageIndex == 1) {
-            mTimelyTreatmentBeans.clear();
-            mRefreshLayout2.finishRefresh(500);
-        }
+        mTimelyTreatmentBeans.clear();
+        mRefreshLayout2.finishRefresh(500);
         if (!CollectionUtils.isEmpty(timelyTreatmentBeans)) {
             long times = timelyTreatmentBeans.get(0).getTimes();
             currentWeek = timelyTreatmentBeans.get(0).getWeek();

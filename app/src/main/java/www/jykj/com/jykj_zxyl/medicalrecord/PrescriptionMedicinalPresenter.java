@@ -141,9 +141,11 @@ public class PrescriptionMedicinalPresenter extends BasePresenterImpl
     }
 
     @Override
-    public void sendSaveAndUpdatePrescriptionRequest(List<PrescriptionItemUploadBean> uploadBeans, Activity activity) {
+    public void sendSaveAndUpdatePrescriptionRequest(List<PrescriptionItemUploadBean> uploadBeans
+            ,String prescribeVouche, Activity activity) {
         HashMap<String, Object> hashMap = ParameUtil.buildBaseDoctorParam(activity);
         hashMap.put("prescribeListStr",uploadBeans);
+        hashMap.put("prescribeVouche",prescribeVouche);
         String s = RetrofitUtil.encodeParam(hashMap);
         ApiHelper.getApiService().operUpdMyClinicDetailByPrescribe_200915(s)
                 .compose(Transformer.switchSchedulers(new ILoadingView() {
