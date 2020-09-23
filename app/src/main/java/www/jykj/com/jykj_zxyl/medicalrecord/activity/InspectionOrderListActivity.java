@@ -363,6 +363,7 @@ public class InspectionOrderListActivity extends AbstractMvpBaseActivity<Inspect
     @Override
     public void getUpdateInteractOrderInspectionResult(boolean isSucess, String msg) {
         if (isSucess) {
+            setResult(1000);
             this.finish();
         }else{
             ToastUtils.showToast(msg);

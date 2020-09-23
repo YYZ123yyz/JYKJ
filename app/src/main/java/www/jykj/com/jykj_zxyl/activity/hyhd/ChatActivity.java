@@ -2,11 +2,13 @@ package www.jykj.com.jykj_zxyl.activity.hyhd;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
@@ -181,13 +183,18 @@ public class ChatActivity extends BaseActivity {
         mFloatballManager.setOnFloatBallClickListener(new FloatBallManager.OnFloatBallClickListener() {
             @Override
             public void onFloatBallClick() {
-
                 ivTransparent.setVisibility(View.VISIBLE);
+                Drawable ballIcon = BackGroudSeletor.getdrawble("bg_fs"
+                        , ChatActivity.this);
+                mFloatballManager.updateFloatBallBg(ballIcon);
             }
 
             @Override
             public void onOutSideDismiss() {
                 ivTransparent.setVisibility(View.GONE);
+                Drawable ballIcon = BackGroudSeletor.getdrawble("bg_bl"
+                        , ChatActivity.this);
+                mFloatballManager.updateFloatBallBg(ballIcon);
             }
         });
         sendGetCheckRequest(userCode,userName);
@@ -251,6 +258,16 @@ public class ChatActivity extends BaseActivity {
                         ChatActivity.this);
                 mFloatballManager.updateMenuItem(5,bg_zljy_choosed);
                 operType="6";
+                break;
+            case MedcalRecordDialog.INSPECTION_TYPE:
+                Drawable bg_jcjy_choosed = BackGroudSeletor.getdrawble("bg_jcjy_choosed",
+                        ChatActivity.this);
+                mFloatballManager.updateMenuItem(6,bg_jcjy_choosed);
+                break;
+            case MedcalRecordDialog.PRESCRIPTION_NOTES_TYPE:
+                Drawable bg_cfj_choosed = BackGroudSeletor.getdrawble("bg_cfj_choosed",
+                        ChatActivity.this);
+                mFloatballManager.updateMenuItem(7,bg_cfj_choosed);
                 break;
             default:
 
@@ -372,7 +389,7 @@ public class ChatActivity extends BaseActivity {
                 inspectionBundle.putString("patientCode",userCode);
                 inspectionBundle.putString("patientName",userName);
                 inspectionBundle.putString("orderId",orderCode);
-                startActivity(InspectionOrderListActivity.class,inspectionBundle);
+                startActivity(InspectionOrderListActivity.class,inspectionBundle,100);
             }
         };
 
@@ -384,7 +401,7 @@ public class ChatActivity extends BaseActivity {
                 prescriptionBundle.putString("patientCode",userCode);
                 prescriptionBundle.putString("patientName",userCode);
                 prescriptionBundle.putString("orderId",orderCode);
-                startActivity(PrescriptionNotesListActivity.class,prescriptionBundle);
+                startActivity(PrescriptionNotesListActivity.class,prescriptionBundle,100);
 
             }
         };
@@ -402,6 +419,10 @@ public class ChatActivity extends BaseActivity {
                 .buildMenu();
     }
 
+    /**
+     * 设置选中状态
+     * @param patientRecordDetBean
+     */
     private void initChoosedStatus(PatientRecordDetBean patientRecordDetBean){
         int flagWriteChiefComplaint = patientRecordDetBean.getFlagWriteChiefComplaint();
         if(flagWriteChiefComplaint==1){
@@ -427,6 +448,16 @@ public class ChatActivity extends BaseActivity {
         if (flagWriteTreatmentProposal==1) {
             setMenueStatus(MedcalRecordDialog.TREATMENTPROPOSAL_TYPE);
         }
+        int flagWriteInspection = patientRecordDetBean.getFlagWriteInspection();
+        if (flagWriteInspection==1) {
+            setMenueStatus(MedcalRecordDialog.INSPECTION_TYPE);
+        }
+
+        int flagWriteDrug = patientRecordDetBean.getFlagWriteDrug();
+        if (flagWriteDrug==1) {
+            setMenueStatus(MedcalRecordDialog.PRESCRIPTION_NOTES_TYPE);
+        }
+
 
     }
 
@@ -755,7 +786,7 @@ public class ChatActivity extends BaseActivity {
     private void initSinglePageFloatball(boolean showMenu) {
         //1 初始化悬浮球配置，定义好悬浮球大小和icon的drawable
         int ballSize = DensityUtil.dip2px(this, 45);
-        Drawable ballIcon = BackGroudSeletor.getdrawble("ic_floatball", this);
+        Drawable ballIcon = BackGroudSeletor.getdrawble("bg_bl", this);
         FloatBallCfg ballCfg = new FloatBallCfg(ballSize, ballIcon, FloatBallCfg.Gravity.RIGHT_CENTER);
         //设置悬浮球不半隐藏
 //        ballCfg.setHideHalfLater(false);
@@ -792,5 +823,15 @@ public class ChatActivity extends BaseActivity {
     @Override
     public void finish() {
         super.finish();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==100){
+            if (StringUtils.isNotEmpty(orderCode)) {
+                sendGetMedicalRecordInfoRequest(orderCode);
+            }
+        }
     }
 }

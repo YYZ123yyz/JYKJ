@@ -45,11 +45,13 @@ public class MedcalRecordDialog extends Dialog {
     public static final int MEDICAL_EXAMINATION_TYPE=4;//查体
     public static final int TREATMENTPROPOSAL_TYPE=5;//治疗建议
     public static final int HISTORY_ALLERGY_TYPE=6;//过敏史
+    public static final int INSPECTION_TYPE=7;//检查检验
+    public static final int PRESCRIPTION_NOTES_TYPE=8;//处方笺
 
     private int contentType;
     @Retention(RetentionPolicy.SOURCE)
     @IntDef({CHIEF_COMPLAINT_TYPE, HISTORY_NEW_TYPE, HISTORY_PAST_TYPE,MEDICAL_EXAMINATION_TYPE
-            ,HISTORY_ALLERGY_TYPE,TREATMENTPROPOSAL_TYPE})
+            ,HISTORY_ALLERGY_TYPE,TREATMENTPROPOSAL_TYPE,INSPECTION_TYPE,PRESCRIPTION_NOTES_TYPE})
     public @interface ContentType {
 
     }
