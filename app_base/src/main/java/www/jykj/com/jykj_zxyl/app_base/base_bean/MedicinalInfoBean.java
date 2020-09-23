@@ -20,6 +20,7 @@ public class MedicinalInfoBean implements Serializable {
     private String drugCode;
     private String drugName;
     private String drugSpec;
+    private String drugPack;
     private String drugUnit;
     private boolean isChoosed;
 
@@ -62,5 +63,13 @@ public class MedicinalInfoBean implements Serializable {
 
     public void setChoosed(boolean choosed) {
         isChoosed = choosed;
+    }
+
+    public String getDrugPack() {
+        return drugPack;
+    }
+
+    public void setDrugPack(String drugPack) {
+        this.drugPack = drugPack;
     }
 }

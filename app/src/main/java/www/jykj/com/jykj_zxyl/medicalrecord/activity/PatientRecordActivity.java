@@ -1,8 +1,10 @@
 package www.jykj.com.jykj_zxyl.medicalrecord.activity;
 
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.RotateAnimation;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -123,6 +125,20 @@ public class PatientRecordActivity
     @BindView(R.id.userHead)
     CircleImageView headView;
     private String gendder;
+    private String orderCode;//订单Id
+    private String patientCode;//患者code
+    private String patientName;//患者名称
+    @Override
+    protected void onBeforeSetContentLayout() {
+        super.onBeforeSetContentLayout();
+        Bundle extras = this.getIntent().getExtras();
+        if (extras!=null) {
+            orderCode = extras.getString("orderCode");
+            patientCode=extras.getString("patientCode");
+            patientName=extras.getString("patientName");
+        }
+
+    }
     @Override
     protected int setLayoutId() {
         return R.layout.activity_patient_record;
@@ -143,13 +159,14 @@ public class PatientRecordActivity
     protected void initData() {
         super.initData();
         HashMap<String, Object> hashMap = ParameUtil.buildBaseDoctorParam(this);
-        hashMap.put("orderCode", "0101202009181608445105661560");
+        hashMap.put("orderCode", orderCode);
         String s = RetrofitUtil.encodeParam(hashMap);
         mPresenter.getPatientRecord(s);
     }
 
     @OnClick({R.id.lin_chief, R.id.lin_history, R.id.lin_past, R.id.lin_look, R.id.lin_examination,
             R.id.lin_suggest, R.id.confirm, R.id.download,R.id.left_image_id
+            ,R.id.ll_prescription_notes_root,R.id.ll_inspection_root
     })
     public void onClick(View view) {
         switch (view.getId()) {
@@ -176,20 +193,36 @@ public class PatientRecordActivity
                 break;
             case R.id.download: //发送
                 HashMap<String, Object> hashMap = ParameUtil.buildBaseDoctorParam(this);
-                hashMap.put("orderCode", "0101202009181608445105661560");
+                hashMap.put("orderCode", orderCode);
                 String s = RetrofitUtil.encodeParam(hashMap);
                 mPresenter.sendPatientRecord(s);
                 break;
             case R.id.left_image_id:
                 finish();
                 break;
+            case R.id.ll_prescription_notes_root:
+                Bundle prescriptionBundle=new Bundle();
+                prescriptionBundle.putString("patientCode",patientCode);
+                prescriptionBundle.putString("patientName",patientName);
+                prescriptionBundle.putString("orderId",orderCode);
+                startActivity(PrescriptionNotesListActivity.class,prescriptionBundle);
+                break;
+            case R.id.ll_inspection_root:
+                Bundle inspectionBundle=new Bundle();
+                inspectionBundle.putString("patientCode",patientCode);
+                inspectionBundle.putString("patientName",patientName);
+                inspectionBundle.putString("orderId",orderCode);
+                startActivity(InspectionOrderListActivity.class,inspectionBundle);
+
+                break;
+                default:
 
         }
     }
 
     private void saveData() {
         HashMap<String, Object> hashMap = ParameUtil.buildBaseDoctorParam(this);
-        hashMap.put("orderCode", "0101202009181608445105661560");
+        hashMap.put("orderCode", orderCode);
 
         hashMap.put("operType", "0");
         hashMap.put("chiefComplaint", TextUtils.isEmpty(chiefEt.getText().toString().trim()) ? "无" : chiefEt.getText().toString().trim());

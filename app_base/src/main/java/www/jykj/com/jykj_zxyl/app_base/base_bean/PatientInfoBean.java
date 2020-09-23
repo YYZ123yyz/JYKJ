@@ -44,6 +44,7 @@ public class PatientInfoBean implements Serializable {
     private String reserveStatus;
     private int treatmentType;
     private int version;
+    private String orderCode;
 
     public String getMainDoctorCode() {
         return mainDoctorCode;
@@ -163,5 +164,13 @@ public class PatientInfoBean implements Serializable {
 
     public void setVersion(int version) {
         this.version = version;
+    }
+
+    public String getOrderCode() {
+        return orderCode;
+    }
+
+    public void setOrderCode(String orderCode) {
+        this.orderCode = orderCode;
     }
 }

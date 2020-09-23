@@ -211,6 +211,7 @@ public class EaseChatRowOrderCard extends EaseChatRow {
         mTvMonitValue.setText(monitoringType);
         mTvCoachRateValue.setText(coach);
         mTvSignTimeValue.setText(signUpTime);
+        mTvPriceValue.setText(String.format("¥ %s", price));
         mTvPriceValue.setText("￥ "+ price);
         orderType = message.getStringAttribute("orderType", "");//1已同意 2 修改 3 拒绝（由患者操作发起时会携带此参数）
         switch (messageType) {
@@ -332,6 +333,7 @@ public class EaseChatRowOrderCard extends EaseChatRow {
             if (messageType.equals("card")) {
                 mRlCancelContractOrderRoot.setVisibility(View.GONE);
                 mTvOperMsg.setVisibility(View.VISIBLE);
+                mTvPriceValue.setVisibility(View.VISIBLE);
                 switch (orderType) {
                     case "1":
                         tvOrderReceivedUpdateBtn.setVisibility(View.GONE);

@@ -41,10 +41,13 @@ public class ParameUtil {
                 = GsonUtils.fromJson(userInfoSuLogin, ViewSysUserDoctorInfoAndHospital.class);
         HashMap<String, Object> paramMap = new HashMap<>();
         paramMap.put("loginDoctorPosition",loginDoctorPosition);//108.93425^34.23053  loginDoctorPosition
+        paramMap.put("loginPatientPosition",loginDoctorPosition);//108.
         paramMap.put("requestClientType","1");
         paramMap.put("operDoctorCode","7b5d2d0205164f12974a3e228f5a6083"); //mProvideViewSysUserPatientInfoAndRegion.getDoctorCode()    7b5d2d0205164f12974a3e228f5a6083
         paramMap.put("operDoctorName","医生测试002");//mProvideViewSysUserPatientInfoAndRegion.getUserName()  医生测试002
         paramMap.put("operDoctorAlias",mProvideViewSysUserPatientInfoAndRegion.getUserNameAlias());
+        paramMap.put("mainDoctorCode",mProvideViewSysUserPatientInfoAndRegion.getDoctorCode());
+        paramMap.put("mainDoctorName",mProvideViewSysUserPatientInfoAndRegion.getUserName());
         return paramMap;
     }
 

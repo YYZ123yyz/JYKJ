@@ -52,4 +52,10 @@
         <item name="android:popupBackground">#00FF00</item>
     </style>
 
+
+    <style name="translucent">
+        <item name="android:windowBackground">@color/color_80000000</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation.Translucent</item>
+    </style>
 </resources>

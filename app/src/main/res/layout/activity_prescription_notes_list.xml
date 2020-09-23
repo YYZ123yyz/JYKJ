@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -16,7 +16,8 @@
         android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-
+        android:layout_below="@+id/title_bar"
+        android:layout_above="@+id/tv_add_btn"
         >
 
         <com.scwang.smart.refresh.header.ClassicsHeader
@@ -28,13 +29,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <android.support.v7.widget.RecyclerView
+            <www.jykj.com.jykj_zxyl.app_base.base_view.SlideRecyclerView
                 android:id="@+id/rv_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
 
-            </android.support.v7.widget.RecyclerView>
+            </www.jykj.com.jykj_zxyl.app_base.base_view.SlideRecyclerView>
 
             <TextView
                 android:id="@+id/tv_no_data_2"
@@ -56,5 +57,25 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        android:background="@drawable/bg_round_799dfe_17"
+        android:text="添加一组处方药品"
+        android:paddingStart="57dp"
+        android:paddingEnd="57dp"
+        android:paddingTop="9dp"
+        android:paddingBottom="9dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="40dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/tv_add_btn"
+        android:gravity="center"
+        >
 
-</LinearLayout>
+
+    </TextView>
+</RelativeLayout>

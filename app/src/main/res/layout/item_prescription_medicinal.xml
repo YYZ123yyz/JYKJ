@@ -3,9 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white">
-
-
-
     <LinearLayout
         android:id="@+id/ll_root_view"
         android:layout_width="match_parent"
@@ -251,27 +248,31 @@
                 android:layout_marginEnd="10dp"
                 android:orientation="horizontal">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <EditText
+                    android:layout_width="200dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:text="未填写"
-                    android:id="@+id/tv_buy_medicinal_num"
+                    android:background="@null"
+                    android:inputType="number"
+                    android:gravity="end"
+                    android:id="@+id/ed_buy_medicinal_num"
                     android:textColor="@color/color_666666"
                     android:textSize="15sp">
 
 
-                </TextView>
+                </EditText>
 
-                <ImageView
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginStart="12.5dp"
-                    android:src="@mipmap/bg_right_arrow">
+                    android:textColor="@color/color_666666"
+                    android:textSize="15sp"
+                    android:layout_marginStart="10dp"
+                    android:id="@+id/tv_unit_name"
+                    >
 
 
-                </ImageView>
+                </TextView>
 
             </LinearLayout>
         </RelativeLayout>
@@ -341,27 +342,31 @@
                 android:layout_marginEnd="10dp"
                 android:orientation="horizontal">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <EditText
+                    android:layout_width="200dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:text="未填写"
-                    android:id="@+id/tv_take_medicinal_num"
+                    android:background="@null"
+                    android:inputType="number"
+                    android:gravity="end"
+                    android:id="@+id/ed_take_medicinal_num"
                     android:textColor="@color/color_666666"
                     android:textSize="15sp">
 
 
-                </TextView>
+                </EditText>
 
-                <ImageView
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginStart="12.5dp"
-                    android:src="@mipmap/bg_right_arrow">
+                    android:textColor="@color/color_666666"
+                    android:textSize="15sp"
+                    android:layout_marginStart="10dp"
+                    android:id="@+id/tv_take_num_unit"
+                    >
 
 
-                </ImageView>
+                </TextView>
 
             </LinearLayout>
         </RelativeLayout>

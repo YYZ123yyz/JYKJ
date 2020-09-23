@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.os.Build;
@@ -33,6 +34,12 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.huxq17.floatball.libarary.FloatBallManager;
+import com.huxq17.floatball.libarary.floatball.FloatBallCfg;
+import com.huxq17.floatball.libarary.menu.FloatMenuCfg;
+import com.huxq17.floatball.libarary.menu.MenuItem;
+import com.huxq17.floatball.libarary.utils.BackGroudSeletor;
+import com.huxq17.floatball.libarary.utils.DensityUtil;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.EMMessageListener;
 import com.hyphenate.EMValueCallBack;
@@ -92,6 +99,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -279,6 +287,8 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
         return false;
     }
 
+
+
     /**
      * init view
      */
@@ -407,6 +417,10 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
 
     }
 
+
+
+
+
     protected void setUpView() {
         titleBar.setTitle(toChatUsernameName);
         if (chatType == EaseConstant.CHATTYPE_SINGLE) {
@@ -475,9 +489,33 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
      * register extend menu, item id need > 3 if you override this method and keep exist item
      */
     protected void registerExtendMenuItem() {
+        inputMenu.clearData();
         for (int i = 0; i < itemStrings.length; i++) {
             inputMenu.registerExtendMenuItem(itemStrings[i], itemdrawables[i], itemIds[i], extendMenuItemClickListener);
         }
+    }
+
+    /**
+     * 是否显示签约按钮
+     * @param isVisible true or false
+     */
+    public void setSignUpBtnStatus(boolean isVisible){
+        if (isAdded()) {
+            if (isVisible) {
+                itemStrings = new int[]{R.string.attach_take_pic, R.string.attach_picture,
+                        R.string.attach_voice_call, R.string.attach_video, R.string.attach_file};
+                itemdrawables = new int[]{R.mipmap.hyhd_pz, R.mipmap.hyhd_tp,
+                        R.mipmap.hyhd_yy, R.mipmap.hyhd_sp, R.mipmap.hyhd_wj};
+                itemIds = new int[]{ITEM_TAKE_PICTURE, ITEM_PICTURE, ITEM_CALL, ITEM_VIDEO, ITEM_WJ};
+            }else{
+                itemStrings = new int[]{R.string.attach_take_pic, R.string.attach_picture,
+                        R.string.attach_voice_call, R.string.attach_video};
+                itemdrawables = new int[]{R.mipmap.hyhd_pz, R.mipmap.hyhd_tp,
+                        R.mipmap.hyhd_yy, R.mipmap.hyhd_sp};
+                itemIds = new int[]{ITEM_TAKE_PICTURE, ITEM_PICTURE, ITEM_CALL, ITEM_VIDEO};
+            }
+        }
+       registerExtendMenuItem();
     }
 
 

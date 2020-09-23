@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_eeeeee"
+    android:fitsSystemWindows="true"
     android:orientation="vertical">
 
     <include
@@ -33,12 +34,32 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/rv_list"
+        android:visibility="gone"
         android:layout_below="@+id/tv_title_tip"
         android:layout_above="@+id/rl_operation_buttom_bar"
         >
 
 
     </android.support.v7.widget.RecyclerView>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/tv_title_tip"
+        android:layout_above="@+id/rl_operation_buttom_bar"
+        android:id="@+id/scroll_view"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/ll_root_view"
+            >
+
+
+        </LinearLayout>
+    </ScrollView>
+
 
     <RelativeLayout
         android:id="@+id/rl_operation_buttom_bar"
