@@ -76,7 +76,8 @@ public class PatientRecordPresenter extends BasePresenterImpl<PatientRecordContr
 
     @Override
     public void savePatientMedicalRecord(String param) {
-        ApiHelper.getApiService().savePatientMedicalRecord(param).compose(Transformer.switchSchedulers(new ILoadingView() {
+        ApiHelper.getApiService().savePatientMedicalRecord(param)
+                .compose(Transformer.switchSchedulers(new ILoadingView() {
             @Override
             public void showLoadingView() {
                 if (mView!=null) {

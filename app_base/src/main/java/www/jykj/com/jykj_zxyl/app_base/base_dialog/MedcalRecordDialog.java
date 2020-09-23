@@ -21,6 +21,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.util.Objects;
 
 import www.jykj.com.jykj_zxyl.app_base.R;
+import www.jykj.com.jykj_zxyl.app_base.base_utils.StringUtils;
 
 /**
  * Description:病例弹框
@@ -107,7 +108,7 @@ public class MedcalRecordDialog extends Dialog {
         if (isShowing()) {
             contentType=inputType;
             tvDialogTitle.setText(title);
-            tvDialogContent.setText(fromContent);
+            tvDialogContent.setText(StringUtils.isNotEmpty(fromContent)?fromContent:"未填写");
             edInputContent.setText(inputContent);
         }
     }

@@ -40,6 +40,7 @@ public class EaseChatRowText extends EaseChatRow{
         Spannable span = EaseSmileUtils.getSmiledText(context, txtBody.getMessage());
         // 设置内容
         contentView.setText(span, BufferType.SPANNABLE);
+
     }
 
     @Override
