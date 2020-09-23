@@ -75,7 +75,10 @@
 
 
             </LinearLayout>
-
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/result_minor_text" />
             <LinearLayout
                 android:id="@+id/li_mz"
                 android:layout_width="match_parent"
@@ -105,7 +108,10 @@
                     android:textSize="15sp" />
 
             </LinearLayout>
-
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/result_minor_text" />
             <LinearLayout
                 android:id="@+id/li_jg"
                 android:layout_width="match_parent"
@@ -136,7 +142,10 @@
 
 
             </LinearLayout>
-
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/result_minor_text" />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
@@ -174,7 +183,10 @@
                     android:textColor="@color/tabColor_nomal"
                     android:textSize="15sp" />
             </LinearLayout>
-
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/result_minor_text" />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
@@ -212,7 +224,10 @@
                     android:textColor="@color/tabColor_nomal"
                     android:textSize="15sp" />
             </LinearLayout>
-
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/result_minor_text" />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
@@ -250,7 +265,10 @@
                     android:textColor="@color/tabColor_nomal"
                     android:textSize="15sp" />
             </LinearLayout>
-
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/result_minor_text" />
             <LinearLayout
                 android:id="@+id/li_sfxy"
                 android:layout_width="match_parent"
@@ -281,7 +299,10 @@
 
 
             </LinearLayout>
-
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/result_minor_text" />
             <LinearLayout
                 android:id="@+id/li_sfxj"
                 android:layout_width="match_parent"
@@ -309,10 +330,11 @@
                     android:text="未设置"
                     android:textColor="@color/tabColor_nomal"
                     android:textSize="15sp" />
-
-
             </LinearLayout>
-
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/result_minor_text" />
             <LinearLayout
                 android:id="@+id/li_sfay"
                 android:layout_width="match_parent"
@@ -340,11 +362,12 @@
                     android:text="未设置"
                     android:textColor="@color/tabColor_nomal"
                     android:textSize="15sp" />
-
-
             </LinearLayout>
 
-
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/result_minor_text" />
             <LinearLayout
                 android:id="@+id/li_zzfxycsj"
                 android:layout_width="match_parent"
@@ -372,10 +395,11 @@
                     android:text="未设置"
                     android:textColor="@color/tabColor_nomal"
                     android:textSize="15sp" />
-
-
             </LinearLayout>
-
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/result_minor_text" />
             <LinearLayout
                 android:id="@+id/li_qznf"
                 android:layout_width="match_parent"
@@ -403,10 +427,11 @@
                     android:text="未设置"
                     android:textColor="@color/tabColor_nomal"
                     android:textSize="15sp" />
-
-
             </LinearLayout>
-
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/result_minor_text" />
 
             <LinearLayout
                 android:id="@+id/li_zxybs"
@@ -435,10 +460,11 @@
                     android:text="未设置"
                     android:textColor="@color/tabColor_nomal"
                     android:textSize="15sp" />
-
-
             </LinearLayout>
-
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/result_minor_text" />
             <LinearLayout
                 android:id="@+id/li_sfyjzs"
                 android:layout_width="match_parent"
@@ -466,10 +492,11 @@
                     android:text="未设置"
                     android:textColor="@color/tabColor_nomal"
                     android:textSize="15sp" />
-
-
             </LinearLayout>
-
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/result_minor_text" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -489,7 +516,10 @@
                     android:textSize="15sp" />
 
             </LinearLayout>
-
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/result_minor_text" />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -512,6 +542,7 @@
                     android:textColor="@color/tabColor_nomal"
                     android:textSize="15sp" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_marginBottom="23.5dp"
                 android:layout_marginTop="@dimen/dp_20"

@@ -59,7 +59,6 @@
     <uses-permission android:name="com.coloros.mcs.permission.RECIEVE_MCS_MESSAGE" />
     <uses-permission android:name="com.heytap.mcs.permission.RECIEVE_MCS_MESSAGE" />
 
-
     <application
         android:name=".application.JYKJApplication"
         android:allowBackup="true"
@@ -71,7 +70,8 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:allowBackup,android:icon">
-        <activity android:name=".activity.home.mypatient.history.HistoryActivity"></activity>
+        <activity android:name=".activity.home.mypatient.fillindetails.FillindetailsActivity"></activity>
+        <activity android:name=".activity.home.mypatient.history.HistoryActivity" />
         <activity android:name=".activity.home.mypatient.label.LabelActivity" />
         <activity android:name=".activity.home.mypatient.symptom.SymptomActivity" />
         <activity android:name=".activity.home.mypatient.basicInformation.BasicInformationActivity" />
@@ -435,9 +435,9 @@
         <activity
             android:name="com.tencent.rtmp.video.TXScreenCapture$TXScreenCaptureAssistantActivity"
             android:theme="@android:style/Theme.Translucent" />
-        <activity android:name=".medicalrecord.activity.PatientRecordActivity"
-            android:screenOrientation="portrait"
-            />
+        <activity
+            android:name=".medicalrecord.activity.PatientRecordActivity"
+            android:screenOrientation="portrait" />
 
         <meta-data
             android:name="EASEMOB_APPKEY"
@@ -517,18 +517,16 @@
         <service
             android:name="com.xiaomi.mipush.sdk.PushMessageHandler"
             android:enabled="true"
-            android:exported="true" />
-
-<!--        <receiver-->
-<!--            android:name="com.xiaomi.mipushdemo.DemoMessageReceiver"-->
-<!--            android:exported="true">-->
-<!--            <intent-filter>-->
-<!--                <action android:name="com.xiaomi.mipush.RECEIVE_MESSAGE" />-->
-<!--            </intent-filter>-->
-<!--            <intent-filter>-->
-<!--                <action android:name="com.xiaomi.mipush.ERROR" />-->
-<!--            </intent-filter>-->
-<!--        </receiver>-->
+            android:exported="true" /> <!-- <receiver -->
+        <!-- android:name="com.xiaomi.mipushdemo.DemoMessageReceiver" -->
+        <!-- android:exported="true"> -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="com.xiaomi.mipush.RECEIVE_MESSAGE" /> -->
+        <!-- </intent-filter> -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="com.xiaomi.mipush.ERROR" /> -->
+        <!-- </intent-filter> -->
+        <!-- </receiver> -->
         <receiver
             android:name="com.xiaomi.push.service.receivers.NetworkStatusReceiver"
             android:exported="true">

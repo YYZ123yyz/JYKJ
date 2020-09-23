@@ -153,5 +153,9 @@ public interface ApiService {
     @POST("/medicalRecordControlle/operMyClinicDetailPatientMedicalRecordByAll")
     Observable<String> savePatientMedicalRecord(@Query(value = "jsonDataInfo"
             , encoded = true) String queryJson);
+    //[获取]既往病史[医生填写详情]
+    @POST("/patientDataControlle/searchDoctorManagePatientConditionDiseaseRecordResDoctorData")
+    Observable<String> getFillindetails(@Query(value = "jsonDataInfo"
+            , encoded = true) String queryJson);
 }
 

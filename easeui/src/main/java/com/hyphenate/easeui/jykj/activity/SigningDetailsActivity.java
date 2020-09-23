@@ -953,7 +953,7 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
         //总价
         int totalPrice = priceDoubleToInteger(
                 getdetailsBeans.getSignPrice() + "");
-        totalprice.setText("￥"+totalPrice+".00"  );
+        totalprice.setText(totalPrice+".00"  );
         patientName1 = getdetailsBeans.getMainUserName();
         patientAlias = getdetailsBeans.getMainUserNameAlias();
 

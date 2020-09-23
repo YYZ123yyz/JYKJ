@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hyphenate.easeui.jykj.adapter.Rv_CoachingAdapter;
@@ -44,6 +45,12 @@ public class DoctorAdapter extends RecyclerView.Adapter<DoctorAdapter.ViewHolder
             viewHolder.item_time.setText(dates);
             viewHolder.tv_diagnosis.setText(providePatientConditionDiseaseRecordBean.getDiagnosisName());
             viewHolder.tv_Suggest.setText(providePatientConditionDiseaseRecordBean.getTreatmentProposal());
+            viewHolder.doctort_lin.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    OnItemCoachingClickListener.onClick(i);
+                }
+            });
         }
 
     }
@@ -55,12 +62,14 @@ public class DoctorAdapter extends RecyclerView.Adapter<DoctorAdapter.ViewHolder
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView tv_doctorname,item_time,tv_diagnosis,tv_Suggest;
+        private LinearLayout doctort_lin;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             tv_doctorname=itemView.findViewById(R.id.tv_doctorname);
             item_time=itemView.findViewById(R.id.item_time);
             tv_diagnosis=itemView.findViewById(R.id.tv_diagnosis);
             tv_Suggest=itemView.findViewById(R.id.tv_Suggest);
+            doctort_lin=itemView.findViewById(R.id.doctort_lin);
         }
     }
 

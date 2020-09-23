@@ -18,7 +18,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import www.jykj.com.jykj_zxyl.R;
-import www.jykj.com.jykj_zxyl.activity.home.PatientReviewActivity;
+import www.jykj.com.jykj_zxyl.activity.home.mypatient.fillindetails.FillindetailsActivity;
 import www.jykj.com.jykj_zxyl.activity.home.mypatient.history.HistoryContract;
 import www.jykj.com.jykj_zxyl.activity.home.mypatient.history.HistoryPresenter;
 import www.jykj.com.jykj_zxyl.activity.home.mypatient.history.adapter.DoctorAdapter;
@@ -26,7 +26,6 @@ import www.jykj.com.jykj_zxyl.app_base.base_bean.ProvidePatientConditionDiseaseR
 import www.jykj.com.jykj_zxyl.app_base.base_view.SlideRecyclerView;
 import www.jykj.com.jykj_zxyl.app_base.mvp.AbstractMvpBaseFragment;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
-import www.jykj.com.jykj_zxyl.util.ActivityUtil;
 
 public class DoctorFragment extends AbstractMvpBaseFragment<HistoryContract.View,
                 HistoryPresenter> implements HistoryContract.View {
@@ -76,7 +75,10 @@ public class DoctorFragment extends AbstractMvpBaseFragment<HistoryContract.View
             doctorAdapter.setOnItemCoachingClickListener(new Rv_CoachingAdapter.OnItemCoachingClickListener() {
                 @Override
                 public void onClick(int position) {
-
+                    int recordId = providePatientConditionDiseaseRecordBeans.get(position).getRecordId();
+                    Intent intent = new Intent(getContext(), FillindetailsActivity.class);
+                    intent.putExtra("recordId",recordId);
+                    startActivity(intent);
                 }
 
                 @Override
