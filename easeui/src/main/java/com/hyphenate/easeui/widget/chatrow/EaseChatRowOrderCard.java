@@ -26,7 +26,7 @@ import com.hyphenate.easeui.jykj.activity.AppointOrderDetialActivity;
 import com.hyphenate.easeui.jykj.activity.CancelAppointDetialActivity;
 import com.hyphenate.easeui.jykj.activity.CancellationActivity;
 import com.hyphenate.easeui.jykj.activity.SigningDetailsActivity;
-import com.hyphenate.easeui.jykj.activity.TerminationActivity;
+import com.hyphenate.easeui.jykj.activity.TerminationActivity2;
 import com.hyphenate.easeui.jykj.bean.OrderMessage;
 import com.hyphenate.easeui.netService.HttpNetService;
 import com.hyphenate.easeui.netService.entity.NetRetEntity;
@@ -599,7 +599,7 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                         bundle.putString("patientName", nickName);
                         bundle.putString("patientCode",message.getFrom() );
                         bundle.putSerializable("orderMsg",orderMessage);
-                        startActivity(TerminationActivity.class, bundle);
+                        startActivity(TerminationActivity2.class, bundle);
                     }
 
                     }
