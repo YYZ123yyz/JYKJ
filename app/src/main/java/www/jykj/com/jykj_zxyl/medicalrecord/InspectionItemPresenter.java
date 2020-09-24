@@ -159,9 +159,10 @@ public class InspectionItemPresenter extends BasePresenterImpl<InspectionItemCon
     }
 
     @Override
-    public void sendOperDelInteractOrderInspectionRequest(String inspectionOrderCode,int pos, Activity activity) {
+    public void sendOperDelInteractOrderInspectionRequest(String inspectionOrderCode, String orderCode, int pos, Activity activity) {
         HashMap<String, Object> hashMap = ParameUtil.buildBaseDoctorParam(activity);
         hashMap.put("inspectionOrderCode",inspectionOrderCode);
+        hashMap.put("orderCode",orderCode);
         String s = RetrofitUtil.encodeParam(hashMap);
         ApiHelper.getApiService().operDelInteractOrderInspection(s).compose(Transformer.switchSchedulers(new ILoadingView() {
             @Override
@@ -202,6 +203,8 @@ public class InspectionItemPresenter extends BasePresenterImpl<InspectionItemCon
             }
         });
     }
+
+
 
     @Override
     public void sendOperUpdInteractOrderInspectionRequest(List<InspectionItemUploadBean> uploadBeans, Activity activity) {

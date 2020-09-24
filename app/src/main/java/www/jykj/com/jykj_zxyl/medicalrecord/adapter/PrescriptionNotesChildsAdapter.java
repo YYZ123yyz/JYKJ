@@ -7,6 +7,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.List;
@@ -26,6 +28,11 @@ public class PrescriptionNotesChildsAdapter extends  RecyclerView.Adapter
     private List<PrescriptionNotesBean.PrescribeInfoBean> list;
     public List<PrescriptionNotesBean.PrescribeInfoBean> getList() {
         return list;
+    }
+    private OnClickItemListener onClickItemListener;
+
+    public void setOnClickItemListener(OnClickItemListener onClickItemListener) {
+        this.onClickItemListener = onClickItemListener;
     }
 
     public PrescriptionNotesChildsAdapter(Context mContext, List<PrescriptionNotesBean.PrescribeInfoBean> list) {
@@ -62,6 +69,25 @@ public class PrescriptionNotesChildsAdapter extends  RecyclerView.Adapter
         holder.mTvTakeMedicinalCycle.setText(String.format("%d天", useCycle));
         String useDesc = prescribeInfoBean.getUseDesc();
         holder.mTvTakeMedicinalRemind.setText(useDesc);
+        holder.mLLRootView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onClickItemListener!=null) {
+                    onClickItemListener.onClickItem(position);
+                }
+            }
+        });
+        if(position==list.size()-1){
+            holder.mIvDeleteBtn.setVisibility(View.VISIBLE);
+        }else{
+            holder.mIvDeleteBtn.setVisibility(View.GONE);
+        }
+        holder.mIvDeleteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClickItemListener.onClickDeleteItem(position);
+            }
+        });
     }
 
     @Override
@@ -78,6 +104,8 @@ public class PrescriptionNotesChildsAdapter extends  RecyclerView.Adapter
         private TextView mTvTakeMedicinalRate;
         private TextView mTvTakeMedicinalCycle;
         private TextView mTvTakeMedicinalRemind;
+        private LinearLayout mLLRootView;
+        private ImageView mIvDeleteBtn;
         public ViewHolder(View view) {
             super(view);
             mTvMedicalName=view.findViewById(R.id.tv_medical_name);
@@ -88,6 +116,8 @@ public class PrescriptionNotesChildsAdapter extends  RecyclerView.Adapter
             mTvTakeMedicinalRate=view.findViewById(R.id.tv_take_medicinal_rate);
             mTvTakeMedicinalCycle=view.findViewById(R.id.tv_take_medicinal_cycle);
             mTvTakeMedicinalRemind=view.findViewById(R.id.tv_take_medicinal_remind);
+            mLLRootView=view.findViewById(R.id.ll_root_view);
+            mIvDeleteBtn=view.findViewById(R.id.iv_delete_btn);
 
         }
     }
@@ -103,7 +133,10 @@ public class PrescriptionNotesChildsAdapter extends  RecyclerView.Adapter
     }
 
     public interface OnClickItemListener {
+
         void onClickItem(int pos);
+
+        void onClickDeleteItem(int pos);
     }
 }
 

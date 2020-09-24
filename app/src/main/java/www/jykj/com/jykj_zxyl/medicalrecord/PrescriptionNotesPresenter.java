@@ -92,9 +92,10 @@ public class PrescriptionNotesPresenter extends BasePresenterImpl<PrescriptionNo
     }
 
     @Override
-    public void sendDeletePrescriptionNotesRequest(String prescribeVoucher, Activity activity) {
+    public void sendDeletePrescriptionNotesRequest(String prescribeVoucher,String orderCode, Activity activity) {
         HashMap<String, Object> hashMap = ParameUtil.buildBaseDoctorParam(activity);
         hashMap.put("prescribeVoucher",prescribeVoucher);
+        hashMap.put("orderCode",orderCode);
         String s = RetrofitUtil.encodeParam(hashMap);
         ApiHelper.getApiService().operDelInteractOrderPrescribeByprescribeVoucher_200915(s)
                 .compose(Transformer.switchSchedulers(new ILoadingView() {

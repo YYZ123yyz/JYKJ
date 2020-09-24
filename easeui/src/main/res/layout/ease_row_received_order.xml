@@ -630,9 +630,8 @@
                         android:paddingBottom="6dp"
                         android:paddingLeft="16dp"
                         android:paddingRight="16dp"
-                        android:background="@drawable/bg_round_7a9eff_15"
-                        android:id="@+id/tv_order_confirm_btn"
-                        android:textColor="@color/writeColor"
+                        android:id="@+id/tv_send_btn"
+                        android:textColor="@color/color_999999"
                         android:textSize="14sp"
                         >
 

@@ -72,6 +72,7 @@ public class OneVisitPatientAdapter extends RecyclerView.Adapter<OneVisitPatient
         long reserveConfigStart = patientInfoBean.getReserveConfigStart();
         holder.tvAppointmentTime.setText(DateUtils.getDateToStringYYYMMDDHHMM(reserveConfigStart));
         holder.tvPppointmentSubject.setText(patientInfoBean.getReserveProjectName());
+        holder.tvVideoInteractionBtn.setText(patientInfoBean.getReserveProjectName());
         //holder.tvPatientChief.setText(patientInfoBean.get);
         Glide.with(context).load(patientInfoBean.getPatientLogoUrl())
                 .apply(RequestOptions.placeholderOf(com.hyphenate.easeui.R.mipmap.docter_heard)
@@ -99,6 +100,27 @@ public class OneVisitPatientAdapter extends RecyclerView.Adapter<OneVisitPatient
             public void onClick(View v) {
                 if (onClickItemListener!=null) {
                     onClickItemListener.onClickMedicalRecordDetial(position);
+                }
+            }
+        });
+        holder.tvComprehensiveSurfaceBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onClickItemListener!=null) {
+                    onClickItemListener.onClickStatisticTable(position);
+                }
+            }
+        });
+        holder.tvVideoInteractionBtn.setOnClickListener(v -> {
+            if (onClickItemListener!=null) {
+                onClickItemListener.onClickImItem(position);
+            }
+        });
+        holder.tvConsultDataBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onClickItemListener!=null) {
+                    onClickItemListener.onClickInterrogation(position);
                 }
             }
         });
@@ -162,5 +184,11 @@ public class OneVisitPatientAdapter extends RecyclerView.Adapter<OneVisitPatient
         void onClickReceiveTreatment(int pos);
 
         void onClickMedicalRecordDetial(int pos);
+
+        void onClickStatisticTable(int pos);
+
+        void onClickImItem(int pos);
+
+        void onClickInterrogation(int pos);
     }
 }

@@ -78,10 +78,12 @@ public class InspectionItemContract {
         /**
          * 发送检查检验单删除请求
          * @param inspectionOrderCode 检查检验单code
+         * @param orderCode 订单code
          * @param pos 位置
          * @param activity activity
          */
-        void sendOperDelInteractOrderInspectionRequest(String inspectionOrderCode,int pos,Activity activity);
+        void sendOperDelInteractOrderInspectionRequest(String inspectionOrderCode,
+                                                       String orderCode,int pos,Activity activity);
 
 
         /**

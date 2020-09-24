@@ -14,7 +14,7 @@ public class ProvideViewInteractOrderTreatmentAndPatientInterrogation implements
 	private String orderCode;//订单关联编码
 	private String imgCode;//图片编码
 	private Integer sourceTypeId;//来源(数据)类型.1:平台内就诊记录;2:平台外就诊记录;
-	private Integer treatmentType;//就诊(治疗)类型.0:未知;1:图文就诊;2:音频就诊;3:视频就诊;4:签约服务;5:电话就诊;
+	private int treatmentType;//就诊(治疗)类型.0:未知;1:图文就诊;2:音频就诊;3:视频就诊;4:签约服务;5:电话就诊;
 	private Integer flagTreatmentState;//接诊状态标识
 	private String patientCode;//患者编码
 	private String patientName;//问诊患者姓名
@@ -180,14 +180,11 @@ public class ProvideViewInteractOrderTreatmentAndPatientInterrogation implements
 	}
 
 
-
-	public Integer getTreatmentType() {
+	public int getTreatmentType() {
 		return treatmentType;
 	}
 
-
-
-	public void setTreatmentType(Integer treatmentType) {
+	public void setTreatmentType(int treatmentType) {
 		this.treatmentType = treatmentType;
 	}
 

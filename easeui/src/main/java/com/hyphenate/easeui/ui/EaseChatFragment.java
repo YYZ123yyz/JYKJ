@@ -292,6 +292,7 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
     /**
      * init view
      */
+    @SuppressLint("HandlerLeak")
     protected void initView() {
         // hold to record voice
         //noinspection ConstantConditions
@@ -565,14 +566,10 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
                 chatFragmentHelper.onSetCustomChatRowProvider() : null);
         setListItemClickListener();
 
-        messageList.getListView().setOnTouchListener(new OnTouchListener() {
-
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                hideKeyboard();
-                inputMenu.hideExtendMenuContainer();
-                return false;
-            }
+        messageList.getListView().setOnTouchListener((v, event) -> {
+            hideKeyboard();
+            inputMenu.hideExtendMenuContainer();
+            return false;
         });
 
         isMessageListInited = true;
@@ -1082,7 +1079,8 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
                      * @param to
                      * @throws EMServiceNotReadyException
                      */
-                    startActivity(new Intent(getActivity(), VoiceCallActivity.class).putExtra("username", toChatUsername)
+                    startActivity(new Intent(getActivity(), VoiceCallActivity.class)
+                            .putExtra("username", toChatUsername)
                             .putExtra("isComingCall", false)
                             .putExtra("nickName", toChatUsernameName)
                             .putExtra(EaseConstant.EXTRA_VOICE_NUM, mVoiceTime));
@@ -1774,7 +1772,7 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
      *
      * @param msg 消息
      */
-    private void sendOrderCardMsg(OrderMessage msg) {
+    public void sendOrderCardMsg(OrderMessage msg) {
         String messageType = msg.getMessageType();
         String msgContent="";
         switch (messageType){
@@ -1806,7 +1804,7 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
                 }
                 break;
             case "medicalRecord":
-                msgContent=" 病例 ";
+                msgContent="[病历] ";
                 break;
                 default:
         }
@@ -1817,6 +1815,7 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
         message.setAttribute("imageUrl", msg.getImageUrl());
         message.setAttribute("messageType", msg.getMessageType());
         message.setAttribute("orderId", msg.getOrderId());
+        message.setAttribute("patientName",toChatUsernameName);
         switch (messageType){
             case "card":
             case "terminationOrder":
@@ -1845,7 +1844,6 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
             case "medicalRecord":
                 message.setAttribute("endTime",msg.getEndTime());
                 message.setAttribute("patientType",msg.getPatientType());
-                message.setAttribute("opStatus",msg.getOpStatus());
                 break;
                 default:
         }

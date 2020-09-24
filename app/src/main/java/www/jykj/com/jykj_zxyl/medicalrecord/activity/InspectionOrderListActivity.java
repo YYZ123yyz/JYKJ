@@ -223,7 +223,7 @@ public class InspectionOrderListActivity extends AbstractMvpBaseActivity<Inspect
                         String inspectionOrderCode = itemDataBean.getInspectionOrderCode();
                         if (StringUtils.isNotEmpty(inspectionOrderCode)) {
                             isShowLoading=true;
-                            mPresenter.sendOperDelInteractOrderInspectionRequest(inspectionOrderCode
+                            mPresenter.sendOperDelInteractOrderInspectionRequest(inspectionOrderCode,orderId
                                     ,pos,InspectionOrderListActivity.this);
 
                         }else{

@@ -34,7 +34,6 @@ public class OrderMessage implements Serializable {
 
 
     private String patientType;
-    private String opStatus;
 
     public OrderMessage(String nickName,
                         String imageUrl,
@@ -104,12 +103,10 @@ public class OrderMessage implements Serializable {
 
     public OrderMessage(String endTime,
                         String patientType,
-                        String opStatus,
                         String orderId,
                         String messageType){
         this.endTime=endTime;
         this.patientType=patientType;
-        this.opStatus=opStatus;
         this.orderId=orderId;
         this.messageType=messageType;
     }
@@ -275,11 +272,5 @@ public class OrderMessage implements Serializable {
         this.patientType = patientType;
     }
 
-    public String getOpStatus() {
-        return opStatus;
-    }
 
-    public void setOpStatus(String opStatus) {
-        this.opStatus = opStatus;
-    }
 }

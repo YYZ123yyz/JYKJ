@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.List;
@@ -56,23 +57,24 @@ public class PrescriptionNotesAdapter extends  RecyclerView.Adapter
         PrescriptionNotesChildsAdapter prescriptionNotesChildsAdapter
                 =new PrescriptionNotesChildsAdapter(context,prescriptionNotesBean.getPrescribeInfo());
         prescriptionNotesChildsAdapter.setData(prescriptionNotesBean.getPrescribeInfo());
+
         holder.mRvList.setAdapter(prescriptionNotesChildsAdapter);
-        holder.mBtnDelete.setOnClickListener(new View.OnClickListener() {
+        prescriptionNotesChildsAdapter.setOnClickItemListener(new PrescriptionNotesChildsAdapter.OnClickItemListener() {
             @Override
-            public void onClick(View v) {
+            public void onClickItem(int pos) {
                 if (onClickItemListener!=null) {
-                    onClickItemListener.onClickDeleteItem(position);
+                    onClickItemListener.onClickItem(position,pos);
+                }
+            }
+
+            @Override
+            public void onClickDeleteItem(int pos) {
+                if (onClickItemListener!=null) {
+                    onClickItemListener.onClickDeleteItem(position,pos);
                 }
             }
         });
-        holder.mBtnUpdate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (onClickItemListener!=null) {
-                    onClickItemListener.onClickUpdateItem(position);
-                }
-            }
-        });
+
     }
 
     @Override
@@ -82,15 +84,9 @@ public class PrescriptionNotesAdapter extends  RecyclerView.Adapter
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
        private RecyclerView mRvList;
-       //private TextView mTvDelete;
-       private Button mBtnUpdate;
-       private Button mBtnDelete;
         public ViewHolder(View view) {
             super(view);
             mRvList=view.findViewById(R.id.rv_list);
-            //mTvDelete=view.findViewById(R.id.tv_delete);
-            mBtnUpdate=view.findViewById(R.id.btn_update);
-            mBtnDelete=view.findViewById(R.id.btn_delete);
         }
     }
 
@@ -105,11 +101,11 @@ public class PrescriptionNotesAdapter extends  RecyclerView.Adapter
     }
 
     public interface OnClickItemListener {
-        void onClickItem(int pos);
+        void onClickItem(int groupPos,int childPos);
 
-        void onClickDeleteItem(int pos);
+        void onClickDeleteItem(int groupPos,int childPos);
 
-        void onClickUpdateItem(int pos);
+
     }
 }
 

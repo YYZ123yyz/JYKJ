@@ -44,7 +44,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:text="咨询信息"
+                    android:text="问诊信息"
                     android:textColor="@color/writeColor"
                     android:textSize="10pt" />
             </RelativeLayout>

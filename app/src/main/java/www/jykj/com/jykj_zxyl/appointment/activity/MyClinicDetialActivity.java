@@ -21,9 +21,13 @@ import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
 import com.bigkoo.pickerview.builder.TimePickerBuilder;
 import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.bigkoo.pickerview.view.TimePickerView;
+import com.hyphenate.easeui.EaseConstant;
+import com.hyphenate.easeui.hyhd.VideoCallActivity;
+import com.hyphenate.easeui.hyhd.VoiceCallActivity;
 import com.hyphenate.easeui.jykj.bean.OrderMessage;
 import com.hyphenate.easeui.jykj.utils.DateUtils;
 import com.hyphenate.easeui.utils.CollectionUtils;
+import com.hyphenate.exceptions.EMServiceNotReadyException;
 import com.scwang.smart.refresh.footer.ClassicsFooter;
 import com.scwang.smart.refresh.header.ClassicsHeader;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
@@ -39,12 +43,17 @@ import butterknife.BindView;
 import jsc.kit.wheel.base.WheelItem;
 import jsc.kit.wheel.dialog.ColumnWheelDialog;
 import www.jykj.com.jykj_zxyl.R;
+import www.jykj.com.jykj_zxyl.activity.home.twjz.WDZS_WZXQActivity;
+import www.jykj.com.jykj_zxyl.activity.home.twjz.WZXXActivity;
+import www.jykj.com.jykj_zxyl.activity.home.wdzs.ProvideViewInteractOrderTreatmentAndPatientInterrogation;
 import www.jykj.com.jykj_zxyl.activity.hyhd.ChatActivity;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.BaseReasonBean;
+import www.jykj.com.jykj_zxyl.app_base.base_bean.CancelAppointResultBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.OperDoctorScheduResultBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.PatientInfoBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.ReceiveTreatmentResultBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.TimelyTreatmentBean;
+import www.jykj.com.jykj_zxyl.app_base.base_html5.H5Activity;
 import www.jykj.com.jykj_zxyl.app_base.base_view.BaseToolBar;
 import www.jykj.com.jykj_zxyl.app_base.mvp.AbstractMvpBaseActivity;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
@@ -270,6 +279,54 @@ public class MyClinicDetialActivity extends AbstractMvpBaseActivity<MyClinicDeti
                 bundle.putString("patientCode",patientInfoBean.getMainPatientCode());
                 bundle.putString("patientName",patientInfoBean.getMainPatientName());
                 startActivity(PatientRecordActivity.class,bundle);
+            }
+
+            @Override
+            public void onClickStatisticTable(int pos) {
+                String reportUrl = mPatientInfoBeans.get(pos).getReportUrl();
+                Bundle bundle=new Bundle();
+                bundle.putString("url",reportUrl);;
+                startActivity(H5Activity.class,bundle);
+            }
+
+            @Override
+            public void onClickImItem(int pos) {
+
+                PatientInfoBean patientInfoBean = mPatientInfoBeans.get(pos);
+                String reserveProjectCode = patientInfoBean.getReserveProjectCode();
+                if (reserveProjectCode.equals("1")) {
+                    startJumpChatActivity(patientInfoBean);
+                }else if(reserveProjectCode.equals("2")){
+                    startActivity(new Intent(MyClinicDetialActivity.this,
+                            VideoCallActivity.class).putExtra("username",
+                            patientInfoBean.getMainPatientCode())
+                            .putExtra("isComingCall", false)
+                            .putExtra("nickName", patientInfoBean.getMainPatientName()));
+                }else if(reserveProjectCode.equals("3")){
+
+                }else if(reserveProjectCode.equals("5")){
+
+                    startActivity(new Intent(MyClinicDetialActivity.this, VoiceCallActivity.class)
+                            .putExtra("username", patientInfoBean.getMainPatientCode())
+                            .putExtra("isComingCall", false)
+                            .putExtra("nickName", patientInfoBean.getMainPatientName()));
+                }
+
+
+            }
+
+            @Override
+            public void onClickInterrogation(int pos) {
+                PatientInfoBean patientInfoBean = mPatientInfoBeans.get(pos);
+                ProvideViewInteractOrderTreatmentAndPatientInterrogation patientInterrogation
+                        =new ProvideViewInteractOrderTreatmentAndPatientInterrogation();
+                patientInterrogation.setOrderCode(patientInfoBean.getOrderCode());
+                patientInterrogation.setTreatmentType(patientInfoBean.getTreatmentType());
+                patientInterrogation.setPatientCode(patientInfoBean.getMainPatientCode());
+                patientInterrogation.setPatientName(patientInfoBean.getMainPatientName());
+                startActivity(new Intent(MyClinicDetialActivity.this,
+                        WZXXActivity.class).putExtra("wzxx",
+                        patientInterrogation));
             }
         });
         rvList.setLayoutManager(new LinearLayoutManager(this));
@@ -1037,6 +1094,26 @@ public class MyClinicDetialActivity extends AbstractMvpBaseActivity<MyClinicDeti
 //                ,0,0,0,0);
     }
 
+    /**
+     * 跳转IM
+     * @param currentPatientInfoBean 患者信息
+     */
+    private void startJumpChatActivity(PatientInfoBean currentPatientInfoBean){
 
+        Intent intent = new Intent(this, ChatActivity.class);
+        //患者
+        intent.putExtra("userCode", currentPatientInfoBean.getMainPatientCode());
+        intent.putExtra("userName", currentPatientInfoBean.getMainPatientName());
+        //医生
+        intent.putExtra("usersName", currentPatientInfoBean.getMainDoctorName());
+        intent.putExtra("userUrl", mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl());
+        //URL
+        intent.putExtra("doctorUrl", mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl());
+        //intent.putExtra("patientAlias", mHZEntyties.get(position).getan);
+        intent.putExtra("patientCode", currentPatientInfoBean.getMainPatientCode());
+        intent.putExtra("patientSex", currentPatientInfoBean.getPatientSex());
+
+        startActivity(intent);
+    }
 
 }

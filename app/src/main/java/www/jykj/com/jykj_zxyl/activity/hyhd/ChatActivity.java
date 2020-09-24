@@ -65,6 +65,7 @@ import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.medicalrecord.activity.InspectionOrderListActivity;
 import www.jykj.com.jykj_zxyl.medicalrecord.activity.PrescriptionNotesListActivity;
 import www.jykj.com.jykj_zxyl.util.ActivityUtil;
+import www.jykj.com.jykj_zxyl.util.DateUtils;
 import www.jykj.com.jykj_zxyl.util.GsonUtils;
 import www.jykj.com.jykj_zxyl.util.StringUtils;
 
@@ -94,7 +95,7 @@ public class ChatActivity extends BaseActivity {
     private String orderCode;
     private CheckImResultBean checkImResultBean;
     private PatientRecordDetBean patientRecordDetBean;
-    private String operType="";;
+    private String operType="";
     private String userCode;
     private String userName;
     @Override
@@ -195,7 +196,10 @@ public class ChatActivity extends BaseActivity {
                 Drawable ballIcon = BackGroudSeletor.getdrawble("bg_bl"
                         , ChatActivity.this);
                 mFloatballManager.updateFloatBallBg(ballIcon);
-                sendMedicalRecordRequest(orderCode);
+                if(StringUtils.isNotEmpty(orderCode)){
+                    sendMedicalRecordRequest(orderCode);
+                }
+
             }
         });
         sendGetCheckRequest(userCode,userName);
@@ -619,15 +623,27 @@ public class ChatActivity extends BaseActivity {
             protected void onSuccessResult(BaseBean baseBean) {
                 int resCode = baseBean.getResCode();
                 if (resCode==1) {
-
+                    long reserveConfigEnd = patientRecordDetBean.getReserveConfigEnd();
+                    String endTime = DateUtils.getDateToYYYYMMDD(reserveConfigEnd);
+                    String treatmentMould = patientRecordDetBean.getTreatmentMould();
+                    String patientType="";
+                    if (treatmentMould.equals("1")) {
+                        patientType="一次性就诊";
+                    }else if(treatmentMould.equals("2")){
+                        patientType="签约就诊";
+                    }
+                    OrderMessage orderMessage=new OrderMessage(endTime,patientType
+                            ,orderCode,"medicalRecord");
+                    chatFragment.sendOrderCardMsg(orderMessage);
                 }else{
-
+                    ToastUtils.showToast(baseBean.getResMsg());
                 }
             }
 
             @Override
             protected void onError(String s) {
                 super.onError(s);
+                ToastUtils.showToast(s);
             }
         });
     }

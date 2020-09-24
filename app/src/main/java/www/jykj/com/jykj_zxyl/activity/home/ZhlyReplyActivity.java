@@ -53,6 +53,7 @@ import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.util.ActivityUtil;
 import www.jykj.com.jykj_zxyl.util.FullyGridLayoutManager;
 import www.jykj.com.jykj_zxyl.util.PhotoDialog;
+import www.jykj.com.jykj_zxyl.util.StringUtils;
 import www.jykj.com.jykj_zxyl.util.Util;
 
 
@@ -422,14 +423,12 @@ public class ZhlyReplyActivity extends AppCompatActivity {
         provideInteractPatientMessage.setPatientCode(mProvideViewInteractOrderTreatmentAndPatientInterrogation.getPatientCode());
         provideInteractPatientMessage.setPatientName(mProvideViewInteractOrderTreatmentAndPatientInterrogation.getPatientName());
 
-        if(mProvideViewInteractOrderTreatmentAndPatientInterrogation.getTreatmentLinkPhone()==null&&mProvideViewInteractOrderTreatmentAndPatientInterrogation.getTreatmentLinkPhone().equals("")){
+        String treatmentLinkPhone = mProvideViewInteractOrderTreatmentAndPatientInterrogation.getTreatmentLinkPhone();
+        if (StringUtils.isNotEmpty(treatmentLinkPhone)) {
+            provideInteractPatientMessage.setPatientPhone(treatmentLinkPhone);
+        }else{
             provideInteractPatientMessage.setPatientPhone("");
         }
-        else {
-            provideInteractPatientMessage.setPatientPhone(mProvideViewInteractOrderTreatmentAndPatientInterrogation.getTreatmentLinkPhone());
-        }
-
-
 
         new Thread() {
             public void run() {

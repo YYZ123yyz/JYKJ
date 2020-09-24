@@ -3,6 +3,7 @@ package www.jykj.com.jykj_zxyl.medicalrecord.utils;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import www.jykj.com.jykj_zxyl.app_base.base_bean.InspectionItemBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.InspectionItemDataBean;
@@ -190,7 +191,7 @@ public class ConvertUtils {
             uploadBean.setDrugAmount(itemDataBean.getBuyMedicinalNum());
             uploadBean.setUseNum(itemDataBean.getTakeMedicinalNum());
             uploadBean.setUseFrequencyCode(itemDataBean.getTakeMedicinalRateCode());
-            uploadBean.setUseCycle("1");
+            uploadBean.setUseCycle(itemDataBean.getUseCycle());
             uploadBean.setUseDesc(itemDataBean.getTakeMedicinalRemark());
             uploadBeans.add(uploadBean);
 
@@ -225,6 +226,8 @@ public class ConvertUtils {
                     itemDataBean.setTakeMedicinalRemark(prescribeInfo.getUseDesc());
                     itemDataBean.setDrugOrderCode(prescribeInfo.getDrugOrderCode());
                     itemDataBean.setOrderCode(prescribeInfo.getOrderCode());
+                    itemDataBean.setUseCycle(prescribeInfo.getUseCycle()+"");
+                    itemDataBean.setUuId(DateUtils.getCurrentMillis());
                     prescriptionItemBeans.add(itemDataBean);
                 }
 

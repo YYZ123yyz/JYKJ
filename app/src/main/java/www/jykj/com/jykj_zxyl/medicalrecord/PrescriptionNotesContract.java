@@ -43,9 +43,10 @@ public class PrescriptionNotesContract {
         /**
          * 发送删除处方凭证请求
          * @param prescribeVoucher 处方编码
+         * @param orderCode 订单code
          * @param activity activity
          */
-        void sendDeletePrescriptionNotesRequest(String prescribeVoucher,Activity activity);
+        void sendDeletePrescriptionNotesRequest(String prescribeVoucher,String orderCode,Activity activity);
 
     }
 }

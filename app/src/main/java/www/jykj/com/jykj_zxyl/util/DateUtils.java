@@ -565,5 +565,13 @@ public class DateUtils {
         void onCancel();
     }
 
+    /**
+     * 获取当前毫秒数
+     * @return
+     */
+    public static String getCurrentMillis(){
+        long l = System.currentTimeMillis();
+        return String.valueOf(l);
+    }
 
 }

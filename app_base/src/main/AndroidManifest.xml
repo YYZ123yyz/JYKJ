@@ -1,2 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="www.jykj.com.jykj_zxyl.app_base" />
+    package="www.jykj.com.jykj_zxyl.app_base">
+
+    <application
+        >
+    <activity android:name=".base_html5.H5Activity">
+
+    </activity>
+    </application>
+</manifest>

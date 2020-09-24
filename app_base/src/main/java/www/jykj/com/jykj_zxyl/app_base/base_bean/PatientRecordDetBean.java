@@ -36,6 +36,9 @@ public class PatientRecordDetBean {
 
     private long createDate;
     private String departmentSecondName;
+    private String diagnosisName;
+    private String inspectionName;
+    private String drugName;
     private String doctorName;
     private int flagConfirmState;
     private int flagHistoryAllergy;
@@ -55,8 +58,8 @@ public class PatientRecordDetBean {
     private String patientName;
     private String recordCode;
     private String treatmentCardNum;
-    private List<?> interactOrderInspectionList;
-    private List<?> interactOrderPrescribeList;
+    private List<InteractOrderInspectionListBean> interactOrderInspectionList;
+    private List<InteractOrderPrescribeListBean> interactOrderPrescribeList;
     private String chiefComplaint;
     private String historyNew;
     private String historyPast;
@@ -64,7 +67,8 @@ public class PatientRecordDetBean {
     private String medicalExamination;
     private String patientChiefComplaint;
     private String patientHistoryNew;
-
+    private String treatmentMould;
+    private long reserveConfigEnd;
     public String getPatientChiefComplaint() {
         return patientChiefComplaint;
     }
@@ -320,19 +324,182 @@ public class PatientRecordDetBean {
         this.treatmentCardNum = treatmentCardNum;
     }
 
-    public List<?> getInteractOrderInspectionList() {
+    public String getDiagnosisName() {
+        return diagnosisName;
+    }
+
+    public void setDiagnosisName(String diagnosisName) {
+        this.diagnosisName = diagnosisName;
+    }
+
+    public String getInspectionName() {
+        return inspectionName;
+    }
+
+    public void setInspectionName(String inspectionName) {
+        this.inspectionName = inspectionName;
+    }
+
+    public String getDrugName() {
+        return drugName;
+    }
+
+    public void setDrugName(String drugName) {
+        this.drugName = drugName;
+    }
+
+    public List<InteractOrderInspectionListBean> getInteractOrderInspectionList() {
         return interactOrderInspectionList;
     }
 
-    public void setInteractOrderInspectionList(List<?> interactOrderInspectionList) {
+    public void setInteractOrderInspectionList(List<InteractOrderInspectionListBean> interactOrderInspectionList) {
         this.interactOrderInspectionList = interactOrderInspectionList;
     }
 
-    public List<?> getInteractOrderPrescribeList() {
+    public List<InteractOrderPrescribeListBean> getInteractOrderPrescribeList() {
         return interactOrderPrescribeList;
     }
 
-    public void setInteractOrderPrescribeList(List<?> interactOrderPrescribeList) {
+    public void setInteractOrderPrescribeList(List<InteractOrderPrescribeListBean> interactOrderPrescribeList) {
         this.interactOrderPrescribeList = interactOrderPrescribeList;
+    }
+
+    public static class InteractOrderInspectionListBean {
+        /**
+         * inspectionName : CT
+         * inspectionOrderCode : 123
+         * sampleOrLocationName : 头部,胸部,
+         */
+
+        private String inspectionName;
+        private String inspectionOrderCode;
+        private String sampleOrLocationName;
+
+        public String getInspectionName() {
+            return inspectionName;
+        }
+
+        public void setInspectionName(String inspectionName) {
+            this.inspectionName = inspectionName;
+        }
+
+        public String getInspectionOrderCode() {
+            return inspectionOrderCode;
+        }
+
+        public void setInspectionOrderCode(String inspectionOrderCode) {
+            this.inspectionOrderCode = inspectionOrderCode;
+        }
+
+        public String getSampleOrLocationName() {
+            return sampleOrLocationName;
+        }
+
+        public void setSampleOrLocationName(String sampleOrLocationName) {
+            this.sampleOrLocationName = sampleOrLocationName;
+        }
+    }
+
+    public static class InteractOrderPrescribeListBean {
+        private List<PrescribeInfoBean> prescribeInfo;
+
+        public List<PrescribeInfoBean> getPrescribeInfo() {
+            return prescribeInfo;
+        }
+
+        public void setPrescribeInfo(List<PrescribeInfoBean> prescribeInfo) {
+            this.prescribeInfo = prescribeInfo;
+        }
+
+        public static class PrescribeInfoBean {
+            /**
+             * drugAmount : 10.0
+             * drugName : 西比灵胶囊
+             * drugOrderCode : f13c75c47c9d441c9b304f72b4e80e52
+             * drugPrice : 0.0
+             * prescribeVoucher : testc9d441c9b304f72b4e80001
+             * specName : 1盒/24粒
+             */
+
+            private double drugAmount;
+            private String drugName;
+            private String drugOrderCode;
+            private double drugPrice;
+            private String prescribeVoucher;
+            private String specName;
+            private int type;
+
+            public int getType() {
+                return type;
+            }
+
+            public void setType(int type) {
+                this.type = type;
+            }
+
+            public double getDrugAmount() {
+                return drugAmount;
+            }
+
+            public void setDrugAmount(double drugAmount) {
+                this.drugAmount = drugAmount;
+            }
+
+            public String getDrugName() {
+                return drugName;
+            }
+
+            public void setDrugName(String drugName) {
+                this.drugName = drugName;
+            }
+
+            public String getDrugOrderCode() {
+                return drugOrderCode;
+            }
+
+            public void setDrugOrderCode(String drugOrderCode) {
+                this.drugOrderCode = drugOrderCode;
+            }
+
+            public double getDrugPrice() {
+                return drugPrice;
+            }
+
+            public void setDrugPrice(double drugPrice) {
+                this.drugPrice = drugPrice;
+            }
+
+            public String getPrescribeVoucher() {
+                return prescribeVoucher;
+            }
+
+            public void setPrescribeVoucher(String prescribeVoucher) {
+                this.prescribeVoucher = prescribeVoucher;
+            }
+
+            public String getSpecName() {
+                return specName;
+            }
+
+            public void setSpecName(String specName) {
+                this.specName = specName;
+            }
+        }
+    }
+
+    public String getTreatmentMould() {
+        return treatmentMould;
+    }
+
+    public void setTreatmentMould(String treatmentMould) {
+        this.treatmentMould = treatmentMould;
+    }
+
+    public long getReserveConfigEnd() {
+        return reserveConfigEnd;
+    }
+
+    public void setReserveConfigEnd(long reserveConfigEnd) {
+        this.reserveConfigEnd = reserveConfigEnd;
     }
 }

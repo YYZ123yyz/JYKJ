@@ -25,6 +25,7 @@ public class PrescriptionMedicinalItemDataBean {
     private String specName;
     private String useCycle;
     private String useDesc;
+    private String uuId;
 
 
 
@@ -162,5 +163,13 @@ public class PrescriptionMedicinalItemDataBean {
 
     public void setOrderCode(String orderCode) {
         this.orderCode = orderCode;
+    }
+
+    public String getUuId() {
+        return uuId;
+    }
+
+    public void setUuId(String uuId) {
+        this.uuId = uuId;
     }
 }

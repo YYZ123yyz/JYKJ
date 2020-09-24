@@ -105,23 +105,8 @@ public class PrescriptionNotesListActivity extends AbstractMvpBaseActivity<
         rvList.setAdapter(prescriptionNotesAdapter);
         prescriptionNotesAdapter.setOnClickItemListener(new PrescriptionNotesAdapter.OnClickItemListener() {
             @Override
-            public void onClickItem(int pos) {
-
-            }
-
-            @Override
-            public void onClickDeleteItem(int pos) {
-                PrescriptionNotesBean prescriptionNotesBean = list.get(pos);
-                List<PrescriptionNotesBean.PrescribeInfoBean> prescribeInfos=
-                        prescriptionNotesBean.getPrescribeInfo();
-                PrescriptionNotesBean.PrescribeInfoBean prescribeInfoBean = prescribeInfos.get(0);
-                mPresenter.sendDeletePrescriptionNotesRequest(
-                        prescribeInfoBean.getPrescribeVoucher(),PrescriptionNotesListActivity.this);
-            }
-
-            @Override
-            public void onClickUpdateItem(int pos) {
-                PrescriptionNotesBean prescriptionNotesBean = list.get(pos);
+            public void onClickItem(int groupPos, int childPos) {
+                PrescriptionNotesBean prescriptionNotesBean = list.get(groupPos);
                 Bundle bundle=new Bundle();
                 bundle.putString("patientCode",patientCode);
                 bundle.putString("patientName",patientName);
@@ -129,6 +114,18 @@ public class PrescriptionNotesListActivity extends AbstractMvpBaseActivity<
                 bundle.putSerializable("result",prescriptionNotesBean);
                 startActivity(PrescriptionMedicinalListActivity.class,bundle,100);
             }
+
+            @Override
+            public void onClickDeleteItem(int groupPos, int childPos) {
+                PrescriptionNotesBean prescriptionNotesBean = list.get(groupPos);
+                List<PrescriptionNotesBean.PrescribeInfoBean> prescribeInfos=
+                        prescriptionNotesBean.getPrescribeInfo();
+                PrescriptionNotesBean.PrescribeInfoBean prescribeInfoBean = prescribeInfos.get(0);
+                mPresenter.sendDeletePrescriptionNotesRequest(
+                        prescribeInfoBean.getPrescribeVoucher(),orderId,PrescriptionNotesListActivity.this);
+            }
+
+
         });
     }
 
@@ -150,9 +147,8 @@ public class PrescriptionNotesListActivity extends AbstractMvpBaseActivity<
      */
     private void addListener(){
         mRefreshLayout.setRefreshHeader(new ClassicsHeader(this));
-        mRefreshLayout.setOnRefreshListener(refreshlayout -> {
-            mPresenter.sendPrescriptionNotesRequest(orderId,this);
-        });
+        mRefreshLayout.setOnRefreshListener(refreshlayout ->
+                mPresenter.sendPrescriptionNotesRequest(orderId,this));
         tvAddBtn.setOnClickListener(v -> {
             Bundle bundle=new Bundle();
             bundle.putString("patientCode",patientCode);

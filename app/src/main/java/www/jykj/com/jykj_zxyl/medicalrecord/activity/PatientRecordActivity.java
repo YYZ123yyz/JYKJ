@@ -1,7 +1,11 @@
 package www.jykj.com.jykj_zxyl.medicalrecord.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.RotateAnimation;
 import android.widget.Button;
@@ -13,22 +17,33 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.blankj.utilcode.util.CollectionUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.bumptech.glide.Glide;
+import com.zhy.view.flowlayout.FlowLayout;
+import com.zhy.view.flowlayout.TagAdapter;
+import com.zhy.view.flowlayout.TagFlowLayout;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import www.jykj.com.jykj_zxyl.R;
+import www.jykj.com.jykj_zxyl.activity.home.twjz.TWJZ_ZDMSActivity;
+import www.jykj.com.jykj_zxyl.activity.home.wdzs.ProvideViewInteractOrderTreatmentAndPatientInterrogation;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.PatientRecordDetBean;
 import www.jykj.com.jykj_zxyl.app_base.http.ParameUtil;
 import www.jykj.com.jykj_zxyl.app_base.http.RetrofitUtil;
 import www.jykj.com.jykj_zxyl.app_base.mvp.AbstractMvpBaseActivity;
 import www.jykj.com.jykj_zxyl.medicalrecord.PatientRecordContract;
 import www.jykj.com.jykj_zxyl.medicalrecord.PatientRecordPresenter;
+import www.jykj.com.jykj_zxyl.medicalrecord.adapter.MedicalRecordDrugAdapter;
 import www.jykj.com.jykj_zxyl.util.CircleImageView;
 import www.jykj.com.jykj_zxyl.util.DateUtils;
+import www.jykj.com.jykj_zxyl.util.StringUtils;
 
 /**
  * Created by G on 2020/9/19 9:52
@@ -124,10 +139,26 @@ public class PatientRecordActivity
     TextView userAge;
     @BindView(R.id.userHead)
     CircleImageView headView;
+    @BindView(R.id.id_flowlayout)
+    TagFlowLayout diagFlow; //临床诊断
+    @BindView(R.id.flowlayout_check)
+    TagFlowLayout checkFlow;//检查检验
+    @BindView(R.id.flowlayout_prescr)
+    TagFlowLayout prescrFlow;//处方笺
+    @BindView(R.id.drug_recycle)
+    RecyclerView drugRecycleview;
+    @BindView(R.id.ll_check)
+    LinearLayout llCheck;
+    @BindView(R.id.ll_diagnosis)
+    LinearLayout llDiagnosis;
+    private LayoutInflater mInflater;
     private String gendder;
     private String orderCode;//订单Id
     private String patientCode;//患者code
     private String patientName;//患者名称
+    private static final int DRUG_TYPE_NOMAL = 0;
+    private static final int DRUG_TYPE_START = 1;
+    private static final int DRUG_TYPE_END = 2;
     @Override
     protected void onBeforeSetContentLayout() {
         super.onBeforeSetContentLayout();
@@ -152,6 +183,7 @@ public class PatientRecordActivity
     @Override
     protected void initView() {
         super.initView();
+        mInflater = LayoutInflater.from(this);
         tittle.setText("病历");
     }
 
@@ -166,7 +198,8 @@ public class PatientRecordActivity
 
     @OnClick({R.id.lin_chief, R.id.lin_history, R.id.lin_past, R.id.lin_look, R.id.lin_examination,
             R.id.lin_suggest, R.id.confirm, R.id.download,R.id.left_image_id
-            ,R.id.ll_prescription_notes_root,R.id.ll_inspection_root
+            ,R.id.ll_prescription_notes_root
+            ,R.id.ll_inspection_root,R.id.ll_clinical_diagnosis
     })
     public void onClick(View view) {
         switch (view.getId()) {
@@ -205,15 +238,24 @@ public class PatientRecordActivity
                 prescriptionBundle.putString("patientCode",patientCode);
                 prescriptionBundle.putString("patientName",patientName);
                 prescriptionBundle.putString("orderId",orderCode);
-                startActivity(PrescriptionNotesListActivity.class,prescriptionBundle);
+                startActivity(PrescriptionNotesListActivity.class,prescriptionBundle,100);
                 break;
             case R.id.ll_inspection_root:
                 Bundle inspectionBundle=new Bundle();
                 inspectionBundle.putString("patientCode",patientCode);
                 inspectionBundle.putString("patientName",patientName);
                 inspectionBundle.putString("orderId",orderCode);
-                startActivity(InspectionOrderListActivity.class,inspectionBundle);
+                startActivity(InspectionOrderListActivity.class,inspectionBundle,100);
 
+                break;
+            case R.id.ll_clinical_diagnosis:
+                ProvideViewInteractOrderTreatmentAndPatientInterrogation patientInterrogation
+                        =new ProvideViewInteractOrderTreatmentAndPatientInterrogation();
+                patientInterrogation.setOrderCode(orderCode);
+                patientInterrogation.setPatientCode(patientCode);
+                patientInterrogation.setPatientName(patientName);
+                startActivityForResult(new Intent(this, TWJZ_ZDMSActivity.class)
+                        .putExtra("wzxx", patientInterrogation),100);
                 break;
                 default:
 
@@ -318,8 +360,82 @@ public class PatientRecordActivity
         userGendder.setText(gendder);
         userAge.setText(String.valueOf(det.getPatientAge()));
         Glide.with(PatientRecordActivity.this).load(det.getPatientLogoUrl()).into(headView);
+
+        String diagnosisName = det.getDiagnosisName();
+        if (StringUtils.isNotEmpty(diagnosisName)) {
+            llDiagnosis.setVisibility(View.VISIBLE);
+            diagFlow.setAdapter(getTagAdapter(diagnosisName, diagFlow));
+        }else{
+            llDiagnosis.setVisibility(View.GONE);
+        }
+        String inspectionName = det.getInspectionName();
+        if (StringUtils.isNotEmpty(inspectionName)) {
+            llCheck.setVisibility(View.VISIBLE);
+            checkFlow.setAdapter(getTagAdapter(inspectionName, checkFlow));
+        }else{
+            llCheck.setVisibility(View.GONE);
+        }
+
+        String drugName = det.getDrugName();
+        if (StringUtils.isNotEmpty(drugName)) {
+            prescrFlow.setVisibility(View.VISIBLE);
+            prescrFlow.setAdapter(getTagAdapter(drugName, prescrFlow));
+        }else{
+            prescrFlow.setVisibility(View.GONE);
+        }
+        List<PatientRecordDetBean.InteractOrderPrescribeListBean> interactOrderPrescribeList = det.getInteractOrderPrescribeList();
+        List<PatientRecordDetBean.InteractOrderPrescribeListBean.PrescribeInfoBean> prescribeInfoBeans = new ArrayList<>();
+        for (int i = 0; i < interactOrderPrescribeList.size(); i++) {
+
+            List<PatientRecordDetBean.InteractOrderPrescribeListBean.PrescribeInfoBean> prescribeInfo = interactOrderPrescribeList.get(i).getPrescribeInfo();
+            if (prescribeInfo.size() > 1) { //有一组
+                for (int j = 0; j < prescribeInfo.size(); j++) {
+                    if (j == 0) { //一组开头
+                        prescribeInfo.get(j).setType(DRUG_TYPE_START);
+                    } else if (j == (prescribeInfo.size())-1){//一组结尾
+                        prescribeInfo.get(j).setType(DRUG_TYPE_END);
+                    }else {//中间
+                        prescribeInfo.get(j).setType(DRUG_TYPE_NOMAL);
+                    }
+                }
+            } else { //没有一组
+                prescribeInfo.get(0).setType(DRUG_TYPE_NOMAL);
+            }
+            prescribeInfoBeans.addAll(prescribeInfo);
+        }
+        if (!CollectionUtils.isEmpty(prescribeInfoBeans)) {
+            drugRecycleview.setVisibility(View.VISIBLE);
+        }else{
+            drugRecycleview.setVisibility(View.GONE);
+        }
+        MedicalRecordDrugAdapter medicalRecordDrugAdapter = new MedicalRecordDrugAdapter(R.layout.item_record_drug, prescribeInfoBeans);
+        drugRecycleview.setAdapter(medicalRecordDrugAdapter);
+
     }
 
+    private TagAdapter<String> getTagAdapter(String msg, TagFlowLayout checkFlow) {
+        return new TagAdapter<String>(dealData(msg)) {
+            @Override
+            public View getView(FlowLayout parent, int position, String s) {
+
+                TextView tv = (TextView) mInflater.inflate(R.layout.content_flow,
+                        checkFlow, false);
+                tv.setText(s);
+                return tv;
+            }
+        };
+    }
+
+    private List<String> dealData(String msg) {
+        ArrayList<String> strings = new ArrayList<>();
+        if (msg.contains(",")) {
+            String[] split = msg.split(",");
+            strings.addAll(Arrays.asList(split));
+        } else {
+            strings.add(msg);
+        }
+        return strings;
+    }
     @Override
     public void getDataFailure(String msg) {
         ToastUtils.showShort(msg);
@@ -328,5 +444,16 @@ public class PatientRecordActivity
     @Override
     public void dealDataSucess(String msg) {
         ToastUtils.showShort(msg);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode==100) {
+            HashMap<String, Object> hashMap = ParameUtil.buildBaseDoctorParam(this);
+            hashMap.put("orderCode", orderCode);
+            String s = RetrofitUtil.encodeParam(hashMap);
+            mPresenter.getPatientRecord(s);
+        }
     }
 }
