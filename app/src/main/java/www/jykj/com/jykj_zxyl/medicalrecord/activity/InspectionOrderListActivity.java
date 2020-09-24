@@ -148,6 +148,7 @@ public class InspectionOrderListActivity extends AbstractMvpBaseActivity<Inspect
             InspectionItemDataBean itemDataBean = new InspectionItemDataBean();
             dataBeans.add(itemDataBean);
             mInspectionItemProjectAdapter.notifyDataSetChanged();
+            mLoadingLayoutManager.showContent();
         });
         tvEnsureBtn.setOnClickListener(v -> {
             if (CollectionUtils.isEmpty(dataBeans)) {
@@ -361,7 +362,11 @@ public class InspectionOrderListActivity extends AbstractMvpBaseActivity<Inspect
 
     @Override
     public void getUpdateInteractOrderInspectionResult(boolean isSucess, String msg) {
-
+        if (isSucess) {
+            this.finish();
+        }else{
+            ToastUtils.showToast(msg);
+        }
     }
 
     @Override
