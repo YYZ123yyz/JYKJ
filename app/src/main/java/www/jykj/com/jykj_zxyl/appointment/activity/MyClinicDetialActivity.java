@@ -1,6 +1,7 @@
 package www.jykj.com.jykj_zxyl.appointment.activity;
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -303,7 +304,10 @@ public class MyClinicDetialActivity extends AbstractMvpBaseActivity<MyClinicDeti
                             .putExtra("isComingCall", false)
                             .putExtra("nickName", patientInfoBean.getMainPatientName()));
                 }else if(reserveProjectCode.equals("3")){
-
+                    String patientLinkPhone = patientInfoBean.getPatientLinkPhone();
+                    if (StringUtils.isNotEmpty(patientLinkPhone)) {
+                        callPhone(patientLinkPhone);
+                    }
                 }else if(reserveProjectCode.equals("5")){
 
                     startActivity(new Intent(MyClinicDetialActivity.this, VoiceCallActivity.class)
@@ -1113,6 +1117,17 @@ public class MyClinicDetialActivity extends AbstractMvpBaseActivity<MyClinicDeti
         intent.putExtra("patientCode", currentPatientInfoBean.getMainPatientCode());
         intent.putExtra("patientSex", currentPatientInfoBean.getPatientSex());
 
+        startActivity(intent);
+    }
+
+    /**
+     * 拨打电话（直接拨打电话）
+     * @param phoneNum 电话号码
+     */
+    private void callPhone(String phoneNum){
+        Intent intent = new Intent(Intent.ACTION_CALL);
+        Uri data = Uri.parse("tel:" + phoneNum);
+        intent.setData(data);
         startActivity(intent);
     }
 

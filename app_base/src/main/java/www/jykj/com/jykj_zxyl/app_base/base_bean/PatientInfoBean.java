@@ -44,6 +44,7 @@ public class PatientInfoBean implements Serializable {
     private String reserveStatus;
     private int treatmentType;
     private int version;
+    private String patientLinkPhone;
     private String orderCode;
     private String reportUrl;
 
@@ -181,5 +182,13 @@ public class PatientInfoBean implements Serializable {
 
     public void setReportUrl(String reportUrl) {
         this.reportUrl = reportUrl;
+    }
+
+    public String getPatientLinkPhone() {
+        return patientLinkPhone;
+    }
+
+    public void setPatientLinkPhone(String patientLinkPhone) {
+        this.patientLinkPhone = patientLinkPhone;
     }
 }
