@@ -25,10 +25,11 @@ import org.w3c.dom.Text;
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.activity.hyhd.LivePublisherActivity;
 import www.jykj.com.jykj_zxyl.activity.hyhd.NewLivePlayerActivity;
+import www.jykj.com.jykj_zxyl.app_base.base_activity.BaseActivity;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.util.StrUtils;
 
-public class LiveroomDetailActivity extends AppCompatActivity {
+public class LiveroomDetailActivity extends BaseActivity {
     JYKJApplication mApp;
     Activity mActivity;
     Context mContext;
@@ -48,19 +49,17 @@ public class LiveroomDetailActivity extends AppCompatActivity {
     private String detailCode;
     public ProgressDialog mDialogProgress = null;
     RoomDetailInfo mRoomDetailInfo = null;
+
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        detailCode = StrUtils.defaulObjToStr(getIntent().getStringExtra("detailCode"));
-        mApp = (JYKJApplication)getApplication();
-        mActivity = LiveroomDetailActivity.this;
-        mContext = LiveroomDetailActivity.this;
-        setContentView(R.layout.activity_liveroom_detail);
-        initview();
-        loadData();
+    protected int setLayoutId() {
+        return R.layout.activity_liveroom_detail;
     }
 
-    void initview(){
+   protected void initview(){
+       detailCode = StrUtils.defaulObjToStr(getIntent().getStringExtra("detailCode"));
+       mApp = (JYKJApplication)getApplication();
+       mActivity = LiveroomDetailActivity.this;
+       mContext = LiveroomDetailActivity.this;
         liveroom_det_head_pic = findViewById(R.id.liveroom_det_head_pic);
         doctor_head_tit = findViewById(R.id.doctor_head_tit);
         live_doctor_name = findViewById(R.id.live_doctor_name);
@@ -74,7 +73,9 @@ public class LiveroomDetailActivity extends AppCompatActivity {
         det_live_time = findViewById(R.id.det_live_time);
         go_liveroom_btn = findViewById(R.id.go_liveroom_btn);
         room_det_live = findViewById(R.id.room_det_live);
-    }
+       loadData();
+
+   }
 
     class ButtonClick implements View.OnClickListener{
         @Override

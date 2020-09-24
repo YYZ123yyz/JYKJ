@@ -3,6 +3,8 @@ package www.jykj.com.jykj_zxyl.activity.hzgl;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -22,14 +24,16 @@ import www.jykj.com.jykj_zxyl.activity.home.jyzl.GRXX_GRZK_ZZXXActivity;
 import www.jykj.com.jykj_zxyl.activity.home.jyzl.PatientBaseInfoActivity;
 import www.jykj.com.jykj_zxyl.activity.home.mypatient.basicInformation.BasicInformationActivity;
 import www.jykj.com.jykj_zxyl.activity.home.mypatient.history.HistoryActivity;
+import www.jykj.com.jykj_zxyl.activity.home.mypatient.history.fragment.MyselfFragment;
 import www.jykj.com.jykj_zxyl.activity.home.mypatient.label.LabelActivity;
 import www.jykj.com.jykj_zxyl.activity.home.mypatient.symptom.SymptomActivity;
+import www.jykj.com.jykj_zxyl.app_base.base_activity.BaseActivity;
 import www.jykj.com.jykj_zxyl.util.ActivityUtil;
 
 /**
  * 患者管理 ==》 患者资料
  */
-public class HZGLHZZLActivity extends AppCompatActivity {
+public class HZGLHZZLActivity extends BaseActivity {
 
     private Context mContext;
     private HZGLHZZLActivity mActivity;
@@ -42,9 +46,13 @@ public class HZGLHZZLActivity extends AppCompatActivity {
     private ImageView back;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_fragmenthzgl_hzzl);
+    protected int setLayoutId() {
+        return R.layout.activity_fragmenthzgl_hzzl;
+    }
+
+    @Override
+    protected void initView() {
+        super.initView();
         mContext = this;
         mActivity = this;
         mProvideViewPatientLablePunchClockState = (ProvideViewPatientLablePunchClockState) getIntent().getSerializableExtra("patientInfo");
@@ -102,13 +110,10 @@ public class HZGLHZZLActivity extends AppCompatActivity {
                     startActivity(new Intent(mContext, LabelActivity.class).putExtra("patientCode", mProvideViewPatientLablePunchClockState.getPatientCode()));
                     break;
                 case R.id.jwbs:
-                   // startActivity(new Intent(mContext, GRXX_GRZK_JWBSActivity.class).putExtra("patientCode", mProvideViewPatientLablePunchClockState.getPatientCode()));
                     Intent intent = new Intent(mContext, HistoryActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putString("patientCode", mProvideViewPatientLablePunchClockState.getPatientCode());
-                    intent.putExtras(bundle);
+                    intent.putExtra("patientCode", mProvideViewPatientLablePunchClockState.getPatientCode());
                     startActivity(intent);
-               //     startActivity(new Intent(mContext, HistoryActivity.class).putExtra("patientCode", mProvideViewPatientLablePunchClockState.getPatientCode()));
+
                     break;
             }
         }

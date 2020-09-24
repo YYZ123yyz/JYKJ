@@ -40,6 +40,7 @@ import netService.HttpNetService;
 import netService.entity.NetRetEntity;
 import orcameralib.CameraActivity;
 import www.jykj.com.jykj_zxyl.R;
+import www.jykj.com.jykj_zxyl.app_base.base_activity.BaseActivity;
 import www.jykj.com.jykj_zxyl.application.Constant;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.util.ActivityUtil;
@@ -53,7 +54,7 @@ import static orcameralib.CameraActivity.KEY_OUTPUT_FILE_PATH;
 /**
  * 添加患者(扫码)
  */
-public class AddPatientQRCodeActivity extends AppCompatActivity {
+public class AddPatientQRCodeActivity extends BaseActivity {
 
     private Context mContext;
     private AddPatientQRCodeActivity mActivity;
@@ -83,10 +84,15 @@ public class AddPatientQRCodeActivity extends AppCompatActivity {
     private String mQrCode;                            //二维码值
     private String mServiceName;                       //服务名称
 
+
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_addpatient_qrcode);
+    protected int setLayoutId() {
+        return R.layout.activity_addpatient_qrcode;
+    }
+
+    @Override
+    protected void initView() {
+        super.initView();
         ActivityUtil.setStatusBarMain(AddPatientQRCodeActivity.this);
 
         mContext = this;

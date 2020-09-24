@@ -20,6 +20,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.ProvideViewPatientHealthyAndBasicsBean;
+import www.jykj.com.jykj_zxyl.app_base.base_bean.SymptormBean;
 import www.jykj.com.jykj_zxyl.app_base.mvp.AbstractMvpBaseActivity;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.util.ActivityUtil;
@@ -57,6 +58,10 @@ public class SymptomActivity extends AbstractMvpBaseActivity<SymptormContract.Vi
     TagFlowLayout ComorbidityFlowlayout;
     @BindView(R.id.Treatmentsolutions_flowlayout)
     TagFlowLayout TreatmentsolutionsFlowlayout;
+    @BindView(R.id.lin_data)
+    LinearLayout linData;
+    @BindView(R.id.tv_none)
+    TextView tvNone;
     private SymptomRecycleAdapter mSymptomRecycleAdapter;
     private JYKJApplication mApp;
     private String mPatientCode;                       //患者code
@@ -93,11 +98,13 @@ public class SymptomActivity extends AbstractMvpBaseActivity<SymptormContract.Vi
     }
 
     @Override
-    public void getSearchSymptormResult(ProvideViewPatientHealthyAndBasicsBean provideViewPatientHealthyAndBasicsBean) {
-        if (provideViewPatientHealthyAndBasicsBean != null) {
+    public void getSearchSymptormResult(SymptormBean symptormBean) {
+        if (symptormBean != null) {
+              linData.setVisibility(View.VISIBLE);
+              tvNone.setVisibility(View.GONE);
             //起病症状 rvOnsetsymptoms
-      /*      ArrayList<String> onsetSymptomsList = new ArrayList<>();
-            String onsetSymptomsName = provideViewPatientHealthyAndBasicsBean.getOnsetSymptomsName();
+            ArrayList<String> onsetSymptomsList = new ArrayList<>();
+            String onsetSymptomsName = symptormBean.getOnsetSymptomsName();
             String[] onsetSymptoms = onsetSymptomsName.split("、");
             List<String> onsetSymptomslist = Arrays.asList(onsetSymptoms);
             onsetSymptomsList.addAll(onsetSymptomslist);
@@ -113,7 +120,7 @@ public class SymptomActivity extends AbstractMvpBaseActivity<SymptormContract.Vi
             });
             //目前症状
             ArrayList<String> CurrentsymptomsList = new ArrayList<>();
-            String currentSymptomsName = provideViewPatientHealthyAndBasicsBean.getCurrentSymptomsName();
+            String currentSymptomsName = symptormBean.getCurrentSymptomsName();
             String[] currentSymptoms = currentSymptomsName.split("、");
             List<String> currentSymptomslist = Arrays.asList(currentSymptoms);
             CurrentsymptomsList.addAll(currentSymptomslist);
@@ -129,7 +136,7 @@ public class SymptomActivity extends AbstractMvpBaseActivity<SymptormContract.Vi
             });
             //并发症
             ArrayList<String> ComplicationList = new ArrayList<>();
-            String complicationName = provideViewPatientHealthyAndBasicsBean.getComplicationName();
+            String complicationName = symptormBean.getComplicationName();
             String[] complication = complicationName.split("、");
             List<String> complicationlist = Arrays.asList(complication);
             ComplicationList.addAll(complicationlist);
@@ -145,7 +152,7 @@ public class SymptomActivity extends AbstractMvpBaseActivity<SymptormContract.Vi
             });
             //合并疾病
             ArrayList<String> combinedDiseaseList = new ArrayList<>();
-            String combinedDiseaseName = provideViewPatientHealthyAndBasicsBean.getCombinedDiseaseName();
+            String combinedDiseaseName = symptormBean.getCombinedDiseaseName();
             String[] combinedDisease = combinedDiseaseName.split("、");
             List<String> combinedDiseaselist = Arrays.asList(combinedDisease);
             combinedDiseaseList.addAll(combinedDiseaselist);
@@ -161,7 +168,7 @@ public class SymptomActivity extends AbstractMvpBaseActivity<SymptormContract.Vi
             });
             //目前治疗方案
             ArrayList<String> currentTreatmentPlanList = new ArrayList<>();
-            String currentTreatmentPlanName = provideViewPatientHealthyAndBasicsBean.getCurrentTreatmentPlanName();
+            String currentTreatmentPlanName = symptormBean.getCurrentTreatmentPlanName();
             String[] currentTreatmentPlan = currentTreatmentPlanName.split("、");
             List<String> list = Arrays.asList(currentTreatmentPlan);
             currentTreatmentPlanList.addAll(list);
@@ -175,12 +182,13 @@ public class SymptomActivity extends AbstractMvpBaseActivity<SymptormContract.Vi
                 }
 
             });
-*/
         }
     }
 
     @Override
     public void getSearchSymptormResultError(String msg) {
+        linData.setVisibility(View.GONE);
+        tvNone.setVisibility(View.VISIBLE);
         ToastUtils.showToast(msg);
     }
 

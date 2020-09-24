@@ -51,6 +51,7 @@ import netService.WebServiceUtil;
 import netService.entity.NetRetEntity;
 import netService.entity.ParmentEntity;
 import util.LinkdoodLoadingDialog;
+import www.jykj.com.jykj_zxyl.app_base.base_activity.BaseActivity;
 import www.jykj.com.jykj_zxyl.application.Constant;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.util.ActivityUtil;
@@ -67,7 +68,7 @@ import yyz_exploit.bean.ResBean;
 
 import static android.widget.Toast.LENGTH_SHORT;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends BaseActivity {
 
     public ProgressDialog mDialogProgress = null;
     private Handler mHandler;
@@ -105,22 +106,23 @@ public class LoginActivity extends AppCompatActivity {
     private SharedPreferences sp1;
 
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
 
-        super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.activity_login);
+    @Override
+    protected int setLayoutId() {
+        return R.layout.activity_login;
+    }
+
+    @Override
+    protected void initView() {
+        super.initView();
+     //   requestWindowFeature(Window.FEATURE_NO_TITLE);
         mContext = this;
         mActivity = this;
         mApp = (JYKJApplication) getApplication();
         mApp.gActivityList.add(this);
         ActivityUtil.setStatusBar(mActivity);
         initLayout();
-
         initHandler();
-        //自动登录
-        // autoLogin();
     }
 
     /**

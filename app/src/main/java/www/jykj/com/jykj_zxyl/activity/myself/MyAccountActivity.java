@@ -13,9 +13,10 @@ import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.activity.MainActivity;
 import www.jykj.com.jykj_zxyl.activity.PhoneLoginActivity;
 import www.jykj.com.jykj_zxyl.activity.UseRegistActivity;
+import www.jykj.com.jykj_zxyl.app_base.base_activity.BaseActivity;
 import www.jykj.com.jykj_zxyl.util.ActivityUtil;
 
-public class MyAccountActivity extends AppCompatActivity {
+public class MyAccountActivity extends BaseActivity {
 
     private TextView mPhoneLogin;                //手机号登录
     private TextView mUseRegist;                 //用户注册
@@ -27,11 +28,15 @@ public class MyAccountActivity extends AppCompatActivity {
     private LinearLayout mCoupon;                    //我的优惠券
     private LinearLayout mBack;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_myself_myaccount);
+    @Override
+    protected int setLayoutId() {
+        return R.layout.activity_myself_myaccount;
+    }
+
+    @Override
+    protected void initView() {
+        super.initView();
         mContext = this;
         mActivity = this;
         ActivityUtil.setStatusBarMain(mActivity);

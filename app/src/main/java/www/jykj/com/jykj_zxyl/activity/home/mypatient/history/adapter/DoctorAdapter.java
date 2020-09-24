@@ -16,13 +16,14 @@ import java.util.List;
 
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.activity.home.mypatient.label.LabelAdapter;
+import www.jykj.com.jykj_zxyl.app_base.base_bean.DoctorRecordBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.ProvidePatientConditionDiseaseRecordBean;
 
 
 public class DoctorAdapter extends RecyclerView.Adapter<DoctorAdapter.ViewHolder>   {
-    private List<ProvidePatientConditionDiseaseRecordBean> datas;
+    private List<DoctorRecordBean> datas;
     private Rv_CoachingAdapter.OnItemCoachingClickListener OnItemCoachingClickListener;
-    public DoctorAdapter(List<ProvidePatientConditionDiseaseRecordBean> datas) {
+    public DoctorAdapter(List<DoctorRecordBean> datas) {
         this.datas = datas;
     }
 
@@ -37,7 +38,7 @@ public class DoctorAdapter extends RecyclerView.Adapter<DoctorAdapter.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
 
-        ProvidePatientConditionDiseaseRecordBean providePatientConditionDiseaseRecordBean = datas.get(i);
+        DoctorRecordBean providePatientConditionDiseaseRecordBean = datas.get(i);
         if(providePatientConditionDiseaseRecordBean!=null){
             viewHolder.tv_doctorname.setText("记录医生:  "+providePatientConditionDiseaseRecordBean.getDoctorName());
             long createDate = providePatientConditionDiseaseRecordBean.getCreateDate();

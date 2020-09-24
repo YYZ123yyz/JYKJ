@@ -13,13 +13,14 @@ import com.hyphenate.easeui.jykj.utils.DateUtils;
 import java.util.List;
 
 import www.jykj.com.jykj_zxyl.R;
+import www.jykj.com.jykj_zxyl.app_base.base_bean.DoctorRecordBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.ProvidePatientConditionDiseaseRecordBean;
 
 
 public class MyselfAdapter extends RecyclerView.Adapter<MyselfAdapter.ViewHolder>   {
-    private List<ProvidePatientConditionDiseaseRecordBean> datas;
+    private List<DoctorRecordBean> datas;
     private Rv_CoachingAdapter.OnItemCoachingClickListener OnItemCoachingClickListener;
-    public MyselfAdapter(List<ProvidePatientConditionDiseaseRecordBean> datas) {
+    public MyselfAdapter(List<DoctorRecordBean> datas) {
         this.datas = datas;
     }
 
@@ -33,13 +34,13 @@ public class MyselfAdapter extends RecyclerView.Adapter<MyselfAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-        ProvidePatientConditionDiseaseRecordBean providePatientConditionDiseaseRecordBean = datas.get(i);
-        if(providePatientConditionDiseaseRecordBean!=null){
-            viewHolder.tv_doctorname.setText("记录医生:  "+providePatientConditionDiseaseRecordBean.getDoctorName());
-            long createDate = providePatientConditionDiseaseRecordBean.getCreateDate();
+        DoctorRecordBean doctorRecordBean = datas.get(i);
+        if(doctorRecordBean!=null){
+            viewHolder.tv_doctorname.setText("记录医生:  "+doctorRecordBean.getRecordName());
+            long createDate = doctorRecordBean.getTreatmentDate();
             String dates = DateUtils.stampToDates(createDate);
             viewHolder.item_time.setText(dates);
-            viewHolder.tv_diagnosis.setText(providePatientConditionDiseaseRecordBean.getDiagnosisName());
+            viewHolder.tv_diagnosis.setText(doctorRecordBean.getRecordContent());
         }
 
     }

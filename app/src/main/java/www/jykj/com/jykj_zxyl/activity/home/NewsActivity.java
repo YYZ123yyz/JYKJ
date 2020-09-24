@@ -22,6 +22,7 @@ import entity.home.newsMessage.ProvideMsgPushReminderCount;
 import netService.HttpNetService;
 import netService.entity.NetRetEntity;
 import www.jykj.com.jykj_zxyl.R;
+import www.jykj.com.jykj_zxyl.app_base.base_activity.BaseActivity;
 import www.jykj.com.jykj_zxyl.application.Constant;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.util.ActivityUtil;
@@ -29,7 +30,7 @@ import www.jykj.com.jykj_zxyl.util.ActivityUtil;
 /**
  * 消息
  */
-public class NewsActivity extends AppCompatActivity implements View.OnClickListener {
+public class NewsActivity extends BaseActivity implements View.OnClickListener {
 
     public ProgressDialog mDialogProgress = null;
 
@@ -64,16 +65,20 @@ public class NewsActivity extends AppCompatActivity implements View.OnClickListe
 
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_news);
+    protected int setLayoutId() {
+        return R.layout.activity_news;
+    }
+
+    @Override
+    protected void initView() {
+        super.initView();
         ActivityUtil.setStatusBarMain(NewsActivity.this);
 
         mContext = this;
         mActivity = this;
         mApp = (JYKJApplication) getApplication();
         mProvideMsgPushReminderCount = (ProvideMsgPushReminderCount) getIntent().getSerializableExtra("newMessage");
-        initView();
+        initLayout();
         initHandler();
     }
 
@@ -176,7 +181,7 @@ public class NewsActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-    private void initView() {
+    private void initLayout() {
         mLMXXLayout = (RelativeLayout) this.findViewById(R.id.rl_lmxx);
         mUnionMessageNum = (TextView) this.findViewById(R.id.tv_lmxx);
 
