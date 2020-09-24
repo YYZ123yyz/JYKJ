@@ -3,7 +3,6 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -22,18 +21,14 @@ import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
 import com.bigkoo.pickerview.builder.TimePickerBuilder;
 import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.bigkoo.pickerview.view.TimePickerView;
-import com.hyphenate.easeui.EaseConstant;
 import com.hyphenate.easeui.hyhd.VideoCallActivity;
 import com.hyphenate.easeui.hyhd.VoiceCallActivity;
 import com.hyphenate.easeui.jykj.bean.OrderMessage;
 import com.hyphenate.easeui.jykj.utils.DateUtils;
 import com.hyphenate.easeui.utils.CollectionUtils;
-import com.hyphenate.exceptions.EMServiceNotReadyException;
 import com.scwang.smart.refresh.footer.ClassicsFooter;
 import com.scwang.smart.refresh.header.ClassicsHeader;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
-import com.scwang.smart.refresh.layout.api.RefreshLayout;
-import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
 import com.yyydjk.library.DropDownMenu;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -44,12 +39,10 @@ import butterknife.BindView;
 import jsc.kit.wheel.base.WheelItem;
 import jsc.kit.wheel.dialog.ColumnWheelDialog;
 import www.jykj.com.jykj_zxyl.R;
-import www.jykj.com.jykj_zxyl.activity.home.twjz.WDZS_WZXQActivity;
 import www.jykj.com.jykj_zxyl.activity.home.twjz.WZXXActivity;
 import www.jykj.com.jykj_zxyl.activity.home.wdzs.ProvideViewInteractOrderTreatmentAndPatientInterrogation;
 import www.jykj.com.jykj_zxyl.activity.hyhd.ChatActivity;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.BaseReasonBean;
-import www.jykj.com.jykj_zxyl.app_base.base_bean.CancelAppointResultBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.OperDoctorScheduResultBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.PatientInfoBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.ReceiveTreatmentResultBean;
@@ -71,10 +64,7 @@ import www.jykj.com.jykj_zxyl.appointment.listener.MyItemClickListener;
 import www.jykj.com.jykj_zxyl.appointment.view.FirstView;
 import www.jykj.com.jykj_zxyl.appointment.view.SecView;
 import www.jykj.com.jykj_zxyl.appointment.view.ThirdView;
-import www.jykj.com.jykj_zxyl.medicalrecord.activity.InspectionOrderListActivity;
 import www.jykj.com.jykj_zxyl.medicalrecord.activity.PatientRecordActivity;
-import www.jykj.com.jykj_zxyl.medicalrecord.activity.PrescriptionMedicinalListActivity;
-import www.jykj.com.jykj_zxyl.medicalrecord.activity.PrescriptionNotesListActivity;
 import www.jykj.com.jykj_zxyl.util.StringUtils;
 
 /**
@@ -566,14 +556,9 @@ public class MyClinicDetialActivity extends AbstractMvpBaseActivity<MyClinicDeti
         });
         mRefreshLayout2.setRefreshHeader(new ClassicsHeader(this));
         mRefreshLayout2.setRefreshFooter(new ClassicsFooter(this));
-        mRefreshLayout2.setOnRefreshListener(new OnRefreshListener() {
-            @Override
-            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                mPresenter.sendSearchReserveDoctorDateRosterInfoImmediateRequest(
-                        mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(),
-                        MyClinicDetialActivity.this);
-            }
-        });
+        mRefreshLayout2.setOnRefreshListener(refreshLayout -> mPresenter.sendSearchReserveDoctorDateRosterInfoImmediateRequest(
+                mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(),
+                MyClinicDetialActivity.this));
 
         llMoreRight.setOnClickListener(v -> drawerLayout.openDrawer(Gravity.RIGHT));
         tvStartAge.setOnClickListener(v -> showChoosedAgeDialog(1));
@@ -591,23 +576,20 @@ public class MyClinicDetialActivity extends AbstractMvpBaseActivity<MyClinicDeti
 
         });
         //tvResetBtn.setOnClickListener(v -> drawerLayout.closeDrawer(Gravity.RIGHT));
-        tvResetBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        tvResetBtn.setOnClickListener(v -> {
 
-                edPatientName.setText("");
-                tvStartAge.setText("");
-                startAge="";
-                tvEndAge.setText("");
-                endAge="";
-                tvStartTime.setText("");
-                mStartTime="";
-                tvEndTime.setText("");
-                mEndTime="";
-                priceRegion="";
-                tvPrice.setText("");
-                edPatientChief.setText("");
-            }
+            edPatientName.setText("");
+            tvStartAge.setText("");
+            startAge="";
+            tvEndAge.setText("");
+            endAge="";
+            tvStartTime.setText("");
+            mStartTime="";
+            tvEndTime.setText("");
+            mEndTime="";
+            priceRegion="";
+            tvPrice.setText("");
+            edPatientChief.setText("");
         });
         tvConfirmBtn.setOnClickListener(v -> {
             drawerLayout.closeDrawer(Gravity.RIGHT);
@@ -620,20 +602,17 @@ public class MyClinicDetialActivity extends AbstractMvpBaseActivity<MyClinicDeti
                     MyClinicDetialActivity.this);
 
         });
-        tvAddBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mStartTime=null;
-                mEndTime=null;
-                currentBaseReasonBean=null;
-                mSignalSourceNum=null;
-                reserveDateRosterCode=null;
-                checkStep="0";
-                addSignalSourceDialog.show();
-                addSignalSourceDialog.setAppointTime(mStartTime,mEndTime);
-                addSignalSourceDialog.setSignalType(currentBaseReasonBean);
-                addSignalSourceDialog.setSignalNum(mSignalSourceNum);
-            }
+        tvAddBtn.setOnClickListener(v -> {
+            mStartTime=null;
+            mEndTime=null;
+            currentBaseReasonBean=null;
+            mSignalSourceNum=null;
+            reserveDateRosterCode=null;
+            checkStep="0";
+            addSignalSourceDialog.show();
+            addSignalSourceDialog.setAppointTime(mStartTime,mEndTime);
+            addSignalSourceDialog.setSignalType(currentBaseReasonBean);
+            addSignalSourceDialog.setSignalNum(mSignalSourceNum);
         });
         addSignalSourceDialog.setOnClickDialogListener(new AddSignalSourceDialog.OnClickDialogListener() {
             @Override
@@ -705,21 +684,16 @@ public class MyClinicDetialActivity extends AbstractMvpBaseActivity<MyClinicDeti
                 addSignalSourceDialog.setSignalType(baseReasonBean);
             }
         });
-        checkStepDialog.setOnClickListener(new CommonConfirmDialog.OnClickListener() {
-            @Override
-            public void onConfirm() {
-                mPresenter.sendOperUpdDoctorDateRosterInfoRequest(
-                        mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(),
-                        mApp.mViewSysUserDoctorInfoAndHospital.getUserName()
-                        ,mApp.mViewSysUserDoctorInfoAndHospital.getUserNameAlias(),
-                        currentWeek+"",
-                        currentBaseReasonBean.getAttrCode()+""
-                        ,currentBaseReasonBean.getAttrName(),
-                        DateUtils.getDeviceTimeOfYMD(),
-                        mStartTime,mEndTime,mSignalSourceNum,checkStep,
-                        reserveDateRosterCode,MyClinicDetialActivity.this);
-            }
-        });
+        checkStepDialog.setOnClickListener(() -> mPresenter.sendOperUpdDoctorDateRosterInfoRequest(
+                mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(),
+                mApp.mViewSysUserDoctorInfoAndHospital.getUserName()
+                ,mApp.mViewSysUserDoctorInfoAndHospital.getUserNameAlias(),
+                currentWeek+"",
+                currentBaseReasonBean.getAttrCode()+""
+                ,currentBaseReasonBean.getAttrName(),
+                DateUtils.getDeviceTimeOfYMD(),
+                mStartTime,mEndTime,mSignalSourceNum,checkStep,
+                reserveDateRosterCode,MyClinicDetialActivity.this));
     }
 
     /**
@@ -1070,8 +1044,6 @@ public class MyClinicDetialActivity extends AbstractMvpBaseActivity<MyClinicDeti
         WheelItem[] wheelItems = DataUtil.convertStrToWheelArry(startTimes);
         WheelItem[] wheelItems1 = DataUtil.convertStrToWheelArry(endTimes);
         columnWheelDialog.setItems(wheelItems,wheelItems1,null,null,null);
-//        columnWheelDialog.setSelected(new Random().nextInt(startTimes.size())
-//                ,new Random().nextInt(endTimes.size()),0,0,0);
     }
 
 
@@ -1094,8 +1066,6 @@ public class MyClinicDetialActivity extends AbstractMvpBaseActivity<MyClinicDeti
             return false;
         });
         columnWheelDialog.setItems(DataUtil.convertObjToWheelArry(baseReasonBeans),null,null,null,null);
-//        columnWheelDialog.setSelected(new Random().nextInt(baseReasonBeans.size())
-//                ,0,0,0,0);
     }
 
     /**
