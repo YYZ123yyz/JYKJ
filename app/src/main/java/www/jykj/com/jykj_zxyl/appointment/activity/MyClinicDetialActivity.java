@@ -64,6 +64,7 @@ import www.jykj.com.jykj_zxyl.appointment.listener.MyItemClickListener;
 import www.jykj.com.jykj_zxyl.appointment.view.FirstView;
 import www.jykj.com.jykj_zxyl.appointment.view.SecView;
 import www.jykj.com.jykj_zxyl.appointment.view.ThirdView;
+import www.jykj.com.jykj_zxyl.medicalrecord.activity.ConsultationInfoActivity;
 import www.jykj.com.jykj_zxyl.medicalrecord.activity.PatientRecordActivity;
 import www.jykj.com.jykj_zxyl.util.StringUtils;
 
@@ -311,16 +312,20 @@ public class MyClinicDetialActivity extends AbstractMvpBaseActivity<MyClinicDeti
 
             @Override
             public void onClickInterrogation(int pos) {
+//                PatientInfoBean patientInfoBean = mPatientInfoBeans.get(pos);
+//                ProvideViewInteractOrderTreatmentAndPatientInterrogation patientInterrogation
+//                        =new ProvideViewInteractOrderTreatmentAndPatientInterrogation();
+//                patientInterrogation.setOrderCode(patientInfoBean.getOrderCode());
+//                patientInterrogation.setTreatmentType(patientInfoBean.getTreatmentType());
+//                patientInterrogation.setPatientCode(patientInfoBean.getMainPatientCode());
+//                patientInterrogation.setPatientName(patientInfoBean.getMainPatientName());
+//                startActivity(new Intent(MyClinicDetialActivity.this,
+//                        WZXXActivity.class).putExtra("wzxx",
+//                        patientInterrogation));
                 PatientInfoBean patientInfoBean = mPatientInfoBeans.get(pos);
-                ProvideViewInteractOrderTreatmentAndPatientInterrogation patientInterrogation
-                        =new ProvideViewInteractOrderTreatmentAndPatientInterrogation();
-                patientInterrogation.setOrderCode(patientInfoBean.getOrderCode());
-                patientInterrogation.setTreatmentType(patientInfoBean.getTreatmentType());
-                patientInterrogation.setPatientCode(patientInfoBean.getMainPatientCode());
-                patientInterrogation.setPatientName(patientInfoBean.getMainPatientName());
-                startActivity(new Intent(MyClinicDetialActivity.this,
-                        WZXXActivity.class).putExtra("wzxx",
-                        patientInterrogation));
+                Bundle bundle=new Bundle();
+                bundle.putString("orderCode",patientInfoBean.getOrderCode());
+                startActivity(ConsultationInfoActivity.class,bundle);
             }
         });
         rvList.setLayoutManager(new LinearLayoutManager(this));

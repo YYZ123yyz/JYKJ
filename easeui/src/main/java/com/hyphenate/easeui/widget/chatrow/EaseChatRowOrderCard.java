@@ -33,8 +33,6 @@ import com.hyphenate.easeui.netService.entity.NetRetEntity;
 import com.hyphenate.easeui.utils.SharedPreferences_DataSave;
 import com.hyphenate.easeui.widget.EaseImageView;
 import org.greenrobot.eventbus.EventBus;
-
-import java.text.DecimalFormat;
 import java.util.HashMap;
 
 
@@ -773,6 +771,13 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                         startActivity(AppointOrderDetialActivity.class,bundle);
 
                         break;
+                    }
+                    case "medicalRecord":{
+
+//                      Bundle bundle=new Bundle();
+//                      bundle.putString("orderCode",orderId);
+//                      bundle.putString("patientCode",message.getTo());
+//                      bundle.putString("patientName",patientName);
                     }
 
                     default:

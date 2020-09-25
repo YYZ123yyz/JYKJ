@@ -49,8 +49,6 @@ import netService.HttpNetService;
 import netService.entity.NetRetEntity;
 import util.ActivityStackManager;
 import www.jykj.com.jykj_zxyl.R;
-import www.jykj.com.jykj_zxyl.activity.home.ZhlyReplyActivity;
-import www.jykj.com.jykj_zxyl.activity.home.wdzs.ProvideDoctorSetServiceState;
 import www.jykj.com.jykj_zxyl.app_base.base_activity.BaseActivity;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.BaseBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.CheckImResultBean;

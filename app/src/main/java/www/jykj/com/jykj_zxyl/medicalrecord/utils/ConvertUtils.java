@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import entity.wdzs.ProvideBasicsImg;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.InspectionItemBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.InspectionItemDataBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.InspectionItemGradeBean;
@@ -237,4 +238,26 @@ public class ConvertUtils {
         return prescriptionItemBeans;
 
     }
+
+
+    public static List<String> convertStrToList(String content){
+        List<String> list=new ArrayList<>();
+        if (StringUtils.isNotEmpty(content)) {
+            String[] split = content.split(",");
+            list.addAll(Arrays.asList(split));
+
+        }
+        return list;
+    }
+
+    public static List<ProvideBasicsImg> convertListToBasicsImg(List<String> list){
+        List<ProvideBasicsImg> mProvideBasicsImg = new ArrayList<>();
+        for (String s : list) {
+            ProvideBasicsImg provideBasicsImg=new ProvideBasicsImg();
+            provideBasicsImg.setImgUrl(s);
+            mProvideBasicsImg.add(provideBasicsImg);
+        }
+        return mProvideBasicsImg;
+    }
+
 }

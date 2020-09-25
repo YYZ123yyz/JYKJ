@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.blankj.utilcode.util.CollectionUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.bumptech.glide.Glide;
+import com.hyphenate.easeui.jykj.bean.OrderMessage;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
@@ -34,10 +35,14 @@ import butterknife.OnClick;
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.activity.home.twjz.TWJZ_ZDMSActivity;
 import www.jykj.com.jykj_zxyl.activity.home.wdzs.ProvideViewInteractOrderTreatmentAndPatientInterrogation;
+import www.jykj.com.jykj_zxyl.activity.hyhd.ChatActivity;
+import www.jykj.com.jykj_zxyl.app_base.base_bean.PatientInfoBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.PatientRecordDetBean;
+import www.jykj.com.jykj_zxyl.app_base.base_bean.ReceiveTreatmentResultBean;
 import www.jykj.com.jykj_zxyl.app_base.http.ParameUtil;
 import www.jykj.com.jykj_zxyl.app_base.http.RetrofitUtil;
 import www.jykj.com.jykj_zxyl.app_base.mvp.AbstractMvpBaseActivity;
+import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.medicalrecord.PatientRecordContract;
 import www.jykj.com.jykj_zxyl.medicalrecord.PatientRecordPresenter;
 import www.jykj.com.jykj_zxyl.medicalrecord.adapter.MedicalRecordDrugAdapter;
@@ -151,11 +156,13 @@ public class PatientRecordActivity
     LinearLayout llCheck;
     @BindView(R.id.ll_diagnosis)
     LinearLayout llDiagnosis;
+    private JYKJApplication mApp;
     private LayoutInflater mInflater;
     private String gendder;
     private String orderCode;//订单Id
     private String patientCode;//患者code
     private String patientName;//患者名称
+    private PatientRecordDetBean patientRecordDetBean;
     private static final int DRUG_TYPE_NOMAL = 0;
     private static final int DRUG_TYPE_START = 1;
     private static final int DRUG_TYPE_END = 2;
@@ -183,6 +190,7 @@ public class PatientRecordActivity
     @Override
     protected void initView() {
         super.initView();
+        mApp = (JYKJApplication) getApplication();
         mInflater = LayoutInflater.from(this);
         tittle.setText("病历");
     }
@@ -312,6 +320,7 @@ public class PatientRecordActivity
 
     @Override
     public void getPatientRecordDet(PatientRecordDetBean det) {
+        patientRecordDetBean=det;
         docName.setText(det.getDoctorName());
         departmentName.setText(det.getDepartmentSecondName());
         diaOrder.setText(det.getTreatmentCardNum());
@@ -436,6 +445,44 @@ public class PatientRecordActivity
         }
         return strings;
     }
+
+
+
+    /**
+     * 跳转IM
+     * @param patientRecordDetBean 病例详情信息
+     */
+    private void startJumpChatActivity(PatientRecordDetBean patientRecordDetBean){
+        Intent intent = new Intent(this, ChatActivity.class);
+        //患者
+        intent.putExtra("userCode", patientCode);
+        intent.putExtra("userName", patientName);
+        //医生
+        intent.putExtra("usersName", mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
+        intent.putExtra("userUrl", mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl());
+        //URL
+        intent.putExtra("doctorUrl", mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl());
+        //intent.putExtra("patientAlias", mHZEntyties.get(position).getan);
+        intent.putExtra("patientCode", patientCode);
+
+        long reserveConfigEnd = patientRecordDetBean.getReserveConfigEnd();
+        String endTime = DateUtils.getDateToYYYYMMDD(reserveConfigEnd);
+        String treatmentMould = patientRecordDetBean.getTreatmentMould();
+        String patientType="";
+        if (treatmentMould.equals("1")) {
+            patientType="一次性就诊";
+        }else if(treatmentMould.equals("2")){
+            patientType="签约就诊";
+        }
+        OrderMessage orderMessage=new OrderMessage(endTime,patientType
+                ,orderCode,"medicalRecord");
+
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("orderMsg", orderMessage);
+        intent.putExtras(bundle);
+        startActivityForResult(intent,1000);
+    }
+
     @Override
     public void getDataFailure(String msg) {
         ToastUtils.showShort(msg);
@@ -444,6 +491,7 @@ public class PatientRecordActivity
     @Override
     public void dealDataSucess(String msg) {
         ToastUtils.showShort(msg);
+        startJumpChatActivity(patientRecordDetBean);
     }
 
     @Override

@@ -164,6 +164,10 @@ public interface ApiService {
     @POST("medicalRecordControlle/getMyClinicDetailResPatientMedicalRecord")
     Observable<String> getPatientMedicalRecord(@Query(value = "jsonDataInfo"
             , encoded = true) String queryJson);
+    //[获取]问诊详情数据
+    @POST("/medicalRecordControlle/searchMyClinicDetailResPatientInterrogation")
+    Observable<String> searchMyClinicDetailResPatientInterrogation(@Query(value = "jsonDataInfo"
+            , encoded = true) String queryJson);
 
     //发送病历
     @POST("/medicalRecordControlle/operMyClinicDetailPatientMedicalRecordSend")
@@ -187,5 +191,6 @@ public interface ApiService {
     @POST("/imDataControlle/IMTesting")
     Observable<String> iMTesting(@Query(value = "jsonDataInfo"
             , encoded = true) String queryJson);
+
 }
 
