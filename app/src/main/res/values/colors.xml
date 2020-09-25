@@ -30,7 +30,7 @@
     <color name="color">#ff00ff</color>
     <!--zxing-->
     <color name="contents_text">#000000</color>
-    <color name="encode_view">#ffffff</color>
+
     <color name="possible_result_points">#ffbd21</color>
     <color name="result_minor_text">#c0c0c0</color>
     <color name="result_points">#99cc00</color>

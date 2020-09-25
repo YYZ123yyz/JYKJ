@@ -7,16 +7,15 @@
 
     <include
         android:id="@+id/title_bar"
-        layout="@layout/item_toolbar"/>
+        layout="@layout/item_toolbar" />
 
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/title_bar"
         android:layout_above="@+id/lin_confirm"
-        android:layout_marginBottom="20dp"
-        >
+        android:layout_below="@+id/title_bar"
+        android:layout_marginBottom="20dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -244,7 +243,7 @@
                             android:layout_weight="1"
                             android:drawablePadding="10dp"
                             android:text="主诉"
-                            android:textColor="@color/black"
+                            android:textColor="@color/color_000000"
                             android:textSize="15sp" />
 
                         <ImageView
@@ -283,7 +282,7 @@
                             android:layout_marginTop="10dp"
                             android:layout_marginBottom="10dp"
                             android:text="2222222"
-                            android:textColor="@color/textColor_vo"
+                            android:textColor="@color/color_666666"
                             android:visibility="visible" />
 
                         <View style="@style/div_h" />
@@ -297,7 +296,7 @@
                             android:layout_marginBottom="10dp"
                             android:background="@null"
                             android:hint="请输入内容"
-                            android:textColorHint="@color/black"
+                            android:textColorHint="@color/color_000000"
                             android:textSize="15sp" />
                     </LinearLayout>
 
@@ -328,7 +327,7 @@
                             android:layout_weight="1"
                             android:drawablePadding="10dp"
                             android:text="现病史"
-                            android:textColor="@color/black"
+                            android:textColor="@color/color_000000"
                             android:textSize="15sp" />
 
                         <ImageView
@@ -368,7 +367,7 @@
                             android:layout_marginTop="10dp"
                             android:layout_marginBottom="10dp"
                             android:text="2222222"
-                            android:textColor="@color/textColor_vo"
+                            android:textColor="@color/color_666666"
                             android:visibility="visible" />
 
 
@@ -383,7 +382,7 @@
                             android:layout_marginBottom="10dp"
                             android:background="@null"
                             android:hint="请输入内容"
-                            android:textColorHint="@color/black"
+                            android:textColorHint="@color/color_000000"
                             android:textSize="15sp" />
                     </LinearLayout>
 
@@ -414,7 +413,7 @@
                             android:layout_marginLeft="10dp"
                             android:layout_weight="1"
                             android:text="既往病史"
-                            android:textColor="@color/black"
+                            android:textColor="@color/color_000000"
                             android:textSize="15sp" />
 
                         <ImageView
@@ -466,7 +465,7 @@
                             android:layout_marginBottom="10dp"
                             android:background="@null"
                             android:hint="请输入内容"
-                            android:textColorHint="@color/black"
+                            android:textColorHint="@color/color_000000"
                             android:textSize="15sp" />
                     </LinearLayout>
 
@@ -498,7 +497,7 @@
                             android:layout_marginLeft="10dp"
                             android:layout_weight="1"
                             android:text="过敏史"
-                            android:textColor="@color/black"
+                            android:textColor="@color/color_000000"
                             android:textSize="15sp" />
 
 
@@ -537,7 +536,7 @@
                             android:layout_marginTop="10dp"
                             android:layout_marginBottom="10dp"
                             android:text="2222222"
-                            android:textColor="@color/textColor_vo" />
+                            android:textColor="@color/color_666666" />
 
                         <View style="@style/div_h" />
 
@@ -580,7 +579,7 @@
                             android:layout_marginBottom="10dp"
                             android:background="@null"
                             android:hint="请输入内容"
-                            android:textColorHint="@color/black"
+                            android:textColorHint="@color/color_000000"
                             android:textSize="15sp" />
 
                     </LinearLayout>
@@ -613,7 +612,7 @@
                             android:layout_marginLeft="10dp"
                             android:layout_weight="1"
                             android:text="查体"
-                            android:textColor="@color/black"
+                            android:textColor="@color/color_000000"
                             android:textSize="15sp" />
 
                         <ImageView
@@ -668,7 +667,7 @@
                             android:layout_marginBottom="10dp"
                             android:background="@null"
                             android:hint="请输入内容"
-                            android:textColorHint="@color/black"
+                            android:textColorHint="@color/color_000000"
                             android:textSize="15sp" />
                     </LinearLayout>
 
@@ -685,11 +684,10 @@
                     android:orientation="vertical">
 
                     <LinearLayout
+                        android:id="@+id/ll_clinical_diagnosis"
                         android:layout_width="match_parent"
                         android:layout_height="45dp"
-                        android:orientation="horizontal"
-                        android:id="@+id/ll_clinical_diagnosis"
-                        >
+                        android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -698,7 +696,7 @@
                             android:layout_marginLeft="10dp"
                             android:layout_weight="1"
                             android:text="临床诊断"
-                            android:textColor="@color/black"
+                            android:textColor="@color/color_000000"
                             android:textSize="15sp" />
 
                         <ImageView
@@ -723,10 +721,10 @@
 
 
                     <LinearLayout
+                        android:id="@+id/ll_diagnosis"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:id="@+id/ll_diagnosis"
                         android:visibility="gone">
 
                         <View style="@style/div_h" />
@@ -764,7 +762,7 @@
                                 android:layout_weight="1"
                                 android:drawablePadding="10dp"
                                 android:text="治疗建议"
-                                android:textColor="@color/black"
+                                android:textColor="@color/color_000000"
                                 android:textSize="15sp" />
 
                             <ImageView
@@ -817,7 +815,7 @@
                                 android:layout_marginBottom="10dp"
                                 android:background="@null"
                                 android:hint="请输入内容"
-                                android:textColorHint="@color/black"
+                                android:textColorHint="@color/color_000000"
                                 android:textSize="15sp" />
 
                         </LinearLayout>
@@ -835,11 +833,10 @@
                     android:orientation="vertical">
 
                     <LinearLayout
+                        android:id="@+id/ll_inspection_root"
                         android:layout_width="match_parent"
                         android:layout_height="45dp"
-                        android:orientation="horizontal"
-                        android:id="@+id/ll_inspection_root"
-                        >
+                        android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="0dp"
@@ -849,7 +846,7 @@
                             android:layout_weight="1"
                             android:drawablePadding="10dp"
                             android:text="检查检验"
-                            android:textColor="@color/black"
+                            android:textColor="@color/color_000000"
                             android:textSize="15sp" />
 
 
@@ -872,10 +869,10 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/ll_check"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:id="@+id/ll_check"
                         android:visibility="gone">
 
                         <View style="@style/div_h" />
@@ -903,11 +900,10 @@
                 android:orientation="vertical">
 
                 <LinearLayout
+                    android:id="@+id/ll_prescription_notes_root"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
-                    android:orientation="horizontal"
-                    android:id="@+id/ll_prescription_notes_root"
-                    >
+                    android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -917,7 +913,7 @@
                         android:layout_weight="1"
                         android:drawablePadding="10dp"
                         android:text="处方笺"
-                        android:textColor="@color/black"
+                        android:textColor="@color/color_000000"
                         android:textSize="15sp" />
 
                     <ImageView

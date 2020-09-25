@@ -772,12 +772,18 @@ public class EaseChatRowOrderCard extends EaseChatRow {
 
                         break;
                     }
-                    case "medicalRecord":{
-
-//                      Bundle bundle=new Bundle();
-//                      bundle.putString("orderCode",orderId);
-//                      bundle.putString("patientCode",message.getTo());
-//                      bundle.putString("patientName",patientName);
+                    case "medicalRecord": {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("orderCode", orderId);
+                        bundle.putString("patientCode", message.getTo());
+                        bundle.putString("patientName", patientName);
+                        Intent intent = new Intent();
+                        intent.setAction("www.jykj.com.jykj_zxyl." +
+                                "medicalrecord.activity.PatientRecordActivity");
+                        intent.addCategory(Intent.CATEGORY_DEFAULT);
+                        intent.putExtras(bundle);
+                        mContext.startActivity(intent);
+                        break;
                     }
 
                     default:

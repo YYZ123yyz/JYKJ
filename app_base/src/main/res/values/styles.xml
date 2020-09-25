@@ -58,4 +58,11 @@
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowAnimationStyle">@android:style/Animation.Translucent</item>
     </style>
+
+    <!-- 分割线 -->
+    <style name="div_h">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">@color/color_F2F2F2</item>
+    </style>
 </resources>
