@@ -279,7 +279,7 @@ public class PatientRecordActivity
     private void saveData() {
         HashMap<String, Object> hashMap = ParameUtil.buildBaseDoctorParam(this);
         hashMap.put("orderCode", orderCode);
-        hashMap.put("operType", "1");
+        hashMap.put("operType", "0");
         hashMap.put("chiefComplaint", TextUtils.isEmpty(chiefEt.getText().toString().trim()) ? "无" : chiefEt.getText().toString().trim());
         hashMap.put("historyNew", TextUtils.isEmpty(newEt.getText().toString().trim()) ? "无" : newEt.getText().toString().trim());
         hashMap.put("historyPast", TextUtils.isEmpty(pastEt.getText().toString().trim()) ? "无" : pastEt.getText().toString().trim());
