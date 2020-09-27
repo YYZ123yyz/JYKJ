@@ -131,6 +131,7 @@ public class MedcalRecordDialog extends Dialog {
             public void onClick(View v) {
                 if (TextUtils.isEmpty(edInputContent.getText().toString())) {
                     ToastUtils.showToast("填写内容不能为空");
+                    return;
                 }
                 if (onClickListener!=null) {
                     onClickListener.onClickSaveBtn(edInputContent.getText().toString(),contentType);

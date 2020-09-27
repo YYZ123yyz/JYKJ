@@ -81,7 +81,7 @@ public class PatientRecordPresenter extends BasePresenterImpl<PatientRecordContr
             @Override
             public void showLoadingView() {
                 if (mView!=null) {
-                    mView.showLoading(100);
+                    mView.showLoading(101);
                 }
             }
 
@@ -126,7 +126,7 @@ public class PatientRecordPresenter extends BasePresenterImpl<PatientRecordContr
             @Override
             public void showLoadingView() {
                 if (mView!=null) {
-                    mView.showLoading(100);
+                    mView.showLoading(102);
                 }
             }
 

@@ -180,7 +180,14 @@ public class PatientRecordActivity
 
     @Override
     public void showLoading(int code) {
+        if(code==101||code==102){
+            showLoading("",null);
+        }
+    }
 
+    @Override
+    public void hideLoading() {
+        dismissLoading();
     }
 
     @Override
@@ -266,10 +273,12 @@ public class PatientRecordActivity
         }
     }
 
+    /**
+     * 保存数据
+     */
     private void saveData() {
         HashMap<String, Object> hashMap = ParameUtil.buildBaseDoctorParam(this);
         hashMap.put("orderCode", orderCode);
-
         hashMap.put("operType", "1");
         hashMap.put("chiefComplaint", TextUtils.isEmpty(chiefEt.getText().toString().trim()) ? "无" : chiefEt.getText().toString().trim());
         hashMap.put("historyNew", TextUtils.isEmpty(newEt.getText().toString().trim()) ? "无" : newEt.getText().toString().trim());
@@ -325,19 +334,19 @@ public class PatientRecordActivity
 //        chiefState.setVisibility(det.getFlagWriteChiefComplaint() == 1 ? View.VISIBLE : View.GONE);
         chiefState.setImageResource(det.getFlagWriteChiefComplaint() == 1 ? R.mipmap.iv_filled : R.mipmap.iv_noinput);
 //        historyState.setVisibility(det.getFlagWriteHistoryNew() == 1 ? View.VISIBLE : View.GONE);
-        historyState.setImageResource(det.getFlagWriteChiefComplaint() == 1 ? R.mipmap.iv_filled : R.mipmap.iv_noinput);
+        historyState.setImageResource(det.getFlagWriteHistoryNew() == 1 ? R.mipmap.iv_filled : R.mipmap.iv_noinput);
 //        pastState.setVisibility(det.getFlagWriteHistoryPast() == 1 ? View.VISIBLE : View.GONE);
-        pastState.setImageResource(det.getFlagWriteChiefComplaint() == 1 ? R.mipmap.iv_filled : R.mipmap.iv_noinput);
+        pastState.setImageResource(det.getFlagWriteHistoryPast() == 1 ? R.mipmap.iv_filled : R.mipmap.iv_noinput);
 //        lookState.setVisibility(det.getFlagWriteMedicalExamination() == 1 ? View.VISIBLE : View.GONE);
-        lookState.setImageResource(det.getFlagWriteChiefComplaint() == 1 ? R.mipmap.iv_filled : R.mipmap.iv_noinput);
+        lookState.setImageResource(det.getFlagWriteMedicalExamination() == 1 ? R.mipmap.iv_filled : R.mipmap.iv_noinput);
 //        diagState.setVisibility(det.getFlagWriteDiagnosis() == 1 ? View.VISIBLE : View.GONE);
 //        diagState.setImageResource(det.getFlagWriteChiefComplaint() == 1 ? R.mipmap.iv_filled : R.mipmap.iv_noinput);
 //        allerState.setVisibility(det.getFlagWriteHistoryAllergy() == 1 ? View.VISIBLE : View.GONE);
         examinationRadio.check(det.getFlagWriteHistoryAllergy() == 1 ? R.id.radio_yes : R.id.radio_no);
 //        suggestState.setVisibility(det.getFlagWriteTreatmentProposal() == 1 ? View.VISIBLE : View.GONE);
-        suggestState.setImageResource(det.getFlagWriteChiefComplaint() == 1 ? R.mipmap.iv_filled : R.mipmap.iv_noinput);
+        suggestState.setImageResource(det.getFlagWriteTreatmentProposal() == 1 ? R.mipmap.iv_filled : R.mipmap.iv_noinput);
 //        checkState.setVisibility(det.getFlagWriteInspection() == 1 ? View.VISIBLE : View.GONE);
-        checkState.setImageResource(det.getFlagWriteChiefComplaint() == 1 ? R.mipmap.iv_filled : R.mipmap.iv_noinput);
+        checkState.setImageResource(det.getFlagWriteInspection() == 1 ? R.mipmap.iv_filled : R.mipmap.iv_noinput);
 
         chiefEt.setText(det.getChiefComplaint());
         newEt.setText(det.getHistoryNew());
@@ -441,6 +450,7 @@ public class PatientRecordActivity
         }
         return strings;
     }
+
 
 
 

@@ -11,6 +11,7 @@ import com.hyphenate.easeui.jykj.AppointOrderDetialPresenter;
 import com.hyphenate.easeui.jykj.utils.DateUtils;
 
 import www.jykj.com.jykj_zxyl.app_base.base_bean.OrderInfoBean;
+import www.jykj.com.jykj_zxyl.app_base.base_utils.StringUtils;
 import www.jykj.com.jykj_zxyl.app_base.base_view.BaseToolBar;
 import www.jykj.com.jykj_zxyl.app_base.base_view.LoadingLayoutManager;
 import www.jykj.com.jykj_zxyl.app_base.mvp.AbstractMvpBaseActivity;
@@ -38,6 +39,7 @@ public class AppointOrderDetialActivity
     private TextView tvServiceProject;
     private TextView tvActualPayment;
     private TextView tvPaymentMode;
+    private TextView tvOrderDesc;
     private ImageView ivPaymentIcon;
     private BaseToolBar toolbar;
     private ScrollView mScrollView;
@@ -77,6 +79,7 @@ public class AppointOrderDetialActivity
         tvActualPayment=findViewById(R.id.tv_actual_payment);
         tvPaymentMode=findViewById(R.id.tv_payment_mode);
         ivPaymentIcon=findViewById(R.id.iv_payment_icon);
+        tvOrderDesc=findViewById(R.id.tv_order_desc);
 
 
         setToolBar();
@@ -167,6 +170,8 @@ public class AppointOrderDetialActivity
         tvAppointServiceTime.setText(DateUtils.getDateToYYYYMMDDHHMM(reserveTime));
         tvServiceTotalPrice.setText(String.format("%s元", orderInfoBean.getServiceTotal()));
         tvActualPayment.setText(String.format("%s元", orderInfoBean.getActualPayment()));
+        String orderDesc = orderInfoBean.getOrderDesc();
+        tvOrderDesc.setText(StringUtils.isNotEmpty(orderDesc)?orderDesc:"无");
 
     }
 

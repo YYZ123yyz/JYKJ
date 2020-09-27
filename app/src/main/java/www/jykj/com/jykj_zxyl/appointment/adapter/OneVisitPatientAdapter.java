@@ -21,6 +21,7 @@ import java.util.List;
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.PatientInfoBean;
 import www.jykj.com.jykj_zxyl.util.DateUtils;
+import www.jykj.com.jykj_zxyl.util.StringUtils;
 
 /**
  * Description:
@@ -73,7 +74,8 @@ public class OneVisitPatientAdapter extends RecyclerView.Adapter<OneVisitPatient
         holder.tvAppointmentTime.setText(DateUtils.getDateToStringYYYMMDDHHMM(reserveConfigStart));
         holder.tvPppointmentSubject.setText(patientInfoBean.getReserveProjectName());
         holder.tvVideoInteractionBtn.setText(patientInfoBean.getReserveProjectName());
-        //holder.tvPatientChief.setText(patientInfoBean.get);
+        String patientSpeak = patientInfoBean.getPatientSpeak();
+        holder.tvPatientChief.setText(StringUtils.isNotEmpty(patientSpeak)?patientSpeak:"无");
         Glide.with(context).load(patientInfoBean.getPatientLogoUrl())
                 .apply(RequestOptions.placeholderOf(com.hyphenate.easeui.R.mipmap.docter_heard)
                         .diskCacheStrategy(DiskCacheStrategy.ALL))
