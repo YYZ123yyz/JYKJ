@@ -21,7 +21,11 @@ public class PatientRecordContract {
 
         void getDataFailure(String msg);
 
-        void dealDataSucess(String msg);
+        //void dealDataSucess(String msg);
+
+        void getSaveSucess(boolean isSucess);
+
+        void getSendSucess(boolean isSucess);
     }
 
 

@@ -194,10 +194,14 @@ public class ChatActivity extends BaseActivity {
                 Drawable ballIcon = BackGroudSeletor.getdrawble("bg_bl"
                         , ChatActivity.this);
                 mFloatballManager.updateFloatBallBg(ballIcon);
+
+            }
+
+            @Override
+            public void onBallClick() {
                 if(StringUtils.isNotEmpty(orderCode)){
                     sendMedicalRecordRequest(orderCode);
                 }
-
             }
         });
         sendGetCheckRequest(userCode,userName);
@@ -294,7 +298,6 @@ public class ChatActivity extends BaseActivity {
                 }
                 medcalRecordDialog.updateData(
                         chiefComplaintType,"主诉",patientChiefComplaint,content);
-                setMenueStatus(chiefComplaintType);
             }
         };
         MenuItem itemXBS = new MenuItem(BackGroudSeletor.getdrawble("bg_xbs_normal",
@@ -313,7 +316,6 @@ public class ChatActivity extends BaseActivity {
                 medcalRecordDialog.updateData(
                         historyNewType,"现病史",patientHistoryNew,content);
 
-                setMenueStatus(historyNewType);
             }
         };
         MenuItem itemJWS = new MenuItem(BackGroudSeletor.getdrawble("bg_jws_normal",
@@ -331,7 +333,6 @@ public class ChatActivity extends BaseActivity {
                 }
                 medcalRecordDialog.updateData(
                         historyPastType,"既往史",patientHistoryPast,content);
-                setMenueStatus(historyPastType);
             }
         };
         MenuItem itemCT = new MenuItem(BackGroudSeletor.getdrawble("bg_ct_normal",
@@ -347,7 +348,6 @@ public class ChatActivity extends BaseActivity {
                 }
                 medcalRecordDialog.updateData(
                         medicalexaminationType,"查体","",content);
-                setMenueStatus(medicalexaminationType);
             }
         };
         MenuItem itemGMS = new MenuItem(BackGroudSeletor.getdrawble("bg_gms_normal",
@@ -630,7 +630,8 @@ public class ChatActivity extends BaseActivity {
                     }else if(treatmentMould.equals("2")){
                         patientType="签约就诊";
                     }
-                    OrderMessage orderMessage=new OrderMessage(endTime,patientType
+                    OrderMessage orderMessage=new OrderMessage(mApp.mViewSysUserDoctorInfoAndHospital.getUserName()
+                            ,mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl(),endTime,patientType
                             ,orderCode,"medicalRecord");
                     chatFragment.sendOrderCardMsg(orderMessage);
                 }else{
@@ -832,7 +833,7 @@ public class ChatActivity extends BaseActivity {
         Drawable ballIcon = BackGroudSeletor.getdrawble("bg_bl", this);
         FloatBallCfg ballCfg = new FloatBallCfg(ballSize, ballIcon, FloatBallCfg.Gravity.RIGHT_CENTER);
         //设置悬浮球不半隐藏
-//        ballCfg.setHideHalfLater(false);
+        ballCfg.setHideHalfLater(false);
         if (showMenu) {
             //2 需要显示悬浮菜单
             //2.1 初始化悬浮菜单配置，有菜单item的大小和菜单item的个数

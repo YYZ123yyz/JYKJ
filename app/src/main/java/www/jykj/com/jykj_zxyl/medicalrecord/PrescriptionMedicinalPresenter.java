@@ -145,7 +145,7 @@ public class PrescriptionMedicinalPresenter extends BasePresenterImpl
             ,String prescribeVouche, Activity activity) {
         HashMap<String, Object> hashMap = ParameUtil.buildBaseDoctorParam(activity);
         hashMap.put("prescribeListStr",uploadBeans);
-        hashMap.put("prescribeVouche",prescribeVouche);
+        hashMap.put("prescribeVoucher",prescribeVouche);
         String s = RetrofitUtil.encodeParam(hashMap);
         ApiHelper.getApiService().operUpdMyClinicDetailByPrescribe_200915(s)
                 .compose(Transformer.switchSchedulers(new ILoadingView() {

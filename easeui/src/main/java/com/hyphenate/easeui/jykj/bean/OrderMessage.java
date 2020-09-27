@@ -101,10 +101,15 @@ public class OrderMessage implements Serializable {
     }
 
 
-    public OrderMessage(String endTime,
+    public OrderMessage(
+            String nickName,
+            String imageUrl,
+            String endTime,
                         String patientType,
                         String orderId,
                         String messageType){
+        this.nickName=nickName;
+        this.imageUrl=imageUrl;
         this.endTime=endTime;
         this.patientType=patientType;
         this.orderId=orderId;

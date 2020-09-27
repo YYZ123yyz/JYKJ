@@ -470,7 +470,9 @@ public class PatientRecordActivity
         }else if(treatmentMould.equals("2")){
             patientType="签约就诊";
         }
-        OrderMessage orderMessage=new OrderMessage(endTime,patientType
+        OrderMessage orderMessage=new OrderMessage(
+                mApp.mViewSysUserDoctorInfoAndHospital.getUserName()
+                ,mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl(),endTime,patientType
                 ,orderCode,"medicalRecord");
 
         Bundle bundle = new Bundle();
@@ -485,10 +487,15 @@ public class PatientRecordActivity
     }
 
     @Override
-    public void dealDataSucess(String msg) {
-        ToastUtils.showShort(msg);
+    public void getSaveSucess(boolean isSucess) {
+        ToastUtils.showShort("保存成功");
+    }
+
+    @Override
+    public void getSendSucess(boolean isSucess) {
         startJumpChatActivity(patientRecordDetBean);
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {

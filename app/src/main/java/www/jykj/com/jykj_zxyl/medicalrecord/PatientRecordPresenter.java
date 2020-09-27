@@ -97,11 +97,8 @@ public class PatientRecordPresenter extends BasePresenterImpl<PatientRecordContr
                 if (mView != null) {
                     int resCode = baseBean.getResCode();
                     if (resCode==1) {
+                        mView.getSaveSucess(true);
 
-                        mView.dealDataSucess("保存成功");
-//                        PatientRecordDetBean patientRecordDetBean =
-//                                GsonUtils.fromJson(resJsonData, PatientRecordDetBean.class);
-//                        mView.getPatientRecordDet(patientRecordDetBean);
                     }else{
                         mView.getDataFailure(baseBean.getResMsg());
                     }
@@ -145,11 +142,7 @@ public class PatientRecordPresenter extends BasePresenterImpl<PatientRecordContr
                 if (mView != null) {
                     int resCode = baseBean.getResCode();
                     if (resCode==1) {
-
-                        mView.dealDataSucess("发送成功");
-//                        PatientRecordDetBean patientRecordDetBean =
-//                                GsonUtils.fromJson(resJsonData, PatientRecordDetBean.class);
-//                        mView.getPatientRecordDet(patientRecordDetBean);
+                        mView.getSendSucess(true);
                     }else{
                         mView.getDataFailure(baseBean.getResMsg());
                     }
