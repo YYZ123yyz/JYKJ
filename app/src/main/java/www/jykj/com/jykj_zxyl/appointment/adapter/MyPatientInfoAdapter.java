@@ -89,6 +89,7 @@ public class MyPatientInfoAdapter extends RecyclerView.Adapter<MyPatientInfoAdap
                 .apply(RequestOptions.placeholderOf(com.hyphenate.easeui.R.mipmap.docter_heard)
                         .diskCacheStrategy(DiskCacheStrategy.ALL))
                 .into(holder.ivUserHead);
+        holder.tvVideoInteractionBtn.setText(patientInfoBean.getReserveProjectName());
 
         holder.tvCancelAppointmentBtn.setOnClickListener(new View.OnClickListener() {
             @Override

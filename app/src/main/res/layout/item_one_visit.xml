@@ -272,8 +272,8 @@
                 android:layout_marginStart="11.5dp"
                 android:paddingTop="7dp"
                 android:paddingBottom="7dp"
-                android:paddingStart="25.5dp"
-                android:paddingEnd="25.5dp"
+                android:paddingStart="20.5dp"
+                android:paddingEnd="20.5dp"
                 android:background="@drawable/bg_round_7a9eff_14"
                 />
         </RelativeLayout>
