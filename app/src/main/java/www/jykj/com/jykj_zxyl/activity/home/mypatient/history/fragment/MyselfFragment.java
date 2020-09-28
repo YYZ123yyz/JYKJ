@@ -1,6 +1,7 @@
 package www.jykj.com.jykj_zxyl.activity.home.mypatient.history.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -22,6 +23,7 @@ import butterknife.Unbinder;
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.activity.home.mypatient.history.HistoryContract;
 import www.jykj.com.jykj_zxyl.activity.home.mypatient.history.HistoryPresenter;
+import www.jykj.com.jykj_zxyl.activity.home.mypatient.history.Myself_DetailActivity;
 import www.jykj.com.jykj_zxyl.activity.home.mypatient.history.adapter.DoctorAdapter;
 import www.jykj.com.jykj_zxyl.activity.home.mypatient.history.adapter.MyselfAdapter;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.DoctorRecordBean;
@@ -86,7 +88,10 @@ public class MyselfFragment extends AbstractMvpBaseFragment<HistoryContract.View
             doctorAdapter1.setOnItemCoachingClickListener(new Rv_CoachingAdapter.OnItemCoachingClickListener() {
                 @Override
                 public void onClick(int position) {
-
+                    int recordId = doctorRecordBeans.get(position).getRecordId();
+                    Intent intent = new Intent(getContext(), Myself_DetailActivity.class);
+                    intent.putExtra("recordId",recordId+"");
+                    startActivity(intent);
                 }
 
                 @Override

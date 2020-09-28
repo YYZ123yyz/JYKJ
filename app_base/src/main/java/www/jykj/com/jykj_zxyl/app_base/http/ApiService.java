@@ -175,7 +175,7 @@ public interface ApiService {
     Observable<String> savePatientMedicalRecord(@Query(value = "jsonDataInfo"
             , encoded = true) String queryJson);
     //[获取]既往病史[医生填写详情]
-    @POST("/patientDataControlle/searchDoctorManagePatientConditionDiseaseRecordResDoctorData")
+    @POST("/patientHealthRecordsControlle/searchPatientConditionDiseaseRecordResDoctorData_V200916")
     Observable<String> getFillindetails(@Query(value = "jsonDataInfo"
             , encoded = true) String queryJson);
     //获取处方详细信息[按处方凭证]
@@ -187,5 +187,14 @@ public interface ApiService {
     @POST("/imDataControlle/IMTesting")
     Observable<String> iMTesting(@Query(value = "jsonDataInfo"
             , encoded = true) String queryJson);
+    //健康档案-既往病史-个人填写详情
+    @POST("/patientHealthRecordsControlle/searchPatientConditionDiseaseRecordResData_V200916")
+    Observable<String> searchmyself_detail(@Query(value = "jsonDataInfo"
+            , encoded = true) String queryJson);
+    //健康档案-既往病史-医生填写详情
+    @POST("/patientHealthRecordsControlle/searchPatientConditionDiseaseRecordResDoctorData_V200916")
+    Observable<String> searchdoctor_detail(@Query(value = "jsonDataInfo"
+            , encoded = true) String queryJson);
+
 }
 

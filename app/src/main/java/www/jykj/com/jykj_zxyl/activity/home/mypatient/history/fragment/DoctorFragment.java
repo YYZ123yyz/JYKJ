@@ -31,6 +31,7 @@ import www.jykj.com.jykj_zxyl.app_base.base_bean.ProvidePatientConditionDiseaseR
 import www.jykj.com.jykj_zxyl.app_base.base_view.SlideRecyclerView;
 import www.jykj.com.jykj_zxyl.app_base.mvp.AbstractMvpBaseFragment;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
+import www.jykj.com.jykj_zxyl.medicalrecord.activity.PatientRecordActivity;
 
 public class DoctorFragment extends AbstractMvpBaseFragment<HistoryContract.View,
         HistoryPresenter> implements HistoryContract.View {
@@ -91,7 +92,8 @@ public class DoctorFragment extends AbstractMvpBaseFragment<HistoryContract.View
                 public void onClick(int position) {
                     int recordId = providePatientConditionDiseaseRecordBeans.get(position).getRecordId();
                     Intent intent = new Intent(getContext(), FillindetailsActivity.class);
-                    intent.putExtra("recordId", recordId);
+                  //  Intent intent = new Intent(getContext(), PatientRecordActivity.class);
+                    intent.putExtra("recordId", recordId+"");
                     startActivity(intent);
                 }
 
@@ -115,17 +117,10 @@ public class DoctorFragment extends AbstractMvpBaseFragment<HistoryContract.View
         return R.layout.layout_doctorfragment;
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        unbinder = ButterKnife.bind(this, rootView);
-        return rootView;
-    }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        unbinder.unbind();
+     //   unbinder.unbind();
     }
 }

@@ -43,7 +43,7 @@ public class ApiHelper {
      *
      * @return ApiService
      */
-    private static ApiService getOnLineApi(){
+    public static ApiService getOnLineApi(){
         return RxHttpUtils.createApi(AppUrlConfig.SERVICE_API_ONLINE_KEY,
                 AppUrlConfig.SERVICE_API_ONLINE_URL, ApiService.class);
     }
@@ -52,7 +52,7 @@ public class ApiHelper {
      * 获取线下测试api
      * @return ApiService
      */
-    private static ApiService getDevTestApi(){
+    public static ApiService getDevTestApi(){
         return RxHttpUtils.createApi(AppUrlConfig.SERVICE_API_TEST_KEY,
                 AppUrlConfig.SERVICE_API_TEST_URL, ApiService.class);
     }

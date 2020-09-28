@@ -32,7 +32,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> <!-- <uses-permission android:name="android.permission.VIBRATE" /> -->
     <uses-permission android:name="android.permission.RECORD_AUDIO" /> <!-- <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> -->
     <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION" />
-    <uses-permission    android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- <uses-permission android:name="android.permission.GET_TASKS" /> -->
     <!-- <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> -->
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
@@ -70,7 +70,8 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:allowBackup,android:icon">
-        <activity android:name=".activity.home.mypatient.fillindetails.FillindetailsActivity"></activity>
+        <activity android:name=".activity.home.mypatient.history.Myself_DetailActivity"></activity>
+        <activity android:name=".activity.home.mypatient.fillindetails.FillindetailsActivity" />
         <activity android:name=".activity.home.mypatient.history.HistoryActivity" />
         <activity android:name=".activity.home.mypatient.label.LabelActivity" />
         <activity android:name=".activity.home.mypatient.symptom.SymptomActivity" />
@@ -301,13 +302,9 @@
         <activity
             android:name=".activity.home.jyzl.GRXX_GRZK_JBXXActivity"
             android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 个人总览=》 个人状况 ==》患者标签 -->
-
-        <activity android:name=".activity.home.jyzl.PatientBaseInfoActivity"
-            android:screenOrientation="portrait"
-            >
-
-
-        </activity>
+        <activity
+            android:name=".activity.home.jyzl.PatientBaseInfoActivity"
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".activity.home.jyzl.GRXX_GRZK_HZBQActivity"
             android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 个人总览=》 个人状况 ==》症状信息 -->
@@ -409,64 +406,45 @@
         <activity
             android:name=".activity.hyhd.TCVideoPreviewActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".appointment.activity.MyOnlineScheduActivity"
-            android:screenOrientation="portrait"
-            >
-
-        </activity>
-        <activity android:name=".appointment.activity.AppointPatientListActivity"
-            android:screenOrientation="portrait"
-            >
-
-        </activity>
-        <activity android:name=".appointment.activity.MyOnlineScheduTemplateActivity"
-            android:screenOrientation="portrait"
-            >
-
-
-        </activity>
+        <activity
+            android:name=".appointment.activity.MyOnlineScheduActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".appointment.activity.AppointPatientListActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".appointment.activity.MyOnlineScheduTemplateActivity"
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".appointment.activity.MyClinicDetialActivity"
-            android:screenOrientation="portrait">
-
-        </activity>
-        <activity android:name=".appointment.activity.CancelAppointActivity"
-            android:screenOrientation="portrait"
-            >
-
-
-        </activity>
-        <activity android:name=".appointment.activity.AppointOrderDetialActivity"
-            android:screenOrientation="portrait"
-            >
-
-
-        </activity>
-        <activity android:name=".medicalrecord.activity.InspectionProjectChoosedActivity"
-            android:screenOrientation="portrait"
-            />
-        <activity android:name=".medicalrecord.activity.InspectionPositionChoosedActivity"
-            android:screenOrientation="portrait"
-            >
-
-        </activity>
-
-        <activity android:name=".medicalrecord.activity.InspectionOrderListActivity"
-            android:screenOrientation="portrait"
-            />
-        <activity android:name=".medicalrecord.activity.PrescriptionMedicinalListActivity"
-            android:screenOrientation="portrait"
-            />
-        <activity android:name=".medicalrecord.activity.PrescriptionNotesListActivity"
-            android:screenOrientation="portrait"
-            />
-        <activity android:name=".medicalrecord.activity.ChoosedMedicinalListActivity"
-            android:screenOrientation="portrait"
-           />
-        <activity android:name=".medicalrecord.activity.AddDrugInfoActivity"
-            android:screenOrientation="portrait"
-            />
-
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".appointment.activity.CancelAppointActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".appointment.activity.AppointOrderDetialActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".medicalrecord.activity.InspectionProjectChoosedActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".medicalrecord.activity.InspectionPositionChoosedActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".medicalrecord.activity.InspectionOrderListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".medicalrecord.activity.PrescriptionMedicinalListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".medicalrecord.activity.PrescriptionNotesListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".medicalrecord.activity.ChoosedMedicinalListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".medicalrecord.activity.AddDrugInfoActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.tencent.rtmp.video.TXScreenCapture$TXScreenCaptureAssistantActivity"
             android:theme="@android:style/Theme.Translucent" />
@@ -482,8 +460,7 @@
             android:value="67ZtaSY1EyjZZoYqqYVT6e3X" />
         <meta-data
             android:name="com.mob.push.oppo.appsecret"
-            android:value="sK8dkfTwHt11QezBuIO4kjJV" />
-        <!-- 配置bugly组件的APP ID，bugly组件为腾讯提供的用于crash上报和分析的开放组件，如果您不需要该组件，可以自行移除 -->
+            android:value="sK8dkfTwHt11QezBuIO4kjJV" /> <!-- 配置bugly组件的APP ID，bugly组件为腾讯提供的用于crash上报和分析的开放组件，如果您不需要该组件，可以自行移除 -->
         <meta-data
             android:name="BUGLY_APPID"
             android:value="1400372964" /> <!-- 配置bugly组件的APP渠道号 -->

@@ -112,6 +112,7 @@ public class HZGLHZZLActivity extends BaseActivity {
                 case R.id.jwbs:
                     Intent intent = new Intent(mContext, HistoryActivity.class);
                     intent.putExtra("patientCode", mProvideViewPatientLablePunchClockState.getPatientCode());
+                    intent.putExtra("patientName", mProvideViewPatientLablePunchClockState.getUserName());
                     startActivity(intent);
 
                     break;

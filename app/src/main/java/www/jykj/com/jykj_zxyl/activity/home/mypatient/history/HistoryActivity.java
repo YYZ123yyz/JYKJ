@@ -34,6 +34,7 @@ public class HistoryActivity extends BaseActivity {
     private MyselfFragment myselfFragment;
     private DoctorFragment doctorFragment;
     private String patientCode;
+    private String patientName;
 
     @Override
     protected void onBeforeSetContentLayout() {
@@ -53,6 +54,7 @@ public class HistoryActivity extends BaseActivity {
         super.initView();
         Intent intent = getIntent();
         patientCode = intent.getStringExtra("patientCode");
+        patientName = intent.getStringExtra("patientName");
         mToolBar=findViewById(R.id.toolbar);
         mTabLayout=findViewById(R.id.tab_layout);
         mVpager=findViewById(R.id.vp_pager);
@@ -77,7 +79,8 @@ public class HistoryActivity extends BaseActivity {
 
         SharedPreferences mSharedPreferences=getSharedPreferences("name", MainActivity.MODE_PRIVATE);
         SharedPreferences.Editor editor=mSharedPreferences.edit();
-          editor.putString("patientCode",patientCode);
+        editor.putString("patientCode",patientCode);
+        editor.putString("patientName",patientName);
         editor.apply();
 
     }
