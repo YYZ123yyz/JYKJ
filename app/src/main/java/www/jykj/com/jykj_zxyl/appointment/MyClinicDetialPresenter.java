@@ -62,7 +62,14 @@ public class MyClinicDetialPresenter extends BasePresenterImpl<MyClinicDetialCon
 
 
     @Override
-    public void sendSearchReservePatientDoctorInfoRequest(String mainDoctorCode, String treatmentType, String rowNum, String pageNum, String mainPatientName, String ageMax, String ageMin, String reserveStartDate, String reserveEndDate, String priceRegion, String reserveStatus, String dateSort, String priceSort, Activity activity) {
+    public void sendSearchReservePatientDoctorInfoRequest(String mainDoctorCode,
+                                                          String treatmentType,
+                                                          String rowNum, String pageNum,
+                                                          String mainPatientName,
+                                                          String ageMax, String ageMin,
+                                                          String reserveStartDate,
+                                                          String reserveEndDate, String priceRegion,
+                                                          String reserveStatus, String dateSort, String priceSort, String diseaseTypeName, String patientSpeak, Activity activity) {
         HashMap<String, Object> hashMap = ParameUtil.buildBaseDoctorParam(activity);
         hashMap.put("mainDoctorCode",mainDoctorCode);
         hashMap.put("treatmentType",treatmentType);
@@ -77,6 +84,8 @@ public class MyClinicDetialPresenter extends BasePresenterImpl<MyClinicDetialCon
         hashMap.put("reserveStatus",reserveStatus);
         hashMap.put("dateSort",dateSort);
         hashMap.put("priceSort",priceSort);
+        hashMap.put("diseaseTypeName",diseaseTypeName);
+        hashMap.put("patientSpeak",patientSpeak);
         String s = RetrofitUtil.encodeParam(hashMap);
         ApiHelper.getApiService().searchReservePatientDoctorInfo(s).compose(Transformer.switchSchedulers(new ILoadingView() {
             @Override

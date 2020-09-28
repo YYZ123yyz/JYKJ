@@ -1,5 +1,6 @@
 package www.jykj.com.jykj_zxyl.activity.home;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -159,6 +160,7 @@ public class MyPatientActivity extends AppCompatActivity {
         }
     }
 
+    @SuppressLint("HandlerLeak")
     private void initHandler() {
         mHandler = new Handler() {
             @Override

@@ -42,16 +42,18 @@ public class MedcalRecordDialog extends Dialog {
     public static final int CHIEF_COMPLAINT_TYPE=1;//主诉
     public static final int HISTORY_NEW_TYPE=2;//现病史
     public static final int HISTORY_PAST_TYPE=3;//既往史
-    public static final int MEDICAL_EXAMINATION_TYPE=4;//查体
-    public static final int TREATMENTPROPOSAL_TYPE=5;//治疗建议
-    public static final int HISTORY_ALLERGY_TYPE=6;//过敏史
-    public static final int INSPECTION_TYPE=7;//检查检验
-    public static final int PRESCRIPTION_NOTES_TYPE=8;//处方笺
+    public static final int HISTORY_ALLERGY_TYPE=4;//过敏史
+    public static final int MEDICAL_EXAMINATION_TYPE=5;//查体
+    public static final int CLINICAL_DIAGNOSIS_TYPE=6;//临床诊断
+    public static final int TREATMENTPROPOSAL_TYPE=7;//治疗建议
+    public static final int INSPECTION_TYPE=8;//检查检验
+    public static final int PRESCRIPTION_NOTES_TYPE=9;//处方笺
+
 
     private int contentType;
     @Retention(RetentionPolicy.SOURCE)
-    @IntDef({CHIEF_COMPLAINT_TYPE, HISTORY_NEW_TYPE, HISTORY_PAST_TYPE,MEDICAL_EXAMINATION_TYPE
-            ,HISTORY_ALLERGY_TYPE,TREATMENTPROPOSAL_TYPE,INSPECTION_TYPE,PRESCRIPTION_NOTES_TYPE})
+    @IntDef({CHIEF_COMPLAINT_TYPE, HISTORY_NEW_TYPE, HISTORY_PAST_TYPE,MEDICAL_EXAMINATION_TYPE,
+            CLINICAL_DIAGNOSIS_TYPE,HISTORY_ALLERGY_TYPE,TREATMENTPROPOSAL_TYPE,INSPECTION_TYPE,PRESCRIPTION_NOTES_TYPE})
     public @interface ContentType {
 
     }
@@ -112,6 +114,12 @@ public class MedcalRecordDialog extends Dialog {
             tvDialogTitle.setText(title);
             tvDialogContent.setText(StringUtils.isNotEmpty(fromContent)?fromContent:"未填写");
             edInputContent.setText(inputContent);
+            if (inputType==TREATMENTPROPOSAL_TYPE
+                    ||inputType==MEDICAL_EXAMINATION_TYPE) {
+                tvDialogContent.setVisibility(View.GONE);
+            }else{
+                tvDialogContent.setVisibility(View.VISIBLE);
+            }
         }
     }
 

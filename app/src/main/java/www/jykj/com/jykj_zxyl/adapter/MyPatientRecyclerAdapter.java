@@ -84,8 +84,8 @@ public class MyPatientRecyclerAdapter extends RecyclerView.Adapter<MyPatientRecy
             viewHolder.mXY.setVisibility(View.VISIBLE);
             viewHolder.mYY.setVisibility(View.VISIBLE);
             viewHolder.mTXHZ.setVisibility(View.VISIBLE);
-            viewHolder.agree_tv.setText("解除签约");
-            viewHolder.agree_image.setImageResource(R.mipmap.qy);
+            viewHolder.agree_tv.setText("发起签约");
+            viewHolder.agree_image.setImageResource(R.mipmap.bg_start_sign);
             viewHolder.noagree_tv.setText("提醒患者");
             viewHolder.noagree_image.setImageResource(R.mipmap.txhz);
         }

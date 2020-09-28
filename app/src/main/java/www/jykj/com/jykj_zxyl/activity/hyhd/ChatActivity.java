@@ -49,6 +49,8 @@ import netService.HttpNetService;
 import netService.entity.NetRetEntity;
 import util.ActivityStackManager;
 import www.jykj.com.jykj_zxyl.R;
+import www.jykj.com.jykj_zxyl.activity.home.twjz.TWJZ_ZDMSActivity;
+import www.jykj.com.jykj_zxyl.activity.home.wdzs.ProvideViewInteractOrderTreatmentAndPatientInterrogation;
 import www.jykj.com.jykj_zxyl.app_base.base_activity.BaseActivity;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.BaseBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.CheckImResultBean;
@@ -251,30 +253,35 @@ public class ChatActivity extends BaseActivity {
             case MedcalRecordDialog.HISTORY_ALLERGY_TYPE:
                 Drawable bg_gms_choosed = BackGroudSeletor.getdrawble("bg_gms_choosed",
                         ChatActivity.this);
-                mFloatballManager.updateMenuItem(4,bg_gms_choosed);
+                mFloatballManager.updateMenuItem(3,bg_gms_choosed);
                 operType="4";
                 break;
             case MedcalRecordDialog.MEDICAL_EXAMINATION_TYPE:
                 Drawable bg_ct_choosed = BackGroudSeletor.getdrawble("bg_ct_choosed",
                         ChatActivity.this);
-                mFloatballManager.updateMenuItem(3,bg_ct_choosed);
+                mFloatballManager.updateMenuItem(4,bg_ct_choosed);
                 operType="5";
+                break;
+            case MedcalRecordDialog.CLINICAL_DIAGNOSIS_TYPE:
+                Drawable bg_lczd_choosed = BackGroudSeletor.getdrawble("bg_lczd_choosed",
+                        ChatActivity.this);
+                mFloatballManager.updateMenuItem(5,bg_lczd_choosed);
                 break;
             case MedcalRecordDialog.TREATMENTPROPOSAL_TYPE:
                 Drawable bg_zljy_choosed = BackGroudSeletor.getdrawble("bg_zljy_choosed",
                         ChatActivity.this);
-                mFloatballManager.updateMenuItem(5,bg_zljy_choosed);
+                mFloatballManager.updateMenuItem(6,bg_zljy_choosed);
                 operType="6";
                 break;
             case MedcalRecordDialog.INSPECTION_TYPE:
                 Drawable bg_jcjy_choosed = BackGroudSeletor.getdrawble("bg_jcjy_choosed",
                         ChatActivity.this);
-                mFloatballManager.updateMenuItem(6,bg_jcjy_choosed);
+                mFloatballManager.updateMenuItem(7,bg_jcjy_choosed);
                 break;
             case MedcalRecordDialog.PRESCRIPTION_NOTES_TYPE:
                 Drawable bg_cfj_choosed = BackGroudSeletor.getdrawble("bg_cfj_choosed",
                         ChatActivity.this);
-                mFloatballManager.updateMenuItem(7,bg_cfj_choosed);
+                mFloatballManager.updateMenuItem(8,bg_cfj_choosed);
                 break;
             default:
 
@@ -350,6 +357,23 @@ public class ChatActivity extends BaseActivity {
                         medicalexaminationType,"查体","",content);
             }
         };
+
+        MenuItem itemLCZD = new MenuItem(BackGroudSeletor.getdrawble("bg_lczd_normal",
+                this),"临床诊断") {
+            @Override
+            public void action() {
+
+                ProvideViewInteractOrderTreatmentAndPatientInterrogation patientInterrogation
+                        =new ProvideViewInteractOrderTreatmentAndPatientInterrogation();
+                patientInterrogation.setOrderCode(orderCode);
+                patientInterrogation.setPatientCode(userCode);
+                patientInterrogation.setPatientName(userName);
+                startActivityForResult(new Intent(ChatActivity.this, TWJZ_ZDMSActivity.class)
+                        .putExtra("wzxx", patientInterrogation),100);
+
+            }
+        };
+
         MenuItem itemGMS = new MenuItem(BackGroudSeletor.getdrawble("bg_gms_normal",
                 this),"过敏史") {
             @Override
@@ -413,8 +437,9 @@ public class ChatActivity extends BaseActivity {
         mFloatballManager.addMenuItem(itemZS)
                 .addMenuItem(itemXBS)
                 .addMenuItem(itemJWS)
-                .addMenuItem(itemCT)
                 .addMenuItem(itemGMS)
+                .addMenuItem(itemCT)
+                .addMenuItem(itemLCZD)
                 .addMenuItem(itemZLJY)
                 .addMenuItem(itemJCJY)
                 .addMenuItem(itemCFJ)
@@ -460,7 +485,10 @@ public class ChatActivity extends BaseActivity {
         if (flagWriteDrug==1) {
             setMenueStatus(MedcalRecordDialog.PRESCRIPTION_NOTES_TYPE);
         }
-
+        int flagWriteDiagnosis = patientRecordDetBean.getFlagWriteDiagnosis();
+        if (flagWriteDiagnosis==1) {
+            setMenueStatus(MedcalRecordDialog.CLINICAL_DIAGNOSIS_TYPE);
+        }
 
     }
 
@@ -506,12 +534,17 @@ public class ChatActivity extends BaseActivity {
                     }
 
 
+                }else{
+                    mFloatballManager.hide();
+                    chatFragment.setSignUpBtnStatus(false);
                 }
             }
 
             @Override
             protected void onError(String s) {
                 super.onError(s);
+                mFloatballManager.hide();
+                chatFragment.setSignUpBtnStatus(false);
             }
         });
     }
