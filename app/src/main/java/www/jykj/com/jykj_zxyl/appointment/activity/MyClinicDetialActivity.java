@@ -279,45 +279,55 @@ public class MyClinicDetialActivity extends AbstractMvpBaseActivity<MyClinicDeti
             public void onClickStatisticTable(int pos) {
                 String reportUrl = mPatientInfoBeans.get(pos).getReportUrl();
                 Bundle bundle=new Bundle();
-                bundle.putString("url",reportUrl);;
+                bundle.putString("url",reportUrl);
                 startActivity(H5Activity.class,bundle);
             }
 
             @Override
             public void onClickImItem(int pos) {
 
-                PatientInfoBean patientInfoBean = mPatientInfoBeans.get(pos);
-                String reserveProjectCode = patientInfoBean.getReserveProjectCode();
-                if (reserveProjectCode.equals("1")) {
-                    startJumpChatActivity(patientInfoBean);
-                }else if(reserveProjectCode.equals("2")){
-                    startActivity(new Intent(MyClinicDetialActivity.this,
-                            VideoCallActivity.class).putExtra("username",
-                            patientInfoBean.getMainPatientCode())
-                            .putExtra("isComingCall", false)
-                            .putExtra("nickName", patientInfoBean.getMainPatientName()));
-                }else if(reserveProjectCode.equals("3")){
-                    String patientLinkPhone = patientInfoBean.getPatientLinkPhone();
-                    if (StringUtils.isNotEmpty(patientLinkPhone)) {
-                        callPhone(patientLinkPhone);
-                    }
-                }else if(reserveProjectCode.equals("5")){
-
-                    startActivity(new Intent(MyClinicDetialActivity.this, VoiceCallActivity.class)
-                            .putExtra("username", patientInfoBean.getMainPatientCode())
-                            .putExtra("isComingCall", false)
-                            .putExtra("nickName", patientInfoBean.getMainPatientName()));
-                }
 
 
             }
 
             @Override
-            public void onClickInterrogation(int pos) {
+            public void onClickConsultItem(int pos) {
                 PatientInfoBean patientInfoBean = mPatientInfoBeans.get(pos);
                 Bundle bundle=new Bundle();
                 bundle.putString("orderCode",patientInfoBean.getOrderCode());
                 startActivity(ConsultationInfoActivity.class,bundle);
+            }
+
+            @Override
+            public void onClickInterrogation(int pos) {
+                PatientInfoBean patientInfoBean = mPatientInfoBeans.get(pos);
+                String reserveProjectCode = patientInfoBean.getReserveProjectCode();
+                switch (reserveProjectCode) {
+                    case "1":
+                        startJumpChatActivity(patientInfoBean);
+                        break;
+                    case "2":
+                        startActivity(new Intent(MyClinicDetialActivity.this,
+                                VideoCallActivity.class).putExtra("username",
+                                patientInfoBean.getMainPatientCode())
+                                .putExtra("isComingCall", false)
+                                .putExtra("nickName", patientInfoBean.getMainPatientName()));
+                        break;
+                    case "3":
+                        String patientLinkPhone = patientInfoBean.getPatientLinkPhone();
+                        if (StringUtils.isNotEmpty(patientLinkPhone)) {
+                            callPhone(patientLinkPhone);
+                        }
+                        break;
+                    case "5":
+
+                        startActivity(new Intent(MyClinicDetialActivity.this, VoiceCallActivity.class)
+                                .putExtra("username", patientInfoBean.getMainPatientCode())
+                                .putExtra("isComingCall", false)
+                                .putExtra("nickName", patientInfoBean.getMainPatientName()));
+                        break;
+                }
+
             }
         });
         rvList.setLayoutManager(new LinearLayoutManager(this));

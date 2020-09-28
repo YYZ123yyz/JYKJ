@@ -2,6 +2,7 @@ package www.jykj.com.jykj_zxyl.appointment.activity;
 
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -9,6 +10,8 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.allen.library.utils.ToastUtils;
+import com.hyphenate.easeui.hyhd.VideoCallActivity;
+import com.hyphenate.easeui.hyhd.VoiceCallActivity;
 import com.hyphenate.easeui.jykj.bean.OrderMessage;
 import com.scwang.smart.refresh.footer.ClassicsFooter;
 import com.scwang.smart.refresh.header.ClassicsHeader;
@@ -23,6 +26,7 @@ import www.jykj.com.jykj_zxyl.activity.hyhd.ChatActivity;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.BaseReasonBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.PatientInfoBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.ReceiveTreatmentResultBean;
+import www.jykj.com.jykj_zxyl.app_base.base_html5.H5Activity;
 import www.jykj.com.jykj_zxyl.app_base.base_utils.CollectionUtils;
 import www.jykj.com.jykj_zxyl.app_base.base_view.BaseToolBar;
 import www.jykj.com.jykj_zxyl.app_base.base_view.LoadingLayoutManager;
@@ -31,6 +35,9 @@ import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.appointment.AppointPatientListContract;
 import www.jykj.com.jykj_zxyl.appointment.AppointPatientListPresenter;
 import www.jykj.com.jykj_zxyl.appointment.adapter.MyPatientInfoAdapter;
+import www.jykj.com.jykj_zxyl.medicalrecord.activity.ConsultationInfoActivity;
+import www.jykj.com.jykj_zxyl.medicalrecord.activity.PatientRecordActivity;
+import www.jykj.com.jykj_zxyl.util.StringUtils;
 
 /**
  * Description:预约患者列表
@@ -158,6 +165,68 @@ public class AppointPatientListActivity extends AbstractMvpBaseActivity<
                         patientInfoBean.getMainPatientCode(),
                         patientInfoBean.getMainPatientName(),"0"
                         ,AppointPatientListActivity.this);
+            }
+
+            @Override
+            public void onClickMedicalRecordDetial(int pos) {
+                PatientInfoBean patientInfoBean = mPatientInfoBeans.get(pos);
+                Bundle bundle=new Bundle();
+                bundle.putString("orderCode",patientInfoBean.getOrderCode());
+                bundle.putString("patientCode",patientInfoBean.getMainPatientCode());
+                bundle.putString("patientName",patientInfoBean.getMainPatientName());
+                startActivity(PatientRecordActivity.class,bundle);
+            }
+
+            @Override
+            public void onClickStatisticTable(int pos) {
+                String reportUrl = mPatientInfoBeans.get(pos).getReportUrl();
+                Bundle bundle=new Bundle();
+                bundle.putString("url",reportUrl);
+                startActivity(H5Activity.class,bundle);
+            }
+
+            @Override
+            public void onClickImItem(int pos) {
+
+            }
+
+            @Override
+            public void onClickConsultItem(int pos) {
+                PatientInfoBean patientInfoBean = mPatientInfoBeans.get(pos);
+                Bundle bundle=new Bundle();
+                bundle.putString("orderCode",patientInfoBean.getOrderCode());
+                startActivity(ConsultationInfoActivity.class,bundle);
+            }
+
+            @Override
+            public void onClickInterrogation(int pos) {
+                PatientInfoBean patientInfoBean = mPatientInfoBeans.get(pos);
+                String reserveProjectCode = patientInfoBean.getReserveProjectCode();
+                switch (reserveProjectCode) {
+                    case "1":
+                        startJumpChatActivity(patientInfoBean);
+                        break;
+                    case "2":
+                        startActivity(new Intent(AppointPatientListActivity.this,
+                                VideoCallActivity.class).putExtra("username",
+                                patientInfoBean.getMainPatientCode())
+                                .putExtra("isComingCall", false)
+                                .putExtra("nickName", patientInfoBean.getMainPatientName()));
+                        break;
+                    case "3":
+                        String patientLinkPhone = patientInfoBean.getPatientLinkPhone();
+                        if (StringUtils.isNotEmpty(patientLinkPhone)) {
+                            callPhone(patientLinkPhone);
+                        }
+                        break;
+                    case "5":
+
+                        startActivity(new Intent(AppointPatientListActivity.this, VoiceCallActivity.class)
+                                .putExtra("username", patientInfoBean.getMainPatientCode())
+                                .putExtra("isComingCall", false)
+                                .putExtra("nickName", patientInfoBean.getMainPatientName()));
+                        break;
+                }
             }
         });
 
@@ -318,5 +387,36 @@ public class AppointPatientListActivity extends AbstractMvpBaseActivity<
                         endTime,surplusTimes,appointMentType,"receiveTreatment"));
         intent.putExtras(bundle);
         startActivityForResult(intent,1000);
+    }
+
+    /**
+     * 跳转IM
+     * @param currentPatientInfoBean 患者信息
+     */
+    private void startJumpChatActivity(PatientInfoBean currentPatientInfoBean){
+        Intent intent = new Intent(this, ChatActivity.class);
+        //患者
+        intent.putExtra("userCode", currentPatientInfoBean.getMainPatientCode());
+        intent.putExtra("userName", currentPatientInfoBean.getMainPatientName());
+        //医生
+        intent.putExtra("usersName", currentPatientInfoBean.getMainDoctorName());
+        intent.putExtra("userUrl", mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl());
+        //URL
+        intent.putExtra("doctorUrl", mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl());
+        //intent.putExtra("patientAlias", mHZEntyties.get(position).getan);
+        intent.putExtra("patientCode", currentPatientInfoBean.getMainPatientCode());
+        intent.putExtra("patientSex", currentPatientInfoBean.getPatientSex());
+        startActivity(intent);
+    }
+
+    /**
+     * 拨打电话（直接拨打电话）
+     * @param phoneNum 电话号码
+     */
+    private void callPhone(String phoneNum){
+        Intent intent = new Intent(Intent.ACTION_CALL);
+        Uri data = Uri.parse("tel:" + phoneNum);
+        intent.setData(data);
+        startActivity(intent);
     }
 }

@@ -123,14 +123,14 @@ public class OneVisitPatientAdapter extends RecyclerView.Adapter<OneVisitPatient
         });
         holder.tvVideoInteractionBtn.setOnClickListener(v -> {
             if (onClickItemListener!=null) {
-                onClickItemListener.onClickImItem(position);
+                onClickItemListener.onClickInterrogation(position);
             }
         });
         holder.tvConsultDataBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (onClickItemListener!=null) {
-                    onClickItemListener.onClickInterrogation(position);
+                    onClickItemListener.onClickConsultItem(position);
                 }
             }
         });
@@ -138,7 +138,7 @@ public class OneVisitPatientAdapter extends RecyclerView.Adapter<OneVisitPatient
             @Override
             public void onClick(View v) {
                 if (onClickItemListener!=null) {
-                    onClickItemListener.onClickInterrogation(position);
+                    onClickItemListener.onClickConsultItem(position);
                 }
             }
         });
@@ -210,6 +210,8 @@ public class OneVisitPatientAdapter extends RecyclerView.Adapter<OneVisitPatient
         void onClickStatisticTable(int pos);
 
         void onClickImItem(int pos);
+
+        void onClickConsultItem(int pos);
 
         void onClickInterrogation(int pos);
     }
