@@ -523,7 +523,8 @@ public class ChatActivity extends BaseActivity {
                     }else{
                         chatFragment.setSignUpBtnStatus(false);
                     }
-
+                    chatFragment.setReserveConfigStart(checkImResultBean.getReserveConfigStart());
+                    chatFragment.setReserveConfigEnd(checkImResultBean.getReserveConfigEnd());
                     if (StringUtils.isNotEmpty(isReserveing)&&isReserveing.equals("1")) {
                         mFloatballManager.show();
                     }else{

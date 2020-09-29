@@ -209,6 +209,8 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
     private String patientAge;
     private String patientSex;
     private OrderMessage orderMessage;
+    private long reserveConfigStart;//预约开始时间
+    private long reserveConfigEnd;// 预约结束时间
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -1247,6 +1249,8 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
         userUrl = (String) fragmentArgs.get("userUrl");
         message.setAttribute("nickName", userName);
         message.setAttribute("imageUrl", userUrl);
+        message.setAttribute("reserveConfigStart",reserveConfigStart);
+        message.setAttribute("reserveConfigEnd",reserveConfigEnd);
         // Send message.
         EMClient.getInstance().chatManager().sendMessage(message);
         Log.e(TAG, "sendMessage:..... " + message.ext().toString());
@@ -1844,6 +1848,7 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
             case "medicalRecord":
                 message.setAttribute("endTime",msg.getEndTime());
                 message.setAttribute("patientType",msg.getPatientType());
+
                 break;
                 default:
         }
@@ -1862,6 +1867,22 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
             //TODO 第二步 修改easeUi的 EaseMessageAdapter
         }
 
+    }
+
+    public long getReserveConfigStart() {
+        return reserveConfigStart;
+    }
+
+    public void setReserveConfigStart(long reserveConfigStart) {
+        this.reserveConfigStart = reserveConfigStart;
+    }
+
+    public long getReserveConfigEnd() {
+        return reserveConfigEnd;
+    }
+
+    public void setReserveConfigEnd(long reserveConfigEnd) {
+        this.reserveConfigEnd = reserveConfigEnd;
     }
 
     @Override

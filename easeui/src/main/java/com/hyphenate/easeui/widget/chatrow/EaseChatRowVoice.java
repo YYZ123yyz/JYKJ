@@ -5,6 +5,7 @@ import android.graphics.drawable.AnimationDrawable;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hyphenate.chat.EMClient;
@@ -12,6 +13,8 @@ import com.hyphenate.chat.EMFileMessageBody;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.chat.EMVoiceMessageBody;
 import com.hyphenate.easeui.R;
+import com.hyphenate.easeui.utils.EaseUserUtils;
+import com.hyphenate.easeui.utils.ExtEaseUtils;
 import com.hyphenate.util.EMLog;
 
 public class EaseChatRowVoice extends EaseChatRowFile {
@@ -20,9 +23,9 @@ public class EaseChatRowVoice extends EaseChatRowFile {
     private ImageView voiceImageView;
     private TextView voiceLengthView;
     private ImageView readStatusView;
-
     private AnimationDrawable voiceAnimation;
-
+    private LinearLayout llUserInfoRoot;
+    private TextView tvUserName;
     public EaseChatRowVoice(Context context, EMMessage message, int position, BaseAdapter adapter) {
         super(context, message, position, adapter);
     }
@@ -38,6 +41,8 @@ public class EaseChatRowVoice extends EaseChatRowFile {
         voiceImageView = ((ImageView) findViewById(R.id.iv_voice));
         voiceLengthView = (TextView) findViewById(R.id.tv_length);
         readStatusView = (ImageView) findViewById(R.id.iv_unread_voice);
+        llUserInfoRoot=findViewById(R.id.ll_userinfo_root);
+        tvUserName=findViewById(R.id.tv_user_name);
     }
 
     @Override
@@ -82,6 +87,26 @@ public class EaseChatRowVoice extends EaseChatRowFile {
         if (voicePlayer.isPlaying() && message.getMsgId().equals(voicePlayer.getCurrentPlayingId())) {
             startVoicePlayAnimation();
         }
+        if(null!=tvUserName){
+            if (message.direct() == EMMessage.Direct.SEND) {
+                EaseUserUtils.setUserNick(ExtEaseUtils.getInstance().getNickName(),tvUserName);
+            }else{
+                EaseUserUtils.setUserNick(message.getUserName(),tvUserName);
+            }
+        }
+        long reserveConfigStart = message.getLongAttribute("reserveConfigStart", 0);
+        long reserveConfigEnd = message.getLongAttribute("reserveConfigEnd", 0);
+        if(reserveConfigStart!=0&&reserveConfigEnd!=0){
+            long msgTime = message.getMsgTime();
+            if(msgTime>=reserveConfigStart&&msgTime<=reserveConfigEnd){
+                llUserInfoRoot.setVisibility(View.VISIBLE);
+            }else{
+                llUserInfoRoot.setVisibility(View.GONE);
+            }
+        }else{
+            llUserInfoRoot.setVisibility(View.GONE);
+        }
+
     }
 
     @Override

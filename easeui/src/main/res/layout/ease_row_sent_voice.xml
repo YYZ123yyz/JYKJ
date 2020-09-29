@@ -24,35 +24,71 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
             android:layout_marginRight="@dimen/margin_chat_activity"
-            android:src="@@mipmap/doctor_head"
             android:scaleType="fitXY" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="visible"
+            android:layout_marginEnd="12dp"
+            android:layout_toLeftOf="@+id/iv_userhead"
+            android:id="@+id/ll_userinfo_root"
+            >
 
-        <RelativeLayout 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_ef0000"
+                android:text="(接诊中)"
+                android:textSize="13sp"
+                android:layout_marginEnd="10dp"
+                android:id="@+id/tv_user_status"
+                >
+
+
+            </TextView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_666666"
+                android:text="邱新海"
+                android:textSize="13sp"
+                android:id="@+id/tv_user_name"
+                >
+
+
+            </TextView>
+
+        </LinearLayout>
+        <RelativeLayout
             android:id="@+id/bubble"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/ll_userinfo_root"
             android:layout_toLeftOf="@id/iv_userhead"
             android:layout_marginRight="10dp"
-             android:background="@drawable/ease_chatto_bg"
+            android:background="@drawable/ease_chatto_bg"
             >
-	        <ImageView
-	            android:id="@+id/iv_voice"
-	            android:layout_centerInParent="true"
-	            android:paddingLeft="12dp"
-	            android:paddingRight="10dp"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:src="@drawable/ease_chatto_voice_playing" />
-		</RelativeLayout>
+            <ImageView
+                android:id="@+id/iv_voice"
+                android:layout_centerInParent="true"
+                android:paddingLeft="12dp"
+                android:paddingRight="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ease_chatto_voice_playing" />
+        </RelativeLayout>
         <TextView
             android:id="@+id/tv_length"
             style="@style/chat_text_name_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="10dp"
+            android:text="ss"
+            android:layout_below="@+id/ll_userinfo_root"
             android:layout_toLeftOf="@id/bubble"
             android:gravity="center" />
-        
+
         <ImageView
             android:id="@+id/msg_status"
             android:layout_width="wrap_content"
@@ -62,7 +98,7 @@
             android:clickable="true"
             android:src="@drawable/ease_msg_state_failed_resend"
             android:visibility="gone" />
-        
+
         <TextView
             android:id="@+id/tv_ack"
             style="@style/chat_text_name_style"
@@ -85,12 +121,12 @@
             android:layout_toLeftOf="@id/tv_length"
             android:visibility="invisible"
             />
-          <ProgressBar 
+        <ProgressBar
             android:visibility="visible"
             android:id="@+id/progress_bar"
             android:layout_width="25dp"
             android:layout_height="25dp"
-              android:layout_centerVertical="true"
+            android:layout_centerVertical="true"
             android:layout_toLeftOf="@id/tv_length"
             />
     </RelativeLayout>

@@ -14,8 +14,8 @@ public class CheckImResultBean {
     private String isReserveing;//是否存在接诊中的预约 1存在 0不存在 (存在则出现发送病历按钮)
     private String orderCode;//orderCode 订单编号
     private String reserveCode;//预约编号
-    private String reserveConfigStart;//预约开始时间
-    private String reserveConfigEnd;// 预约结束时间
+    private long reserveConfigStart;//预约开始时间
+    private long reserveConfigEnd;// 预约结束时间
     private String sumDuration;//总的可以发送消息的次数 -1为不限制
     private String useDuration;//已发送消息次数
 
@@ -59,19 +59,20 @@ public class CheckImResultBean {
         this.reserveCode = reserveCode;
     }
 
-    public String getReserveConfigStart() {
+
+    public long getReserveConfigStart() {
         return reserveConfigStart;
     }
 
-    public void setReserveConfigStart(String reserveConfigStart) {
+    public void setReserveConfigStart(long reserveConfigStart) {
         this.reserveConfigStart = reserveConfigStart;
     }
 
-    public String getReserveConfigEnd() {
+    public long getReserveConfigEnd() {
         return reserveConfigEnd;
     }
 
-    public void setReserveConfigEnd(String reserveConfigEnd) {
+    public void setReserveConfigEnd(long reserveConfigEnd) {
         this.reserveConfigEnd = reserveConfigEnd;
     }
 
