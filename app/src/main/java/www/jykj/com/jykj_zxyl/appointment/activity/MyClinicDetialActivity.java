@@ -36,12 +36,14 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import butterknife.BindView;
+import entity.patientInfo.ProvideViewPatientLablePunchClockState;
 import jsc.kit.wheel.base.WheelItem;
 import jsc.kit.wheel.dialog.ColumnWheelDialog;
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.activity.home.twjz.WZXXActivity;
 import www.jykj.com.jykj_zxyl.activity.home.wdzs.ProvideViewInteractOrderTreatmentAndPatientInterrogation;
 import www.jykj.com.jykj_zxyl.activity.hyhd.ChatActivity;
+import www.jykj.com.jykj_zxyl.activity.hzgl.HZGLHZZLActivity;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.BaseReasonBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.OperDoctorScheduResultBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.PatientInfoBean;
@@ -285,7 +287,14 @@ public class MyClinicDetialActivity extends AbstractMvpBaseActivity<MyClinicDeti
 
             @Override
             public void onClickImItem(int pos) {
-
+                Intent intent = new Intent();
+                PatientInfoBean patientInfoBean = mPatientInfoBeans.get(pos);
+                ProvideViewPatientLablePunchClockState provideviewpatientInfo=new ProvideViewPatientLablePunchClockState();
+                provideviewpatientInfo.setUserName(patientInfoBean.getMainPatientName());
+                provideviewpatientInfo.setPatientCode(patientInfoBean.getMainPatientCode());
+                intent.putExtra("patientInfo", provideviewpatientInfo);
+                intent.setClass(MyClinicDetialActivity.this, HZGLHZZLActivity.class);
+                startActivity(intent);
 
 
             }

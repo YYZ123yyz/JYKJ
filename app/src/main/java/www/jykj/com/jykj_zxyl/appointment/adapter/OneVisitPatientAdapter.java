@@ -142,6 +142,14 @@ public class OneVisitPatientAdapter extends RecyclerView.Adapter<OneVisitPatient
                 }
             }
         });
+        holder.llItemRoot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onClickItemListener!=null) {
+                    onClickItemListener.onClickImItem(position);
+                }
+            }
+        });
 
     }
 
@@ -169,6 +177,7 @@ public class OneVisitPatientAdapter extends RecyclerView.Adapter<OneVisitPatient
         private TextView tvMedicalRecordDetialBtn;
         private LinearLayout llAppointPatientRoot;
         private LinearLayout llReceiveSucessRoot;
+        private LinearLayout llItemRoot;
         public ViewHolder(View view) {
             super(view);
             ivUserHead = view.findViewById(R.id.iv_userhead);
@@ -189,6 +198,7 @@ public class OneVisitPatientAdapter extends RecyclerView.Adapter<OneVisitPatient
             llReceiveSucessRoot=view.findViewById(R.id.ll_receive_sucess_root);
             tvConsultDataBtn1=view.findViewById(R.id.tv_consult_data_btn_1);
             tvComprehensiveSurfaceBtn1 = view.findViewById(R.id.tv_comprehensive_surface_btn_1);
+            llItemRoot=view.findViewById(R.id.ll_item_root);
 
 
         }

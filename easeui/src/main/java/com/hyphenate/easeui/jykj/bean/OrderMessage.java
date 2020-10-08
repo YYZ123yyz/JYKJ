@@ -35,6 +35,8 @@ public class OrderMessage implements Serializable {
 
     private String patientType;
 
+    private String flagReplyType;
+
     public OrderMessage(String nickName,
                         String imageUrl,
                         String orderId,
@@ -114,6 +116,19 @@ public class OrderMessage implements Serializable {
         this.patientType=patientType;
         this.orderId=orderId;
         this.messageType=messageType;
+    }
+
+    public OrderMessage(String nickName,
+                        String imageUrl,
+                        String orderId,
+                        String flagReplyType,
+                        String messageType){
+        this.nickName=nickName;
+        this.imageUrl=imageUrl;
+        this.orderId=orderId;
+        this.flagReplyType=flagReplyType;
+        this.messageType=messageType;
+
     }
 
     public String getPatientCode() {
@@ -277,5 +292,11 @@ public class OrderMessage implements Serializable {
         this.patientType = patientType;
     }
 
+    public String getFlagReplyType() {
+        return flagReplyType;
+    }
 
+    public void setFlagReplyType(String flagReplyType) {
+        this.flagReplyType = flagReplyType;
+    }
 }

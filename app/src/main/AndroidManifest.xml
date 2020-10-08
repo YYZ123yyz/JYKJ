@@ -487,6 +487,12 @@
         <activity android:name=".medicalrecord.activity.ConsultationInfoActivity"
             android:screenOrientation="portrait"
             />
+        <activity android:name=".personal.activity.MyServiceHistoryActivity"
+            android:screenOrientation="portrait"
+            >
+
+
+        </activity>
 
         <meta-data
             android:name="EASEMOB_APPKEY"

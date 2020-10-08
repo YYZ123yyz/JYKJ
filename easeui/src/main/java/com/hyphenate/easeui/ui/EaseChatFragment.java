@@ -1850,6 +1850,10 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
                 message.setAttribute("patientType",msg.getPatientType());
 
                 break;
+            case "MessageAfterDiagnosis":
+                message.setAttribute("flagReplyType",msg.getFlagReplyType());
+                break;
+
                 default:
         }
 

@@ -191,6 +191,14 @@ public interface ApiService {
     @POST("/imDataControlle/IMTesting")
     Observable<String> iMTesting(@Query(value = "jsonDataInfo"
             , encoded = true) String queryJson);
+    //我的患者】获取医生管理的患者信息(签约患者)
+    @POST("/bindingDoctorPatientControlle/searchDoctorManagePatientDataByParam")
+    Observable<String> searchDoctorManagePatientDataByParam(@Query(value = "jsonDataInfo"
+            , encoded = true) String queryJson);
 
+    //我的服务历史
+    @POST("/doctorReserveControlle/searchReserveInfoMyHistory")
+    Observable<String> searchReserveInfoMyHistory(@Query(value = "jsonDataInfo"
+            , encoded = true) String queryJson);
 }
 

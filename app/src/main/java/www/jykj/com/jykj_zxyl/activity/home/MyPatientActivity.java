@@ -2,8 +2,6 @@ package www.jykj.com.jykj_zxyl.activity.home;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -12,6 +10,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
@@ -28,6 +28,7 @@ import netService.HttpNetService;
 import netService.entity.NetRetEntity;
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.activity.hyhd.BindDoctorFriend;
+import www.jykj.com.jykj_zxyl.app_base.base_activity.BaseActivity;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.custom.MoreFeaturesPopupWindow;
 import www.jykj.com.jykj_zxyl.fragment.MyPatientFragment;
@@ -35,6 +36,7 @@ import www.jykj.com.jykj_zxyl.fragment.MyPatientNotSignetFragment;
 import www.jykj.com.jykj_zxyl.fragment.MyReviewFragment;
 import www.jykj.com.jykj_zxyl.fragment.hzgl.BloodLogFragment;
 import www.jykj.com.jykj_zxyl.fragment.hzgl.TrendFragment;
+import www.jykj.com.jykj_zxyl.patient.fragment.MySignUpPatientFragment;
 import www.jykj.com.jykj_zxyl.util.ActivityUtil;
 import yyz_exploit.activity.activity.OpinionActivity;
 import zxing.common.Constant;
@@ -42,7 +44,7 @@ import zxing.common.Constant;
 /**
  * 我的患者
  */
-public class MyPatientActivity extends AppCompatActivity {
+public class MyPatientActivity extends BaseActivity {
 
     private Context mContext;
     private MyPatientActivity mActivity;
@@ -67,11 +69,15 @@ public class MyPatientActivity extends AppCompatActivity {
     private JYKJApplication mApp;
     private Context context;
 
+
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_patient);
-        ActivityUtil.setStatusBarMain(MyPatientActivity.this);
+    protected int setLayoutId() {
+        return R.layout.activity_my_patient;
+    }
+
+    @Override
+    protected void initView() {
+        super.initView();
         mApp = (JYKJApplication) getApplication();
         mContext = this;
         mActivity = this;
@@ -89,7 +95,7 @@ public class MyPatientActivity extends AppCompatActivity {
         ivAdd = findViewById(R.id.iv_add);
         llBack = findViewById(R.id.ll_back);
         mMyPatientN = this.findViewById(R.id.tv_my_patient_n);
-        fragmentManager = getFragmentManager();
+        fragmentManager = getSupportFragmentManager();
 
         mMyPatient.setOnClickListener(new ButtonClick());
         //  mMyReview.setOnClickListener(new ButtonClick());
@@ -307,12 +313,12 @@ public class MyPatientActivity extends AppCompatActivity {
                 }
                 break;
             case 2:
-                if (myReviewFragment == null) {
-                    myReviewFragment = new MyReviewFragment();
-                    transaction.add(R.id.content, myReviewFragment);
-                } else {
-                    transaction.show(myReviewFragment);
-                }
+//                if (myReviewFragment == null) {
+//                    myReviewFragment = new MyReviewFragment();
+//                    transaction.add(R.id.content, myReviewFragment);
+//                } else {
+//                    transaction.show(myReviewFragment);
+//                }
                 break;
 
         }
@@ -327,9 +333,9 @@ public class MyPatientActivity extends AppCompatActivity {
         if (myPatientNotSignetFragment != null) {
             transaction.hide(myPatientNotSignetFragment);
         }
-        if (myReviewFragment != null) {
-            transaction.hide(myReviewFragment);
-        }
+//        if (myReviewFragment != null) {
+//            transaction.hide(myReviewFragment);
+//        }
 
     }
 

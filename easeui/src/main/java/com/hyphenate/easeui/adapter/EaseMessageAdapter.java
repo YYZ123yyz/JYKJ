@@ -150,7 +150,8 @@ public class EaseMessageAdapter extends BaseAdapter {
                         ||messageType.equals("card")
                         ||messageType.equals("appointment")
                         ||messageType.equals("receiveTreatment")
-                        ||messageType.equals("medicalRecord")) {
+                        ||messageType.equals("medicalRecord")
+                        ||messageType.equals("MessageAfterDiagnosis")) {
                     cards.add(i);
                 }
 
@@ -164,7 +165,8 @@ public class EaseMessageAdapter extends BaseAdapter {
                     ||messageType.equals("card")
                     ||messageType.equals("appointment")
                     ||messageType.equals("receiveTreatment")
-                    ||messageType.equals("medicalRecord")) {
+                    ||messageType.equals("medicalRecord")
+                    ||messageType.equals("MessageAfterDiagnosis")) {
 
                 if (isLastData(cards,i)) {
                     emMessage.setAttribute("isValid",true);
@@ -276,7 +278,8 @@ public class EaseMessageAdapter extends BaseAdapter {
                         ||messageType.equals("terminationOrder")
                         ||messageType.equals("appointment")
                         ||messageType.equals("receiveTreatment")
-                        ||messageType.equals("medicalRecord")){
+                        ||messageType.equals("medicalRecord")
+                        ||messageType.equals("MessageAfterDiagnosis")){
                     return message.direct() == EMMessage.Direct.RECEIVE ? MESSAGE_TYPE_RECV_ORDER_CARD : MESSAGE_TYPE_SEND_ORDER_CARD;
                 }else if(itemStyle!=null&&itemStyle.isShowChatRoom()){
                     return message.direct() == EMMessage.Direct.RECEIVE ? MESSAGE_TYPE_RECV_TXT_ROOM : MESSAGE_TYPE_SEND_TXT_ROOM;
@@ -322,7 +325,8 @@ public class EaseMessageAdapter extends BaseAdapter {
                         ||messageType.equals("terminationOrder")
                         ||messageType.equals("appointment")
                         ||messageType.equals("receiveTreatment")
-                        ||messageType.equals("medicalRecord")) {
+                        ||messageType.equals("medicalRecord")
+                        ||messageType.equals("MessageAfterDiagnosis")) {
 					presenter = new EaseChatOrderPresenter();
 				}else{
 					if (itemStyle.isShowChatRoom()) {

@@ -208,7 +208,7 @@ public class PatientRecordActivity
     }
 
     @OnClick({R.id.lin_chief, R.id.lin_history, R.id.lin_past, R.id.lin_look, R.id.lin_examination,
-            R.id.lin_suggest, R.id.confirm, R.id.download,R.id.left_image_id
+            R.id.lin_suggest, R.id.confirm, R.id.send,R.id.left_image_id
             ,R.id.ll_prescription_notes_root
             ,R.id.ll_inspection_root,R.id.ll_clinical_diagnosis
     })
@@ -235,7 +235,7 @@ public class PatientRecordActivity
             case R.id.confirm: //保存
                 saveData();
                 break;
-            case R.id.download: //发送
+            case R.id.send: //发送
                 HashMap<String, Object> hashMap = ParameUtil.buildBaseDoctorParam(this);
                 hashMap.put("orderCode", orderCode);
                 String s = RetrofitUtil.encodeParam(hashMap);

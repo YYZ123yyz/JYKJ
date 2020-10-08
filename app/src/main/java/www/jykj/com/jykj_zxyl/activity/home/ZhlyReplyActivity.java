@@ -30,6 +30,7 @@ import android.widget.Toast;
 import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
+import com.hyphenate.easeui.jykj.bean.OrderMessage;
 import com.previewlibrary.GPreviewBuilder;
 import com.previewlibrary.ZoomMediaLoader;
 import com.previewlibrary.enitity.ThumbViewInfo;
@@ -47,10 +48,13 @@ import util.ImagDialog;
 import util.ImageLoader;
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.activity.home.wdzs.ProvideViewInteractOrderTreatmentAndPatientInterrogation;
+import www.jykj.com.jykj_zxyl.activity.hyhd.ChatActivity;
 import www.jykj.com.jykj_zxyl.adapter.WZZXImageViewRecycleAdapter;
+import www.jykj.com.jykj_zxyl.app_base.base_bean.PatientRecordDetBean;
 import www.jykj.com.jykj_zxyl.application.Constant;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.util.ActivityUtil;
+import www.jykj.com.jykj_zxyl.util.DateUtils;
 import www.jykj.com.jykj_zxyl.util.FullyGridLayoutManager;
 import www.jykj.com.jykj_zxyl.util.PhotoDialog;
 import www.jykj.com.jykj_zxyl.util.StringUtils;
@@ -141,6 +145,7 @@ public class ZhlyReplyActivity extends AppCompatActivity {
         });
     }
 
+    @SuppressLint("HandlerLeak")
     private void initHandler() {
         mHandler = new Handler() {
             @Override
@@ -213,7 +218,10 @@ public class ZhlyReplyActivity extends AppCompatActivity {
                         }
                         else{
                             Toast.makeText(mContext, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
+                            startJumpChatActivity();
                             finish();
+
+
                         }
 
                         break;
@@ -458,6 +466,39 @@ public class ZhlyReplyActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+
+    /**
+     * 跳转IM
+     */
+    private void startJumpChatActivity(){
+        Intent intent = new Intent(this, ChatActivity.class);
+        //患者
+        intent.putExtra("userCode",
+                mProvideViewInteractOrderTreatmentAndPatientInterrogation.getPatientCode());
+        intent.putExtra("userName",
+                mProvideViewInteractOrderTreatmentAndPatientInterrogation.getPatientName());
+        //医生
+        intent.putExtra("usersName", mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
+        intent.putExtra("userUrl", mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl());
+        //URL
+        intent.putExtra("doctorUrl", mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl());
+        //intent.putExtra("patientAlias", mHZEntyties.get(position).getan);
+        intent.putExtra("patientCode",
+                mProvideViewInteractOrderTreatmentAndPatientInterrogation.getPatientCode());
+
+
+        OrderMessage orderMessage=new OrderMessage(
+                mApp.mViewSysUserDoctorInfoAndHospital.getUserName()
+                ,mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl()
+                ,mProvideViewInteractOrderTreatmentAndPatientInterrogation.getOrderCode(),replyTyp
+                ,"MessageAfterDiagnosis");
+
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("orderMsg", orderMessage);
+        intent.putExtras(bundle);
+        startActivityForResult(intent,1000);
     }
 
     /**
