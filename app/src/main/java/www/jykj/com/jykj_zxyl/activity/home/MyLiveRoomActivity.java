@@ -41,6 +41,8 @@ import java.util.List;
 
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.activity.hyhd.LivePublisherActivity;
+import www.jykj.com.jykj_zxyl.activity.hyhd.LivePublisherThreeActivity;
+import www.jykj.com.jykj_zxyl.activity.hyhd.LivePublisherTwoActivity;
 import www.jykj.com.jykj_zxyl.activity.myself.couponFragment.FragmentAdapter;
 import www.jykj.com.jykj_zxyl.fragment.liveroom.HotRoomFragment;
 import www.jykj.com.jykj_zxyl.fragment.liveroom.PreRoomFragment;
@@ -79,7 +81,7 @@ public class MyLiveRoomActivity extends AppCompatActivity implements View.OnClic
     private PreRoomFragment preRoomFragment;
     private HotRoomFragment hotRoomFragment;
     private SubjectRoomFragment subjectRoomFragment;
-    private String live_type = LivePublisherActivity.LIVE_TYPE_PRELIVE;
+    private String live_type = LivePublisherThreeActivity.LIVE_TYPE_PRELIVE;
     private int selectPageIndex=0;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -94,23 +96,23 @@ public class MyLiveRoomActivity extends AppCompatActivity implements View.OnClic
         switch (v.getId()){
             case R.id.live:
                 Intent intent = new Intent(MyLiveRoomActivity.this, BeforesettingActivity.class);
-                intent.putExtra("live_type",LivePublisherActivity.LIVE_TYPE_HOTLIVE);
+                intent.putExtra("live_type", LivePublisherThreeActivity.LIVE_TYPE_HOTLIVE);
                 startActivity(intent);
                 break;
             case R.id.room_forecast:
                 selectPageIndex=0;
                 roompager.setCurrentItem(selectPageIndex);
-                live_type = LivePublisherActivity.LIVE_TYPE_HOTLIVE;
+                live_type = LivePublisherThreeActivity.LIVE_TYPE_HOTLIVE;
                 break;
             case R.id.room_Hit:
                 selectPageIndex=1;
                 roompager.setCurrentItem(selectPageIndex);
-                live_type = LivePublisherActivity.LIVE_TYPE_HOTLIVE;
+                live_type = LivePublisherThreeActivity.LIVE_TYPE_HOTLIVE;
                 break;
             case R.id.room_Lecture:
                 selectPageIndex=2;
                 roompager.setCurrentItem(selectPageIndex);
-                live_type = LivePublisherActivity.LIVE_TYPE_SUBJECTLIVE;
+                live_type = LivePublisherThreeActivity.LIVE_TYPE_SUBJECTLIVE;
                 break;
         }
     }
@@ -121,7 +123,7 @@ public class MyLiveRoomActivity extends AppCompatActivity implements View.OnClic
     private void setChooseTableStatus() {
         switch (selectPageIndex) {
             case 0:
-                live_type = LivePublisherActivity.LIVE_TYPE_PRELIVE;
+                live_type = LivePublisherThreeActivity.LIVE_TYPE_PRELIVE;
                 live.setVisibility(View.VISIBLE);
                 roompager.setCurrentItem(0);
                 room_text.setText("直播预报");
@@ -132,14 +134,14 @@ public class MyLiveRoomActivity extends AppCompatActivity implements View.OnClic
                 live.setVisibility(View.VISIBLE);
                 roompager.setCurrentItem(1);
                 room_text.setText("正在热播");
-                live_type = LivePublisherActivity.LIVE_TYPE_HOTLIVE;
+                live_type = LivePublisherThreeActivity.LIVE_TYPE_HOTLIVE;
                 hotRoomFragment.loadData();
                 break;
             case 2:
                 live.setVisibility(View.GONE);
                 roompager.setCurrentItem(2);
                 room_text.setText("专题讲座");
-                live_type = LivePublisherActivity.LIVE_TYPE_SUBJECTLIVE;
+                live_type = LivePublisherThreeActivity.LIVE_TYPE_SUBJECTLIVE;
                 subjectRoomFragment.loadData();
                 break;
                 default:

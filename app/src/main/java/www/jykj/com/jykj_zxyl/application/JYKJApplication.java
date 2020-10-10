@@ -168,6 +168,10 @@ public class JYKJApplication extends Application {
 
         }
     };
+
+    public JYKJApplication getApplication() {
+        return instance;
+    }
     private EMConnectionListener connectionListener;
 
     static final String IMTAG = "imlog";

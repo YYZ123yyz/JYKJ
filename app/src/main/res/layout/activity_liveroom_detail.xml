@@ -31,6 +31,9 @@
             android:text="直播详情"
             android:textColor="@color/writeColor"
             android:textSize="10pt" />
+
+        <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentRight="true"
+                   android:layout_marginRight="10dp" android:src="@mipmap/ic_share" android:layout_centerVertical="true" android:id="@+id/iv_live_room_share"/>
     </RelativeLayout>
 
     <LinearLayout

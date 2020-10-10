@@ -27,8 +27,7 @@ import entity.liveroom.QueryLiveroomCond;
 import netService.HttpNetService;
 import netService.entity.NetRetEntity;
 import www.jykj.com.jykj_zxyl.R;
-import www.jykj.com.jykj_zxyl.activity.hyhd.LivePublisherActivity;
-import www.jykj.com.jykj_zxyl.activity.hyhd.NewLivePlayerActivity;
+import www.jykj.com.jykj_zxyl.activity.hyhd.*;
 import www.jykj.com.jykj_zxyl.adapter.HotLiveAdapter;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.util.IConstant;
@@ -79,20 +78,20 @@ public class HotRoomFragment extends Fragment {
                     case R.id.ll_root:
                         HotLiveInfo parben = mdatas.get(position);
                         if(parben.getUserCode().equals(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode())) {
-                            Intent theintent = new Intent(mActivity, LivePublisherActivity.class);
+                            Intent theintent = new Intent(mActivity, LivePublisherThreeActivity.class);
                             theintent.putExtra("detailCode", parben.getDetailsCode());
                             theintent.putExtra("pushUrl", parben.getPullUrl());
                             theintent.putExtra("chatRoomName", parben.getChatRoomCode());
                             theintent.putExtra("chatId", parben.getChatRoomCode());
                             theintent.putExtra("liveTitle", parben.getBroadcastTitle());
-                            theintent.putExtra("live_type", LivePublisherActivity.LIVE_TYPE_HOTLIVE);
+                            theintent.putExtra("live_type", LivePublisherThreeActivity.LIVE_TYPE_HOTLIVE);
                             mActivity.startActivity(theintent);
                         }else{
-                            Intent theintent = new Intent(mActivity, NewLivePlayerActivity.class);
+                            Intent theintent = new Intent(mActivity, LivePlayerTwoActivity.class);
                             theintent.putExtra("chatId",parben.getChatRoomCode());
                             theintent.putExtra("pullUrl",parben.getPullUrl());
                             theintent.putExtra("detailCode",parben.getDetailsCode());
-                            theintent.putExtra("PLAY_TYPE", NewLivePlayerActivity.ACTIVITY_TYPE_LIVE_PLAY);
+                            theintent.putExtra("PLAY_TYPE", LivePlayerTwoActivity.ACTIVITY_TYPE_LIVE_PLAY);
                             mActivity.startActivity(theintent);
                         }
                         break;

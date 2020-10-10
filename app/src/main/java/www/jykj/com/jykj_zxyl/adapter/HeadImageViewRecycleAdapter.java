@@ -11,6 +11,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
+import www.jykj.com.jykj_zxyl.util.CircleImageView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,10 +55,10 @@ public class HeadImageViewRecycleAdapter extends RecyclerView.Adapter<HeadImageV
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
-        public ImageView iv_head_img;
+        public CircleImageView iv_head_img;
         public ViewHolder(View view){
             super(view);
-            iv_head_img = (ImageView)view.findViewById(R.id.iv_head_img);
+            iv_head_img = (CircleImageView)view.findViewById(R.id.iv_head_img);
         }
     }
 }

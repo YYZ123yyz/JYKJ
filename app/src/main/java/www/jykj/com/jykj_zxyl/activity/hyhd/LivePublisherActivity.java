@@ -106,6 +106,7 @@ public class LivePublisherActivity extends ChatPopDialogActivity implements View
     public ProgressDialog mDialogProgress = null;
     int joinUserNum = 0;
 
+
     //private ImageView close_video;
     private Bitmap decodeResource(Resources resources, int id) {
         TypedValue value = new TypedValue();
@@ -153,7 +154,7 @@ public class LivePublisherActivity extends ChatPopDialogActivity implements View
 
     void statLive(){
         if(!rtmpUrl.contains("txSecret") && !rtmpUrl.contains("&txTime")){
-            getProgressBar("开启直播","正在开启直播间，请稍后...");
+            //getProgressBar("开启直播","正在开启直播间，请稍后...");
             OpenLiveCond opencond = new OpenLiveCond();
             opencond.setDetailsCode(mdetailcode);
             opencond.setLoginUserPosition(mApp.loginDoctorPosition);
@@ -215,7 +216,7 @@ public class LivePublisherActivity extends ChatPopDialogActivity implements View
 
         @Override
         protected void onPostExecute(Boolean aBoolean) {
-            cacerProgress();
+            //cacerProgress();
             if(aBoolean){
                 startPublishRtmp();
                 //goChat();
@@ -492,7 +493,7 @@ public class LivePublisherActivity extends ChatPopDialogActivity implements View
 
     void doChat(){
         Bundle parbund = new Bundle();
-        parbund.putString(EaseConstant.EXTRA_CHAT_TYPE,"");
+        parbund.putString(EaseConstant.EXTRA_CHAT_TYPE,"twjz");
         parbund.putInt(EaseConstant.CHAT_TYPE, EaseConstant.CHATTYPE_CHATROOM);
         parbund.putString(EaseConstant.EXTRA_USER_ID, mychatid);
         parbund.putString(EaseConstant.EXTRA_USER_NAME, mychatid);

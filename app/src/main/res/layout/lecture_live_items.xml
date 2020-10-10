@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@color/pBackColor"
+              android:orientation="vertical">
+
+    <LinearLayout
+            android:id="@+id/ll_root"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="3dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:orientation="horizontal">
+
+        <RelativeLayout
+                android:layout_width="135dp"
+                android:layout_height="80dp">
+
+            <ImageView
+                    android:id="@+id/pre_live_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@mipmap/cover_demo" />
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentBottom="true"
+                    android:background="@drawable/bg_round_4d666666_5"
+                    android:paddingStart="9dp"
+                    android:paddingTop="6dp"
+                    android:paddingEnd="9dp"
+                    android:paddingBottom="6dp"
+                    android:text="视频直播"
+                    android:textColor="@color/writeColor"
+                    android:textSize="12sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_weight="1">
+
+            <TextView
+                    android:id="@+id/pre_live_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="高血压患者、和健康人群的干预 方法"
+                    android:textColor="@color/blackColor"
+                    android:textSize="15sp"
+            />
+
+            <TextView
+                    android:id="@+id/pre_live_desc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/pre_live_title"
+                    android:text="营养学专家教你如何吃出健康血压"
+                    android:layout_marginTop="2dp"
+                    android:textSize="14sp"
+                    android:textColor="@color/color_666666" />
+
+            <TextView
+                    android:id="@+id/pre_live_catalog"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/pre_live_desc"
+                    android:text="类目：高血压预防"
+                    android:layout_marginTop="8.5dp"
+                    android:textSize="13sp"
+                    android:textColor="@color/color_999999" />
+
+            <TextView
+                    android:id="@+id/pre_watch_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/pre_live_catalog"
+                    android:layout_alignParentLeft="true"
+                    android:text="浏览量：200"
+                    android:textSize="12sp"
+                    android:textColor="@color/color_999999" />
+
+            <TextView
+                    android:id="@+id/pre_live_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/pre_live_catalog"
+                    android:text="￥40.00"
+                    android:layout_marginEnd="15dp"
+                    android:textSize="12sp"
+                    android:layout_alignParentRight="true"
+                    android:textColor="@color/btn_red" />
+            <TextView
+                    android:id="@+id/pre_live_price_set"
+                    android:layout_width="60dp"
+                    android:layout_height="30dp"
+                    android:layout_below="@+id/pre_live_catalog"
+                    android:text="设置价格"
+                    android:gravity="center"
+                    android:layout_marginEnd="15dp"
+                    android:textSize="12sp"
+                    android:layout_alignParentRight="true"
+                    android:background="@drawable/bt_bg"/>
+            <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginTop="15dp"
+                    android:id="@+id/rl_collection_root"
+                    android:layout_below="@+id/pre_live_desc"
+                    android:layout_alignParentEnd="true"
+                    android:visibility="gone"
+            >
+                <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/iv_collection_btn"
+                        android:layout_gravity="center_horizontal"
+                        android:src="@mipmap/bg_collection_normal"
+                />
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:textSize="12sp"
+                        android:text="想看"
+                        android:textColor="@color/color_b3b3b3"
+                >
+
+                </TextView>
+
+            </LinearLayout>
+        </RelativeLayout>
+    </LinearLayout>
+</LinearLayout>

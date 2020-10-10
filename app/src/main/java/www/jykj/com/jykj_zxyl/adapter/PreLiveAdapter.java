@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -43,26 +44,31 @@ public class PreLiveAdapter extends RecyclerView.Adapter<PreLiveAdapter.ViewHold
         viewHolder.pre_live_price.setText(StrUtils.defaulObjToStr(parinfo.getExtendBroadcastPriceShow()));
         viewHolder.pre_live_title.setText(StrUtils.defaulObjToStr(parinfo.getBroadcastTitle()));
         viewHolder.pre_watch_num.setText("想看人数：" + StrUtils.defaulObjToStr(parinfo.getExtendBroadcastFollowNum()));
+        if(0==parinfo.getFlagLikes()){
+            viewHolder.iv_collection_btn.setImageResource(R.mipmap.store);
+        }else{
+            viewHolder.iv_collection_btn.setImageResource(R.mipmap.store_cancel);
+        }
         if (StrUtils.defaulObjToStr(parinfo.getBroadcastCoverImgUrl()).length() > 0) {
             Glide.with(viewHolder.pre_live_btn.getContext()).load(parinfo.getBroadcastCoverImgUrl()).into(viewHolder.pre_live_btn);
         }
-        viewHolder.ll_root.setOnClickListener(new View.OnClickListener() {
+        viewHolder.rl_live_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 myListener.onClick(i, v);
             }
         });
-        viewHolder.ll_root.setOnLongClickListener(new View.OnLongClickListener() {
+        viewHolder.rl_live_layout.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
                 myListener.onLongClick(i, v);
                 return false;
             }
         });
-        viewHolder.rl_collection_root.setOnClickListener(new View.OnClickListener() {
+        viewHolder.iv_collection_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                myListener.onClick(i, v);
             }
         });
     }
@@ -81,6 +87,8 @@ public class PreLiveAdapter extends RecyclerView.Adapter<PreLiveAdapter.ViewHold
         private TextView pre_live_price;
         private LinearLayout ll_root;
         private LinearLayout rl_collection_root;
+        private ImageView iv_collection_btn;
+        private RelativeLayout rl_live_layout;
 
         public ViewHolder(View view) {
             super(view);
@@ -92,6 +100,8 @@ public class PreLiveAdapter extends RecyclerView.Adapter<PreLiveAdapter.ViewHold
             pre_live_price = view.findViewById(R.id.pre_live_price);
             ll_root=view.findViewById(R.id.ll_root);
             rl_collection_root=view.findViewById(R.id.rl_collection_root);
+            iv_collection_btn=view.findViewById(R.id.iv_collection_btn);
+            rl_live_layout=view.findViewById(R.id.rl_live_layout);
         }
 
     }

@@ -1,0 +1,254 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" android:background="#B1A49B"
+    android:orientation="vertical" >
+
+    <FrameLayout
+        android:id="@+id/video_frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="0dp">
+
+        <com.tencent.rtmp.ui.TXCloudVideoView
+            android:id="@+id/video_view"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_350"/>
+
+        <ImageView
+            android:id="@+id/playerHeaderView"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_0"
+            android:src="@drawable/main_bkg"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/logViewStatus"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:textColor="#333333"
+            android:textSize="10sp"
+            android:scrollbars = "vertical"
+            android:padding="2dp"
+            android:textStyle="bold"
+            android:background="#60ffffff"
+            android:typeface="monospace"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="@dimen/dp_0"
+            android:layout_marginRight="10dp" android:visibility="gone"/>
+
+        <SurfaceView
+            android:id="@+id/testSurfaceView"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_0"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="@dimen/dp_0"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="@dimen/dp_0"
+            android:visibility="gone"/>
+
+        <LinearLayout
+            android:id="@+id/play_progress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/dp_320"
+            android:background="@color/transparent"
+            android:visibility="visible">
+            <Button
+                    android:id="@+id/btnPlay"
+                    android:layout_width="@dimen/dp_35"
+                    android:layout_height="@dimen/dp_35"
+                    android:background="@drawable/play_start"/>
+            <TextView
+                android:id="@+id/play_start"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="00:00"
+                android:textSize="16sp"
+                android:layout_weight="1"/>
+            <SeekBar
+                android:id="@+id/seekbar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:max="0"
+                android:layout_gravity="center_vertical"
+                android:maxHeight="2.0dip"
+                android:minHeight="2.0dip"
+                android:progress="0"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:thumb="@drawable/play_seekbar_icon"
+                android:layout_weight="18"/>
+            <TextView
+                android:id="@+id/duration"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="--:--"
+                android:textSize="16sp"
+                android:layout_weight="1"/>
+            <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="@dimen/dp_5"
+                       android:src="@mipmap/full_rotate" android:id="@+id/iv_zoom_btn" android:layout_gravity="center_vertical"></ImageView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/play_pannel"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_0"
+            android:orientation="horizontal"
+            android:layout_marginBottom="10dp"
+            android:layout_gravity="bottom" android:visibility="gone">
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_weight="1"/>
+            <Button
+                android:id="@+id/btnPlayOld"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/play_start"/>
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_weight="1"/>
+            <Button
+                android:id="@+id/btnStop"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_weight="1"/>
+            <Button
+                android:id="@+id/btnLog"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/log_show"/>
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_weight="1"/>
+            <Button
+                android:id="@+id/btnHWDecode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/quick"/>
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_weight="1"/>
+            <Button
+                android:id="@+id/btnOrientation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/landscape"/>
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_weight="1"/>
+            <Button
+                android:id="@+id/btnRenderMode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/fill_mode"/>
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_weight="1"/>
+
+            <Button
+                android:id="@+id/btnCache"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:onClick="onClick"/>
+
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_weight="1"/>
+        </LinearLayout>
+
+        <ScrollView
+            android:id="@+id/scrollview"
+            android:layout_alignLeft="@id/logViewStatus"
+            android:layout_width="match_parent"
+            android:background="#60ffffff"
+            android:layout_height="@dimen/dp_0"
+            android:fadeScrollbars="true"
+            android:scrollbars="vertical"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp" android:visibility="gone">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/logViewEvent"
+                android:textColor="#333333"
+                android:textSize="13dp"
+                android:scrollbars = "vertical"
+                android:padding="2dp"/>
+        </ScrollView>
+
+        <ImageView
+            android:id="@+id/loadingImageView"
+            android:layout_width="34dp"
+            android:layout_height="@dimen/dp_0"
+            android:layout_gravity="center"
+            android:src="@drawable/loading_animation"
+            android:visibility="gone"/>
+
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_41" android:layout_gravity="top" android:id="@id/rl_back">
+
+<LinearLayout
+android:id="@+id/back_ll"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:layout_marginLeft="12dp"
+android:layout_alignParentLeft="true"
+android:layout_gravity="center_vertical" android:orientation="horizontal">
+
+<ImageView
+        android:layout_width="14dp"
+        android:layout_height="24dp"
+        android:layout_gravity="center_vertical"
+        android:src="@drawable/btn_back_gray"
+        android:gravity="center"/>
+<TextView
+        android:id="@+id/back_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="4dp"
+        android:gravity="center_vertical"
+        android:layout_gravity="center_vertical"
+        android:textSize="14dp"
+        android:textColor="#ffffff"
+        android:text="返回" />
+</LinearLayout>
+<TextView
+android:id="@+id/title_tv"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:layout_centerHorizontal="true"
+android:textColor="#ffffff"
+android:textSize="18dp"
+android:text="标题"/>
+        </RelativeLayout>
+
+<include layout="@layout/titlebar"
+         android:layout_width="match_parent"
+         android:layout_height="@dimen/dp_0"
+         android:layout_marginLeft="12dp"
+         android:layout_marginRight="12dp" android:visibility="gone"/>
+<include layout="@layout/fragment_live_introduction"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:layout_gravity="bottom" android:layout_marginTop="@dimen/dp_350"></include>
+<ImageView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="5dp" android:layout_marginLeft="5dp"
+           android:layout_gravity="bottom|left" android:src="@mipmap/mimal_room" android:id="@+id/iv_miniaml_zoom_btn" android:visibility="gone"></ImageView>
+        </FrameLayout>
+        </LinearLayout>

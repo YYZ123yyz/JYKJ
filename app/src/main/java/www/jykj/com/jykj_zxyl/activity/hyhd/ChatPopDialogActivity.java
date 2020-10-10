@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.*;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -20,6 +21,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -57,6 +59,7 @@ import com.hyphenate.util.EMLog;
 import com.hyphenate.util.PathUtil;
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
+import www.jykj.com.jykj_zxyl.custom.JoinDialog;
 import www.jykj.com.jykj_zxyl.util.StrUtils;
 import www.jykj.com.jykj_zxyl.util.SwipeAnimationController;
 
@@ -213,6 +216,156 @@ public abstract class ChatPopDialogActivity extends AppCompatActivity implements
         }
         this.turnOnTyping = turnOnTyping();
     }
+
+    /**
+     * init fragment view
+     */
+    protected void initFragmentChatView(Fragment holdfrag) {
+        // hold to record voice
+        //noinspection ConstantConditions
+        chatViewLayout = holdfrag.getView().findViewById(R.id.chat_layout);
+        mSwipeAnimationController = new SwipeAnimationController(myActivity);
+        mSwipeAnimationController.setAnimationView(chatViewLayout);
+        //noinspection ConstantConditions
+        titleBar = (EaseTitleBar) holdfrag.getView().findViewById(R.id.title_bar);
+        voiceRecorderView = (EaseVoiceRecorderView)holdfrag.getView().findViewById(R.id.voice_recorder);
+
+        // message list layout
+        messageList = (EaseChatMessageList)holdfrag.getView().findViewById(R.id.message_list);
+        //if(chatType != EaseConstant.CHATTYPE_SINGLE)
+        messageList.setShowUserNick(true);
+        messageList.setShowChatRoom(true);
+        if ("twjz".equals(mChatType))
+        {
+            messageList.setShowChatBack(true);
+        }
+//        messageList.setAvatarShape(1);
+        listView = messageList.getListView();
+
+        kickedForOfflineLayout =holdfrag.getView().findViewById(R.id.layout_alert_kicked_off);
+        kickedForOfflineLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onChatRoomViewCreation();
+            }
+        });
+
+        extendMenuItemClickListener = new MyItemClickListener();
+        inputMenu = (EaseChatInputMenu)holdfrag.getView().findViewById(R.id.input_menu);
+
+        registerExtendMenuItem();
+        // init input menu
+        inputMenu.init(null);
+        Button parbutton = inputMenu.findViewById(com.hyphenate.easeui.R.id.btn_more);
+        if(null!=parbutton){
+            if("".equals(mChatType)){
+                parbutton.setVisibility(View.GONE);
+            }
+        }
+        inputMenu.setChatInputMenuListener(new EaseChatInputMenu.ChatInputMenuListener() {
+
+            @Override
+            public void onTyping(CharSequence s, int start, int before, int count) {
+                // send action:TypingBegin cmd msg.
+                typingHandler.sendEmptyMessage(MSG_TYPING_BEGIN);
+            }
+
+            @Override
+            public void onSendMessage(String content) {
+                sendTextMessage(content);
+                if(null!=parbutton){
+                    if("".equals(mChatType)){
+                        parbutton.setVisibility(View.GONE);
+                    }
+                }
+            }
+
+            @Override
+            public boolean onPressToSpeakBtnTouch(View v, MotionEvent event) {
+                return voiceRecorderView.onPressToSpeakBtnTouch(v, event, new EaseVoiceRecorderView.EaseVoiceRecorderCallback() {
+
+                    @Override
+                    public void onVoiceRecordComplete(String voiceFilePath, int voiceTimeLength) {
+                        sendVoiceMessage(voiceFilePath, voiceTimeLength);
+                    }
+                });
+            }
+
+            @Override
+            public void onBigExpressionClicked(EaseEmojicon emojicon) {
+                sendBigExpressionMessage(emojicon.getName(), emojicon.getIdentityCode());
+            }
+        });
+
+        swipeRefreshLayout = messageList.getSwipeRefreshLayout();
+        swipeRefreshLayout.setColorSchemeResources(R.color.holo_blue_bright, R.color.holo_green_light,
+                R.color.holo_orange_light, R.color.holo_red_light);
+
+        inputManager = (InputMethodManager) myActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
+        clipboard = (ClipboardManager) myActivity.getSystemService(Context.CLIPBOARD_SERVICE);
+        myActivity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
+        if (isRoaming) {
+            fetchQueue = Executors.newSingleThreadExecutor();
+        }
+
+        // to handle during-typing actions.
+        typingHandler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                switch (msg.what) {
+                    case MSG_TYPING_BEGIN: // Notify typing start
+
+                        if (!turnOnTyping) return;
+
+                        // Only support single-chat type conversation.
+                        if (chatType != EaseConstant.CHATTYPE_SINGLE)
+                            return;
+
+                        if (hasMessages(MSG_TYPING_END)) {
+                            // reset the MSG_TYPING_END handler msg.
+                            removeMessages(MSG_TYPING_END);
+                        } else {
+                            // Send TYPING-BEGIN cmd msg
+                            EMMessage beginMsg = EMMessage.createSendMessage(EMMessage.Type.CMD);
+                            EMCmdMessageBody body = new EMCmdMessageBody(ACTION_TYPING_BEGIN);
+                            // Only deliver this cmd msg to online users
+                            body.deliverOnlineOnly(true);
+                            beginMsg.addBody(body);
+                            beginMsg.setTo(toChatUsername);
+                            EMClient.getInstance().chatManager().sendMessage(beginMsg);
+                        }
+
+                        sendEmptyMessageDelayed(MSG_TYPING_END, TYPING_SHOW_TIME);
+                        break;
+                    case MSG_TYPING_END:
+
+                        if (!turnOnTyping) return;
+
+                        // Only support single-chat type conversation.
+                        if (chatType != EaseConstant.CHATTYPE_SINGLE)
+                            return;
+
+                        // remove all pedding msgs to avoid memory leak.
+                        removeCallbacksAndMessages(null);
+                        // Send TYPING-END cmd msg
+                        EMMessage endMsg = EMMessage.createSendMessage(EMMessage.Type.CMD);
+                        EMCmdMessageBody body = new EMCmdMessageBody(ACTION_TYPING_END);
+                        // Only deliver this cmd msg to online users
+                        body.deliverOnlineOnly(true);
+                        endMsg.addBody(body);
+                        endMsg.setTo(toChatUsername);
+                        EMClient.getInstance().chatManager().sendMessage(endMsg);
+                        break;
+                    default:
+                        super.handleMessage(msg);
+                        break;
+                }
+            }
+        };
+
+    }
+
     /**
      * init view
      */
@@ -231,6 +384,10 @@ public abstract class ChatPopDialogActivity extends AppCompatActivity implements
         //if(chatType != EaseConstant.CHATTYPE_SINGLE)
         messageList.setShowUserNick(true);
         messageList.setShowChatRoom(true);
+        if ("twjz".equals(mChatType))
+        {
+            messageList.setShowChatBack(true);
+        }
 //        messageList.setAvatarShape(1);
         listView = messageList.getListView();
 
@@ -624,7 +781,12 @@ public abstract class ChatPopDialogActivity extends AppCompatActivity implements
     };
 
     public void doSend(String message){
-        sendAtMessage(message);
+        EMMessage sendmessage = EMMessage.createTxtSendMessage(message, toChatUsername);
+        sendMessage(sendmessage);
+        if("加入直播间了".equals(message)){
+            showMessages(sendmessage);
+        }
+        //sendAtMessage(message);
     }
 
     private void loadMoreLocalMessage() {
@@ -797,7 +959,7 @@ public abstract class ChatPopDialogActivity extends AppCompatActivity implements
             }
             if (chatType == EaseConstant.CHATTYPE_CHATROOM) {
                 isbacked = true;
-                //doSend("离开直播间了");
+                doSend("离开直播间了");
             }
             closeRoom();
         }
@@ -835,8 +997,13 @@ public abstract class ChatPopDialogActivity extends AppCompatActivity implements
         }
     }
 
+    JoinDialog joinDialog = null;
     protected void onChatRoomViewCreation() {
-        final ProgressDialog pd = ProgressDialog.show(myActivity, "", "Joining......");
+        //final ProgressDialog pd = ProgressDialog.show(myActivity, "", "Joining......");
+        if(null==joinDialog){
+            joinDialog = new JoinDialog(myActivity);
+        }
+        joinDialog.show();
         EMClient.getInstance().chatroomManager().joinChatRoom(toChatUsername, new EMValueCallBack<EMChatRoom>() {
 
             @Override
@@ -846,7 +1013,7 @@ public abstract class ChatPopDialogActivity extends AppCompatActivity implements
                     public void run() {
                         if(myActivity.isFinishing() || !toChatUsername.equals(value.getId()))
                             return;
-                        pd.dismiss();
+                        joinDialog.dismiss();
                         Message themsg = new Message();
                         themsg.what = ADD_ENTERROOM_MSG;
                         messagehandler.sendMessage(themsg);
@@ -880,7 +1047,7 @@ public abstract class ChatPopDialogActivity extends AppCompatActivity implements
                 myActivity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        pd.dismiss();
+                        joinDialog.dismiss();
                     }
                 });
                 myActivity.finish();
@@ -1269,7 +1436,7 @@ public abstract class ChatPopDialogActivity extends AppCompatActivity implements
                         Toast.makeText(myActivity,"图文消息次数已用尽",Toast.LENGTH_LONG).show();
                         return;
                     }
-                    if ("twjz".equals(mChatType) || "dhjz".equals(mChatType) ||"spjz".equals(mChatType))
+                    if ("dhjz".equals(mChatType) ||"spjz".equals(mChatType))
                     {
                         if (mMessageNum <= 0)
                         {
@@ -1280,7 +1447,7 @@ public abstract class ChatPopDialogActivity extends AppCompatActivity implements
                     selectPicFromCamera();
                     break;
                 case ITEM_PICTURE:
-                    if ("twjz".equals(mChatType) || "dhjz".equals(mChatType) ||"spjz".equals(mChatType))
+                    if ("dhjz".equals(mChatType) ||"spjz".equals(mChatType))
                     {
                         if (mMessageNum <= 0)
                         {
@@ -1345,7 +1512,7 @@ public abstract class ChatPopDialogActivity extends AppCompatActivity implements
 
     //send message
     protected void sendTextMessage(String content) {
-        if ("twjz".equals(mChatType) || "dhjz".equals(mChatType) ||"spjz".equals(mChatType))
+        if ("dhjz".equals(mChatType) ||"spjz".equals(mChatType))
         {
             if (mMessageNum == -1)
 
@@ -1456,7 +1623,7 @@ public abstract class ChatPopDialogActivity extends AppCompatActivity implements
         public void onSuccess() {
             //上报消息发送
             updateTW("1","1","1");
-            if ("twjz".equals(mChatType) || "dhjz".equals(mChatType) ||"spjz".equals(mChatType))
+            if ("dhjz".equals(mChatType) ||"spjz".equals(mChatType))
             {
                 if (mMessageNum != -1)
                     mMessageNum -= 1;

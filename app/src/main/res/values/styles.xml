@@ -48,6 +48,15 @@
         -->
     </style>
 
+    <!-- Application theme. -->
+    <style name="HorLiveTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+        <!-- 隐藏状态栏 -->
+        <item name="android:windowFullscreen">true</item>
+        <!-- 隐藏标题栏 -->
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
     <style name="NotificationContent">
         <item name="android:textColor">?android:attr/textColorPrimary</item>
     </style>
@@ -147,6 +156,23 @@
         <!-- 是否半透明 -->
         <item name="android:windowIsTranslucent">true</item>
         <!-- 是否没有标题 -->
+        <item name="android:windowNoTitle">true</item>
+        <!-- 是否浮现在activity之上 -->
+        <item name="android:windowIsFloating">true</item>
+        <!-- 是否背景模糊 -->
+        <item name="android:backgroundDimEnabled">true</item>
+        <!-- 设置背景模糊的透明度-->
+        <item name="android:backgroundDimAmount">0.5</item>
+    </style>
+
+    <style name="MyShareDialog" parent="android:Theme.Dialog">
+        <!-- 背景颜色及透明程度 -->
+        <item name="android:windowBackground">@color/color_4d666666</item>
+        <!-- 是否半透明 -->
+        <item name="android:windowIsTranslucent">true</item>
+        <!-- 隐藏状态栏 -->
+        <item name="android:windowFullscreen">true</item>
+        <!-- 隐藏标题栏 -->
         <item name="android:windowNoTitle">true</item>
         <!-- 是否浮现在activity之上 -->
         <item name="android:windowIsFloating">true</item>

@@ -100,7 +100,8 @@
         <activity android:name=".activity.LoginActivity" /> <!-- 手机号登录 -->
         <activity android:name=".activity.PhoneLoginActivity" /> <!-- 用户注册 -->
         <activity android:name=".activity.UseRegistActivity" /> <!-- 首页 -->
-        <activity android:name=".activity.MainActivity">
+        <activity android:name=".activity.MainActivity" android:screenOrientation="portrait">
+
 
             <!-- 忘记密码 -->
 
@@ -152,6 +153,7 @@
             android:name=".wxapi.WXEntryActivity"
             android:exported="true" /> <!-- 主播页面 -->
         <activity android:name="yyz_exploit.activity.LivePushActivity" />
+
         <activity
             android:name=".activity.myself.MyIntegralInfoActivity"
             android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 我的积分明细 -->
@@ -338,7 +340,7 @@
             android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 我的直播间 -->
         <activity
             android:name=".activity.home.MyLiveRoomActivity"
-            android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 我的诊所 -->
+            android:windowSoftInputMode="stateHidden|stateUnchanged" android:screenOrientation="portrait"/> <!-- 我的诊所 -->
         <activity
             android:name=".activity.home.MyClinicActivity"
             android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 我的消息==》患者就诊 -->
@@ -383,6 +385,9 @@
             android:name=".activity.hyhd.LivePublisherActivity"
             android:screenOrientation="portrait" />
         <activity
+                android:name=".activity.hyhd.LivePublisherThreeActivity" android:configChanges="keyboardHidden|orientation|screenSize"
+                android:screenOrientation="landscape" android:theme="@style/HorLiveTheme"/>
+        <activity
             android:name=".activity.liveroom.LiveroomDetailActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -397,6 +402,21 @@
         <activity
             android:name=".activity.hyhd.TCVideoPreviewActivity"
             android:screenOrientation="portrait" />
+        <activity
+                android:name=".activity.hyhd.SetLivePriceActivity"
+                android:screenOrientation="portrait" />
+        <activity
+                android:name=".activity.hyhd.LivePublisherTwoActivity"
+                android:screenOrientation="portrait" android:theme="@style/HorLiveTheme"/>
+        <activity
+                android:name=".activity.hyhd.LivePlayerTwoActivity" android:configChanges="keyboardHidden|orientation|screenSize"
+                android:screenOrientation="portrait" android:theme="@style/HorLiveTheme"/>
+        <activity
+                android:name=".activity.hyhd.VodPlayerActivity" android:configChanges="keyboardHidden|orientation|screenSize"
+                android:screenOrientation="portrait" android:theme="@style/HorLiveTheme"/>
+        <activity
+                android:name=".activity.hyhd.LectureDetailActivity" android:configChanges="keyboardHidden|orientation|screenSize"
+                android:screenOrientation="portrait" android:theme="@style/HorLiveTheme"/>
         <activity
             android:name="com.tencent.rtmp.video.TXScreenCapture$TXScreenCaptureAssistantActivity"
             android:theme="@android:style/Theme.Translucent" />

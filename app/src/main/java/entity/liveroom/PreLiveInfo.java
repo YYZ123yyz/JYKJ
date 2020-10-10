@@ -17,7 +17,7 @@ public class PreLiveInfo implements Serializable {
     private String extendBroadcastPriceShow;
     private String pullUrl;
     private String userCode;
-
+    private Integer flagLikes;//点赞标识.0:未点赞;1:已点赞;
     public String getAttrName() {
         return attrName;
     }
@@ -128,5 +128,13 @@ public class PreLiveInfo implements Serializable {
 
     public void setExtendBroadcastPriceShow(String extendBroadcastPriceShow) {
         this.extendBroadcastPriceShow = extendBroadcastPriceShow;
+    }
+
+    public Integer getFlagLikes() {
+        return flagLikes;
+    }
+
+    public void setFlagLikes(Integer flagLikes) {
+        this.flagLikes = flagLikes;
     }
 }

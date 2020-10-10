@@ -1,6 +1,7 @@
 package www.jykj.com.jykj_zxyl.fragment.liveroom;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -14,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 import com.alibaba.fastjson.JSON;
 import com.google.gson.Gson;
 import com.scwang.smart.refresh.footer.ClassicsFooter;
@@ -22,8 +24,10 @@ import com.scwang.smart.refresh.layout.api.RefreshLayout;
 import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
 
+import entity.liveroom.FocusBean;
 import entity.liveroom.PreLiveInfo;
 import entity.liveroom.QueryLiveroomCond;
+import entity.liveroom.SubFocusResp;
 import netService.HttpNetService;
 import netService.entity.NetRetEntity;
 import www.jykj.com.jykj_zxyl.R;
@@ -51,6 +55,7 @@ public class PreRoomFragment extends Fragment {
     private LoadDataTask loadDataTask;
     boolean mLoadDate = true;
     private RefreshLayout refreshLayout;
+    public ProgressDialog mDialogProgress = null;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,11 +80,15 @@ public class PreRoomFragment extends Fragment {
             @Override
             public void onClick(int position, View view) {
                 switch (view.getId()){
-                    case R.id.ll_root:
+                    case R.id.rl_live_layout:
                         PreLiveInfo parbean = mdatas.get(position);
                         Intent parintent = new Intent(mActivity, LiveroomDetailActivity.class);
                         parintent.putExtra("detailCode",parbean.getDetailsCode());
                         mActivity.startActivity(parintent);
+                        break;
+                    case R.id.iv_collection_btn:
+                        PreLiveInfo starbean = mdatas.get(position);
+                        doFocus(starbean,position);
                         break;
                 }
 
@@ -90,8 +99,13 @@ public class PreRoomFragment extends Fragment {
 
             }
         });
-        loadData();
         return retV;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadData();
     }
 
     /**
@@ -188,4 +202,96 @@ public class PreRoomFragment extends Fragment {
             mLoadDate = true;
         }
     }
+
+    void doFocus(PreLiveInfo parabean,int selpos){
+        getProgressBar("提交数据","数据提交中，请稍后");
+        FocusBean subbean = new FocusBean();
+        subbean.setDetailsCode(parabean.getDetailsCode());
+        subbean.setLoginUserPosition(mApp.loginDoctorPosition);
+        subbean.setOperUserCode(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
+        subbean.setOperUserName(mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
+        subbean.setRequestClientType("1");
+        SubFocusTask subFocusTask = new SubFocusTask(subbean,parabean,selpos);
+        subFocusTask.execute();
+    }
+
+    class SubFocusTask extends AsyncTask<Void,Void,Boolean> {
+        FocusBean subean;
+        String repmsg = "";
+        SubFocusResp subresp = null;
+        PreLiveInfo sellive = null;
+        int selpos = -1;
+
+        SubFocusTask(FocusBean subean, PreLiveInfo sellive, int selpos) {
+            this.subean = subean;
+            this.sellive = sellive;
+            this.selpos = selpos;
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+            try {
+                String suburl = "https://www.jiuyihtn.com:41041/broadcastLiveDataControlle/extendBroadcastFollowNum";
+                if (1 == sellive.getFlagLikes()) {
+                    suburl = "https://www.jiuyihtn.com:41041/broadcastLiveDataControlle/Numberofprecastviewerscancelled";
+                    sellive.setFlagLikes(0);
+                    if (null != sellive.getExtendBroadcastFollowNum() && sellive.getExtendBroadcastFollowNum().length() > 0) {
+                        sellive.setExtendBroadcastFollowNum(String.valueOf(Integer.parseInt(sellive.getExtendBroadcastFollowNum()) - 1));
+                    } else {
+                        sellive.setExtendBroadcastFollowNum("0");
+                    }
+                } else {
+                    sellive.setFlagLikes(1);
+                    if (null != sellive.getExtendBroadcastFollowNum() && sellive.getExtendBroadcastFollowNum().length() > 0) {
+                        sellive.setExtendBroadcastFollowNum(String.valueOf(Integer.parseInt(sellive.getExtendBroadcastFollowNum()) + 1));
+                    } else {
+                        sellive.setExtendBroadcastFollowNum("0");
+                    }
+                }
+                String repjson = HttpNetService.urlConnectionService("jsonDataInfo=" + new Gson().toJson(subean), suburl);
+                com.hyphenate.easeui.netService.entity.NetRetEntity retEntity = JSON.parseObject(repjson, com.hyphenate.easeui.netService.entity.NetRetEntity.class);
+                repmsg = retEntity.getResMsg();
+                if (1 == retEntity.getResCode()) {
+                    subresp = JSON.parseObject(StrUtils.defaulObjToStr(retEntity.getResJsonData()), SubFocusResp.class);
+                    return true;
+                }
+            } catch (Exception ex) {
+                repmsg = "系统异常";
+                ex.printStackTrace();
+            }
+            return false;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            cacerProgress();
+            Toast.makeText(mContext, repmsg, Toast.LENGTH_SHORT).show();
+            if (aBoolean) {
+                mdatas.set(selpos, sellive);
+                preLiveAdapter.notifyDataSetChanged();
+            }
+        }
+    }
+        /**
+         * 获取进度条
+         */
+
+        public void getProgressBar(String title, String progressPrompt) {
+            if (mDialogProgress == null) {
+                mDialogProgress = new ProgressDialog(mActivity);
+            }
+            mDialogProgress.setTitle(title);
+            mDialogProgress.setMessage(progressPrompt);
+            mDialogProgress.setCancelable(false);
+            mDialogProgress.show();
+        }
+
+        /**
+         * 取消进度条
+         */
+        public void cacerProgress() {
+            if (mDialogProgress != null) {
+                mDialogProgress.dismiss();
+            }
+        }
 }
