@@ -23,6 +23,7 @@
     <color name="btn_green_noraml">#68C270</color>
     <color name="btn_green_pressed">#6FCD78</color>
     <color name="btn_gray_normal">#c0c0c0</color>
+    <color name="back_low_gray">#fff5f5f5</color>
     <color name="btn_gray_pressed_status">#b5b5b6</color>
     <color name="btn_gray_pressed">#666667</color>
     <color name="btn_blue_normal">#1e90ff</color>
@@ -79,4 +80,5 @@
     <color name="colorEnterroomBack">#383ed045</color>
     <color name="colorExitroomBack">#38FF4081</color>
     <color name="colorNomalroomRow">#38888888</color>
+    <color name="colorRmindinfoBack">#fff5f5f5</color>
 </resources>

@@ -142,6 +142,14 @@ public class EaseChatMessageList extends RelativeLayout{
         return itemStyle.isShowChatRoom();
     }
 
+    public boolean isShowChatBack() {
+        return itemStyle.isShowChatBack();
+    }
+
+    public void setShowChatBack(boolean showChatBack) {
+        itemStyle.setShowChatBack(showChatBack);
+    }
+
     public interface MessageListItemClickListener{
 	    /**
 	     * there is default handling when bubble is clicked, if you want handle it, return true

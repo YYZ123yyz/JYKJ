@@ -29,7 +29,7 @@
 
         <RelativeLayout
                 android:id="@+id/bubble"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_userid"
                 android:layout_toLeftOf="@+id/iv_userhead"
@@ -41,13 +41,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:autoLink="web"
+                    android:layout_centerInParent="true"
                     android:gravity="center_vertical"
                     android:paddingLeft="@dimen/dp_2"
                     android:paddingRight="@dimen/dp_1"
                     android:minHeight="@dimen/dp_25"
                     android:maxWidth="@dimen/dp_225"
                     android:textColor="#ff000000"
-                    android:textSize="@dimen/sp_12" />
+                    android:textSize="@dimen/sp_12"/>
         </RelativeLayout>
 
         <TextView
