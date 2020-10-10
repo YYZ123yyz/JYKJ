@@ -37,8 +37,7 @@ public class InspectionCategoryPopup extends PopupWindow {
         this.onClickListener = onClickListener;
     }
 
-    public InspectionCategoryPopup(Context context,
-                                   ArrayList<String> items) {
+    public InspectionCategoryPopup(Context context) {
 
         inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);

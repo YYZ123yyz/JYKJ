@@ -439,6 +439,133 @@
 
                         </TextView>
                     </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="18.5dp"
+                        android:layout_marginTop="7dp"
+                        android:layout_marginEnd="18.5dp"
+                        android:id="@+id/rl_medical_patient"
+                        android:visibility="visible"
+                        >
+
+                        <TextView
+                            android:id="@+id/tv_patient_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="患者"
+                            android:textColor="@color/color_616266"
+                            android:textSize="13sp" />
+
+                        <TextView
+                            android:id="@+id/tv_patient_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:textColor="@color/color_303133"
+                            android:textSize="13sp"
+                            android:text="张三"
+                            android:layout_alignParentRight="true">
+
+
+                        </TextView>
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="18.5dp"
+                        android:layout_marginTop="7dp"
+                        android:layout_marginEnd="18.5dp"
+                        android:id="@+id/rl_medical_end_time"
+                        android:visibility="visible"
+                        >
+
+                        <TextView
+                            android:id="@+id/tv_medical_end_time_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="就诊结束时间"
+                            android:textColor="@color/color_616266"
+                            android:textSize="13sp" />
+
+                        <TextView
+                            android:id="@+id/tv_medical_end_time"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:textColor="@color/color_303133"
+                            android:textSize="13sp"
+                            android:text="2020-8-17"
+                            android:layout_alignParentRight="true">
+
+
+                        </TextView>
+                    </RelativeLayout>
+
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="18.5dp"
+                        android:layout_marginTop="7dp"
+                        android:layout_marginEnd="18.5dp"
+                        android:id="@+id/rl_medical_doctor"
+                        android:visibility="visible"
+                        >
+
+                        <TextView
+                            android:id="@+id/tv_medical_doctor_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="就诊医生"
+                            android:textColor="@color/color_616266"
+                            android:textSize="13sp" />
+
+                        <TextView
+                            android:id="@+id/tv_medical_doctor"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:textColor="@color/color_303133"
+                            android:textSize="13sp"
+                            android:text="李医生"
+                            android:layout_alignParentRight="true">
+
+                        </TextView>
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="18.5dp"
+                        android:layout_marginTop="7dp"
+                        android:layout_marginEnd="18.5dp"
+                        android:id="@+id/rl_patient_type"
+                        android:visibility="visible"
+                        >
+
+                        <TextView
+                            android:id="@+id/tv_patient_type_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="患者类型"
+                            android:textColor="@color/color_616266"
+                            android:textSize="13sp" />
+
+                        <TextView
+                            android:id="@+id/tv_patient_type"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:textColor="@color/color_303133"
+                            android:textSize="13sp"
+                            android:text="一次性就诊"
+                            android:layout_alignParentRight="true">
+
+                        </TextView>
+                    </RelativeLayout>
                     <TextView
                         android:id="@+id/tv_price_vlaue"
                         android:layout_width="wrap_content"
@@ -470,6 +597,20 @@
 
                     </TextView>
                     <TextView
+                        android:id="@+id/tv_diagnosis_message"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="28dp"
+                        android:layout_marginBottom="14dp"
+                        android:gravity="center"
+                        android:text="您已成功对某某某发起诊后留言。"
+                        android:textColor="@color/color_626267"
+                        android:textSize="13sp"
+                        android:visibility="gone">
+
+
+                    </TextView>
+                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="28dp"
@@ -491,6 +632,46 @@
 
                     </TextView>
 
+                    <TextView
+                        android:id="@+id/tv_immediately_see_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="28dp"
+                        android:layout_marginBottom="14dp"
+                        android:background="@drawable/bg_round_7a9eff_15"
+                        android:gravity="center"
+                        android:paddingLeft="15dp"
+                        android:paddingTop="6dp"
+                        android:paddingRight="15dp"
+                        android:paddingBottom="6dp"
+                        android:text="立即查看"
+                        android:textColor="@color/writeColor"
+                        android:textSize="14sp"
+                        android:visibility="gone">
+
+
+                    </TextView>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="28dp"
+                        android:layout_marginBottom="14dp"
+                        android:gravity="center"
+                        android:text="确定"
+                        android:visibility="visible"
+                        android:layout_gravity="center_horizontal"
+                        android:paddingTop="6dp"
+                        android:paddingBottom="6dp"
+                        android:paddingLeft="16dp"
+                        android:paddingRight="16dp"
+                        android:id="@+id/tv_send_btn"
+                        android:textColor="@color/color_999999"
+                        android:textSize="14sp"
+                        >
+
+
+                    </TextView>
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

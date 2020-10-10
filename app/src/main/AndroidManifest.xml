@@ -52,13 +52,11 @@
     <uses-permission android:name="com.huawei.android.launcher.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.READ_LOGS" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
-
     <uses-feature android:name="android.hardware.Camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
     <uses-permission android:name="com.coloros.mcs.permission.RECIEVE_MCS_MESSAGE" />
     <uses-permission android:name="com.heytap.mcs.permission.RECIEVE_MCS_MESSAGE" />
-
 
     <application
         android:name=".application.JYKJApplication"
@@ -71,6 +69,11 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:allowBackup,android:icon">
+        <activity android:name=".activity.home.mypatient.fillindetails.FillindetailsActivity"></activity>
+        <activity android:name=".activity.home.mypatient.history.HistoryActivity" />
+        <activity android:name=".activity.home.mypatient.label.LabelActivity" />
+        <activity android:name=".activity.home.mypatient.symptom.SymptomActivity" />
+        <activity android:name=".activity.home.mypatient.basicInformation.BasicInformationActivity" />
         <activity android:name="yyz_exploit.activity.activity.CancellationActivity" />
         <activity android:name="yyz_exploit.activity.activity.CancellationDetailsActivity" />
         <activity android:name="yyz_exploit.activity.activity.TerminationActivity" />
@@ -89,7 +92,6 @@
         <activity android:name="yyz_exploit.activity.activity.KeywordActivity" />
         <activity android:name="yyz_exploit.activity.activity.BeforesettingActivity" />
         <activity android:name="yyz_exploit.activity.activity.RefuseActivity" />
-
         <activity android:name="yyz_exploit.activity.activity.NoticeActivity" />
         <activity android:name="yyz_exploit.activity.activity.LectureActivity" />
         <activity android:name="yyz_exploit.activity.activity.FeedbackActivity" /> <!-- 意见反馈页面 -->
@@ -451,9 +453,46 @@
         <activity android:name=".medicalrecord.activity.InspectionOrderListActivity"
             android:screenOrientation="portrait"
             />
+        <activity android:name=".medicalrecord.activity.PrescriptionMedicinalListActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".medicalrecord.activity.PrescriptionNotesListActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".medicalrecord.activity.ChoosedMedicinalListActivity"
+            android:screenOrientation="portrait"
+           />
+        <activity android:name=".medicalrecord.activity.AddDrugInfoActivity"
+            android:screenOrientation="portrait"
+            />
+
         <activity
             android:name="com.tencent.rtmp.video.TXScreenCapture$TXScreenCaptureAssistantActivity"
             android:theme="@android:style/Theme.Translucent" />
+<!--        <activity-->
+<!--            android:name=".medicalrecord.activity.PatientRecordActivity"-->
+<!--            android:screenOrientation="portrait"-->
+
+<!--            />-->
+
+        <activity android:name=".medicalrecord.activity.PatientRecordActivity"
+            android:screenOrientation="portrait"
+            >
+            <intent-filter>
+                <action android:name="www.jykj.com.jykj_zxyl.medicalrecord.activity.PatientRecordActivity"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+
+        </activity>
+        <activity android:name=".medicalrecord.activity.ConsultationInfoActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".personal.activity.MyServiceHistoryActivity"
+            android:screenOrientation="portrait"
+            >
+
+
+        </activity>
 
         <meta-data
             android:name="EASEMOB_APPKEY"
@@ -534,18 +573,16 @@
         <service
             android:name="com.xiaomi.mipush.sdk.PushMessageHandler"
             android:enabled="true"
-            android:exported="true" />
-
-        <receiver
-            android:name="com.xiaomi.mipushdemo.DemoMessageReceiver"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="com.xiaomi.mipush.RECEIVE_MESSAGE" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="com.xiaomi.mipush.ERROR" />
-            </intent-filter>
-        </receiver>
+            android:exported="true" /> <!-- <receiver -->
+        <!-- android:name="com.xiaomi.mipushdemo.DemoMessageReceiver" -->
+        <!-- android:exported="true"> -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="com.xiaomi.mipush.RECEIVE_MESSAGE" /> -->
+        <!-- </intent-filter> -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="com.xiaomi.mipush.ERROR" /> -->
+        <!-- </intent-filter> -->
+        <!-- </receiver> -->
         <receiver
             android:name="com.xiaomi.push.service.receivers.NetworkStatusReceiver"
             android:exported="true">
@@ -582,6 +619,152 @@
         <meta-data
             android:name="notch.config"
             android:value="portrait|landscape" />
+
+
+        <!-- 以下为基本配置信息，需要自行添加至您的AndroidManifest文件中 start-->
+        <service
+            android:name="com.taobao.accs.ChannelService"
+            android:exported="true"
+            android:process=":channel">
+            <intent-filter>
+                <action android:name="com.taobao.accs.intent.action.SERVICE" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.taobao.accs.intent.action.ELECTION" />
+            </intent-filter>
+        </service>
+
+        <service
+            android:name="com.taobao.accs.data.MsgDistributeService"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.taobao.accs.intent.action.RECEIVE" />
+            </intent-filter>
+        </service>
+
+        <receiver
+            android:name="com.taobao.accs.EventReceiver"
+            android:process=":channel">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_REMOVED" />
+                <data android:scheme="package" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.USER_PRESENT" />
+            </intent-filter>
+        </receiver>
+
+        <receiver
+            android:name="com.taobao.accs.ServiceReceiver"
+            android:process=":channel">
+            <intent-filter>
+                <action android:name="com.taobao.accs.intent.action.COMMAND" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.taobao.accs.intent.action.START_FROM_AGOO" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name="com.taobao.accs.internal.AccsJobService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":channel"/>
+
+        <service
+            android:name="com.taobao.accs.ChannelService$KernelService"
+            android:process=":channel" />
+
+        <service
+            android:name="org.android.agoo.accs.AgooService"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.taobao.accs.intent.action.RECEIVE" />
+            </intent-filter>
+        </service>
+
+        <service
+            android:name="com.umeng.message.UmengIntentService"
+            android:exported="true"
+            android:process=":channel">
+            <intent-filter>
+                <action android:name="org.agoo.android.intent.action.RECEIVE" />
+            </intent-filter>
+        </service>
+
+        <service
+            android:name="com.umeng.message.XiaomiIntentService"
+            android:exported="true"
+            android:process=":channel">
+            <intent-filter>
+                <action android:name="org.agoo.android.intent.action.RECEIVE" />
+            </intent-filter>
+        </service>
+
+        <receiver
+            android:name="com.taobao.agoo.AgooCommondReceiver"
+            android:exported="true"
+            android:process=":channel">
+            <intent-filter>
+                <action android:name="${applicationId}.intent.action.COMMAND" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_REMOVED" />
+                <data android:scheme="package" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name="com.umeng.message.UmengMessageIntentReceiverService"
+            android:exported="true"
+            android:process=":channel">
+            <intent-filter>
+                <action android:name="org.android.agoo.client.MessageReceiverService" />
+            </intent-filter>
+        </service>
+
+        <receiver
+            android:name="com.umeng.message.NotificationProxyBroadcastReceiver"
+            android:exported="false" />
+
+        <service
+            android:name="com.umeng.message.UmengMessageCallbackHandlerService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.umeng.messge.registercallback.action" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.umeng.message.enablecallback.action" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.umeng.message.disablecallback.action" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.umeng.message.message.handler.action" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.umeng.message.message.sendmessage.action" />
+            </intent-filter>
+        </service>
+
+        <service
+            android:name="com.umeng.message.UmengDownloadResourceService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:exported="false" />
+
+        <provider
+            android:name="com.umeng.message.provider.MessageProvider"
+            android:authorities="${applicationId}.umeng.message"
+            android:exported="false">
+            <grant-uri-permission android:pathPattern=".*" />
+        </provider>
+        <!-- 以下为基本配置信息，需要自行添加至您的AndroidManifest文件中 end-->
     </application>
 
 </manifest>

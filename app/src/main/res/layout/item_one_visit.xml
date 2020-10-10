@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
+    android:id="@+id/ll_item_root"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -272,8 +273,8 @@
                 android:layout_marginStart="11.5dp"
                 android:paddingTop="7dp"
                 android:paddingBottom="7dp"
-                android:paddingStart="25.5dp"
-                android:paddingEnd="25.5dp"
+                android:paddingStart="20.5dp"
+                android:paddingEnd="20.5dp"
                 android:background="@drawable/bg_round_7a9eff_14"
                 />
         </RelativeLayout>

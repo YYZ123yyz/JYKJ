@@ -1,5 +1,6 @@
 package www.jykj.com.jykj_zxyl.application;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.AlertDialog;
@@ -88,6 +89,7 @@ import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.activity.LoginActivity;
 import www.jykj.com.jykj_zxyl.activity.MainActivity;
 import www.jykj.com.jykj_zxyl.app_base.BuildConfig;
+import www.jykj.com.jykj_zxyl.app_base.base_service.PushIntentService;
 import www.jykj.com.jykj_zxyl.app_base.http.AppUrlConfig;
 import www.jykj.com.jykj_zxyl.service.MessageReciveService;
 import www.jykj.com.jykj_zxyl.util.StrUtils;
@@ -96,6 +98,9 @@ import yyz_exploit.dialog.ErrorDialog;
 
 import com.tencent.bugly.crashreport.CrashReport;
 import com.tencent.rtmp.TXLiveBase;
+import com.umeng.commonsdk.UMConfigure;
+import com.umeng.message.IUmengRegisterCallback;
+import com.umeng.message.PushAgent;
 
 public class JYKJApplication extends Application {
     private JYKJApplication instance;
@@ -136,6 +141,7 @@ public class JYKJApplication extends Application {
     public long gVedioTime = 30;                 //可拨打视频消息时长（单位：秒）
     public String curdetailcode = "";
 
+    @SuppressLint("HandlerLeak")
     public Handler gHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -372,7 +378,34 @@ public class JYKJApplication extends Application {
         initLitesmat();
         //   login();
         initRxHttpUtils();
+        //initUmengSDK();
+    }
 
+
+    /**
+     * 初始化umeng sdk
+     */
+    private void initUmengSDK(){
+        UMConfigure.setLogEnabled(true);
+        UMConfigure.init(this, Constant.UMENG_APPKEY, "umeng", UMConfigure.DEVICE_TYPE_PHONE,
+                Constant.UMENG_APP_SECRET);
+
+        PushAgent pushAgent = PushAgent.getInstance(this);
+        pushAgent.register(new IUmengRegisterCallback(){
+
+            @Override
+            public void onSuccess(String s) {
+                Log.i("walle", "--->>> onSuccess, s is " + s);
+
+            }
+
+            @Override
+            public void onFailure(String s, String s1) {
+                Log.i("walle", "--->>> onFailure, s is " + s + ", s1 is " + s1);
+            }
+        });
+        pushAgent.setPushIntentServiceClass(PushIntentService.class);
+        pushAgent.setDisplayNotificationNumber(3);
     }
 
     void  login(){

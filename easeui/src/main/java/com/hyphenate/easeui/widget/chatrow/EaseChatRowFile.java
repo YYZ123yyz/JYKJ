@@ -4,11 +4,14 @@ import android.content.Context;
 import android.util.Log;
 import android.view.View;
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.chat.EMNormalFileMessageBody;
 import com.hyphenate.easeui.R;
+import com.hyphenate.easeui.utils.EaseUserUtils;
+import com.hyphenate.easeui.utils.ExtEaseUtils;
 import com.hyphenate.util.EMLog;
 import com.hyphenate.util.TextFormater;
 
@@ -20,7 +23,8 @@ public class EaseChatRowFile extends EaseChatRow{
     protected TextView fileNameView;
 	protected TextView fileSizeView;
     protected TextView fileStateView;
-    
+    private LinearLayout llUserInfoRoot;
+    private TextView tvUserName;
     private EMNormalFileMessageBody fileMessageBody;
 
     public EaseChatRowFile(Context context, EMMessage message, int position, BaseAdapter adapter) {
@@ -39,6 +43,8 @@ public class EaseChatRowFile extends EaseChatRow{
         fileSizeView = (TextView) findViewById(R.id.tv_file_size);
         fileStateView = (TextView) findViewById(R.id.tv_file_state);
         percentageView = (TextView) findViewById(R.id.percentage);
+        llUserInfoRoot=findViewById(R.id.ll_userinfo_root);
+        tvUserName=findViewById(R.id.tv_user_name);
 	}
 
 
@@ -57,7 +63,27 @@ public class EaseChatRowFile extends EaseChatRow{
             }
             return;
         }
-	}
+        if(null!=tvUserName){
+            if (message.direct() == EMMessage.Direct.SEND) {
+                EaseUserUtils.setUserNick(ExtEaseUtils.getInstance().getNickName(),tvUserName);
+            }else{
+                EaseUserUtils.setUserNick(message.getUserName(),tvUserName);
+            }
+        }
+        long reserveConfigStart = message.getLongAttribute("reserveConfigStart", 0);
+        long reserveConfigEnd = message.getLongAttribute("reserveConfigEnd", 0);
+        if(reserveConfigStart!=0&&reserveConfigEnd!=0){
+            long msgTime = message.getMsgTime();
+            if(msgTime>=reserveConfigStart&&msgTime<=reserveConfigEnd){
+                llUserInfoRoot.setVisibility(View.VISIBLE);
+            }else{
+                llUserInfoRoot.setVisibility(View.GONE);
+            }
+        }else{
+            llUserInfoRoot.setVisibility(View.GONE);
+        }
+
+    }
 
     @Override
     protected void onViewUpdate(EMMessage msg) {

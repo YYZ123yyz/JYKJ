@@ -175,6 +175,12 @@ public class EaseChatInputMenu extends LinearLayout {
         chatExtendMenu.registerMenuItem(nameRes, drawableRes, itemId, listener);
     }
 
+    /**
+     * 清除数据
+     */
+    public void clearData(){
+        chatExtendMenu.getItemModels().clear();
+    }
 
     protected void processChatMenu() {
         // send message button

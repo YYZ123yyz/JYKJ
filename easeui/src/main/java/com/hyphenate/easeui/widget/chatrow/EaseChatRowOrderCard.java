@@ -26,7 +26,7 @@ import com.hyphenate.easeui.jykj.activity.AppointOrderDetialActivity;
 import com.hyphenate.easeui.jykj.activity.CancelAppointDetialActivity;
 import com.hyphenate.easeui.jykj.activity.CancellationActivity;
 import com.hyphenate.easeui.jykj.activity.SigningDetailsActivity;
-import com.hyphenate.easeui.jykj.activity.TerminationActivity;
+import com.hyphenate.easeui.jykj.activity.TerminationActivity2;
 import com.hyphenate.easeui.jykj.bean.OrderMessage;
 import com.hyphenate.easeui.netService.HttpNetService;
 import com.hyphenate.easeui.netService.entity.NetRetEntity;
@@ -74,6 +74,8 @@ public class EaseChatRowOrderCard extends EaseChatRow {
     private String endTime;
     private String surplusTimes;
 
+    private String flagReplyType;
+
     private RelativeLayout rlMonitorType;
     private RelativeLayout rlMonitorRate;
     private RelativeLayout rlSignTime;
@@ -100,6 +102,7 @@ public class EaseChatRowOrderCard extends EaseChatRow {
     private TextView tvSurplusTimesValue;
     private TextView tvSurplusDurationValue;
 
+
     //预约
     private String statusType;
     private String startTime;
@@ -107,7 +110,25 @@ public class EaseChatRowOrderCard extends EaseChatRow {
     private String appointMentProject;
     private String appointMentType;
 
+    //病例
+    private RelativeLayout rlMedicalPatient;
+    private RelativeLayout rlMedicalEndTime;
+    private RelativeLayout rlMedicalDoctor;
+    private RelativeLayout rlPatientType;;
+    private TextView tvPatientName;
+    private TextView tvMedicalDoctor;
+    private TextView tvPatientType;
+    private TextView tvMedicalEndTime;
+    private TextView tvSendBtn;
 
+    //问诊
+    private TextView tvDiagnosisMessage;
+    private TextView tvImmediatelySeeBtn;
+    private TextView tvMessageTypeValue;
+    private RelativeLayout rlConsultationMessage;
+
+    private String patientType;
+    private String patientName;
     private ViewSysUserDoctorInfoAndHospital mViewSysUserDoctorInfoAndHospital;
     private String mNetRetStr;
     private Handler mHandler;
@@ -115,6 +136,7 @@ public class EaseChatRowOrderCard extends EaseChatRow {
     protected Bundle fragmentArgs;
     private String patientCode;
     private String imageUrl;
+    private String format;
 
     //   private List<ProvideDoctorPatientUserInfo> mProvideDoctorPatientUserInfo = new ArrayList<>();
     public EaseChatRowOrderCard(Context context, EMMessage message,
@@ -169,6 +191,20 @@ public class EaseChatRowOrderCard extends EaseChatRow {
         tvReceivieDoctorValue=findViewById(R.id.tv_receive_doctor_value);
         tvSurplusTimesValue=findViewById(R.id.tv_surplus_times_value);
         tvSurplusDurationValue=findViewById(R.id.tv_surplus_duration_value);
+        rlMedicalPatient=findViewById(R.id.rl_medical_patient);
+        rlMedicalEndTime=findViewById(R.id.rl_medical_end_time);
+        rlMedicalDoctor=findViewById(R.id.rl_medical_doctor);
+        rlPatientType=findViewById(R.id.rl_patient_type);
+        tvPatientName=findViewById(R.id.tv_patient_name);
+        tvMedicalDoctor=findViewById(R.id.tv_medical_doctor);
+        tvPatientType=findViewById(R.id.tv_patient_type);
+        tvMedicalEndTime=findViewById(R.id.tv_medical_end_time);
+        tvSendBtn=findViewById(R.id.tv_send_btn);
+        tvDiagnosisMessage=findViewById(R.id.tv_diagnosis_message);
+        tvImmediatelySeeBtn=findViewById(R.id.tv_immediately_see_btn);
+        rlConsultationMessage=findViewById(R.id.rl_consultation_message);
+        tvMessageTypeValue=findViewById(R.id.tv_message_type_value);
+
         addListener();
     }
 
@@ -205,10 +241,14 @@ public class EaseChatRowOrderCard extends EaseChatRow {
         endTime=message.getStringAttribute("endTime","");
         surplusTimes=message.getStringAttribute("surplusTimes","");
 
+        patientType=message.getStringAttribute("patientType","");
+        patientName=message.getStringAttribute("patientName","");
+        flagReplyType=message.getStringAttribute("flagReplyType","");
         mTvMonitValue.setText(monitoringType);
         mTvCoachRateValue.setText(coach);
         mTvSignTimeValue.setText(signUpTime);
-        mTvPriceValue.setText(String.format("¥%s", price));
+        mTvPriceValue.setText(String.format("¥ %s", price));
+        mTvPriceValue.setText("￥ "+ price);
         orderType = message.getStringAttribute("orderType", "");//1已同意 2 修改 3 拒绝（由患者操作发起时会携带此参数）
         switch (messageType) {
             case "terminationOrder":
@@ -227,6 +267,14 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                 rlReceiveDoctor.setVisibility(View.GONE);
                 rlSurplusTimes.setVisibility(View.GONE);
                 rlSurplusDuration.setVisibility(View.GONE);
+
+                rlMedicalPatient.setVisibility(View.GONE);
+                rlMedicalEndTime.setVisibility(View.GONE);
+                rlMedicalDoctor.setVisibility(View.GONE);
+                rlPatientType.setVisibility(View.GONE);
+                tvSendBtn.setVisibility(View.GONE);
+                tvDiagnosisMessage.setVisibility(View.GONE);
+                tvImmediatelySeeBtn.setVisibility(View.GONE);
 
 
                 break;
@@ -247,6 +295,14 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                 rlSurplusTimes.setVisibility(View.GONE);
                 rlSurplusDuration.setVisibility(View.GONE);
 
+                rlMedicalPatient.setVisibility(View.GONE);
+                rlMedicalEndTime.setVisibility(View.GONE);
+                rlMedicalDoctor.setVisibility(View.GONE);
+                rlPatientType.setVisibility(View.GONE);
+                tvSendBtn.setVisibility(View.GONE);
+                tvDiagnosisMessage.setVisibility(View.GONE);
+                tvImmediatelySeeBtn.setVisibility(View.GONE);
+
                 break;
             case "appointment":
                 rlMonitorType.setVisibility(View.GONE);
@@ -264,6 +320,13 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                 rlSurplusTimes.setVisibility(View.GONE);
                 rlSurplusDuration.setVisibility(View.GONE);
 
+                rlMedicalPatient.setVisibility(View.GONE);
+                rlMedicalEndTime.setVisibility(View.GONE);
+                rlMedicalDoctor.setVisibility(View.GONE);
+                rlPatientType.setVisibility(View.GONE);
+                tvSendBtn.setVisibility(View.GONE);
+                tvDiagnosisMessage.setVisibility(View.GONE);
+                tvImmediatelySeeBtn.setVisibility(View.GONE);
                 tvAppointTimeValue.setText(startTime);
                 tvAppointProjectValue.setText(appointMentProject);
                 tvAppointTypeValue.setText(appointMentType);
@@ -288,8 +351,18 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                 rlEndTime.setVisibility(View.VISIBLE);
                 rlSurplusTimes.setVisibility(View.VISIBLE);
                 rlSurplusDuration.setVisibility(View.VISIBLE);
+
+                rlMedicalPatient.setVisibility(View.GONE);
+                rlMedicalEndTime.setVisibility(View.GONE);
+                rlMedicalDoctor.setVisibility(View.GONE);
+                rlPatientType.setVisibility(View.GONE);
+                tvSendBtn.setVisibility(View.GONE);
+                tvDiagnosisMessage.setVisibility(View.GONE);
+                tvImmediatelySeeBtn.setVisibility(View.GONE);
                 tvReceiveTimeValue.setText(receiveTime);
                 tvEndTimeValue.setText(endTime);
+
+                ;
                 switch (appointMentProject) {
                     case "10":
                         mTvCardTitle.setText("图文");
@@ -318,7 +391,65 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                 }
                 tvReceivieDoctorValue.setText(mViewSysUserDoctorInfoAndHospital.getUserName());
                 break;
+            case "medicalRecord":
+                mTvCardTitle.setText("病历");
+                rlMonitorType.setVisibility(View.GONE);
+                rlMonitorRate.setVisibility(View.GONE);
+                rlSignTime.setVisibility(View.GONE);
+                rlReceiveDoctor.setVisibility(View.GONE);
+                rlAppointTime.setVisibility(View.GONE);
+                rlCancelAppointTime.setVisibility(View.GONE);
+                rlAppointProject.setVisibility(View.GONE);
+                rlAppointType.setVisibility(View.GONE);
+                mTvCancelContractMsg.setVisibility(View.GONE);
+                rlReceiveTime.setVisibility(View.GONE);
+                rlEndTime.setVisibility(View.GONE);
+                rlSurplusTimes.setVisibility(View.GONE);
+                rlSurplusDuration.setVisibility(View.GONE);
+                mTvOrderUpdateBtn.setVisibility(View.GONE);
+                mTvPriceValue.setVisibility(View.GONE);
 
+                rlMedicalPatient.setVisibility(View.VISIBLE);
+                rlMedicalEndTime.setVisibility(View.VISIBLE);
+                rlMedicalDoctor.setVisibility(View.VISIBLE);
+                rlPatientType.setVisibility(View.VISIBLE);
+                tvSendBtn.setVisibility(View.VISIBLE);
+                tvDiagnosisMessage.setVisibility(View.GONE);
+                tvImmediatelySeeBtn.setVisibility(View.GONE);
+                tvPatientName.setText(patientName);
+                tvMedicalEndTime.setText(endTime);
+                tvMedicalDoctor.setText(mViewSysUserDoctorInfoAndHospital.getUserName());
+                tvPatientType.setText(patientType);
+
+                break;
+            case "MessageAfterDiagnosis":
+                mTvCardTitle.setText("诊后留言");
+
+                rlMonitorType.setVisibility(View.GONE);
+                rlMonitorRate.setVisibility(View.GONE);
+                rlSignTime.setVisibility(View.GONE);
+                rlReceiveDoctor.setVisibility(View.GONE);
+                rlAppointTime.setVisibility(View.GONE);
+                rlCancelAppointTime.setVisibility(View.GONE);
+                rlAppointProject.setVisibility(View.GONE);
+                rlAppointType.setVisibility(View.GONE);
+                mTvCancelContractMsg.setVisibility(View.GONE);
+                rlReceiveTime.setVisibility(View.GONE);
+                rlEndTime.setVisibility(View.GONE);
+                rlSurplusTimes.setVisibility(View.GONE);
+                rlSurplusDuration.setVisibility(View.GONE);
+                mTvOrderUpdateBtn.setVisibility(View.GONE);
+                mTvPriceValue.setVisibility(View.GONE);
+
+                rlMedicalPatient.setVisibility(View.GONE);
+                rlMedicalEndTime.setVisibility(View.GONE);
+                rlMedicalDoctor.setVisibility(View.GONE);
+                rlPatientType.setVisibility(View.GONE);
+                tvSendBtn.setVisibility(View.GONE);
+                tvDiagnosisMessage.setVisibility(View.VISIBLE);
+                tvImmediatelySeeBtn.setVisibility(View.VISIBLE);
+
+                 break;
 
             default:
 
@@ -329,6 +460,7 @@ public class EaseChatRowOrderCard extends EaseChatRow {
             if (messageType.equals("card")) {
                 mRlCancelContractOrderRoot.setVisibility(View.GONE);
                 mTvOperMsg.setVisibility(View.VISIBLE);
+                mTvPriceValue.setVisibility(View.VISIBLE);
                 switch (orderType) {
                     case "1":
                         tvOrderReceivedUpdateBtn.setVisibility(View.GONE);
@@ -384,6 +516,7 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                 }else{
                     mTvOperMsg.setVisibility(View.GONE);
                     ivStampIcon.setVisibility(View.GONE);
+                    tvOrderReceivedUpdateBtn.setVisibility(View.GONE);
                     mRlCancelContractOrderRoot.setVisibility(View.VISIBLE);
                 }
 
@@ -400,6 +533,7 @@ public class EaseChatRowOrderCard extends EaseChatRow {
 
         } else if (direct == EMMessage.Direct.SEND) {
             if (messageType.equals("terminationOrder")) {
+                rlConsultationMessage.setVisibility(View.GONE);
                 switch (orderType) {
                     case "1":
                         ivStampIcon.setVisibility(View.VISIBLE);
@@ -433,6 +567,8 @@ public class EaseChatRowOrderCard extends EaseChatRow {
             } else if (messageType.equals("card")) {
                 mTvOrderUpdateBtn.setVisibility(View.VISIBLE);
                 mTvCancelContractMsg.setVisibility(View.GONE);
+                mTvPriceValue.setVisibility(View.VISIBLE);
+                rlConsultationMessage.setVisibility(View.GONE);
                 //修改
                 mTvOrderUpdateBtn.setOnClickListener(new OnClickListener() {
                     @Override
@@ -446,6 +582,7 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                     }
                 });
             }else if(messageType.equals("appointment")){
+                rlConsultationMessage.setVisibility(View.GONE);
                 mTvOrderUpdateBtn.setVisibility(View.GONE);
                 ivStampIcon.setVisibility(View.GONE);
                 mTvPriceValue.setVisibility(View.GONE);
@@ -457,11 +594,37 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                     mTvCancelContractMsg.setText("您已取消预约");
                 }
             }else if(messageType.equals("receiveTreatment")){
+                rlConsultationMessage.setVisibility(View.GONE);
                 mTvOrderUpdateBtn.setVisibility(View.GONE);
                 ivStampIcon.setVisibility(View.GONE);
                 mTvPriceValue.setVisibility(View.GONE);
                 mTvCancelContractMsg.setVisibility(View.VISIBLE);
                 mTvCancelContractMsg.setText("您已接诊");
+            }else if(messageType.equals("MessageAfterDiagnosis")){
+                rlConsultationMessage.setVisibility(View.VISIBLE);
+                switch (flagReplyType) {
+                    case "1":
+                        tvMessageTypeValue.setText("正常");
+                        tvMessageTypeValue.setTextColor(ContextCompat.getColor(mContext, R.color.color_999999));
+                        break;
+                    case "2":
+                        tvMessageTypeValue.setText("一般");
+                        tvMessageTypeValue.setTextColor(ContextCompat.getColor(mContext, R.color.color_00C017));
+
+                        break;
+                    case "3":
+                        tvMessageTypeValue.setText("紧急");
+                        tvMessageTypeValue.setTextColor(ContextCompat.getColor(mContext, R.color.color_FF6600));
+                        break;
+                    case "4":
+                        tvMessageTypeValue.setText("重大紧急");
+                        tvMessageTypeValue.setTextColor(ContextCompat.getColor(mContext, R.color.color_D70000));
+                        break;
+                }
+
+
+
+
             }
 
 
@@ -593,7 +756,7 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                         bundle.putString("patientName", nickName);
                         bundle.putString("patientCode",message.getFrom() );
                         bundle.putSerializable("orderMsg",orderMessage);
-                        startActivity(TerminationActivity.class, bundle);
+                        startActivity(TerminationActivity2.class, bundle);
                     }
 
                     }
@@ -687,6 +850,24 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                         Bundle bundle=new Bundle();
                         bundle.putString("orderCode",orderId);
                         startActivity(AppointOrderDetialActivity.class,bundle);
+
+                        break;
+                    }
+                    case "medicalRecord": {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("orderCode", orderId);
+                        bundle.putString("patientCode", message.getTo());
+                        bundle.putString("patientName", patientName);
+                        Intent intent = new Intent();
+                        intent.setAction("www.jykj.com.jykj_zxyl." +
+                                "medicalrecord.activity.PatientRecordActivity");
+                        intent.addCategory(Intent.CATEGORY_DEFAULT);
+                        intent.putExtras(bundle);
+                        mContext.startActivity(intent);
+                        break;
+                    }
+                    case "MessageAfterDiagnosis":{
+
 
                         break;
                     }

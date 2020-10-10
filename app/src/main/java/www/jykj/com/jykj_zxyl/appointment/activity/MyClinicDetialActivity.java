@@ -1,8 +1,8 @@
 package www.jykj.com.jykj_zxyl.appointment.activity;
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,14 +21,14 @@ import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
 import com.bigkoo.pickerview.builder.TimePickerBuilder;
 import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.bigkoo.pickerview.view.TimePickerView;
+import com.hyphenate.easeui.hyhd.VideoCallActivity;
+import com.hyphenate.easeui.hyhd.VoiceCallActivity;
 import com.hyphenate.easeui.jykj.bean.OrderMessage;
 import com.hyphenate.easeui.jykj.utils.DateUtils;
 import com.hyphenate.easeui.utils.CollectionUtils;
 import com.scwang.smart.refresh.footer.ClassicsFooter;
 import com.scwang.smart.refresh.header.ClassicsHeader;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
-import com.scwang.smart.refresh.layout.api.RefreshLayout;
-import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
 import com.yyydjk.library.DropDownMenu;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -36,15 +36,20 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import butterknife.BindView;
+import entity.patientInfo.ProvideViewPatientLablePunchClockState;
 import jsc.kit.wheel.base.WheelItem;
 import jsc.kit.wheel.dialog.ColumnWheelDialog;
 import www.jykj.com.jykj_zxyl.R;
+import www.jykj.com.jykj_zxyl.activity.home.twjz.WZXXActivity;
+import www.jykj.com.jykj_zxyl.activity.home.wdzs.ProvideViewInteractOrderTreatmentAndPatientInterrogation;
 import www.jykj.com.jykj_zxyl.activity.hyhd.ChatActivity;
+import www.jykj.com.jykj_zxyl.activity.hzgl.HZGLHZZLActivity;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.BaseReasonBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.OperDoctorScheduResultBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.PatientInfoBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.ReceiveTreatmentResultBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.TimelyTreatmentBean;
+import www.jykj.com.jykj_zxyl.app_base.base_html5.H5Activity;
 import www.jykj.com.jykj_zxyl.app_base.base_view.BaseToolBar;
 import www.jykj.com.jykj_zxyl.app_base.mvp.AbstractMvpBaseActivity;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
@@ -61,7 +66,8 @@ import www.jykj.com.jykj_zxyl.appointment.listener.MyItemClickListener;
 import www.jykj.com.jykj_zxyl.appointment.view.FirstView;
 import www.jykj.com.jykj_zxyl.appointment.view.SecView;
 import www.jykj.com.jykj_zxyl.appointment.view.ThirdView;
-import www.jykj.com.jykj_zxyl.medicalrecord.activity.InspectionOrderListActivity;
+import www.jykj.com.jykj_zxyl.medicalrecord.activity.ConsultationInfoActivity;
+import www.jykj.com.jykj_zxyl.medicalrecord.activity.PatientRecordActivity;
 import www.jykj.com.jykj_zxyl.util.StringUtils;
 
 /**
@@ -116,8 +122,8 @@ public class MyClinicDetialActivity extends AbstractMvpBaseActivity<MyClinicDeti
     TextView tvEndTime;
     @BindView(R.id.tv_price)
     TextView tvPrice;
-    @BindView(R.id.tv_disease_type)
-    TextView tvDiseaseType;
+    @BindView(R.id.ed_disease_type)
+    EditText edDiseaseType;
     @BindView(R.id.ed_patient_chief)
     EditText edPatientChief;
     @BindView(R.id.tv_reset_btn)
@@ -224,7 +230,9 @@ public class MyClinicDetialActivity extends AbstractMvpBaseActivity<MyClinicDeti
                 mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(),
                 treatmentType,pageSize+"",pageIndex+"",
                 edPatientName.getText().toString(),endAge,startAge,
-                appointStartTime,appointEndTime,priceRegion,reserveStatus,dateSort,priceSort,this);
+                appointStartTime,appointEndTime,priceRegion,reserveStatus,dateSort,priceSort
+                ,edDiseaseType.getText().toString()
+                ,edPatientChief.getText().toString(),this);
 
         //mPresenter.sendGetUserInfoRequest(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
     }
@@ -263,10 +271,72 @@ public class MyClinicDetialActivity extends AbstractMvpBaseActivity<MyClinicDeti
             public void onClickMedicalRecordDetial(int pos) {
                 PatientInfoBean patientInfoBean = mPatientInfoBeans.get(pos);
                 Bundle bundle=new Bundle();
+                bundle.putString("orderCode",patientInfoBean.getOrderCode());
                 bundle.putString("patientCode",patientInfoBean.getMainPatientCode());
                 bundle.putString("patientName",patientInfoBean.getMainPatientName());
-                bundle.putString("orderId",patientInfoBean.getReserveCode());
-                startActivity(InspectionOrderListActivity.class,bundle);
+                startActivity(PatientRecordActivity.class,bundle);
+            }
+
+            @Override
+            public void onClickStatisticTable(int pos) {
+                String reportUrl = mPatientInfoBeans.get(pos).getReportUrl();
+                Bundle bundle=new Bundle();
+                bundle.putString("url",reportUrl);
+                startActivity(H5Activity.class,bundle);
+            }
+
+            @Override
+            public void onClickImItem(int pos) {
+                Intent intent = new Intent();
+                PatientInfoBean patientInfoBean = mPatientInfoBeans.get(pos);
+                ProvideViewPatientLablePunchClockState provideviewpatientInfo=new ProvideViewPatientLablePunchClockState();
+                provideviewpatientInfo.setUserName(patientInfoBean.getMainPatientName());
+                provideviewpatientInfo.setPatientCode(patientInfoBean.getMainPatientCode());
+                intent.putExtra("patientInfo", provideviewpatientInfo);
+                intent.setClass(MyClinicDetialActivity.this, HZGLHZZLActivity.class);
+                startActivity(intent);
+
+
+            }
+
+            @Override
+            public void onClickConsultItem(int pos) {
+                PatientInfoBean patientInfoBean = mPatientInfoBeans.get(pos);
+                Bundle bundle=new Bundle();
+                bundle.putString("orderCode",patientInfoBean.getOrderCode());
+                startActivity(ConsultationInfoActivity.class,bundle);
+            }
+
+            @Override
+            public void onClickInterrogation(int pos) {
+                PatientInfoBean patientInfoBean = mPatientInfoBeans.get(pos);
+                String reserveProjectCode = patientInfoBean.getReserveProjectCode();
+                switch (reserveProjectCode) {
+                    case "1":
+                        startJumpChatActivity(patientInfoBean);
+                        break;
+                    case "2":
+                        startActivity(new Intent(MyClinicDetialActivity.this,
+                                VideoCallActivity.class).putExtra("username",
+                                patientInfoBean.getMainPatientCode())
+                                .putExtra("isComingCall", false)
+                                .putExtra("nickName", patientInfoBean.getMainPatientName()));
+                        break;
+                    case "3":
+                        String patientLinkPhone = patientInfoBean.getPatientLinkPhone();
+                        if (StringUtils.isNotEmpty(patientLinkPhone)) {
+                            callPhone(patientLinkPhone);
+                        }
+                        break;
+                    case "5":
+
+                        startActivity(new Intent(MyClinicDetialActivity.this, VoiceCallActivity.class)
+                                .putExtra("username", patientInfoBean.getMainPatientCode())
+                                .putExtra("isComingCall", false)
+                                .putExtra("nickName", patientInfoBean.getMainPatientName()));
+                        break;
+                }
+
             }
         });
         rvList.setLayoutManager(new LinearLayoutManager(this));
@@ -463,7 +533,9 @@ public class MyClinicDetialActivity extends AbstractMvpBaseActivity<MyClinicDeti
                     mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(),
                     treatmentType,pageSize+"",pageIndex+"",
                     edPatientName.getText().toString(),endAge,startAge,
-                    appointStartTime,appointEndTime,priceRegion,reserveStatus,dateSort,priceSort,this);
+                    appointStartTime,appointEndTime,priceRegion,reserveStatus,dateSort,priceSort
+                    ,edDiseaseType.getText().toString()
+                    ,edPatientChief.getText().toString(),this);
         });
         llOneTreatment.setOnClickListener(v -> {
             visitType=2;
@@ -472,7 +544,9 @@ public class MyClinicDetialActivity extends AbstractMvpBaseActivity<MyClinicDeti
                     mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(),
                     treatmentType,pageSize+"",pageIndex+"",
                     edPatientName.getText().toString(),endAge,startAge,
-                    appointStartTime,appointEndTime,priceRegion,reserveStatus,dateSort,priceSort,this);
+                    appointStartTime,appointEndTime,priceRegion,reserveStatus,dateSort,priceSort
+                    ,edDiseaseType.getText().toString()
+                    ,edPatientChief.getText().toString(),this);
         });
         llTimelyTreatment.setOnClickListener(v -> {
             visitType=3;
@@ -489,7 +563,8 @@ public class MyClinicDetialActivity extends AbstractMvpBaseActivity<MyClinicDeti
                     treatmentType,pageSize+"",pageIndex+"",
                     edPatientName.getText().toString(),endAge,startAge,
                     appointStartTime,appointEndTime,priceRegion,reserveStatus,dateSort,priceSort
-                    ,MyClinicDetialActivity.this);
+                    ,edDiseaseType.getText().toString()
+                    ,edPatientChief.getText().toString(),this);
         });
         mRefreshLayout.setOnLoadMoreListener(refreshlayout -> {
             pageIndex++;
@@ -497,19 +572,15 @@ public class MyClinicDetialActivity extends AbstractMvpBaseActivity<MyClinicDeti
                     mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(),
                     treatmentType,pageSize+"",pageIndex+"",
                     edPatientName.getText().toString(),endAge,startAge,
-                    appointStartTime,appointEndTime,priceRegion,reserveStatus,dateSort,priceSort,
-                    MyClinicDetialActivity.this);
+                    appointStartTime,appointEndTime,priceRegion,reserveStatus,dateSort,priceSort
+                    ,edDiseaseType.getText().toString()
+                    ,edPatientChief.getText().toString(),this);
         });
         mRefreshLayout2.setRefreshHeader(new ClassicsHeader(this));
         mRefreshLayout2.setRefreshFooter(new ClassicsFooter(this));
-        mRefreshLayout2.setOnRefreshListener(new OnRefreshListener() {
-            @Override
-            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                mPresenter.sendSearchReserveDoctorDateRosterInfoImmediateRequest(
-                        mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(),
-                        MyClinicDetialActivity.this);
-            }
-        });
+        mRefreshLayout2.setOnRefreshListener(refreshLayout -> mPresenter.sendSearchReserveDoctorDateRosterInfoImmediateRequest(
+                mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(),
+                MyClinicDetialActivity.this));
 
         llMoreRight.setOnClickListener(v -> drawerLayout.openDrawer(Gravity.RIGHT));
         tvStartAge.setOnClickListener(v -> showChoosedAgeDialog(1));
@@ -523,27 +594,23 @@ public class MyClinicDetialActivity extends AbstractMvpBaseActivity<MyClinicDeti
             }
 
         });
-        tvDiseaseType.setOnClickListener(v -> {
 
-        });
-        //tvResetBtn.setOnClickListener(v -> drawerLayout.closeDrawer(Gravity.RIGHT));
-        tvResetBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        tvResetBtn.setOnClickListener(v -> {
 
-                edPatientName.setText("");
-                tvStartAge.setText("");
-                startAge="";
-                tvEndAge.setText("");
-                endAge="";
-                tvStartTime.setText("");
-                mStartTime="";
-                tvEndTime.setText("");
-                mEndTime="";
-                priceRegion="";
-                tvPrice.setText("");
-                edPatientChief.setText("");
-            }
+            edPatientName.setText("");
+            tvStartAge.setText("");
+            startAge="";
+            tvEndAge.setText("");
+            endAge="";
+            tvStartTime.setText("");
+            mStartTime="";
+            tvEndTime.setText("");
+            mEndTime="";
+            priceRegion="";
+            tvPrice.setText("");
+            edPatientChief.setText("");
+            edDiseaseType.setText("");
+
         });
         tvConfirmBtn.setOnClickListener(v -> {
             drawerLayout.closeDrawer(Gravity.RIGHT);
@@ -552,24 +619,22 @@ public class MyClinicDetialActivity extends AbstractMvpBaseActivity<MyClinicDeti
                     mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(),
                     treatmentType,pageSize+"",pageIndex+"",
                     edPatientName.getText().toString(),endAge,startAge,
-                    appointStartTime,appointEndTime,priceRegion,reserveStatus,dateSort,priceSort,
-                    MyClinicDetialActivity.this);
+                    appointStartTime,appointEndTime,priceRegion,reserveStatus,dateSort,priceSort
+                    ,edDiseaseType.getText().toString()
+                    ,edPatientChief.getText().toString(),this);
 
         });
-        tvAddBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mStartTime=null;
-                mEndTime=null;
-                currentBaseReasonBean=null;
-                mSignalSourceNum=null;
-                reserveDateRosterCode=null;
-                checkStep="0";
-                addSignalSourceDialog.show();
-                addSignalSourceDialog.setAppointTime(mStartTime,mEndTime);
-                addSignalSourceDialog.setSignalType(currentBaseReasonBean);
-                addSignalSourceDialog.setSignalNum(mSignalSourceNum);
-            }
+        tvAddBtn.setOnClickListener(v -> {
+            mStartTime=null;
+            mEndTime=null;
+            currentBaseReasonBean=null;
+            mSignalSourceNum=null;
+            reserveDateRosterCode=null;
+            checkStep="0";
+            addSignalSourceDialog.show();
+            addSignalSourceDialog.setAppointTime(mStartTime,mEndTime);
+            addSignalSourceDialog.setSignalType(currentBaseReasonBean);
+            addSignalSourceDialog.setSignalNum(mSignalSourceNum);
         });
         addSignalSourceDialog.setOnClickDialogListener(new AddSignalSourceDialog.OnClickDialogListener() {
             @Override
@@ -641,21 +706,16 @@ public class MyClinicDetialActivity extends AbstractMvpBaseActivity<MyClinicDeti
                 addSignalSourceDialog.setSignalType(baseReasonBean);
             }
         });
-        checkStepDialog.setOnClickListener(new CommonConfirmDialog.OnClickListener() {
-            @Override
-            public void onConfirm() {
-                mPresenter.sendOperUpdDoctorDateRosterInfoRequest(
-                        mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(),
-                        mApp.mViewSysUserDoctorInfoAndHospital.getUserName()
-                        ,mApp.mViewSysUserDoctorInfoAndHospital.getUserNameAlias(),
-                        currentWeek+"",
-                        currentBaseReasonBean.getAttrCode()+""
-                        ,currentBaseReasonBean.getAttrName(),
-                        DateUtils.getDeviceTimeOfYMD(),
-                        mStartTime,mEndTime,mSignalSourceNum,checkStep,
-                        reserveDateRosterCode,MyClinicDetialActivity.this);
-            }
-        });
+        checkStepDialog.setOnClickListener(() -> mPresenter.sendOperUpdDoctorDateRosterInfoRequest(
+                mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(),
+                mApp.mViewSysUserDoctorInfoAndHospital.getUserName()
+                ,mApp.mViewSysUserDoctorInfoAndHospital.getUserNameAlias(),
+                currentWeek+"",
+                currentBaseReasonBean.getAttrCode()+""
+                ,currentBaseReasonBean.getAttrName(),
+                DateUtils.getDeviceTimeOfYMD(),
+                mStartTime,mEndTime,mSignalSourceNum,checkStep,
+                reserveDateRosterCode,MyClinicDetialActivity.this));
     }
 
     /**
@@ -762,8 +822,9 @@ public class MyClinicDetialActivity extends AbstractMvpBaseActivity<MyClinicDeti
                 mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(),
                 treatmentType,pageSize+"",pageIndex+"",
                 edPatientName.getText().toString(),endAge,startAge,
-                appointStartTime,appointEndTime,priceRegion,reserveStatus,dateSort,priceSort,
-                MyClinicDetialActivity.this);
+                appointStartTime,appointEndTime,priceRegion,reserveStatus,dateSort,priceSort
+                ,edDiseaseType.getText().toString()
+                ,edPatientChief.getText().toString(),this);
     }
 
     @Override
@@ -895,8 +956,9 @@ public class MyClinicDetialActivity extends AbstractMvpBaseActivity<MyClinicDeti
                 mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(),
                 treatmentType,pageSize+"",pageIndex+"",
                 edPatientName.getText().toString(),endAge,startAge,
-                appointStartTime,appointEndTime,priceRegion,reserveStatus,dateSort,priceSort,
-                MyClinicDetialActivity.this);
+                appointStartTime,appointEndTime,priceRegion,reserveStatus,dateSort,priceSort
+                ,edDiseaseType.getText().toString()
+                ,edPatientChief.getText().toString(),this);
     }
 
     @Override
@@ -917,10 +979,8 @@ public class MyClinicDetialActivity extends AbstractMvpBaseActivity<MyClinicDeti
 
     @Override
     public void getTimelyTreatmentListResult(List<TimelyTreatmentBean> timelyTreatmentBeans) {
-        if (pageIndex == 1) {
-            mTimelyTreatmentBeans.clear();
-            mRefreshLayout2.finishRefresh(500);
-        }
+        mTimelyTreatmentBeans.clear();
+        mRefreshLayout2.finishRefresh(500);
         if (!CollectionUtils.isEmpty(timelyTreatmentBeans)) {
             long times = timelyTreatmentBeans.get(0).getTimes();
             currentWeek = timelyTreatmentBeans.get(0).getWeek();
@@ -971,8 +1031,9 @@ public class MyClinicDetialActivity extends AbstractMvpBaseActivity<MyClinicDeti
                     mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(),
                     treatmentType,pageSize+"",pageIndex+"",
                     edPatientName.getText().toString(),endAge,startAge,
-                    appointStartTime,appointEndTime,priceRegion,reserveStatus,dateSort,priceSort,
-                    MyClinicDetialActivity.this);
+                    appointStartTime,appointEndTime,priceRegion,reserveStatus,dateSort,priceSort
+                    ,edDiseaseType.getText().toString()
+                    ,edPatientChief.getText().toString(),this);
         }
     }
 
@@ -1008,8 +1069,6 @@ public class MyClinicDetialActivity extends AbstractMvpBaseActivity<MyClinicDeti
         WheelItem[] wheelItems = DataUtil.convertStrToWheelArry(startTimes);
         WheelItem[] wheelItems1 = DataUtil.convertStrToWheelArry(endTimes);
         columnWheelDialog.setItems(wheelItems,wheelItems1,null,null,null);
-//        columnWheelDialog.setSelected(new Random().nextInt(startTimes.size())
-//                ,new Random().nextInt(endTimes.size()),0,0,0);
     }
 
 
@@ -1032,10 +1091,39 @@ public class MyClinicDetialActivity extends AbstractMvpBaseActivity<MyClinicDeti
             return false;
         });
         columnWheelDialog.setItems(DataUtil.convertObjToWheelArry(baseReasonBeans),null,null,null,null);
-//        columnWheelDialog.setSelected(new Random().nextInt(baseReasonBeans.size())
-//                ,0,0,0,0);
     }
 
+    /**
+     * 跳转IM
+     * @param currentPatientInfoBean 患者信息
+     */
+    private void startJumpChatActivity(PatientInfoBean currentPatientInfoBean){
 
+        Intent intent = new Intent(this, ChatActivity.class);
+        //患者
+        intent.putExtra("userCode", currentPatientInfoBean.getMainPatientCode());
+        intent.putExtra("userName", currentPatientInfoBean.getMainPatientName());
+        //医生
+        intent.putExtra("usersName", currentPatientInfoBean.getMainDoctorName());
+        intent.putExtra("userUrl", mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl());
+        //URL
+        intent.putExtra("doctorUrl", mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl());
+        //intent.putExtra("patientAlias", mHZEntyties.get(position).getan);
+        intent.putExtra("patientCode", currentPatientInfoBean.getMainPatientCode());
+        intent.putExtra("patientSex", currentPatientInfoBean.getPatientSex());
+
+        startActivity(intent);
+    }
+
+    /**
+     * 拨打电话（直接拨打电话）
+     * @param phoneNum 电话号码
+     */
+    private void callPhone(String phoneNum){
+        Intent intent = new Intent(Intent.ACTION_CALL);
+        Uri data = Uri.parse("tel:" + phoneNum);
+        intent.setData(data);
+        startActivity(intent);
+    }
 
 }

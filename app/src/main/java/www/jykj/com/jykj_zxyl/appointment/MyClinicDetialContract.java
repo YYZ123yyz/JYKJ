@@ -97,7 +97,8 @@ public class MyClinicDetialContract {
                 , String ageMax, String ageMin,
                 String reserveStartDate,
                 String reserveEndDate, String priceRegion,
-                String reserveStatus,String dateSort,String priceSort, Activity activity);
+                String reserveStatus,String dateSort,String priceSort
+                ,String diseaseTypeName,String patientSpeak, Activity activity);
 
         /**
          * 发送接诊请求

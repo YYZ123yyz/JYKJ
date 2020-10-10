@@ -11,7 +11,7 @@ import www.jykj.com.jykj_zxyl.app_base.mvp.BasePresenter;
 import www.jykj.com.jykj_zxyl.app_base.mvp.BaseView;
 
 /**
- * Description:
+ * Description:检查检验单列表适配器
  *
  * @author: qiuxinhai
  * @date: 2020-09-11 14:33
@@ -78,10 +78,12 @@ public class InspectionItemContract {
         /**
          * 发送检查检验单删除请求
          * @param inspectionOrderCode 检查检验单code
+         * @param orderCode 订单code
          * @param pos 位置
          * @param activity activity
          */
-        void sendOperDelInteractOrderInspectionRequest(String inspectionOrderCode,int pos,Activity activity);
+        void sendOperDelInteractOrderInspectionRequest(String inspectionOrderCode,
+                                                       String orderCode,int pos,Activity activity);
 
 
         /**

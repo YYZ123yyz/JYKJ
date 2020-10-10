@@ -110,7 +110,100 @@ public interface ApiService {
     @POST("/DoctorInspectionControlle/searchInteractOrderInspectionList")
     Observable<String> searchInteractOrderInspectionList(@Query(value = "jsonDataInfo"
             , encoded = true) String queryJson);
+    //获取签约服务项目基础配置信息
+    @POST("/doctorSignControlle/searchSignConfigDetail")
+    Observable<String> searchSignConfigDetail(@Query(value = "jsonDataInfo"
+            , encoded = true) String queryJson);
+    //[基础数据]药品信息
+    @POST("/doctorInteractDataControlle/searchMyClinicDetailResPrescribeDrugInfo_200915")
+    Observable<String> searchMyClinicDetailResPrescribeDrugInfo_200915(@Query(value = "jsonDataInfo"
+            , encoded = true) String queryJson);
+    //[基础数据]药品信息增加
+    @POST("/doctorInteractDataControlle/operUpdDrugInfo")
+    Observable<String> operUpdDrugInfo(@Query(value = "jsonDataInfo"
+            , encoded = true) String queryJson);
+    //处方 保存/变更
+    @POST("/doctorInteractDataControlle/operUpdMyClinicDetailByPrescribe_200915")
+    Observable<String> operUpdMyClinicDetailByPrescribe_200915(@Query(value = "jsonDataInfo"
+            , encoded = true) String queryJson);
 
+    //基本健康信息
+    @POST("/patientDataControlle/searchDoctorManagePatientConditionHealthyResBasics")
+    Observable<String> searchBasichealthinformation(@Query(value = "jsonDataInfo"
+            , encoded = true) String queryJson);
+    //症状信息
+    @POST("/patientDataControlle/searchDoctorManagePatientConditionHealthyResSymptom")
+    Observable<String> searchsymptomformation(@Query(value = "jsonDataInfo"
+            , encoded = true) String queryJson);
+    //标签记录
+    @POST("/patientDataControlle/searchDoctorManagePatientConditionLabel")
+    Observable<String> searchLabelformation(@Query(value = "jsonDataInfo"
+            , encoded = true) String queryJson);
+    //既往病史
+    @POST("/patientDataControlle/searchDoctorManagePatientConditionDiseaseRecordList")
+    Observable<String> searchHistoryformation(@Query(value = "jsonDataInfo"
+            , encoded = true) String queryJson);
+    //处方笺列表
+    @POST("doctorInteractDataControlle/searchMyClinicDetailResPrescribe_200915")
+    Observable<String> searchMyClinicDetailResPrescribe_200915(@Query(value = "jsonDataInfo"
+            , encoded = true) String queryJson);
+    //处方删除[按处方编码
+    @POST("/doctorInteractDataControlle/operDelMyClinicDetailByPrescribe_200915")
+    Observable<String> operDelMyClinicDetailByPrescribe_200915(@Query(value = "jsonDataInfo"
+            , encoded = true) String queryJson);
+
+    //加载病历信息
+    @POST("/medicalRecordControlle/getMyClinicDetailResPatientMedicalRecord")
+    Observable<String> getMyClinicDetailResPatientMedicalRecord(@Query(value = "jsonDataInfo"
+            , encoded = true) String queryJson);
+    //处方删除[按处方凭证]
+    @POST("/doctorInteractDataControlle/operDelInteractOrderPrescribeByprescribeVoucher_200915")
+    Observable<String> operDelInteractOrderPrescribeByprescribeVoucher_200915(@Query(value = "jsonDataInfo"
+            , encoded = true) String queryJson);
+    //获取病历详情
+    @POST("medicalRecordControlle/getMyClinicDetailResPatientMedicalRecord")
+    Observable<String> getPatientMedicalRecord(@Query(value = "jsonDataInfo"
+            , encoded = true) String queryJson);
+    //[获取]问诊详情数据
+    @POST("/medicalRecordControlle/searchMyClinicDetailResPatientInterrogation")
+    Observable<String> searchMyClinicDetailResPatientInterrogation(@Query(value = "jsonDataInfo"
+            , encoded = true) String queryJson);
+
+    //发送病历
+    @POST("/medicalRecordControlle/operMyClinicDetailPatientMedicalRecordSend")
+    Observable<String> sendPatientMedicalRecord(@Query(value = "jsonDataInfo"
+            , encoded = true) String queryJson);
+
+    //保存病历
+    @POST("/medicalRecordControlle/operMyClinicDetailPatientMedicalRecordByAll")
+    Observable<String> savePatientMedicalRecord(@Query(value = "jsonDataInfo"
+            , encoded = true) String queryJson);
+    //[获取]既往病史[医生填写详情]
+    @POST("/patientDataControlle/searchDoctorManagePatientConditionDiseaseRecordResDoctorData")
+    Observable<String> getFillindetails(@Query(value = "jsonDataInfo"
+            , encoded = true) String queryJson);
+    //获取处方详细信息[按处方凭证]
+    @POST("/doctorInteractDataControlle/searchInteractOrderPrescribeList")
+    Observable<String> searchInteractOrderPrescribeList(@Query(value = "jsonDataInfo"
+            , encoded = true) String queryJson);
+
+    //IM检测接口
+    @POST("/imDataControlle/IMTesting")
+    Observable<String> iMTesting(@Query(value = "jsonDataInfo"
+            , encoded = true) String queryJson);
+    //我的患者】获取医生管理的患者信息(签约患者)
+    @POST("/bindingDoctorPatientControlle/searchDoctorManagePatientDataByParam")
+    Observable<String> searchDoctorManagePatientDataByParam(@Query(value = "jsonDataInfo"
+            , encoded = true) String queryJson);
+
+    //我的服务历史
+    @POST("/doctorReserveControlle/searchReserveInfoMyHistory")
+    Observable<String> searchReserveInfoMyHistory(@Query(value = "jsonDataInfo"
+            , encoded = true) String queryJson);
+    //首页】首页banner+医院信息
+    @POST("/basicDataController/getBannerAndHospitalInfo")
+    Observable<String> getBannerAndHospitalInfo(@Query(value = "jsonDataInfo"
+            , encoded = true) String queryJson);
 
 }
 

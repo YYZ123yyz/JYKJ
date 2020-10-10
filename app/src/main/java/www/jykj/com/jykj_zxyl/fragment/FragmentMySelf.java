@@ -30,6 +30,7 @@ import www.jykj.com.jykj_zxyl.activity.myself.UserAuthenticationActivity;
 import www.jykj.com.jykj_zxyl.activity.myself.UserCenterActivity;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.appointment.activity.MyOnlineScheduActivity;
+import www.jykj.com.jykj_zxyl.personal.activity.MyServiceHistoryActivity;
 import www.jykj.com.jykj_zxyl.util.ImageViewUtil;
 import yyz_exploit.activity.Myself_Service;
 import yyz_exploit.activity.activity.LectureActivity;
@@ -211,7 +212,10 @@ public class FragmentMySelf extends Fragment {
                     break;
                 //我的服务历史
                 case R.id.myself_service:
-                    Intent intent1 = new Intent(getActivity(), Myself_Service.class);
+//                    Intent intent1 = new Intent(getActivity(), Myself_Service.class);
+//                    startActivity(intent1);
+
+                    Intent intent1 = new Intent(getActivity(), MyServiceHistoryActivity.class);
                     startActivity(intent1);
                     break;
             }

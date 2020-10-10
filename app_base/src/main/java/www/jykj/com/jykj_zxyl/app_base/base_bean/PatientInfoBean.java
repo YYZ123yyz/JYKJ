@@ -44,6 +44,10 @@ public class PatientInfoBean implements Serializable {
     private String reserveStatus;
     private int treatmentType;
     private int version;
+    private String patientLinkPhone;
+    private String orderCode;
+    private String reportUrl;
+    private String chiefComplaint;
 
     public String getMainDoctorCode() {
         return mainDoctorCode;
@@ -163,5 +167,37 @@ public class PatientInfoBean implements Serializable {
 
     public void setVersion(int version) {
         this.version = version;
+    }
+
+    public String getOrderCode() {
+        return orderCode;
+    }
+
+    public void setOrderCode(String orderCode) {
+        this.orderCode = orderCode;
+    }
+
+    public String getReportUrl() {
+        return reportUrl;
+    }
+
+    public void setReportUrl(String reportUrl) {
+        this.reportUrl = reportUrl;
+    }
+
+    public String getPatientLinkPhone() {
+        return patientLinkPhone;
+    }
+
+    public void setPatientLinkPhone(String patientLinkPhone) {
+        this.patientLinkPhone = patientLinkPhone;
+    }
+
+    public String getChiefComplaint() {
+        return chiefComplaint;
+    }
+
+    public void setChiefComplaint(String chiefComplaint) {
+        this.chiefComplaint = chiefComplaint;
     }
 }

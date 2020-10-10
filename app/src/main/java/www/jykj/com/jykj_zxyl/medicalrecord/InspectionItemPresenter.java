@@ -12,6 +12,7 @@ import www.jykj.com.jykj_zxyl.app_base.base_bean.BaseBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.InspectionItemBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.InspectionItemGradeBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.InspectionItemUploadBean;
+import www.jykj.com.jykj_zxyl.app_base.base_utils.CollectionUtils;
 import www.jykj.com.jykj_zxyl.app_base.http.ApiHelper;
 import www.jykj.com.jykj_zxyl.app_base.http.CommonDataObserver;
 import www.jykj.com.jykj_zxyl.app_base.http.ParameUtil;
@@ -80,7 +81,13 @@ public class InspectionItemPresenter extends BasePresenterImpl<InspectionItemCon
                         String resJsonData = baseBean.getResJsonData();
                         List<InspectionItemBean> inspectionItemBeans
                                 = GsonUtils.jsonToList(resJsonData, InspectionItemBean.class);
-                        mView.getSearchInspectionItemListResult(inspectionItemBeans);
+                        if (!CollectionUtils.isEmpty(inspectionItemBeans)) {
+                            mView.getSearchInspectionItemListResult(inspectionItemBeans);
+                        }else{
+                            mView.showEmpty();
+                        }
+                    }else{
+                        mView.showEmpty();
                     }
                 }
             }
@@ -152,9 +159,10 @@ public class InspectionItemPresenter extends BasePresenterImpl<InspectionItemCon
     }
 
     @Override
-    public void sendOperDelInteractOrderInspectionRequest(String inspectionOrderCode,int pos, Activity activity) {
+    public void sendOperDelInteractOrderInspectionRequest(String inspectionOrderCode, String orderCode, int pos, Activity activity) {
         HashMap<String, Object> hashMap = ParameUtil.buildBaseDoctorParam(activity);
         hashMap.put("inspectionOrderCode",inspectionOrderCode);
+        hashMap.put("orderCode",orderCode);
         String s = RetrofitUtil.encodeParam(hashMap);
         ApiHelper.getApiService().operDelInteractOrderInspection(s).compose(Transformer.switchSchedulers(new ILoadingView() {
             @Override
@@ -195,6 +203,8 @@ public class InspectionItemPresenter extends BasePresenterImpl<InspectionItemCon
             }
         });
     }
+
+
 
     @Override
     public void sendOperUpdInteractOrderInspectionRequest(List<InspectionItemUploadBean> uploadBeans, Activity activity) {

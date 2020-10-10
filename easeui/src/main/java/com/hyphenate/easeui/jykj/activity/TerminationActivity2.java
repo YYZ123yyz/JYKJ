@@ -3,13 +3,11 @@ package com.hyphenate.easeui.jykj.activity;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -34,12 +32,11 @@ import com.hyphenate.easeui.utils.SharedPreferences_DataSave;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.io.Serializable;
 import java.util.HashMap;
 
-public class TerminationActivity extends AppCompatActivity implements View.OnClickListener {
+public class TerminationActivity2 extends AppCompatActivity implements View.OnClickListener {
     public ProgressDialog mDialogProgress = null;
-    private TerminationActivity mTerminationActivity;
+    private TerminationActivity2 mTerminationActivity;
     //    private JYKJApplication mApp;
     private Handler mHandler;
     private String mNetRetStr;
@@ -70,12 +67,12 @@ public class TerminationActivity extends AppCompatActivity implements View.OnCli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_termination);
         mTerminationActivity = this;
-        cancelContractDialog = new CancelContractDialog(TerminationActivity.this);
+        cancelContractDialog = new CancelContractDialog(TerminationActivity2.this);
         sharedPreferences = getSharedPreferences("sp", Activity.MODE_PRIVATE);
         name = sharedPreferences.getString("name", "");
         code = sharedPreferences.getString("code", "");
         Bundle extras = this.getIntent().getExtras();
-        SharedPreferences_DataSave m_persist = new SharedPreferences_DataSave(TerminationActivity.this,
+        SharedPreferences_DataSave m_persist = new SharedPreferences_DataSave(TerminationActivity2.this,
                 "JYKJDOCTER");
         String userInfoSuLogin = m_persist.getString("viewSysUserDoctorInfoAndHospital", "");
         mViewSysUserDoctorInfoAndHospital
@@ -105,7 +102,7 @@ public class TerminationActivity extends AppCompatActivity implements View.OnCli
                         if (netRetEntity.getResCode() == 1) {
                             EventBus.getDefault().post(orderMessage);
                             Toast.makeText(mTerminationActivity, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
-                            TerminationActivity.this.finish();
+                            TerminationActivity2.this.finish();
                         } else {
                             Toast.makeText(mTerminationActivity, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
                         }
@@ -206,7 +203,7 @@ public class TerminationActivity extends AppCompatActivity implements View.OnCli
 
     public void getProgressBar(String title, String progressPrompt) {
         if (mDialogProgress == null) {
-            mDialogProgress = new ProgressDialog(TerminationActivity.this);
+            mDialogProgress = new ProgressDialog(TerminationActivity2.this);
         }
         mDialogProgress.setTitle(title);
         mDialogProgress.setMessage(progressPrompt);

@@ -131,6 +131,7 @@ public class PhoneLoginActivity extends AppCompatActivity {
         mTimer.schedule(mTask, 0, 1000);
     }
 
+    @SuppressLint("HandlerLeak")
     private void initHandler() {
         mHandler = new Handler() {
             @SuppressLint("HandlerLeak")

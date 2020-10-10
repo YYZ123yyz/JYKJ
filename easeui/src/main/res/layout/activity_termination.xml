@@ -98,6 +98,7 @@
                     android:layout_alignParentTop="true"
                     android:layout_width="fill_parent"
                     android:id="@+id/ed_termination"
+                    android:padding="10dp"
                     android:layout_height="match_parent"
                     android:background="#ffeeeeee"
                     />

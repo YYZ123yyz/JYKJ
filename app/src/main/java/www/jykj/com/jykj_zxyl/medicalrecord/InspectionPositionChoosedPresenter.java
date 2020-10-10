@@ -18,7 +18,6 @@ import www.jykj.com.jykj_zxyl.app_base.http.CommonDataObserver;
 import www.jykj.com.jykj_zxyl.app_base.http.ParameUtil;
 import www.jykj.com.jykj_zxyl.app_base.http.RetrofitUtil;
 import www.jykj.com.jykj_zxyl.app_base.mvp.BasePresenterImpl;
-import yyz_exploit.Utils.GsonUtil;
 
 /**
  * Description:检查部位查询列表Presenter

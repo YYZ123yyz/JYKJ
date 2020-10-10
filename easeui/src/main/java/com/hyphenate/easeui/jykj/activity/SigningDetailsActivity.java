@@ -81,6 +81,7 @@ import www.jykj.com.jykj_zxyl.app_base.base_bean.ViewSysUserDoctorInfoAndHospita
 import www.jykj.com.jykj_zxyl.app_base.base_dialog.CommonConfirmDialog;
 import www.jykj.com.jykj_zxyl.app_base.base_utils.GsonUtils;
 import www.jykj.com.jykj_zxyl.app_base.base_utils.SharedPreferences_DataSave;
+import www.jykj.com.jykj_zxyl.app_base.base_utils.StringUtils;
 import www.jykj.com.jykj_zxyl.app_base.http.ApiHelper;
 import www.jykj.com.jykj_zxyl.app_base.http.CommonDataObserver;
 import www.jykj.com.jykj_zxyl.app_base.http.ParameUtil;
@@ -829,8 +830,10 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
                             if (netRetEntity.getResCode() == 1) {
                                provideDoctorPatientUserInfo = JSON.parseObject(netRetEntity.getResJsonData(),
                                         ProvideDoctorPatientUserInfo.class);
-                                patientAge.setText( DateUtils.getAgeFromBirthTime(provideDoctorPatientUserInfo.getBirthday())+"");
-                            } else {
+                                String birthday = provideDoctorPatientUserInfo.getBirthday();
+                                if (StringUtils.isNotEmpty(birthday)) {
+                                    patientAge.setText( DateUtils.getAgeFromBirthTime(birthday+"")+"");
+                                }
 
                             }
                         }
@@ -907,18 +910,6 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
         patientName.setText(patientName1);
         day_tv.setText(getdetailsBeans.getOrderDetailList().get(0).getRate() + getdetailsBeans.getOrderDetailList().get(0).getRateUnitName());
         wzxxSc = (ScrollView) findViewById(R.id.wzxx_sc);
-        //检测类型
-//        LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(mContext);
-//        mLinearLayoutManager.setOrientation(LinearLayout.VERTICAL);
-//        rvqbzz.setLayoutManager(mLinearLayoutManager);
-        //如果可以确定每个item的高度是固定的，设置这个选项可以提高性能
-        //rvqbzz.setHasFixedSize(true);
-        //辅导类别
-//        LinearLayoutManager mLinearLayoutManager2 = new LinearLayoutManager(mContext);
-//        mLinearLayoutManager2.setOrientation(LinearLayout.VERTICAL);
-//        rvClass.setLayoutManager(mLinearLayoutManager2);
-        //如果可以确定每个item的高度是固定的，设置这个选项可以提高性能
-        //rvClass.setHasFixedSize(true);
         //名称
         patientName.setText(getdetailsBeans.getMainUserName());
         //性别
@@ -961,13 +952,11 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
         tvStartTime.setText(DateUtils.stampToDate(getdetailsBeans.getSignStartTime()));
         monthsListattrCode1 = getdetailsBeans.getSignDuration();
         //签约时长
-        //   int signDuration = getdetailsBeans.getSignDuration();
-        Log.e("TAG", "setLayoutDate:  id " + getdetailsBeans.getSignStatus());
         tvDuration.setText(getdetailsBeans.getSignDuration() + "个" + getdetailsBeans.getSignDurationUnit());
         //总价
         int totalPrice = priceDoubleToInteger(
                 getdetailsBeans.getSignPrice() + "");
-        totalprice.setText(totalPrice + "");
+        totalprice.setText(totalPrice+".00"  );
         patientName1 = getdetailsBeans.getMainUserName();
         patientAlias = getdetailsBeans.getMainUserNameAlias();
 
@@ -1246,7 +1235,9 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
             totalPrice = totalPrice + detectBean.getTotalPrice();
         }
         int price = priceDoubleToInteger(totalPrice + "");
-        totalprice.setText(String.format("%d", price));
+        DecimalFormat df=new DecimalFormat("0.00");
+        String format = df.format(price);
+        totalprice.setText(format);
     }
 
     /**

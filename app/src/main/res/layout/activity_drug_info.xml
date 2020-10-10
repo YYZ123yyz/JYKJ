@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_E6E6E6"
+    android:orientation="vertical">
+
+    <include layout="@layout/item_toolbar">
+
+
+    </include>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/white"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/color_343434"
+            android:textSize="15sp"
+            android:layout_marginTop="17dp"
+            android:layout_marginStart="11dp"
+            android:text="请输入药物名称"
+            >
+
+
+        </TextView>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:layout_marginStart="11dp"
+            android:layout_marginEnd="11dp"
+            android:textSize="14sp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:id="@+id/ed_drug_content"
+            android:hint="最多不得超尴尬20个字"
+            android:gravity="center_vertical"
+            android:layout_marginTop="11dp"
+            android:layout_marginBottom="11dp"
+            android:textColor="@color/color_A1A1A1"
+            android:background="@drawable/bg_round_eeeeee_5"
+            >
+
+
+        </EditText>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="11dp"
+            android:layout_marginEnd="11dp"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_000000"
+                android:textSize="15sp"
+                android:id="@+id/tv_unit_text"
+                android:text="单位"
+                >
+
+            </TextView>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:background="@null"
+                android:layout_marginStart="20dp"
+                android:hint="请填写"
+                android:id="@+id/ed_unit_content"
+                android:gravity="end"
+                android:textColor="@color/color_9A9A9A"
+                android:layout_toEndOf="@+id/tv_unit_text"
+                >
+
+
+            </EditText>
+        </RelativeLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="@color/color_EEEEEE"
+            >
+
+
+        </View>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="11dp"
+            android:layout_marginEnd="11dp"
+            android:layout_marginBottom="16dp"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_000000"
+                android:textSize="15sp"
+                android:id="@+id/tv_specs_text"
+                android:text="规格"
+                >
+
+            </TextView>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:background="@null"
+                android:layout_marginStart="20dp"
+                android:hint="请填写"
+                android:gravity="end"
+                android:id="@+id/ed_specs_content"
+                android:textColor="@color/color_9A9A9A"
+                android:layout_toEndOf="@+id/tv_specs_text"
+                >
+
+
+            </EditText>
+        </RelativeLayout>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="37.5dp"
+        android:layout_marginTop="121dp"
+        android:id="@+id/tv_ensure_btn"
+        android:text="确定"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        android:paddingTop="9dp"
+        android:paddingBottom="9dp"
+        android:paddingStart="101dp"
+        android:paddingEnd="101dp"
+        android:background="@drawable/bg_round_799dfe_17"
+        >
+
+
+    </TextView>
+</LinearLayout>

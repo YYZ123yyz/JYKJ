@@ -33,10 +33,12 @@
         android:id="@+id/tv_activityFragmentHzzl_JBXX"
         android:orientation="horizontal">
         <TextView
+            android:drawablePadding="10dp"
+            android:drawableLeft="@mipmap/fragmentmyself_wdzh"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="基本信息"
-            android:textSize="8pt"
+            android:text="基本健康信息"
+            android:textSize="15sp"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="10dp"
             android:textColor="@color/tabColor_nomal"
@@ -57,10 +59,12 @@
         android:background="@color/writeColor"
         android:orientation="horizontal">
         <TextView
+            android:drawablePadding="@dimen/dp10"
+            android:drawableLeft="@mipmap/wdpb"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="患者标签记录"
-            android:textSize="8pt"
+            android:text="症状信息"
+            android:textSize="15sp"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="10dp"
             android:textColor="@color/tabColor_nomal"
@@ -81,10 +85,12 @@
         android:background="@color/writeColor"
         android:orientation="horizontal">
         <TextView
+            android:drawablePadding="@dimen/dp10"
+            android:drawableLeft="@mipmap/wdbq"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="健康信息"
-            android:textSize="8pt"
+            android:text="标签记录"
+            android:textSize="15sp"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="10dp"
             android:textColor="@color/tabColor_nomal"
@@ -105,10 +111,12 @@
         android:id="@+id/jwbs"
         android:orientation="horizontal">
         <TextView
+            android:drawableLeft="@mipmap/lsjl"
+            android:drawablePadding="@dimen/dp10"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="既往病史"
-            android:textSize="8pt"
+            android:textSize="15sp"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="10dp"
             android:textColor="@color/tabColor_nomal"

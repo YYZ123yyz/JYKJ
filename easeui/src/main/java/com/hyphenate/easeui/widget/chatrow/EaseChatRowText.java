@@ -4,6 +4,7 @@ import android.content.Context;
 import android.text.Spannable;
 import android.view.View;
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TextView.BufferType;
 
@@ -12,16 +13,22 @@ import com.hyphenate.chat.EMTextMessageBody;
 import com.hyphenate.easeui.R;
 import com.hyphenate.easeui.model.EaseDingMessageHelper;
 import com.hyphenate.easeui.utils.EaseSmileUtils;
+import com.hyphenate.easeui.utils.EaseUserUtils;
+import com.hyphenate.easeui.utils.ExtEaseUtils;
 
+import java.util.Date;
 import java.util.List;
 
 public class EaseChatRowText extends EaseChatRow{
 
-	private TextView contentView;
 
+	private TextView contentView;
+    private LinearLayout llUserInfoRoot;
+    private TextView tvUserName;
     public EaseChatRowText(Context context, EMMessage message, int position, BaseAdapter adapter) {
 		super(context, message, position, adapter);
 	}
+
 
 	@Override
 	protected void onInflateView() {
@@ -32,6 +39,8 @@ public class EaseChatRowText extends EaseChatRow{
 	@Override
 	protected void onFindViewById() {
 		contentView = (TextView) findViewById(R.id.tv_chatcontent);
+		llUserInfoRoot=findViewById(R.id.ll_userinfo_root);
+		tvUserName=findViewById(R.id.tv_user_name);
 	}
 
     @Override
@@ -40,6 +49,29 @@ public class EaseChatRowText extends EaseChatRow{
         Spannable span = EaseSmileUtils.getSmiledText(context, txtBody.getMessage());
         // 设置内容
         contentView.setText(span, BufferType.SPANNABLE);
+        if(null!=tvUserName){
+            if (message.direct() == EMMessage.Direct.SEND) {
+                EaseUserUtils.setUserNick(ExtEaseUtils.getInstance().getNickName(),tvUserName);
+            }else{
+                EaseUserUtils.setUserNick(message.getUserName(),tvUserName);
+            }
+        }
+        long reserveConfigStart = message.getLongAttribute("reserveConfigStart", 0);
+        long reserveConfigEnd = message.getLongAttribute("reserveConfigEnd", 0);
+        if(reserveConfigStart!=0&&reserveConfigEnd!=0){
+            long msgTime = message.getMsgTime();
+            if(msgTime>=reserveConfigStart&&msgTime<=reserveConfigEnd){
+                llUserInfoRoot.setVisibility(View.VISIBLE);
+            }else{
+                llUserInfoRoot.setVisibility(View.GONE);
+            }
+        }else{
+            llUserInfoRoot.setVisibility(View.GONE);
+        }
+
+
+
+
     }
 
     @Override

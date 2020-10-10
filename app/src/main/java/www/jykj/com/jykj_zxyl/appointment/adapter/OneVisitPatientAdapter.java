@@ -21,6 +21,7 @@ import java.util.List;
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.PatientInfoBean;
 import www.jykj.com.jykj_zxyl.util.DateUtils;
+import www.jykj.com.jykj_zxyl.util.StringUtils;
 
 /**
  * Description:
@@ -72,7 +73,9 @@ public class OneVisitPatientAdapter extends RecyclerView.Adapter<OneVisitPatient
         long reserveConfigStart = patientInfoBean.getReserveConfigStart();
         holder.tvAppointmentTime.setText(DateUtils.getDateToStringYYYMMDDHHMM(reserveConfigStart));
         holder.tvPppointmentSubject.setText(patientInfoBean.getReserveProjectName());
-        //holder.tvPatientChief.setText(patientInfoBean.get);
+        holder.tvVideoInteractionBtn.setText(patientInfoBean.getReserveProjectName());
+        String chiefComplaint = patientInfoBean.getChiefComplaint();
+        holder.tvPatientChief.setText(StringUtils.isNotEmpty(chiefComplaint)?chiefComplaint:"无");
         Glide.with(context).load(patientInfoBean.getPatientLogoUrl())
                 .apply(RequestOptions.placeholderOf(com.hyphenate.easeui.R.mipmap.docter_heard)
                         .diskCacheStrategy(DiskCacheStrategy.ALL))
@@ -102,6 +105,51 @@ public class OneVisitPatientAdapter extends RecyclerView.Adapter<OneVisitPatient
                 }
             }
         });
+        holder.tvComprehensiveSurfaceBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onClickItemListener!=null) {
+                    onClickItemListener.onClickStatisticTable(position);
+                }
+            }
+        });
+        holder.tvComprehensiveSurfaceBtn1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onClickItemListener!=null) {
+                    onClickItemListener.onClickStatisticTable(position);
+                }
+            }
+        });
+        holder.tvVideoInteractionBtn.setOnClickListener(v -> {
+            if (onClickItemListener!=null) {
+                onClickItemListener.onClickInterrogation(position);
+            }
+        });
+        holder.tvConsultDataBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onClickItemListener!=null) {
+                    onClickItemListener.onClickConsultItem(position);
+                }
+            }
+        });
+        holder.tvConsultDataBtn1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onClickItemListener!=null) {
+                    onClickItemListener.onClickConsultItem(position);
+                }
+            }
+        });
+        holder.llItemRoot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onClickItemListener!=null) {
+                    onClickItemListener.onClickImItem(position);
+                }
+            }
+        });
 
     }
 
@@ -122,11 +170,14 @@ public class OneVisitPatientAdapter extends RecyclerView.Adapter<OneVisitPatient
         private TextView tvCancelAppointmentBtn;
         private TextView tvReceiveTreatmentBtn;
         private TextView tvConsultDataBtn;
+        private TextView tvConsultDataBtn1;
         private TextView tvComprehensiveSurfaceBtn;
+        private TextView tvComprehensiveSurfaceBtn1;
         private TextView tvVideoInteractionBtn;
         private TextView tvMedicalRecordDetialBtn;
         private LinearLayout llAppointPatientRoot;
         private LinearLayout llReceiveSucessRoot;
+        private LinearLayout llItemRoot;
         public ViewHolder(View view) {
             super(view);
             ivUserHead = view.findViewById(R.id.iv_userhead);
@@ -145,6 +196,9 @@ public class OneVisitPatientAdapter extends RecyclerView.Adapter<OneVisitPatient
             tvMedicalRecordDetialBtn=view.findViewById(R.id.tv_medical_record_detial_btn);
             llAppointPatientRoot=view.findViewById(R.id.ll_appoint_patient_root);
             llReceiveSucessRoot=view.findViewById(R.id.ll_receive_sucess_root);
+            tvConsultDataBtn1=view.findViewById(R.id.tv_consult_data_btn_1);
+            tvComprehensiveSurfaceBtn1 = view.findViewById(R.id.tv_comprehensive_surface_btn_1);
+            llItemRoot=view.findViewById(R.id.ll_item_root);
 
 
         }
@@ -162,5 +216,13 @@ public class OneVisitPatientAdapter extends RecyclerView.Adapter<OneVisitPatient
         void onClickReceiveTreatment(int pos);
 
         void onClickMedicalRecordDetial(int pos);
+
+        void onClickStatisticTable(int pos);
+
+        void onClickImItem(int pos);
+
+        void onClickConsultItem(int pos);
+
+        void onClickInterrogation(int pos);
     }
 }

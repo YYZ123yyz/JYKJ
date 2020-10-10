@@ -51,6 +51,16 @@ public class Constant {
 
 
     /**
+     * umeng appkey
+     */
+    public static final String UMENG_APPKEY="5f7fbe6c80455950e49e57c9";
+    /**
+     * umeng appsecret
+     */
+    public static final String UMENG_APP_SECRET="b89940bde7a0eca09776f62228c05e88";
+
+
+    /**
      *  ImageLoader配置
      */
     public static class Config {

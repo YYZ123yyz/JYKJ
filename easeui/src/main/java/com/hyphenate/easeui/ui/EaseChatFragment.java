@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.os.Build;
@@ -33,6 +34,12 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.huxq17.floatball.libarary.FloatBallManager;
+import com.huxq17.floatball.libarary.floatball.FloatBallCfg;
+import com.huxq17.floatball.libarary.menu.FloatMenuCfg;
+import com.huxq17.floatball.libarary.menu.MenuItem;
+import com.huxq17.floatball.libarary.utils.BackGroudSeletor;
+import com.huxq17.floatball.libarary.utils.DensityUtil;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.EMMessageListener;
 import com.hyphenate.EMValueCallBack;
@@ -92,6 +99,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -201,6 +209,8 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
     private String patientAge;
     private String patientSex;
     private OrderMessage orderMessage;
+    private long reserveConfigStart;//预约开始时间
+    private long reserveConfigEnd;// 预约结束时间
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -279,9 +289,12 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
         return false;
     }
 
+
+
     /**
      * init view
      */
+    @SuppressLint("HandlerLeak")
     protected void initView() {
         // hold to record voice
         //noinspection ConstantConditions
@@ -407,6 +420,10 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
 
     }
 
+
+
+
+
     protected void setUpView() {
         titleBar.setTitle(toChatUsernameName);
         if (chatType == EaseConstant.CHATTYPE_SINGLE) {
@@ -475,9 +492,33 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
      * register extend menu, item id need > 3 if you override this method and keep exist item
      */
     protected void registerExtendMenuItem() {
+        inputMenu.clearData();
         for (int i = 0; i < itemStrings.length; i++) {
             inputMenu.registerExtendMenuItem(itemStrings[i], itemdrawables[i], itemIds[i], extendMenuItemClickListener);
         }
+    }
+
+    /**
+     * 是否显示签约按钮
+     * @param isVisible true or false
+     */
+    public void setSignUpBtnStatus(boolean isVisible){
+        if (isAdded()) {
+            if (isVisible) {
+                itemStrings = new int[]{R.string.attach_take_pic, R.string.attach_picture,
+                        R.string.attach_voice_call, R.string.attach_video, R.string.attach_file};
+                itemdrawables = new int[]{R.mipmap.hyhd_pz, R.mipmap.hyhd_tp,
+                        R.mipmap.hyhd_yy, R.mipmap.hyhd_sp, R.mipmap.hyhd_wj};
+                itemIds = new int[]{ITEM_TAKE_PICTURE, ITEM_PICTURE, ITEM_CALL, ITEM_VIDEO, ITEM_WJ};
+            }else{
+                itemStrings = new int[]{R.string.attach_take_pic, R.string.attach_picture,
+                        R.string.attach_voice_call, R.string.attach_video};
+                itemdrawables = new int[]{R.mipmap.hyhd_pz, R.mipmap.hyhd_tp,
+                        R.mipmap.hyhd_yy, R.mipmap.hyhd_sp};
+                itemIds = new int[]{ITEM_TAKE_PICTURE, ITEM_PICTURE, ITEM_CALL, ITEM_VIDEO};
+            }
+        }
+       registerExtendMenuItem();
     }
 
 
@@ -527,14 +568,10 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
                 chatFragmentHelper.onSetCustomChatRowProvider() : null);
         setListItemClickListener();
 
-        messageList.getListView().setOnTouchListener(new OnTouchListener() {
-
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                hideKeyboard();
-                inputMenu.hideExtendMenuContainer();
-                return false;
-            }
+        messageList.getListView().setOnTouchListener((v, event) -> {
+            hideKeyboard();
+            inputMenu.hideExtendMenuContainer();
+            return false;
         });
 
         isMessageListInited = true;
@@ -1044,7 +1081,8 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
                      * @param to
                      * @throws EMServiceNotReadyException
                      */
-                    startActivity(new Intent(getActivity(), VoiceCallActivity.class).putExtra("username", toChatUsername)
+                    startActivity(new Intent(getActivity(), VoiceCallActivity.class)
+                            .putExtra("username", toChatUsername)
                             .putExtra("isComingCall", false)
                             .putExtra("nickName", toChatUsernameName)
                             .putExtra(EaseConstant.EXTRA_VOICE_NUM, mVoiceTime));
@@ -1211,6 +1249,8 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
         userUrl = (String) fragmentArgs.get("userUrl");
         message.setAttribute("nickName", userName);
         message.setAttribute("imageUrl", userUrl);
+        message.setAttribute("reserveConfigStart",reserveConfigStart);
+        message.setAttribute("reserveConfigEnd",reserveConfigEnd);
         // Send message.
         EMClient.getInstance().chatManager().sendMessage(message);
         Log.e(TAG, "sendMessage:..... " + message.ext().toString());
@@ -1736,7 +1776,7 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
      *
      * @param msg 消息
      */
-    private void sendOrderCardMsg(OrderMessage msg) {
+    public void sendOrderCardMsg(OrderMessage msg) {
         String messageType = msg.getMessageType();
         String msgContent="";
         switch (messageType){
@@ -1767,6 +1807,12 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
                         default:
                 }
                 break;
+            case "medicalRecord":
+                msgContent="[病历] ";
+                break;
+            case "MessageAfterDiagnosis":
+                msgContent="[诊后留言] ";
+                break;
                 default:
         }
 
@@ -1776,6 +1822,7 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
         message.setAttribute("imageUrl", msg.getImageUrl());
         message.setAttribute("messageType", msg.getMessageType());
         message.setAttribute("orderId", msg.getOrderId());
+        message.setAttribute("patientName",toChatUsernameName);
         switch (messageType){
             case "card":
             case "terminationOrder":
@@ -1801,6 +1848,15 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
                 message.setAttribute("surplusTimes",msg.getSurplusTimes());
                 message.setAttribute("appointMentProject",msg.getAppointMentProject());
                 break;
+            case "medicalRecord":
+                message.setAttribute("endTime",msg.getEndTime());
+                message.setAttribute("patientType",msg.getPatientType());
+
+                break;
+            case "MessageAfterDiagnosis":
+                message.setAttribute("flagReplyType",msg.getFlagReplyType());
+                break;
+
                 default:
         }
 
@@ -1818,6 +1874,22 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
             //TODO 第二步 修改easeUi的 EaseMessageAdapter
         }
 
+    }
+
+    public long getReserveConfigStart() {
+        return reserveConfigStart;
+    }
+
+    public void setReserveConfigStart(long reserveConfigStart) {
+        this.reserveConfigStart = reserveConfigStart;
+    }
+
+    public long getReserveConfigEnd() {
+        return reserveConfigEnd;
+    }
+
+    public void setReserveConfigEnd(long reserveConfigEnd) {
+        this.reserveConfigEnd = reserveConfigEnd;
     }
 
     @Override

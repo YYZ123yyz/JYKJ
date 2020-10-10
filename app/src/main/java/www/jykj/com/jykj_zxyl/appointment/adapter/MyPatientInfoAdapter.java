@@ -21,6 +21,7 @@ import java.util.List;
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.PatientInfoBean;
 import www.jykj.com.jykj_zxyl.util.DateUtils;
+import www.jykj.com.jykj_zxyl.util.StringUtils;
 
 /**
  * Description:
@@ -65,25 +66,30 @@ public class MyPatientInfoAdapter extends RecyclerView.Adapter<MyPatientInfoAdap
             holder.llAppointPatientRoot.setVisibility(View.VISIBLE);
             holder.llReceiveSucessRoot.setVisibility(View.GONE);
             holder.rlCancelledRoot.setVisibility(View.GONE);
+            holder.tvSourceType.setText("预约患者");
         } else if (reserveStatus.equals("20")) {
             holder.llAppointPatientRoot.setVisibility(View.GONE);
             holder.llReceiveSucessRoot.setVisibility(View.VISIBLE);
             holder.rlCancelledRoot.setVisibility(View.GONE);
+            holder.tvSourceType.setText("接诊患者");
         }else if(reserveStatus.equals("130")){
             holder.llAppointPatientRoot.setVisibility(View.GONE);
             holder.llReceiveSucessRoot.setVisibility(View.GONE);
             holder.rlCancelledRoot.setVisibility(View.VISIBLE);
+            holder.tvSourceType.setText("取消预约患者");
         }
 
         holder.tvAgeNum.setText(patientInfoBean.getPatientAge());
         long reserveConfigStart = patientInfoBean.getReserveConfigStart();
         holder.tvAppointmentTime.setText(DateUtils.getDateToStringYYYMMDDHHMM(reserveConfigStart));
         holder.tvPppointmentSubject.setText(patientInfoBean.getReserveProjectName());
-        //holder.tvPatientChief.setText(patientInfoBean.get);
+        String chiefComplaint = patientInfoBean.getChiefComplaint();
+        holder.tvPatientChief.setText(StringUtils.isNotEmpty(chiefComplaint)?chiefComplaint:"无");
         Glide.with(context).load(patientInfoBean.getPatientLogoUrl())
                 .apply(RequestOptions.placeholderOf(com.hyphenate.easeui.R.mipmap.docter_heard)
                         .diskCacheStrategy(DiskCacheStrategy.ALL))
                 .into(holder.ivUserHead);
+        holder.tvVideoInteractionBtn.setText(patientInfoBean.getReserveProjectName());
 
         holder.tvCancelAppointmentBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,6 +104,51 @@ public class MyPatientInfoAdapter extends RecyclerView.Adapter<MyPatientInfoAdap
             public void onClick(View v) {
                 if (onClickItemListener!=null) {
                     onClickItemListener.onClickReceiveTreatment(position);
+                }
+            }
+        });
+        holder.tvMedicalRecordDetialBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onClickItemListener!=null) {
+                    onClickItemListener.onClickMedicalRecordDetial(position);
+                }
+            }
+        });
+        holder.tvComprehensiveSurfaceBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onClickItemListener!=null) {
+                    onClickItemListener.onClickStatisticTable(position);
+                }
+            }
+        });
+        holder.tvComprehensiveSurfaceBtn1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onClickItemListener!=null) {
+                    onClickItemListener.onClickStatisticTable(position);
+                }
+            }
+        });
+        holder.tvVideoInteractionBtn.setOnClickListener(v -> {
+            if (onClickItemListener!=null) {
+                onClickItemListener.onClickInterrogation(position);
+            }
+        });
+        holder.tvConsultDataBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onClickItemListener!=null) {
+                    onClickItemListener.onClickConsultItem(position);
+                }
+            }
+        });
+        holder.tvConsultDataBtn1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onClickItemListener!=null) {
+                    onClickItemListener.onClickConsultItem(position);
                 }
             }
         });
@@ -126,6 +177,9 @@ public class MyPatientInfoAdapter extends RecyclerView.Adapter<MyPatientInfoAdap
         private TextView tvComprehensiveSurfaceBtn;
         private TextView tvVideoInteractionBtn;
         private TextView tvMedicalRecordDetialBtn;
+        private TextView tvConsultDataBtn1;
+        private TextView tvComprehensiveSurfaceBtn1;
+        private TextView tvSourceType;
         private LinearLayout llReceiveSucessRoot;
         private LinearLayout llAppointPatientRoot;
         private RelativeLayout rlCancelledRoot;
@@ -148,6 +202,9 @@ public class MyPatientInfoAdapter extends RecyclerView.Adapter<MyPatientInfoAdap
             llReceiveSucessRoot=view.findViewById(R.id.ll_receive_sucess_root);
             llAppointPatientRoot=view.findViewById(R.id.ll_appoint_patient_root);
             rlCancelledRoot=view.findViewById(R.id.rl_cancelled_root);
+            tvSourceType=view.findViewById(R.id.tv_source_type);
+            tvConsultDataBtn1=view.findViewById(R.id.tv_consult_data_btn_1);
+            tvComprehensiveSurfaceBtn1 = view.findViewById(R.id.tv_comprehensive_surface_btn_1);
         }
     }
 
@@ -161,5 +218,15 @@ public class MyPatientInfoAdapter extends RecyclerView.Adapter<MyPatientInfoAdap
         void onClickCancelAppointment(int pos);
 
         void onClickReceiveTreatment(int pos);
+
+        void onClickMedicalRecordDetial(int pos);
+
+        void onClickStatisticTable(int pos);
+
+        void onClickImItem(int pos);
+
+        void onClickConsultItem(int pos);
+
+        void onClickInterrogation(int pos);
     }
 }

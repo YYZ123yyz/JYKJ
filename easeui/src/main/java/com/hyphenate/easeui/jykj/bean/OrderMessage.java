@@ -33,6 +33,10 @@ public class OrderMessage implements Serializable {
     private String surplusTimes;
 
 
+    private String patientType;
+
+    private String flagReplyType;
+
     public OrderMessage(String nickName,
                         String imageUrl,
                         String orderId,
@@ -98,6 +102,34 @@ public class OrderMessage implements Serializable {
 
     }
 
+
+    public OrderMessage(
+            String nickName,
+            String imageUrl,
+            String endTime,
+                        String patientType,
+                        String orderId,
+                        String messageType){
+        this.nickName=nickName;
+        this.imageUrl=imageUrl;
+        this.endTime=endTime;
+        this.patientType=patientType;
+        this.orderId=orderId;
+        this.messageType=messageType;
+    }
+
+    public OrderMessage(String nickName,
+                        String imageUrl,
+                        String orderId,
+                        String flagReplyType,
+                        String messageType){
+        this.nickName=nickName;
+        this.imageUrl=imageUrl;
+        this.orderId=orderId;
+        this.flagReplyType=flagReplyType;
+        this.messageType=messageType;
+
+    }
 
     public String getPatientCode() {
         return patientCode;
@@ -250,5 +282,21 @@ public class OrderMessage implements Serializable {
 
     public void setSurplusTimes(String surplusTimes) {
         this.surplusTimes = surplusTimes;
+    }
+
+    public String getPatientType() {
+        return patientType;
+    }
+
+    public void setPatientType(String patientType) {
+        this.patientType = patientType;
+    }
+
+    public String getFlagReplyType() {
+        return flagReplyType;
+    }
+
+    public void setFlagReplyType(String flagReplyType) {
+        this.flagReplyType = flagReplyType;
     }
 }

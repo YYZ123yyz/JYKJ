@@ -9,6 +9,13 @@
          <activity android:name=".jykj.activity.CancelAppointDetialActivity">
 
          </activity>
+         <activity android:name=".jykj.activity.TerminationActivity2">
+
+         </activity>
+         <activity android:name=".jykj.activity.CancellationActivity">
+
+
+         </activity>
          <activity android:name=".jykj.activity.AppointOrderDetialActivity">
 
 
