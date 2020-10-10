@@ -1810,6 +1810,9 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
             case "medicalRecord":
                 msgContent="[病历] ";
                 break;
+            case "MessageAfterDiagnosis":
+                msgContent="[诊后留言] ";
+                break;
                 default:
         }
 

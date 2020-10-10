@@ -200,5 +200,10 @@ public interface ApiService {
     @POST("/doctorReserveControlle/searchReserveInfoMyHistory")
     Observable<String> searchReserveInfoMyHistory(@Query(value = "jsonDataInfo"
             , encoded = true) String queryJson);
+    //首页】首页banner+医院信息
+    @POST("/basicDataController/getBannerAndHospitalInfo")
+    Observable<String> getBannerAndHospitalInfo(@Query(value = "jsonDataInfo"
+            , encoded = true) String queryJson);
+
 }
 

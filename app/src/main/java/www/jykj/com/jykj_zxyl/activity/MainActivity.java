@@ -280,6 +280,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    @SuppressLint("HandlerLeak")
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {

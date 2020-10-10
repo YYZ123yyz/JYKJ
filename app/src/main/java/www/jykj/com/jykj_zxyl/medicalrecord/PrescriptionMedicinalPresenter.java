@@ -147,7 +147,7 @@ public class PrescriptionMedicinalPresenter extends BasePresenterImpl
         hashMap.put("prescribeListStr",uploadBeans);
         hashMap.put("prescribeVoucher",prescribeVouche);
         String s = RetrofitUtil.encodeParam(hashMap);
-        ApiHelper.getApiService().operUpdMyClinicDetailByPrescribe_200915(s)
+        ApiHelper.getLocalApi().operUpdMyClinicDetailByPrescribe_200915(s)
                 .compose(Transformer.switchSchedulers(new ILoadingView() {
             @Override
             public void showLoadingView() {

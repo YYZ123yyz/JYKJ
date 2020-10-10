@@ -272,20 +272,27 @@ public class ZhlyReplyActivity extends AppCompatActivity {
 
         });
         zhli_status = findViewById(R.id.zhli_status);
-        if(status.equals("1")){
-            zhli_status.setText("正常");
-            zhli_status.setTextColor(ZhlyReplyActivity.this.getResources().getColor(R.color.tv4));
-        }else if(status.equals("2")){
-            zhli_status.setText("一般");
-            zhli_status.setTextColor(ZhlyReplyActivity.this.getResources().getColor(R.color.tv3));
-        }else if(status.equals("3")){
-            zhli_status.setText("紧急");
-            zhli_status.setTextColor(ZhlyReplyActivity.this.getResources().getColor(R.color.tv2));
-        }else if(status.equals("4")){
-            zhli_status.setText("重大紧急");
-            zhli_status.setTextColor(ZhlyReplyActivity.this.getResources().getColor(R.color.tv1));
+        if (StringUtils.isNotEmpty(status)) {
+            switch (status) {
+                case "1":
+                    zhli_status.setText("正常");
+                    zhli_status.setTextColor(ZhlyReplyActivity.this.getResources().getColor(R.color.tv4));
+                    break;
+                case "2":
+                    zhli_status.setText("一般");
+                    zhli_status.setTextColor(ZhlyReplyActivity.this.getResources().getColor(R.color.tv3));
+                    break;
+                case "3":
+                    zhli_status.setText("紧急");
+                    zhli_status.setTextColor(ZhlyReplyActivity.this.getResources().getColor(R.color.tv2));
+                    break;
+                case "4":
+                    zhli_status.setText("重大紧急");
+                    zhli_status.setTextColor(ZhlyReplyActivity.this.getResources().getColor(R.color.tv1));
+                    break;
+                    default:
+            }
         }
-
         //是否上传了图片
         no_commit = findViewById(R.id.no_commit);
         //   mNameTitle = (TextView) this.findViewById(R.id.tv_patientName);

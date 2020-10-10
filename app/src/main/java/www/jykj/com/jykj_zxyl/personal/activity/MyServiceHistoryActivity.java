@@ -281,7 +281,7 @@ public class MyServiceHistoryActivity extends AbstractMvpBaseActivity<MyServiceH
             mReservePatientDoctorInfos.clear();
             mRefreshLayout.finishRefresh();
         }
-        if (!CollectionUtils.isEmpty(mReservePatientDoctorInfos)) {
+        if (!CollectionUtils.isEmpty(list)) {
             mReservePatientDoctorInfos.addAll(list);
             serviceHistoryAdapter.setData(mReservePatientDoctorInfos);
             serviceHistoryAdapter.notifyDataSetChanged();

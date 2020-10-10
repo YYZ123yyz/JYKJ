@@ -81,6 +81,7 @@ import www.jykj.com.jykj_zxyl.app_base.base_bean.ViewSysUserDoctorInfoAndHospita
 import www.jykj.com.jykj_zxyl.app_base.base_dialog.CommonConfirmDialog;
 import www.jykj.com.jykj_zxyl.app_base.base_utils.GsonUtils;
 import www.jykj.com.jykj_zxyl.app_base.base_utils.SharedPreferences_DataSave;
+import www.jykj.com.jykj_zxyl.app_base.base_utils.StringUtils;
 import www.jykj.com.jykj_zxyl.app_base.http.ApiHelper;
 import www.jykj.com.jykj_zxyl.app_base.http.CommonDataObserver;
 import www.jykj.com.jykj_zxyl.app_base.http.ParameUtil;
@@ -829,8 +830,10 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
                             if (netRetEntity.getResCode() == 1) {
                                provideDoctorPatientUserInfo = JSON.parseObject(netRetEntity.getResJsonData(),
                                         ProvideDoctorPatientUserInfo.class);
-                                patientAge.setText( DateUtils.getAgeFromBirthTime(provideDoctorPatientUserInfo.getBirthday())+"");
-                            } else {
+                                String birthday = provideDoctorPatientUserInfo.getBirthday();
+                                if (StringUtils.isNotEmpty(birthday)) {
+                                    patientAge.setText( DateUtils.getAgeFromBirthTime(birthday+"")+"");
+                                }
 
                             }
                         }

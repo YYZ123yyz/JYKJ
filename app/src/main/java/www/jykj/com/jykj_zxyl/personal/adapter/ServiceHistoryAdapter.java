@@ -69,7 +69,7 @@ public class ServiceHistoryAdapter extends RecyclerView.Adapter<ServiceHistoryAd
         } else if (patientSex.equals("2")) {
             holder.rlAgeAndGendarRoot.setBackgroundResource(R.drawable.bg_round_eb6877_6);
         }
-        holder.tvAgeNum.setText(patientInfoBean.getPatientAge());
+        holder.tvAgeNum.setText(String.valueOf(patientInfoBean.getPatientAge()));
         long reserveConfigStart = patientInfoBean.getReserveConfigStart();
         holder.tvAppointmentTime.setText(DateUtils.getDateToStringYYYMMDDHHMM(reserveConfigStart));
         holder.tvPppointmentSubject.setText(patientInfoBean.getReserveProjectName());
