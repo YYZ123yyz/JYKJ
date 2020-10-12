@@ -274,11 +274,24 @@ public abstract class EaseChatRow extends LinearLayout {
                     EMTextMessageBody txtBody = (EMTextMessageBody) parmsg.getBody();
                     if (null != txtBody.getMessage() && (txtBody.getMessage().contains("加入直播间了") || txtBody.getMessage().contains("离开直播间了"))) {
                         bubbleLayout.setBackgroundColor(getResources().getColor(R.color.colorRmindinfoBack));
+                        RelativeLayout.LayoutParams rp = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+                        rp.addRule(RelativeLayout.CENTER_HORIZONTAL);
+                        bubbleLayout.setLayoutParams(rp);
                     } else {
                         if (parmsg.direct() == Direct.RECEIVE) {
                             bubbleLayout.setBackgroundResource(R.drawable.ease_chatfrom_bg);
+                            RelativeLayout.LayoutParams rp = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+                            //rp.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+                            rp.addRule(RelativeLayout.RIGHT_OF,R.id.iv_userhead);
+                            rp.addRule(RelativeLayout.BELOW,R.id.tv_userid);
+                            bubbleLayout.setLayoutParams(rp);
                         } else {
                             bubbleLayout.setBackgroundResource(R.drawable.ease_chatto_bg);
+                            RelativeLayout.LayoutParams rp = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+                            //rp.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+                            rp.addRule(RelativeLayout.LEFT_OF,R.id.iv_userhead);
+                            rp.addRule(RelativeLayout.BELOW,R.id.tv_userid);
+                            bubbleLayout.setLayoutParams(rp);
                         }
                     }
                 }
