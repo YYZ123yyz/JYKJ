@@ -13,22 +13,20 @@ import android.widget.TextView;
 
 
 import www.jykj.com.jykj_zxyl.R;
-import www.jykj.com.jykj_zxyl.activity.MainActivity;
-import www.jykj.com.jykj_zxyl.activity.home.DoctorsUnionActivity;
 import www.jykj.com.jykj_zxyl.activity.home.MyClinicActivity;
 import www.jykj.com.jykj_zxyl.activity.home.MyLiveRoomActivity;
 import www.jykj.com.jykj_zxyl.activity.home.MyPatientActivity;
-import www.jykj.com.jykj_zxyl.activity.home.NewsActivity;
 import www.jykj.com.jykj_zxyl.activity.home.QRCodeActivity;
 import www.jykj.com.jykj_zxyl.activity.home.tjhz.AddPatientActivity;
 import www.jykj.com.jykj_zxyl.fragment.FragmentShouYe;
+import www.jykj.com.jykj_zxyl.mypatient.activity.PatientActivity;
 import yyz_exploit.activity.activity.HelpActivity;
 import zxing.android.CaptureActivity;
 
 public class MoreFeaturesPopupWindow extends PopupWindow implements View.OnClickListener {
 
     private FragmentShouYe  fragmentShouYe;
-    private MyPatientActivity  mMyPatientActivity;
+    private PatientActivity mMyPatientActivity;
     private Context mContext;
     private View mPopView;
     private TextView tvSys;
@@ -156,7 +154,7 @@ public class MoreFeaturesPopupWindow extends PopupWindow implements View.OnClick
      * 设置入口为我的
      * @param mActivity
      */
-    public void setMyPatientActivity(MyPatientActivity mActivity) {
+    public void setMyPatientActivity(PatientActivity mActivity) {
         mMyPatientActivity = mActivity;
     }
 

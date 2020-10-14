@@ -30,7 +30,6 @@ import com.google.gson.Gson;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 import com.tbruyelle.rxpermissions.RxPermissions;
 import com.youth.banner.Banner;
-import com.youth.banner.listener.OnBannerListener;
 import com.youth.banner.loader.ImageLoader;
 
 
@@ -66,6 +65,7 @@ import www.jykj.com.jykj_zxyl.fragment.home.HomeAideoFragment;
 import www.jykj.com.jykj_zxyl.fragment.home.HomeEducationFragment;
 import www.jykj.com.jykj_zxyl.fragment.home.HomeGraphicFragment;
 import www.jykj.com.jykj_zxyl.fragment.home.HomeVideoFragment;
+import www.jykj.com.jykj_zxyl.mypatient.activity.PatientActivity;
 import yyz_exploit.Utils.MyImageView;
 import yyz_exploit.bean.BindPatient;
 import yyz_exploit.dialog.AddPatientAcitvityDialog;
@@ -544,7 +544,7 @@ public class FragmentShouYe extends AbstractMvpBaseFragment<HomePagerContract.Vi
                 //startActivity(new Intent(getActivity(), InspectionProjectChoosedActivity.class));
                 break;
             case R.id.ll_wdhz:
-                startActivity(new Intent(getActivity(), MyPatientActivity.class));
+                startActivity(new Intent(getActivity(), PatientActivity.class));
                 break;
             case R.id.ll_quick_application:
 //                mPopupWindow = new MoreFeaturesPopupWindow(mActivity);
@@ -585,7 +585,7 @@ public class FragmentShouYe extends AbstractMvpBaseFragment<HomePagerContract.Vi
                 //startActivity(new Intent(getActivity(), PrescriptionMedicinalListActivity.class));
                 break;
             case R.id.lin_mypatien:
-                startActivity(new Intent(getActivity(), MyPatientActivity.class));
+                startActivity(new Intent(getActivity(), PatientActivity.class));
                 break;
             case R.id.lin_mylive:
                 startActivity(new Intent(getActivity(), MyLiveRoomActivity.class));
