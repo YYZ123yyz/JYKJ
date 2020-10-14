@@ -151,7 +151,7 @@ public class MessageReciveService extends Service {
                 else
                 {
                     //设置fragment显示新消息
-                    application.gMainActivity.setNewsMessageView();
+                    //application.gMainActivity.setNewsMessageView();
                 }
                 EventBus.getDefault().post(new MainMessage(messages.size()+""));
             }

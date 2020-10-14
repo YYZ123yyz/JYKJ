@@ -204,6 +204,27 @@ public interface ApiService {
     @POST("/basicDataController/getBannerAndHospitalInfo")
     Observable<String> getBannerAndHospitalInfo(@Query(value = "jsonDataInfo"
             , encoded = true) String queryJson);
+    //获取消息列表数据
+    @POST("/doctorPatientCommonDataController/getUserInfoList")
+    Observable<String> getUserInfoList(@Query(value = "jsonDataInfo"
+            , encoded = true) String queryJson);
+    //获取全部资料患者列表
+    @POST("/doctorManagePatient/interactPatientAllList")
+    Observable<String> interactPatientAllList(@Query(value = "jsonDataInfo"
+            , encoded = true) String queryJson);
+    //获取签约患者列表
+    @POST("/doctorManagePatient/interactPatientSigningList")
+    Observable<String> interactPatientSigningList(@Query(value = "jsonDataInfo"
+            , encoded = true) String queryJson);
+    //获取医生好友列表
+    @POST("/doctorManagePatient/interactDoctorUnionAllList")
+    Observable<String> interactDoctorUnionAllList(@Query(value = "jsonDataInfo"
+            , encoded = true) String queryJson);
+    //获取健康咨询列表
+    @POST("/doctorDataControlle/searchIndexHealthEducation")
+    Observable<String> searchIndexHealthEducation(@Query(value = "jsonDataInfo"
+            , encoded = true) String queryJson);
+
 
 }
 

@@ -70,19 +70,16 @@
 
     </LinearLayout>
 
-    <com.scwang.smart.refresh.layout.SmartRefreshLayout
+
+
+    <com.sak.ultilviewlib.UltimateRefreshView
         android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.scwang.smart.refresh.header.ClassicsHeader
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-
             >
 
             <LinearLayout
@@ -204,85 +201,98 @@
                     android:layout_marginTop="15dp"
                     android:layout_marginRight="10dp" />
 
-
                 <LinearLayout
-
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/writeColor"
-                    android:layout_marginTop="10dp"
-                    android:orientation="horizontal">
-
-                    <android.support.design.widget.TabLayout
-                        android:id="@+id/tab_layout"
-                        android:layout_width="match_parent"
-                        android:layout_height="46dp"
-                        android:layout_weight="1"
-                        android:background="@color/writeColor"
-                        app:tabBackground="@null"
-                        app:tabGravity="center"
-                        app:tabIndicatorColor="@color/groabColor"
-                        app:tabIndicatorHeight="0dp"
-                        app:tabMaxWidth="200dp"
-                        app:tabMinWidth="20dp"
-                        app:tabMode="scrollable"
-                        app:tabPaddingEnd="8dp"
-                        app:tabPaddingStart="12dp">
-
-                    </android.support.design.widget.TabLayout>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:text="更多" />
-
-                    <ImageView
-                        android:layout_width="15dp"
-                        android:layout_height="15dp"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:src="@mipmap/fragmentmyself_jt_r" />
-
-                </LinearLayout>
-
-                <util.CustomViewPager
-                    android:id="@+id/page"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                </util.CustomViewPager>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="80dp">
-
+                    android:orientation="vertical"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/bg_round_ffffff_5"
+                    >
                     <LinearLayout
-                        android:layout_width="wrap_content"
+
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:layout_marginBottom="10dp"
+                        android:background="@color/writeColor"
+                        android:layout_marginTop="10dp"
                         android:orientation="horizontal">
+
+                        <android.support.design.widget.TabLayout
+                            android:id="@+id/tab_layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="46dp"
+                            android:layout_weight="1"
+                            android:background="@color/writeColor"
+                            app:tabBackground="@null"
+                            app:tabGravity="center"
+                            app:tabIndicatorColor="@color/groabColor"
+                            app:tabIndicatorHeight="0dp"
+                            app:tabMaxWidth="200dp"
+                            app:tabMinWidth="20dp"
+                            app:tabMode="scrollable"
+                            app:tabPaddingEnd="8dp"
+                            app:tabPaddingStart="12dp">
+
+                        </android.support.design.widget.TabLayout>
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:drawableLeft="@mipmap/iv_com_logo"
-                            android:drawablePadding="10dp"
-                            android:gravity="center"
-                            android:text="鹫一卓越提供技术支持"
-                            android:textColor="#656565"
-                            android:textSize="13sp" />
+                            android:layout_gravity="center"
+                            android:visibility="gone"
+                            android:text="更多" />
+
+                        <ImageView
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:visibility="gone"
+                            android:src="@mipmap/fragmentmyself_jt_r" />
+
                     </LinearLayout>
-                </RelativeLayout>
+
+
+
+                    <util.CustomViewPager
+                        android:id="@+id/page"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                    </util.CustomViewPager>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="80dp">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:layout_marginBottom="10dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:drawableLeft="@mipmap/iv_com_logo"
+                                android:drawablePadding="10dp"
+                                android:gravity="center"
+                                android:text="鹫一卓越提供技术支持"
+                                android:textColor="#656565"
+                                android:textSize="13sp" />
+                        </LinearLayout>
+                    </RelativeLayout>
+
+                </LinearLayout>
+
             </LinearLayout>
 
         </ScrollView>
 
-        <com.scwang.smart.refresh.footer.ClassicsFooter
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+
+    </com.sak.ultilviewlib.UltimateRefreshView>
 </LinearLayout>

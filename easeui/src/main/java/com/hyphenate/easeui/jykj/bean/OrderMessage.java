@@ -20,7 +20,8 @@ public class OrderMessage implements Serializable {
     private String orderType;
     private String messageType;
     private String patientCode;
-
+    private String orderCode;
+    private String signCode;
     private String startTime;
     private String cancelTime;
     private String appointMentProject;
@@ -52,6 +53,33 @@ public class OrderMessage implements Serializable {
         this.nickName = nickName;
         this.imageUrl = imageUrl;
         this.orderId = orderId;
+        this.monitoringType = monitoringType;
+        this.coach = coach;
+        this.signUpTime = signUpTime;
+        this.price = price;
+        this.singNo = singNo;
+        this.orderType = orderType;
+        this.messageType = messageType;
+        this.patientCode = patientCode;
+    }
+
+    public OrderMessage(String nickName,
+                        String imageUrl,
+                        String orderCode,
+                        String signCode,
+                        String monitoringType,
+                        String coach,
+                        String signUpTime,
+                        String price,
+                        String singNo,
+                        String orderType, //  订单类型
+                        String messageType,//
+                        String patientCode) {
+
+        this.nickName = nickName;
+        this.imageUrl = imageUrl;
+        this.orderCode = orderCode;
+        this.signCode=signCode;
         this.monitoringType = monitoringType;
         this.coach = coach;
         this.signUpTime = signUpTime;
@@ -298,5 +326,21 @@ public class OrderMessage implements Serializable {
 
     public void setFlagReplyType(String flagReplyType) {
         this.flagReplyType = flagReplyType;
+    }
+
+    public String getOrderCode() {
+        return orderCode;
+    }
+
+    public void setOrderCode(String orderCode) {
+        this.orderCode = orderCode;
+    }
+
+    public String getSignCode() {
+        return signCode;
+    }
+
+    public void setSignCode(String signCode) {
+        this.signCode = signCode;
     }
 }

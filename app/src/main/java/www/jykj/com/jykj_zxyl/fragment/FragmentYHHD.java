@@ -1,5 +1,6 @@
 package www.jykj.com.jykj_zxyl.fragment;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -42,28 +43,22 @@ import entity.DoctorInfo.InteractDoctorUnionInfo;
 import entity.DoctorInfo.InteractPatient;
 import entity.HZIfno;
 import entity.basicDate.EMMessageEntity;
-import entity.basicDate.InteractDoctorUnionPersonnel;
 import entity.basicDate.ProvideDoctorPatientUserInfo;
 import entity.service.ViewSysUserDoctorInfoAndHospital;
-import entity.user.UserInfo;
 import entity.yhhd.ProvideDoctorGoodFriendGroup;
 import entity.yhhd.ProvideGroupConsultationUserInfo;
 import netService.HttpNetService;
 import netService.entity.NetRetEntity;
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.activity.MainActivity;
-import www.jykj.com.jykj_zxyl.activity.home.tjhz.IDCardScanningActivity;
 import www.jykj.com.jykj_zxyl.activity.hyhd.ChatActivity;
 import www.jykj.com.jykj_zxyl.activity.hyhd.HYHD_HYSQActivity;
-import www.jykj.com.jykj_zxyl.activity.hyhd.NewChatGroupActivity;
 import www.jykj.com.jykj_zxyl.adapter.DorcerFriendExpandableListViewAdapter;
-import www.jykj.com.jykj_zxyl.adapter.HZGLRecycleAdapter;
 import www.jykj.com.jykj_zxyl.adapter.MessageInfoRecycleAdapter;
 import www.jykj.com.jykj_zxyl.application.Constant;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.util.DateUtils;
 import www.jykj.com.jykj_zxyl.util.NestedExpandaleListView;
-import www.jykj.com.jykj_zxyl.util.PermissionUtils;
 import www.jykj.com.jykj_zxyl.util.Util;
 
 
@@ -191,19 +186,18 @@ public class FragmentYHHD extends Fragment {
                         }.getType());
                         for (int i = 0; i < mProvideDoctorPatientUserInfo.size(); i++) {
                             EMConversation emcConversation = conversationMap.get(mProvideDoctorPatientUserInfo.get(i).getUserCode());
-                            List<EMMessage> emMessages = emcConversation.getAllMessages();
                             EMMessage emMessage = emcConversation.getAllMessages().get(emcConversation.getAllMessages().size() - 1);
                             String str = "{" + emMessage.getBody().toString() + "}";
                             EMMessageEntity emMessageEntity = new Gson().fromJson(str, EMMessageEntity.class);
                             mProvideDoctorPatientUserInfo.get(i).setLastMessage(emMessageEntity.getTxt());
                             //获取未读消息数
-                            EMConversation conversation = EMClient.getInstance().chatManager().getConversation(mProvideDoctorPatientUserInfo.get(i).getUserCode());
+                            EMConversation conversation = EMClient.getInstance().chatManager()
+                                    .getConversation(mProvideDoctorPatientUserInfo.get(i).getUserCode());
                             int num = conversation.getUnreadMsgCount();
                             if (num > 0) {
                                 mProvideDoctorPatientUserInfo.get(i).setNoRead(true);
                             } else
                                 mProvideDoctorPatientUserInfo.get(i).setNoRead(false);
-                            System.out.println("");
                         }
 
                     }
@@ -239,7 +233,7 @@ public class FragmentYHHD extends Fragment {
         //如果可以确定每个item的高度是固定的，设置这个选项可以提高性能
         mMessageRecycleView.setHasFixedSize(true);
         //创建并设置Adapter
-        mMessageInfoRecycleAdapter = new MessageInfoRecycleAdapter(mApp, mInteractPatient, mContext, mActivity);
+        mMessageInfoRecycleAdapter = new MessageInfoRecycleAdapter(mApp, mInteractPatient, mContext);
         mMessageRecycleView.setAdapter(mMessageInfoRecycleAdapter);
         mMessageInfoRecycleAdapter.setOnItemClickListener(new MessageInfoRecycleAdapter.OnItemClickListener() {
 
@@ -341,7 +335,7 @@ public class FragmentYHHD extends Fragment {
         super.onResume();
         getYSLMDate();
         if (mMessageInfoRecycleAdapter != null) {
-            mMessageInfoRecycleAdapter.setDate(mInteractPatient);
+            mMessageInfoRecycleAdapter.setDatas(mInteractPatient);
             mMessageInfoRecycleAdapter.notifyDataSetChanged();
         }
         if (mCurrent == 0) {
@@ -350,6 +344,7 @@ public class FragmentYHHD extends Fragment {
 
     }
 
+    @SuppressLint("HandlerLeak")
     private void initHandler() {
         mHandler = new Handler() {
             @Override
@@ -370,7 +365,7 @@ public class FragmentYHHD extends Fragment {
                                 for (int i = 0; i < mInteractPatient.size(); i++) {
                                     mInteractPatient.get(i).setType("user");
                                 }
-                                mMessageInfoRecycleAdapter.setDate(mInteractPatient);
+                                mMessageInfoRecycleAdapter.setDatas(mInteractPatient);
                                 mMessageInfoRecycleAdapter.notifyDataSetChanged();
                             } else {
                                 Toast.makeText(mContext, "登录失败，" + netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
@@ -400,7 +395,7 @@ public class FragmentYHHD extends Fragment {
                                     interactPatient.setType("user");
                                     mInteractPatient.add(interactPatient);
                                 }
-                                mMessageInfoRecycleAdapter.setDate(mInteractPatient);
+                                mMessageInfoRecycleAdapter.setDatas(mInteractPatient);
                                 mMessageInfoRecycleAdapter.notifyDataSetChanged();
 
 
@@ -446,7 +441,7 @@ public class FragmentYHHD extends Fragment {
                             interactPatient.setPatientUserLogoUrl(mProvideDoctorPatientUserInfo.get(i).getUserLogoUrl());
                             mInteractPatient.add(interactPatient);
                         }
-                        mMessageInfoRecycleAdapter.setDate(mInteractPatient);
+                        mMessageInfoRecycleAdapter.setDatas(mInteractPatient);
                         mMessageInfoRecycleAdapter.notifyDataSetChanged();
                         mApp.setNewsMessage();
                         mActivity.setHZTabView();

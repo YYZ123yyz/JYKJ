@@ -163,14 +163,14 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
     private String videomonthListattrName;
     private String videosecondaryListattrName;
     private String videominuteListattrName;
-    private String type;
     private String secondaryListattrName;
     private String monthListattrName;
     private String type1;
     private NetRetEntity netRetEntity;
     private String doctorUrl;
     private String signNo;
-    private String singCode;
+    private String signCode;
+    private String orderCode;
     private TextView day_tv;
     private String dayListattrName;
     private OrderMessage orderMessage;
@@ -207,7 +207,7 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
         patientName1 = intent.getStringExtra("patientName");
         patientAge1 = intent.getStringExtra("patientAge");
         patientSex1 = intent.getStringExtra("patientSex");
-        singCode = intent.getStringExtra("singCode");
+        signCode = intent.getStringExtra("signCode");
         doctorUrl = intent.getStringExtra("doctorUrl");
         Log.e("TAG", "onCreate: " + doctorUrl);
         initHandler();
@@ -219,10 +219,11 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
         addListener();
         Bundle extras = this.getIntent().getExtras();
         if (extras != null) {
-            type = extras.getString("singCode");
-            status = extras.getString("status");
+            orderCode = extras.getString("orderCode");
+            signCode=extras.getString("signCode");
             singNO = extras.getString("singNO");
-            if (!TextUtils.isEmpty(type)){
+            status = extras.getString("status");
+            if (!TextUtils.isEmpty(orderCode)){
                 Getdetails();
             }
         }
@@ -382,7 +383,7 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
         btActivityMySelfSettingExitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (TextUtils.isEmpty(type)) {
+                if (TextUtils.isEmpty(orderCode)) {
                     commit();
                 } else {
                     ModificationSubmission();
@@ -609,7 +610,7 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
         map.put("signDuration", monthsListattrCode1 + "");
         map.put("signUnit", "月");
         map.put("version", getdetailsBeans.getVersion());
-        map.put("signCode", type);
+        map.put("signCode", signCode);
         String totalPrice = totalprice.getText().toString();
         map.put("signPrice", totalPrice);
         map.put("signDurationUnit", "月");
@@ -760,6 +761,7 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
                                     Restcommit restcommit = JSON.parseObject(resJsonData, Restcommit.class);
                                     signOrderCode = restcommit.getSignOrderCode();
                                     signNo = restcommit.getSignNo();
+                                    orderCode=restcommit.getOrderCode();
                                 }
                                 Log.e("TAG", "handleMessage: " + patientCode);
                                 String monitorRate = "";
@@ -767,11 +769,11 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
                                     monitorRate = "1次/" + dayListattrCode + "天";
                                 }
                                 if (TextUtils.isEmpty(signOrderCode)) {
-                                    OrderMessage orderMessage = new OrderMessage(name, doctorUrl, type, mDetectBeans.size() + "项", monitorRate, tvDuration.getText().toString(), totalprice.getText().toString(), singNO, "", "card", patientCode);
+                                    OrderMessage orderMessage = new OrderMessage(name, doctorUrl,orderCode, signCode, mDetectBeans.size() + "项", monitorRate, tvDuration.getText().toString(), totalprice.getText().toString(), singNO, "", "card", patientCode);
                                     EventBus.getDefault().post(orderMessage);
                                     finish();
                                 } else {
-                                    OrderMessage orderMessage = new OrderMessage(name, doctorUrl, signOrderCode, mDetectBeans.size() + "项", monitorRate, tvDuration.getText().toString(), totalprice.getText().toString(), signNo, "", "card", patientCode);
+                                    OrderMessage orderMessage = new OrderMessage(name, doctorUrl,orderCode, signOrderCode, mDetectBeans.size() + "项", monitorRate, tvDuration.getText().toString(), totalprice.getText().toString(), signNo, "", "card", patientCode);
                                     EventBus.getDefault().post(orderMessage);
                                     finish();
                                 }
@@ -991,7 +993,7 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
         map.put("loginDoctorPosition", "108.93425^34.23053");
         map.put("operDoctorCode", code);
         map.put("operDoctorName", name);
-        map.put("signOrderCode", type);
+        map.put("orderCode", orderCode);
         new Thread() {
             public void run() {
                 String mNetRetStr = "";

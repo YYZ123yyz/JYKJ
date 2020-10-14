@@ -61,7 +61,8 @@ public class EaseChatRowOrderCard extends EaseChatRow {
     private TextView tvOrderReceivedUpdateBtn;
     private Context mContext;
     private LinearLayout mLLRootView;
-    private String orderId;
+    private String signCode;
+    private String orderCode;
     private String singNO;
     private String monitoringType;
     private String coach;
@@ -222,13 +223,15 @@ public class EaseChatRowOrderCard extends EaseChatRow {
         mViewSysUserDoctorInfoAndHospital
                 = new Gson().fromJson(userInfoSuLogin, ViewSysUserDoctorInfoAndHospital.class);
         // TODO: 2020-07-29 显示ui
-        orderId = message.getStringAttribute("orderId", "");
+        orderCode=message.getStringAttribute("orderCode","");
+        signCode = message.getStringAttribute("signCode", "");
+        singNO = message.getStringAttribute("singNo", "");
         monitoringType = message.getStringAttribute("monitoringType", "");
         coach = message.getStringAttribute("coach", "");
         signUpTime = message.getStringAttribute("signUpTime", "");
         price = message.getStringAttribute("price", "");
         messageType = message.getStringAttribute("messageType", "");
-        singNO = message.getStringAttribute("singNo", "");
+
         patientCode = message.getStringAttribute("patientCode", "");
         nickName = message.getStringAttribute("nickName", "");
         imageUrl = message.getStringAttribute("imageUrl", "");
@@ -575,7 +578,8 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                     public void onClick(View v) {
                         //卡片发出点击修改跳转订单修改页面
                         Bundle bundle = new Bundle();
-                        bundle.putString("singCode", orderId);
+                        bundle.putString("signCode", signCode);
+                        bundle.putString("orderCode",orderCode);
                         bundle.putString("singNO", singNO);
                         bundle.putString("status", "2");
                         startActivity(SigningDetailsActivity.class, bundle);
@@ -621,8 +625,6 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                         tvMessageTypeValue.setTextColor(ContextCompat.getColor(mContext, R.color.color_D70000));
                         break;
                 }
-
-
 
 
             }
@@ -708,8 +710,7 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                                     hashMap.put("loginDoctorPosition", "108.93425^34.23053");
                                     hashMap.put("mainDoctorCode", mViewSysUserDoctorInfoAndHospital.getDoctorCode());
                                     hashMap.put("mainDoctorName", mViewSysUserDoctorInfoAndHospital.getUserName());
-                                    hashMap.put("signCode", orderId);
-                                    Log.e(TAG, "同意  订单号 "+orderId );
+                                    hashMap.put("signCode", signCode);
                                     hashMap.put("signNo", singNO);
                                     hashMap.put("mainPatientCode", message.getFrom());
                                     hashMap.put("mainUserName", nickName);
@@ -746,12 +747,13 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                         String strTag = tag.toString();
                     boolean isValid = message.getBooleanAttribute("isValid", false);
                     if(isValid){
-                        OrderMessage orderMessage=new OrderMessage(nickName,mViewSysUserDoctorInfoAndHospital.getUserLogoUrl(),orderId
-                                ,monitoringType,coach,signUpTime,price,singNO,"2"
+                        OrderMessage orderMessage=new OrderMessage(nickName
+                                ,mViewSysUserDoctorInfoAndHospital.getUserLogoUrl(),orderCode,signCode,
+                                monitoringType,coach,signUpTime,price,singNO,"2"
                                 ,messageType,patientCode);
                         //处理拒绝解约逻辑  跳转页面
                         Bundle bundle = new Bundle();
-                        bundle.putString("singCode", orderId);
+                        bundle.putString("singCode", signCode);
                         bundle.putString("signNo", singNO);
                         bundle.putString("patientName", nickName);
                         bundle.putString("patientCode",message.getFrom() );
@@ -770,10 +772,10 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                     if (isValid) {
                         //跳转修改页面
                         Bundle bundle = new Bundle();
-                        bundle.putString("singCode", orderId);
+                        bundle.putString("signCode", signCode);
+                        bundle.putString("orderCode",orderCode);
                         bundle.putString("status", "2");
                         bundle.putString("singNO", singNO);
-                        Log.e(TAG, "onClick:  订单编号   1111 "+orderId);
                         startActivity(SigningDetailsActivity.class, bundle);
                     }
 
@@ -791,10 +793,10 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                     if (isValid) {
                         //跳转修改页面
                         Bundle bundle = new Bundle();
-                        bundle.putString("singCode", orderId);
+                        bundle.putString("signCode", signCode);
+                        bundle.putString("orderCode",orderCode);
                         bundle.putString("status", "2");
                         bundle.putString("singNO", singNO);
-                        Log.e(TAG, "onClick:  订单编号   333 "+orderId);
                         startActivity(SigningDetailsActivity.class, bundle);
                     }
 
@@ -818,7 +820,7 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                                 from = "1";
                             }
                             Bundle bundle = new Bundle();
-                            bundle.putString("singCode", orderId);
+                            bundle.putString("singCode", signCode);
                             bundle.putString("singNo", singNO);
                             bundle.putString("from", from);
                             bundle.putString("patientName", nickName);
@@ -830,32 +832,44 @@ public class EaseChatRowOrderCard extends EaseChatRow {
 
                         break;
                     case "card": {
-                        //签约订单详情
-                        Bundle bundle = new Bundle();
-                        bundle.putString("singCode", orderId);
-                        bundle.putString("signNo", singNO);
-                        bundle.putString("patientName", nickName);
-                        bundle.putString("patientCode", patientCode);
-                        bundle.putString("status", "1");
-                        startActivity(SigningDetailsActivity.class, bundle);
+                        if (orderType.equals("3")) {
+                            Bundle bundle = new Bundle();
+                            bundle.putString("singCode", signCode);
+                            bundle.putString("singNo", singNO);
+                            bundle.putString("from", "2");
+                            bundle.putString("patientName", nickName);
+                            bundle.putString("patientCode", patientCode);
+                            bundle.putString("DoctorName", mViewSysUserDoctorInfoAndHospital.getUserName());
+                            bundle.putString("DoctoCode", mViewSysUserDoctorInfoAndHospital.getDoctorCode());
+                            startActivity(CancellationActivity.class, bundle);
+                        } else {
+                            //签约订单详情
+                            Bundle bundle = new Bundle();
+                            bundle.putString("singCode", signCode);
+                            bundle.putString("signNo", singNO);
+                            bundle.putString("patientName", nickName);
+                            bundle.putString("patientCode", patientCode);
+                            bundle.putString("status", "1");
+                            startActivity(SigningDetailsActivity.class, bundle);
+                        }
                         break;
                     }
                     case "appointment": {
                         Bundle bundle = new Bundle();
-                        bundle.putString("orderCode", orderId);
+                        bundle.putString("orderCode", orderCode);
                         startActivity(CancelAppointDetialActivity.class, bundle);
                         break;
                     }
                     case "receiveTreatment":{
                         Bundle bundle=new Bundle();
-                        bundle.putString("orderCode",orderId);
+                        bundle.putString("orderCode",orderCode);
                         startActivity(AppointOrderDetialActivity.class,bundle);
 
                         break;
                     }
                     case "medicalRecord": {
                         Bundle bundle = new Bundle();
-                        bundle.putString("orderCode", orderId);
+                        bundle.putString("orderCode", orderCode);
                         bundle.putString("patientCode", message.getTo());
                         bundle.putString("patientName", patientName);
                         Intent intent = new Intent();
@@ -896,8 +910,8 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                         if (netRetEntity.getResCode() == 1) {
                             Toast.makeText(mContext, "" + netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
                             Log.e(TAG, "handleMessage: 类型type "+messageType);
-                            EventBus.getDefault().post(new OrderMessage(nickName,imageUrl,orderId
-                                    ,monitoringType,coach,signUpTime,price,singNO,"1",messageType,patientCode));
+                            EventBus.getDefault().post(new OrderMessage(nickName,imageUrl,orderCode,signCode,
+                                    monitoringType,coach,signUpTime,price,singNO,"1",messageType,patientCode));
                         } else {
                             Toast.makeText(mContext, "" + netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
                         }

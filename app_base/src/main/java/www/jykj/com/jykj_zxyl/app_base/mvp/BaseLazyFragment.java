@@ -10,6 +10,7 @@ import android.content.res.Resources;
 import android.os.Bundle;
 
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -108,14 +109,18 @@ public abstract class BaseLazyFragment extends SimpleImmersionFragment {
     }
     @Override
     public void initImmersionBar() {
-        ImmersionBar.with(this).keyboardEnable(true).init();
-        //在BaseActivity里初始化
-        //ImmersionBar.with(this).titleBar(R.id.toolbar).init();
-        //设置共同沉浸式样式
-        ImmersionBar.with(this)
-                .navigationBarColor(R.color.colorPrimary)
-                .statusBarDarkFont(true)
-                .init();
+        FragmentActivity activity = this.getActivity();
+        if (activity!=null) {
+            ImmersionBar.with(this).keyboardEnable(true).init();
+            //在BaseActivity里初始化
+            //ImmersionBar.with(this).titleBar(R.id.toolbar).init();
+            //设置共同沉浸式样式
+            ImmersionBar.with(this)
+                    .navigationBarColor(R.color.colorPrimary)
+                    .statusBarDarkFont(true)
+                    .init();
+        }
+
     }
 
     @Override

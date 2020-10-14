@@ -47,12 +47,14 @@ public class H5Activity extends BaseActivity {
      * Native调用Js
      */
     private JYKJJsApi mQSJsApi;
+    private String title;
 
     @Override
     protected void onBeforeSetContentLayout() {
         Bundle extras = this.getIntent().getExtras();
         if (extras != null) {
             url = extras.getString("url");
+            title=extras.getString("title");
         }
 
     }
@@ -78,7 +80,12 @@ public class H5Activity extends BaseActivity {
      * 设置Title，方法内的参数可自己定义，如左边文字，颜色，图片
      */
     private void setToolBar() {
-        toolbar.setMainTitle("统计表");
+        if (StringUtils.isNotEmpty(title)) {
+            toolbar.setMainTitle(title);
+        }else{
+            toolbar.setMainTitle("统计表");
+        }
+
         //返回键
         toolbar.setLeftTitleClickListener(view -> finish());
     }

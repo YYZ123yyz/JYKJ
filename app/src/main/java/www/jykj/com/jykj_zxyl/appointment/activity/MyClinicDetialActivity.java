@@ -907,7 +907,7 @@ public class MyClinicDetialActivity extends AbstractMvpBaseActivity<MyClinicDeti
         intent.putExtra("usersName", currentPatientInfoBean.getMainDoctorName());
         intent.putExtra("userUrl", mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl());
         //URL
-        intent.putExtra("doctorUrl", mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl());
+        intent.putExtra("doctorUrl", currentPatientInfoBean.getPatientLogoUrl());
         //intent.putExtra("patientAlias", mHZEntyties.get(position).getan);
         intent.putExtra("patientCode", currentPatientInfoBean.getMainPatientCode());
         intent.putExtra("patientSex", currentPatientInfoBean.getPatientSex());
@@ -1103,11 +1103,11 @@ public class MyClinicDetialActivity extends AbstractMvpBaseActivity<MyClinicDeti
         //患者
         intent.putExtra("userCode", currentPatientInfoBean.getMainPatientCode());
         intent.putExtra("userName", currentPatientInfoBean.getMainPatientName());
-        //医生
+        //医生s
         intent.putExtra("usersName", currentPatientInfoBean.getMainDoctorName());
         intent.putExtra("userUrl", mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl());
         //URL
-        intent.putExtra("doctorUrl", mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl());
+        intent.putExtra("doctorUrl", currentPatientInfoBean.getPatientLogoUrl());
         //intent.putExtra("patientAlias", mHZEntyties.get(position).getan);
         intent.putExtra("patientCode", currentPatientInfoBean.getMainPatientCode());
         intent.putExtra("patientSex", currentPatientInfoBean.getPatientSex());

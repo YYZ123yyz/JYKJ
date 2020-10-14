@@ -27,10 +27,11 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.gson.Gson;
-import com.scwang.smart.refresh.layout.SmartRefreshLayout;
+import com.sak.ultilviewlib.UltimateRefreshView;
+import com.sak.ultilviewlib.interfaces.OnFooterRefreshListener;
+import com.sak.ultilviewlib.interfaces.OnHeaderRefreshListener;
 import com.tbruyelle.rxpermissions.RxPermissions;
 import com.youth.banner.Banner;
-import com.youth.banner.listener.OnBannerListener;
 import com.youth.banner.loader.ImageLoader;
 
 
@@ -45,6 +46,7 @@ import entity.shouye.OperScanQrCodeInside;
 import netService.HttpNetService;
 import netService.entity.NetRetEntity;
 import rx.functions.Action1;
+import util.CustomViewPager;
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.activity.MainActivity;
 import www.jykj.com.jykj_zxyl.activity.home.MyLiveRoomActivity;
@@ -55,14 +57,17 @@ import www.jykj.com.jykj_zxyl.activity.home.tjhz.AddPatientActivity;
 import www.jykj.com.jykj_zxyl.activity.hyhd.BindDoctorFriend;
 import www.jykj.com.jykj_zxyl.activity.myself.UserAuthenticationActivity;
 import www.jykj.com.jykj_zxyl.adapter.TittleFragmentAdapter;
+import www.jykj.com.jykj_zxyl.adapter.TraditionFooterAdapter;
+import www.jykj.com.jykj_zxyl.adapter.TraditionHeaderAdapter;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.BannerAndHospitalInfoBean;
 import www.jykj.com.jykj_zxyl.app_base.base_html5.H5Activity;
 import www.jykj.com.jykj_zxyl.app_base.base_view.LoadingLayoutManager;
+import www.jykj.com.jykj_zxyl.app_base.interfaces.OnClickRelationContractListener;
 import www.jykj.com.jykj_zxyl.app_base.mvp.AbstractMvpBaseFragment;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.appointment.activity.MyClinicDetialActivity;
 import www.jykj.com.jykj_zxyl.custom.MoreFeaturesPopupWindow;
-import www.jykj.com.jykj_zxyl.fragment.home.HomeAideoFragment;
+import www.jykj.com.jykj_zxyl.fragment.home.HomeAudioFragment;
 import www.jykj.com.jykj_zxyl.fragment.home.HomeEducationFragment;
 import www.jykj.com.jykj_zxyl.fragment.home.HomeGraphicFragment;
 import www.jykj.com.jykj_zxyl.fragment.home.HomeVideoFragment;
@@ -110,17 +115,22 @@ public class FragmentShouYe extends AbstractMvpBaseFragment<HomePagerContract.Vi
     private ArrayList<String> imageMiddleUrls;
     private ArrayList<String> middleContentUrls;
 
-    private ViewPager pager;
+    private CustomViewPager pager;
     private TittleFragmentAdapter fragmentAdapter;
     private List<Fragment> fragmentList;
     private TabLayout tabLayout;
     private List<String> mTitles;
     private HomeEducationFragment homeEducationFragment;
     private HomeVideoFragment homeVideoFragment;
-    private HomeAideoFragment homeAideoFragment;
+    private HomeAudioFragment homeAudioFragment;
     private HomeGraphicFragment homeGraphicFragment;
-    private SmartRefreshLayout mRefreshLayout;
+    private UltimateRefreshView mRefreshLayout;
     private LoadingLayoutManager mLoadingLayoutManager;//重新加载布局
+    private int currentPos;
+
+    public CustomViewPager getPager() {
+        return pager;
+    }
 
     @Override
     protected int setLayoutId() {
@@ -138,6 +148,8 @@ public class FragmentShouYe extends AbstractMvpBaseFragment<HomePagerContract.Vi
         initHandler();
         mDoctorUnion = view.findViewById(R.id.ll_doctor_union);
         mRefreshLayout=view.findViewById(R.id.refreshLayout);
+        mRefreshLayout.setBaseHeaderAdapter(new TraditionHeaderAdapter(this.getContext()));
+        mRefreshLayout.setBaseFooterAdapter(new TraditionFooterAdapter(this.getContext()));
         //用户头像
 
         mUserNameText = view.findViewById(R.id.tv_fragmentShouYe_userNameText);
@@ -166,13 +178,57 @@ public class FragmentShouYe extends AbstractMvpBaseFragment<HomePagerContract.Vi
         mTitles.add("图文");
 
         homeEducationFragment = new HomeEducationFragment();
-        homeVideoFragment = new HomeVideoFragment();
-        homeAideoFragment = new HomeAideoFragment();
-        homeGraphicFragment = new HomeGraphicFragment();
+        homeEducationFragment.setOnClickRelationContractListener(new OnClickRelationContractListener() {
+            @Override
+            public void finishRefresh() {
+                mRefreshLayout.onHeaderRefreshComplete();
+            }
 
+            @Override
+            public void finishLoadMore() {
+                mRefreshLayout.onFooterRefreshComplete();
+            }
+        });
+        homeVideoFragment = new HomeVideoFragment();
+        homeVideoFragment.setOnClickRelationContractListener(new OnClickRelationContractListener() {
+            @Override
+            public void finishRefresh() {
+                mRefreshLayout.onHeaderRefreshComplete();
+            }
+
+            @Override
+            public void finishLoadMore() {
+                mRefreshLayout.onFooterRefreshComplete();
+            }
+        });
+        homeAudioFragment = new HomeAudioFragment();
+
+        homeAudioFragment.setOnClickRelationContractListener(new OnClickRelationContractListener() {
+            @Override
+            public void finishRefresh() {
+                mRefreshLayout.onHeaderRefreshComplete();
+            }
+
+            @Override
+            public void finishLoadMore() {
+                mRefreshLayout.onFooterRefreshComplete();
+            }
+        });
+        homeGraphicFragment = new HomeGraphicFragment();
+        homeGraphicFragment.setOnClickRelationContractListener(new OnClickRelationContractListener() {
+            @Override
+            public void finishRefresh() {
+                mRefreshLayout.onHeaderRefreshComplete();
+            }
+
+            @Override
+            public void finishLoadMore() {
+                mRefreshLayout.onFooterRefreshComplete();
+            }
+        });
         fragmentList.add(homeEducationFragment);
         fragmentList.add(homeVideoFragment);
-        fragmentList.add(homeAideoFragment);
+        fragmentList.add(homeAudioFragment);
         fragmentList.add(homeGraphicFragment);
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -182,8 +238,11 @@ public class FragmentShouYe extends AbstractMvpBaseFragment<HomePagerContract.Vi
                 Log.e("走没有","111"+customView);
                 if (customView!=null){
                     customView.setTextSize(20);
-                    customView.setTextColor(getResources().getColor(R.color.textColor_red));
+                    customView.setTextColor(getResources().getColor(R.color.color_7a9eff));
                 }
+                int position = tab.getPosition();
+                pager.resetHeight(position);
+                pager.setCurrentItem(position);
 
             }
 
@@ -203,10 +262,26 @@ public class FragmentShouYe extends AbstractMvpBaseFragment<HomePagerContract.Vi
         });
 
 
-
         fragmentAdapter = new TittleFragmentAdapter(getChildFragmentManager(), fragmentList);
         pager.setAdapter(fragmentAdapter);
+        pager.resetHeight(0);
+        pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i1) {
 
+            }
+
+            @Override
+            public void onPageSelected(int i) {
+                currentPos=i;
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+
+            }
+        });
+        pager.setOffscreenPageLimit(4);
         tabLayout.setupWithViewPager(pager);
 
         for (int i = 0; i < tabLayout.getTabCount(); i++) {
@@ -222,7 +297,7 @@ public class FragmentShouYe extends AbstractMvpBaseFragment<HomePagerContract.Vi
             TextView customView = (TextView) tabLayout.getTabAt(0).getCustomView();
             if (customView!=null){
                 customView.setTextSize(20);
-                customView.setTextColor(getResources().getColor(R.color.textColor_red));
+                customView.setTextColor(getResources().getColor(R.color.color_7a9eff));
             }
         }
         initLoadingAndRetryManager();
@@ -485,6 +560,48 @@ public class FragmentShouYe extends AbstractMvpBaseFragment<HomePagerContract.Vi
 
 
     private void initListener() {
+        mRefreshLayout.setOnFooterRefreshListener(new OnFooterRefreshListener() {
+            @Override
+            public void onFooterRefresh(UltimateRefreshView ultimateRefreshView) {
+                switch (currentPos){
+                    case 0:
+                        homeEducationFragment.loadMoreData();
+                        break;
+                    case 1:
+                        homeVideoFragment.loadMoreData();
+                        break;
+                    case 2:
+                        homeAudioFragment.loadMoreData();
+                        break;
+                    case 3:
+                        homeGraphicFragment.loadMoreData();
+                        break;
+                        default:
+                }
+
+            }
+        });
+        mRefreshLayout.setOnHeaderRefreshListener(new OnHeaderRefreshListener() {
+            @Override
+            public void onHeaderRefresh(UltimateRefreshView ultimateRefreshView) {
+                switch (currentPos){
+                    case 0:
+                        homeEducationFragment.refreshData();
+                        break;
+                    case 1:
+                        homeVideoFragment.refreshData();
+                        break;
+                    case 2:
+                        homeAudioFragment.refreshData();
+                        break;
+                    case 3:
+                        homeGraphicFragment.refreshData();
+                        break;
+                        default:
+                }
+            }
+        });
+        //mRefreshLayout.fin
         //修改
         ivAdd.setOnClickListener(this);
         ivCode.setOnClickListener(this);
@@ -880,4 +997,6 @@ public class FragmentShouYe extends AbstractMvpBaseFragment<HomePagerContract.Vi
         }
 
     }
+
+
 }

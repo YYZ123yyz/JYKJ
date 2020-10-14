@@ -10,6 +10,7 @@ public class Restcommit implements java.io.Serializable{
 
     private String signOrderCode;
     private String signNo;
+    private String orderCode;
 
     public String getSignOrderCode() {
         return signOrderCode;
@@ -25,5 +26,13 @@ public class Restcommit implements java.io.Serializable{
 
     public void setSignNo(String signNo) {
         this.signNo = signNo;
+    }
+
+    public String getOrderCode() {
+        return orderCode;
+    }
+
+    public void setOrderCode(String orderCode) {
+        this.orderCode = orderCode;
     }
 }

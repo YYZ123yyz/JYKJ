@@ -42,12 +42,15 @@ public class ParameUtil {
         HashMap<String, Object> paramMap = new HashMap<>();
         paramMap.put("loginDoctorPosition",loginDoctorPosition);//108.93425^34.23053  loginDoctorPosition
         paramMap.put("loginPatientPosition",loginDoctorPosition);//108.
+        paramMap.put("loginUserPosition",loginDoctorPosition);
         paramMap.put("requestClientType","1");
         paramMap.put("operDoctorCode",mProvideViewSysUserPatientInfoAndRegion.getDoctorCode());
         paramMap.put("operDoctorName",mProvideViewSysUserPatientInfoAndRegion.getUserName());//
         paramMap.put("operDoctorAlias",mProvideViewSysUserPatientInfoAndRegion.getUserNameAlias());
         paramMap.put("mainDoctorCode",mProvideViewSysUserPatientInfoAndRegion.getDoctorCode());
         paramMap.put("mainDoctorName",mProvideViewSysUserPatientInfoAndRegion.getUserName());
+        paramMap.put("operUserCode",mProvideViewSysUserPatientInfoAndRegion.getDoctorCode());
+        paramMap.put("operUserName",mProvideViewSysUserPatientInfoAndRegion.getUserName());
         return paramMap;
     }
 

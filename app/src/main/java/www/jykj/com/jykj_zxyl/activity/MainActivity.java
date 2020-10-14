@@ -18,18 +18,14 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.alibaba.fastjson.JSON;
 import com.google.gson.Gson;
 import com.hyphenate.EMConnectionListener;
 import com.hyphenate.EMError;
@@ -43,7 +39,6 @@ import com.squareup.okhttp.Response;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -54,17 +49,14 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import entity.mySelf.DataCleanManager;
 import util.VersionsUpdata;
-import www.jykj.com.jykj_zxyl.activity.myself.SettingActivity;
+import www.jykj.com.jykj_zxyl.app_base.base_activity.BaseActivity;
+import www.jykj.com.jykj_zxyl.consultation.fragment.ConsultationFragment;
 import yyz_exploit.Utils.BadgeUtil;
 import yyz_exploit.Utils.HttpUtils;
 import yyz_exploit.bean.AppVersionBean;
 import entity.home.newsMessage.ProvideMsgPushReminderCount;
-import netService.HttpNetService;
-import netService.entity.NetRetEntity;
 import www.jykj.com.jykj_zxyl.R;
-import www.jykj.com.jykj_zxyl.application.Constant;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.fragment.FragmentHZGL;
 import www.jykj.com.jykj_zxyl.fragment.FragmentMySelf;
@@ -75,7 +67,7 @@ import www.jykj.com.jykj_zxyl.service.MessageReciveService;
 import www.jykj.com.jykj_zxyl.util.ActivityUtil;
 import yyz_exploit.dialog.ErrorDialog;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
     private Context mContext;
     private MainActivity mainActivity;
     private JYKJApplication mApp;
@@ -103,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
 
     private FragmentShouYe mFragmentShouYe;                                 //首页Fragment
     private FragmentHZGL mFragmentHZGL;                                 //患者管理Fragment
-
+    private ConsultationFragment consultationFragment;
     private FragmentYHHD mFragmentYHHD;//医患互动Fragment
     private FragmentYLZX mFragmentYLZX;                                       //医疗资讯Fragment
     private FragmentMySelf mFragmentMySelf;                                 //我的Fragment
@@ -129,21 +121,25 @@ public class MainActivity extends AppCompatActivity {
     private TextView mTvUnreadBtn;
     private int unreadMessageCount;
 
+
+    @Override
+    protected int setLayoutId() {
+        return R.layout.activity_main;
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    protected void initView() {
+        super.initView();
+
         mContext = this;
         mainActivity = this;
         EventBus.getDefault().register(this);
         ActivityUtil.setStatusBarMain(mainActivity);
         mApp = (JYKJApplication) getApplication();
         mApp.gMainActivity = this;
-//        mApp.gActivityList.add(this);
         //判断是否有新消息
         mApp.setNewsMessage();
-        //   data();
         initLayout();               //初始化布局
         initHandler();
         //开启监听服务
@@ -386,9 +382,13 @@ public class MainActivity extends AppCompatActivity {
 //        }
 
 
-        if (mFragmentYHHD == null) {
-            mFragmentYHHD = new FragmentYHHD();
-            mListFragment.add(mFragmentYHHD);
+//        if (mFragmentYHHD == null) {
+//            mFragmentYHHD = new FragmentYHHD();
+//            mListFragment.add(mFragmentYHHD);
+//        }
+        if (consultationFragment==null) {
+            consultationFragment=new ConsultationFragment();
+            mListFragment.add(consultationFragment);
         }
 
         if (mFragmentYLZX == null) {
@@ -454,6 +454,7 @@ public class MainActivity extends AppCompatActivity {
 //                Log.i("score","onPageScrollStateChanged:"+state);
             }
         });
+        mViewPage.setOffscreenPageLimit(4);
     }
 
 
@@ -515,10 +516,10 @@ public class MainActivity extends AppCompatActivity {
      * 设置环信网络状态
      */
     public void setHXNetWorkState() {
-        if (mApp.gNetWorkTextView) {
-            mFragmentYHHD.setHXNetWorkState(mApp.gNetConnectionHX);
-
-        }
+//        if (mApp.gNetWorkTextView) {
+//            mFragmentYHHD.setHXNetWorkState(mApp.gNetConnectionHX);
+//
+//        }
 
     }
 
@@ -711,6 +712,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+
         EventBus.getDefault().unregister(this);
     }
 }
