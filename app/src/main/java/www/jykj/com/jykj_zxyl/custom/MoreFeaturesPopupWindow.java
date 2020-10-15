@@ -48,7 +48,6 @@ public class MoreFeaturesPopupWindow extends PopupWindow implements View.OnClick
         super(context);
         mContext = context;
         init(context);
-
         setPopupWindow(context);
         tvSys.setOnClickListener(this);
         tvYqth.setOnClickListener(this);
@@ -59,7 +58,6 @@ public class MoreFeaturesPopupWindow extends PopupWindow implements View.OnClick
      //   tvFqhz.setOnClickListener(this);
       //  tvWdbb.setOnClickListener(this);
         tvBzfk.setOnClickListener(this);
-
         tv_wdhz.setOnClickListener(this);
         tv_wdzbj.setOnClickListener(this);
     }

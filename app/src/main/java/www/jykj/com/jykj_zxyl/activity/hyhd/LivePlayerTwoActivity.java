@@ -310,6 +310,7 @@ public class LivePlayerTwoActivity extends ChatPopDialogActivity implements ITXL
         findViewById(R.id.iv_back_left).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                stopPlayRtmp();
                 mActivity.finish();
             }
         });
