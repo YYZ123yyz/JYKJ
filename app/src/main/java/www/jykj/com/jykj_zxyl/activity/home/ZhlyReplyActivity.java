@@ -38,6 +38,7 @@ import com.previewlibrary.enitity.ThumbViewInfo;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import entity.wdzs.ProvideBasicsImg;
@@ -50,7 +51,12 @@ import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.activity.home.wdzs.ProvideViewInteractOrderTreatmentAndPatientInterrogation;
 import www.jykj.com.jykj_zxyl.activity.hyhd.ChatActivity;
 import www.jykj.com.jykj_zxyl.adapter.WZZXImageViewRecycleAdapter;
+import www.jykj.com.jykj_zxyl.app_base.base_bean.BaseBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.PatientRecordDetBean;
+import www.jykj.com.jykj_zxyl.app_base.http.ApiHelper;
+import www.jykj.com.jykj_zxyl.app_base.http.CommonDataObserver;
+import www.jykj.com.jykj_zxyl.app_base.http.ParameUtil;
+import www.jykj.com.jykj_zxyl.app_base.http.RetrofitUtil;
 import www.jykj.com.jykj_zxyl.application.Constant;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.util.ActivityUtil;
@@ -114,6 +120,7 @@ public class ZhlyReplyActivity extends AppCompatActivity {
         initListener();
         getData();
         initHandler();
+        sendDataRequest(mProvideViewInteractOrderTreatmentAndPatientInterrogation.getOrderCode());
 
     }
 
@@ -130,17 +137,41 @@ public class ZhlyReplyActivity extends AppCompatActivity {
         //是否上传了图片
         no_commit = findViewById(R.id.no_commit);
         //   mNameTitle = (TextView) this.findViewById(R.id.tv_patientName);
-        mMessageType = (TextView) this.findViewById(R.id.tv_msgType);
-        mMessageDate = (TextView) this.findViewById(R.id.tv_msgDate);
-        mMessageContent = (TextView) this.findViewById(R.id.content);
-        mMessageLinkPhone = (TextView) this.findViewById(R.id.tv_linkPhone);
+        mMessageType = this.findViewById(R.id.tv_msgType);
+        mMessageDate =  this.findViewById(R.id.tv_msgDate);
+        mMessageContent =  this.findViewById(R.id.content);
+        mMessageLinkPhone =  this.findViewById(R.id.tv_linkPhone);
         mMessageReply = (EditText) this.findViewById(R.id.tv_messageReply);
         //   mMessageReply.setText(mProvideInteractPatientMessage.getReplyContent());
-        mCommit = (TextView) this.findViewById(R.id.tv_commit);
+        mCommit =  this.findViewById(R.id.tv_commit);
         mCommit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 commit();
+            }
+        });
+    }
+
+
+    /**
+     * 发送数据请求
+     * @param orderCode
+     */
+    private void sendDataRequest(String orderCode){
+        HashMap<String, Object> hashMap = ParameUtil.buildBaseDoctorParam(this);
+        hashMap.put("orderCode",orderCode);
+        String s = RetrofitUtil.encodeParam(hashMap);
+
+        ApiHelper.getApiService().searchMyClinicDetailResPatientMessageContent_20201012(s).subscribe(new CommonDataObserver() {
+            @Override
+            protected void onSuccessResult(BaseBean baseBean) {
+                System.out.println(baseBean);
+
+            }
+
+            @Override
+            protected void onError(String s) {
+                super.onError(s);
             }
         });
     }
@@ -296,13 +327,13 @@ public class ZhlyReplyActivity extends AppCompatActivity {
         //是否上传了图片
         no_commit = findViewById(R.id.no_commit);
         //   mNameTitle = (TextView) this.findViewById(R.id.tv_patientName);
-        mMessageType = (TextView) this.findViewById(R.id.tv_msgType);
-        mMessageDate = (TextView) this.findViewById(R.id.tv_msgDate);
-        mMessageContent = (TextView) this.findViewById(R.id.content);
-        mMessageLinkPhone = (TextView) this.findViewById(R.id.tv_linkPhone);
+        mMessageType =  this.findViewById(R.id.tv_msgType);
+        mMessageDate =  this.findViewById(R.id.tv_msgDate);
+        mMessageContent =  this.findViewById(R.id.content);
+        mMessageLinkPhone =  this.findViewById(R.id.tv_linkPhone);
         mMessageReply = (EditText) this.findViewById(R.id.tv_messageReply);
         mMessageReply.setText(mProvideInteractPatientMessage.getReplyContent());
-        mCommit = (TextView) this.findViewById(R.id.tv_commit);
+        mCommit =  this.findViewById(R.id.tv_commit);
         mCommit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

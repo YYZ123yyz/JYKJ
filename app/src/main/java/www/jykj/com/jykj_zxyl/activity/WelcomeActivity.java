@@ -148,7 +148,8 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
                         Manifest.permission.WRITE_EXTERNAL_STORAGE,
                         Manifest.permission.ACCESS_FINE_LOCATION,
                         Manifest.permission.RECORD_AUDIO,
-                        Manifest.permission.CALL_PHONE
+                        Manifest.permission.CALL_PHONE,
+                        Manifest.permission.CAMERA
                 )
                 .subscribe(new Action1<Boolean>() {
                     @Override

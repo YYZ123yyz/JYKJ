@@ -242,5 +242,15 @@ public interface ApiService {
     @POST("/bindingDoctorPatientControlle/searchDoctorManagePatientDataOtherByParam")
     Observable<String> searchNotList(@Query(value = "jsonDataInfo"
             , encoded = true) String queryJson);
+
+    //诊后留言详情
+    @POST("/doctorInteractDataControlle/searchMyClinicDetailResPatientMessageContent_20201012")
+    Observable<String> searchMyClinicDetailResPatientMessageContent_20201012(@Query(value = "jsonDataInfo"
+            , encoded = true) String queryJson);
+
+    //提交(新增、修改)】诊后留言(医生留言回复)(医生主动发起留言)
+    @POST("/doctorInteractDataControlle/operUpdMyClinicDetailByOrderPatientMessage_20201012")
+    Observable<String> operUpdMyClinicDetailByOrderPatientMessage_20201012(@Query(value = "jsonDataInfo"
+            , encoded = true) String queryJson);
 }
 

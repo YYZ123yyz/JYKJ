@@ -834,6 +834,7 @@ public class FragmentShouYe extends AbstractMvpBaseFragment<HomePagerContract.Vi
                 message.what = 0;
                 Bundle bundle = new Bundle();
                 bundle.putString("result", mNetRetStr);
+                message.setData(bundle);
                 mHandler.sendMessage(message);
             }
         }.start();

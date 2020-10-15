@@ -82,12 +82,13 @@ public class MessageListFragment extends AbstractMvpBaseFragment<MessageListCont
     protected void initData() {
         super.initData();
 
-        mPresenter.sendMessageListRequest(ConvertUtils.getConsultationUserList());
+
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        mPresenter.sendMessageListRequest(ConvertUtils.getConsultationUserList());
         mMessageInfoRecycleAdapter.notifyDataSetChanged();
     }
 

@@ -79,6 +79,7 @@ import java.util.List;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.BaseBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.ViewSysUserDoctorInfoAndHospital;
 import www.jykj.com.jykj_zxyl.app_base.base_dialog.CommonConfirmDialog;
+import www.jykj.com.jykj_zxyl.app_base.base_utils.ActivityUtils;
 import www.jykj.com.jykj_zxyl.app_base.base_utils.GsonUtils;
 import www.jykj.com.jykj_zxyl.app_base.base_utils.SharedPreferences_DataSave;
 import www.jykj.com.jykj_zxyl.app_base.base_utils.StringUtils;
@@ -186,6 +187,7 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signing_details);
+        ActivityUtils.setStatusBarMain(this);
         mContext = this;
         mActivity = this;
         commonConfirmDialog=new CommonConfirmDialog(this);
@@ -607,7 +609,11 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
         map.put("mainUserName", patientName1);
         map.put("mainUserNameAlias", patientName1);
         map.put("gender", "1");
-        map.put("age", patientAge.getText().toString());
+        String value = patientAge.getText().toString();
+        if (TextUtils.isEmpty(value)) {
+            value="0";
+        }
+        map.put("age", value);
         map.put("signDuration", monthsListattrCode1 + "");
         map.put("signUnit", "月");
         map.put("version", getdetailsBeans.getVersion());

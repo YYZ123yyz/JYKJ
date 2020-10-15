@@ -165,7 +165,9 @@ public class CancellationActivity extends AppCompatActivity implements View.OnCl
             @Override
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
-                bundle.putString("singCode", signPatientDoctorOrderBean.getSignCode());
+                bundle.putString("signCode", signPatientDoctorOrderBean.getSignCode());
+                bundle.putString("orderCode",orderId);
+                bundle.putString("singNO", singNO);
                 bundle.putString("status", "1");
                 startActivity(SigningDetailsActivity.class,bundle);
             }

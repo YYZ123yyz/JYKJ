@@ -156,17 +156,25 @@ public class MyServiceHistoryActivity extends AbstractMvpBaseActivity<MyServiceH
             @Override
             public void onClickDiagnosisMessageItem(int pos) {
                 ReservePatientDoctorInfo reservePatientDoctorInfo = mReservePatientDoctorInfos.get(pos);
-                ProvideViewInteractOrderTreatmentAndPatientInterrogation patientInterrogation
-                        =new ProvideViewInteractOrderTreatmentAndPatientInterrogation();
-                patientInterrogation.setOrderCode(reservePatientDoctorInfo.getOrderCode());
-                patientInterrogation.setTreatmentType(reservePatientDoctorInfo.getTreatmentType());
-                patientInterrogation.setPatientCode(reservePatientDoctorInfo.getMainPatientCode());
-                patientInterrogation.setPatientName(reservePatientDoctorInfo.getMainPatientName());
-                patientInterrogation.setTreatmentLinkPhone(reservePatientDoctorInfo.getPatientLinkPhone());
-                Intent intent = new Intent(MyServiceHistoryActivity.this, ZhlyReplyActivity.class);
-                intent.putExtra("wzxx", patientInterrogation);
+//                ProvideViewInteractOrderTreatmentAndPatientInterrogation patientInterrogation
+//                        =new ProvideViewInteractOrderTreatmentAndPatientInterrogation();
+//                patientInterrogation.setOrderCode(reservePatientDoctorInfo.getOrderCode());
+//                patientInterrogation.setTreatmentType(reservePatientDoctorInfo.getTreatmentType());
+//                patientInterrogation.setPatientCode(reservePatientDoctorInfo.getMainPatientCode());
+//                patientInterrogation.setPatientName(reservePatientDoctorInfo.getMainPatientName());
+//                patientInterrogation.setTreatmentLinkPhone(reservePatientDoctorInfo.getPatientLinkPhone());
+//                Intent intent = new Intent(MyServiceHistoryActivity.this, ZhlyReplyActivity.class);
+//                intent.putExtra("wzxx", patientInterrogation);
+//
+//                startActivity(intent);
+                Bundle bundle=new Bundle();
+                bundle.putString("orderCode",reservePatientDoctorInfo.getOrderCode());
+                bundle.putString("treatmentType",reservePatientDoctorInfo.getTreatmentType()+"");
+                bundle.putString("patientCode",reservePatientDoctorInfo.getMainPatientCode());
+                bundle.putString("patientName",reservePatientDoctorInfo.getMainPatientName());
+                bundle.putString("patientPhone",reservePatientDoctorInfo.getPatientLinkPhone());
 
-                startActivity(intent);
+                startActivity(DiagnosisReplayActivity.class,bundle);
             }
         });
     }

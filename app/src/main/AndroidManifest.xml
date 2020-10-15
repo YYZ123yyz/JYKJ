@@ -466,6 +466,9 @@
         <activity
             android:name=".personal.activity.MyServiceHistoryActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".personal.activity.DiagnosisReplayActivity"
+            android:screenOrientation="portrait" />
 
         <meta-data
             android:name="EASEMOB_APPKEY"

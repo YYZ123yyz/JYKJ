@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -68,7 +69,7 @@ public class Rv_CoachingAdapter extends RecyclerView.Adapter<Rv_CoachingAdapter.
 //            viewHolder.time.setText(datas.get(position).getTime()+"分钟");
 //            viewHolder.frequency.setText(datas.get(position).getTimes()+"/"+ datas.get(position).getMonth());
 //        }
-        viewHolder.ed_price.setCursorVisible(false);
+ //       viewHolder.ed_price.setCursorVisible(false);
         DetectBean detectBean = datas.get(position);
         int minute = detectBean.getMinute();
         if (minute!=0) {
@@ -140,13 +141,14 @@ public class Rv_CoachingAdapter extends RecyclerView.Adapter<Rv_CoachingAdapter.
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public LinearLayout mClickLinearLayout;                     //整个布局，用来监听点击事件
-        public TextView tv_name,ed_price,time,frequency;                                //类型
+        public TextView tv_name,time,frequency;                                //类型
             public LinearLayout lin_frequency;
+            public EditText ed_price;
         public ViewHolder(View view) {
             super(view);
             lin_frequency = (LinearLayout) itemView.findViewById(R.id.lin_frequency);
             tv_name = (TextView)view.findViewById(R.id.tv_name);
-            ed_price = (TextView)view.findViewById(R.id.ed_price);
+            ed_price = (EditText) view.findViewById(R.id.ed_price);
             time = (TextView)view.findViewById(R.id.time);
             frequency = (TextView)view.findViewById(R.id.frequency);
 
