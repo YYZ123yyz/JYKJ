@@ -1,6 +1,7 @@
 package com.hyphenate.easeui.widget.chatrow;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.text.Spannable;
 import android.view.View;
 import android.widget.BaseAdapter;
@@ -78,7 +79,7 @@ public class EaseChatRoomRowText extends EaseChatRow{
                 contentView.setBackgroundColor(getResources().getColor(R.color.hintTextColor));
                 contentView.setTextColor(getResources().getColor(R.color.writeColor));
             }else{
-                contentView.setBackgroundColor(getResources().getColor(R.color.back_low_gray));
+                contentView.setBackgroundColor(Color.TRANSPARENT);
                 contentView.setTextColor(getResources().getColor(R.color.textColor_black));
             }
         }else{

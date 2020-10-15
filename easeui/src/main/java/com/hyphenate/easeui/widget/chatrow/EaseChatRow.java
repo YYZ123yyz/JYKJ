@@ -279,14 +279,14 @@ public abstract class EaseChatRow extends LinearLayout {
                         bubbleLayout.setLayoutParams(rp);
                     } else {
                         if (parmsg.direct() == Direct.RECEIVE) {
-                            bubbleLayout.setBackgroundResource(R.drawable.ease_chatfrom_bg);
+                            bubbleLayout.setBackgroundResource(R.drawable.chat_from_bg);
                             RelativeLayout.LayoutParams rp = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
                             //rp.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
                             rp.addRule(RelativeLayout.RIGHT_OF,R.id.iv_userhead);
                             rp.addRule(RelativeLayout.BELOW,R.id.tv_userid);
                             bubbleLayout.setLayoutParams(rp);
                         } else {
-                            bubbleLayout.setBackgroundResource(R.drawable.ease_chatto_bg);
+                            bubbleLayout.setBackgroundResource(R.drawable.chat_to_bg);
                             RelativeLayout.LayoutParams rp = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
                             //rp.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
                             rp.addRule(RelativeLayout.LEFT_OF,R.id.iv_userhead);
