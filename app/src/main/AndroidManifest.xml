@@ -69,7 +69,9 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:allowBackup,android:icon">
-        <activity android:name=".activity.home.mypatient.fillindetails.FillindetailsActivity"></activity>
+        <activity android:name=".mypatient.fragment.SignedPatientFragment"></activity>
+        <activity android:name=".mypatient.activity.PatientActivity" />
+        <activity android:name=".activity.home.mypatient.fillindetails.FillindetailsActivity" />
         <activity android:name=".activity.home.mypatient.history.HistoryActivity" />
         <activity android:name=".activity.home.mypatient.label.LabelActivity" />
         <activity android:name=".activity.home.mypatient.symptom.SymptomActivity" />
@@ -300,13 +302,9 @@
         <activity
             android:name=".activity.home.jyzl.GRXX_GRZK_JBXXActivity"
             android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 个人总览=》 个人状况 ==》患者标签 -->
-
-        <activity android:name=".activity.home.jyzl.PatientBaseInfoActivity"
-            android:screenOrientation="portrait"
-            >
-
-
-        </activity>
+        <activity
+            android:name=".activity.home.jyzl.PatientBaseInfoActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.home.jyzl.GRXX_GRZK_HZBQActivity"
             android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 个人总览=》 个人状况 ==》症状信息 -->
@@ -408,91 +406,66 @@
         <activity
             android:name=".activity.hyhd.TCVideoPreviewActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".appointment.activity.MyOnlineScheduActivity"
-            android:screenOrientation="portrait"
-            >
-
-        </activity>
-        <activity android:name=".appointment.activity.AppointPatientListActivity"
-            android:screenOrientation="portrait"
-            >
-
-        </activity>
-        <activity android:name=".appointment.activity.MyOnlineScheduTemplateActivity"
-            android:screenOrientation="portrait"
-            >
-
-
-        </activity>
+        <activity
+            android:name=".appointment.activity.MyOnlineScheduActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".appointment.activity.AppointPatientListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".appointment.activity.MyOnlineScheduTemplateActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".appointment.activity.MyClinicDetialActivity"
-            android:screenOrientation="portrait">
-
-        </activity>
-        <activity android:name=".appointment.activity.CancelAppointActivity"
-            android:screenOrientation="portrait"
-            >
-
-
-        </activity>
-        <activity android:name=".appointment.activity.AppointOrderDetialActivity"
-            android:screenOrientation="portrait"
-            >
-
-
-        </activity>
-        <activity android:name=".medicalrecord.activity.InspectionProjectChoosedActivity"
-            android:screenOrientation="portrait"
-            />
-        <activity android:name=".medicalrecord.activity.InspectionPositionChoosedActivity"
-            android:screenOrientation="portrait"
-            >
-
-        </activity>
-
-        <activity android:name=".medicalrecord.activity.InspectionOrderListActivity"
-            android:screenOrientation="portrait"
-            />
-        <activity android:name=".medicalrecord.activity.PrescriptionMedicinalListActivity"
-            android:screenOrientation="portrait"
-            />
-        <activity android:name=".medicalrecord.activity.PrescriptionNotesListActivity"
-            android:screenOrientation="portrait"
-            />
-        <activity android:name=".medicalrecord.activity.ChoosedMedicinalListActivity"
-            android:screenOrientation="portrait"
-           />
-        <activity android:name=".medicalrecord.activity.AddDrugInfoActivity"
-            android:screenOrientation="portrait"
-            />
-
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".appointment.activity.CancelAppointActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".appointment.activity.AppointOrderDetialActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".medicalrecord.activity.InspectionProjectChoosedActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".medicalrecord.activity.InspectionPositionChoosedActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".medicalrecord.activity.InspectionOrderListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".medicalrecord.activity.PrescriptionMedicinalListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".medicalrecord.activity.PrescriptionNotesListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".medicalrecord.activity.ChoosedMedicinalListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".medicalrecord.activity.AddDrugInfoActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.tencent.rtmp.video.TXScreenCapture$TXScreenCaptureAssistantActivity"
-            android:theme="@android:style/Theme.Translucent" />
-<!--        <activity-->
-<!--            android:name=".medicalrecord.activity.PatientRecordActivity"-->
-<!--            android:screenOrientation="portrait"-->
-
-<!--            />-->
-
-        <activity android:name=".medicalrecord.activity.PatientRecordActivity"
-            android:screenOrientation="portrait"
-            >
+            android:theme="@android:style/Theme.Translucent" /> <!-- <activity -->
+        <!-- android:name=".medicalrecord.activity.PatientRecordActivity" -->
+        <!-- android:screenOrientation="portrait" -->
+        <!-- /> -->
+        <activity
+            android:name=".medicalrecord.activity.PatientRecordActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="www.jykj.com.jykj_zxyl.medicalrecord.activity.PatientRecordActivity"/>
-                <category android:name="android.intent.category.DEFAULT"/>
+                <action android:name="www.jykj.com.jykj_zxyl.medicalrecord.activity.PatientRecordActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-
         </activity>
-        <activity android:name=".medicalrecord.activity.ConsultationInfoActivity"
-            android:screenOrientation="portrait"
-            />
-        <activity android:name=".personal.activity.MyServiceHistoryActivity"
-            android:screenOrientation="portrait"
-            >
-
-
-        </activity>
+        <activity
+            android:name=".medicalrecord.activity.ConsultationInfoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".personal.activity.MyServiceHistoryActivity"
+            android:screenOrientation="portrait" />
 
         <meta-data
             android:name="EASEMOB_APPKEY"
@@ -502,8 +475,7 @@
             android:value="67ZtaSY1EyjZZoYqqYVT6e3X" />
         <meta-data
             android:name="com.mob.push.oppo.appsecret"
-            android:value="sK8dkfTwHt11QezBuIO4kjJV" />
-        <!-- 配置bugly组件的APP ID，bugly组件为腾讯提供的用于crash上报和分析的开放组件，如果您不需要该组件，可以自行移除 -->
+            android:value="sK8dkfTwHt11QezBuIO4kjJV" /> <!-- 配置bugly组件的APP ID，bugly组件为腾讯提供的用于crash上报和分析的开放组件，如果您不需要该组件，可以自行移除 -->
         <meta-data
             android:name="BUGLY_APPID"
             android:value="1400372964" /> <!-- 配置bugly组件的APP渠道号 -->
@@ -619,7 +591,6 @@
                 <action android:name="com.taobao.accs.intent.action.ELECTION" />
             </intent-filter>
         </service>
-
         <service
             android:name="com.taobao.accs.data.MsgDistributeService"
             android:exported="true">
@@ -639,13 +610,13 @@
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_REMOVED" />
+
                 <data android:scheme="package" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.USER_PRESENT" />
             </intent-filter>
         </receiver>
-
         <receiver
             android:name="com.taobao.accs.ServiceReceiver"
             android:process=":channel">
@@ -660,12 +631,10 @@
         <service
             android:name="com.taobao.accs.internal.AccsJobService"
             android:permission="android.permission.BIND_JOB_SERVICE"
-            android:process=":channel"/>
-
+            android:process=":channel" />
         <service
             android:name="com.taobao.accs.ChannelService$KernelService"
             android:process=":channel" />
-
         <service
             android:name="org.android.agoo.accs.AgooService"
             android:exported="true">
@@ -673,7 +642,6 @@
                 <action android:name="com.taobao.accs.intent.action.RECEIVE" />
             </intent-filter>
         </service>
-
         <service
             android:name="com.umeng.message.UmengIntentService"
             android:exported="true"
@@ -682,7 +650,6 @@
                 <action android:name="org.agoo.android.intent.action.RECEIVE" />
             </intent-filter>
         </service>
-
         <service
             android:name="com.umeng.message.XiaomiIntentService"
             android:exported="true"
@@ -701,6 +668,7 @@
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_REMOVED" />
+
                 <data android:scheme="package" />
             </intent-filter>
         </receiver>
@@ -720,8 +688,8 @@
 
         <service
             android:name="com.umeng.message.UmengMessageCallbackHandlerService"
-            android:permission="android.permission.BIND_JOB_SERVICE"
-            android:exported="false">
+            android:exported="false"
+            android:permission="android.permission.BIND_JOB_SERVICE">
             <intent-filter>
                 <action android:name="com.umeng.messge.registercallback.action" />
             </intent-filter>
@@ -738,11 +706,10 @@
                 <action android:name="com.umeng.message.message.sendmessage.action" />
             </intent-filter>
         </service>
-
         <service
             android:name="com.umeng.message.UmengDownloadResourceService"
-            android:permission="android.permission.BIND_JOB_SERVICE"
-            android:exported="false" />
+            android:exported="false"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
 
         <provider
             android:name="com.umeng.message.provider.MessageProvider"
@@ -750,7 +717,6 @@
             android:exported="false">
             <grant-uri-permission android:pathPattern=".*" />
         </provider>
-        <!-- 以下为基本配置信息，需要自行添加至您的AndroidManifest文件中 end-->
     </application>
 
 </manifest>

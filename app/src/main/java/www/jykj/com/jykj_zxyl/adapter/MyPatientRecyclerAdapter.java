@@ -21,6 +21,7 @@ import java.util.List;
 
 import entity.patientInfo.ProvideViewPatientLablePunchClockState;
 import www.jykj.com.jykj_zxyl.R;
+import www.jykj.com.jykj_zxyl.app_base.base_bean.PatientInfoBean;
 import www.jykj.com.jykj_zxyl.util.DateUtils;
 
 public class MyPatientRecyclerAdapter extends RecyclerView.Adapter<MyPatientRecyclerAdapter.ViewHolder> {
@@ -53,6 +54,9 @@ public class MyPatientRecyclerAdapter extends RecyclerView.Adapter<MyPatientRecy
         return vh;
     }
 
+    public void setData(List<ProvideViewPatientLablePunchClockState>datas){
+        this.datas=datas;
+    }
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, @SuppressLint("RecyclerView") int position) {
         viewHolder.mHzName.setText(datas.get(position).getUserName());
@@ -203,7 +207,7 @@ public class MyPatientRecyclerAdapter extends RecyclerView.Adapter<MyPatientRecy
 
     @Override
     public int getItemCount() {
-        return datas.size();
+        return datas == null ? 0 : datas.size();
     }
 
 

@@ -11,7 +11,6 @@ import java.io.Serializable;
 public class OrderMessage implements Serializable {
     private String nickName;
     private String imageUrl;
-    private String orderId;
     private String monitoringType;
     private String coach;
     private String signUpTime;
@@ -52,7 +51,7 @@ public class OrderMessage implements Serializable {
 
         this.nickName = nickName;
         this.imageUrl = imageUrl;
-        this.orderId = orderId;
+        this.orderCode = orderId;
         this.monitoringType = monitoringType;
         this.coach = coach;
         this.signUpTime = signUpTime;
@@ -101,7 +100,7 @@ public class OrderMessage implements Serializable {
                         String messageType) {
         this.nickName = nickName;
         this.imageUrl = imageUrl;
-        this.orderId = orderId;
+        this.orderCode = orderId;
         this.startTime = startTime;
         this.cancelTime = cancelTime;
         this.appointMentProject = appointMentProject;
@@ -121,7 +120,7 @@ public class OrderMessage implements Serializable {
                         String messageType){
         this.nickName=nickName;
         this.imageUrl=imageUrl;
-        this.orderId=orderId;
+        this.orderCode=orderId;
         this.receiveTime=receiveTime;
         this.endTime=endTime;
         this.surplusTimes=surplusTimes;
@@ -129,6 +128,9 @@ public class OrderMessage implements Serializable {
         this.messageType=messageType;
 
     }
+
+
+
 
 
     public OrderMessage(
@@ -142,7 +144,7 @@ public class OrderMessage implements Serializable {
         this.imageUrl=imageUrl;
         this.endTime=endTime;
         this.patientType=patientType;
-        this.orderId=orderId;
+        this.orderCode=orderId;
         this.messageType=messageType;
     }
 
@@ -153,7 +155,7 @@ public class OrderMessage implements Serializable {
                         String messageType){
         this.nickName=nickName;
         this.imageUrl=imageUrl;
-        this.orderId=orderId;
+        this.orderCode=orderId;
         this.flagReplyType=flagReplyType;
         this.messageType=messageType;
 
@@ -192,13 +194,6 @@ public class OrderMessage implements Serializable {
         this.singNo = singNo;
     }
 
-    public String getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(String orderId) {
-        this.orderId = orderId;
-    }
 
     public String getMonitoringType() {
         return monitoringType;

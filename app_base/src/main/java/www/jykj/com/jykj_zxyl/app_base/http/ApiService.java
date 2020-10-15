@@ -225,6 +225,22 @@ public interface ApiService {
     Observable<String> searchIndexHealthEducation(@Query(value = "jsonDataInfo"
             , encoded = true) String queryJson);
 
+  //患者数量统计
+  @POST("/bindingDoctorPatientControlle/searchDoctorManagePatientDataByTotal")
+  Observable<String> getNumber(@Query(value = "jsonDataInfo"
+          , encoded = true) String queryJson);
+  //我的签约患者数据展示
+  @POST("/bindingDoctorPatientControlle/searchDoctorManagePatientDataByParam")
+  Observable<String> searchList(@Query(value = "jsonDataInfo"
+          , encoded = true) String queryJson);
+  //撤销解约
+  @POST("/doctorSignControlle/operTerminationRevoke")
+  Observable<String> searchRevoke(@Query(value = "jsonDataInfo"
+          , encoded = true) String queryJson);
 
+    //我的未签约患者数据展示
+    @POST("/bindingDoctorPatientControlle/searchDoctorManagePatientDataOtherByParam")
+    Observable<String> searchNotList(@Query(value = "jsonDataInfo"
+            , encoded = true) String queryJson);
 }
 

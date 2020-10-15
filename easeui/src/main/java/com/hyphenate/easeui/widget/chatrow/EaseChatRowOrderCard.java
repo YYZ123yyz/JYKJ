@@ -223,8 +223,8 @@ public class EaseChatRowOrderCard extends EaseChatRow {
         mViewSysUserDoctorInfoAndHospital
                 = new Gson().fromJson(userInfoSuLogin, ViewSysUserDoctorInfoAndHospital.class);
         // TODO: 2020-07-29 显示ui
-        orderCode=message.getStringAttribute("orderCode","");
-        signCode = message.getStringAttribute("signCode", "");
+        orderCode=message.getStringAttribute("orderId","");
+        signCode = message.getStringAttribute("signId", "");
         singNO = message.getStringAttribute("singNo", "");
         monitoringType = message.getStringAttribute("monitoringType", "");
         coach = message.getStringAttribute("coach", "");
@@ -350,7 +350,8 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                 rlAppointProject.setVisibility(View.GONE);
                 rlAppointType.setVisibility(View.GONE);
 
-                rlReceiveTime.setVisibility(View.VISIBLE);
+
+
                 rlEndTime.setVisibility(View.VISIBLE);
                 rlSurplusTimes.setVisibility(View.VISIBLE);
                 rlSurplusDuration.setVisibility(View.VISIBLE);
@@ -364,8 +365,6 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                 tvImmediatelySeeBtn.setVisibility(View.GONE);
                 tvReceiveTimeValue.setText(receiveTime);
                 tvEndTimeValue.setText(endTime);
-
-                ;
                 switch (appointMentProject) {
                     case "10":
                         mTvCardTitle.setText("图文");
@@ -385,8 +384,10 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                     rlReceiveDoctor.setVisibility(View.VISIBLE);
                     rlSurplusTimes.setVisibility(View.VISIBLE);
                     rlSurplusDuration.setVisibility(View.GONE);
+                    rlReceiveTime.setVisibility(View.VISIBLE);
                     tvSurplusTimesValue.setText(surplusTimes);
                 }else{
+                    rlReceiveTime.setVisibility(View.GONE);
                     rlReceiveDoctor.setVisibility(View.GONE);
                     rlSurplusTimes.setVisibility(View.GONE);
                     rlSurplusDuration.setVisibility(View.VISIBLE);
@@ -820,8 +821,9 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                                 from = "1";
                             }
                             Bundle bundle = new Bundle();
-                            bundle.putString("singCode", signCode);
+                            bundle.putString("orderCode", orderCode);
                             bundle.putString("singNo", singNO);
+
                             bundle.putString("from", from);
                             bundle.putString("patientName", nickName);
                             bundle.putString("patientCode", patientCode);
@@ -834,7 +836,7 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                     case "card": {
                         if (orderType.equals("3")) {
                             Bundle bundle = new Bundle();
-                            bundle.putString("singCode", signCode);
+                            bundle.putString("orderCode", orderCode);
                             bundle.putString("singNo", singNO);
                             bundle.putString("from", "2");
                             bundle.putString("patientName", nickName);
@@ -845,10 +847,12 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                         } else {
                             //签约订单详情
                             Bundle bundle = new Bundle();
-                            bundle.putString("singCode", signCode);
+                            bundle.putString("orderCode", orderCode);
+                            bundle.putString("signCode",signCode);
                             bundle.putString("signNo", singNO);
                             bundle.putString("patientName", nickName);
                             bundle.putString("patientCode", patientCode);
+                            bundle.putString("orderCode",orderCode);
                             bundle.putString("status", "1");
                             startActivity(SigningDetailsActivity.class, bundle);
                         }

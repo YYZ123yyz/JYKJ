@@ -940,11 +940,13 @@ public class MyClinicDetialActivity extends AbstractMvpBaseActivity<MyClinicDeti
                 receiveTreatmentResultBean.getAdmissionStartTimes());
         String endTime = www.jykj.com.jykj_zxyl.util.DateUtils.getDateToStringYYYMMDDHHMM(receiveTreatmentResultBean.getAdmissionEndTimes());
         Bundle bundle = new Bundle();
+        OrderMessage receiveTreatment = new OrderMessage(mApp.mViewSysUserDoctorInfoAndHospital.getUserName(),
+                mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl(),
+                currentPatientInfoBean.getReserveCode(), receiveTime,
+                endTime, surplusTimes, appointMentType, "receiveTreatment");
+        receiveTreatment.setOrderType(treatmentType);
         bundle.putSerializable("orderMsg",
-                new OrderMessage(mApp.mViewSysUserDoctorInfoAndHospital.getUserName(),
-                        mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl(),
-                        currentPatientInfoBean.getReserveCode(),receiveTime,
-                        endTime,surplusTimes,appointMentType,"receiveTreatment"));
+                receiveTreatment);
         intent.putExtras(bundle);
         startActivityForResult(intent,1000);
     }

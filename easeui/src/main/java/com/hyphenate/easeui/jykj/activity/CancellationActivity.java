@@ -72,7 +72,7 @@ public class CancellationActivity extends AppCompatActivity implements View.OnCl
         code = sharedPreferences.getString("code", "");
         Bundle extras = this.getIntent().getExtras();
         if (extras != null) {
-            orderId = extras.getString("singCode");
+            orderId = extras.getString("orderCode");
             singNO = extras.getString("singNO");
             nickName = extras.getString("nickName");
             patientCode = extras.getString("patientCode");
@@ -91,7 +91,7 @@ public class CancellationActivity extends AppCompatActivity implements View.OnCl
         map.put("loginDoctorPosition", "108.93425^34.23053");
         map.put("operDoctorCode", doctoCode);
         map.put("operDoctorName", doctorName);
-        map.put("signOrderCode", orderId);
+        map.put("orderCode", orderId);
 
         new Thread() {
             public void run() {

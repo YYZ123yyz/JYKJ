@@ -1,4 +1,4 @@
-package www.jykj.com.jykj_zxyl.activity.home;
+package www.jykj.com.jykj_zxyl.mypatient.activity;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -6,13 +6,10 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -34,20 +31,18 @@ import www.jykj.com.jykj_zxyl.custom.MoreFeaturesPopupWindow;
 import www.jykj.com.jykj_zxyl.fragment.MyPatientFragment;
 import www.jykj.com.jykj_zxyl.fragment.MyPatientNotSignetFragment;
 import www.jykj.com.jykj_zxyl.fragment.MyReviewFragment;
-import www.jykj.com.jykj_zxyl.fragment.hzgl.BloodLogFragment;
-import www.jykj.com.jykj_zxyl.fragment.hzgl.TrendFragment;
-import www.jykj.com.jykj_zxyl.patient.fragment.MySignUpPatientFragment;
+import www.jykj.com.jykj_zxyl.mypatient.fragment.NotSignedPatientFragment;
+import www.jykj.com.jykj_zxyl.mypatient.fragment.SignedPatientFragment;
 import www.jykj.com.jykj_zxyl.util.ActivityUtil;
-import yyz_exploit.activity.activity.OpinionActivity;
 import zxing.common.Constant;
 
 /**
  * 我的患者
  */
-public class MyPatientActivity extends BaseActivity {
+public class PatientActivity extends BaseActivity {
 
     private Context mContext;
-    private MyPatientActivity mActivity;
+    private PatientActivity mActivity;
     private TextView mMyPatient;
     private TextView mMyReview;
     private TextView mMyPatientN;
@@ -65,19 +60,18 @@ public class MyPatientActivity extends BaseActivity {
     private String mNetRetStr;                 //返回字符串
     private Handler mHandler;
     public ProgressDialog mDialogProgress = null;
-
     private JYKJApplication mApp;
-    private Context context;
-
-
+    private SignedPatientFragment signedPatientFragment;
+    private NotSignedPatientFragment notSignedPatientFragment;
     @Override
     protected int setLayoutId() {
-        return R.layout.activity_my_patient;
+        return R.layout.activity_my_patient2;
     }
 
     @Override
     protected void initView() {
         super.initView();
+        ActivityUtil.setStatusBarMain(this);
         mApp = (JYKJApplication) getApplication();
         mContext = this;
         mActivity = this;
@@ -91,17 +85,15 @@ public class MyPatientActivity extends BaseActivity {
      */
     private void initLayout() {
         mMyPatient = findViewById(R.id.tv_my_patient);
-        // mMyReview = findViewById(R.id.tv_my_review);
         ivAdd = findViewById(R.id.iv_add);
         llBack = findViewById(R.id.ll_back);
         mMyPatientN = this.findViewById(R.id.tv_my_patient_n);
         fragmentManager = getSupportFragmentManager();
-
         mMyPatient.setOnClickListener(new ButtonClick());
-        //  mMyReview.setOnClickListener(new ButtonClick());
         llBack.setOnClickListener(new ButtonClick());
         ivAdd.setOnClickListener(new ButtonClick());
         mMyPatientN.setOnClickListener(new ButtonClick());
+
     }
 
 
@@ -116,8 +108,6 @@ public class MyPatientActivity extends BaseActivity {
                     setIndex(0);
                     mMyPatient.setBackgroundResource(R.mipmap.pg_messagetitle);
                     mMyPatientN.setBackgroundResource(0);
-                    //  mMyReview.setBackgroundResource(0);
-                    //   mMyReview.setTextColor(getResources().getColor(R.color.writeColor));
                     mMyPatientN.setTextColor(getResources().getColor(R.color.writeColor));
                     mMyPatient.setTextColor(getResources().getColor(R.color.tabColor_nomal));
                     break;
@@ -125,26 +115,15 @@ public class MyPatientActivity extends BaseActivity {
                     setIndex(1);
                     mMyPatient.setBackgroundResource(0);
                     mMyPatientN.setBackgroundResource(R.mipmap.pg_messagetitle);
-                    //   mMyReview.setBackgroundResource(0);
-                    //   mMyReview.setTextColor(getResources().getColor(R.color.writeColor));
                     mMyPatientN.setTextColor(getResources().getColor(R.color.tabColor_nomal));
                     mMyPatient.setTextColor(getResources().getColor(R.color.writeColor));
                     break;
-//                case R.id.tv_my_review:
-//                    setIndex(2);
-//                    mMyReview.setBackgroundResource(R.mipmap.pg_messagetitle);
-//                    mMyPatient.setBackgroundResource(0);
-//                    mMyPatientN.setBackgroundResource(0);
-//                    mMyPatient.setTextColor(getResources().getColor(R.color.writeColor));
-//                    mMyReview.setTextColor(getResources().getColor(R.color.tabColor_nomal));
-//                    mMyPatientN.setTextColor(getResources().getColor(R.color.writeColor));
-//                    break;
                 case R.id.ll_back:
                     finish();
                     break;
                 case R.id.iv_add:
-                   /* mPopupWindow = new MoreFeaturesPopupWindow(mActivity);
-                    mPopupWindow.setMyPatientActivity(mActivity);*/
+                    mPopupWindow = new MoreFeaturesPopupWindow(mActivity);
+                    mPopupWindow.setMyPatientActivity(mActivity);
                     if (mPopupWindow != null && !mPopupWindow.isShowing()) {
                         mPopupWindow.showAsDropDown(ivAdd, 0, 0);
                     }
@@ -297,28 +276,21 @@ public class MyPatientActivity extends BaseActivity {
         hideFragments(transaction);
         switch (index) {
             case 0:
-                if (myPatientFragment == null) {
-                    myPatientFragment = new MyPatientFragment();
-                    transaction.add(R.id.content, myPatientFragment);
+                if (signedPatientFragment == null) {
+                    signedPatientFragment = new SignedPatientFragment();
+                    transaction.add(R.id.content, signedPatientFragment);
                 } else {
-                    transaction.show(myPatientFragment);
+                    transaction.show(signedPatientFragment);
                 }
                 break;
             case 1:
-                if (myPatientNotSignetFragment == null) {
-                    myPatientNotSignetFragment = new MyPatientNotSignetFragment();
-                    transaction.add(R.id.content, myPatientNotSignetFragment);
+                if (notSignedPatientFragment == null) {
+                    notSignedPatientFragment = new NotSignedPatientFragment();
+                    transaction.add(R.id.content, notSignedPatientFragment);
                 } else {
-                    transaction.show(myPatientNotSignetFragment);
+                    transaction.show(notSignedPatientFragment);
                 }
-                break;
-            case 2:
-//                if (myReviewFragment == null) {
-//                    myReviewFragment = new MyReviewFragment();
-//                    transaction.add(R.id.content, myReviewFragment);
-//                } else {
-//                    transaction.show(myReviewFragment);
-//                }
+
                 break;
 
         }
@@ -327,11 +299,11 @@ public class MyPatientActivity extends BaseActivity {
 
 
     private void hideFragments(FragmentTransaction transaction) {
-        if (myPatientFragment != null) {
-            transaction.hide(myPatientFragment);
+        if (signedPatientFragment != null) {
+            transaction.hide(signedPatientFragment);
         }
-        if (myPatientNotSignetFragment != null) {
-            transaction.hide(myPatientNotSignetFragment);
+        if (notSignedPatientFragment != null) {
+            transaction.hide(notSignedPatientFragment);
         }
 //        if (myReviewFragment != null) {
 //            transaction.hide(myReviewFragment);

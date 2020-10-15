@@ -207,6 +207,7 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
         patientName1 = intent.getStringExtra("patientName");
         patientAge1 = intent.getStringExtra("patientAge");
         patientSex1 = intent.getStringExtra("patientSex");
+        orderCode = intent.getStringExtra("orderCode");
         signCode = intent.getStringExtra("signCode");
         doctorUrl = intent.getStringExtra("doctorUrl");
         Log.e("TAG", "onCreate: " + doctorUrl);
@@ -759,7 +760,7 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
                                 String resJsonData = netRetEntity.getResJsonData();
                                 if (!TextUtils.isEmpty(resJsonData)) {
                                     Restcommit restcommit = JSON.parseObject(resJsonData, Restcommit.class);
-                                    signOrderCode = restcommit.getSignOrderCode();
+                                    signOrderCode = restcommit.getSignCode();
                                     signNo = restcommit.getSignNo();
                                     orderCode=restcommit.getOrderCode();
                                 }

@@ -8,16 +8,16 @@ public class Restcommit implements java.io.Serializable{
      * signNo : 010620200801140220124566124054593
      */
 
-    private String signOrderCode;
+    private String signCode;
     private String signNo;
     private String orderCode;
 
-    public String getSignOrderCode() {
-        return signOrderCode;
+    public String getSignCode() {
+        return signCode;
     }
 
-    public void setSignOrderCode(String signOrderCode) {
-        this.signOrderCode = signOrderCode;
+    public void setSignCode(String signCode) {
+        this.signCode = signCode;
     }
 
     public String getSignNo() {

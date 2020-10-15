@@ -37,6 +37,7 @@ public class ProvideViewPatientLablePunchClockState implements Serializable{
     private String signCode;
     private int signDuration;
     private String signDurationUnit;
+    private String orderCode;
     private String signNo;
     private String signOtherServiceCode;
     private double signPrice;
@@ -206,5 +207,13 @@ public class ProvideViewPatientLablePunchClockState implements Serializable{
 
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    public String getOrderCode() {
+        return orderCode;
+    }
+
+    public void setOrderCode(String orderCode) {
+        this.orderCode = orderCode;
     }
 }

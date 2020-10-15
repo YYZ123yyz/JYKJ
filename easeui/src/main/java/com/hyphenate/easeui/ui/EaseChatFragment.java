@@ -1821,7 +1821,7 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
         message.setAttribute("nickName", msg.getNickName());
         message.setAttribute("imageUrl", msg.getImageUrl());
         message.setAttribute("messageType", msg.getMessageType());
-        message.setAttribute("orderId", msg.getOrderId());
+        message.setAttribute("orderId", msg.getOrderCode());
         message.setAttribute("patientName",toChatUsernameName);
         switch (messageType){
             case "card":
@@ -1834,6 +1834,7 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
                 message.setAttribute("patientCode", msg.getPatientCode());
                 Log.e(TAG, "sendOrderCardMsg: " + msg.getPatientCode());
                 message.setAttribute("singNo", msg.getSingNo());
+                message.setAttribute("signId",msg.getSignCode());
                 break;
             case "appointment":
                 message.setAttribute("statusType",msg.getStatusType());
@@ -1843,6 +1844,7 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
                 message.setAttribute("appointMentType",msg.getAppointMentType());
                 break;
             case "receiveTreatment":
+                message.setAttribute("orderType", msg.getOrderType());
                 message.setAttribute("receiveTime",msg.getReceiveTime());
                 message.setAttribute("endTime",msg.getEndTime());
                 message.setAttribute("surplusTimes",msg.getSurplusTimes());

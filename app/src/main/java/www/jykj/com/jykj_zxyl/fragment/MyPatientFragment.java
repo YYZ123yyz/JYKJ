@@ -303,7 +303,9 @@ public class MyPatientFragment extends Fragment {
                             );
                         }
                         Bundle bundle = new Bundle();
-                        bundle.putSerializable("orderMsg", new OrderMessage(mApp.mViewSysUserDoctorInfoAndHospital.getUserName(), mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl(), mHZEntyties.get(position).getSignCode(), getMonitorTypeSize(mHZEntyties.get(position).getSignOtherServiceCode()) + "项", mHZEntyties.get(position).getDetectRate() + "天/" + mHZEntyties.get(position).getDetectRateUnitCode() + mHZEntyties.get(position).getDetectRateUnitName(), mHZEntyties.get(position).getSignDuration() +"个"+ mHZEntyties.get(position).getSignDurationUnit(), mHZEntyties.get(position).getSignPrice() + "", mHZEntyties.get(position).getSignNo(), "1", "terminationOrder", mHZEntyties.get(position).getPatientCode()));
+                        bundle.putSerializable("orderMsg", new OrderMessage(mApp.mViewSysUserDoctorInfoAndHospital.getUserName()
+                                , mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl(), mHZEntyties.get(position).getSignCode()
+                                , getMonitorTypeSize(mHZEntyties.get(position).getSignOtherServiceCode()) + "项", mHZEntyties.get(position).getDetectRate() + "天/" + mHZEntyties.get(position).getDetectRateUnitCode() + mHZEntyties.get(position).getDetectRateUnitName(), mHZEntyties.get(position).getSignDuration() +"个"+ mHZEntyties.get(position).getSignDurationUnit(), mHZEntyties.get(position).getSignPrice() + "", mHZEntyties.get(position).getSignNo(), "1", "terminationOrder", mHZEntyties.get(position).getPatientCode()));
                         //   EventBus.getDefault().post(bundle);
                         intent.putExtras(bundle);
                         startActivity(intent);
