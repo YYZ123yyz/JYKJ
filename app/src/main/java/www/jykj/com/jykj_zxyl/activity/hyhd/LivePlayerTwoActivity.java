@@ -331,6 +331,7 @@ public class LivePlayerTwoActivity extends ChatPopDialogActivity implements ITXL
                 goMinimalscreen();
             }
         });
+        live_rl.bringToFront();
         //3、获取屏幕的默认分辨率
         /*Display display = getWindowManager().getDefaultDisplay();
         int scrheight = display.getHeight();
@@ -379,6 +380,7 @@ public class LivePlayerTwoActivity extends ChatPopDialogActivity implements ITXL
         }*/
         iv_zoom_btn.setVisibility(View.VISIBLE);
         iv_miniaml_zoom_btn.setVisibility(View.GONE);
+        live_rl.bringToFront();
     }
     private List<Fragment> fragmentList = new ArrayList();
     private LiveFragmentAdapter liveFragmentAdapter;
