@@ -131,6 +131,8 @@ public class LivePlayerTwoActivity extends ChatPopDialogActivity implements ITXL
         mdetailCode = getIntent().getStringExtra("detailCode");
         mActivity = LivePlayerTwoActivity.this;
         mContext = LivePlayerTwoActivity.this;
+        mCurrentRenderRotation = TXLiveConstants.RENDER_ROTATION_PORTRAIT;
+        mCurrentRenderMode = TXLiveConstants.RENDER_MODE_FULL_FILL_SCREEN;
         loadLive();
         setContentView(R.layout.activity_two_player);
         mActivityType = getIntent().getIntExtra("PLAY_TYPE", ACTIVITY_TYPE_LIVE_PLAY);
