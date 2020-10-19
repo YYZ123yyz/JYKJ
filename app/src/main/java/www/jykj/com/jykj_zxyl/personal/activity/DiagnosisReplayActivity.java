@@ -281,6 +281,7 @@ public class DiagnosisReplayActivity extends
      * @param diagnosisReplayBean 设置数据
      */
     private void setData(DiagnosisReplayBean diagnosisReplayBean){
+        treatmentType=diagnosisReplayBean.getTreatmentType();
         String messageDate = diagnosisReplayBean.getMessageDate();
         String patientLinkPhone = diagnosisReplayBean.getPatientLinkPhone();
         String messageContent = diagnosisReplayBean.getMessageContent();

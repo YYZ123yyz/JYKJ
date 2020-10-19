@@ -917,6 +917,17 @@
                         android:textSize="15sp" />
 
                     <ImageView
+                        android:id="@+id/input_prescription_state"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="5dp"
+                        android:src="@mipmap/iv_filled"
+                        android:visibility="visible" />
+
+
+
+                    <ImageView
                         android:id="@+id/dispaly_fullpayment"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

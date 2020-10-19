@@ -26,6 +26,7 @@ public class DiagnosisReplayBean {
     private String patientLinkPhone;//(问诊人)患者手机号(电话就诊时,接听医生来电)
     private String messageContent;//患者留言内容
     private String messageDate;
+    private String treatmentType;
 
     private List<InteractPatientMessageActiveListBean> interactPatientMessageActiveList;
 
@@ -95,6 +96,14 @@ public class DiagnosisReplayBean {
 
     public void setMessageDate(String messageDate) {
         this.messageDate = messageDate;
+    }
+
+    public String getTreatmentType() {
+        return treatmentType;
+    }
+
+    public void setTreatmentType(String treatmentType) {
+        this.treatmentType = treatmentType;
     }
 
     public void setInteractPatientMessageActiveList(List<InteractPatientMessageActiveListBean> interactPatientMessageActiveList) {

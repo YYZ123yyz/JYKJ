@@ -1,5 +1,6 @@
 package www.jykj.com.jykj_zxyl.activity.myself;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -81,6 +82,7 @@ public class ServicePermisionActivity extends AppCompatActivity {
         getData();
     }
 
+    @SuppressLint("HandlerLeak")
     private void initHandler() {
         mHandler = new Handler() {
             @Override

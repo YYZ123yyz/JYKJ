@@ -61,7 +61,7 @@ public class Rv_detectAdapter extends RecyclerView.Adapter<Rv_detectAdapter.View
      */
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, @SuppressLint("RecyclerView") final int position) {
-        viewHolder.ed_price.setCursorVisible(false);
+        //viewHolder.ed_price.setCursorVisible(false);
         viewHolder.tv_name.setText(datas.get(position).getConfigDetailName());
         viewHolder.ed_price.setText(datas.get(position).getPrice()+"");
 //        if (mOnItemClickListener != null) {

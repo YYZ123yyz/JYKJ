@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -76,10 +77,10 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 
+import www.jykj.com.jykj_zxyl.app_base.base_activity.BaseActivity;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.BaseBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.ViewSysUserDoctorInfoAndHospital;
 import www.jykj.com.jykj_zxyl.app_base.base_dialog.CommonConfirmDialog;
-import www.jykj.com.jykj_zxyl.app_base.base_utils.ActivityUtils;
 import www.jykj.com.jykj_zxyl.app_base.base_utils.GsonUtils;
 import www.jykj.com.jykj_zxyl.app_base.base_utils.SharedPreferences_DataSave;
 import www.jykj.com.jykj_zxyl.app_base.base_utils.StringUtils;
@@ -87,12 +88,10 @@ import www.jykj.com.jykj_zxyl.app_base.http.ApiHelper;
 import www.jykj.com.jykj_zxyl.app_base.http.CommonDataObserver;
 import www.jykj.com.jykj_zxyl.app_base.http.ParameUtil;
 import www.jykj.com.jykj_zxyl.app_base.http.RetrofitUtil;
-
-import static android.icu.text.DateTimePatternGenerator.DAY;
 import static android.widget.Toast.LENGTH_SHORT;
 
 
-public class SigningDetailsActivity extends AppCompatActivity implements View.OnClickListener {
+public class SigningDetailsActivity extends BaseActivity implements View.OnClickListener {
     public ProgressDialog mDialogProgress = null;
     private Context mContext;
     private SigningDetailsActivity mActivity;
@@ -116,7 +115,7 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
     private TextView tvDuration;
     private LinearLayout linDuration;
     private Button btActivityMySelfSettingExitButton;
-    private ScrollView wzxxSc;
+    private NestedScrollView wzxxSc;
     private SharedPreferences sharedPreferences;
     private String name;
     private String code;
@@ -138,9 +137,6 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
     private List<ProvideBasicsDomain> monthsList = new ArrayList<>();   //6个月
     private Object List;
     private TextView totalprice;
-    private double Coachingprice = 0;
-    private double Detectprice = 0;
-    private double totalprice1 = 0;
     private ImageView iv_activityLogin_agreeImg;
     private boolean mAgree = true;                     //是否同意协议，默认同意
     private int dayListattrCode;
@@ -149,9 +145,7 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
     private int videominuteListattrCode;
     private int videosecondaryListattrCode;
     private int videomonthListattrCode;
-    private String monthsListattrName;
-    private int monthsListattrCode;
-    private int ageFromBirthTime;
+
     private int monthsListattrCode1;
     private String signOrderCode;
     private GetdetailsBean getdetailsBeans;
@@ -160,13 +154,7 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
     //    private Item_Rv_detectAdapter item_rv_detectAdapter;
 //    private Item_Rv_CoachingAdapter item_rv_coachingAdapter;
     private RecyclerView rvClass;
-    private CoachingBean MMcoachingBean;
-    private String videomonthListattrName;
-    private String videosecondaryListattrName;
-    private String videominuteListattrName;
-    private String secondaryListattrName;
-    private String monthListattrName;
-    private String type1;
+
     private NetRetEntity netRetEntity;
     private String doctorUrl;
     private String signNo;
@@ -182,19 +170,18 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
     private LinearLayout protocol_lin;
     private String singNO;
     private CommonConfirmDialog commonConfirmDialog;
+    private ViewSysUserDoctorInfoAndHospital mProvideViewSysUserPatientInfoAndRegion;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_signing_details);
-        ActivityUtils.setStatusBarMain(this);
+    protected void onBeforeSetContentLayout() {
+        super.onBeforeSetContentLayout();
         mContext = this;
         mActivity = this;
         commonConfirmDialog=new CommonConfirmDialog(this);
         SharedPreferences_DataSave m_persist = new SharedPreferences_DataSave(this,
                 "JYKJDOCTER");
         String userInfoSuLogin = m_persist.getString("viewSysUserDoctorInfoAndHospital", "");
-        ViewSysUserDoctorInfoAndHospital mProvideViewSysUserPatientInfoAndRegion
+         mProvideViewSysUserPatientInfoAndRegion
                 = GsonUtils.fromJson(userInfoSuLogin, ViewSysUserDoctorInfoAndHospital.class);
         if (mProvideViewSysUserPatientInfoAndRegion!=null) {
             name=mProvideViewSysUserPatientInfoAndRegion.getUserName();
@@ -213,24 +200,205 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
         signCode = intent.getStringExtra("signCode");
         doctorUrl = intent.getStringExtra("doctorUrl");
         Log.e("TAG", "onCreate: " + doctorUrl);
-        initHandler();
-        duration();
-        //获取医生信息;
-        sendGetUserInfoRequest(code);
-        //订单详情的标识
-        initView();
-        addListener();
+
         Bundle extras = this.getIntent().getExtras();
         if (extras != null) {
             orderCode = extras.getString("orderCode");
             signCode=extras.getString("signCode");
             singNO = extras.getString("singNO");
             status = extras.getString("status");
-            if (!TextUtils.isEmpty(orderCode)){
-                Getdetails();
+
+        }
+    }
+
+    @Override
+    protected int setLayoutId() {
+        return R.layout.activity_signing_details;
+    }
+
+    @Override
+    protected void initView() {
+        super.initView();
+
+        protocol_lin = (LinearLayout) findViewById(R.id.protocol_lin);
+        day_tv = (TextView) findViewById(R.id.day_tv);
+        //图标
+        linStartTime = (LinearLayout) findViewById(R.id.lin_start_time_s);
+        tvStartTime = (TextView) findViewById(R.id.tv_start_time);
+        rvClass = (RecyclerView) findViewById(R.id.rv_class);
+        rvClass.setNestedScrollingEnabled(false);
+        iv_activityLogin_agreeImg = (ImageView) findViewById(R.id.iv_activityLogin_agreeImg);
+        protocol_lin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mAgree = !mAgree;
+                setAgreeImg();
             }
+        });
+        //总价
+        tv_prices = (TextView) findViewById(R.id.tv_prices);
+        totalprice = (TextView) findViewById(R.id.Totalprice);
+        tvGson = (TextView) findViewById(R.id.tv_gson);
+        ivBackLeft = (LinearLayout) findViewById(R.id.iv_back_left);
+        ivBackLeft.setOnClickListener(this);
+        ivBackLeft.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        patientName = (TextView) findViewById(R.id.patient_name);
+        patientName.setText(patientName1);
+        patientAge = (TextView) findViewById(R.id.patient_age);
+        patientSex= (TextView) findViewById(R.id.patient_sex);
+        if (TextUtils.isEmpty(patientSex1)) {
+            patientSex.setText("男");
+        } else if (patientSex1.equals("1")) {
+            patientSex.setText("男");
+        } else if (patientSex1.equals("0")) {
+            patientSex.setText("未知");
+        } else {
+            patientSex.setText("女");
         }
 
+        linDetect = (LinearLayout) findViewById(R.id.lin_Detect);
+        linDetect.setOnClickListener(this);
+        rvqbzz = (RecyclerView) findViewById(R.id.rvqbzz);
+        rvqbzz.setNestedScrollingEnabled(false);
+        linTime = (LinearLayout) findViewById(R.id.lin_time);
+
+        //频次
+        linTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Frequencyofdetection();
+            }
+        });
+        linClass = (LinearLayout) findViewById(R.id.lin_class);
+        tvDuration = (TextView) findViewById(R.id.tv_duration);
+        linDuration = (LinearLayout) findViewById(R.id.lin_duration);
+
+        btActivityMySelfSettingExitButton = (Button) findViewById(R.id.bt_activityMySelfSetting_exitButton);
+        //提交
+        btActivityMySelfSettingExitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (TextUtils.isEmpty(orderCode)) {
+                    commit();
+                } else {
+                    ModificationSubmission();
+                }
+
+            }
+        });
+        wzxxSc = (NestedScrollView) findViewById(R.id.wzxx_sc);
+
+        //检测类型
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this){
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        };
+        rvqbzz.setLayoutManager(layoutManager);
+        //如果可以确定每个item的高度是固定的，设置这个选项可以提高性能
+        rvqbzz.setHasFixedSize(true);
+//        //创建并设置Adapter
+        rv_detectAdapter = new Rv_detectAdapter(mDetectBeans, mContext, mActivity);
+        rvqbzz.setAdapter(rv_detectAdapter);
+        rv_detectAdapter.setOnItemClickListener(new Rv_detectAdapter.OnItemClickListener() {
+            @Override
+            public void onClick(int position) {
+
+            }
+
+            @Override
+            public void onLongClick(int position) {
+
+            }
+
+            @Override
+            public void onTextChanged(int pos, String value) {
+                if (!CollectionUtils.isEmpty(mDetectBeans)
+                        && pos < mDetectBeans.size()) {
+                    if (!TextUtils.isEmpty(value)) {
+                        mDetectBeans.get(pos).setPrice(Double.valueOf(value));
+                    } else {
+                        mDetectBeans.get(pos).setPrice(0);
+                    }
+
+                    setTotalprice(mDetectBeans, mCoachingBean);
+                }
+
+            }
+        });
+        //辅导类别
+        LinearLayoutManager layoutManager2 = new LinearLayoutManager(this){
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        };
+        //   LinearLayoutManager mLinearLayoutManager2 = new LinearLayoutManager(mContext,new S);
+        layoutManager2.setOrientation(LinearLayout.VERTICAL);
+        rvClass.setLayoutManager(layoutManager2);
+        //如果可以确定每个item的高度是固定的，设置这个选项可以提高性能
+        rvClass.setHasFixedSize(true);
+//        //创建并设置Adapter
+        rvCoachingAdapter = new Rv_CoachingAdapter(mCoachingBean, mContext, mActivity);
+        rvClass.setAdapter(rvCoachingAdapter);
+        rvCoachingAdapter.setOnItemCoachingClickListener(new Rv_CoachingAdapter.OnItemCoachingClickListener() {
+            @Override
+            public void onClick(int position) {
+                time(position);
+            }
+
+            @Override
+            public void onLongClick(int position) {
+
+            }
+        });
+        rvCoachingAdapter.setOnItemCoachingLinClickListener(new Rv_CoachingAdapter.OnItemCoachingLinClickListener() {
+            @Override
+            public void onClick(int position) {
+                Videofrequency(position);
+            }
+
+            @Override
+            public void onLongClick(int position) {
+
+            }
+
+            @Override
+            public void onTextChanged(int pos, String value) {
+                if (!CollectionUtils.isEmpty(mCoachingBean)
+                        && pos < mCoachingBean.size()) {
+                    if (!TextUtils.isEmpty(value)) {
+                        mCoachingBean.get(pos).setPrice(Double.valueOf(value));
+                    } else {
+                        mCoachingBean.get(pos).setPrice(0);
+                    }
+
+                    setTotalprice(mDetectBeans, mCoachingBean);
+                }
+            }
+        });
+        initHandler();
+
+        //订单详情的标识
+        //initView();
+        addListener();
+    }
+
+    @Override
+    protected void initData() {
+        super.initData();
+        duration();
+        //获取医生信息;
+        sendGetUserInfoRequest(code);
+        if (!TextUtils.isEmpty(orderCode)){
+            Getdetails();
+        }
     }
 
     @Override
@@ -324,156 +492,7 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
         }.start();
     }
 
-    private void initView() {
-        protocol_lin = (LinearLayout) findViewById(R.id.protocol_lin);
-        day_tv = (TextView) findViewById(R.id.day_tv);
-        //图标
-        linStartTime = (LinearLayout) findViewById(R.id.lin_start_time_s);
-        tvStartTime = (TextView) findViewById(R.id.tv_start_time);
-        rvClass = (RecyclerView) findViewById(R.id.rv_class);
-        iv_activityLogin_agreeImg = (ImageView) findViewById(R.id.iv_activityLogin_agreeImg);
-        protocol_lin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mAgree = !mAgree;
-                setAgreeImg();
-            }
-        });
-        //总价
-        tv_prices = (TextView) findViewById(R.id.tv_prices);
-        totalprice = (TextView) findViewById(R.id.Totalprice);
-        tvGson = (TextView) findViewById(R.id.tv_gson);
-        ivBackLeft = (LinearLayout) findViewById(R.id.iv_back_left);
-        ivBackLeft.setOnClickListener(this);
-        ivBackLeft.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-        patientName = (TextView) findViewById(R.id.patient_name);
-        patientName.setText(patientName1);
-        patientAge = (TextView) findViewById(R.id.patient_age);
-        patientSex= (TextView) findViewById(R.id.patient_sex);
-        if (TextUtils.isEmpty(patientSex1)) {
-            patientSex.setText("男");
-        } else if (patientSex1.equals("1")) {
-            patientSex.setText("男");
-        } else if (patientSex1.equals("0")) {
-            patientSex.setText("未知");
-        } else {
-            patientSex.setText("女");
-        }
 
-        linDetect = (LinearLayout) findViewById(R.id.lin_Detect);
-        linDetect.setOnClickListener(this);
-        rvqbzz = (RecyclerView) findViewById(R.id.rvqbzz);
-        linTime = (LinearLayout) findViewById(R.id.lin_time);
-
-        //频次
-        linTime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Frequencyofdetection();
-            }
-        });
-        linClass = (LinearLayout) findViewById(R.id.lin_class);
-        tvDuration = (TextView) findViewById(R.id.tv_duration);
-        linDuration = (LinearLayout) findViewById(R.id.lin_duration);
-
-        btActivityMySelfSettingExitButton = (Button) findViewById(R.id.bt_activityMySelfSetting_exitButton);
-        //提交
-        btActivityMySelfSettingExitButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (TextUtils.isEmpty(orderCode)) {
-                    commit();
-                } else {
-                    ModificationSubmission();
-                }
-
-            }
-        });
-        wzxxSc = (ScrollView) findViewById(R.id.wzxx_sc);
-
-        //检测类型
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this){
-            @Override
-            public boolean canScrollVertically() {
-                return false;
-            }
-        };
-        rvqbzz.setLayoutManager(layoutManager);
-        //如果可以确定每个item的高度是固定的，设置这个选项可以提高性能
-        rvqbzz.setHasFixedSize(true);
-//        //创建并设置Adapter
-        rv_detectAdapter = new Rv_detectAdapter(mDetectBeans, mContext, mActivity);
-        rvqbzz.setAdapter(rv_detectAdapter);
-        rv_detectAdapter.setOnItemClickListener(new Rv_detectAdapter.OnItemClickListener() {
-            @Override
-            public void onClick(int position) {
-
-            }
-
-            @Override
-            public void onLongClick(int position) {
-
-            }
-
-            @Override
-            public void onTextChanged(int pos, String value) {
-                if (!CollectionUtils.isEmpty(mDetectBeans)
-                        && pos < mDetectBeans.size()) {
-                    if (!TextUtils.isEmpty(value)) {
-                        mDetectBeans.get(pos).setPrice(Double.valueOf(value));
-                    } else {
-                        mDetectBeans.get(pos).setPrice(0);
-                    }
-
-                    setTotalprice(mDetectBeans, mCoachingBean);
-                }
-
-            }
-        });
-        //辅导类别
-        LinearLayoutManager layoutManager2 = new LinearLayoutManager(this){
-            @Override
-            public boolean canScrollVertically() {
-                return false;
-            }
-        };
-     //   LinearLayoutManager mLinearLayoutManager2 = new LinearLayoutManager(mContext,new S);
-        layoutManager2.setOrientation(LinearLayout.VERTICAL);
-        rvClass.setLayoutManager(layoutManager2);
-        //如果可以确定每个item的高度是固定的，设置这个选项可以提高性能
-        rvClass.setHasFixedSize(true);
-//        //创建并设置Adapter
-        rvCoachingAdapter = new Rv_CoachingAdapter(mCoachingBean, mContext, mActivity);
-        rvClass.setAdapter(rvCoachingAdapter);
-        rvCoachingAdapter.setOnItemCoachingClickListener(new Rv_CoachingAdapter.OnItemCoachingClickListener() {
-            @Override
-            public void onClick(int position) {
-                time(position);
-            }
-
-            @Override
-            public void onLongClick(int position) {
-
-            }
-        });
-        rvCoachingAdapter.setOnItemCoachingLinClickListener(new Rv_CoachingAdapter.OnItemCoachingLinClickListener() {
-            @Override
-            public void onClick(int position) {
-                Videofrequency(position);
-            }
-
-            @Override
-            public void onLongClick(int position) {
-
-            }
-        });
-
-    }
 
     /**
      * 设置是否同意协议图标
@@ -492,7 +511,6 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
             @Override
             public void onOptionsSelect(int options1, int options2, int options3, View v) {
                 tvDuration.setText(monthsList.get(options1).getAttrName());
-                monthsListattrName = monthsList.get(options1).getAttrName();
                 monthsListattrCode1 = monthsList.get(options1).getAttrCode();
                 // main(startTime);
                 setTotalprice(mDetectBeans, mCoachingBean);
@@ -512,12 +530,9 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
             @Override
             public void onOptionsSelect(int options1, int options2, int options3, View v) {
                 videominuteListattrCode = minuteList.get(options1).getAttrCode();
-                videominuteListattrName = minuteList.get(options1).getAttrName();
                 videosecondaryListattrCode = secondaryList.get(options2).getAttrCode();
 
-                videosecondaryListattrName = secondaryList.get(options2).getAttrName();
                 videomonthListattrCode = monthList.get(options3).getAttrCode();
-                videomonthListattrName = monthList.get(options3).getAttrName();
 //                double price = mCoachingBean.get(pos).getPrice();
 //                mCoachingBean.get(pos).setTotalPrice(price*videosecondaryListattrCode);
                 mCoachingBean.get(pos).setValue(videosecondaryListattrCode);
@@ -688,7 +703,11 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
         map.put("mainUserName", patientName1);
         map.put("mainUserNameAlias", patientName1);
         map.put("gender", "1");
-        map.put("age", patientAge.getText().toString());
+        String value = patientAge.getText().toString();
+        if (TextUtils.isEmpty(value)) {
+            value="0";
+        }
+        map.put("age", value);
         map.put("signDuration", monthsListattrCode1 + "");
         map.put("signUnit", "月");
         map.put("signDurationUnit", "月");
@@ -776,12 +795,22 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
                                     monitorRate = "1次/" + dayListattrCode + "天";
                                 }
                                 if (TextUtils.isEmpty(signOrderCode)) {
-                                    OrderMessage orderMessage = new OrderMessage(name, doctorUrl,orderCode, signCode, mDetectBeans.size() + "项", monitorRate, tvDuration.getText().toString(), totalprice.getText().toString(), singNO, "", "card", patientCode);
-                                    EventBus.getDefault().post(orderMessage);
+                                    OrderMessage orderMessage = new OrderMessage(name, doctorUrl
+                                            ,orderCode, signCode, mDetectBeans.size() + "项"
+                                            , monitorRate, tvDuration.getText().toString(),
+                                            totalprice.getText().toString(), singNO, "",
+                                            "card", patientCode);
+                                   // EventBus.getDefault().post(orderMessage);
+                                    startJumpChatActivity(patientCode,patientName1,orderMessage);
                                     finish();
                                 } else {
-                                    OrderMessage orderMessage = new OrderMessage(name, doctorUrl,orderCode, signOrderCode, mDetectBeans.size() + "项", monitorRate, tvDuration.getText().toString(), totalprice.getText().toString(), signNo, "", "card", patientCode);
-                                    EventBus.getDefault().post(orderMessage);
+                                    OrderMessage orderMessage = new OrderMessage(name,
+                                            doctorUrl,orderCode, signOrderCode,
+                                            mDetectBeans.size() + "项", monitorRate,
+                                            tvDuration.getText().toString(), totalprice.getText().toString(),
+                                            signNo, "", "card", patientCode);
+                                    //EventBus.getDefault().post(orderMessage);
+                                    startJumpChatActivity(patientCode,patientName1,orderMessage);
                                     finish();
                                 }
 
@@ -855,6 +884,26 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
         };
     }
 
+    private void startJumpChatActivity(String patientCode,
+                                       String patientName
+            ,OrderMessage orderMessage){
+        Intent intent = new Intent();
+        intent.setAction("activity.hyhd.ChatActivity");
+        //患者
+        intent.putExtra("userCode", patientCode);
+        intent.putExtra("userName", patientName);
+        //医生
+        intent.putExtra("usersName", mProvideViewSysUserPatientInfoAndRegion.getUserName());
+        intent.putExtra("userUrl", mProvideViewSysUserPatientInfoAndRegion.getUserLogoUrl());
+        //URL
+        intent.putExtra("doctorUrl", mProvideViewSysUserPatientInfoAndRegion.getUserLogoUrl());
+        intent.putExtra("patientCode", patientCode);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("orderMsg", orderMessage);
+        intent.putExtras(bundle);
+        startActivity(intent);
+    }
+
     /**
      * 添加监听
      */
@@ -918,7 +967,7 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
         startTime = DateUtils.stampToDate(getdetailsBeans.getSignStartTime());
         patientName.setText(patientName1);
         day_tv.setText(getdetailsBeans.getOrderDetailList().get(0).getRate() + getdetailsBeans.getOrderDetailList().get(0).getRateUnitName());
-        wzxxSc = (ScrollView) findViewById(R.id.wzxx_sc);
+        wzxxSc = (NestedScrollView) findViewById(R.id.wzxx_sc);
         //名称
         patientName.setText(getdetailsBeans.getMainUserName());
         //性别
@@ -1032,9 +1081,7 @@ public class SigningDetailsActivity extends AppCompatActivity implements View.On
             @Override
             public void onOptionsSelect(int options1, int options2, int options3, View v) {
                 secondaryListattrCode = secondaryList.get(options1).getAttrCode();
-                secondaryListattrName = secondaryList.get(options1).getAttrName();
                 monthListattrCode = monthList.get(options2).getAttrCode();
-                monthListattrName = monthList.get(options2).getAttrName();
 
 //                double price = mCoachingBean.get(pos).getPrice();
 //                mCoachingBean.get(pos).setPrice(price*videosecondaryListattrCode);

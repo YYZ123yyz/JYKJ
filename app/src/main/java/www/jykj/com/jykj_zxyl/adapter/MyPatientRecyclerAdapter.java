@@ -23,6 +23,7 @@ import entity.patientInfo.ProvideViewPatientLablePunchClockState;
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.PatientInfoBean;
 import www.jykj.com.jykj_zxyl.util.DateUtils;
+import www.jykj.com.jykj_zxyl.util.StringUtils;
 
 public class MyPatientRecyclerAdapter extends RecyclerView.Adapter<MyPatientRecyclerAdapter.ViewHolder> {
 
@@ -33,7 +34,14 @@ public class MyPatientRecyclerAdapter extends RecyclerView.Adapter<MyPatientRecy
     private OnQTDKItemClickListener mOnQTDKItemClickListenerl;     //其他打卡点击事件
     private OnTXHZItemClickListener mOnTXHZItemClickListenerl;      //提醒患者点击事件
 
+    private OnClickItemListener onClickItemListener;
+
+    public void setOnClickItemListener(OnClickItemListener onClickItemListener) {
+        this.onClickItemListener = onClickItemListener;
+    }
+
     private Context mContext;
+
 
 
     public MyPatientRecyclerAdapter(List<ProvideViewPatientLablePunchClockState> list, Context context) {
@@ -96,7 +104,13 @@ public class MyPatientRecyclerAdapter extends RecyclerView.Adapter<MyPatientRecy
 
 
         try {
-            viewHolder.mHzAge.setText(DateUtils.getAgeFromBirthDate(datas.get(position).getBirthday()) + "");
+            long birthday = datas.get(position).getBirthday();
+            if (birthday==0) {
+                viewHolder.mHzAge.setText("0");
+            }else{
+                viewHolder.mHzAge.setText(DateUtils.getAgeFromBirthDate(datas.get(position).getBirthday()) + "");
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -127,82 +141,127 @@ public class MyPatientRecyclerAdapter extends RecyclerView.Adapter<MyPatientRecy
 
         viewHolder.mHzLaber.setText("患者标签：" + datas.get(position).getUserLabelSecondName());
 
-        //用户资料点击事件
-        if (mOnItemClickListener != null) {
-            viewHolder.mClickLinearLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    mOnItemClickListener.onClick(position);
+//        //用户资料点击事件
+//        if (mOnItemClickListener != null) {
+//            viewHolder.mClickLinearLayout.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    mOnItemClickListener.onClick(position);
+//                }
+//            });
+//
+//            viewHolder.mClickLinearLayout.setOnLongClickListener(new View.OnLongClickListener() {
+//
+//                @Override
+//                public boolean onLongClick(View view) {
+//                    mOnItemClickListener.onLongClick(position);
+//                    return false;
+//                }
+//            });
+//        }
+        viewHolder.mClickLinearLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onClickItemListener!=null) {
+                    onClickItemListener.onClickItem(position);
                 }
-            });
-
-            viewHolder.mClickLinearLayout.setOnLongClickListener(new View.OnLongClickListener() {
-
-                @Override
-                public boolean onLongClick(View view) {
-                    mOnItemClickListener.onLongClick(position);
-                    return false;
+            }
+        });
+        viewHolder.mYY.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onClickItemListener!=null) {
+                    CharSequence text = viewHolder.agree_tv.getText();
+                    if (text.equals("解除签约")) {
+                        onClickItemListener.onClickCancelContract(position);
+                    } else if (text.equals("发起签约")) {
+                        onClickItemListener.onClickSignUpContract(position);
+                    }else if(text.equals("同意解约")){
+                        onClickItemListener.onClickAgreeCancelContract(position);
+                    }
                 }
-            });
-        }
-
-        //用户血压点击事件
-        if (mOnXYItemClickListener != null) {
-            viewHolder.mXY.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    mOnXYItemClickListener.onClick(position);
+            }
+        });
+        viewHolder.mTXHZ.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onClickItemListener != null) {
+                    CharSequence text = viewHolder.noagree_tv.getText();
+                    if (text.equals("提醒患者")) {
+                        onClickItemListener.onClickRemindPatient(position);
+                    } else if (text.equals("拒绝解约")) {
+                        onClickItemListener.onClickRefuseCancelContract(position);
+                    } else if (text.equals("撤销解约")) {
+                        onClickItemListener.onClickRevokeCancelContract(position);
+                    }
                 }
-            });
 
-            viewHolder.mXY.setOnLongClickListener(new View.OnLongClickListener() {
+            }
+        });
 
-                @Override
-                public boolean onLongClick(View view) {
-                    mOnXYItemClickListener.onLongClick(position);
-                    return false;
-                }
-            });
-        }
+//        //用户血压点击事件
+//        if (mOnXYItemClickListener != null) {
+//            viewHolder.mXY.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    mOnXYItemClickListener.onClick(position);
+//                }
+//            });
+//
+//            viewHolder.mXY.setOnLongClickListener(new View.OnLongClickListener() {
+//
+//                @Override
+//                public boolean onLongClick(View view) {
+//                    mOnXYItemClickListener.onLongClick(position);
+//                    return false;
+//                }
+//            });
+//        }
 
-        //解除签约点击事件
-        if (mOnYYItemClickListener != null) {
-            viewHolder.mYY.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    mOnYYItemClickListener.onClick(position);
-                }
-            });
+//        //解除签约点击事件
+//        if (mOnYYItemClickListener != null) {
+//            viewHolder.mYY.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    CharSequence text = viewHolder.agree_tv.getText();
+//                    if (text.equals("解除签约")) {
+//                        mOnYYItemClickListener.onClickCancelContract(position);
+//                    } else if (text.equals("发起签约")) {
+//                        mOnYYItemClickListener.onClickSignUpContract(position);
+//                    }
+//
+//                }
+//            });
+//
+//            viewHolder.mYY.setOnLongClickListener(new View.OnLongClickListener() {
+//
+//                @Override
+//                public boolean onLongClick(View view) {
+//                    mOnYYItemClickListener.onLongClick(position);
+//                    return false;
+//                }
+//            });
+//        }
 
-            viewHolder.mYY.setOnLongClickListener(new View.OnLongClickListener() {
 
-                @Override
-                public boolean onLongClick(View view) {
-                    mOnYYItemClickListener.onLongClick(position);
-                    return false;
-                }
-            });
-        }
-
-
-        //提醒患者点击事件
-        if (mOnTXHZItemClickListenerl != null) {
-            viewHolder.mTXHZ.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    mOnTXHZItemClickListenerl.onClick(position);
-                }
-            });
-
-            viewHolder.mTXHZ.setOnLongClickListener(new View.OnLongClickListener() {
-
-                @Override
-                public boolean onLongClick(View view) {
-                    mOnTXHZItemClickListenerl.onLongClick(position);
-                    return false;
-                }
-            });
-        }
+//        //提醒患者点击事件
+//        if (mOnTXHZItemClickListenerl != null) {
+//            viewHolder.mTXHZ.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    mOnTXHZItemClickListenerl.onClick(position);
+//                }
+//            });
+//
+//            viewHolder.mTXHZ.setOnLongClickListener(new View.OnLongClickListener() {
+//
+//                @Override
+//                public boolean onLongClick(View view) {
+//                    mOnTXHZItemClickListenerl.onLongClick(position);
+//                    return false;
+//                }
+//            });
+//        }
     }
 
     @Override
@@ -215,7 +274,7 @@ public class MyPatientRecyclerAdapter extends RecyclerView.Adapter<MyPatientRecy
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public LinearLayout mClickLinearLayout;                     //整个布局，用来监听点击事件
-        public RelativeLayout mXY;                                  //血压
+        public RelativeLayout mXY;
         public RelativeLayout mYY;                                  //用药
         public RelativeLayout mQTDK;                                //其他打卡
         public RelativeLayout mTXHZ;                                //提醒患者
@@ -266,6 +325,9 @@ public class MyPatientRecyclerAdapter extends RecyclerView.Adapter<MyPatientRecy
         void onClick(int position);
 
         void onLongClick(int position);
+
+
+
     }
 
     public void setOnXYItemClickListener(OnXYItemClickListener onXYItemClickListener) {
@@ -276,6 +338,8 @@ public class MyPatientRecyclerAdapter extends RecyclerView.Adapter<MyPatientRecy
         void onClick(int position);
 
         void onLongClick(int position);
+
+
     }
 
     public void setOnYYItemClickListener(OnYYItemClickListener onYYItemClickListener) {
@@ -302,6 +366,56 @@ public class MyPatientRecyclerAdapter extends RecyclerView.Adapter<MyPatientRecy
 
     public void setOnTXHZItemClickListener(OnTXHZItemClickListener onTXHZItemClickListener) {
         this.mOnTXHZItemClickListenerl = onTXHZItemClickListener;
+    }
+
+
+
+    public interface OnClickItemListener{
+
+
+        /**
+         * 点击整个item
+         * @param pos 位置
+         */
+        void onClickItem(int pos);
+
+
+        /**
+         * 提醒患者点击事件
+         * @param pos 位置
+         */
+        void onClickRemindPatient(int pos);
+
+        /**
+         * 解除签约
+         * @param pos 位置
+         */
+        void onClickCancelContract(int pos);
+
+        /**
+         * 发起签约
+         * @param pos 位置
+         */
+        void onClickSignUpContract(int pos);
+
+        /**
+         * 同意解约
+         * @param pos 位置
+         */
+        void onClickAgreeCancelContract(int pos);
+
+        /**
+         * 撤销解约
+         * @param pos 位置
+         */
+        void onClickRevokeCancelContract(int pos);
+
+        /**
+         * 拒绝解约
+         * @param pos 位置
+         */
+        void onClickRefuseCancelContract(int pos);
+
     }
 
 }

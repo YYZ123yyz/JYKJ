@@ -152,6 +152,8 @@ public class PatientRecordActivity
     LinearLayout llCheck;
     @BindView(R.id.ll_diagnosis)
     LinearLayout llDiagnosis;
+    @BindView(R.id.input_prescription_state)
+    ImageView inputPrescriptionState;//处方笺
     private JYKJApplication mApp;
     private LayoutInflater mInflater;
     private String gendder;
@@ -347,7 +349,7 @@ public class PatientRecordActivity
         suggestState.setImageResource(det.getFlagWriteTreatmentProposal() == 1 ? R.mipmap.iv_filled : R.mipmap.iv_noinput);
 //        checkState.setVisibility(det.getFlagWriteInspection() == 1 ? View.VISIBLE : View.GONE);
         checkState.setImageResource(det.getFlagWriteInspection() == 1 ? R.mipmap.iv_filled : R.mipmap.iv_noinput);
-
+        inputPrescriptionState.setImageResource(det.getFlagWriteDrug()==1?R.mipmap.iv_filled : R.mipmap.iv_noinput);
         chiefEt.setText(det.getChiefComplaint());
         newEt.setText(det.getHistoryNew());
         pastEt.setText(det.getHistoryPast());

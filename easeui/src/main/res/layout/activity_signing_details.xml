@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    >
 
     <TextView
         android:id="@+id/tv_gson"
@@ -52,7 +53,7 @@
             </RelativeLayout>
         </LinearLayout>
 
-        <ScrollView
+        <android.support.v4.widget.NestedScrollView
             android:id="@+id/wzxx_sc"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -250,21 +251,26 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/dp_1"
                         android:background=" #F0F0F0 " />
-                    <RelativeLayout
+<!--                    <RelativeLayout-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:descendantFocusability="blocksDescendants">-->
+
+<!--                        <android.support.v7.widget.RecyclerView-->
+<!--                            android:id="@+id/rvqbzz"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:paddingLeft="@dimen/dp_10"-->
+<!--                            android:paddingRight="@dimen/dp_10" />-->
+<!--                    </RelativeLayout>-->
+
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/rvqbzz"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:descendantFocusability="blocksDescendants">
-
-                        <android.support.v7.widget.RecyclerView
-                            android:id="@+id/rvqbzz"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:paddingLeft="@dimen/dp_10"
-                            android:paddingRight="@dimen/dp_10" />
-                    </RelativeLayout>
-
-
-
+                        android:paddingLeft="@dimen/dp_10"
+                        android:paddingRight="@dimen/dp_10" />
 
                     <LinearLayout
                         android:id="@+id/lin_class"
@@ -295,20 +301,20 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/dp_1"
                         android:background="#F0F0F0  " />
-                    <RelativeLayout
+<!--                    <RelativeLayout-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:descendantFocusability="blocksDescendants">-->
+
+<!--                       -->
+<!--                    </RelativeLayout>-->
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/rv_class"
+                        android:paddingLeft="@dimen/dp_10"
+                        android:paddingRight="@dimen/dp_10"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:descendantFocusability="blocksDescendants">
-
-                        <android.support.v7.widget.RecyclerView
-                            android:id="@+id/rv_class"
-                            android:paddingLeft="@dimen/dp_10"
-                            android:paddingRight="@dimen/dp_10"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            />
-                    </RelativeLayout>
-
+                        />
 
 
                     <LinearLayout
@@ -467,6 +473,6 @@
                     android:textColor="@color/writeColor"
                     android:textSize="8pt" />
             </LinearLayout>
-        </ScrollView>
+        </android.support.v4.widget.NestedScrollView>
     </LinearLayout>
 </RelativeLayout>

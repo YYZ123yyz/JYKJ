@@ -52,6 +52,7 @@
     <uses-permission android:name="com.huawei.android.launcher.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.READ_LOGS" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
+
     <uses-feature android:name="android.hardware.Camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
@@ -320,9 +321,17 @@
         <activity
             android:name=".activity.home.tjhz.IDCardScanningActivity"
             android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 患医互动==》聊天页面 -->
-        <activity
-            android:name=".activity.hyhd.ChatActivity"
-            android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 患医互动==》新建群聊页面 -->
+
+        <activity android:name=".activity.hyhd.ChatActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged"
+            >
+            <intent-filter>
+                <action android:name="activity.hyhd.ChatActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+
+        </activity>
         <activity
             android:name=".activity.hyhd.NewChatGroupActivity"
             android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 患医互动==》医生好友申请 -->
@@ -448,9 +457,6 @@
         <activity
             android:name="com.tencent.rtmp.video.TXScreenCapture$TXScreenCaptureAssistantActivity"
             android:theme="@android:style/Theme.Translucent" /> <!-- <activity -->
-        <!-- android:name=".medicalrecord.activity.PatientRecordActivity" -->
-        <!-- android:screenOrientation="portrait" -->
-        <!-- /> -->
         <activity
             android:name=".medicalrecord.activity.PatientRecordActivity"
             android:screenOrientation="portrait">
@@ -468,7 +474,14 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".personal.activity.DiagnosisReplayActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="www.jykj.com.jykj_zxyl.personal.activity.DiagnosisReplayActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+
+        </activity>
 
         <meta-data
             android:name="EASEMOB_APPKEY"
@@ -579,7 +592,6 @@
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" /> <!-- Android-autoSize 设计稿目标宽高 -->
-
 
 
         <!-- 以下为基本配置信息，需要自行添加至您的AndroidManifest文件中 start-->

@@ -937,6 +937,9 @@ public class FragmentShouYe extends AbstractMvpBaseFragment<HomePagerContract.Vi
         if (mDialogProgress != null) {
             mDialogProgress.dismiss();
         }
+        if (addPatientAcitvityDialog!=null) {
+            addPatientAcitvityDialog.dismiss();
+        }
     }
 
 

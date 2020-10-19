@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -29,6 +30,8 @@ import com.hyphenate.easeui.netService.entity.NetRetEntity;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
+
+import www.jykj.com.jykj_zxyl.app_base.base_utils.StringUtils;
 
 public class CancellationActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -60,6 +63,10 @@ public class CancellationActivity extends AppCompatActivity implements View.OnCl
     private String doctoCode;
     private LinearLayout details_rl;
     private LinearLayout details;
+    private LinearLayout mLlCancelContractRoot;
+    private LinearLayout mLlRefuseRoot;
+    private TextView mTvRefuseReason;
+    private TextView mTvRefuseContent;
     private String from;
     private TextView name1;
 
@@ -146,8 +153,53 @@ public class CancellationActivity extends AppCompatActivity implements View.OnCl
 
     //布局显示
     private void setShow() {
-        tvName.setText(signPatientDoctorOrderBean.getRefuseReasonClassName());
-        tvTermination.setText(signPatientDoctorOrderBean.getRefuseRemark());
+        String relieveReasonClassNameD = signPatientDoctorOrderBean.getRelieveReasonClassNameD();
+        String relieveReasonClassName = signPatientDoctorOrderBean.getRelieveReasonClassName();
+        if (TextUtils.isEmpty(relieveReasonClassNameD)&&TextUtils.isEmpty(relieveReasonClassName)) {
+            mLlCancelContractRoot.setVisibility(View.GONE);
+        }else{
+            mLlCancelContractRoot.setVisibility(View.VISIBLE);
+        }
+        if(from.equals("1")){
+            if (StringUtils.isNotEmpty(relieveReasonClassNameD)) {
+                tvName.setText(relieveReasonClassNameD);
+                mLlCancelContractRoot.setVisibility(View.VISIBLE);
+            }else{
+                mLlCancelContractRoot.setVisibility(View.GONE);
+            }
+            String relieveRemarkD = signPatientDoctorOrderBean.getRelieveRemarkD();
+            tvTermination.setText(StringUtils.isNotEmpty(relieveRemarkD)?relieveRemarkD:"暂无");
+        }else if(from.equals("2")){
+            if (StringUtils.isNotEmpty(relieveReasonClassName)) {
+                tvName.setText(relieveReasonClassName);
+                mLlCancelContractRoot.setVisibility(View.VISIBLE);
+            }else{
+                mLlCancelContractRoot.setVisibility(View.GONE);
+            }
+            String relieveRemark = signPatientDoctorOrderBean.getRelieveRemark();
+            tvTermination.setText(StringUtils.isNotEmpty(relieveRemark)?relieveRemark:"暂无");
+        }
+
+
+        String rejectReasonClassName = signPatientDoctorOrderBean.getRejectReasonClassName();
+        String rejectReasonClassNameJ = signPatientDoctorOrderBean.getRejectReasonClassNameJ();
+        if (StringUtils.isNotEmpty(rejectReasonClassName)) {
+            mTvRefuseReason.setText(signPatientDoctorOrderBean.getRejectReasonClassName());
+            String rejectRemark = signPatientDoctorOrderBean.getRejectRemark();
+            mTvRefuseContent.setText(StringUtils.isNotEmpty(rejectRemark)?rejectRemark:"暂无");
+            mLlRefuseRoot.setVisibility(View.VISIBLE);
+        }
+        if (StringUtils.isNotEmpty(rejectReasonClassNameJ)) {
+            mTvRefuseReason.setText(signPatientDoctorOrderBean.getRejectReasonClassNameJ());
+            String rejectRemarkJ = signPatientDoctorOrderBean.getRejectRemarkJ();
+            mTvRefuseContent.setText(StringUtils.isNotEmpty(rejectRemarkJ)?rejectRemarkJ:"暂无");
+            mLlRefuseRoot.setVisibility(View.VISIBLE);
+        }
+        if(TextUtils.isEmpty(rejectReasonClassName)&&TextUtils.isEmpty(rejectReasonClassNameJ)){
+            mLlRefuseRoot.setVisibility(View.GONE);
+        }
+
+
         cancellationTime.setText(DateUtils.stampToDate(signPatientDoctorOrderBean.getSignStartTime()));
         //签约时长
         cancellationDuration.setText(signPatientDoctorOrderBean.getSignDuration() + "个" + signPatientDoctorOrderBean.getSignDurationUnit());
@@ -172,28 +224,34 @@ public class CancellationActivity extends AppCompatActivity implements View.OnCl
                 startActivity(SigningDetailsActivity.class,bundle);
             }
         });
+
     }
 
     private void initView() {
-        name1 = (TextView) findViewById(R.id.name);
-        details = (LinearLayout) findViewById(R.id.details);
-        details_rl = (LinearLayout) findViewById(R.id.details_lin);
-        llBack = (LinearLayout) findViewById(R.id.ll_back);
+        name1 = findViewById(R.id.name);
+        details =  findViewById(R.id.details);
+        details_rl = findViewById(R.id.details_lin);
+        llBack =findViewById(R.id.ll_back);
         llBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
-        rl = (RelativeLayout) findViewById(R.id.rl);
-        tvName = (TextView) findViewById(R.id.tv_name);
-        linDetect = (LinearLayout) findViewById(R.id.lin_Detect);
-        tvTermination = (TextView) findViewById(R.id.tv_termination);
-        cancellationTime = (TextView) findViewById(R.id.cancellation_time);
-        cancellationClass = (TextView) findViewById(R.id.cancellation_class);
-        cancellationTimes = (TextView) findViewById(R.id.cancellation_times);
-        cancellationDuration = (TextView) findViewById(R.id.cancellation_duration);
-        cancellationPrice = (TextView) findViewById(R.id.cancellation_price);
+        rl = findViewById(R.id.rl);
+        tvName = findViewById(R.id.tv_name);
+        linDetect = findViewById(R.id.lin_Detect);
+        tvTermination = findViewById(R.id.tv_termination);
+        cancellationTime = findViewById(R.id.cancellation_time);
+        cancellationClass = findViewById(R.id.cancellation_class);
+        cancellationTimes = findViewById(R.id.cancellation_times);
+        cancellationDuration = findViewById(R.id.cancellation_duration);
+        cancellationPrice = findViewById(R.id.cancellation_price);
+        mLlCancelContractRoot=findViewById(R.id.ll_cancel_contract_root);
+        mLlRefuseRoot=findViewById(R.id.ll_refuse_root);
+        mTvRefuseReason=findViewById(R.id.tv_refuse_reason);
+        mTvRefuseContent=findViewById(R.id.tv_refuse_content);
+
         if(from.equals("1")){
             details.setVisibility(View.GONE);
             name1.setVisibility(View.GONE);
@@ -201,6 +259,7 @@ public class CancellationActivity extends AppCompatActivity implements View.OnCl
             details.setVisibility(View.VISIBLE);
             name1.setVisibility(View.VISIBLE);
         }
+
     }
 
     //同意

@@ -375,12 +375,12 @@ public class TWJZ_ZDMSActivity extends AppCompatActivity {
         mProvideInteractOrderDiag.setDiagDiseaseNameAlias2(mZDBM2.getText().toString());
         mProvideInteractOrderDiag.setDiagDiseaseNameAlias3(mZDBM3.getText().toString());
         mProvideInteractOrderDiag.setDiagDiseaseDesc(mZDMS.getText().toString());
-        if (mZDMS.getText().toString() == null || "".equals(mZDMS.getText().toString()
-        ))
-        {
-            Toast.makeText(mContext,"请填写诊断描述",Toast.LENGTH_SHORT).show();
-            return;
-        }
+//        if (mZDMS.getText().toString() == null || "".equals(mZDMS.getText().toString()
+//        ))
+//        {
+//            Toast.makeText(mContext,"请填写诊断描述",Toast.LENGTH_SHORT).show();
+//            return;
+//        }
         if (mProvideInteractOrderDiag.getDiagDiseaseCode1() == null || "".equals(mProvideInteractOrderDiag.getDiagDiseaseCode1()))
         {
             Toast.makeText(mContext,"诊断一必填",Toast.LENGTH_SHORT).show();

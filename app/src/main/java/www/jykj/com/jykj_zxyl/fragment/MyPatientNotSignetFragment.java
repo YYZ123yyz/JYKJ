@@ -167,6 +167,8 @@ public class MyPatientNotSignetFragment extends Fragment {
             public void onLongClick(int position) {
 
             }
+
+
         });
 
 

@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.hyphenate.easeui.hyhd.model.Constant;
+import com.hyphenate.easeui.jykj.activity.SigningDetailsActivity;
 import com.hyphenate.easeui.jykj.bean.OrderMessage;
 import com.hyphenate.easeui.netService.HttpNetService;
 import com.hyphenate.easeui.utils.CollectionUtils;
@@ -29,6 +30,7 @@ import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 import androidx.annotation.RequiresApi;
 import butterknife.BindView;
@@ -85,6 +87,62 @@ public class NotWarningFragment extends AbstractMvpBaseFragment<NotFragmentContr
         myPatientRecyclerAdapter = new MyPatientRecyclerAdapter(mDatas, getContext());
         mAllRecy.setAdapter(myPatientRecyclerAdapter);
 
+        myPatientRecyclerAdapter.setOnClickItemListener(
+                new MyPatientRecyclerAdapter.OnClickItemListener() {
+                    @Override
+                    public void onClickItem(int pos) {
+                        Intent intent = new Intent();
+                        intent.putExtra("patientInfo", mDatas.get(pos));
+                        intent.setClass(Objects.requireNonNull(getContext()), HZGLHZZLActivity.class);
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void onClickRemindPatient(int pos) {
+                        Intent intent = new Intent();
+                        intent.setClass(getContext(), HZGLTXHZActivity.class);
+                        intent.putExtra("patientLable", mDatas.get(pos));
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void onClickCancelContract(int pos) {
+                        Intent intent = new Intent();
+                        intent.setClass(getContext(), TerminationActivity.class);
+                        intent.putExtra("patientLable", mDatas.get(pos));
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void onClickSignUpContract(int pos) {
+                        ProvideViewPatientLablePunchClockState
+                                patientLablePunchClockState = mDatas.get(pos);
+                        startActivity(new Intent(getActivity(), SigningDetailsActivity.class)
+                                .putExtra("patientCode", patientLablePunchClockState.getPatientCode())
+                                .putExtra("patientName", patientLablePunchClockState.getUserName())
+                                .putExtra("singCode", "")
+                                .putExtra("doctorUrl", Constant.doctorUrl)
+                        );
+                    }
+
+                    @Override
+                    public void onClickAgreeCancelContract(int pos) {
+                        agree(pos);
+                    }
+
+                    @Override
+                    public void onClickRevokeCancelContract(int pos) {
+                        Revoke(pos);
+                    }
+
+                    @Override
+                    public void onClickRefuseCancelContract(int pos) {
+                        Intent intent = new Intent();
+                        intent.setClass(getContext(), RefuseActivity.class);
+                        intent.putExtra("patientLable", mDatas.get(pos));
+                        startActivity(intent);
+                    }
+                });
         //患者资料点击事件
         myPatientRecyclerAdapter.setOnItemClickListener(new MyPatientRecyclerAdapter.OnItemClickListener() {
             @Override
@@ -336,6 +394,12 @@ public class NotWarningFragment extends AbstractMvpBaseFragment<NotFragmentContr
     @Override
     protected void initData() {
         super.initData();
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         mPresenter.sendOperNumberRequest(pageSize + "", pageIndex + "", mApp.loginDoctorPosition, mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(), "3");
     }
 

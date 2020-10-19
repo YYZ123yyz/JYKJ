@@ -313,6 +313,29 @@ public class DateUtils {
     }
 
 
+    public static String getCurrentTime(){
+        String date = "";
+        try {
+            SimpleDateFormat df = new SimpleDateFormat("HH:mm");
+            date = df.format(new Date());
+        } catch (Exception e) {
+            e.printStackTrace();
+            date = new Date().getTime() + "";//当前时间的long字符串
+        }
+        return date;
+    }
+    public static String getCurrentTimeHH(){
+        String date = "";
+        try {
+            SimpleDateFormat df = new SimpleDateFormat("HH");
+            date = df.format(new Date());
+        } catch (Exception e) {
+            e.printStackTrace();
+            date = new Date().getTime() + "";//当前时间的long字符串
+        }
+        return date;
+    }
+
 
     /**
      * 当前的时间(年月日)

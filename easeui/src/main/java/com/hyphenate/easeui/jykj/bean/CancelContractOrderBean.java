@@ -131,6 +131,24 @@ public class CancelContractOrderBean {
     private int videoCoachRate;
     private int videoNum;
     private int videoTotle;
+    //解约原因-患者发起
+    private String relieveReasonClassCode;
+    private String relieveReasonClassName;
+    private String relieveRemark;
+
+    //解约原因-医生发起
+    private String relieveReasonClassCodeD;
+    private String relieveReasonClassNameD;
+    private String relieveRemarkD;
+    //拒绝原因(签约拒绝)
+    private String rejectReasonClassCode;
+    private String rejectReasonClassName;
+    private String rejectRemark;
+    //拒绝原因(解约发起拒绝)
+    private String rejectReasonClassCodeJ;
+    private String rejectReasonClassNameJ;
+    private String rejectRemarkJ;
+
     private List<OrderDetailListBean> orderDetailList;
 
     public int getAge() {
@@ -760,5 +778,101 @@ public class CancelContractOrderBean {
             this.durationUnitName = durationUnitName;
         }
 
+    }
+
+    public String getRelieveReasonClassCode() {
+        return relieveReasonClassCode;
+    }
+
+    public void setRelieveReasonClassCode(String relieveReasonClassCode) {
+        this.relieveReasonClassCode = relieveReasonClassCode;
+    }
+
+    public String getRelieveReasonClassName() {
+        return relieveReasonClassName;
+    }
+
+    public void setRelieveReasonClassName(String relieveReasonClassName) {
+        this.relieveReasonClassName = relieveReasonClassName;
+    }
+
+    public String getRelieveRemark() {
+        return relieveRemark;
+    }
+
+    public void setRelieveRemark(String relieveRemark) {
+        this.relieveRemark = relieveRemark;
+    }
+
+    public String getRelieveReasonClassCodeD() {
+        return relieveReasonClassCodeD;
+    }
+
+    public void setRelieveReasonClassCodeD(String relieveReasonClassCodeD) {
+        this.relieveReasonClassCodeD = relieveReasonClassCodeD;
+    }
+
+    public String getRelieveReasonClassNameD() {
+        return relieveReasonClassNameD;
+    }
+
+    public void setRelieveReasonClassNameD(String relieveReasonClassNameD) {
+        this.relieveReasonClassNameD = relieveReasonClassNameD;
+    }
+
+    public String getRelieveRemarkD() {
+        return relieveRemarkD;
+    }
+
+    public void setRelieveRemarkD(String relieveRemarkD) {
+        this.relieveRemarkD = relieveRemarkD;
+    }
+
+    public String getRejectReasonClassCode() {
+        return rejectReasonClassCode;
+    }
+
+    public void setRejectReasonClassCode(String rejectReasonClassCode) {
+        this.rejectReasonClassCode = rejectReasonClassCode;
+    }
+
+    public String getRejectReasonClassName() {
+        return rejectReasonClassName;
+    }
+
+    public void setRejectReasonClassName(String rejectReasonClassName) {
+        this.rejectReasonClassName = rejectReasonClassName;
+    }
+
+    public String getRejectRemark() {
+        return rejectRemark;
+    }
+
+    public void setRejectRemark(String rejectRemark) {
+        this.rejectRemark = rejectRemark;
+    }
+
+    public String getRejectReasonClassCodeJ() {
+        return rejectReasonClassCodeJ;
+    }
+
+    public void setRejectReasonClassCodeJ(String rejectReasonClassCodeJ) {
+        this.rejectReasonClassCodeJ = rejectReasonClassCodeJ;
+    }
+
+    public String getRejectReasonClassNameJ() {
+        return rejectReasonClassNameJ;
+    }
+
+    public void setRejectReasonClassNameJ(String rejectReasonClassNameJ) {
+        this.rejectReasonClassNameJ = rejectReasonClassNameJ;
+    }
+
+    public String getRejectRemarkJ() {
+        return rejectRemarkJ;
+    }
+
+    public void setRejectRemarkJ(String rejectRemarkJ) {
+        this.rejectRemarkJ = rejectRemarkJ;
     }
 }

@@ -3,7 +3,9 @@ package com.hyphenate.easeui.jykj.adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -126,6 +128,7 @@ public class Rv_CoachingAdapter extends RecyclerView.Adapter<Rv_CoachingAdapter.
                 }
             });
         }
+        addListener(viewHolder.ed_price,position);
 
 
     }
@@ -156,10 +159,39 @@ public class Rv_CoachingAdapter extends RecyclerView.Adapter<Rv_CoachingAdapter.
     }
 
 
+    private void addListener(EditText editText, final int pos){
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (mOnItemClickListener!=null) {
+                    mOnItemClickListener.onTextChanged(pos,s.toString());
+                    String value = s.toString();
+                    if (!TextUtils.isEmpty(value)) {
+                        double price = Double.parseDouble(value);
+                        datas.get(pos).setPrice(price);
+                    }
+
+                }
+            }
+        });
+    }
+
     public interface OnItemClickListener {
         void onClick(int position);
 
         void onLongClick(int position);
+
+        void onTextChanged(int pos,String value);
     }
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
@@ -180,6 +212,8 @@ public class Rv_CoachingAdapter extends RecyclerView.Adapter<Rv_CoachingAdapter.
         void onClick(int position);
 
         void onLongClick(int position);
+
+        void onTextChanged(int pos,String value);
     }
 
     public void setOnItemCoachingLinClickListener(OnItemCoachingLinClickListener onItemCoachingLinClickListener) {

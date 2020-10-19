@@ -1053,14 +1053,40 @@ public class MyClinicDetialActivity extends AbstractMvpBaseActivity<MyClinicDeti
         columnWheelDialog.setCancelButton("取消", null);
         columnWheelDialog.setOKButton("确定", (v, item0, item1, item2, item3, item4) -> {
             //tvResult.setText(result);
+            String currentTime = www.jykj.com.jykj_zxyl.util.DateUtils.getCurrentTimeHH();
+            int currentTimeHour = Integer.parseInt(currentTime);
+            int startTimeHour=0;
+            int endTimeHour=0;
+            String startTime=item0.getShowText();
+            String[] splitStartTime = startTime.split(":");
+            if (splitStartTime.length>1) {
+                startTime=splitStartTime[0];
+                startTimeHour=Integer.parseInt(startTime);
+            }
+            String endTime = item1.getShowText();
+            String[] splitEndTime = endTime.split(":");
+            if (splitEndTime.length>1) {
+                endTime=splitEndTime[0];
+                endTimeHour=Integer.parseInt(endTime);
+            }
+
+
+            if(startTimeHour<currentTimeHour){
+                ToastUtils.showToast("开始时间不能小于当前时间");
+                return true;
+            }
+            if(endTimeHour<currentTimeHour){
+                ToastUtils.showToast("结束时间不能小于当前时间");
+                return true;
+            }
             mStartTime=item0.getShowText();
             mEndTime=item1.getShowText();
-            boolean lessThanEndDate = DateUtils.isLessThanEndDate(mStartTime, mEndTime);
+            com.hyphenate.easeui.jykj.utils.DateUtils.isLessThanEndDate(mStartTime, mEndTime);
+            boolean lessThanEndDate = com.hyphenate.easeui.jykj.utils.DateUtils.isLessThanEndDate(mStartTime, mEndTime);
             if(!lessThanEndDate){
                 ToastUtils.showToast("结束时间不能小于开始时间");
                 return true;
             }
-
             if (addSignalSourceDialog.isShowing()) {
                 addSignalSourceDialog.setAppointTime(mStartTime,mEndTime);
             }
@@ -1071,7 +1097,37 @@ public class MyClinicDetialActivity extends AbstractMvpBaseActivity<MyClinicDeti
         WheelItem[] wheelItems = DataUtil.convertStrToWheelArry(startTimes);
         WheelItem[] wheelItems1 = DataUtil.convertStrToWheelArry(endTimes);
         columnWheelDialog.setItems(wheelItems,wheelItems1,null,null,null);
+        String currentTime = DateUtils.getCurrentTime();
+        columnWheelDialog.setSelected(getCurrentTimePos(startTimes,currentTime)
+                ,getCurrentTimePos(startTimes,currentTime),0,0,0);
     }
+    /**
+     * 获取当前时间位置
+     * @return
+     */
+    private int getCurrentTimePos( List<String> startTimes,String currentTime){
+        String[] split1 = currentTime.split(":");
+        int currentPos=0;
+        for (int i = 0; i < startTimes.size(); i++) {
+            String s = startTimes.get(i);
+
+            String[] split2 = s.split(":");
+            String time1="";
+            String time2="";
+            if (split1.length>1) {
+                time1=split1[0];
+            }
+            if(split2.length>1){
+                time2=split2[0];
+            }
+            if (time1.equals(time2)) {
+                currentPos=i;
+                break;
+            }
+        }
+        return currentPos;
+    }
+
 
 
     /**

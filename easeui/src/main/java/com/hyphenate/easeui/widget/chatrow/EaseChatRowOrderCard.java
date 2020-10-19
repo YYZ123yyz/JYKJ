@@ -581,6 +581,8 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                         Bundle bundle = new Bundle();
                         bundle.putString("signCode", signCode);
                         bundle.putString("orderCode",orderCode);
+                        bundle.putString("patientName", nickName);
+                        bundle.putString("patientCode", patientCode);
                         bundle.putString("singNO", singNO);
                         bundle.putString("status", "2");
                         startActivity(SigningDetailsActivity.class, bundle);
@@ -745,7 +747,6 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                 public void onClick(View v) {
                     Object tag = tvCancelContractRefuseBtn.getTag();
                     if (tag!=null) {
-                        String strTag = tag.toString();
                     boolean isValid = message.getBooleanAttribute("isValid", false);
                     if(isValid){
                         OrderMessage orderMessage=new OrderMessage(nickName
@@ -775,6 +776,8 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                         Bundle bundle = new Bundle();
                         bundle.putString("signCode", signCode);
                         bundle.putString("orderCode",orderCode);
+                        bundle.putString("patientName", nickName);
+                        bundle.putString("patientCode", patientCode);
                         bundle.putString("status", "2");
                         bundle.putString("singNO", singNO);
                         startActivity(SigningDetailsActivity.class, bundle);
@@ -796,6 +799,8 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                         Bundle bundle = new Bundle();
                         bundle.putString("signCode", signCode);
                         bundle.putString("orderCode",orderCode);
+                        bundle.putString("patientName", nickName);
+                        bundle.putString("patientCode", patientCode);
                         bundle.putString("status", "2");
                         bundle.putString("singNO", singNO);
                         startActivity(SigningDetailsActivity.class, bundle);
@@ -885,7 +890,15 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                         break;
                     }
                     case "MessageAfterDiagnosis":{
-
+                        Bundle bundle = new Bundle();
+                        bundle.putString("orderCode", orderCode);
+                        bundle.putString("patientCode", message.getTo());
+                        bundle.putString("patientName", patientName);
+                        Intent intent = new Intent();
+                        intent.setAction("www.jykj.com.jykj_zxyl.personal.activity.DiagnosisReplayActivity");
+                        intent.addCategory(Intent.CATEGORY_DEFAULT);
+                        intent.putExtras(bundle);
+                        mContext.startActivity(intent);
 
                         break;
                     }

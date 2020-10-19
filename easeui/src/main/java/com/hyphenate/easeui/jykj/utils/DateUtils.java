@@ -135,6 +135,27 @@ public class DateUtils {
         return false;
 
     }
+
+    public static boolean isLessThanEndDate2(String startTime,String endTime){
+        int compareTo=0;
+        Date nowDate_Date=null;
+        Date endDate_Date=null;
+
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH");
+            nowDate_Date = sdf.parse(getDeviceTimeOfYMD()+" "+startTime);
+            endDate_Date= sdf.parse(getDeviceTimeOfYMD()+" "+endTime);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        compareTo = nowDate_Date.compareTo(endDate_Date);
+        if (compareTo==-1) {
+            return true;
+        }
+        return false;
+
+    }
     public static int getAgeFromBirthTime(String birthTimeString) {
         // 先截取到字符串中的年、月、日
         String strs[] = birthTimeString.trim().split("-");
@@ -481,6 +502,17 @@ public class DateUtils {
         }
     }
 
+    public static String getCurrentTime(){
+        String date = "";
+        try {
+            SimpleDateFormat df = new SimpleDateFormat("HH:mm");
+            date = df.format(new Date());
+        } catch (Exception e) {
+            e.printStackTrace();
+            date = new Date().getTime() + "";//当前时间的long字符串
+        }
+        return date;
+    }
     /**
      * 显示时间选择器
      */

@@ -214,7 +214,7 @@ public class CancelAppointActivity extends BaseActivity {
         intent.putExtra("usersName", currentPatientInfoBean.getMainDoctorName());
         intent.putExtra("userUrl", mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl());
         //URL
-        intent.putExtra("doctorUrl", mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl());
+        intent.putExtra("doctorUrl", currentPatientInfoBean.getPatientLogoUrl());
         //intent.putExtra("patientAlias", mHZEntyties.get(position).getan);
         intent.putExtra("patientCode", currentPatientInfoBean.getMainPatientCode());
         intent.putExtra("patientSex", currentPatientInfoBean.getPatientSex());
