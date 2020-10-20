@@ -68,6 +68,7 @@ public class HealthEducationAdapter extends MultiItemRecycleViewAdapter<MultiIte
             tvCategoryName.setText(String.format("类目：%s", healthEducationBean.getClassName()));
             tvBrowseNam.setText(String.format("浏览量：%s", healthEducationBean.getShowWatchNum()));
             tvPriceValue.setText(healthEducationBean.getShowExtendBroadcastPrice());
+            tvContentMsg.setText(healthEducationBean.getAttrName());
             layoutRoot.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -105,6 +106,7 @@ public class HealthEducationAdapter extends MultiItemRecycleViewAdapter<MultiIte
             tvCategoryName.setText(String.format("类目：%s", healthEducationBean.getClassName()));
             tvBrowseNam.setText(String.format("浏览量：%s", healthEducationBean.getShowWatchNum()));
             tvPriceValue.setText(healthEducationBean.getShowExtendBroadcastPrice());
+            tvContentMsg.setText(healthEducationBean.getAttrName());
             layoutRoot.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

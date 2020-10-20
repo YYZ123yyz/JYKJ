@@ -34,6 +34,7 @@ import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.activity.MainActivity;
 import www.jykj.com.jykj_zxyl.activity.myself.MyCouponDetailActivity;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
+import www.jykj.com.jykj_zxyl.util.CircleImageView;
 
 /**
  * 聊天记录列表
@@ -145,7 +146,7 @@ public class MessageInfoRecycleAdapter extends RecyclerView.Adapter<MessageInfoR
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public LinearLayout mClickLinearLayout;                     //整个布局，用来监听点击事件
-        public ImageView mImageView;                             // 头像
+        public CircleImageView mImageView;                             // 头像
         public TextView mUserName;
         public TextView mSSY;
         public TextView mMessage;
@@ -159,7 +160,7 @@ public class MessageInfoRecycleAdapter extends RecyclerView.Adapter<MessageInfoR
             mSSY = (TextView) view.findViewById(R.id.tv_itemMessageAdapter_userSSYText);
             mDate = (TextView) view.findViewById(R.id.tv_itemMessageAdapter_userDateText);
             mMessage = (TextView) view.findViewById(R.id.tv_itemMessageAdapter_userMessageText);
-            mImageView = (ImageView) view.findViewById(R.id.iv_itemMessageAdapter_head);
+            mImageView = (CircleImageView) view.findViewById(R.id.iv_itemMessageAdapter_head);
             mTvReadIcon = view.findViewById(R.id.tv_unread_icon);
         }
     }

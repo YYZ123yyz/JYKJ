@@ -1,6 +1,7 @@
 package www.jykj.com.jykj_zxyl.fragment.home;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,11 +15,15 @@ import java.util.List;
 import butterknife.BindView;
 import util.CustomViewPager;
 import www.jykj.com.jykj_zxyl.R;
+import www.jykj.com.jykj_zxyl.activity.hyhd.LivePublisherActivity;
+import www.jykj.com.jykj_zxyl.activity.hyhd.NewLivePlayerActivity;
+import www.jykj.com.jykj_zxyl.activity.liveroom.LiveroomDetailActivity;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.HealthEducationBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.MultiItemEntity;
 import www.jykj.com.jykj_zxyl.app_base.base_utils.CollectionUtils;
 import www.jykj.com.jykj_zxyl.app_base.interfaces.OnClickRelationContractListener;
 import www.jykj.com.jykj_zxyl.app_base.mvp.AbstractMvpBaseFragment;
+import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.fragment.FragmentShouYe;
 import www.jykj.com.jykj_zxyl.fragment.home.adapter.HealthEducationAdapter;
 import www.jykj.com.jykj_zxyl.fragment.home.adapter.HealthEducationItemType;
@@ -30,7 +35,7 @@ public class HomeEducationFragment extends AbstractMvpBaseFragment<HealthEducati
     private List<MultiItemEntity> mMultiItemEntitys;
     private HealthEducationAdapter mHealthEducationAdapter;
     private OnClickRelationContractListener onClickRelationContractListener;
-
+    private JYKJApplication mApp;
 
     public void setOnClickRelationContractListener(OnClickRelationContractListener onClickRelationContractListener) {
         this.onClickRelationContractListener = onClickRelationContractListener;
@@ -44,6 +49,7 @@ public class HomeEducationFragment extends AbstractMvpBaseFragment<HealthEducati
     @Override
     protected void initView(View view) {
         super.initView(view);
+        mApp = (JYKJApplication)getActivity().getApplication();
         Fragment parentFragment = this.getParentFragment();
         if (parentFragment!=null) {
             FragmentShouYe fragmentShouYe = (FragmentShouYe) parentFragment;
@@ -91,16 +97,49 @@ public class HomeEducationFragment extends AbstractMvpBaseFragment<HealthEducati
     /**
      * 初始化RecyclerView
      */
-    private void initRecyclerView(){
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this.getContext()){
+    private void initRecyclerView() {
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this.getContext()) {
             @Override
             public boolean canScrollVertically() {
                 return false;
             }
         };
-        mHealthEducationAdapter=new HealthEducationAdapter(this.getContext(),mMultiItemEntitys);
+        mHealthEducationAdapter = new HealthEducationAdapter(this.getContext(), mMultiItemEntitys);
         rvList.setLayoutManager(layoutManager);
         rvList.setAdapter(mHealthEducationAdapter);
+        mHealthEducationAdapter.setOnClickItemListener(new HealthEducationAdapter.OnClickItemListener() {
+            @Override
+            public void onClickItemPos(int pos) {
+                HealthEducationBean healthEducationBean
+                        = (HealthEducationBean) mMultiItemEntitys.get(pos);
+                int flagBroadcastState = healthEducationBean.getFlagBroadcastState();
+                if (flagBroadcastState==1) {
+                    Intent parintent = new Intent(mActivity, LiveroomDetailActivity.class);
+                    parintent.putExtra("detailCode",healthEducationBean.getDetailsCode());
+                    mActivity.startActivity(parintent);
+                }else if(flagBroadcastState==2){
+                    if(healthEducationBean.getUserCode().equals(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode())) {
+                        Intent theintent = new Intent(mActivity, LivePublisherActivity.class);
+                        theintent.putExtra("detailCode", healthEducationBean.getDetailsCode());
+                        theintent.putExtra("pushUrl", healthEducationBean.getPullUrl());
+                        theintent.putExtra("chatRoomName", healthEducationBean.getChatRoomCode());
+                        theintent.putExtra("chatId", healthEducationBean.getChatRoomCode());
+                        theintent.putExtra("liveTitle", healthEducationBean.getBroadcastTitle());
+                        theintent.putExtra("live_type", LivePublisherActivity.LIVE_TYPE_HOTLIVE);
+                        mActivity.startActivity(theintent);
+                    }else{
+                        Intent theintent = new Intent(mActivity, NewLivePlayerActivity.class);
+                        theintent.putExtra("chatId",healthEducationBean.getChatRoomCode());
+                        theintent.putExtra("pullUrl",healthEducationBean.getPullUrl());
+                        theintent.putExtra("detailCode",healthEducationBean.getDetailsCode());
+                        theintent.putExtra("PLAY_TYPE", NewLivePlayerActivity.ACTIVITY_TYPE_LIVE_PLAY);
+                        mActivity.startActivity(theintent);
+                    }
+                }else if(flagBroadcastState==3){
+
+                }
+            }
+        });
     }
 
 

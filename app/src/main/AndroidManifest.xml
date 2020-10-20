@@ -107,8 +107,9 @@
         <activity android:name=".activity.LoginActivity" /> <!-- 手机号登录 -->
         <activity android:name=".activity.PhoneLoginActivity" /> <!-- 用户注册 -->
         <activity android:name=".activity.UseRegistActivity" /> <!-- 首页 -->
-        <activity android:name=".activity.MainActivity">
-
+        <activity android:name=".activity.MainActivity"
+            android:launchMode="singleTask"
+            >
             <!-- 忘记密码 -->
 
 

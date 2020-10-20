@@ -2,6 +2,7 @@ package www.jykj.com.jykj_zxyl.personal.activity;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.allen.library.utils.ToastUtils;
+import com.hyphenate.easeui.jykj.bean.OrderMessage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,10 +25,12 @@ import java.util.List;
 import butterknife.BindView;
 import entity.wdzs.ProvideBasicsImg;
 import www.jykj.com.jykj_zxyl.R;
+import www.jykj.com.jykj_zxyl.activity.hyhd.ChatActivity;
 import www.jykj.com.jykj_zxyl.adapter.WZZXImageViewRecycleAdapter;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.DiagnosisReplayBean;
 import www.jykj.com.jykj_zxyl.app_base.base_utils.CollectionUtils;
 import www.jykj.com.jykj_zxyl.app_base.mvp.AbstractMvpBaseActivity;
+import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.personal.DiagnosisReplayContract;
 import www.jykj.com.jykj_zxyl.personal.DiagnosisReplayPresenter;
 import www.jykj.com.jykj_zxyl.personal.adapter.DiagnosisReplayAdapter;
@@ -81,19 +85,22 @@ public class DiagnosisReplayActivity extends
     private FullyGridLayoutManager mGridLayoutManager;
     private List<ProvideBasicsImg> mProvideBasicsImg;
     private DiagnosisReplayAdapter diagnosisReplayAdapter;
+    private JYKJApplication mApp;
     List<DiagnosisReplayBean.InteractPatientMessageActiveListBean> historyReplayList;
+
     @Override
     protected void onBeforeSetContentLayout() {
         super.onBeforeSetContentLayout();
-        mProvideBasicsImg=new ArrayList<>();
-        historyReplayList=new ArrayList<>();
+        mApp = (JYKJApplication) getApplication();
+        mProvideBasicsImg = new ArrayList<>();
+        historyReplayList = new ArrayList<>();
         Bundle extras = this.getIntent().getExtras();
-        if (extras!=null) {
-            orderCode= extras.getString("orderCode");
-            treatmentType=extras.getString("treatmentType");
-            patientCode=extras.getString("patientCode");
-            patientName=extras.getString("patientName");
-            patientPhone=extras.getString("patientPhone");
+        if (extras != null) {
+            orderCode = extras.getString("orderCode");
+            treatmentType = extras.getString("treatmentType");
+            patientCode = extras.getString("patientCode");
+            patientName = extras.getString("patientName");
+            patientPhone = extras.getString("patientPhone");
         }
 
     }
@@ -102,7 +109,6 @@ public class DiagnosisReplayActivity extends
     protected int setLayoutId() {
         return R.layout.activity_zhly_doctor_reply;
     }
-
 
 
     @Override
@@ -119,14 +125,14 @@ public class DiagnosisReplayActivity extends
     @Override
     protected void initData() {
         super.initData();
-        mPresenter.sendSearchMyClinicDetailResPatientMessageContent_20201012Request(orderCode,this);
+        mPresenter.sendSearchMyClinicDetailResPatientMessageContent_20201012Request(orderCode, this);
     }
 
 
     /**
      * 添加监听
      */
-    private void addListener(){
+    private void addListener() {
         llBack.setOnClickListener(v -> DiagnosisReplayActivity.this.finish());
         tvCommit.setOnClickListener(v -> {
             String replayContent = tvMessageReply.getText().toString();
@@ -139,12 +145,12 @@ public class DiagnosisReplayActivity extends
                 return;
             }
             if (TextUtils.isEmpty(messageId)) {
-                messageId="0";
+                messageId = "0";
             }
 
             mPresenter.sendOperUpdMyClinicDetailByOrderPatientMessageRequest(
-                    messageId,orderCode,treatmentType,replayContent,
-                    replyType,patientCode,patientName,patientPhone,DiagnosisReplayActivity.this);
+                    messageId, orderCode, treatmentType, replayContent,
+                    replyType, patientCode, patientName, patientPhone, DiagnosisReplayActivity.this);
 
         });
         linStatus.setOnClickListener(new View.OnClickListener() {
@@ -156,7 +162,7 @@ public class DiagnosisReplayActivity extends
     }
 
 
-    private void initRecyclerView(){
+    private void initRecyclerView() {
         //创建默认的线性LayoutManager
 
         mGridLayoutManager = new FullyGridLayoutManager(this, 3);
@@ -190,14 +196,14 @@ public class DiagnosisReplayActivity extends
     /**
      * 初始化历史留言回复
      */
-    private void initHistoryReplayRecyclerView(){
-        LinearLayoutManager layoutManager = new LinearLayoutManager(context){
+    private void initHistoryReplayRecyclerView() {
+        LinearLayoutManager layoutManager = new LinearLayoutManager(context) {
             @Override
             public boolean canScrollVertically() {
                 return false;
             }
         };
-        diagnosisReplayAdapter=new DiagnosisReplayAdapter(this,historyReplayList);
+        diagnosisReplayAdapter = new DiagnosisReplayAdapter(this, historyReplayList);
         rvHistoryReplayList.setLayoutManager(layoutManager);
         rvHistoryReplayList.setAdapter(diagnosisReplayAdapter);
         rvHistoryReplayList.setNestedScrollingEnabled(false);
@@ -249,21 +255,21 @@ public class DiagnosisReplayActivity extends
 
     @Override
     public void showLoading(int code) {
-        if (code==100) {
-            showLoading("",null);
+        if (code == 100) {
+            showLoading("", null);
         }
     }
 
     @Override
     public void hideLoading() {
-       dismissLoading();
+        dismissLoading();
     }
 
     @Override
     public void getOperUpdMyClinicDetailByOrderPatientMessageResult(boolean isSucess, String msg) {
-        if(isSucess){
+        if (isSucess) {
             this.finish();
-        }else{
+        } else {
             ToastUtils.showToast(msg);
         }
 
@@ -273,44 +279,75 @@ public class DiagnosisReplayActivity extends
     public void getSearchMyClinicDetailResPatientMessageContentResult(
             DiagnosisReplayBean diagnosisReplayBean) {
         setData(diagnosisReplayBean);
+        startJumpChatActivity();
 
     }
 
     /**
      * 设数据
+     *
      * @param diagnosisReplayBean 设置数据
      */
-    private void setData(DiagnosisReplayBean diagnosisReplayBean){
-        treatmentType=diagnosisReplayBean.getTreatmentType();
+    private void setData(DiagnosisReplayBean diagnosisReplayBean) {
+        treatmentType = diagnosisReplayBean.getTreatmentType();
         String messageDate = diagnosisReplayBean.getMessageDate();
         String patientLinkPhone = diagnosisReplayBean.getPatientLinkPhone();
         String messageContent = diagnosisReplayBean.getMessageContent();
-        tvMsgDate.setText(StringUtils.isNotEmpty(messageDate)?messageDate:"未提交");
-        tvLinkPhone.setText(StringUtils.isNotEmpty(patientLinkPhone)?patientLinkPhone:"未提交");
-        content.setText(StringUtils.isNotEmpty(messageContent)?messageContent:"未提交");
+        tvMsgDate.setText(StringUtils.isNotEmpty(messageDate) ? messageDate : "未提交");
+        tvLinkPhone.setText(StringUtils.isNotEmpty(patientLinkPhone) ? patientLinkPhone : "未提交");
+        content.setText(StringUtils.isNotEmpty(messageContent) ? messageContent : "未提交");
         String messageImgArray = diagnosisReplayBean.getMessageImgArray();
         List<ProvideBasicsImg> provideBasicsImgs = convertStrToArray(messageImgArray);
         if (!CollectionUtils.isEmpty(provideBasicsImgs)) {
             noCommit.setVisibility(View.GONE);
             mAdapter.setDate(provideBasicsImgs);
             mAdapter.notifyDataSetChanged();
-        }else{
+        } else {
             noCommit.setVisibility(View.VISIBLE);
         }
         diagnosisReplayAdapter.setData(diagnosisReplayBean.getInteractPatientMessageActiveList());
     }
 
+
+    /**
+     * 跳转IM
+     */
+    private void startJumpChatActivity() {
+        Intent intent = new Intent(this, ChatActivity.class);
+        //患者
+        intent.putExtra("userCode", patientCode);
+        intent.putExtra("userName", patientName);
+        //医生
+        intent.putExtra("usersName", mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
+        intent.putExtra("userUrl", mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl());
+        //URL
+        intent.putExtra("doctorUrl", mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl());
+        //intent.putExtra("patientAlias", mHZEntyties.get(position).getan);
+        intent.putExtra("patientCode", patientCode);
+        OrderMessage orderMessage = new OrderMessage(
+                mApp.mViewSysUserDoctorInfoAndHospital.getUserName()
+                , mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl()
+                , orderCode, replyType
+                , "MessageAfterDiagnosis");
+
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("orderMsg", orderMessage);
+        intent.putExtras(bundle);
+        startActivityForResult(intent, 1000);
+    }
+
     /**
      * 转换数据
+     *
      * @param messageImgArray
      * @return list
      */
-    private List<ProvideBasicsImg> convertStrToArray(String messageImgArray){
-        List<ProvideBasicsImg> provideBasicsImgs=new ArrayList<>();
+    private List<ProvideBasicsImg> convertStrToArray(String messageImgArray) {
+        List<ProvideBasicsImg> provideBasicsImgs = new ArrayList<>();
         if (StringUtils.isNotEmpty(messageImgArray)) {
             String[] split = messageImgArray.split(",");
             for (String s : split) {
-                ProvideBasicsImg provideBasicsImg=new ProvideBasicsImg();
+                ProvideBasicsImg provideBasicsImg = new ProvideBasicsImg();
                 provideBasicsImg.setImgUrl(s);
                 provideBasicsImgs.add(provideBasicsImg);
             }
