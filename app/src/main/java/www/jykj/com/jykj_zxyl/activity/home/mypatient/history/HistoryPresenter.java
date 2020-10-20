@@ -11,6 +11,7 @@ import java.util.List;
 
 import www.jykj.com.jykj_zxyl.activity.home.mypatient.label.LabelContract;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.BaseBean;
+import www.jykj.com.jykj_zxyl.app_base.base_bean.DoctorRecordBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.ProvidePatientConditionDiseaseRecordBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.ProvidePatientLabelBean;
 import www.jykj.com.jykj_zxyl.app_base.http.ApiHelper;
@@ -54,10 +55,9 @@ public class HistoryPresenter  extends BasePresenterImpl<HistoryContract.View>
                     int resCode = baseBean.getResCode();
                     if (resCode == 1) {
                         String resJsonData = baseBean.getResJsonData();
-                        Log.e("TAG", "历史: "+resJsonData );
                         if (!TextUtils.isEmpty(resJsonData)) {
-                            List<ProvidePatientConditionDiseaseRecordBean> providePatientConditionDiseaseRecordBeans = GsonUtils.jsonToList(resJsonData, ProvidePatientConditionDiseaseRecordBean.class);
-                            mView.getSearchHistoryResult(providePatientConditionDiseaseRecordBeans);
+                            List<DoctorRecordBean> doctorRecordBeans = GsonUtils.jsonToList(resJsonData, DoctorRecordBean.class);
+                            mView.getSearchHistoryResult(doctorRecordBeans);
                         }
 
                     } else {

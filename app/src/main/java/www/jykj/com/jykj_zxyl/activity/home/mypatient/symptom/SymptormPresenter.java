@@ -11,6 +11,7 @@ import java.util.HashMap;
 import www.jykj.com.jykj_zxyl.activity.home.mypatient.basicInformation.BasicInformationContract;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.BaseBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.ProvideViewPatientHealthyAndBasicsBean;
+import www.jykj.com.jykj_zxyl.app_base.base_bean.SymptormBean;
 import www.jykj.com.jykj_zxyl.app_base.http.ApiHelper;
 import www.jykj.com.jykj_zxyl.app_base.http.CommonDataObserver;
 import www.jykj.com.jykj_zxyl.app_base.http.ParameUtil;
@@ -48,8 +49,8 @@ public class SymptormPresenter  extends BasePresenterImpl<SymptormContract.View>
                         String resJsonData = baseBean.getResJsonData();
                         Log.e("TAG", "onSuccessResult: "+resJsonData );
                         if (!TextUtils.isEmpty(resJsonData)) {
-                            ProvideViewPatientHealthyAndBasicsBean provideViewPatientHealthyAndBasicsBean = GsonUtils.fromJson(resJsonData, ProvideViewPatientHealthyAndBasicsBean.class);
-                            mView.getSearchSymptormResult(provideViewPatientHealthyAndBasicsBean);
+                            SymptormBean symptormBean = GsonUtils.fromJson(resJsonData, SymptormBean.class);
+                            mView.getSearchSymptormResult(symptormBean);
                         }
 
                     } else {

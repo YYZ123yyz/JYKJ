@@ -47,6 +47,7 @@ import entity.user.UserInfo;
 import netService.HttpNetService;
 import netService.entity.NetRetEntity;
 import netService.entity.ParmentEntity;
+import www.jykj.com.jykj_zxyl.app_base.base_activity.BaseActivity;
 import www.jykj.com.jykj_zxyl.application.Constant;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.util.ActivityUtil;
@@ -61,7 +62,7 @@ import yyz_exploit.activity.activity.ResActivity;
 /**
  * 手机号登录Activity
  */
-public class PhoneLoginActivity extends AppCompatActivity {
+public class PhoneLoginActivity extends BaseActivity {
     private String mNetRegionRetStr;                 //获取返回字符串
     private SharedPreferences sp1;
     public ProgressDialog mDialogProgress = null;
@@ -98,10 +99,16 @@ public class PhoneLoginActivity extends AppCompatActivity {
     private TextView login_protocol,privacy;
     private String WX_APPSecret = "7cac79aab0a527e47eb7f68eeddd265f";
     private    Handler  handler= new  Handler();
+
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_phonelogin);
+    protected int setLayoutId() {
+        return R.layout.activity_phonelogin;
+    }
+
+    @Override
+    protected void initView() {
+        super.initView();
         mContext = this;
         mActivity = this;
         mApp = (JYKJApplication) getApplication();

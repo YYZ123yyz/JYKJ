@@ -17,30 +17,33 @@ import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.activity.MainActivity;
 import www.jykj.com.jykj_zxyl.activity.UseRegistActivity;
 import www.jykj.com.jykj_zxyl.adapter.MyPBRecycleAdapter;
+import www.jykj.com.jykj_zxyl.app_base.base_activity.BaseActivity;
 import www.jykj.com.jykj_zxyl.util.ActivityUtil;
 
 /**
  * 我的排班
  */
-public class ShareDataSetActivity extends AppCompatActivity {
+public class ShareDataSetActivity extends BaseActivity {
 
     private                 Context                     mContext;
     private                 ShareDataSetActivity        mActivity;
     private                 LinearLayout                mBack;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_fragmentself_sharedataset);
+    @Override
+    protected int setLayoutId() {
+        return R.layout.activity_fragmentself_sharedataset;
+    }
+
+    @Override
+    protected void initView() {
+        super.initView();
         mContext = this;
         mActivity = this;
         ActivityUtil.setStatusBarMain(mActivity);
         initLayout();
         setData();
     }
-
-
 
     /**
      * 初始化布局

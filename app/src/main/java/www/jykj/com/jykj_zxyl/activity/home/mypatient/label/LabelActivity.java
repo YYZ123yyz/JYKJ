@@ -5,7 +5,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import com.allen.library.utils.ToastUtils;
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 
@@ -33,6 +35,10 @@ public class LabelActivity extends AbstractMvpBaseActivity<LabelContract.View,
     SlideRecyclerView labelRv;
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout refreshLayout;
+    @BindView(R.id.lin_data)
+    LinearLayout linData;
+    @BindView(R.id.tv_none)
+    TextView tvNone;
     private JYKJApplication mApp;
     private String mPatientCode;                       //患者code
     private List<MultiItemEntity> mMultiItemEntitys;//多布局内容列表
@@ -50,7 +56,7 @@ public class LabelActivity extends AbstractMvpBaseActivity<LabelContract.View,
         mApp = (JYKJApplication) getApplication();
         ActivityUtil.setStatusBarMain(this);
         mPatientCode = getIntent().getStringExtra("patientCode");
-        mMultiItemEntitys=new ArrayList<>();
+        mMultiItemEntitys = new ArrayList<>();
 
         //创建默认的线性LayoutManager
         layoutManager = new LinearLayoutManager(this);
@@ -65,7 +71,7 @@ public class LabelActivity extends AbstractMvpBaseActivity<LabelContract.View,
     @Override
     protected void initData() {
         super.initData();
-        mPresenter.sendSearchLabelRequest(pageSize+"",pageIndex+"",mApp.loginDoctorPosition, "1", mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(), mApp.mViewSysUserDoctorInfoAndHospital.getUserName(), mPatientCode);
+        mPresenter.sendSearchLabelRequest(pageSize + "", pageIndex + "", mApp.loginDoctorPosition, "1", mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(), mApp.mViewSysUserDoctorInfoAndHospital.getUserName(), mPatientCode);
     }
 
     /**
@@ -82,15 +88,19 @@ public class LabelActivity extends AbstractMvpBaseActivity<LabelContract.View,
 
     @Override
     public void getSearchLabelResult(List<ProvidePatientLabelBean> providePatientLabelBean) {
-          if(providePatientLabelBean!=null){
-              mLabelAdapter = new LabelAdapter(providePatientLabelBean);
-              labelRv.setAdapter(mLabelAdapter);
-          }
+        if (providePatientLabelBean != null) {
+            linData.setVisibility(View.VISIBLE);
+            tvNone.setVisibility(View.GONE);
+            mLabelAdapter = new LabelAdapter(providePatientLabelBean);
+            labelRv.setAdapter(mLabelAdapter);
+        }
     }
 
     @Override
     public void getSearchLabelResultError(String msg) {
-
+        linData.setVisibility(View.GONE);
+        tvNone.setVisibility(View.VISIBLE);
+        ToastUtils.showToast(msg);
     }
 
     @Override

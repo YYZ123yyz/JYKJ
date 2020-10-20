@@ -27,6 +27,7 @@ import netService.HttpNetService;
 import netService.entity.NetRetEntity;
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.activity.hyhd.BindDoctorFriend;
+import www.jykj.com.jykj_zxyl.app_base.base_activity.BaseActivity;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.custom.MoreFeaturesPopupWindow;
 import www.jykj.com.jykj_zxyl.fragment.MyPatientFragment;
@@ -41,7 +42,7 @@ import zxing.common.Constant;
 /**
  * 我的患者
  */
-public class MyPatientActivity extends AppCompatActivity {
+public class MyPatientActivity extends BaseActivity {
 
     private Context mContext;
     private MyPatientActivity mActivity;
@@ -66,29 +67,27 @@ public class MyPatientActivity extends AppCompatActivity {
     private JYKJApplication mApp;
     private Context context;
 
+
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_patient);
+    protected int setLayoutId() {
+        return R.layout.activity_my_patient;
+    }
+
+    @Override
+    protected void initView() {
+        super.initView();
         ActivityUtil.setStatusBarMain(MyPatientActivity.this);
         mApp = (JYKJApplication) getApplication();
         mContext = this;
         mActivity = this;
-        initLayout();
+        fragmentManager = getFragmentManager();
         initHandler();
         setIndex(0);
-    }
-
-    /**
-     * 初始化布局
-     */
-    private void initLayout() {
         mMyPatient = findViewById(R.id.tv_my_patient);
         // mMyReview = findViewById(R.id.tv_my_review);
         ivAdd = findViewById(R.id.iv_add);
         llBack = findViewById(R.id.ll_back);
         mMyPatientN = this.findViewById(R.id.tv_my_patient_n);
-        fragmentManager = getFragmentManager();
 
         mMyPatient.setOnClickListener(new ButtonClick());
         //  mMyReview.setOnClickListener(new ButtonClick());
@@ -96,7 +95,6 @@ public class MyPatientActivity extends AppCompatActivity {
         ivAdd.setOnClickListener(new ButtonClick());
         mMyPatientN.setOnClickListener(new ButtonClick());
     }
-
 
     /**
      * 点击事件

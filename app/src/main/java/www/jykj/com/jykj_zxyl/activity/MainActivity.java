@@ -57,6 +57,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import entity.mySelf.DataCleanManager;
 import util.VersionsUpdata;
 import www.jykj.com.jykj_zxyl.activity.myself.SettingActivity;
+import www.jykj.com.jykj_zxyl.app_base.base_activity.BaseActivity;
 import yyz_exploit.Utils.BadgeUtil;
 import yyz_exploit.Utils.HttpUtils;
 import yyz_exploit.bean.AppVersionBean;
@@ -75,7 +76,7 @@ import www.jykj.com.jykj_zxyl.service.MessageReciveService;
 import www.jykj.com.jykj_zxyl.util.ActivityUtil;
 import yyz_exploit.dialog.ErrorDialog;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
     private Context mContext;
     private MainActivity mainActivity;
     private JYKJApplication mApp;
@@ -130,10 +131,16 @@ public class MainActivity extends AppCompatActivity {
     private int unreadMessageCount;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
+
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    protected int setLayoutId() {
+        return R.layout.activity_main;
+    }
+
+    @Override
+    protected void initView() {
+        super.initView();
         mContext = this;
         mainActivity = this;
         EventBus.getDefault().register(this);

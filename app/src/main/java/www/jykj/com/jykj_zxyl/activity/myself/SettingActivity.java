@@ -20,6 +20,7 @@ import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.activity.LoginActivity;
 import www.jykj.com.jykj_zxyl.activity.myself.setting.AboutActivity;
 import www.jykj.com.jykj_zxyl.activity.myself.setting.OpeaPassWordActivity;
+import www.jykj.com.jykj_zxyl.app_base.base_activity.BaseActivity;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.util.ActivityUtil;
 import yyz_exploit.Utils.DestroyActivityUtil;
@@ -29,7 +30,7 @@ import yyz_exploit.activity.activity.VersionActivity;
 /**
  * 设置
  */
-public class SettingActivity extends AppCompatActivity {
+public class SettingActivity extends BaseActivity {
 
     private Context mContext;
     private SettingActivity mActivity;
@@ -45,11 +46,15 @@ public class SettingActivity extends AppCompatActivity {
     private LinearLayout myselfBack;
     private String totalCacheSize;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_myself_setting);
+    @Override
+    protected int setLayoutId() {
+        return R.layout.activity_myself_setting;
+    }
+
+    @Override
+    protected void initView() {
+        super.initView();
         mContext = this;
         mActivity = this;
         mApp = (JYKJApplication) getApplication();
@@ -58,7 +63,6 @@ public class SettingActivity extends AppCompatActivity {
         initLayout();
         setData();
     }
-
 
     /**
      * 初始化布局

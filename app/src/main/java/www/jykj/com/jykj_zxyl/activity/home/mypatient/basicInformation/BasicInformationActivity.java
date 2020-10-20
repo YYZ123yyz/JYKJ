@@ -2,16 +2,12 @@ package www.jykj.com.jykj_zxyl.activity.home.mypatient.basicInformation;
 
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.allen.library.utils.ToastUtils;
-
-import java.util.Date;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -85,6 +81,10 @@ public class BasicInformationActivity extends AbstractMvpBaseActivity<BasicInfor
     TextView tvGmsms;
     @BindView(R.id.lin_gms)
     LinearLayout linGms;
+    @BindView(R.id.tv_none)
+    TextView tvNone;
+    @BindView(R.id.lin_data)
+    LinearLayout linData;
     private JYKJApplication mApp;
     private String mPatientCode;                       //患者code
 
@@ -118,83 +118,85 @@ public class BasicInformationActivity extends AbstractMvpBaseActivity<BasicInfor
     }
 
     @Override
-    public void getSearchBasichealthinformationResult( ProvideViewPatientHealthyAndBasicsBean provideViewPatientHealthyAndBasicsBean) {
+    public void getSearchBasichealthinformationResult(ProvideViewPatientHealthyAndBasicsBean provideViewPatientHealthyAndBasicsBean) {
         //性格类型
         if (provideViewPatientHealthyAndBasicsBean != null) {
-                if (provideViewPatientHealthyAndBasicsBean.getCharacterType() == 0) {
-                    tvXglx.setText("未知");
-                } else if (provideViewPatientHealthyAndBasicsBean.getCharacterType() == 1) {
-                    tvXglx.setText("内向");
-                } else if (provideViewPatientHealthyAndBasicsBean.getCharacterType() == 2) {
-                    tvXglx.setText("外向");
-                }
+            tvNone.setVisibility(View.GONE);
+            linData.setVisibility(View.VISIBLE);
+            if (provideViewPatientHealthyAndBasicsBean.getCharacterType() == 0) {
+                tvXglx.setText("未知");
+            } else if (provideViewPatientHealthyAndBasicsBean.getCharacterType() == 1) {
+                tvXglx.setText("内向");
+            } else if (provideViewPatientHealthyAndBasicsBean.getCharacterType() == 2) {
+                tvXglx.setText("外向");
+            }
             //民族
             if (TextUtils.isEmpty(provideViewPatientHealthyAndBasicsBean.getNation())) {
                 tvMz.setText("未设置");
-            }else{
+            } else {
                 tvMz.setText(provideViewPatientHealthyAndBasicsBean.getNation());
             }
             //籍贯
             if (TextUtils.isEmpty(provideViewPatientHealthyAndBasicsBean.getNativePlace())) {
                 tvJg.setText("未设置");
-            }else{
+            } else {
                 tvJg.setText(provideViewPatientHealthyAndBasicsBean.getNativePlace());
             }
             //身高
-            if (provideViewPatientHealthyAndBasicsBean.getHeight()==0) {
+            if (provideViewPatientHealthyAndBasicsBean.getHeight() == 0) {
                 etSg.setText("未设置");
-            }else {
-                etSg.setText(provideViewPatientHealthyAndBasicsBean.getHeight()+"");
+            } else {
+                etSg.setText(provideViewPatientHealthyAndBasicsBean.getHeight() + "");
             }
             //腰围 waistline
             if (provideViewPatientHealthyAndBasicsBean.getWaistline() == 0) {
                 etYw.setText("未设置");
             }
-            etYw.setText(provideViewPatientHealthyAndBasicsBean.getWaistline()+"");
+            etYw.setText(provideViewPatientHealthyAndBasicsBean.getWaistline() + "");
             //体重(weight)、
             if (provideViewPatientHealthyAndBasicsBean.getWeight() != 0) {
-                etTz.setText(provideViewPatientHealthyAndBasicsBean.getWeight()+"");
+                etTz.setText(provideViewPatientHealthyAndBasicsBean.getWeight() + "");
             }
             //是否吸烟(1:是;0:否;)(flagSmoking)
-                if (provideViewPatientHealthyAndBasicsBean.getFlagSmoking() == 1) {
-                    tvSfxy.setText("是");
-                } else {
-                    tvSfxy.setText("否");
-                }
+            if (provideViewPatientHealthyAndBasicsBean.getFlagSmoking() == 1) {
+                tvSfxy.setText("是");
+            } else {
+                tvSfxy.setText("否");
+            }
 
 
             //是否酗酒(1:是;0:否;)(flagAlcoholism)
-                if (provideViewPatientHealthyAndBasicsBean.getFlagAlcoholism() == 1) {
-                    tvSfxj.setText("是");
-                } else {
-                    tvSfxj.setText("否");
-                }
+            if (provideViewPatientHealthyAndBasicsBean.getFlagAlcoholism() == 1) {
+                tvSfxj.setText("是");
+            } else {
+                tvSfxj.setText("否");
+            }
             //是否熬夜(1:是;0:否;)(flagStayUpLate)、
-                if (provideViewPatientHealthyAndBasicsBean.getFlagStayUpLate() == 1) {
-                    tvSfay.setText("是");
-                } else {
-                    tvSfay.setText("否");
-                }
+            if (provideViewPatientHealthyAndBasicsBean.getFlagStayUpLate() == 1) {
+                tvSfay.setText("是");
+            } else {
+                tvSfay.setText("否");
+            }
             //最早发现血压异常日期(bloodPressureAbnormalDate)
             long bloodPressureAbnormalDate = provideViewPatientHealthyAndBasicsBean.getBloodPressureAbnormalDate();
             String date = DateUtils.getDateToYYYYMMDD(bloodPressureAbnormalDate);
-                tvZzfxycsj.setText(date);
+            tvZzfxycsj.setText(date);
             // 确诊年份(confirmedYear)、
             long confirmedYear = provideViewPatientHealthyAndBasicsBean.getConfirmedYear();
             String dates = DateUtils.getDateToYYYYMMDD(confirmedYear);
-                tvQznf.setText(dates);
+            tvQznf.setText(dates);
             // 是否有高血压病史(flagHtnHistory)
-                if (provideViewPatientHealthyAndBasicsBean.getFlagHtnHistory() == 1) {
-                    tvZxybs.setText("是");
-                } else {
-                    tvZxybs.setText("否");
-                }
+            if (provideViewPatientHealthyAndBasicsBean.getFlagHtnHistory() == 1) {
+                tvZxybs.setText("是");
+            } else {
+                tvZxybs.setText("否");
+            }
             // 是否有家族病史(flagFamilyHtn)、
-                if (provideViewPatientHealthyAndBasicsBean.getFlagFamilyHtn() == 1) {
-                    tvSfyjzs.setText("是");
-                } else {
-                    tvSfyjzs.setText("否");
-                }
+            if (provideViewPatientHealthyAndBasicsBean.getFlagFamilyHtn() == 1) {
+                tvSfyjzs.setText("是");
+            } else {
+                tvSfyjzs.setText("否");
+            }
             // 高血压病史描述(htnHistory)
             if (TextUtils.isEmpty(provideViewPatientHealthyAndBasicsBean.getHtnHistory())) {
                 tvGxybsms.setText(provideViewPatientHealthyAndBasicsBean.getHtnHistory());
@@ -216,7 +218,10 @@ public class BasicInformationActivity extends AbstractMvpBaseActivity<BasicInfor
 
     @Override
     public void getSearchBasichealthinformationResultError(String msg) {
+        tvNone.setVisibility(View.VISIBLE);
+        linData.setVisibility(View.GONE);
         ToastUtils.showToast(msg);
+
     }
 
     @Override

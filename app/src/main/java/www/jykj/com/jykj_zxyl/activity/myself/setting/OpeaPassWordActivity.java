@@ -29,6 +29,7 @@ import netService.entity.NetRetEntity;
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.activity.LoginActivity;
 import www.jykj.com.jykj_zxyl.activity.myself.SettingActivity;
+import www.jykj.com.jykj_zxyl.app_base.base_activity.BaseActivity;
 import www.jykj.com.jykj_zxyl.application.Constant;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.util.ActivityUtil;
@@ -36,7 +37,7 @@ import www.jykj.com.jykj_zxyl.util.ActivityUtil;
 /**
  * 设置 == > 修改密码
  */
-public class OpeaPassWordActivity extends AppCompatActivity {
+public class OpeaPassWordActivity extends BaseActivity {
 
 
     private String mNetRetStr;                 //返回字符串
@@ -58,11 +59,15 @@ public class OpeaPassWordActivity extends AppCompatActivity {
 
     private EditText mVCodeEdit;                         //短信验证码
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_myself_setting_opeapassword);
+    @Override
+    protected int setLayoutId() {
+        return R.layout.activity_myself_setting_opeapassword;
+    }
+
+    @Override
+    protected void initView() {
+        super.initView();
         mContext = this;
         mActivity = this;
         mApp = (JYKJApplication) getApplication();

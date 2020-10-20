@@ -26,6 +26,7 @@ import netService.HttpNetService;
 import netService.entity.NetRetEntity;
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.activity.MainActivity;
+import www.jykj.com.jykj_zxyl.app_base.base_activity.BaseActivity;
 import www.jykj.com.jykj_zxyl.application.Constant;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.util.ActivityUtil;
@@ -34,7 +35,7 @@ import yyz_exploit.activity.activity.ServiceActivity;
 /**
  * 我的服务权限
  */
-public class ServicePermisionActivity extends AppCompatActivity {
+public class ServicePermisionActivity extends BaseActivity {
 
     private Context mContext;
     private ServicePermisionActivity mActivity;
@@ -61,10 +62,15 @@ public class ServicePermisionActivity extends AppCompatActivity {
     private Intent intent;
     private Integer flagDoctorStatus;
 
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_myself_servicepermision);
+    protected int setLayoutId() {
+        return R.layout.activity_myself_servicepermision;
+    }
+
+    @Override
+    protected void initView() {
+        super.initView();
         mContext = this;
         mActivity = this;
         mApp = (JYKJApplication) getApplication();
@@ -73,7 +79,6 @@ public class ServicePermisionActivity extends AppCompatActivity {
         initHandler();
 
     }
-
 
     @Override
     protected void onResume() {

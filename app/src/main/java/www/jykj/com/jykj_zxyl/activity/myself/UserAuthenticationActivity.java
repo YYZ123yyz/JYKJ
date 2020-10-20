@@ -42,6 +42,7 @@ import netService.entity.NetRetEntity;
 import orcameralib.CameraActivity;
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.activity.home.tjhz.AddPatientQRCodeActivity;
+import www.jykj.com.jykj_zxyl.app_base.base_activity.BaseActivity;
 import www.jykj.com.jykj_zxyl.application.Constant;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.util.ActivityUtil;
@@ -53,7 +54,7 @@ import yyz_exploit.bean.ProvideDoctorQualification;
 import static orcameralib.CameraActivity.KEY_CONTENT_TYPE;
 import static orcameralib.CameraActivity.KEY_OUTPUT_FILE_PATH;
 
-public class UserAuthenticationActivity extends AppCompatActivity {
+public class UserAuthenticationActivity extends BaseActivity {
 
     private TextView mPhoneLogin;                //手机号登录
     private TextView mUseRegist;                 //用户注册
@@ -114,11 +115,15 @@ public class UserAuthenticationActivity extends AppCompatActivity {
     }
 
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_fragmentself_userauthentication);
+    @Override
+    protected int setLayoutId() {
+        return R.layout.activity_fragmentself_userauthentication;
+    }
+
+    @Override
+    protected void initView() {
+        super.initView();
         mContext = this;
         mActivity = this;
         mApp = (JYKJApplication) getApplication();

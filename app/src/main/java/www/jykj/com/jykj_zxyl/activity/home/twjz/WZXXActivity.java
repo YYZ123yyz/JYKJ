@@ -43,6 +43,7 @@ import www.jykj.com.jykj_zxyl.activity.home.wdzs.ProvideDoctorSetServiceState;
 import www.jykj.com.jykj_zxyl.activity.home.wdzs.ProvideViewInteractOrderTreatmentAndPatientInterrogation;
 import www.jykj.com.jykj_zxyl.activity.myself.couponFragment.FragmentAdapter;
 import www.jykj.com.jykj_zxyl.adapter.WZZXImageViewRecycleAdapter;
+import www.jykj.com.jykj_zxyl.app_base.base_activity.BaseActivity;
 import www.jykj.com.jykj_zxyl.application.Constant;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.fragment.twjz.FragmenNoFinish;
@@ -55,7 +56,7 @@ import www.jykj.com.jykj_zxyl.util.Util;
 /**
  * 问诊信息
  */
-public class WZXXActivity extends AppCompatActivity {
+public class WZXXActivity extends BaseActivity {
 
     private Context mContext;
     private WZXXActivity mActivity;
@@ -215,10 +216,16 @@ public class WZXXActivity extends AppCompatActivity {
     }
 
 
+
+
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_wzxx);
+    protected int setLayoutId() {
+        return R.layout.activity_wzxx;
+    }
+
+    @Override
+    protected void initView() {
+        super.initView();
         ActivityUtil.setStatusBarMain(WZXXActivity.this);
 
         mContext = this;
@@ -229,7 +236,6 @@ public class WZXXActivity extends AppCompatActivity {
         initHandler();
         getData();
     }
-
 
     private void initHandler() {
         mHandler = new Handler() {

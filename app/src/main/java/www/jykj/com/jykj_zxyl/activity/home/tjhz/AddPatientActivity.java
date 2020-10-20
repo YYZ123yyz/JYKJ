@@ -49,6 +49,7 @@ import netService.entity.NetRetEntity;
 import rx.functions.Action1;
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.activity.home.news.UnionNewsDetailActivity;
+import www.jykj.com.jykj_zxyl.app_base.base_activity.BaseActivity;
 import www.jykj.com.jykj_zxyl.application.Constant;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import orcameralib.CameraActivity;
@@ -64,7 +65,7 @@ import static orcameralib.CameraActivity.KEY_OUTPUT_FILE_PATH;
 /**
  * 添加患者
  */
-public class AddPatientActivity extends AppCompatActivity {
+public class AddPatientActivity extends BaseActivity {
 
     private Context mContext;
     private AddPatientActivity mActivity;
@@ -152,9 +153,13 @@ public class AddPatientActivity extends AppCompatActivity {
 
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_addpatient);
+    protected int setLayoutId() {
+        return R.layout.activity_addpatient;
+    }
+
+    @Override
+    protected void initView() {
+        super.initView();
         ActivityUtil.setStatusBarMain(AddPatientActivity.this);
 
         mContext = this;
