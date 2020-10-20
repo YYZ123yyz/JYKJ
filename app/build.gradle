@@ -84,6 +84,13 @@ project.configurations.all{
         }
     }
 }
+allprojects {
+    repositories {
+
+        // 如果添加依赖时，报找不到项目时（项目正在审核），可以添加此句maven地址，如果找到项目，可不必添加
+        maven { url "https://dl.bintray.com/albertlii/android-maven/" }
+    }
+}
 
 dependencies {
 
@@ -194,4 +201,6 @@ dependencies {
     //recycleview的adpter
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.30'
     implementation 'com.hyman:flowlayout-lib:1.1.2'
+    compile 'com.liyi.view:auto-gridview:1.1.2'
+    implementation 'com.facebook.fresco:fresco:1.9.0'
 }

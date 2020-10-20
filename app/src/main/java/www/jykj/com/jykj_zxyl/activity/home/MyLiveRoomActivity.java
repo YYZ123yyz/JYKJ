@@ -42,13 +42,14 @@ import java.util.List;
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.activity.hyhd.LivePublisherActivity;
 import www.jykj.com.jykj_zxyl.activity.myself.couponFragment.FragmentAdapter;
+import www.jykj.com.jykj_zxyl.app_base.base_activity.BaseActivity;
 import www.jykj.com.jykj_zxyl.fragment.liveroom.HotRoomFragment;
 import www.jykj.com.jykj_zxyl.fragment.liveroom.PreRoomFragment;
 import www.jykj.com.jykj_zxyl.fragment.liveroom.SubjectRoomFragment;
 import www.jykj.com.jykj_zxyl.util.ActivityUtil;
 import yyz_exploit.activity.activity.BeforesettingActivity;
 import yyz_exploit.activity.activity.LectureActivity;
-public class MyLiveRoomActivity extends AppCompatActivity implements View.OnClickListener {
+public class MyLiveRoomActivity extends BaseActivity implements View.OnClickListener {
 
     private View view;
     private TabLayout tabLayout;
@@ -81,14 +82,13 @@ public class MyLiveRoomActivity extends AppCompatActivity implements View.OnClic
     private SubjectRoomFragment subjectRoomFragment;
     private String live_type = LivePublisherActivity.LIVE_TYPE_PRELIVE;
     private int selectPageIndex=0;
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_live_room);
-        ActivityUtil.setStatusBarMain(MyLiveRoomActivity.this);
-        initView();
 
+
+    @Override
+    protected int setLayoutId() {
+        return R.layout.activity_my_live_room;
     }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()){
@@ -145,7 +145,8 @@ public class MyLiveRoomActivity extends AppCompatActivity implements View.OnClic
                 default:
         }
     }
-    private void initView(){
+    protected void initView(){
+        ActivityUtil.setStatusBarMain(MyLiveRoomActivity.this);
         room_text = findViewById(R.id.room_text);
         //专题讲座
         room_lecture = findViewById(R.id.room_Lecture);

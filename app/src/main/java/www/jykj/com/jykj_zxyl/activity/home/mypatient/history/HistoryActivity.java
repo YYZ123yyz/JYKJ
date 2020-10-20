@@ -1,12 +1,18 @@
 package www.jykj.com.jykj_zxyl.activity.home.mypatient.history;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import www.jykj.com.jykj_zxyl.R;
+import www.jykj.com.jykj_zxyl.activity.MainActivity;
 import www.jykj.com.jykj_zxyl.activity.home.mypatient.history.fragment.DoctorFragment;
 import www.jykj.com.jykj_zxyl.activity.home.mypatient.history.fragment.MyselfFragment;
 import www.jykj.com.jykj_zxyl.activity.myself.couponFragment.FragmentAdapter;
@@ -27,7 +33,8 @@ public class HistoryActivity extends BaseActivity {
     private FragmentAdapter fragmentAdapter;
     private MyselfFragment myselfFragment;
     private DoctorFragment doctorFragment;
-    private String mPatientCode;
+    private String patientCode;
+    private String patientName;
 
     @Override
     protected void onBeforeSetContentLayout() {
@@ -45,6 +52,9 @@ public class HistoryActivity extends BaseActivity {
     @Override
     protected void initView() {
         super.initView();
+        Intent intent = getIntent();
+        patientCode = intent.getStringExtra("patientCode");
+        patientName = intent.getStringExtra("patientName");
         mToolBar=findViewById(R.id.toolbar);
         mTabLayout=findViewById(R.id.tab_layout);
         mVpager=findViewById(R.id.vp_pager);
@@ -66,6 +76,13 @@ public class HistoryActivity extends BaseActivity {
         mVpager.setOffscreenPageLimit(2);
         mVpager.setScrollble(false);
         mTabLayout.setupWithViewPager(mVpager);//与ViewPage建立关系
+
+        SharedPreferences mSharedPreferences=getSharedPreferences("name", MainActivity.MODE_PRIVATE);
+        SharedPreferences.Editor editor=mSharedPreferences.edit();
+        editor.putString("patientCode",patientCode);
+        editor.putString("patientName",patientName);
+        editor.apply();
+
     }
 
     /**

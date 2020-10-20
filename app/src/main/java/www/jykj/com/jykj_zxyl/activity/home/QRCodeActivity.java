@@ -57,6 +57,7 @@ import util.QRCodeUtil;
 import wechatShare.WechatShareManager;
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.activity.hyhd.BindDoctorFriend;
+import www.jykj.com.jykj_zxyl.app_base.base_activity.BaseActivity;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.custom.MoreFeaturesPopupWindow;
 import www.jykj.com.jykj_zxyl.util.ActivityUtil;
@@ -71,7 +72,7 @@ import zxing.encode.CodeCreator;
 /**
  * 识别码
  */
-public class QRCodeActivity extends AppCompatActivity {
+public class QRCodeActivity extends BaseActivity {
     private ImageView ivEwCode;
     private LinearLayout mBack;
     private ImageView ivAdd;
@@ -113,18 +114,11 @@ public class QRCodeActivity extends AppCompatActivity {
     private AddPatientAcitvityDialog addPatientAcitvityDialog;
 
     private BindPatientParment mBindPatientParment;
+
+
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_qr_code);
-        context = this;
-        mApp = (JYKJApplication) getApplication();
-        ActivityUtil.setStatusBarMain(QRCodeActivity.this);
-        mShareManager = WechatShareManager.getInstance(context);
-        initView();
-        initHandler();
-        initListener();
-        Qrcode();
+    protected int setLayoutId() {
+        return R.layout.activity_qr_code;
     }
 
     @SuppressLint("HandlerLeak")
@@ -405,8 +399,12 @@ public class QRCodeActivity extends AppCompatActivity {
         }
     }
 
-    private void initView() {
+    protected void initView() {
 
+        context = this;
+        mApp = (JYKJApplication) getApplication();
+        ActivityUtil.setStatusBarMain(QRCodeActivity.this);
+        mShareManager = WechatShareManager.getInstance(context);
 
         //保存相册
         qr_save = findViewById(R.id.qr_save);
@@ -541,6 +539,9 @@ public class QRCodeActivity extends AppCompatActivity {
                 patient();
             }
         });
+        initHandler();
+        initListener();
+        Qrcode();
     }
 
     private void initListener() {

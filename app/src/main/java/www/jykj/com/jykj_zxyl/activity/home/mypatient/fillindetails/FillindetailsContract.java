@@ -13,12 +13,12 @@ public class FillindetailsContract {
         /**
          * 详情
          */
-        void getSearchFillindetailsResult(List<ViewInteractOrderMedicalRecordDetailBean> viewInteractOrderMedicalRecordDetailBeans);
+        void getSearchFillindetailsResult(ViewInteractOrderMedicalRecordDetailBean viewInteractOrderMedicalRecordDetailBeans);
     }
     public interface Presenter extends BasePresenter<FillindetailsContract.View> {
         /**
          *  获取详情
          */
-        void sendSearchFillindetailsRequest(String loginDoctorPosition, String requestClientType, String operDoctorCode,String operDoctorName,String orderCode);
+        void sendSearchFillindetailsRequest(String loginPatientPosition, String requestClientType, String operPatientCode,String operPatientName,String orderCode);
     }
 }

@@ -40,6 +40,7 @@ import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.activity.home.UnionNewsActivity;
 import www.jykj.com.jykj_zxyl.activity.home.jyzl.JYZL_GRZLActivity;
 import www.jykj.com.jykj_zxyl.adapter.UnionNewsAdapter;
+import www.jykj.com.jykj_zxyl.app_base.base_activity.BaseActivity;
 import www.jykj.com.jykj_zxyl.application.Constant;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.util.ActivityUtil;
@@ -50,7 +51,7 @@ import static org.jsoup.nodes.Document.OutputSettings.Syntax.html;
 /**
  * 医生联盟消息详情
  */
-public class UnionNewsDetailActivity extends AppCompatActivity {
+public class UnionNewsDetailActivity extends BaseActivity {
 
     private Context mContext;
     public ProgressDialog mDialogProgress = null;
@@ -86,10 +87,16 @@ public class UnionNewsDetailActivity extends AppCompatActivity {
     private Intent intent;
     private NetRetEntity retEntity;
 
+
+
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_messageunion_detail);
+    protected int setLayoutId() {
+        return R.layout.activity_messageunion_detail;
+    }
+
+    @Override
+    protected void initView() {
+        super.initView();
         ActivityUtil.setStatusBarMain(UnionNewsDetailActivity.this);
         mApp = (JYKJApplication) getApplication();
         mContext = this;
@@ -98,7 +105,6 @@ public class UnionNewsDetailActivity extends AppCompatActivity {
         setMsgReadState();
         data();
     }
-
 
     private void initHandler() {
         mHandler = new Handler() {

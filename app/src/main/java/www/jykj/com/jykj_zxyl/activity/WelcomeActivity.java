@@ -27,9 +27,10 @@ import java.util.ArrayList;
 import rx.Observer;
 import rx.functions.Action1;
 import www.jykj.com.jykj_zxyl.R;
+import www.jykj.com.jykj_zxyl.app_base.base_activity.BaseActivity;
 import zxing.android.CaptureActivity;
 
-public class WelcomeActivity extends AppCompatActivity implements View.OnClickListener {
+public class WelcomeActivity extends BaseActivity implements View.OnClickListener {
     private ViewPager mViewPager;
     private ImageView ivOneDot, ivTwoDot, ivThreeDot;
     private View view1;
@@ -40,25 +41,18 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
     private TextView welcome_pass;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected int setLayoutId() {
+        return R.layout.activity_splash;
+    }
 
-        requestWindowFeature(Window.FEATURE_NO_TITLE);  //无title
+
+    protected void initView() {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);  //全屏
-        setContentView(R.layout.activity_splash);
-
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
         setContentView(R.layout.activity_welcome);
-        initView();
-        requestPermission();
-    }
-
-
-    private void initView() {
         //跳过
         welcome_pass = findViewById(R.id.welcome_pass);
         welcome_pass.setOnClickListener(new View.OnClickListener() {
@@ -137,6 +131,7 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
                 container.removeView(list.get(position));
             }
         });
+        requestPermission();
     }
 
 

@@ -25,6 +25,7 @@ import java.util.List;
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.activity.hyhd.ChatActivity;
 import www.jykj.com.jykj_zxyl.activity.myself.couponFragment.FragmentAdapter;
+import www.jykj.com.jykj_zxyl.app_base.base_activity.BaseActivity;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.fragment.wdzs.FragmentZSXQ;
 import www.jykj.com.jykj_zxyl.fragment.wdzs.FragmentZSZKZL;
@@ -36,7 +37,7 @@ import yyz_exploit.activity.activity.OpinionActivity;
 /**
  * 我的诊所
  */
-public class MyClinicActivity extends AppCompatActivity {
+public class MyClinicActivity extends BaseActivity {
 //    private Context         mContext;
 //    private LinearLayout llBack;
 //    private LinearLayout llTwjz;
@@ -66,16 +67,16 @@ public class MyClinicActivity extends AppCompatActivity {
     private String mUnionName;                  //联盟名称
     private LinearLayout mBack;
 
+
+
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_clinic);
-        ActivityUtil.setStatusBarMain(MyClinicActivity.this);
-        mContext = this;
-        initView();
+    protected int setLayoutId() {
+        return R.layout.activity_my_clinic;
     }
 
-    private void initView() {
+    protected void initView() {
+        ActivityUtil.setStatusBarMain(MyClinicActivity.this);
+        mContext = this;
         pager = (ViewPager) this.findViewById(R.id.page);
         tabLayout = (TabLayout) this.findViewById(R.id.tab_layout);
         llBack = (LinearLayout) findViewById(R.id.ll_back);

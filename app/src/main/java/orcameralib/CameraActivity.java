@@ -32,10 +32,11 @@ import java.io.IOException;
 import orcameralib.util.BitmapUtil;
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.activity.home.tjhz.AddPatientActivity;
+import www.jykj.com.jykj_zxyl.app_base.base_activity.BaseActivity;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 
 
-public class CameraActivity extends AppCompatActivity {
+public class CameraActivity extends BaseActivity {
 
     public static final String KEY_OUTPUT_FILE_PATH = "outputFilePath";
     public static final String KEY_CONTENT_TYPE = "contentType";
@@ -74,10 +75,16 @@ public class CameraActivity extends AppCompatActivity {
         }
     };
 
+
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.bd_ocr_activity_camera);
+    protected int setLayoutId() {
+        return R.layout.bd_ocr_activity_camera;
+    }
+
+    @Override
+    protected void initView() {
+        super.initView();
         mApp = (JYKJApplication) getApplication();
         takePictureContainer = (OCRCameraLayout) findViewById(R.id.take_picture_container);
         confirmResultContainer = (OCRCameraLayout) findViewById(R.id.confirm_result_container);

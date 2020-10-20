@@ -45,6 +45,7 @@ import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.activity.home.MyPatientActivity;
 import www.jykj.com.jykj_zxyl.adapter.ChooseMsgAdapter;
 import www.jykj.com.jykj_zxyl.adapter.HZGL_QTDK_RecycleAdapter;
+import www.jykj.com.jykj_zxyl.app_base.base_activity.BaseActivity;
 import www.jykj.com.jykj_zxyl.application.Constant;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.util.ActivityUtil;
@@ -54,7 +55,7 @@ import www.jykj.com.jykj_zxyl.util.DateUtils;
 /**
  * 患者管理（提醒患者）
  */
-public class HZGLTXHZActivity extends AppCompatActivity {
+public class HZGLTXHZActivity extends BaseActivity {
 
     private Context mContext;
     private HZGLTXHZActivity mActivity;
@@ -72,18 +73,21 @@ public class HZGLTXHZActivity extends AppCompatActivity {
     private List<MsgPushModel> msgPushModelList = new ArrayList<>();//消息模板
     private PopupWindow popupWindow;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_fragmenthzgl_txhz);
+    @Override
+    protected int setLayoutId() {
+        return R.layout.activity_fragmenthzgl_txhz;
+    }
+
+    @Override
+    protected void initView() {
+        super.initView();
         mContext = this;
         mActivity = this;
         mApp = (JYKJApplication) getApplication();
         ActivityUtil.setStatusBarMain(HZGLTXHZActivity.this);
         initLayout();
         initHandler();
-
     }
 
     /**

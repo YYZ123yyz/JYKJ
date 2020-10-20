@@ -38,11 +38,12 @@ import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.activity.home.news.UnionNewsDetailActivity;
 import www.jykj.com.jykj_zxyl.adapter.PaintVisitAdapter;
 import www.jykj.com.jykj_zxyl.adapter.UnionNewsAdapter;
+import www.jykj.com.jykj_zxyl.app_base.base_activity.BaseActivity;
 import www.jykj.com.jykj_zxyl.application.Constant;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.util.ActivityUtil;
 
-public class UnionNewsActivity extends AppCompatActivity implements View.OnClickListener {
+public class UnionNewsActivity extends BaseActivity implements View.OnClickListener {
 
     public ProgressDialog mDialogProgress = null;
 
@@ -70,20 +71,10 @@ public class UnionNewsActivity extends AppCompatActivity implements View.OnClick
     private TextView    Type;
     private SmartRefreshLayout refreshLayout;
     private int page=0;
+
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_union_news);
-        ActivityUtil.setStatusBarMain(UnionNewsActivity.this);
-
-        mContext = this;
-        mActivity = this;
-        mMessageType = getIntent().getStringExtra("messageType");
-        mApp = (JYKJApplication) getApplication();
-        initView();
-        initListener();
-        initHandler();
-
+    protected int setLayoutId() {
+        return R.layout.activity_union_news;
     }
 
     private void initHandler() {
@@ -123,7 +114,14 @@ public class UnionNewsActivity extends AppCompatActivity implements View.OnClick
     }
 
 
-    private void initView() {
+    protected void initView() {
+        ActivityUtil.setStatusBarMain(UnionNewsActivity.this);
+        mContext = this;
+        mActivity = this;
+        mMessageType = getIntent().getStringExtra("messageType");
+        mApp = (JYKJApplication) getApplication();
+
+
         refreshLayout = findViewById(R.id.refreshLayout);
         llBack = (LinearLayout) findViewById(R.id.ll_back);
         mTitle = this.findViewById(R.id.title);
@@ -175,7 +173,8 @@ public class UnionNewsActivity extends AppCompatActivity implements View.OnClick
 //                }
 //            }
 //        });
-
+        initListener();
+        initHandler();
     }
 
     private void initListener() {

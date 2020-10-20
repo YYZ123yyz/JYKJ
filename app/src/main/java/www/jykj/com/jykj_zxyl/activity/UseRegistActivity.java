@@ -27,6 +27,7 @@ import entity.user.UserInfo;
 import netService.HttpNetService;
 import netService.entity.NetRetEntity;
 import netService.entity.ParmentEntity;
+import www.jykj.com.jykj_zxyl.app_base.base_activity.BaseActivity;
 import www.jykj.com.jykj_zxyl.application.Constant;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.util.ActivityUtil;
@@ -36,7 +37,7 @@ import yyz_exploit.Utils.HttpUtils;
 /**
  * 用户注册
  */
-public class UseRegistActivity extends AppCompatActivity {
+public class UseRegistActivity extends BaseActivity {
     private Context mContext;
     private UseRegistActivity mActivity;
     private JYKJApplication mApp;
@@ -60,10 +61,16 @@ public class UseRegistActivity extends AppCompatActivity {
     private boolean login;
 
 
+
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_regist);
+    protected int setLayoutId() {
+        return R.layout.activity_regist;
+    }
+
+    @Override
+    protected void initView() {
+        super.initView();
         //login传值
         Intent intent = getIntent();
         openid = intent.getStringExtra("openid");

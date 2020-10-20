@@ -25,25 +25,30 @@ import entity.user.UserInfo;
 import netService.HttpNetService;
 import netService.entity.NetRetEntity;
 import www.jykj.com.jykj_zxyl.R;
+import www.jykj.com.jykj_zxyl.app_base.base_activity.BaseActivity;
 import www.jykj.com.jykj_zxyl.application.Constant;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 
-public class SplashActivity extends AppCompatActivity {
+public class SplashActivity extends BaseActivity {
     private JYKJApplication mApp;
     public ProgressDialog mDialogProgress = null;
     private String mNetLoginRetStr;                 //登录返回字符串
     private String mNetRegionRetStr;                 //获取返回字符串
     private Handler mHandler;
 
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
 
-        requestWindowFeature(Window.FEATURE_NO_TITLE);  //无title
+
+    @Override
+    protected int setLayoutId() {
+        return R.layout.activity_splash;
+    }
+
+    @Override
+    protected void initView() {
+        super.initView();
+     //   requestWindowFeature(Window.FEATURE_NO_TITLE);  //无title
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);  //全屏
-        setContentView(R.layout.activity_splash);
-
         setContentView(R.layout.activity_splash);
         mApp = (JYKJApplication) getApplication();
         mApp.gActivityList.add(this);
@@ -62,7 +67,6 @@ public class SplashActivity extends AppCompatActivity {
 //
         getRegionDate();
         initHandler();
-
     }
 
     private void jumpToWelcomeActivity() {

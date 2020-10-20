@@ -69,6 +69,7 @@ import netService.entity.NetRetEntity;
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.activity.MainActivity;
 import www.jykj.com.jykj_zxyl.activity.home.yslm.JoinDoctorsUnionActivity;
+import www.jykj.com.jykj_zxyl.app_base.base_activity.BaseActivity;
 import www.jykj.com.jykj_zxyl.application.Constant;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.util.ActivityUtil;
@@ -84,7 +85,7 @@ import yyz_exploit.Utils.UserResultInfo;
 /**
  * 个人中心
  */
-public class UserCenterActivity extends AppCompatActivity {
+public class UserCenterActivity extends BaseActivity {
 
     private Context mContext;
     private UserCenterActivity mActivity;
@@ -159,11 +160,15 @@ public class UserCenterActivity extends AppCompatActivity {
     public UserCenterActivity() throws IOException {
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_myself_usercenter);
+    @Override
+    protected int setLayoutId() {
+        return R.layout.activity_myself_usercenter;
+    }
+
+    @Override
+    protected void initView() {
+        super.initView();
         mContext = this;
         mActivity = this;
         mApp = (JYKJApplication) getApplication();

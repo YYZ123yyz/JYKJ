@@ -26,6 +26,7 @@ import netService.entity.NetRetEntity;
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.activity.LoginActivity;
 import www.jykj.com.jykj_zxyl.activity.myself.UserCenterActivity;
+import www.jykj.com.jykj_zxyl.app_base.base_activity.BaseActivity;
 import www.jykj.com.jykj_zxyl.application.Constant;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.util.ActivityUtil;
@@ -33,7 +34,7 @@ import www.jykj.com.jykj_zxyl.util.ActivityUtil;
 /**
  * 设置 == > 关于我们
  */
-public class AboutActivity extends AppCompatActivity {
+public class AboutActivity extends BaseActivity {
 
 
     private String mNetRetStr;                 //返回字符串
@@ -47,21 +48,20 @@ public class AboutActivity extends AppCompatActivity {
     private WebView about_wb;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected int setLayoutId() {
+        return R.layout.activity_myself_setting_about;
+    }
 
-        setContentView(R.layout.activity_myself_setting_about);
+    @Override
+    protected void initView() {
+        super.initView();
         mContext = this;
         mActivity = this;
         mApp = (JYKJApplication) getApplication();
         mApp.gActivityList.add(this);
         ActivityUtil.setStatusBarMain(mActivity);
         initLayout();
-    //    getData();
     }
-
-
-
 
     /**
      * 初始化布局
