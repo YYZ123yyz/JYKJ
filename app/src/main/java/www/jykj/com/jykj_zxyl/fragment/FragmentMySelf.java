@@ -92,12 +92,7 @@ public class FragmentMySelf extends Fragment {
         mUserHead.setOnClickListener(new ButtonClick());
         mNameText = (TextView) v.findViewById(R.id.tv_fragmentMySelf_nameText);
         mUserAuthentication = (ImageView) v.findViewById(R.id.iv_fragmentMyself_userAuthentication);
-        if (mApp.mViewSysUserDoctorInfoAndHospital.getFlagDoctorStatus() == 1)
-            mUserAuthentication.setImageResource(R.mipmap.fragmentmyself_yrz);
-        else
-            mUserAuthentication.setImageResource(R.mipmap.fragmentmyself_wrz);
-        ImageViewUtil.showImageView(getContext(), mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl(), mUserHead);
-        mNameText.setText(mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
+
 
         mMyAccountLinearLayout.setOnClickListener(new ButtonClick());
         mPBLinearLayout.setOnClickListener(new ButtonClick());
@@ -123,6 +118,16 @@ public class FragmentMySelf extends Fragment {
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mApp.mViewSysUserDoctorInfoAndHospital.getFlagDoctorStatus() == 1)
+            mUserAuthentication.setImageResource(R.mipmap.fragmentmyself_yrz);
+        else
+            mUserAuthentication.setImageResource(R.mipmap.fragmentmyself_wrz);
+        ImageViewUtil.showImageView(getContext(), mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl(), mUserHead);
+        mNameText.setText(mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
+    }
 
     private void initHandler() {
         mHandler = new Handler() {

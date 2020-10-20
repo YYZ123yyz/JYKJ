@@ -146,7 +146,7 @@ public class MainActivity extends BaseActivity {
         Intent intent = new Intent(this, MessageReciveService.class);
         startService(intent);
         mApp.gNetWorkTextView = true;
-        data();
+        //data();
         getLocation();
         BadgeUtil.setBadgeCount(this, unreadMessageCount, R.drawable.bg_red_circle);
     }

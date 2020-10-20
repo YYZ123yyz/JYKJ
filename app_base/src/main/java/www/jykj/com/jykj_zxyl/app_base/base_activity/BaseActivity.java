@@ -11,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -18,11 +19,17 @@ import android.widget.TextView;
 
 
 import com.gyf.immersionbar.ImmersionBar;
+import com.hyphenate.EMConnectionListener;
+import com.hyphenate.EMError;
+import com.hyphenate.chat.EMClient;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import io.reactivex.internal.schedulers.ExecutorScheduler;
 import www.jykj.com.jykj_zxyl.app_base.R;
 import www.jykj.com.jykj_zxyl.app_base.base_utils.ActivityStackManager;
+import www.jykj.com.jykj_zxyl.app_base.base_utils.AndroidThreadExecutor;
+import www.jykj.com.jykj_zxyl.app_base.base_utils.SharedPreferences_DataSave;
 
 /**
  * Description:基础类
@@ -39,6 +46,8 @@ public abstract class BaseActivity extends AppCompatActivity {
     private Dialog dialog;
     private TextView tvMessage;
     private View view;
+
+    private EMConnectionListener emConnectionListener;
     protected int pageIndex=1;
     protected int pageSize=10;
     @Override
@@ -70,8 +79,16 @@ public abstract class BaseActivity extends AppCompatActivity {
         initData();
         //设置监听
         setListener();
+        //添加Im监听
+        addImConnectionListener();
     }
 
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        EMClient.getInstance().removeConnectionListener(emConnectionListener);
+    }
 
     protected void initImmersionBar() {
         //在BaseActivity里初始化
@@ -113,6 +130,70 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     }
 
+
+    private void addImConnectionListener(){
+        emConnectionListener = new EMConnectionListener() {
+            @Override
+            public void onDisconnected(int error) {
+
+                if (error == EMError.USER_REMOVED || error == EMError.USER_LOGIN_ANOTHER_DEVICE || error == EMError.SERVER_SERVICE_RESTRICTED) {
+                    AndroidThreadExecutor.getInstance().executeOnMainThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            showComplexDialog();
+                        }
+                    });
+
+                } else {
+
+                    Log.e("tag", "onDisconnected: " + "00000");
+                }
+            }
+
+            @Override
+            public void onConnected() {
+
+            }
+        };
+        EMClient.getInstance().addConnectionListener(emConnectionListener);
+    }
+
+
+    void showComplexDialog() {
+        //    通过AlertDialog.Builder这个类来实例化我们的一个AlertDialog的对象
+        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
+        //    设置Content来显示一个信息
+        builder.setTitle("异地登录");
+        builder.setMessage("您的账号已在其他地方登陆！");
+        //    设置一个PositiveButton
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                try {
+                    cleanPersistence();
+                    EMClient.getInstance().logout(true,null);
+                    Intent intent=new Intent();
+                    intent.setAction("www.jykj.com.jykj_zxyl.LoginActivity");
+                    startActivity(intent);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        builder.setCancelable(false);
+        //    显示出该对话框
+        builder.show();
+
+    }
+
+    //清空数据
+    public void cleanPersistence() {
+        SharedPreferences_DataSave  m_persist = new SharedPreferences_DataSave(this, "JYKJDOCTER");
+        m_persist.remove("loginUserInfo");
+        m_persist.remove("viewSysUserDoctorInfoAndHospital");
+
+        m_persist.commit();
+    }
 
     /**
      * 开启进度框
@@ -188,9 +269,12 @@ public abstract class BaseActivity extends AppCompatActivity {
         this.startActivityForResult(localIntent, requestCode);
     }
 
+
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        EMClient.getInstance().removeConnectionListener(emConnectionListener);
         unbinder.unbind();
     }
 

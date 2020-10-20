@@ -92,6 +92,7 @@ import www.jykj.com.jykj_zxyl.activity.LoginActivity;
 import www.jykj.com.jykj_zxyl.activity.MainActivity;
 import www.jykj.com.jykj_zxyl.app_base.BuildConfig;
 import www.jykj.com.jykj_zxyl.app_base.base_service.PushIntentService;
+import www.jykj.com.jykj_zxyl.app_base.base_utils.AndroidThreadExecutor;
 import www.jykj.com.jykj_zxyl.app_base.http.AppUrlConfig;
 import www.jykj.com.jykj_zxyl.service.MessageReciveService;
 import www.jykj.com.jykj_zxyl.util.StrUtils;
@@ -410,25 +411,8 @@ public class JYKJApplication extends Application {
         pushAgent.setDisplayNotificationNumber(3);
     }
 
-    void  login(){
-        connectionListener = new EMConnectionListener() {
-
-            @Override
-            public void onDisconnected(int error) {
-                if(error==EMError.USER_LOGIN_ANOTHER_DEVICE){
 
 
-                }
-            }
-
-            @Override
-            public void onConnected() {
-                // in case group and contact were already synced, we supposed to
-                // notify sdk we are ready to receive the events
-            }
-        };
-        EMClient.getInstance().addConnectionListener(connectionListener);
-    }
 
 
 
