@@ -1116,7 +1116,9 @@ public class LivePublisherThreeActivity extends ChatPopDialogActivity implements
                 break;
         }
         mLivePusher.setRenderRotation(0); //因为activity也旋转了，本地渲染相对正方向的角度为0。
+        //pushRotation = TXLiveConstants.VIDEO_ANGLE_HOME_RIGHT;
         mLivePushConfig.setHomeOrientation(pushRotation);
+
         if (mLivePusher.isPushing()) {
             if(VIDEO_SRC_CAMERA == mVideoSrc){
                 mLivePusher.setConfig(mLivePushConfig);
@@ -1203,6 +1205,7 @@ public class LivePublisherThreeActivity extends ChatPopDialogActivity implements
             } else {
                 mBtnOrientation.setVisibility(View.VISIBLE);
                 mPortrait = true;
+                //mLivePushConfig.setHomeOrientation(TXLiveConstants.VIDEO_ANGLE_HOME_RIGHT);
                 mLivePushConfig.setHomeOrientation(TXLiveConstants.VIDEO_ANGLE_HOME_DOWN);
                 //mBtnOrientation.setBackgroundResource(R.mipmap.landscape);
                 mLivePusher.setRenderRotation(0);

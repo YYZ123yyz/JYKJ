@@ -71,6 +71,7 @@ public class LivePlayerTwoActivity extends ChatPopDialogActivity implements ITXL
     RoomDetailInfo mRoomDetailInfo = null;
     private String mychatid = "";
     private TXCloudVideoView mPlayerView;
+    //private LinearLayout video_hold_layout;
     private TXLivePlayConfig mPlayConfig;
     private PhoneStateListener mPhoneListener = null;
     private TXLivePlayer mLivePlayer = null;
@@ -121,6 +122,8 @@ public class LivePlayerTwoActivity extends ChatPopDialogActivity implements ITXL
     ImageView iv_zoom_btn;
     ImageView iv_miniaml_zoom_btn;
     RelativeLayout live_rl;
+    int videowidth = 0;
+    int videoheight = 0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -132,7 +135,8 @@ public class LivePlayerTwoActivity extends ChatPopDialogActivity implements ITXL
         mActivity = LivePlayerTwoActivity.this;
         mContext = LivePlayerTwoActivity.this;
         mCurrentRenderRotation = TXLiveConstants.RENDER_ROTATION_PORTRAIT;
-        mCurrentRenderMode = TXLiveConstants.RENDER_MODE_FULL_FILL_SCREEN;
+        //mCurrentRenderMode = TXLiveConstants.RENDER_MODE_ADJUST_RESOLUTION;
+        mCurrentRenderMode = TXLiveConstants.RENDER_MODE_ADJUST_RESOLUTION;
         loadLive();
         setContentView(R.layout.activity_two_player);
         mActivityType = getIntent().getIntExtra("PLAY_TYPE", ACTIVITY_TYPE_LIVE_PLAY);
@@ -278,7 +282,10 @@ public class LivePlayerTwoActivity extends ChatPopDialogActivity implements ITXL
         tab_layout = findViewById(R.id.tab_layout);
         live_publish_page = findViewById(R.id.live_publish_page);
         mPlayerView = (TXCloudVideoView) findViewById(R.id.video_view);
+        //video_hold_layout = findViewById(R.id.video_hold_layout);
         mPlayerView.disableLog(true);
+        //mLivePlayer.setRenderRotation(mCurrentRenderRotation);
+        //mLivePlayer.setRenderMode(mCurrentRenderMode);
         mLoadingView = (ImageView) findViewById(R.id.loadingImageView);
         mVideoPlay = startPlayRtmp();
         btnMessage = findViewById(R.id.btnMessage);
@@ -352,29 +359,37 @@ public class LivePlayerTwoActivity extends ChatPopDialogActivity implements ITXL
     }
 
     void goFullscreen(){
+        FrameLayout.LayoutParams fullparams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,FrameLayout.LayoutParams.MATCH_PARENT);
+        mPlayerView.setLayoutParams(fullparams);
+        //mLivePlayer.setRenderMode(TXLiveConstants.RENDER_MODE_ADJUST_RESOLUTION);
+        mLivePlayer.setRenderRotation(TXLiveConstants.RENDER_ROTATION_LANDSCAPE);
         tab_hold_layout.setVisibility(View.GONE);
         live_publish_page.setVisibility(View.GONE);
         live_rl.setVisibility(View.GONE);
-        mLivePlayer.setRenderMode(TXLiveConstants.RENDER_MODE_FULL_FILL_SCREEN);
-        mLivePlayer.setRenderRotation(TXLiveConstants.RENDER_ROTATION_LANDSCAPE);
+        iv_zoom_btn.setVisibility(View.GONE);
+        iv_miniaml_zoom_btn.setVisibility(View.VISIBLE);
+        //mLivePlayer.setRenderRotation(TXLiveConstants.RENDER_ROTATION_LANDSCAPE);
+        //mPlayerView.setRenderMode(TXLiveConstants.RENDER_MODE_FULL_FILL_SCREEN);
+        //mPlayerView.setRenderMode(TXLiveConstants.RENDER_MODE_ADJUST_RESOLUTION);
         /*mLivePlayer.setRenderMode(TXLiveConstants.RENDER_MODE_FULL_FILL_SCREEN);
             mLivePlayer.setRenderRotation(TXLiveConstants.RENDER_ROTATION_LANDSCAPE);
             if(mLivePlayer.isPlaying()){
                 mLivePlayer.resume();
         }*/
-        iv_zoom_btn.setVisibility(View.GONE);
-        iv_miniaml_zoom_btn.setVisibility(View.VISIBLE);
-        FrameLayout.LayoutParams fullparams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,FrameLayout.LayoutParams.MATCH_PARENT);
-        mPlayerView.setLayoutParams(fullparams);
     }
     void goMinimalscreen(){
-        /*FrameLayout.LayoutParams fullparams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,R.dimen.dp_340);
-        mPlayerView.setLayoutParams(fullparams);*/
+        //mLivePlayer.setRenderMode(TXLiveConstants.RENDER_MODE_ADJUST_RESOLUTION);
+        FrameLayout.LayoutParams fullparams = new FrameLayout.LayoutParams(videowidth,videoheight);
+        mPlayerView.setLayoutParams(fullparams);
+        mLivePlayer.setRenderRotation(TXLiveConstants.RENDER_ROTATION_PORTRAIT);
         tab_hold_layout.setVisibility(View.VISIBLE);
         live_publish_page.setVisibility(View.VISIBLE);
         live_rl.setVisibility(View.VISIBLE);
-        mLivePlayer.setRenderMode(TXLiveConstants.RENDER_MODE_FULL_FILL_SCREEN);
-        mLivePlayer.setRenderRotation(TXLiveConstants.RENDER_ROTATION_PORTRAIT);
+        //mLivePlayer.setRenderRotation(TXLiveConstants.RENDER_ROTATION_PORTRAIT);
+        //mPlayerView.setRenderMode(TXLiveConstants.RENDER_MODE_FULL_FILL_SCREEN);
+
+        /*FrameLayout.LayoutParams fullparams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,R.dimen.dp_340);
+        mPlayerView.setLayoutParams(fullparams);*/
         /*mLivePlayer.setRenderMode(TXLiveConstants.RENDER_MODE_ADJUST_RESOLUTION);
         mLivePlayer.setRenderRotation(TXLiveConstants.RENDER_ROTATION_PORTRAIT);
         if(mLivePlayer.isPlaying()){
@@ -382,7 +397,7 @@ public class LivePlayerTwoActivity extends ChatPopDialogActivity implements ITXL
         }*/
         iv_zoom_btn.setVisibility(View.VISIBLE);
         iv_miniaml_zoom_btn.setVisibility(View.GONE);
-        live_rl.bringToFront();
+        //live_rl.bringToFront();
     }
     private List<Fragment> fragmentList = new ArrayList();
     private LiveFragmentAdapter liveFragmentAdapter;
@@ -695,15 +710,20 @@ public class LivePlayerTwoActivity extends ChatPopDialogActivity implements ITXL
 
 
         mLivePlayer.setPlayerView(mPlayerView);
-
+        /*Display display = getWindowManager().getDefaultDisplay();
+        int height = display.getWidth();
+        int width = display.getHeight();
+        mLivePlayer.setSurfaceSize(width,R.dimen.dp_340);*/
         mLivePlayer.setPlayListener(this);
 //        mLivePlayer.setRate(1.5f);
         // 硬件加速在1080p解码场景下效果显著，但细节之处并不如想象的那么美好：
         // (1) 只有 4.3 以上android系统才支持
         // (2) 兼容性我们目前还仅过了小米华为等常见机型，故这里的返回值您先不要太当真
         mLivePlayer.enableHardwareDecode(mHWDecode);
-        mLivePlayer.setRenderRotation(mCurrentRenderRotation);
-        mLivePlayer.setRenderMode(mCurrentRenderMode);
+        //mLivePlayer.setRenderRotation(mCurrentRenderRotation);
+        //mLivePlayer.setRenderMode(mCurrentRenderMode);
+        //mPlayerView.setRenderMode(mCurrentRenderMode);
+        //mPlayerView.setRenderRotation(mCurrentRenderRotation);
         //设置播放器缓存策略
         //这里将播放器的策略设置为自动调整，调整的范围设定为1到4s，您也可以通过setCacheTime将播放器策略设置为采用
         //固定缓存时间。如果您什么都不调用，播放器将采用默认的策略（默认策略为自动调整，调整范围为1到4s）
@@ -729,6 +749,9 @@ public class LivePlayerTwoActivity extends ChatPopDialogActivity implements ITXL
         if (mActivityType == LivePlayerActivity.ACTIVITY_TYPE_VOD_PLAY) {
             findViewById(R.id.playerHeaderView).setVisibility(View.VISIBLE);
         }
+        FrameLayout.LayoutParams mlayoutparams = (FrameLayout.LayoutParams)mPlayerView.getLayoutParams();
+        videowidth = mlayoutparams.width;
+        videoheight = mlayoutparams.height;
         return true;
     }
 
