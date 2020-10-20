@@ -29,34 +29,34 @@ public class Myself_DetailPresenter  extends BasePresenterImpl<Myself_DetailCont
         hashMap.put("operPatientName", operPatientName);
         hashMap.put("recordId", recordId);
         String s = RetrofitUtil.encodeParam(hashMap);
-//        ApiHelper.getOnLineApi().searchmyself_detail(s).compose(Transformer.switchSchedulers(new ILoadingView() {
-//            @Override
-//            public void showLoadingView() {
-//
-//            }
-//
-//            @Override
-//            public void hideLoadingView() {
-//
-//            }
-//        })).subscribe(new CommonDataObserver() {
-//            @Override
-//            protected void onSuccessResult(BaseBean baseBean) {
-//                if (mView != null) {
-//                    int resCode = baseBean.getResCode();
-//                    if (resCode == 1) {
-//                        String resJsonData = baseBean.getResJsonData();
-//                        if (!TextUtils.isEmpty(resJsonData)) {
-//                            Myself_DetaiBean myself_detaiBean = GsonUtils.fromJson(resJsonData, Myself_DetaiBean.class);
-//                            mView.getSearchMyself_DetailResult(myself_detaiBean);
-//                        }
-//
-//                    } else {
-//                        mView.getSearchMyself_DetailResultError(baseBean.getResMsg());
-//                    }
-//                }
-//            }
-//        });
+        ApiHelper.getOnLineApi().searchmyself_detail(s).compose(Transformer.switchSchedulers(new ILoadingView() {
+            @Override
+            public void showLoadingView() {
+
+            }
+
+            @Override
+            public void hideLoadingView() {
+
+            }
+        })).subscribe(new CommonDataObserver() {
+            @Override
+            protected void onSuccessResult(BaseBean baseBean) {
+                if (mView != null) {
+                    int resCode = baseBean.getResCode();
+                    if (resCode == 1) {
+                        String resJsonData = baseBean.getResJsonData();
+                        if (!TextUtils.isEmpty(resJsonData)) {
+                            Myself_DetaiBean myself_detaiBean = GsonUtils.fromJson(resJsonData, Myself_DetaiBean.class);
+                            mView.getSearchMyself_DetailResult(myself_detaiBean);
+                        }
+
+                    } else {
+                        mView.getSearchMyself_DetailResultError(baseBean.getResMsg());
+                    }
+                }
+            }
+        });
     }
 
     @Override

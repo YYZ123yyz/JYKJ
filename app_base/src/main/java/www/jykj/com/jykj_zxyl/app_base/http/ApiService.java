@@ -252,5 +252,9 @@ public interface ApiService {
     @POST("/doctorInteractDataControlle/operUpdMyClinicDetailByOrderPatientMessage_20201012")
     Observable<String> operUpdMyClinicDetailByOrderPatientMessage_20201012(@Query(value = "jsonDataInfo"
             , encoded = true) String queryJson);
+    //健康档案-既往病史-个人填写详情
+    @POST("/patientHealthRecordsControlle/searchPatientConditionDiseaseRecordResData_V200916")
+    Observable<String> searchmyself_detail(@Query(value = "jsonDataInfo"
+            , encoded = true) String queryJson);
 }
 
