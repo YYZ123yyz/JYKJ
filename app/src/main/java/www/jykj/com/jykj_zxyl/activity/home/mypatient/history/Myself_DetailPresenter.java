@@ -29,7 +29,7 @@ public class Myself_DetailPresenter  extends BasePresenterImpl<Myself_DetailCont
         hashMap.put("operPatientName", operPatientName);
         hashMap.put("recordId", recordId);
         String s = RetrofitUtil.encodeParam(hashMap);
-        ApiHelper.getOnLineApi().searchmyself_detail(s).compose(Transformer.switchSchedulers(new ILoadingView() {
+        ApiHelper.getApiService().searchmyself_detail(s).compose(Transformer.switchSchedulers(new ILoadingView() {
             @Override
             public void showLoadingView() {
 
