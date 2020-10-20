@@ -1101,27 +1101,43 @@ public class MyClinicDetialActivity extends AbstractMvpBaseActivity<MyClinicDeti
         columnWheelDialog.setSelected(getCurrentTimePos(startTimes,currentTime)
                 ,getCurrentTimePos(startTimes,currentTime),0,0,0);
     }
+
     /**
      * 获取当前时间位置
-     * @return
+     *
+     * @param startTimes  时间列表
+     * @param currentTime 当前时间
+     * @return poisiton 位置
      */
-    private int getCurrentTimePos( List<String> startTimes,String currentTime){
+    private int getCurrentTimePos(List<String> startTimes, String currentTime) {
         String[] split1 = currentTime.split(":");
-        int currentPos=0;
+        int currentPos = 0;
         for (int i = 0; i < startTimes.size(); i++) {
             String s = startTimes.get(i);
 
             String[] split2 = s.split(":");
-            String time1="";
-            String time2="";
-            if (split1.length>1) {
-                time1=split1[0];
+            String time1 = "";
+            String time2 = "";
+            String endTime1 = "";
+            String endTime2 = "";
+
+            if (split1.length > 1) {
+                time1 = split1[0];
+                endTime1 = split1[1];
             }
-            if(split2.length>1){
-                time2=split2[0];
+            if (split2.length > 1) {
+                time2 = split2[0];
+                endTime2 = split2[1];
             }
             if (time1.equals(time2)) {
-                currentPos=i;
+                int i1 = Integer.parseInt(endTime1);
+                int i2 = Integer.parseInt(endTime2);
+                if (i1 > i2) {
+                    currentPos = i + 1;
+                } else {
+                    currentPos = i;
+                }
+
                 break;
             }
         }
