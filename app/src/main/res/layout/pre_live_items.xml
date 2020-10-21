@@ -16,7 +16,7 @@
 
         <RelativeLayout
             android:layout_width="135dp"
-            android:layout_height="80dp">
+            android:layout_height="80dp" android:id="@+id/rl_live_layout">
 
             <ImageView
                 android:id="@+id/pre_live_btn"

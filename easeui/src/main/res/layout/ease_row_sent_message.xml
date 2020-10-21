@@ -2,9 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:paddingTop="13dp" >
+              android:layout_gravity="right"
+    android:paddingTop="@dimen/dp_2" >
 
     <TextView
         android:id="@+id/timestamp"
@@ -19,11 +19,11 @@
 
         <com.hyphenate.easeui.widget.EaseImageView
             android:id="@+id/iv_userhead"
-            android:layout_width="@dimen/size_avatar"
-            android:layout_height="@dimen/size_avatar"
+            android:layout_width="@dimen/dp_30"
+            android:layout_height="@dimen/dp_30"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
-            android:layout_marginRight="@dimen/margin_chat_activity"
+            android:layout_marginRight="@dimen/dp_1"
             android:src="@mipmap/doctor_head"
             android:scaleType="fitXY" />
 
@@ -78,15 +78,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:autoLink="web"
-                android:layout_centerInParent="true"
-                android:gravity="center|left"
-                android:paddingRight="6dp"
-                android:paddingLeft="1dp"
-                android:minHeight="38dp"
+                android:layout_alignParentRight="true"
+                android:gravity="center|right"
+                android:paddingRight="@dimen/dp_2"
+                android:minHeight="@dimen/dp_20"
                 android:lineSpacingExtra="2dp"
                 android:textColor="#000000"
-                android:maxWidth="225.0dip"
-                android:textSize="15sp" />
+                android:maxWidth="@dimen/dp_225"
+                android:textSize="@dimen/sp_12"/>
         </RelativeLayout>
 
         <!--  <TextView
@@ -117,7 +116,7 @@
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@id/bubble"
             android:text="@string/text_ack_msg"
-            android:textSize="12sp"
+            android:textSize="@dimen/sp_8"
             android:visibility="invisible" />
 
         <TextView
@@ -128,7 +127,7 @@
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@id/bubble"
             android:text="@string/text_delivered_msg"
-            android:textSize="12sp"
+            android:textSize="@dimen/sp_8"
             android:visibility="invisible" />
 
         <ProgressBar

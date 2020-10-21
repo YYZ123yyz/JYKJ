@@ -6,7 +6,6 @@ import android.util.AttributeSet;
 
 /**
  * 跑马灯TextView-自动聚焦
- * Created by 邹峰立 on 2017/6/12.
  */
 public class MarqueeTextView extends android.support.v7.widget.AppCompatTextView {
 

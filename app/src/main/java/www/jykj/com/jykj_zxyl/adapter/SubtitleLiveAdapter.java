@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import entity.liveroom.HotLiveInfo;
+import entity.liveroom.ProvideLiveBroadcastDetails;
 import entity.liveroom.SubjectLiveInfo;
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.util.StrUtils;
@@ -17,9 +18,9 @@ import www.jykj.com.jykj_zxyl.util.StrUtils;
 import java.util.List;
 
 public class SubtitleLiveAdapter extends RecyclerView.Adapter<SubtitleLiveAdapter.ViewHolder>{
-    List<SubjectLiveInfo> datas;
+    List<ProvideLiveBroadcastDetails> datas;
     OnHotliveItemClickListener myListener;
-    public SubtitleLiveAdapter(List<SubjectLiveInfo> datas){
+    public SubtitleLiveAdapter(List<ProvideLiveBroadcastDetails> datas){
         this.datas = datas;
     }
 
@@ -34,12 +35,12 @@ public class SubtitleLiveAdapter extends RecyclerView.Adapter<SubtitleLiveAdapte
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-        SubjectLiveInfo parinfo = datas.get(i);
+        ProvideLiveBroadcastDetails parinfo = datas.get(i);
         viewHolder.subject_live_catalog.setText("类目:"+ StrUtils.defaulObjToStr(parinfo.getClassName()));
         viewHolder.subject_live_desc.setText(StrUtils.defaulObjToStr(parinfo.getAttrName()));
         viewHolder.subject_live_price.setText(StrUtils.defaulObjToStr(parinfo.getExtendBroadcastPriceShow()));
         viewHolder.subject_live_title.setText(StrUtils.defaulObjToStr(parinfo.getBroadcastTitle()));
-        viewHolder.subject_watch_num.setText("想看人数："+StrUtils.defaulObjToStr(parinfo.getExtendBroadcastViewsNum()));
+        viewHolder.subject_watch_num.setText("浏览量："+StrUtils.defaulObjToStr(parinfo.getExtendBroadcastViewsNum()));
         if(StrUtils.defaulObjToStr(parinfo.getBroadcastCoverImgUrl()).length()>0){
             Glide.with(viewHolder.subject_live_cover.getContext()).load(parinfo.getBroadcastCoverImgUrl()).into(viewHolder.subject_live_cover);
         }
@@ -97,7 +98,7 @@ public class SubtitleLiveAdapter extends RecyclerView.Adapter<SubtitleLiveAdapte
         void onLongClick(int position,View view);
     }
 
-    public void setData(List<SubjectLiveInfo> datas){
+    public void setData(List<ProvideLiveBroadcastDetails> datas){
         this.datas = datas;
     }
 }

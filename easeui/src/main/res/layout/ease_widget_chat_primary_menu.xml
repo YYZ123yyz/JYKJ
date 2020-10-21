@@ -33,8 +33,7 @@
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_marginLeft="6dp"
-                android:background="@drawable/ease_chatting_setmode_keyboard_btn"
-                android:visibility="gone" />
+                android:background="@drawable/ease_chatting_setmode_keyboard_btn" android:visibility="gone"/>
 
         <LinearLayout
                 android:id="@+id/btn_press_to_speak"
@@ -118,7 +117,7 @@
                 android:layout_height="32dip"
                 android:layout_marginLeft="4dp"
                 android:layout_marginRight="10dp"
-                android:background="@drawable/ease_type_select_btn" android:visibility="gone" />
+                android:background="@drawable/ease_type_select_btn" />
 
         <Button
                 android:id="@+id/btn_send"
@@ -128,8 +127,7 @@
                 android:background="@drawable/ease_chat_send_btn_selector"
                 android:text="@string/button_send"
                 android:textColor="#666666"
-                android:textSize="16sp"
-                android:visibility="gone" />
+                android:textSize="16sp" />
     </LinearLayout>
 
 </LinearLayout>

@@ -1,6 +1,7 @@
 package com.hyphenate.easeui.widget.chatrow;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.text.Spannable;
 import android.view.View;
 import android.widget.BaseAdapter;
@@ -26,8 +27,15 @@ public class EaseChatRoomRowText extends EaseChatRow{
 
 	@Override
 	protected void onInflateView() {
-		inflater.inflate(message.direct() == EMMessage.Direct.RECEIVE ?
-				R.layout.ease_row_room_received_message : R.layout.ease_row_room_sent_message, this);
+        /*EMTextMessageBody txtBody = (EMTextMessageBody) message.getBody();
+        if(null!=txtBody.getMessage() && (txtBody.getMessage().contains("加入直播间了")||txtBody.getMessage().contains("离开直播间了"))) {
+            inflater.inflate(R.layout.ease_row_room_remind_message, this);
+        }else{
+            inflater.inflate(message.direct() == EMMessage.Direct.RECEIVE ?
+                    R.layout.ease_row_room_received_message : R.layout.ease_row_room_sent_message, this);
+        }*/
+        inflater.inflate(message.direct() == EMMessage.Direct.RECEIVE ?
+                R.layout.ease_row_room_received_message : R.layout.ease_row_room_sent_message, this);
 	}
 
 	@Override
@@ -39,16 +47,57 @@ public class EaseChatRoomRowText extends EaseChatRow{
     @Override
     public void onSetUpView() {
         EMTextMessageBody txtBody = (EMTextMessageBody) message.getBody();
-        Spannable span = EaseSmileUtils.getSmiledText(context, txtBody.getMessage());
-        // 设置内容
-        contentView.setText(span, BufferType.SPANNABLE);
-        if(null!=txtBody.getMessage() && txtBody.getMessage().contains("加入直播间了")){
+
+        if(!itemStyle.isShowChatBack() && null!=txtBody.getMessage() && (txtBody.getMessage().equals("加入直播间了")||txtBody.getMessage().equals("离开直播间了"))) {
+            try {
+                String parnickname = message.getStringAttribute("nickName");
+                Spannable span = EaseSmileUtils.getSmiledText(context, parnickname+txtBody.getMessage());
+                // 设置内容
+                contentView.setText(span, BufferType.SPANNABLE);
+            }catch (Exception ex){
+
+            }
+        }else{
+            Spannable span = EaseSmileUtils.getSmiledText(context, txtBody.getMessage());
+            // 设置内容
+            contentView.setText(span, BufferType.SPANNABLE);
+        }
+        /*if(null!=txtBody.getMessage() && txtBody.getMessage().contains("加入直播间了")){
             chat_gridrow_layout.setBackgroundColor(getResources().getColor(R.color.colorEnterroomBack));
         }else if(null!=txtBody.getMessage() && txtBody.getMessage().contains("离开直播间了")){
             chat_gridrow_layout.setBackgroundColor(getResources().getColor(R.color.colorExitroomBack));
         }else{
-            chat_gridrow_layout.setBackgroundColor(getResources().getColor(R.color.colorNomalroomRow));
+            if(itemStyle.isShowChatBack()) {
+                chat_gridrow_layout.setBackgroundColor(getResources().getColor(R.color.colorNomalroomRow));
+            }
+        }*/
+        //&& (null!=txtBody.getMessage() && (txtBody.getMessage().contains("加入直播间了") || txtBody.getMessage().contains("离开直播间了")))
+        if(!itemStyle.isShowChatBack()) {
+            //chat_gridrow_layout.setVisibility(VISIBLE);
+            chat_gridrow_layout.setBackgroundColor(getResources().getColor(R.color.back_low_gray));
+            if(null!=txtBody.getMessage() && (txtBody.getMessage().contains("加入直播间了") || txtBody.getMessage().contains("离开直播间了"))){
+                contentView.setBackgroundColor(getResources().getColor(R.color.hintTextColor));
+                contentView.setTextColor(getResources().getColor(R.color.writeColor));
+            }else{
+                contentView.setBackgroundColor(Color.TRANSPARENT);
+                contentView.setTextColor(getResources().getColor(R.color.textColor_black));
+            }
+        }else{
+            if(null!=txtBody.getMessage() && txtBody.getMessage().contains("加入直播间了")){
+                chat_gridrow_layout.setBackgroundColor(getResources().getColor(R.color.colorEnterroomBack));
+            }else if(null!=txtBody.getMessage() && txtBody.getMessage().contains("离开直播间了")){
+                chat_gridrow_layout.setBackgroundColor(getResources().getColor(R.color.colorExitroomBack));
+            }else{
+                if(itemStyle.isShowChatBack()) {
+                    chat_gridrow_layout.setBackgroundColor(getResources().getColor(R.color.colorNomalroomRow));
+                }
+            }
         }
+
+        /*else{
+            chat_gridrow_layout.setBackgroundColor(getResources().getColor(R.color.back_low_gray));
+            chat_gridrow_layout.setVisibility(VISIBLE);
+        }*/
     }
 
     @Override

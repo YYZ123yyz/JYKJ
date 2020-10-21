@@ -2,6 +2,7 @@ package www.jykj.com.jykj_zxyl.fragment.liveroom;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -20,12 +21,15 @@ import com.scwang.smart.refresh.footer.ClassicsFooter;
 import com.scwang.smart.refresh.header.ClassicsHeader;
 import com.scwang.smart.refresh.layout.api.RefreshLayout;
 
+import entity.conditions.QueryLectureCond;
+import entity.liveroom.ProvideLiveBroadcastDetails;
 import entity.liveroom.QueryLiveroomCond;
 import entity.liveroom.SubjectLiveInfo;
 import netService.HttpNetService;
 import netService.entity.NetRetEntity;
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.activity.home.MyLiveRoomActivity;
+import www.jykj.com.jykj_zxyl.activity.hyhd.LectureDetailActivity;
 import www.jykj.com.jykj_zxyl.adapter.SubtitleLiveAdapter;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.util.IConstant;
@@ -42,7 +46,7 @@ public class SubjectRoomFragment extends Fragment {
     RecyclerView hot_live_rc;
     LinearLayoutManager mLayoutManager;
     SubtitleLiveAdapter subtitleLiveAdapter;
-    List<SubjectLiveInfo> mdatas = new ArrayList();
+    List<ProvideLiveBroadcastDetails> mdatas = new ArrayList();
     private int lastVisibleIndex = 0;
     private LoadDataTask loadDataTask;
     boolean mLoadDate = true;
@@ -72,7 +76,11 @@ public class SubjectRoomFragment extends Fragment {
             public void onClick(int position, View view) {
                 switch (view.getId()){
                     case R.id.play_subject_live_btn:
-                        SubjectLiveInfo parbean = mdatas.get(position);
+                        ProvideLiveBroadcastDetails parbean = mdatas.get(position);
+                        Intent lecdetint = new Intent(mActivity, LectureDetailActivity.class);
+                        lecdetint.putExtra("detailCode",parbean.getDetailsCode());
+                        lecdetint.putExtra("sub_room_info",parbean);
+                        mActivity.startActivity(lecdetint);
                         break;
                 }
             }
@@ -107,39 +115,39 @@ public class SubjectRoomFragment extends Fragment {
     public void loadData(){
         if (isAdded()&&refreshLayout!=null) {
             refreshLayout.autoRefresh();
-            QueryLiveroomCond queryCond = new QueryLiveroomCond();
+            QueryLectureCond queryCond = new QueryLectureCond();
             queryCond.setLoginUserPosition(mApp.loginDoctorPosition);
             queryCond.setOperUserCode(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
             queryCond.setOperUserName(mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
             queryCond.setPageNum(String.valueOf(pageNumber));
             queryCond.setRowNum(String.valueOf(pageSize));
             queryCond.setRequestClientType("1");
-            queryCond.setSearchBroadcastTitle("");
-            queryCond.setSearchClassCode("");
-            queryCond.setSearchKeywordsCode("");
-            queryCond.setSearchRiskCode("");
-            queryCond.setSearchUserName("");
+            //queryCond.setSearchBroadcastTitle("");
+            //queryCond.setSearchClassCode("");
+            //queryCond.setSearchKeywordsCode("");
+            //queryCond.setSearchRiskCode("");
+            //queryCond.setSearchUserName("");
             loadDataTask = new LoadDataTask(queryCond);
             loadDataTask.execute();
         }
     }
 
-    class LoadDataTask extends AsyncTask<Void,Void,List<SubjectLiveInfo>> {
-        QueryLiveroomCond queryCond;
-        LoadDataTask(QueryLiveroomCond queryCond){
+    class LoadDataTask extends AsyncTask<Void,Void,List<ProvideLiveBroadcastDetails>> {
+        QueryLectureCond queryCond;
+        LoadDataTask(QueryLectureCond queryCond){
             this.queryCond = queryCond;
         }
         @Override
-        protected List<SubjectLiveInfo> doInBackground(Void... voids) {
+        protected List<ProvideLiveBroadcastDetails> doInBackground(Void... voids) {
             mLoadDate = false;
-            List<SubjectLiveInfo> retlist = new ArrayList();
+            List<ProvideLiveBroadcastDetails> retlist = new ArrayList();
             try {
                 queryCond.setPageNum(String.valueOf(pageNumber));
                 String quejson = new Gson().toJson(queryCond);
                 String retstr = HttpNetService.urlConnectionService("jsonDataInfo="+quejson,"https://www.jiuyihtn.com:41041/broadcastLiveDataControlle/searchLiveRoomDetailsByBroadcastStateResSpecialList");
                 NetRetEntity retEntity = JSON.parseObject(retstr,NetRetEntity.class);
                 if(1==retEntity.getResCode() && StrUtils.defaulObjToStr(retEntity.getResJsonData()).length()>3){
-                    retlist = JSON.parseArray(retEntity.getResJsonData(),SubjectLiveInfo.class);
+                    retlist = JSON.parseArray(retEntity.getResJsonData(),ProvideLiveBroadcastDetails.class);
                 }else{
                     refreshLayout.finishLoadMoreWithNoMoreData();
                 }
@@ -152,7 +160,7 @@ public class SubjectRoomFragment extends Fragment {
         }
 
         @Override
-        protected void onPostExecute(List<SubjectLiveInfo> hotLiveInfos) {
+        protected void onPostExecute(List<ProvideLiveBroadcastDetails> hotLiveInfos) {
             if(hotLiveInfos.size()>0){
                 if(pageNumber==1){
                     mdatas.clear();

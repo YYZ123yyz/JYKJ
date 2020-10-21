@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              android:background="@color/pBackColor"
+              tools:context=".activity.myself.MyAccountActivity">
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@color/groabColor"
+    >
+        <LinearLayout
+                android:layout_width="61dp"
+                android:layout_height="match_parent"
+                android:id="@+id/back"
+                android:orientation="horizontal">
+            <ImageView
+                    android:layout_width="10dp"
+                    android:layout_height="20dp"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="15dp"
+                    android:src="@mipmap/arrow_left"/>
+        </LinearLayout>
+        <TextView
+                android:text="设置价格"
+                android:textSize="10pt"
+                android:layout_centerInParent="true"
+                android:layout_width="wrap_content"
+                android:textColor="@color/writeColor"
+                android:layout_height="wrap_content"/>
+    </RelativeLayout>
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:background="@color/writeColor"
+            android:layout_marginTop="1dp"
+            android:orientation="vertical">
+        <TextView android:layout_width="match_parent" android:layout_height="30dp" android:text="设置价格" android:id="@+id/set_live_tit">
+        </TextView>
+        <EditText android:layout_width="match_parent" android:layout_height="40dp"
+                  android:inputType="numberDecimal" android:drawableLeft="@mipmap/monlogo" android:id="@+id/ed_price_value"></EditText>
+    </LinearLayout>
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="提交"
+            android:background="@drawable/shape_corner_button1"
+            android:textColor="@color/writeColor"
+            android:gravity="center"
+            android:layout_marginTop="100dp"
+            android:id="@+id/tv_commit"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="70dp"
+            android:layout_marginRight="70dp"
+            android:padding="6dp"/>
+</LinearLayout>

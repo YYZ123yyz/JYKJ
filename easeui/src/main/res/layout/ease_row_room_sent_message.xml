@@ -2,27 +2,28 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:gravity="center_horizontal"
-              android:layout_marginTop="2dp"
+              android:layout_marginTop="@dimen/dp_1"
               android:orientation="vertical">
 
     <TextView
             android:id="@+id/timestamp"
             style="@style/chat_text_date_style"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:visibility="gone"/>
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_gravity="center" />
 
     <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:background="#38888888" android:id="@+id/chat_gridrow_lay">
+            android:layout_height="wrap_content" android:id="@+id/chat_gridrow_lay">
 
         <com.hyphenate.easeui.widget.EaseImageView
                 android:id="@+id/iv_userhead"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_alignParentLeft="true"
+                android:layout_width="@dimen/dp_45"
+                android:layout_height="@dimen/dp_45"
+                android:layout_alignParentRight="true"
                 android:layout_alignParentTop="true"
-                android:layout_marginLeft="@dimen/margin_chat_activity"
+                android:layout_marginRight="@dimen/dp_2"
                 android:src="@mipmap/doctor_head"
                 android:scaleType="fitXY" />
 
@@ -30,42 +31,41 @@
                 android:id="@+id/bubble"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/margin_chat_activity"
-                android:layout_toRightOf="@id/tv_userid"
-        >
+                android:layout_below="@+id/tv_userid"
+                android:layout_toLeftOf="@+id/iv_userhead"
+                android:layout_marginRight="@dimen/dp_2"
+                android:background="@drawable/chat_to_bg">
 
             <TextView
                     android:id="@+id/tv_chatcontent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:autoLink="web"
-                    android:layout_centerInParent="true"
-                    android:gravity="center|left"
-                    android:paddingRight="6dp"
-                    android:paddingLeft="1dp"
-                    android:height="20dp"
-                    android:textColor="#000000"
-                    android:maxWidth="225.0dip"
-                    android:textSize="12sp" />
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/dp_2"
+                    android:paddingRight="@dimen/dp_1"
+                    android:minHeight="@dimen/dp_25"
+                    android:maxWidth="@dimen/dp_225"
+                    android:textColor="#ff000000"
+                    android:textSize="@dimen/sp_12" />
         </RelativeLayout>
 
         <TextView
                 android:id="@+id/tv_userid"
-                android:visibility="gone"
-                android:textSize="12sp"
                 style="@style/chat_text_name_style"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/chat_nick_margin_left"
-                android:layout_toRightOf="@id/iv_userhead"
-                android:text="" />
-
+                android:layout_height="@dimen/dp_25"
+                android:gravity="center_vertical"
+                android:layout_marginRight="@dimen/dp_2"
+                android:textSize="@dimen/sp_12"
+                android:layout_toLeftOf="@id/iv_userhead"
+                android:visibility="gone" />
         <ImageView
                 android:id="@+id/msg_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_toRightOf="@id/bubble"
+                android:layout_toLeftOf="@id/bubble"
                 android:clickable="true"
                 android:src="@drawable/ease_msg_state_failed_resend"
                 android:visibility="gone" />
@@ -78,7 +78,7 @@
                 android:layout_centerVertical="true"
                 android:layout_toLeftOf="@id/bubble"
                 android:text="@string/text_ack_msg"
-                android:textSize="12sp"
+                android:textSize="@dimen/sp_12"
                 android:visibility="invisible" />
 
         <TextView
@@ -87,18 +87,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_toRightOf="@id/bubble"
+                android:layout_toLeftOf="@id/bubble"
                 android:text="@string/text_delivered_msg"
-                android:textSize="12sp"
+                android:textSize="@dimen/sp_12"
                 android:visibility="invisible" />
 
         <ProgressBar
                 android:id="@+id/progress_bar"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:layout_centerVertical="true"
-                android:layout_toRightOf="@id/bubble"
-                android:visibility="visible" />
+                android:layout_toLeftOf="@id/bubble"
+                android:visibility="gone" />
     </RelativeLayout>
 
 </LinearLayout>
