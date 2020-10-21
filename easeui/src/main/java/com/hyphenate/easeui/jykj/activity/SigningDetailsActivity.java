@@ -81,6 +81,7 @@ import www.jykj.com.jykj_zxyl.app_base.base_activity.BaseActivity;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.BaseBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.ViewSysUserDoctorInfoAndHospital;
 import www.jykj.com.jykj_zxyl.app_base.base_dialog.CommonConfirmDialog;
+import www.jykj.com.jykj_zxyl.app_base.base_utils.ActivityStackManager;
 import www.jykj.com.jykj_zxyl.app_base.base_utils.GsonUtils;
 import www.jykj.com.jykj_zxyl.app_base.base_utils.SharedPreferences_DataSave;
 import www.jykj.com.jykj_zxyl.app_base.base_utils.StringUtils;
@@ -157,6 +158,7 @@ public class SigningDetailsActivity extends BaseActivity implements View.OnClick
 
     private NetRetEntity netRetEntity;
     private String doctorUrl;
+    private String patientUrl;
     private String signNo;
     private String signCode;
     private String orderCode;
@@ -199,6 +201,7 @@ public class SigningDetailsActivity extends BaseActivity implements View.OnClick
         orderCode = intent.getStringExtra("orderCode");
         signCode = intent.getStringExtra("signCode");
         doctorUrl = intent.getStringExtra("doctorUrl");
+        patientUrl=intent.getStringExtra("patientUrl");
         Log.e("TAG", "onCreate: " + doctorUrl);
 
         Bundle extras = this.getIntent().getExtras();
@@ -207,6 +210,8 @@ public class SigningDetailsActivity extends BaseActivity implements View.OnClick
             signCode=extras.getString("signCode");
             singNO = extras.getString("singNO");
             status = extras.getString("status");
+            doctorUrl = extras.getString("doctorUrl");
+            patientUrl= extras.getString("patientUrl");
 
         }
     }
@@ -800,7 +805,8 @@ public class SigningDetailsActivity extends BaseActivity implements View.OnClick
                                             , monitorRate, tvDuration.getText().toString(),
                                             totalprice.getText().toString(), singNO, "",
                                             "card", patientCode);
-                                   // EventBus.getDefault().post(orderMessage);
+                                    //EventBus.getDefault().post(orderMessage);
+                                    ActivityStackManager.getInstance().finishChatActivity();
                                     startJumpChatActivity(patientCode,patientName1,orderMessage);
                                     finish();
                                 } else {
@@ -809,7 +815,8 @@ public class SigningDetailsActivity extends BaseActivity implements View.OnClick
                                             mDetectBeans.size() + "项", monitorRate,
                                             tvDuration.getText().toString(), totalprice.getText().toString(),
                                             signNo, "", "card", patientCode);
-                                    //EventBus.getDefault().post(orderMessage);
+                                    // EventBus.getDefault().post(orderMessage);
+                                    ActivityStackManager.getInstance().finishChatActivity();
                                     startJumpChatActivity(patientCode,patientName1,orderMessage);
                                     finish();
                                 }
@@ -896,7 +903,7 @@ public class SigningDetailsActivity extends BaseActivity implements View.OnClick
         intent.putExtra("usersName", mProvideViewSysUserPatientInfoAndRegion.getUserName());
         intent.putExtra("userUrl", mProvideViewSysUserPatientInfoAndRegion.getUserLogoUrl());
         //URL
-        intent.putExtra("doctorUrl", mProvideViewSysUserPatientInfoAndRegion.getUserLogoUrl());
+        intent.putExtra("doctorUrl", patientUrl);
         intent.putExtra("patientCode", patientCode);
         Bundle bundle = new Bundle();
         bundle.putSerializable("orderMsg", orderMessage);

@@ -119,7 +119,8 @@ public class WarningFragment extends AbstractMvpBaseFragment<FragmentContract.Vi
                                 .putExtra("patientCode", patientLablePunchClockState.getPatientCode())
                                 .putExtra("patientName", patientLablePunchClockState.getUserName())
                                 .putExtra("singCode", "")
-                                .putExtra("doctorUrl", Constant.doctorUrl)
+                                .putExtra("patientUrl",patientLablePunchClockState.getUserLogoUrl())
+                                .putExtra("doctorUrl", patientLablePunchClockState.getUserLogoUrl())
                         );
                     }
 

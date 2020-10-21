@@ -101,6 +101,10 @@ public class HomeGraphicFragment extends AbstractMvpBaseFragment<HealthEducation
                 Bundle bundle=new Bundle();
                 bundle.putString("url",healthEducationBean.getImageTextWatchUrl());
                 bundle.putString("title","图文");
+                int flagImageTextVisitType = healthEducationBean.getFlagImageTextVisitType();
+                if (flagImageTextVisitType==1) {
+                    bundle.putString("imageTextCode",healthEducationBean.getImageTextCode());
+                }
                 startActivity(H5Activity.class,bundle);
             }
         });

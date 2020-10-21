@@ -12,12 +12,24 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.allen.library.interceptor.Transformer;
+import com.allen.library.interfaces.ILoadingView;
+
+import java.util.HashMap;
+
 import www.jykj.com.jykj_zxyl.app_base.R;
 import www.jykj.com.jykj_zxyl.app_base.base_activity.BaseActivity;
+import www.jykj.com.jykj_zxyl.app_base.base_bean.BaseBean;
+import www.jykj.com.jykj_zxyl.app_base.base_bean.ImageTextBean;
+import www.jykj.com.jykj_zxyl.app_base.base_utils.GsonUtils;
 import www.jykj.com.jykj_zxyl.app_base.base_utils.StringUtils;
 import www.jykj.com.jykj_zxyl.app_base.base_view.BaseToolBar;
 import www.jykj.com.jykj_zxyl.app_base.base_view.LoadingLayoutManager;
 import www.jykj.com.jykj_zxyl.app_base.base_view.ProgressWebView;
+import www.jykj.com.jykj_zxyl.app_base.http.ApiHelper;
+import www.jykj.com.jykj_zxyl.app_base.http.CommonDataObserver;
+import www.jykj.com.jykj_zxyl.app_base.http.ParameUtil;
+import www.jykj.com.jykj_zxyl.app_base.http.RetrofitUtil;
 
 /**
  * Description:公共H5页面
@@ -48,6 +60,7 @@ public class H5Activity extends BaseActivity {
      */
     private JYKJJsApi mQSJsApi;
     private String title;
+    private String imageTextCode;
 
     @Override
     protected void onBeforeSetContentLayout() {
@@ -55,6 +68,7 @@ public class H5Activity extends BaseActivity {
         if (extras != null) {
             url = extras.getString("url");
             title=extras.getString("title");
+            imageTextCode=extras.getString("imageTextCode");
         }
 
     }
@@ -76,6 +90,13 @@ public class H5Activity extends BaseActivity {
         //添加监听
         addListener();
     }
+
+    @Override
+    protected void initData() {
+        super.initData();
+        sendGetHtmlContentRequest(imageTextCode);
+    }
+
     /**
      * 设置Title，方法内的参数可自己定义，如左边文字，颜色，图片
      */
@@ -129,6 +150,46 @@ public class H5Activity extends BaseActivity {
         //mWebView.loadDataWithBaseURL( null, url , "text/html", "UTF-8", null ) ;
     }
 
+
+    /**
+     * 发送获取html内容请求
+     * @param imageTextCode 请求编码
+     */
+    private void sendGetHtmlContentRequest(String imageTextCode){
+        HashMap<String, Object> hashMap = ParameUtil.buildBaseDoctorParam(this);
+        hashMap.put("imageTextCode",imageTextCode);
+        String s = RetrofitUtil.encodeParam(hashMap);
+
+        ApiHelper.getApiService().searchPatientIndexHealthEducationByImageTextDetail(s)
+                .compose(Transformer.switchSchedulers(new ILoadingView() {
+            @Override
+            public void showLoadingView() {
+
+            }
+
+            @Override
+            public void hideLoadingView() {
+
+            }
+        })).subscribe(new CommonDataObserver() {
+            @Override
+            protected void onSuccessResult(BaseBean baseBean) {
+                int resCode = baseBean.getResCode();
+                if (resCode==1) {
+                    String resJsonData = baseBean.getResJsonData();
+                    ImageTextBean imageTextBean
+                            = GsonUtils.fromJson(resJsonData, ImageTextBean.class);
+                    String imageTextContent = imageTextBean.getImageTextContent();
+                    mWebView.loadData(imageTextContent, "text/html", "UTF-8");
+                }
+            }
+
+            @Override
+            protected void onError(String s) {
+                super.onError(s);
+            }
+        });
+    }
     /**
      * 添加监听
      */

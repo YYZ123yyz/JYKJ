@@ -202,6 +202,7 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
     public UpdMyClinicDetailByOrderTreatmentLimitNum updMyClinicDetailByOrderTreatmentLimitNum;
     private String userName;
     private String userUrl;
+    private String patientUrl;
     private SharedPreferences sharedPreferences;
     private SharedPreferences preferences;
     private String patientAlias;
@@ -242,7 +243,7 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
 
         Constant.doctorUrl = fragmentArgs.getString("userUrl");
         Constant.patientUrl = fragmentArgs.getString("doctorUrl");
-
+        patientUrl=fragmentArgs.getString("doctorUrl");
         patientAlias = fragmentArgs.getString("patientAlias");
         patientCode = fragmentArgs.getString("patientCode");
 
@@ -1097,6 +1098,7 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
                             .putExtra("patientSex", patientSex)
                             .putExtra("singCode", "")
                             .putExtra("doctorUrl", Constant.doctorUrl)
+                            .putExtra("patientUrl",patientUrl)
                     );
                     break;
                 default:
@@ -1249,6 +1251,7 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
         userUrl = (String) fragmentArgs.get("userUrl");
         message.setAttribute("nickName", userName);
         message.setAttribute("imageUrl", userUrl);
+        message.setAttribute("patientUrl",patientUrl);
         message.setAttribute("reserveConfigStart",reserveConfigStart);
         message.setAttribute("reserveConfigEnd",reserveConfigEnd);
         // Send message.

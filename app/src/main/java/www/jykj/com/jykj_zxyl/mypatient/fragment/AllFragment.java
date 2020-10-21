@@ -119,6 +119,7 @@ public class AllFragment extends AbstractMvpBaseFragment<FragmentContract.View,
                         .putExtra("patientCode", patientLablePunchClockState.getPatientCode())
                         .putExtra("patientName", patientLablePunchClockState.getUserName())
                         .putExtra("singCode", "")
+                        .putExtra("patientUrl",patientLablePunchClockState.getUserLogoUrl())
                         .putExtra("doctorUrl", Constant.doctorUrl)
                 );
             }

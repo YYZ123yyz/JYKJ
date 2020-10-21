@@ -120,7 +120,8 @@ public class NotRemindFragment extends AbstractMvpBaseFragment<NotFragmentContra
                                 .putExtra("patientCode", patientLablePunchClockState.getPatientCode())
                                 .putExtra("patientName", patientLablePunchClockState.getUserName())
                                 .putExtra("singCode", "")
-                                .putExtra("doctorUrl", Constant.doctorUrl)
+                                .putExtra("patientUrl",patientLablePunchClockState.getUserLogoUrl())
+                                .putExtra("doctorUrl", patientLablePunchClockState.getUserLogoUrl())
                         );
                     }
 

@@ -32,7 +32,6 @@ public class Myself_DetailPresenter  extends BasePresenterImpl<Myself_DetailCont
         ApiHelper.getApiService().searchmyself_detail(s).compose(Transformer.switchSchedulers(new ILoadingView() {
             @Override
             public void showLoadingView() {
-
             }
 
             @Override

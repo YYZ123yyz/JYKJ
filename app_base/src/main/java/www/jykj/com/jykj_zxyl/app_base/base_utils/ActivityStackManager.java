@@ -108,6 +108,15 @@ public class ActivityStackManager {
         }
     }
 
+
+    public void finishChatActivity() {
+        for (Activity activity : listActivity) {
+            if (activity.getClass().getName().equals("www.jykj.com.jykj_zxyl.activity.hyhd.ChatActivity")) {
+                activity.finish();
+            }
+        }
+    }
+
     /**
      * 判断队列中是否存在指定Activity
      *

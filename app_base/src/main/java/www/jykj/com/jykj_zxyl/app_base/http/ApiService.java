@@ -256,5 +256,9 @@ public interface ApiService {
     @POST("/patientHealthRecordsControlle/searchPatientConditionDiseaseRecordResData_V200916")
     Observable<String> searchmyself_detail(@Query(value = "jsonDataInfo"
             , encoded = true) String queryJson);
+    //健康教育-图文资讯详情
+    @POST("/doctorDataControlle/searchPatientIndexHealthEducationByImageTextDetail")
+    Observable<String> searchPatientIndexHealthEducationByImageTextDetail(@Query(value = "jsonDataInfo"
+            , encoded = true) String queryJson);
 }
 

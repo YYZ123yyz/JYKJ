@@ -3,13 +3,11 @@ package www.jykj.com.jykj_zxyl.activity.hyhd;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.SparseArray;
@@ -18,9 +16,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.allen.library.interceptor.Transformer;
@@ -43,11 +39,9 @@ import com.hyphenate.easeui.widget.EaseChatMessageList;
 import com.hyphenate.easeui.widget.EaseTitleBar;
 
 import java.util.HashMap;
-import java.util.Objects;
 
 import netService.HttpNetService;
 import netService.entity.NetRetEntity;
-import util.ActivityStackManager;
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.activity.home.twjz.TWJZ_ZDMSActivity;
 import www.jykj.com.jykj_zxyl.activity.home.wdzs.ProvideViewInteractOrderTreatmentAndPatientInterrogation;
@@ -56,6 +50,7 @@ import www.jykj.com.jykj_zxyl.app_base.base_bean.BaseBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.CheckImResultBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.PatientRecordDetBean;
 import www.jykj.com.jykj_zxyl.app_base.base_dialog.MedcalRecordDialog;
+import www.jykj.com.jykj_zxyl.app_base.base_utils.ActivityStackManager;
 import www.jykj.com.jykj_zxyl.app_base.http.ApiHelper;
 import www.jykj.com.jykj_zxyl.app_base.http.CommonDataObserver;
 import www.jykj.com.jykj_zxyl.app_base.http.ParameUtil;
@@ -209,6 +204,9 @@ public class ChatActivity extends BaseActivity {
         sendGetCheckRequest(userCode,userName);
         //添加监听
         addListener();
+
+        String name = this.getClass().getName();
+        System.out.println(name);
     }
 
 

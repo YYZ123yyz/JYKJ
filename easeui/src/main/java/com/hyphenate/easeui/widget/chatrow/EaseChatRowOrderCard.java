@@ -136,6 +136,7 @@ public class EaseChatRowOrderCard extends EaseChatRow {
     private String nickName;
     protected Bundle fragmentArgs;
     private String patientCode;
+    private String patientUrl;
     private String imageUrl;
     private String format;
 
@@ -235,6 +236,7 @@ public class EaseChatRowOrderCard extends EaseChatRow {
         patientCode = message.getStringAttribute("patientCode", "");
         nickName = message.getStringAttribute("nickName", "");
         imageUrl = message.getStringAttribute("imageUrl", "");
+        patientUrl=message.getStringAttribute("patientUrl","");
         statusType=message.getStringAttribute("statusType","");
         startTime=message.getStringAttribute("startTime","");
         cancelTime=message.getStringAttribute("cancelTime","");
@@ -585,6 +587,8 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                         bundle.putString("patientCode", patientCode);
                         bundle.putString("singNO", singNO);
                         bundle.putString("status", "2");
+                        bundle.putString("doctorUrl",imageUrl);
+                        bundle.putString("patientUrl",Constant.patientUrl);
                         startActivity(SigningDetailsActivity.class, bundle);
                     }
                 });
