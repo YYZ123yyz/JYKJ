@@ -268,56 +268,56 @@ public abstract class EaseChatRow extends LinearLayout {
                     usernickView.setVisibility(View.GONE);
                 }
             }
-            if (bubbleLayout != null) {
-                if(itemStyle.isShowChatBack()) {
-                    EMMessage parmsg = (EMMessage) adapter.getItem(position);
-                    EMTextMessageBody txtBody = (EMTextMessageBody) parmsg.getBody();
-                    if (null != txtBody.getMessage() && (txtBody.getMessage().contains("加入直播间了") || txtBody.getMessage().contains("离开直播间了"))) {
-                        bubbleLayout.setBackgroundColor(getResources().getColor(R.color.colorRmindinfoBack));
-                        RelativeLayout.LayoutParams rp = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-                        rp.addRule(RelativeLayout.CENTER_HORIZONTAL);
-                        bubbleLayout.setLayoutParams(rp);
-                    } else {
-                        if (parmsg.direct() == Direct.RECEIVE) {
-                            bubbleLayout.setBackgroundResource(R.drawable.chat_from_bg);
-                            RelativeLayout.LayoutParams rp = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-                            //rp.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-                            rp.addRule(RelativeLayout.RIGHT_OF,R.id.iv_userhead);
-                            rp.addRule(RelativeLayout.BELOW,R.id.tv_userid);
-                            bubbleLayout.setLayoutParams(rp);
-                        } else {
-                            bubbleLayout.setBackgroundResource(R.drawable.chat_to_bg);
-                            RelativeLayout.LayoutParams rp = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-                            //rp.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-                            rp.addRule(RelativeLayout.LEFT_OF,R.id.iv_userhead);
-                            rp.addRule(RelativeLayout.BELOW,R.id.tv_userid);
-                            bubbleLayout.setLayoutParams(rp);
-                        }
-                    }
-                }
-                /*if(!itemStyle.isShowChatBack() && isremindinfo){
-                    bubbleLayout.setBackgroundColor(getResources().getColor(R.color.colorRmindinfoBack));
-                    RelativeLayout.LayoutParams rp = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-                    rp.addRule(RelativeLayout.CENTER_IN_PARENT);
-                    bubbleLayout.setLayoutParams(rp);
-                }else{
-                    if (message.direct() == Direct.SEND) {
-                        if (itemStyle.getMyBubbleBg() != null) {
-                            bubbleLayout.setBackground(((EaseMessageAdapter) adapter).getMyBubbleBg());
-                        }
-                        RelativeLayout.LayoutParams rp = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-                        rp.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-                        bubbleLayout.setLayoutParams(rp);
-                    } else if (message.direct() == Direct.RECEIVE) {
-                        if (itemStyle.getOtherBubbleBg() != null) {
-                            bubbleLayout.setBackground(((EaseMessageAdapter) adapter).getOtherBubbleBg());
-                        }
-                        RelativeLayout.LayoutParams rp = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-                        rp.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-                        bubbleLayout.setLayoutParams(rp);
-                    }
-                }*/
-            }
+//            if (bubbleLayout != null) {
+//                if(itemStyle.isShowChatBack()) {
+//                    EMMessage parmsg = (EMMessage) adapter.getItem(position);
+//                    EMTextMessageBody txtBody = (EMTextMessageBody) parmsg.getBody();
+//                    if (null != txtBody.getMessage() && (txtBody.getMessage().contains("加入直播间了") || txtBody.getMessage().contains("离开直播间了"))) {
+//                        bubbleLayout.setBackgroundColor(getResources().getColor(R.color.colorRmindinfoBack));
+//                        RelativeLayout.LayoutParams rp = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+//                        rp.addRule(RelativeLayout.CENTER_HORIZONTAL);
+//                        bubbleLayout.setLayoutParams(rp);
+//                    } else {
+//                        if (parmsg.direct() == Direct.RECEIVE) {
+//                            bubbleLayout.setBackgroundResource(R.drawable.chat_from_bg);
+//                            RelativeLayout.LayoutParams rp = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+//                            //rp.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+//                            rp.addRule(RelativeLayout.RIGHT_OF,R.id.iv_userhead);
+//                            rp.addRule(RelativeLayout.BELOW,R.id.tv_userid);
+//                            bubbleLayout.setLayoutParams(rp);
+//                        } else {
+//                            bubbleLayout.setBackgroundResource(R.drawable.chat_to_bg);
+//                            RelativeLayout.LayoutParams rp = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+//                            //rp.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+//                            rp.addRule(RelativeLayout.LEFT_OF,R.id.iv_userhead);
+//                            rp.addRule(RelativeLayout.BELOW,R.id.tv_userid);
+//                            bubbleLayout.setLayoutParams(rp);
+//                        }
+//                    }
+//                }
+//                /*if(!itemStyle.isShowChatBack() && isremindinfo){
+//                    bubbleLayout.setBackgroundColor(getResources().getColor(R.color.colorRmindinfoBack));
+//                    RelativeLayout.LayoutParams rp = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+//                    rp.addRule(RelativeLayout.CENTER_IN_PARENT);
+//                    bubbleLayout.setLayoutParams(rp);
+//                }else{
+//                    if (message.direct() == Direct.SEND) {
+//                        if (itemStyle.getMyBubbleBg() != null) {
+//                            bubbleLayout.setBackground(((EaseMessageAdapter) adapter).getMyBubbleBg());
+//                        }
+//                        RelativeLayout.LayoutParams rp = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+//                        rp.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+//                        bubbleLayout.setLayoutParams(rp);
+//                    } else if (message.direct() == Direct.RECEIVE) {
+//                        if (itemStyle.getOtherBubbleBg() != null) {
+//                            bubbleLayout.setBackground(((EaseMessageAdapter) adapter).getOtherBubbleBg());
+//                        }
+//                        RelativeLayout.LayoutParams rp = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+//                        rp.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+//                        bubbleLayout.setLayoutParams(rp);
+//                    }
+//                }*/
+//            }
         }
         if(null!=usernickView){
             if (message.direct() == Direct.SEND) {

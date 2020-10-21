@@ -33,7 +33,7 @@ public class FragmentPresenter  extends BasePresenterImpl<FragmentContract.View>
         hashMap.put("searchDoctorCode",searchDoctorCode);
         hashMap.put("searchStateType",searchStateType);
         String s = RetrofitUtil.encodeParam(hashMap);
-        ApiHelper.getLocalApi().searchList(s).compose(Transformer.switchSchedulers(new ILoadingView() {
+        ApiHelper.getApiService().searchList(s).compose(Transformer.switchSchedulers(new ILoadingView() {
             @Override
             public void showLoadingView() {
                 if (mView!=null) {
