@@ -269,7 +269,7 @@ public abstract class EaseChatRow extends LinearLayout {
                 }
             }
             if (bubbleLayout != null) {
-                if(!itemStyle.isShowChatBack()) {
+                if(itemStyle.isShowChatBack()) {
                     EMMessage parmsg = (EMMessage) adapter.getItem(position);
                     EMTextMessageBody txtBody = (EMTextMessageBody) parmsg.getBody();
                     if (null != txtBody.getMessage() && (txtBody.getMessage().contains("加入直播间了") || txtBody.getMessage().contains("离开直播间了"))) {
