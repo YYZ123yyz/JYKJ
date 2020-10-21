@@ -359,7 +359,8 @@ public class LivePlayerTwoActivity extends ChatPopDialogActivity implements ITXL
     }
 
     void goFullscreen(){
-        FrameLayout.LayoutParams fullparams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,FrameLayout.LayoutParams.MATCH_PARENT);
+        FrameLayout.LayoutParams fullparams = new FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.MATCH_PARENT,FrameLayout.LayoutParams.MATCH_PARENT);
         mPlayerView.setLayoutParams(fullparams);
         //mLivePlayer.setRenderMode(TXLiveConstants.RENDER_MODE_ADJUST_RESOLUTION);
         mLivePlayer.setRenderRotation(TXLiveConstants.RENDER_ROTATION_LANDSCAPE);

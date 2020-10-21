@@ -67,6 +67,8 @@ public class VodPlayerActivity extends Activity implements ITXLivePlayListener {
     private LinearLayout play_progress;
     private LinearLayout introduction_layout;
     RelativeLayout rl_back;
+    int videowidth = 0;
+    int videoheight = 0;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -131,15 +133,16 @@ public class VodPlayerActivity extends Activity implements ITXLivePlayListener {
     }
 
     void goFullscreen(){
-        FrameLayout.LayoutParams fullparams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,FrameLayout.LayoutParams.MATCH_PARENT);
+        FrameLayout.LayoutParams fullparams = new FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.MATCH_PARENT,FrameLayout.LayoutParams.MATCH_PARENT);
         mPlayerView.setLayoutParams(fullparams);
     }
     void goMinimalscreen(){
-        //FrameLayout.LayoutParams fullparams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,R.dimen.dp_340);
-        //mPlayerView.setLayoutParams(fullparams);
-        /*if(mLivePlayer.isPlaying()){
-            mLivePlayer.resume();
-        }*/
+        FrameLayout.LayoutParams fullparams = new FrameLayout.LayoutParams(videowidth,videoheight);
+        mPlayerView.setLayoutParams(fullparams);
+        mLivePlayer.setRenderRotation(TXLiveConstants.RENDER_ROTATION_PORTRAIT);
+
+        //live_rl.bringToFront();
     }
 
     @Override
@@ -392,6 +395,9 @@ public class VodPlayerActivity extends Activity implements ITXLivePlayListener {
         mStartPlayTS = System.currentTimeMillis();
 
         findViewById(R.id.playerHeaderView).setVisibility(View.VISIBLE);
+        FrameLayout.LayoutParams mlayoutparams = (FrameLayout.LayoutParams)mPlayerView.getLayoutParams();
+        videowidth = mlayoutparams.width;
+        videoheight = mlayoutparams.height;
         return true;
     }
 

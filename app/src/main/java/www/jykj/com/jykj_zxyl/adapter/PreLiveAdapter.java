@@ -52,13 +52,13 @@ public class PreLiveAdapter extends RecyclerView.Adapter<PreLiveAdapter.ViewHold
         if (StrUtils.defaulObjToStr(parinfo.getBroadcastCoverImgUrl()).length() > 0) {
             Glide.with(viewHolder.pre_live_btn.getContext()).load(parinfo.getBroadcastCoverImgUrl()).into(viewHolder.pre_live_btn);
         }
-        viewHolder.rl_live_layout.setOnClickListener(new View.OnClickListener() {
+        viewHolder.ll_root.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 myListener.onClick(i, v);
             }
         });
-        viewHolder.rl_live_layout.setOnLongClickListener(new View.OnLongClickListener() {
+        viewHolder.ll_root.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
                 myListener.onLongClick(i, v);

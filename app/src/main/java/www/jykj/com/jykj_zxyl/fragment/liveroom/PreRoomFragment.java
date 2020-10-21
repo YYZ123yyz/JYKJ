@@ -80,7 +80,7 @@ public class PreRoomFragment extends Fragment {
             @Override
             public void onClick(int position, View view) {
                 switch (view.getId()){
-                    case R.id.rl_live_layout:
+                    case R.id.ll_root:
                         PreLiveInfo parbean = mdatas.get(position);
                         Intent parintent = new Intent(mActivity, LiveroomDetailActivity.class);
                         parintent.putExtra("detailCode",parbean.getDetailsCode());

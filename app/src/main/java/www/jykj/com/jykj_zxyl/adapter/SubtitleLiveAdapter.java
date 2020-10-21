@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import entity.liveroom.HotLiveInfo;
@@ -44,13 +45,13 @@ public class SubtitleLiveAdapter extends RecyclerView.Adapter<SubtitleLiveAdapte
         if(StrUtils.defaulObjToStr(parinfo.getBroadcastCoverImgUrl()).length()>0){
             Glide.with(viewHolder.subject_live_cover.getContext()).load(parinfo.getBroadcastCoverImgUrl()).into(viewHolder.subject_live_cover);
         }
-        viewHolder.play_subject_live_btn.setOnClickListener(new View.OnClickListener(){
+        viewHolder.llRoot.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 myListener.onClick(i,v);
             }
         });
-        viewHolder.play_subject_live_btn.setOnLongClickListener(new View.OnLongClickListener(){
+        viewHolder.llRoot.setOnLongClickListener(new View.OnLongClickListener(){
             @Override
             public boolean onLongClick(View v) {
                 myListener.onLongClick(i,v);
@@ -72,6 +73,7 @@ public class SubtitleLiveAdapter extends RecyclerView.Adapter<SubtitleLiveAdapte
         public TextView subject_live_catalog;
         public TextView subject_watch_num;
         public TextView subject_live_price;
+        public LinearLayout llRoot;
         public ViewHolder(View view){
             super(view);
             subject_live_cover = view.findViewById(R.id.subject_live_cover);
@@ -81,6 +83,7 @@ public class SubtitleLiveAdapter extends RecyclerView.Adapter<SubtitleLiveAdapte
             subject_live_catalog = view.findViewById(R.id.subject_live_catalog);
             subject_watch_num = view.findViewById(R.id.subject_watch_num);
             subject_live_price = view.findViewById(R.id.subject_live_price);
+            llRoot=view.findViewById(R.id.ll_root);
         }
 
     }

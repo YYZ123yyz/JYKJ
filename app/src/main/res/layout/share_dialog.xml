@@ -1,74 +1,252 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent" android:background="@color/color_4d666666">
-        <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:id="@+id/iv_gb"
-                android:background="@mipmap/close_pic"
-                android:layout_alignParentRight="true"/>
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                  android:background="@mipmap/share_bg" android:layout_below="@+id/iv_gb" android:id="@+id/share_con_layout"
-                  android:orientation="vertical" android:layout_centerHorizontal="true" android:layout_marginRight="15dp" android:layout_marginLeft="15dp">
-        <TextView android:layout_width="match_parent" android:layout_height="50dp"
-                  android:text="邀请卡" android:textStyle="bold" android:gravity="center" android:textSize="20sp" android:textColor="@color/blackColor"></TextView>
-        <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_4d666666">
+
+    <ImageView
+        android:id="@+id/iv_gb"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_margin="10dp"
+        android:layout_alignParentRight="true"
+        android:background="@mipmap/close_pic" />
+
+    <LinearLayout
+        android:id="@+id/share_con_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/iv_gb"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="@mipmap/share_bg"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:text="邀请卡"
+            android:textColor="@color/blackColor"
+            android:textSize="20sp"
+            android:textStyle="bold"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
             <www.jykj.com.jykj_zxyl.util.CircleImageView
-                    android:layout_width="55dp"
-                    android:layout_height="55dp"
-                    android:layout_gravity="center_vertical"
-                    android:id="@+id/iv_userhead"
-                    android:layout_marginLeft="10dp"
-                    android:src="@mipmap/doctor_head" android:layout_centerHorizontal="true"/>
-            <TextView android:layout_width="wrap_content" android:layout_height="30dp" android:layout_marginTop="5dp"
-                      android:id="@+id/tv_username" android:text="齐研" android:layout_below="@+id/iv_userhead" android:layout_centerHorizontal="true" android:textColor="@color/blackColor"></TextView>
-            <TextView android:layout_width="wrap_content" android:layout_height="30dp"
-                      android:id="@+id/tv_advise_title" android:text="邀请您一起看直播" android:layout_below="@+id/tv_username" android:layout_centerHorizontal="true" android:textColor="@color/blackColor"></TextView>
-            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginLeft="15dp" android:layout_marginRight="15dp"
-                      android:textSize="16sp" android:textStyle="bold" android:text="某某：高血压患者、亚健康人群得干预方法（适合高血压患者观看）"
-            android:id="@+id/tv_live_room_title" android:layout_below="@+id/tv_advise_title" android:layout_marginTop="10dp" android:textColor="@color/blackColor"></TextView>
-            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="30dp" android:gravity="center"
-                      android:height="30dp" android:id="@+id/tv_live_room_time" android:text="直播时间：2020-09-08 10：00" android:layout_below="@+id/tv_live_room_title" android:textColor="@color/blackColor"></TextView>
-            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center"
-                      android:height="30dp" android:id="@+id/tv_live_room_speaker" android:text="主讲人：齐研" android:layout_below="@+id/tv_live_room_time" android:textColor="@color/blackColor"></TextView>
-            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="20dp" android:gravity="center"
-                      android:height="30dp" android:id="@+id/tv_author_title" android:text="来自：西安鹫一卓越" android:layout_below="@+id/tv_live_room_speaker" android:textColor="@color/blackColor"></TextView>
-            <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/iv_author_qrcode" android:src="@mipmap/jiuyi_crcode"
-                       android:layout_below="@+id/tv_author_title" android:layout_centerHorizontal="true"></ImageView>
-            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center"
-                      android:height="30dp" android:id="@+id/tv_qrcode_desc" android:text="扫码查看此直播" android:layout_below="@+id/iv_author_qrcode" android:textColor="@color/blackColor"></TextView>
-            <TextView android:layout_width="170dp" android:layout_height="wrap_content" android:id="@+id/tv_support_title" android:layout_marginTop="20dp" android:textColor="@color/blackColor"
-            android:text="鹫一卓越提供技术支持" android:layout_below="@+id/tv_qrcode_desc" android:layout_centerHorizontal="true" android:drawableLeft="@mipmap/jiuyi_logo" android:gravity="center">
-            </TextView>
-            <TextView android:layout_width="match_parent" android:layout_height="20dp" android:text="" android:layout_below="@+id/tv_support_title" android:id="@+id/bootom_split"></TextView>
+                android:id="@+id/iv_userhead"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="10dp"
+                android:src="@mipmap/doctor_head" />
+
+            <TextView
+                android:id="@+id/tv_username"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_below="@+id/iv_userhead"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="5dp"
+                android:text="齐研"
+                android:textColor="@color/blackColor"/>
+
+            <TextView
+                android:id="@+id/tv_advise_title"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_below="@+id/tv_username"
+                android:layout_centerHorizontal="true"
+                android:text="邀请您一起看直播"
+                android:textColor="@color/blackColor"/>
+
+            <TextView
+                android:id="@+id/tv_live_room_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_advise_title"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="15dp"
+                android:text="某某：高血压患者、亚健康人群得干预方法（适合高血压患者观看）"
+                android:textColor="@color/blackColor"
+                android:textSize="16sp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/tv_live_room_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_live_room_title"
+                android:layout_marginTop="30dp"
+                android:height="30dp"
+                android:gravity="center"
+                android:text="直播时间：2020-09-08 10：00"
+                android:textColor="@color/blackColor"/>
+
+            <TextView
+                android:id="@+id/tv_live_room_speaker"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_live_room_time"
+                android:height="30dp"
+                android:gravity="center"
+                android:text="主讲人：齐研"
+                android:textColor="@color/blackColor"/>
+
+            <TextView
+                android:id="@+id/tv_author_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_live_room_speaker"
+                android:layout_marginTop="20dp"
+                android:height="30dp"
+                android:gravity="center"
+                android:text="来自：西安鹫一卓越"
+                android:textColor="@color/blackColor"/>
+
+            <ImageView
+                android:id="@+id/iv_author_qrcode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_author_title"
+                android:layout_centerHorizontal="true"
+                android:src="@mipmap/jiuyi_crcode"/>
+
+            <TextView
+                android:id="@+id/tv_qrcode_desc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/iv_author_qrcode"
+                android:height="30dp"
+                android:gravity="center"
+                android:text="扫码查看此直播"
+                android:textColor="@color/blackColor"/>
+
+            <TextView
+                android:id="@+id/tv_support_title"
+                android:layout_width="170dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_qrcode_desc"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
+                android:drawableLeft="@mipmap/jiuyi_logo"
+                android:gravity="center"
+                android:text="鹫一卓越提供技术支持"
+                android:textColor="@color/blackColor"/>
+
+            <TextView
+                android:id="@+id/bootom_split"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_below="@+id/tv_support_title"
+                android:text=""/>
         </RelativeLayout>
     </LinearLayout>
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_below="@+id/share_con_layout"
-                  android:layout_marginRight="15dp" android:layout_marginLeft="15dp">
-        <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_weight="1">
-            <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/save_pic_btn" android:src="@mipmap/save_pic" android:layout_centerInParent="true">
-            </ImageView>
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerHorizontal="true" android:layout_below="@+id/save_pic_btn"
-                      android:id="@+id/save_pic_title" android:text="保存图片" android:layout_marginTop="20dp" android:textColor="@color/white" android:textSize="12sp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/share_con_layout"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/save_pic_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:src="@mipmap/save_pic"/>
+
+            <TextView
+                android:id="@+id/save_pic_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/save_pic_btn"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
+                android:text="保存图片"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
         </RelativeLayout>
-        <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_weight="1">
-            <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/link_pic_btn" android:src="@mipmap/link_pic" android:layout_centerInParent="true">
-            </ImageView>
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerHorizontal="true" android:layout_below="@+id/link_pic_btn"
-                      android:id="@+id/link_pic_title" android:text="复制链接" android:layout_marginTop="20dp" android:textColor="@color/white"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/link_pic_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:src="@mipmap/link_pic"/>
+
+            <TextView
+                android:id="@+id/link_pic_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/link_pic_btn"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
+                android:text="复制链接"
+                android:textColor="@color/white" />
         </RelativeLayout>
-        <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_weight="1">
-            <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/friend_pic_btn" android:src="@mipmap/friend_pic" android:layout_centerInParent="true">
-            </ImageView>
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerHorizontal="true" android:layout_below="@+id/friend_pic_btn"
-                      android:id="@+id/friend_pic_title" android:text="微信好友" android:layout_marginTop="20dp" android:textColor="@color/white"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/friend_pic_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:src="@mipmap/friend_pic"/>
+
+            <TextView
+                android:id="@+id/friend_pic_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/friend_pic_btn"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
+                android:text="微信好友"
+                android:textColor="@color/white" />
         </RelativeLayout>
-        <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_weight="1">
-            <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/webchat_pic_btn" android:src="@mipmap/webchat_pic" android:layout_centerInParent="true">
-            </ImageView>
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerHorizontal="true" android:layout_below="@+id/webchat_pic_btn"
-                      android:id="@+id/webchat_pic_title" android:text="朋友圈" android:layout_marginTop="20dp" android:textColor="@color/white"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/webchat_pic_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:src="@mipmap/webchat_pic"/>
+
+            <TextView
+                android:id="@+id/webchat_pic_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/webchat_pic_btn"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
+                android:text="朋友圈"
+                android:textColor="@color/white" />
         </RelativeLayout>
     </LinearLayout>
 </RelativeLayout>

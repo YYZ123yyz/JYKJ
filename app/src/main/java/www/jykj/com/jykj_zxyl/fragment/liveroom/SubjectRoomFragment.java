@@ -75,7 +75,7 @@ public class SubjectRoomFragment extends Fragment {
             @Override
             public void onClick(int position, View view) {
                 switch (view.getId()){
-                    case R.id.play_subject_live_btn:
+                    case R.id.ll_root:
                         ProvideLiveBroadcastDetails parbean = mdatas.get(position);
                         Intent lecdetint = new Intent(mActivity, LectureDetailActivity.class);
                         lecdetint.putExtra("detailCode",parbean.getDetailsCode());
