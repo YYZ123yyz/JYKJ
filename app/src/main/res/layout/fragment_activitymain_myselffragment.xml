@@ -18,7 +18,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="120dp"
+                android:layout_height="wrap_content"
                 android:background="@mipmap/usercenter_pbackgroud">
 
                 <www.jykj.com.jykj_zxyl.util.CircleImageView
@@ -26,7 +26,7 @@
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="40dp"
                     android:src="@mipmap/doctor_head" />
 
                 <LinearLayout

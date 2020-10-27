@@ -13,7 +13,9 @@ import java.util.List;
 import butterknife.BindView;
 import util.CustomViewPager;
 import www.jykj.com.jykj_zxyl.R;
+import www.jykj.com.jykj_zxyl.activity.hyhd.LivePlayerTwoActivity;
 import www.jykj.com.jykj_zxyl.activity.hyhd.LivePublisherActivity;
+import www.jykj.com.jykj_zxyl.activity.hyhd.LivePublisherThreeActivity;
 import www.jykj.com.jykj_zxyl.activity.hyhd.NewLivePlayerActivity;
 import www.jykj.com.jykj_zxyl.activity.liveroom.LiveroomDetailActivity;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.HealthEducationBean;
@@ -106,31 +108,22 @@ public class HomeAudioFragment extends AbstractMvpBaseFragment<HealthEducationCo
             public void onClickItemPos(int pos) {
                 HealthEducationBean healthEducationBean
                         = (HealthEducationBean) mMultiItemEntitys.get(pos);
-                int flagBroadcastState = healthEducationBean.getFlagBroadcastState();
-                if (flagBroadcastState==1) {
-                    Intent parintent = new Intent(mActivity, LiveroomDetailActivity.class);
-                    parintent.putExtra("detailCode",healthEducationBean.getDetailsCode());
-                    mActivity.startActivity(parintent);
-                }else if(flagBroadcastState==2){
-                    if(healthEducationBean.getUserCode().equals(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode())) {
-                        Intent theintent = new Intent(mActivity, LivePublisherActivity.class);
-                        theintent.putExtra("detailCode", healthEducationBean.getDetailsCode());
-                        theintent.putExtra("pushUrl", healthEducationBean.getPullUrl());
-                        theintent.putExtra("chatRoomName", healthEducationBean.getChatRoomCode());
-                        theintent.putExtra("chatId", healthEducationBean.getChatRoomCode());
-                        theintent.putExtra("liveTitle", healthEducationBean.getBroadcastTitle());
-                        theintent.putExtra("live_type", LivePublisherActivity.LIVE_TYPE_HOTLIVE);
-                        mActivity.startActivity(theintent);
-                    }else{
-                        Intent theintent = new Intent(mActivity, NewLivePlayerActivity.class);
-                        theintent.putExtra("chatId",healthEducationBean.getChatRoomCode());
-                        theintent.putExtra("pullUrl",healthEducationBean.getPullUrl());
-                        theintent.putExtra("detailCode",healthEducationBean.getDetailsCode());
-                        theintent.putExtra("PLAY_TYPE", NewLivePlayerActivity.ACTIVITY_TYPE_LIVE_PLAY);
-                        mActivity.startActivity(theintent);
-                    }
-                }else if(flagBroadcastState==3){
-
+                if(healthEducationBean.getUserCode().equals(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode())) {
+                    Intent theintent = new Intent(mActivity, LivePublisherThreeActivity.class);
+                    theintent.putExtra("detailCode", healthEducationBean.getDetailsCode());
+                    theintent.putExtra("pushUrl", healthEducationBean.getPullUrl());
+                    theintent.putExtra("chatRoomName", healthEducationBean.getChatRoomCode());
+                    theintent.putExtra("chatId", healthEducationBean.getChatRoomCode());
+                    theintent.putExtra("liveTitle", healthEducationBean.getBroadcastTitle());
+                    theintent.putExtra("live_type", LivePublisherThreeActivity.LIVE_TYPE_HOTLIVE);
+                    mActivity.startActivity(theintent);
+                }else{
+                    Intent theintent = new Intent(mActivity, LivePlayerTwoActivity.class);
+                    theintent.putExtra("chatId",healthEducationBean.getChatRoomCode());
+                    theintent.putExtra("pullUrl",healthEducationBean.getPullUrl());
+                    theintent.putExtra("detailCode",healthEducationBean.getDetailsCode());
+                    theintent.putExtra("PLAY_TYPE", LivePlayerTwoActivity.ACTIVITY_TYPE_LIVE_PLAY);
+                    mActivity.startActivity(theintent);
                 }
             }
         });

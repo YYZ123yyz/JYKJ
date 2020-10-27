@@ -485,7 +485,7 @@ public class QRCodeActivity extends BaseActivity {
         userGRJJ = (TextView) this.findViewById(R.id.tv_userGRJJ);
 
 
-        tv_share = (TextView) this.findViewById(R.id.tv_share);
+        //tv_share = (TextView) this.findViewById(R.id.tv_share);
 
 
         sys = (TextView) this.findViewById(R.id.sys);
@@ -524,13 +524,13 @@ public class QRCodeActivity extends BaseActivity {
 
         }
 
-        //医生分享
-        tv_share.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                wechatShare();
-            }
-        });
+//        //医生分享
+//        tv_share.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                wechatShare();
+//            }
+//        });
         //患者分享
         qr_save = findViewById(R.id.qr_save);
         qr_save.setOnClickListener(new View.OnClickListener() {

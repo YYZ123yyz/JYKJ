@@ -1,5 +1,6 @@
 package www.jykj.com.jykj_zxyl.activity.myself;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -36,6 +37,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.tbruyelle.rxpermissions.RxPermissions;
 
 import org.w3c.dom.Text;
 
@@ -66,6 +68,7 @@ import entity.unionInfo.ProvideViewUnionDoctorMemberApplyInfo;
 import entity.user.UserInfo;
 import netService.HttpNetService;
 import netService.entity.NetRetEntity;
+import rx.functions.Action1;
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.activity.MainActivity;
 import www.jykj.com.jykj_zxyl.activity.home.yslm.JoinDoctorsUnionActivity;
@@ -81,6 +84,7 @@ import www.jykj.com.jykj_zxyl.util.Util;
 import yyz_exploit.Utils.QueryUserCond;
 import yyz_exploit.Utils.StrUtils;
 import yyz_exploit.Utils.UserResultInfo;
+import zxing.android.CaptureActivity;
 
 /**
  * 个人中心
@@ -370,32 +374,44 @@ public class UserCenterActivity extends BaseActivity {
         public void onClick(View view) {
             switch (view.getId()) {
                 case R.id.li_activityUserCenter_userHeadLayout:
-
-                    String[] items = {"拍照", "从相册选择"};
-                    Dialog dialog = new android.support.v7.app.AlertDialog.Builder(mContext)
-                            .setItems(items, new DialogInterface.OnClickListener() {
+                    RxPermissions.getInstance(UserCenterActivity.this)
+                            .request(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE)
+                            .subscribe(new Action1<Boolean>() {
                                 @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    switch (i) {
-                                        case 0:
-                                            StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
-                                            StrictMode.setVmPolicy(builder.build());
-                                            builder.detectFileUriExposure();
-                                            // 添加Action类型：MediaStore.ACTION_IMAGE_CAPTURE
-                                            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                                public void call(Boolean aBoolean) {
+                                    if (aBoolean) {//允许权限，6.0以下默认true
+                                        String[] items = {"拍照", "从相册选择"};
+                                        Dialog dialog = new android.support.v7.app.AlertDialog.Builder(mContext)
+                                                .setItems(items, new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                                        switch (i) {
+                                                            case 0:
+                                                                StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+                                                                StrictMode.setVmPolicy(builder.build());
+                                                                builder.detectFileUriExposure();
+                                                                // 添加Action类型：MediaStore.ACTION_IMAGE_CAPTURE
+                                                                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
-                                            // 指定调用相机拍照后照片(结果)的储存路径
-                                            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(mTempFile));
-                                            // 等待返回结果
-                                            startActivityForResult(intent, Constant.SELECT_PIC_BY_TACK_PHOTO);
+                                                                // 指定调用相机拍照后照片(结果)的储存路径
+                                                                intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(mTempFile));
+                                                                // 等待返回结果
+                                                                startActivityForResult(intent, Constant.SELECT_PIC_BY_TACK_PHOTO);
 
-                                            break;
-                                        case 1:
-                                            BitmapUtil.selectAlbum(mActivity);//从相册选择
-                                            break;
+                                                                break;
+                                                            case 1:
+                                                                BitmapUtil.selectAlbum(mActivity);//从相册选择
+                                                                break;
+                                                        }
+                                                    }
+                                                }).show();
+                                    } else {
+                                        Toast.makeText(UserCenterActivity.this, "获取权限失败", Toast.LENGTH_SHORT).show();
                                     }
                                 }
-                            }).show();
+                            });
+
+
                     break;
                 case R.id.li_activityUserCenter_userSexLayout:
                     showSexChoiceDialog();

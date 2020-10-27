@@ -268,6 +268,7 @@ public class DiagnosisReplayActivity extends
     @Override
     public void getOperUpdMyClinicDetailByOrderPatientMessageResult(boolean isSucess, String msg) {
         if (isSucess) {
+            startJumpChatActivity();
             this.finish();
         } else {
             ToastUtils.showToast(msg);
@@ -279,7 +280,7 @@ public class DiagnosisReplayActivity extends
     public void getSearchMyClinicDetailResPatientMessageContentResult(
             DiagnosisReplayBean diagnosisReplayBean) {
         setData(diagnosisReplayBean);
-        startJumpChatActivity();
+
 
     }
 

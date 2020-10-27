@@ -2,6 +2,7 @@ package www.jykj.com.jykj_zxyl.fragment.home;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,11 +16,14 @@ import java.util.List;
 import butterknife.BindView;
 import util.CustomViewPager;
 import www.jykj.com.jykj_zxyl.R;
+import www.jykj.com.jykj_zxyl.activity.hyhd.LivePlayerTwoActivity;
 import www.jykj.com.jykj_zxyl.activity.hyhd.LivePublisherActivity;
+import www.jykj.com.jykj_zxyl.activity.hyhd.LivePublisherThreeActivity;
 import www.jykj.com.jykj_zxyl.activity.hyhd.NewLivePlayerActivity;
 import www.jykj.com.jykj_zxyl.activity.liveroom.LiveroomDetailActivity;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.HealthEducationBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.MultiItemEntity;
+import www.jykj.com.jykj_zxyl.app_base.base_html5.H5Activity;
 import www.jykj.com.jykj_zxyl.app_base.base_utils.CollectionUtils;
 import www.jykj.com.jykj_zxyl.app_base.interfaces.OnClickRelationContractListener;
 import www.jykj.com.jykj_zxyl.app_base.mvp.AbstractMvpBaseFragment;
@@ -112,31 +116,40 @@ public class HomeEducationFragment extends AbstractMvpBaseFragment<HealthEducati
             public void onClickItemPos(int pos) {
                 HealthEducationBean healthEducationBean
                         = (HealthEducationBean) mMultiItemEntitys.get(pos);
-                int flagBroadcastState = healthEducationBean.getFlagBroadcastState();
-                if (flagBroadcastState==1) {
+                int flagContentType = healthEducationBean.getFlagContentType();
+                if (flagContentType==1) {
                     Intent parintent = new Intent(mActivity, LiveroomDetailActivity.class);
                     parintent.putExtra("detailCode",healthEducationBean.getDetailsCode());
                     mActivity.startActivity(parintent);
-                }else if(flagBroadcastState==2){
+                }else if(flagContentType==2){
+
                     if(healthEducationBean.getUserCode().equals(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode())) {
-                        Intent theintent = new Intent(mActivity, LivePublisherActivity.class);
+                        Intent theintent = new Intent(mActivity, LivePublisherThreeActivity.class);
                         theintent.putExtra("detailCode", healthEducationBean.getDetailsCode());
                         theintent.putExtra("pushUrl", healthEducationBean.getPullUrl());
                         theintent.putExtra("chatRoomName", healthEducationBean.getChatRoomCode());
                         theintent.putExtra("chatId", healthEducationBean.getChatRoomCode());
                         theintent.putExtra("liveTitle", healthEducationBean.getBroadcastTitle());
-                        theintent.putExtra("live_type", LivePublisherActivity.LIVE_TYPE_HOTLIVE);
+                        theintent.putExtra("live_type", LivePublisherThreeActivity.LIVE_TYPE_HOTLIVE);
                         mActivity.startActivity(theintent);
                     }else{
-                        Intent theintent = new Intent(mActivity, NewLivePlayerActivity.class);
+                        Intent theintent = new Intent(mActivity, LivePlayerTwoActivity.class);
                         theintent.putExtra("chatId",healthEducationBean.getChatRoomCode());
                         theintent.putExtra("pullUrl",healthEducationBean.getPullUrl());
                         theintent.putExtra("detailCode",healthEducationBean.getDetailsCode());
-                        theintent.putExtra("PLAY_TYPE", NewLivePlayerActivity.ACTIVITY_TYPE_LIVE_PLAY);
+                        theintent.putExtra("PLAY_TYPE", LivePlayerTwoActivity.ACTIVITY_TYPE_LIVE_PLAY);
                         mActivity.startActivity(theintent);
                     }
-                }else if(flagBroadcastState==3){
 
+                }else if(flagContentType==3){
+                    Bundle bundle=new Bundle();
+                    bundle.putString("url",healthEducationBean.getImageTextWatchUrl());
+                    bundle.putString("title","图文");
+                    int flagImageTextVisitType = healthEducationBean.getFlagImageTextVisitType();
+                    if (flagImageTextVisitType==1) {
+                        bundle.putString("imageTextCode",healthEducationBean.getImageTextCode());
+                    }
+                    startActivity(H5Activity.class,bundle);
                 }
             }
         });

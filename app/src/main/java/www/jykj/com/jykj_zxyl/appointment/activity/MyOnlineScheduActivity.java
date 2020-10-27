@@ -92,6 +92,7 @@ public class MyOnlineScheduActivity extends AbstractMvpBaseActivity<OnlineSchedu
     private AppointTimeDialog appointTimeDialog;
     private AppointTypeDialog appointTypeDialog;
     private CommonConfirmDialog checkStepDialog;
+    private CommonConfirmDialog updateConfirmDialog;
     private DoctorSeheduTimeAdapter doctorSeheduTimeAdapter;
     private List<DoctorScheduTimesBean> doctorScheduTimesBeans;
     private List<CalendarItemBean> calendarItemBeans;
@@ -104,6 +105,7 @@ public class MyOnlineScheduActivity extends AbstractMvpBaseActivity<OnlineSchedu
     private String mSignalSourceNum;//号源数量
     private String reserveDateRosterCode;//医生排班明细编号
     private String checkStep="0";//校验步骤
+    private boolean isShowUpdateConfirmDialog;//是否弹出修改确认弹框
     private DoctorScheduTimesBean currentDoctorScheduTimesBean;//当前排班明细
     @Override
     protected int setLayoutId() {
@@ -118,6 +120,7 @@ public class MyOnlineScheduActivity extends AbstractMvpBaseActivity<OnlineSchedu
         appointTimeDialog=new AppointTimeDialog(this);
         appointTypeDialog=new AppointTypeDialog(this);
         checkStepDialog=new CommonConfirmDialog(this);
+        updateConfirmDialog=new CommonConfirmDialog(this);
         mApp = (JYKJApplication) getApplication();
         setToolBar();
         initLoadingAndRetryManager();
@@ -177,19 +180,43 @@ public class MyOnlineScheduActivity extends AbstractMvpBaseActivity<OnlineSchedu
                 new DoctorSeheduTimeAdapter.OnClickItemListener() {
             @Override
             public void onClickUpdate(int pos) {
-                 currentDoctorScheduTimesBean = doctorScheduTimesBeans.get(pos);
-                long startTimes = currentDoctorScheduTimesBean.getStartTimes();
-                mStartTime = DateUtils.getDateToStringDD(startTimes);
-                long endTimes = currentDoctorScheduTimesBean.getEndTimes();
-                mEndTime=DateUtils.getDateToStringDD(endTimes);
-                int reserveType = currentDoctorScheduTimesBean.getReserveType();
-                currentBaseReasonBean = getCurrentReserveBean(reserveType);
-                mSignalSourceNum=currentDoctorScheduTimesBean.getReserveCount()+"";
-                reserveDateRosterCode=currentDoctorScheduTimesBean.getReserveDateRosterCode();
-                addSignalSourceDialog.show();
-                addSignalSourceDialog.setAppointTime(mStartTime,mEndTime);
-                addSignalSourceDialog.setSignalType(currentBaseReasonBean);
-                addSignalSourceDialog.setSignalNum(mSignalSourceNum);
+                if(!isShowUpdateConfirmDialog){
+                    updateConfirmDialog.setOnClickListener(() -> {
+                        currentDoctorScheduTimesBean = doctorScheduTimesBeans.get(pos);
+                        long startTimes = currentDoctorScheduTimesBean.getStartTimes();
+                        mStartTime = DateUtils.getDateToStringDD(startTimes);
+                        long endTimes = currentDoctorScheduTimesBean.getEndTimes();
+                        mEndTime=DateUtils.getDateToStringDD(endTimes);
+                        int reserveType = currentDoctorScheduTimesBean.getReserveType();
+                        currentBaseReasonBean = getCurrentReserveBean(reserveType);
+                        mSignalSourceNum=currentDoctorScheduTimesBean.getReserveCount()+"";
+                        reserveDateRosterCode=currentDoctorScheduTimesBean.getReserveDateRosterCode();
+                        addSignalSourceDialog.show();
+                        addSignalSourceDialog.setAppointTime(mStartTime,mEndTime);
+                        addSignalSourceDialog.setSignalType(currentBaseReasonBean);
+                        addSignalSourceDialog.setSignalNum(mSignalSourceNum);
+                    });
+                    updateConfirmDialog.show();
+                    updateConfirmDialog.setContentText("排班模板更改将于一个月后生效，请确认是否更改。\n" +
+                            "如需更改本月排班，请到排班明细修改。");
+                    isShowUpdateConfirmDialog=true;
+                }else{
+                    currentDoctorScheduTimesBean = doctorScheduTimesBeans.get(pos);
+                    long startTimes = currentDoctorScheduTimesBean.getStartTimes();
+                    mStartTime = DateUtils.getDateToStringDD(startTimes);
+                    long endTimes = currentDoctorScheduTimesBean.getEndTimes();
+                    mEndTime=DateUtils.getDateToStringDD(endTimes);
+                    int reserveType = currentDoctorScheduTimesBean.getReserveType();
+                    currentBaseReasonBean = getCurrentReserveBean(reserveType);
+                    mSignalSourceNum=currentDoctorScheduTimesBean.getReserveCount()+"";
+                    reserveDateRosterCode=currentDoctorScheduTimesBean.getReserveDateRosterCode();
+                    addSignalSourceDialog.show();
+                    addSignalSourceDialog.setAppointTime(mStartTime,mEndTime);
+                    addSignalSourceDialog.setSignalType(currentBaseReasonBean);
+                    addSignalSourceDialog.setSignalNum(mSignalSourceNum);
+                }
+
+
             }
 
             @Override
@@ -228,16 +255,36 @@ public class MyOnlineScheduActivity extends AbstractMvpBaseActivity<OnlineSchedu
      */
     private void addListener(){
         tvAddBtn.setOnClickListener(v -> {
-            mStartTime=null;
-            mEndTime=null;
-            currentBaseReasonBean=null;
-            mSignalSourceNum=null;
-            reserveDateRosterCode=null;
-            checkStep="0";
-            addSignalSourceDialog.show();
-            addSignalSourceDialog.setAppointTime(mStartTime,mEndTime);
-            addSignalSourceDialog.setSignalType(currentBaseReasonBean);
-            addSignalSourceDialog.setSignalNum(mSignalSourceNum);
+            if (!isShowUpdateConfirmDialog) {
+                updateConfirmDialog.setOnClickListener(() -> {
+                    mStartTime=null;
+                    mEndTime=null;
+                    currentBaseReasonBean=null;
+                    mSignalSourceNum=null;
+                    reserveDateRosterCode=null;
+                    checkStep="0";
+                    addSignalSourceDialog.show();
+                    addSignalSourceDialog.setAppointTime(mStartTime,mEndTime);
+                    addSignalSourceDialog.setSignalType(currentBaseReasonBean);
+                    addSignalSourceDialog.setSignalNum(mSignalSourceNum);
+                });
+                updateConfirmDialog.show();
+                updateConfirmDialog.setContentText("排班模板更改将于一个月后生效，请确认是否更改。\n" +
+                        "如需更改本月排班，请到排班明细修改。");
+                isShowUpdateConfirmDialog=true;
+            }else{
+                mStartTime=null;
+                mEndTime=null;
+                currentBaseReasonBean=null;
+                mSignalSourceNum=null;
+                reserveDateRosterCode=null;
+                checkStep="0";
+                addSignalSourceDialog.show();
+                addSignalSourceDialog.setAppointTime(mStartTime,mEndTime);
+                addSignalSourceDialog.setSignalType(currentBaseReasonBean);
+                addSignalSourceDialog.setSignalNum(mSignalSourceNum);
+            }
+
         });
         addSignalSourceDialog.setOnClickDialogListener(new AddSignalSourceDialog.OnClickDialogListener() {
             @Override
