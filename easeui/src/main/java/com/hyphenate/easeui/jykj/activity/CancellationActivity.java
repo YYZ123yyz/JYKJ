@@ -181,21 +181,21 @@ public class CancellationActivity extends AppCompatActivity implements View.OnCl
         }
 
 
-        String rejectReasonClassName = signPatientDoctorOrderBean.getRejectReasonClassName();
-        String rejectReasonClassNameJ = signPatientDoctorOrderBean.getRejectReasonClassNameJ();
-        if (StringUtils.isNotEmpty(rejectReasonClassName)) {
+        String rejectReasonClassCode = signPatientDoctorOrderBean.getRejectReasonClassCode();
+        String rejectReasonClassCodeJ = signPatientDoctorOrderBean.getRejectReasonClassCodeJ();
+        if (StringUtils.isNotEmpty(rejectReasonClassCode)) {
             mTvRefuseReason.setText(signPatientDoctorOrderBean.getRejectReasonClassName());
             String rejectRemark = signPatientDoctorOrderBean.getRejectRemark();
             mTvRefuseContent.setText(StringUtils.isNotEmpty(rejectRemark)?rejectRemark:"暂无");
             mLlRefuseRoot.setVisibility(View.VISIBLE);
         }
-        if (StringUtils.isNotEmpty(rejectReasonClassNameJ)) {
+        if (StringUtils.isNotEmpty(rejectReasonClassCodeJ)) {
             mTvRefuseReason.setText(signPatientDoctorOrderBean.getRejectReasonClassNameJ());
             String rejectRemarkJ = signPatientDoctorOrderBean.getRejectRemarkJ();
             mTvRefuseContent.setText(StringUtils.isNotEmpty(rejectRemarkJ)?rejectRemarkJ:"暂无");
             mLlRefuseRoot.setVisibility(View.VISIBLE);
         }
-        if(TextUtils.isEmpty(rejectReasonClassName)&&TextUtils.isEmpty(rejectReasonClassNameJ)){
+        if(TextUtils.isEmpty(rejectReasonClassCode)&&TextUtils.isEmpty(rejectReasonClassCodeJ)){
             mLlRefuseRoot.setVisibility(View.GONE);
         }
 
@@ -251,14 +251,16 @@ public class CancellationActivity extends AppCompatActivity implements View.OnCl
         mLlRefuseRoot=findViewById(R.id.ll_refuse_root);
         mTvRefuseReason=findViewById(R.id.tv_refuse_reason);
         mTvRefuseContent=findViewById(R.id.tv_refuse_content);
+//        if(from.equals("1")){
+//            details.setVisibility(View.GONE);
+//            name1.setVisibility(View.GONE);
+//        }else if(from.equals("2")){
+//            details.setVisibility(View.VISIBLE);
+//            name1.setVisibility(View.VISIBLE);
+//        }
 
-        if(from.equals("1")){
-            details.setVisibility(View.GONE);
-            name1.setVisibility(View.GONE);
-        }else if(from.equals("2")){
-            details.setVisibility(View.VISIBLE);
-            name1.setVisibility(View.VISIBLE);
-        }
+        details.setVisibility(View.VISIBLE);
+        name1.setVisibility(View.VISIBLE);
 
     }
 

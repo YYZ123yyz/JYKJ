@@ -252,7 +252,7 @@ public class FragmentShouYe extends AbstractMvpBaseFragment<HomePagerContract.Vi
                 TextView customView = (TextView) tab.getCustomView();
                 if (customView!=null){
                     customView.setTextSize(12);
-                    customView.setTextColor(getResources().getColor(R.color.black));
+                    customView.setTextColor(getResources().getColor(R.color.color_666666));
                 }
             }
 

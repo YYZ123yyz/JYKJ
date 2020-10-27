@@ -260,5 +260,6 @@ public interface ApiService {
     @POST("/doctorDataControlle/searchPatientIndexHealthEducationByImageTextDetail")
     Observable<String> searchPatientIndexHealthEducationByImageTextDetail(@Query(value = "jsonDataInfo"
             , encoded = true) String queryJson);
+    //
 }
 

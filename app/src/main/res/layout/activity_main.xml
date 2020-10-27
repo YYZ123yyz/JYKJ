@@ -155,22 +155,30 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
                 android:orientation="vertical">
-                <ImageView
-                    android:layout_width="22dp"
-                    android:layout_height="22dp"
-                    android:layout_gravity="center_horizontal"
-                    android:id="@+id/iv_activityMain_ImageGRZX"
-                    android:background="@mipmap/grzx_nomal"/>
-                <TextView
-                    android:layout_width="80dp"
-                    android:layout_height="wrap_content"
-                    android:text="个人中心"
-                    android:gravity="center"
-                    android:layout_marginTop="5dp"
-                    android:id="@+id/tv_activityMain_TextGRZX"
-                    android:textColor="@color/tabColor_nomal"
-                    android:layout_gravity="center_horizontal"
-                    />
+<!--                <ImageView-->
+<!--                    android:layout_width="22dp"-->
+<!--                    android:layout_height="22dp"-->
+<!--                    android:layout_gravity="center_horizontal"-->
+<!--                    android:id="@+id/iv_activityMain_ImageGRZX"-->
+<!--                    android:background="@mipmap/grzx_nomal"/>-->
+<!--                <TextView-->
+<!--                    android:layout_width="80dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="个人中心"-->
+<!--                    android:gravity="center"-->
+<!--                    android:layout_marginTop="5dp"-->
+<!--                    android:id="@+id/tv_activityMain_TextGRZX"-->
+<!--                    android:textColor="@color/tabColor_nomal"-->
+<!--                    android:layout_gravity="center_horizontal"-->
+<!--                    />-->
+                <www.jykj.com.jykj_zxyl.util.CircleImageView
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:scaleType="centerCrop"
+                    android:id="@+id/iv_user_head"
+                    android:layout_gravity="center_vertical"
+                    android:src="@mipmap/bg_default_user_head"
+                   />
             </LinearLayout>
 
         </LinearLayout>

@@ -94,11 +94,14 @@ public class SignedPatientFragment extends AbstractMvpBaseFragment<SignedPatient
         viewpager.setAdapter(tableViewAdapter);
         // 设置TableLayout为可滚动（在ViewPager设置Adapter之后），也可在布局中添加tabMode属性
         tableLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+        viewpager.setOffscreenPageLimit(4);
         // 将TabLayout和ViewPager关联起来
         tableLayout.setupWithViewPager(viewpager);
         // 给Tabs设置适配器
         tableLayout.setTabsFromPagerAdapter(tableViewAdapter);
+
     }
+
 
 
     @Override

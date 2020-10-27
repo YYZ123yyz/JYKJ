@@ -77,6 +77,10 @@ public class MyPatientInfoAdapter extends RecyclerView.Adapter<MyPatientInfoAdap
             holder.llReceiveSucessRoot.setVisibility(View.GONE);
             holder.rlCancelledRoot.setVisibility(View.VISIBLE);
             holder.tvSourceType.setText("取消预约患者");
+        }else if(reserveStatus.equals("110")){
+            holder.llAppointPatientRoot.setVisibility(View.GONE);
+            holder.llReceiveSucessRoot.setVisibility(View.GONE);
+            holder.rlCancelledRoot.setVisibility(View.VISIBLE);
         }
 
         holder.tvAgeNum.setText(patientInfoBean.getPatientAge());
@@ -152,6 +156,14 @@ public class MyPatientInfoAdapter extends RecyclerView.Adapter<MyPatientInfoAdap
                 }
             }
         });
+        holder.llRootView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onClickItemListener!=null) {
+                    onClickItemListener.onClickImItem(position);
+                }
+            }
+        });
 
     }
 
@@ -183,6 +195,7 @@ public class MyPatientInfoAdapter extends RecyclerView.Adapter<MyPatientInfoAdap
         private LinearLayout llReceiveSucessRoot;
         private LinearLayout llAppointPatientRoot;
         private RelativeLayout rlCancelledRoot;
+        private LinearLayout llRootView;
         public ViewHolder(View view) {
             super(view);
             ivUserHead = view.findViewById(R.id.iv_userhead);
@@ -205,6 +218,7 @@ public class MyPatientInfoAdapter extends RecyclerView.Adapter<MyPatientInfoAdap
             tvSourceType=view.findViewById(R.id.tv_source_type);
             tvConsultDataBtn1=view.findViewById(R.id.tv_consult_data_btn_1);
             tvComprehensiveSurfaceBtn1 = view.findViewById(R.id.tv_comprehensive_surface_btn_1);
+            llRootView=view.findViewById(R.id.ll_root_view);
         }
     }
 

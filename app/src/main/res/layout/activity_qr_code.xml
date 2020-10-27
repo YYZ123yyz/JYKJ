@@ -61,8 +61,10 @@
 
             <ImageView
                 android:id="@+id/iv_ew_code"
-                android:layout_width="200dp"
-                android:layout_height="200dp"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                android:layout_marginTop="40dp"
+                android:layout_marginBottom="40dp"
                 android:layout_gravity="center_horizontal" />
 
             <LinearLayout
@@ -102,6 +104,7 @@
                     android:paddingTop="5dp"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
+                    android:visibility="gone"
                     android:gravity="center"
                     android:layout_marginLeft="20dp"
                     android:textColor="@color/writeColor"/>
@@ -116,7 +119,7 @@
                     android:layout_weight="1"
                     android:layout_height="35dp"
                     android:background="@drawable/shape_corner_button"
-                    android:text="分享给患者"
+                    android:text="分享"
                     android:paddingBottom="5dp"
                     android:paddingTop="5dp"
                     android:paddingLeft="10dp"

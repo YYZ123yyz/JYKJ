@@ -52,6 +52,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import util.VersionsUpdata;
 import www.jykj.com.jykj_zxyl.app_base.base_activity.BaseActivity;
 import www.jykj.com.jykj_zxyl.consultation.fragment.ConsultationFragment;
+import www.jykj.com.jykj_zxyl.util.ImageViewUtil;
 import yyz_exploit.Utils.BadgeUtil;
 import yyz_exploit.Utils.HttpUtils;
 import yyz_exploit.bean.AppVersionBean;
@@ -79,14 +80,14 @@ public class MainActivity extends BaseActivity {
     //    private         ImageView                   mImageViewHZGuanLi;                                      //患者管理图标
     private ImageView mImageViewYHHD;                                            //医患互动图标
     private ImageView mImageViewYLZX;                                            //医疗资讯图标
-    private ImageView mImageViewMySelf;                                        //我图标
+    //private ImageView mImageViewMySelf;                                        //我图标
 
     private TextView mTextViewShouYE;                                 //首页text
     //    private         TextView                    mTextViewHZGuanLi;                                  //患者管理text
     private TextView mTextViewYHHD;                                   //医患互动text
     private TextView mTextViewYLZX;                                   //医疗咨询text
-    private TextView mTextViewSelf;                                      //我text
-
+    //private TextView mTextViewSelf;                                      //我text
+    private ImageView mIvUserHead;
     private LinearLayout mLinearLayoutShouYe;                                 //首页布局
     //    private         LinearLayout                mLinearLayoutHZGuanLi;                                  //患者管理布局
     private LinearLayout mLinearLayoutYHHD;                                 //医患互动布局
@@ -149,7 +150,17 @@ public class MainActivity extends BaseActivity {
         //data();
         getLocation();
         BadgeUtil.setBadgeCount(this, unreadMessageCount, R.drawable.bg_red_circle);
+
     }
+
+
+    @Override
+    protected void initData() {
+        super.initData();
+
+    }
+
+
 
     /**
      * 设置环信网络状态
@@ -321,6 +332,8 @@ public class MainActivity extends BaseActivity {
         setUnReadMsgBtnStatus();
         //启动程序，查询是否有未读消息
 //       getMessageCount();
+        String userLogoUrl = mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl();
+        ImageViewUtil.showImageView(this, userLogoUrl, mIvUserHead);
     }
 
     /**
@@ -352,13 +365,14 @@ public class MainActivity extends BaseActivity {
 //        mImageViewHZGuanLi = (ImageView) this.findViewById(R.id.iv_activityMain_ImageHZGuanLi);
         mImageViewYHHD =  this.findViewById(R.id.iv_activityMain_ImageHYHD);
         mImageViewYLZX = (ImageView) this.findViewById(R.id.iv_activityMain_ImageYLZX);
-        mImageViewMySelf = (ImageView) this.findViewById(R.id.iv_activityMain_ImageGRZX);
+//        mImageViewMySelf = (ImageView) this.findViewById(R.id.iv_activityMain_ImageGRZX);
 
         mTextViewShouYE = (TextView) this.findViewById(R.id.tv_activityMain_TextShouYe);
 //        mTextViewHZGuanLi = (TextView) this.findViewById(R.id.tv_activityMain_TextHZGuanLi);
         mTextViewYHHD = (TextView) this.findViewById(R.id.tv_activityMain_TextHYHD);
         mTextViewYLZX = (TextView) this.findViewById(R.id.tv_activityMain_TextYLZX);
-        mTextViewSelf = (TextView) this.findViewById(R.id.tv_activityMain_TextGRZX);
+        mIvUserHead=this.findViewById(R.id.iv_user_head);
+        //       mTextViewSelf = (TextView) this.findViewById(R.id.tv_activityMain_TextGRZX);
 
         setDefaultLayout();
         mImageViewShouYe.setBackgroundResource(R.mipmap.sy_press);
@@ -442,8 +456,8 @@ public class MainActivity extends BaseActivity {
                     case 3:
                         mCurrentFragment = 3;
                         setDefaultLayout();
-                        mImageViewMySelf.setBackgroundResource(R.mipmap.grzx_press);
-                        mTextViewSelf.setTextColor(getResources().getColor(R.color.tabColor_press));
+                        //mImageViewMySelf.setBackgroundResource(R.mipmap.grzx_press);
+                        //mTextViewSelf.setTextColor(getResources().getColor(R.color.tabColor_press));
                         break;
 
                 }
@@ -469,13 +483,13 @@ public class MainActivity extends BaseActivity {
         else
             mImageViewYHHD.setBackgroundResource(R.mipmap.hz_nomal);
         mImageViewYLZX.setBackgroundResource(R.mipmap.class_img);
-        mImageViewMySelf.setBackgroundResource(R.mipmap.grzx_nomal);
+        //mImageViewMySelf.setBackgroundResource(R.mipmap.grzx_nomal);
 
         mTextViewShouYE.setTextColor(getResources().getColor(R.color.tabColor_nomal));
 //        mTextViewHZGuanLi.setTextColor(getResources().getColor(R.color.tabColor_nomal));
         mTextViewYHHD.setTextColor(getResources().getColor(R.color.tabColor_nomal));
         mTextViewYLZX.setTextColor(getResources().getColor(R.color.tabColor_nomal));
-        mTextViewSelf.setTextColor(getResources().getColor(R.color.tabColor_nomal));
+       // mTextViewSelf.setTextColor(getResources().getColor(R.color.tabColor_nomal));
     }
 
 

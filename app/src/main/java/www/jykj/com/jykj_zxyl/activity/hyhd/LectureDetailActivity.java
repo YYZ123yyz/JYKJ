@@ -439,12 +439,8 @@ public class LectureDetailActivity extends AppCompatActivity {
                 det_room_key.setText(StrUtils.defaulObjToStr(roomDetailInfo.getAttrName()));
                 det_room_type.setText(StrUtils.defaulObjToStr(roomDetailInfo.getClassName()));
                 det_live_time.setText("");
-                if(null!=mRoomDetailInfo.getFlagLikes()){
-                    if(0==mRoomDetailInfo.getFlagLikes()) {
-                        liveroom_store_btn.setImageResource(R.mipmap.store);
-                    }else{
-                        liveroom_store_btn.setImageResource(R.mipmap.store_cancel);
-                    }
+                if(0==mRoomDetailInfo.getFlagLikes()) {
+                    liveroom_store_btn.setImageResource(R.mipmap.store);
                 }else{
                     liveroom_store_btn.setImageResource(R.mipmap.store_cancel);
                 }

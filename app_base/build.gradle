@@ -88,6 +88,8 @@ dependencies {
     api 'com.buyi.huxq17:serviceagency:1.1.2'
     //今日头条适配器依赖包
     api 'me.jessyan:autosize:0.9.5'
+    //屏幕适配
+    api 'com.github.smarxpan:NotchScreenTool:0.0.1'
 //    implementation 'androidx.appcompat:appcompat:1.0.2'
 //    testImplementation 'junit:junit:4.12'
 //    androidTestImplementation 'androidx.test.ext:junit:1.1.0'

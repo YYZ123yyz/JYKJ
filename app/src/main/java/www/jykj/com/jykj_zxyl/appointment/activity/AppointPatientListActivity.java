@@ -21,8 +21,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import butterknife.BindView;
+import entity.patientInfo.ProvideViewPatientLablePunchClockState;
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.activity.hyhd.ChatActivity;
+import www.jykj.com.jykj_zxyl.activity.hzgl.HZGLHZZLActivity;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.BaseReasonBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.PatientInfoBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.ReceiveTreatmentResultBean;
@@ -187,7 +189,14 @@ public class AppointPatientListActivity extends AbstractMvpBaseActivity<
 
             @Override
             public void onClickImItem(int pos) {
-
+                Intent intent = new Intent();
+                PatientInfoBean patientInfoBean = mPatientInfoBeans.get(pos);
+                ProvideViewPatientLablePunchClockState provideviewpatientInfo=new ProvideViewPatientLablePunchClockState();
+                provideviewpatientInfo.setUserName(patientInfoBean.getMainPatientName());
+                provideviewpatientInfo.setPatientCode(patientInfoBean.getMainPatientCode());
+                intent.putExtra("patientInfo", provideviewpatientInfo);
+                intent.setClass(AppointPatientListActivity.this, HZGLHZZLActivity.class);
+                startActivity(intent);
             }
 
             @Override

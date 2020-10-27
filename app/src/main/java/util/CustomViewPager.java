@@ -28,12 +28,12 @@ public class CustomViewPager extends ViewPager {
     public CustomViewPager(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
-
-    @Override
-    public boolean onInterceptTouchEvent(MotionEvent event) {
-        // Never allow swiping to switch between pages
-        return false;
-    }
+//
+//    @Override
+//    public boolean onInterceptTouchEvent(MotionEvent event) {
+//        // Never allow swiping to switch between pages
+//        return false;
+//    }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
@@ -70,14 +70,14 @@ public class CustomViewPager extends ViewPager {
         mChildrenViews.put(position, view);
     }
 
-
-    @Override
-    public boolean onTouchEvent(MotionEvent ev) {
-        if (!scrollble) {
-            return true;
-        }
-        return super.onTouchEvent(ev);
-    }
+//
+//    @Override
+//    public boolean onTouchEvent(MotionEvent ev) {
+//        if (!scrollble) {
+//            return true;
+//        }
+//        return super.onTouchEvent(ev);
+//    }
 
 
     public boolean isScrollble() {

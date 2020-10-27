@@ -15,7 +15,7 @@ public class RoomDetailInfo implements Serializable {
     private String detailsCode;
     private Integer extendBroadcastFollowNum;
     private String extendBroadcastPriceShow;
-    private Integer flagLikes;
+    private int flagLikes;
     private String pullUrl;
     private String riskName;
     private String titleDetailShow;
@@ -118,11 +118,11 @@ public class RoomDetailInfo implements Serializable {
         this.extendBroadcastPriceShow = extendBroadcastPriceShow;
     }
 
-    public Integer getFlagLikes() {
+    public int getFlagLikes() {
         return flagLikes;
     }
 
-    public void setFlagLikes(Integer flagLikes) {
+    public void setFlagLikes(int flagLikes) {
         this.flagLikes = flagLikes;
     }
 

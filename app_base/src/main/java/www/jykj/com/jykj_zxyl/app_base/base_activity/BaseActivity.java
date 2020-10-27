@@ -22,6 +22,7 @@ import com.gyf.immersionbar.ImmersionBar;
 import com.hyphenate.EMConnectionListener;
 import com.hyphenate.EMError;
 import com.hyphenate.chat.EMClient;
+import com.smarx.notchlib.NotchScreenManager;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -62,6 +63,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             newConfig.setToDefaults();//设置默认
             res.updateConfiguration(newConfig, res.getDisplayMetrics());
         }
+        NotchScreenManager.getInstance().setDisplayInNotch(this);
         //将Activity添加到队列方便管理
         ActivityStackManager.getInstance().add(this);
         //getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
