@@ -653,7 +653,7 @@ public class SigningDetailsActivity extends BaseActivity implements View.OnClick
             public void run() {
                 String mNetRetStr = "";
                 try {
-                    mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + new Gson().toJson(map), Constant.SERVICEURL + "doctorSignControlle/operUpdSignPatientDoctorOrder");
+                    mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + new Gson().toJson(map), Constant.SERVICEURL + "doctorSignControlle/operUpdSignPatientDoctorOrderNew");
                     Log.e("tag", "修改提交" + mNetRetStr);
                 } catch (Exception e) {
                     NetRetEntity retEntity = new NetRetEntity();

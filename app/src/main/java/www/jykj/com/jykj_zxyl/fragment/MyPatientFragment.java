@@ -46,6 +46,7 @@ import www.jykj.com.jykj_zxyl.activity.hyhd.ChatActivity;
 import www.jykj.com.jykj_zxyl.activity.hzgl.HZGLHZZLActivity;
 import www.jykj.com.jykj_zxyl.activity.hzgl.HZGLTXHZActivity;
 import www.jykj.com.jykj_zxyl.adapter.MyPatientRecyclerAdapter;
+import www.jykj.com.jykj_zxyl.app_base.base_html5.H5Activity;
 import www.jykj.com.jykj_zxyl.application.Constant;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.util.DateUtils;
@@ -214,6 +215,15 @@ public class MyPatientFragment extends Fragment {
                         intent.setClass(getContext(), RefuseActivity.class);
                         intent.putExtra("patientLable", mHZEntyties.get(pos));
                         startActivity(intent);
+                    }
+
+                    @Override
+                    public void onClickStatisticsChart(int pos) {
+                        ProvideViewPatientLablePunchClockState
+                                patientLablePunchClockState = mHZEntyties.get(pos);
+                        Bundle bundle=new Bundle();
+                        bundle.putString("url",patientLablePunchClockState.getReportUrl());
+                        startActivity(H5Activity.class,bundle);
                     }
                 });
 
@@ -689,6 +699,22 @@ public class MyPatientFragment extends Fragment {
             return split.length;
         }
         return 0;
+    }
+
+    /**
+     * 跳转Activity
+     *
+     * @param paramClass  跳转目标Activity
+     * @param paramBundle 需要携带的参数
+     */
+    @SuppressWarnings("rawtypes")
+    public void startActivity(Class paramClass, Bundle paramBundle) {
+        Intent localIntent = new Intent();
+        if (paramBundle != null) {
+            localIntent.putExtras(paramBundle);
+        }
+        localIntent.setClass(this.getActivity(), paramClass);
+        this.startActivity(localIntent);
     }
 
 }

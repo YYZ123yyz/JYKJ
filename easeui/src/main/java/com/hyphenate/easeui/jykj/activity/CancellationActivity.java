@@ -31,6 +31,7 @@ import com.hyphenate.easeui.netService.entity.NetRetEntity;
 import java.math.BigDecimal;
 import java.util.HashMap;
 
+import www.jykj.com.jykj_zxyl.app_base.base_utils.ActivityUtils;
 import www.jykj.com.jykj_zxyl.app_base.base_utils.StringUtils;
 
 public class CancellationActivity extends AppCompatActivity implements View.OnClickListener {
@@ -69,12 +70,13 @@ public class CancellationActivity extends AppCompatActivity implements View.OnCl
     private TextView mTvRefuseContent;
     private String from;
     private TextView name1;
+    private String orderType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cancellation);
-
+        ActivityUtils.setStatusBarMain(this);
         sharedPreferences = getSharedPreferences("sp", Activity.MODE_PRIVATE);
         name = sharedPreferences.getString("name", "");
         code = sharedPreferences.getString("code", "");
@@ -87,6 +89,7 @@ public class CancellationActivity extends AppCompatActivity implements View.OnCl
             doctorName = extras.getString("DoctorName");
             doctoCode = extras.getString("DoctoCode");
             from = extras.getString("from");
+            orderType=extras.getString("orderType");
         }
         initView();
         getdata();
@@ -153,51 +156,102 @@ public class CancellationActivity extends AppCompatActivity implements View.OnCl
 
     //布局显示
     private void setShow() {
-        String relieveReasonClassNameD = signPatientDoctorOrderBean.getRelieveReasonClassNameD();
-        String relieveReasonClassName = signPatientDoctorOrderBean.getRelieveReasonClassName();
-        if (TextUtils.isEmpty(relieveReasonClassNameD)&&TextUtils.isEmpty(relieveReasonClassName)) {
-            mLlCancelContractRoot.setVisibility(View.GONE);
-        }else{
+
+        if (TextUtils.isEmpty(orderType)) {
             mLlCancelContractRoot.setVisibility(View.VISIBLE);
-        }
-        if(from.equals("1")){
-            if (StringUtils.isNotEmpty(relieveReasonClassNameD)) {
-                tvName.setText(relieveReasonClassNameD);
-                mLlCancelContractRoot.setVisibility(View.VISIBLE);
-            }else{
-                mLlCancelContractRoot.setVisibility(View.GONE);
-            }
-            String relieveRemarkD = signPatientDoctorOrderBean.getRelieveRemarkD();
-            tvTermination.setText(StringUtils.isNotEmpty(relieveRemarkD)?relieveRemarkD:"暂无");
-        }else if(from.equals("2")){
-            if (StringUtils.isNotEmpty(relieveReasonClassName)) {
-                tvName.setText(relieveReasonClassName);
-                mLlCancelContractRoot.setVisibility(View.VISIBLE);
-            }else{
-                mLlCancelContractRoot.setVisibility(View.GONE);
-            }
-            String relieveRemark = signPatientDoctorOrderBean.getRelieveRemark();
-            tvTermination.setText(StringUtils.isNotEmpty(relieveRemark)?relieveRemark:"暂无");
-        }
-
-
-        String rejectReasonClassCode = signPatientDoctorOrderBean.getRejectReasonClassCode();
-        String rejectReasonClassCodeJ = signPatientDoctorOrderBean.getRejectReasonClassCodeJ();
-        if (StringUtils.isNotEmpty(rejectReasonClassCode)) {
-            mTvRefuseReason.setText(signPatientDoctorOrderBean.getRejectReasonClassName());
-            String rejectRemark = signPatientDoctorOrderBean.getRejectRemark();
-            mTvRefuseContent.setText(StringUtils.isNotEmpty(rejectRemark)?rejectRemark:"暂无");
-            mLlRefuseRoot.setVisibility(View.VISIBLE);
-        }
-        if (StringUtils.isNotEmpty(rejectReasonClassCodeJ)) {
-            mTvRefuseReason.setText(signPatientDoctorOrderBean.getRejectReasonClassNameJ());
-            String rejectRemarkJ = signPatientDoctorOrderBean.getRejectRemarkJ();
-            mTvRefuseContent.setText(StringUtils.isNotEmpty(rejectRemarkJ)?rejectRemarkJ:"暂无");
-            mLlRefuseRoot.setVisibility(View.VISIBLE);
-        }
-        if(TextUtils.isEmpty(rejectReasonClassCode)&&TextUtils.isEmpty(rejectReasonClassCodeJ)){
             mLlRefuseRoot.setVisibility(View.GONE);
+            if(from.equals("1")){
+                String relieveReasonClassNameD = signPatientDoctorOrderBean.getRelieveReasonClassNameD();
+                tvName.setText(relieveReasonClassNameD);
+                String relieveRemarkD = signPatientDoctorOrderBean.getRelieveRemarkD();
+                tvTermination.setText(StringUtils.isNotEmpty(relieveRemarkD) ? relieveRemarkD : "暂无");
+            }else if(from.equals("2")){
+                String relieveReasonClassName = signPatientDoctorOrderBean.getRelieveReasonClassName();
+                tvName.setText(relieveReasonClassName);
+                String relieveRemark = signPatientDoctorOrderBean.getRelieveRemark();
+                tvTermination.setText(StringUtils.isNotEmpty(relieveRemark) ? relieveRemark : "暂无");
+            }
+
+
+        }else{
+            switch (orderType) {
+                case "1":
+                    mLlCancelContractRoot.setVisibility(View.VISIBLE);
+                    mLlRefuseRoot.setVisibility(View.GONE);
+                    if (from.equals("1")) {
+                        String relieveReasonClassNameD = signPatientDoctorOrderBean.getRelieveReasonClassNameD();
+                        tvName.setText(relieveReasonClassNameD);
+                        String relieveRemarkD = signPatientDoctorOrderBean.getRelieveRemarkD();
+                        tvTermination.setText(StringUtils.isNotEmpty(relieveRemarkD) ? relieveRemarkD : "暂无");
+                    } else if (from.equals("2")) {
+                        String relieveReasonClassName = signPatientDoctorOrderBean.getRelieveReasonClassName();
+                        tvName.setText(relieveReasonClassName);
+                        String relieveRemark = signPatientDoctorOrderBean.getRelieveRemark();
+                        tvTermination.setText(StringUtils.isNotEmpty(relieveRemark) ? relieveRemark : "暂无");
+                    }
+                    break;
+                case "2":
+                    mLlCancelContractRoot.setVisibility(View.GONE);
+                    mLlRefuseRoot.setVisibility(View.VISIBLE);
+                    mTvRefuseReason.setText(signPatientDoctorOrderBean.getRejectReasonClassNameJ());
+                    String rejectRemarkJ = signPatientDoctorOrderBean.getRejectRemarkJ();
+                    mTvRefuseContent.setText(StringUtils.isNotEmpty(rejectRemarkJ) ? rejectRemarkJ : "暂无");
+
+
+                    break;
+                case "3":
+                    mLlCancelContractRoot.setVisibility(View.GONE);
+                    mLlRefuseRoot.setVisibility(View.VISIBLE);
+                    mTvRefuseReason.setText(signPatientDoctorOrderBean.getRejectReasonClassName());
+                    String rejectRemark = signPatientDoctorOrderBean.getRejectRemark();
+                    mTvRefuseContent.setText(StringUtils.isNotEmpty(rejectRemark) ? rejectRemark : "暂无");
+                    break;
+            }
         }
+//
+//        if (TextUtils.isEmpty(relieveReasonClassNameD)&&TextUtils.isEmpty(relieveReasonClassName)) {
+//            mLlCancelContractRoot.setVisibility(View.GONE);
+//        }else{
+//            mLlCancelContractRoot.setVisibility(View.VISIBLE);
+//        }
+//        if(from.equals("1")){
+//            if (StringUtils.isNotEmpty(relieveReasonClassNameD)) {
+//                tvName.setText(relieveReasonClassNameD);
+//                mLlCancelContractRoot.setVisibility(View.VISIBLE);
+//            }else{
+//                mLlCancelContractRoot.setVisibility(View.GONE);
+//            }
+//            String relieveRemarkD = signPatientDoctorOrderBean.getRelieveRemarkD();
+//            tvTermination.setText(StringUtils.isNotEmpty(relieveRemarkD)?relieveRemarkD:"暂无");
+//        }else if(from.equals("2")){
+//            if (StringUtils.isNotEmpty(relieveReasonClassName)) {
+//                tvName.setText(relieveReasonClassName);
+//                mLlCancelContractRoot.setVisibility(View.VISIBLE);
+//            }else{
+//                mLlCancelContractRoot.setVisibility(View.GONE);
+//            }
+//            String relieveRemark = signPatientDoctorOrderBean.getRelieveRemark();
+//            tvTermination.setText(StringUtils.isNotEmpty(relieveRemark)?relieveRemark:"暂无");
+//        }
+//
+//
+//        String rejectReasonClassCode = signPatientDoctorOrderBean.getRejectReasonClassCode();
+//        String rejectReasonClassCodeJ = signPatientDoctorOrderBean.getRejectReasonClassCodeJ();
+//        if (StringUtils.isNotEmpty(rejectReasonClassCode)) {
+//            mTvRefuseReason.setText(signPatientDoctorOrderBean.getRejectReasonClassName());
+//            String rejectRemark = signPatientDoctorOrderBean.getRejectRemark();
+//            mTvRefuseContent.setText(StringUtils.isNotEmpty(rejectRemark)?rejectRemark:"暂无");
+//            mLlRefuseRoot.setVisibility(View.VISIBLE);
+//        }
+//        if (StringUtils.isNotEmpty(rejectReasonClassCodeJ)) {
+//            mTvRefuseReason.setText(signPatientDoctorOrderBean.getRejectReasonClassNameJ());
+//            String rejectRemarkJ = signPatientDoctorOrderBean.getRejectRemarkJ();
+//            mTvRefuseContent.setText(StringUtils.isNotEmpty(rejectRemarkJ)?rejectRemarkJ:"暂无");
+//            mLlRefuseRoot.setVisibility(View.VISIBLE);
+//        }
+//        if(TextUtils.isEmpty(rejectReasonClassCode)&&TextUtils.isEmpty(rejectReasonClassCodeJ)){
+//            mLlRefuseRoot.setVisibility(View.GONE);
+//        }
 
 
         cancellationTime.setText(DateUtils.stampToDate(signPatientDoctorOrderBean.getSignStartTime()));

@@ -43,6 +43,7 @@ import www.jykj.com.jykj_zxyl.activity.hyhd.ChatActivity;
 import www.jykj.com.jykj_zxyl.activity.hzgl.HZGLHZZLActivity;
 import www.jykj.com.jykj_zxyl.activity.hzgl.HZGLTXHZActivity;
 import www.jykj.com.jykj_zxyl.adapter.MyPatientRecyclerAdapter;
+import www.jykj.com.jykj_zxyl.app_base.base_html5.H5Activity;
 import www.jykj.com.jykj_zxyl.app_base.mvp.AbstractMvpBaseFragment;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.mypatient.contract.FragmentContract;
@@ -146,6 +147,15 @@ public class NotAllFragment extends AbstractMvpBaseFragment<NotFragmentContract.
                         intent.putExtra("patientLable", mDatas.get(pos));
                         startActivity(intent);
                     }
+
+                    @Override
+                    public void onClickStatisticsChart(int pos) {
+                        ProvideViewPatientLablePunchClockState
+                                patientLablePunchClockState = mDatas.get(pos);
+                        Bundle bundle=new Bundle();
+                        bundle.putString("url",patientLablePunchClockState.getReportUrl());
+                        startActivity(H5Activity.class,bundle);
+                    }
                 });
         myPatientRecyclerAdapter.setOnClickItemListener(
                 new MyPatientRecyclerAdapter.OnClickItemListener() {
@@ -201,6 +211,15 @@ public class NotAllFragment extends AbstractMvpBaseFragment<NotFragmentContract.
                         intent.setClass(getContext(), RefuseActivity.class);
                         intent.putExtra("patientLable", mDatas.get(pos));
                         startActivity(intent);
+                    }
+
+                    @Override
+                    public void onClickStatisticsChart(int pos) {
+                        ProvideViewPatientLablePunchClockState
+                                patientLablePunchClockState = mDatas.get(pos);
+                        Bundle bundle=new Bundle();
+                        bundle.putString("url",patientLablePunchClockState.getReportUrl());
+                        startActivity(H5Activity.class,bundle);
                     }
                 });
         //患者资料点击事件

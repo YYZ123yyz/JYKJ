@@ -31,6 +31,7 @@ import com.sak.ultilviewlib.UltimateRefreshView;
 import com.sak.ultilviewlib.interfaces.OnFooterRefreshListener;
 import com.sak.ultilviewlib.interfaces.OnHeaderRefreshListener;
 import com.tbruyelle.rxpermissions.RxPermissions;
+import com.tencent.bugly.crashreport.CrashReport;
 import com.youth.banner.Banner;
 import com.youth.banner.loader.ImageLoader;
 

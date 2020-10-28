@@ -48,6 +48,7 @@ public class ProvideViewPatientLablePunchClockState implements Serializable{
     private String userLabelSecondName;
     private String userLogoUrl;
     private String userName;
+    private String reportUrl;
 
     public long getBirthday() {
         return birthday;
@@ -215,5 +216,13 @@ public class ProvideViewPatientLablePunchClockState implements Serializable{
 
     public void setOrderCode(String orderCode) {
         this.orderCode = orderCode;
+    }
+
+    public String getReportUrl() {
+        return reportUrl;
+    }
+
+    public void setReportUrl(String reportUrl) {
+        this.reportUrl = reportUrl;
     }
 }

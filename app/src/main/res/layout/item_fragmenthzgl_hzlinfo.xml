@@ -81,29 +81,33 @@
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
         android:orientation="horizontal">
+
         <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:id="@+id/item_fragmentHZGL_xy"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
             android:layout_weight="1">
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true">
+
                 <ImageView
                     android:id="@+id/img_user_msg"
                     android:layout_width="15dp"
                     android:layout_height="15dp"
                     android:layout_gravity="center_vertical"
-                    android:background="@mipmap/xy"/>
+                    android:background="@mipmap/xy" />
+
                 <TextView
                     android:id="@+id/tv_user_msg"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="5dp"
-                    android:textSize="15sp"
-                    android:text="个人状况"/>
+                    android:text="统计图"
+                    android:textSize="15sp" />
             </LinearLayout>
         </RelativeLayout>
         <RelativeLayout

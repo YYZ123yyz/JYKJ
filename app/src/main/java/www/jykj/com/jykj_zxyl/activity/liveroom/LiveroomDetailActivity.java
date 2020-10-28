@@ -36,6 +36,7 @@ import org.w3c.dom.Text;
 import wechatShare.WechatShareManager;
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.activity.hyhd.*;
+import www.jykj.com.jykj_zxyl.app_base.base_activity.BaseActivity;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.custom.ShareDialog;
 import www.jykj.com.jykj_zxyl.util.CircleImageView;
@@ -44,7 +45,7 @@ import www.jykj.com.jykj_zxyl.util.StrUtils;
 import java.io.*;
 import java.util.List;
 
-public class LiveroomDetailActivity extends AppCompatActivity {
+public class LiveroomDetailActivity extends BaseActivity {
     JYKJApplication mApp;
     Activity mActivity;
     Context mContext;
@@ -70,9 +71,15 @@ public class LiveroomDetailActivity extends AppCompatActivity {
     WechatShareManager mShareManager;
     boolean isfocus = false;
     ImageView liveroom_store_btn;
+
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected int setLayoutId() {
+        return R.layout.activity_liveroom_detail;
+    }
+
+    @Override
+    protected void initView() {
+        super.initView();
         detailCode = StrUtils.defaulObjToStr(getIntent().getStringExtra("detailCode"));
         mApp = (JYKJApplication)getApplication();
         mActivity = LiveroomDetailActivity.this;
