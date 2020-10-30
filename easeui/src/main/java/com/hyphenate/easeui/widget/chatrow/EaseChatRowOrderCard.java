@@ -836,6 +836,7 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                             bundle.putString("from", from);
                             bundle.putString("patientName", nickName);
                             bundle.putString("patientCode", patientCode);
+                            bundle.putString("signCode",signCode);
                             bundle.putString("DoctorName", mViewSysUserDoctorInfoAndHospital.getUserName());
                             bundle.putString("DoctoCode", mViewSysUserDoctorInfoAndHospital.getDoctorCode());
                             startActivity(CancellationActivity.class, bundle);
@@ -847,6 +848,7 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                             Bundle bundle = new Bundle();
                             bundle.putString("orderCode", orderCode);
                             bundle.putString("singNo", singNO);
+                            bundle.putString("signCode",signCode);
                             bundle.putString("from", "2");
                             bundle.putString("orderType",orderType);
                             bundle.putString("patientName", nickName);

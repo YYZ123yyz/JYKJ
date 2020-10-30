@@ -80,6 +80,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import www.jykj.com.jykj_zxyl.app_base.base_utils.StringUtils;
 
 
 public class DemoHelper {
@@ -1287,7 +1288,7 @@ public class DemoHelper {
         // 实际开发中，可能还需要从服务器获取用户信息,
         // 从服务器获取的数据，最好缓存起来，避免频繁的网络请求
 
-        if (hxId.equals(EMClient.getInstance().getCurrentUser())) {
+        if (StringUtils.isNotEmpty(hxId)&&hxId.equals(EMClient.getInstance().getCurrentUser())) {
             EaseUser currentUserInfo = getUserProfileManager().getCurrentUserInfo();
             return currentUserInfo;
         }

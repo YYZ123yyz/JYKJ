@@ -144,6 +144,11 @@ public class InspectionProjectChoosedPresenter extends BasePresenterImpl<Inspect
             }
 
             @Override
+            protected void onError(String s) {
+                super.onError(s);
+            }
+
+            @Override
             protected String setTag() {
                 return SEND_SEARCH_INSPECTION_PROJECT_DETAIL_LIST_REQUEST_TAG;
             }

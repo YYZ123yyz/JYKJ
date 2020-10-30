@@ -57,6 +57,7 @@ public class CancellationActivity extends AppCompatActivity implements View.OnCl
     private String code;
     private String orderId;
     private String singNO;
+    private String signCode;
     private String nickName;
     private String patientCode;
     private NetRetEntity netRetEntity;
@@ -88,6 +89,7 @@ public class CancellationActivity extends AppCompatActivity implements View.OnCl
             patientCode = extras.getString("patientCode");
             doctorName = extras.getString("DoctorName");
             doctoCode = extras.getString("DoctoCode");
+            signCode=extras.getString("signCode");
             from = extras.getString("from");
             orderType=extras.getString("orderType");
         }
@@ -103,6 +105,7 @@ public class CancellationActivity extends AppCompatActivity implements View.OnCl
         map.put("operDoctorCode", doctoCode);
         map.put("operDoctorName", doctorName);
         map.put("orderCode", orderId);
+        map.put("signCode",signCode);
 
         new Thread() {
             public void run() {

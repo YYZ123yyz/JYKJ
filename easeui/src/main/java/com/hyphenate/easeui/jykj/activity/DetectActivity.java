@@ -30,12 +30,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import www.jykj.com.jykj_zxyl.app_base.base_activity.BaseActivity;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.ViewSysUserDoctorInfoAndHospital;
 import www.jykj.com.jykj_zxyl.app_base.base_utils.GsonUtils;
 import www.jykj.com.jykj_zxyl.app_base.base_utils.SharedPreferences_DataSave;
 
 
-public class DetectActivity extends AppCompatActivity implements View.OnClickListener {
+public class DetectActivity extends BaseActivity implements View.OnClickListener {
 
 
     private Context mContext;
@@ -53,10 +54,40 @@ public class DetectActivity extends AppCompatActivity implements View.OnClickLis
     private String code;
     private List<DetectBean> mDetectList = new ArrayList<>();
 
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        setContentView(R.layout.activity_detect);
+//        mContext = this;
+//        mActivity = this;
+//        mDetectList = (ArrayList<DetectBean>) getIntent().getSerializableExtra("detect");
+//        SharedPreferences_DataSave m_persist = new SharedPreferences_DataSave(this,
+//                "JYKJDOCTER");
+//        String userInfoSuLogin = m_persist.getString("viewSysUserDoctorInfoAndHospital", "");
+//        ViewSysUserDoctorInfoAndHospital mProvideViewSysUserPatientInfoAndRegion
+//                = GsonUtils.fromJson(userInfoSuLogin, ViewSysUserDoctorInfoAndHospital.class);
+//        if (mProvideViewSysUserPatientInfoAndRegion!=null) {
+//            name=mProvideViewSysUserPatientInfoAndRegion.getUserName();
+//            code=mProvideViewSysUserPatientInfoAndRegion.getDoctorCode();
+//        }
+//
+//        initView();
+//        //   OnClickListener();
+//        Detect();
+//        initHandler();
+//    }
+
+
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detect);
+    protected int setLayoutId() {
+        return R.layout.activity_detect;
+    }
+
+    @Override
+    protected void initView() {
+        super.initView();
+
         mContext = this;
         mActivity = this;
         mDetectList = (ArrayList<DetectBean>) getIntent().getSerializableExtra("detect");
@@ -70,13 +101,11 @@ public class DetectActivity extends AppCompatActivity implements View.OnClickLis
             code=mProvideViewSysUserPatientInfoAndRegion.getDoctorCode();
         }
 
-        initView();
+       // initView();
         //   OnClickListener();
-        Detect();
-        initHandler();
-    }
+       // Detect();
+        //initHandler();
 
-    private void initView() {
         liBack = (LinearLayout) findViewById(R.id.li_back);
         liBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,8 +142,15 @@ public class DetectActivity extends AppCompatActivity implements View.OnClickLis
 
             }
         });
+
+        initHandler();
     }
 
+    @Override
+    protected void initData() {
+        super.initData();
+        Detect();
+    }
 
     @SuppressLint("HandlerLeak")
     private void initHandler() {

@@ -50,6 +50,7 @@ public class ProvideViewPatientLablePunchClockState implements Serializable{
     private String userName;
     private String reportUrl;
 
+
     public long getBirthday() {
         return birthday;
     }

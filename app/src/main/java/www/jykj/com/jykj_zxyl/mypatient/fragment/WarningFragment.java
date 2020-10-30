@@ -119,7 +119,7 @@ public class WarningFragment extends AbstractMvpBaseFragment<FragmentContract.Vi
                         startActivity(new Intent(getActivity(), SigningDetailsActivity.class)
                                 .putExtra("patientCode", patientLablePunchClockState.getPatientCode())
                                 .putExtra("patientName", patientLablePunchClockState.getUserName())
-                                .putExtra("singCode", "")
+                                .putExtra("singCode", patientLablePunchClockState.getSignCode())
                                 .putExtra("patientUrl",patientLablePunchClockState.getUserLogoUrl())
                                 .putExtra("doctorUrl", patientLablePunchClockState.getUserLogoUrl())
                         );

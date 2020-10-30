@@ -1057,6 +1057,7 @@ public class SigningDetailsActivity extends BaseActivity implements View.OnClick
         map.put("operDoctorCode", code);
         map.put("operDoctorName", name);
         map.put("orderCode", orderCode);
+        map.put("signCode",signCode);
         new Thread() {
             public void run() {
                 String mNetRetStr = "";

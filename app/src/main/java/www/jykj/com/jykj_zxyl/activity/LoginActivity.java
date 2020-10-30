@@ -28,6 +28,9 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.hyphenate.EMCallBack;
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.easeui.hyhd.DemoHelper;
 import com.orhanobut.logger.Logger;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.Request;
@@ -52,6 +55,7 @@ import netService.entity.NetRetEntity;
 import netService.entity.ParmentEntity;
 import util.LinkdoodLoadingDialog;
 import www.jykj.com.jykj_zxyl.app_base.base_activity.BaseActivity;
+import www.jykj.com.jykj_zxyl.app_base.base_utils.AndroidThreadExecutor;
 import www.jykj.com.jykj_zxyl.application.Constant;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.util.ActivityUtil;
@@ -148,7 +152,7 @@ public class LoginActivity extends BaseActivity {
             public void handleMessage(Message msg) {
                 switch (msg.what) {
                     case 1:
-                        cacerProgress();
+
                         if (mNetLoginRetStr != null && !mNetLoginRetStr.equals("")) {
                             NetRetEntity netRetEntity = new Gson().fromJson(mNetLoginRetStr, NetRetEntity.class);
                             if (netRetEntity.getResCode() == 1) {
@@ -158,18 +162,23 @@ public class LoginActivity extends BaseActivity {
                                 mApp.mLoginUserInfo = userInfo;
                                 mApp.mViewSysUserDoctorInfoAndHospital = new Gson().fromJson(netRetEntity.getResJsonData(), ViewSysUserDoctorInfoAndHospital.class);
                                 mApp.saveUserInfo();
-                                Toast.makeText(mContext, "恭喜，登录成功", Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(mContext, "恭喜，登录成功", Toast.LENGTH_SHORT).show();
                                 //登录IM
-                                mApp.loginIM();
-                                startActivity(new Intent(mContext, MainActivity.class));
-                                finish();
+//                                mApp.loginIM();
+//                                startActivity(new Intent(mContext, MainActivity.class));
+//                                finish();
+                                loginIm(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode()
+                                        ,mApp.mViewSysUserDoctorInfoAndHospital.getQrCode()
+                                        ,mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
                             } else {
+                                cacerProgress();
                                 Toast.makeText(mContext, "登录失败，" + netRetEntity.getResMsg(), LENGTH_SHORT).show();
-                                mLoadingDialog.dismiss();
+                                //mLoadingDialog.dismiss();
                             }
                         } else {
+                            cacerProgress();
                             Toast.makeText(mContext, "网络异常，请联系管理员", LENGTH_SHORT).show();
-                            mLoadingDialog.dismiss();
+                            //mLoadingDialog.dismiss();
                         }
                         break;
                     case 2:
@@ -507,6 +516,56 @@ public class LoginActivity extends BaseActivity {
         });
     }
 
+    /**
+     * 登录IM
+     * @param userCode 用户code
+     * @param orCode 二维码code
+     * @param userName 用户名称
+     */
+    private void loginIm(String userCode,String orCode,String userName){
+        AndroidThreadExecutor.getInstance().executeOnWorkThread(new Runnable() {
+            @Override
+            public void run() {
+                EMClient.getInstance().login(userCode,orCode,new EMCallBack() {
+                    @Override
+                    public void onSuccess() {
+                        cacerProgress();
+                        // ** manually load all local groups and conversation
+                        EMClient.getInstance().groupManager().loadAllGroups();
+                        EMClient.getInstance().chatManager().loadAllConversations();
+
+                        // update current user's display name for APNs
+                        boolean updatenick = EMClient.getInstance().pushManager().updatePushNickname(userName);
+                        if (!updatenick) {
+                        }
+                        DemoHelper.getInstance().getUserProfileManager().asyncGetCurrentUserInfo();
+                        String retuser = EMClient.getInstance().getCurrentUser();
+                        // setNewsMessage();
+                        Log.e("iis",retuser);
+                        startActivity(new Intent(mContext, MainActivity.class));
+                        finish();
+                    }
+
+                    @Override
+                    public void onProgress(int progress, String status) {
+                    }
+
+                    @Override
+                    public void onError(final int code, final String message) {
+                        AndroidThreadExecutor.getInstance().executeOnMainThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(mContext, "登录失败，请稍后再试" , Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                });
+            }
+        });
+
+    }
+
+
     //获取用户信息
     private void getPersonMessage(String access_token, String openid) {
         String url = "https://api.weixin.qq.com/sns/userinfo?access_token="
@@ -578,12 +637,15 @@ public class LoginActivity extends BaseActivity {
                                                 mApp.mLoginUserInfo = userInfo;
                                                 //登录IM
                                                 mApp.mViewSysUserDoctorInfoAndHospital.getUserRoleId();
-                                                mApp.loginIM();
+                                                //mApp.loginIM();
 
                                                 mApp.saveUserInfo(viewSysUserDoctorInfoAndHospital);
-                                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                                startActivity(intent);
-                                               finish();
+//                                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+//                                                startActivity(intent);
+//                                               finish();
+                                                loginIm(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode()
+                                                        ,mApp.mViewSysUserDoctorInfoAndHospital.getQrCode()
+                                                        ,mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
                                             }
                                         }
                                     }, 100

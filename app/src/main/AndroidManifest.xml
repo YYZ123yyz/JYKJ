@@ -69,7 +69,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         tools:ignore="GoogleAppIndexingWarning"
-        tools:replace="android:allowBackup,android:icon">
+        tools:replace="android:allowBackup,android:icon"
+        android:vmSafeMode="true"
+        >
         <activity android:name=".mypatient.fragment.SignedPatientFragment"></activity>
         <activity android:name=".mypatient.activity.PatientActivity" />
         <activity android:name=".activity.home.mypatient.fillindetails.FillindetailsActivity" />

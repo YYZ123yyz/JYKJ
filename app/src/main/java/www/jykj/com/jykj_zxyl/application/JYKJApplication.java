@@ -259,6 +259,7 @@ public class JYKJApplication extends Application {
                     Log.e(IMTAG,ex.getMessage());
                 }
             }}.start();
+
     }
 
 

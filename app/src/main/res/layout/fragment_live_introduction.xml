@@ -1,110 +1,307 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent" android:orientation="vertical" android:background="@color/white" android:id="@+id/introduction_layout">
-    <ScrollView android:layout_width="match_parent" android:layout_height="match_parent">
-    <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical">
-<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-              android:layout_marginLeft="10dp" android:layout_marginRight="10dp"
-              android:orientation="horizontal" android:background="@drawable/bg_round_gray" android:layout_margin="5dp">
-    <www.jykj.com.jykj_zxyl.util.CircleImageView android:layout_width="39dp"
-                                                 android:layout_height="37dp"
-    android:src="@mipmap/liveroom_head">
-    </www.jykj.com.jykj_zxyl.util.CircleImageView>
-    <RelativeLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="10dp">
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                  android:text="某某某" android:id="@+id/tv_username" android:textStyle="bold"></TextView>
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="30dp"
-                  android:text="博士、研究员" android:id="@+id/tv_usertitle" android:layout_toRightOf="@+id/tv_username" android:textStyle="bold"></TextView>
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="西安交通大学附属医院"
-                  android:id="@+id/tv_usercompany" android:layout_below="@+id/tv_username"></TextView>
-    </RelativeLayout>
-    <TextView android:layout_width="71dp" android:layout_height="29dp" android:layout_gravity="right|center_vertical"
-              android:background="@drawable/round_btn_bk" android:id="@+id/tv_advise_btn" android:layout_marginLeft="100dp"
-              android:text="立即咨询" android:gravity="center"></TextView>
-</LinearLayout>
-    <LinearLayout android:layout_width="match_parent" android:layout_height="30dp" android:orientation="horizontal" android:layout_marginRight="10dp"
-    android:layout_marginLeft="10dp">
-        <ImageView android:layout_width="6dp" android:layout_height="14dp"
-                   android:src="@drawable/col_divide_span" android:layout_gravity="center_vertical" android:layout_marginLeft="5dp"></ImageView>
-        <TextView
-                android:layout_width="38dp"
-                android:layout_height="16dp"
-                android:text="擅长领域"
-                android:textColor="#ff799dfe"
-                android:textSize="8sp" android:layout_gravity="center_vertical" android:gravity="center"
-        />
-    </LinearLayout>
-    <LinearLayout android:layout_width="match_parent" android:layout_height="80dp" android:background="@drawable/round_green_bk"
-                  android:layout_marginLeft="10dp" android:layout_marginRight="10dp" android:orientation="horizontal">
-        <TextView android:layout_width="match_parent" android:layout_height="60dp"
-                  android:layout_marginTop="10dp" android:layout_marginBottom="10dp"
-                  android:layout_marginLeft="10dp" android:layout_marginRight="10dp"
-                  android:text="覆盖的城市有许多：北京，上海，天津，重庆， 江苏，浙江，江西，安徽，广东，四川，河南， 湖北，湖南，福建，云南，山东，辽宁，海南 等等，具体医院可以咨询客服。"></TextView>
-    </LinearLayout>
-    <LinearLayout android:layout_width="match_parent" android:layout_height="30dp" android:orientation="horizontal" android:layout_marginRight="10dp"
-                  android:layout_marginLeft="10dp">
-        <ImageView android:layout_width="6dp" android:layout_height="14dp"
-                   android:src="@drawable/col_divide_span" android:layout_gravity="center_vertical" android:layout_marginLeft="5dp"></ImageView>
-        <TextView
-                android:layout_width="38dp"
-                android:layout_height="16dp"
-                android:text="直播大纲"
-                android:textColor="#ff799dfe"
-                android:textSize="8sp" android:layout_gravity="center_vertical" android:gravity="center"
-        />
-    </LinearLayout>
-    <LinearLayout android:layout_width="match_parent" android:layout_height="100dp" android:background="@drawable/round_yellow_bk"
-                  android:layout_marginLeft="10dp" android:layout_marginRight="10dp" android:orientation="vertical">
-        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-                                                                       android:layout_marginTop="10dp"
-                                                                       android:layout_marginLeft="10dp" android:layout_marginRight="10dp"
-                                                                       android:text="01.直播主题：某某某某某某某某"></TextView>
-        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-                  android:layout_marginLeft="10dp" android:layout_marginRight="10dp"
-                  android:text="02.直播类目：某某某某某某某某"></TextView>
-        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-                  android:layout_marginLeft="10dp" android:layout_marginRight="10dp"
-                  android:text="03.危险因素：某某某某某某某某"></TextView>
-        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-                  android:layout_marginLeft="10dp" android:layout_marginRight="10dp"
-                  android:text="04.直播关键词：某某某某某某某某"  android:layout_marginBottom="5dp"></TextView>
-    </LinearLayout>
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                  android:layout_marginLeft="10dp" android:layout_marginRight="10dp" android:orientation="vertical" android:layout_marginTop="5dp">
-        <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:background="@drawable/round_inter_green_bk">
-            <TextView android:layout_width="35dp" android:layout_height="50dp" android:text="A" android:textStyle="bold"
-                      android:gravity="center" android:id="@+id/tv_oneitem_left"></TextView>
-            <TextView android:layout_width="wrap_content" android:layout_height="25dp" android:layout_toRightOf="@+id/tv_oneitem_left"
-                      android:text="某某某某某某某某" android:id="@+id/tv_oneitem_righttop" android:gravity="center_vertical"></TextView>
-            <TextView android:layout_width="wrap_content" android:layout_height="25dp" android:layout_toRightOf="@+id/tv_oneitem_left"
-                      android:text="某某某某某某某某某某某" android:id="@+id/tv_oneitem_rightbottom" android:layout_below="@+id/tv_oneitem_righttop"></TextView>
-        </RelativeLayout>
-        <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:background="@drawable/round_inter_yellow_bk">
-            <TextView android:layout_width="35dp" android:layout_height="50dp" android:text="B" android:textStyle="bold"
-                      android:gravity="center" android:id="@+id/tv_twoitem_left"></TextView>
-            <TextView android:layout_width="wrap_content" android:layout_height="25dp" android:layout_toRightOf="@+id/tv_twoitem_left"
-                      android:text="某某某某某某某某" android:id="@+id/tv_twoitem_righttop" android:gravity="center_vertical"></TextView>
-            <TextView android:layout_width="wrap_content" android:layout_height="25dp" android:layout_toRightOf="@+id/tv_twoitem_left"
-                      android:text="某某某某某某某某某某某" android:id="@+id/tv_twoitem_rightbottom" android:layout_below="@+id/tv_twoitem_righttop"></TextView>
-        </RelativeLayout>
-        <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:background="@drawable/round_inter_green_bk">
-            <TextView android:layout_width="35dp" android:layout_height="50dp" android:text="C" android:textStyle="bold"
-                      android:gravity="center" android:id="@+id/tv_threeitem_left"></TextView>
-            <TextView android:layout_width="wrap_content" android:layout_height="25dp" android:layout_toRightOf="@+id/tv_threeitem_left"
-                      android:text="某某某某某某某某" android:id="@+id/tv_threeitem_righttop" android:gravity="center_vertical"></TextView>
-            <TextView android:layout_width="wrap_content" android:layout_height="25dp" android:layout_toRightOf="@+id/tv_threeitem_left"
-                      android:text="某某某某某某某某某某某" android:id="@+id/tv_threeitem_rightbottom" android:layout_below="@+id/tv_threeitem_righttop"></TextView>
-        </RelativeLayout>
-        <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:background="@drawable/round_inter_yellow_bk">
-            <TextView android:layout_width="35dp" android:layout_height="50dp" android:text="D" android:textStyle="bold"
-                      android:gravity="center" android:id="@+id/tv_fouritem_left"></TextView>
-            <TextView android:layout_width="wrap_content" android:layout_height="25dp" android:layout_toRightOf="@+id/tv_fouritem_left"
-                      android:text="某某某某某某某某" android:id="@+id/tv_fouritem_righttop" android:gravity="center_vertical"></TextView>
-            <TextView android:layout_width="wrap_content" android:layout_height="25dp" android:layout_toRightOf="@+id/tv_fouritem_left"
-                      android:text="某某某某某某某某某某某" android:id="@+id/tv_fouritem_rightbottom" android:layout_below="@+id/tv_fouritem_righttop"></TextView>
-        </RelativeLayout>
-    </LinearLayout>
-    </LinearLayout>
+    android:id="@+id/introduction_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/bg_round_gray"
+                android:orientation="horizontal">
+
+                <www.jykj.com.jykj_zxyl.util.CircleImageView
+                    android:layout_width="39dp"
+                    android:layout_height="37dp"
+                    android:src="@mipmap/liveroom_head"/>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp">
+
+                    <TextView
+                        android:id="@+id/tv_username"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="某某某"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:id="@+id/tv_usertitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="30dp"
+                        android:layout_toRightOf="@+id/tv_username"
+                        android:text="博士、研究员"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:id="@+id/tv_usercompany"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tv_username"
+                        android:text="西安交通大学附属医院"/>
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/tv_advise_btn"
+                    android:layout_width="71dp"
+                    android:layout_height="29dp"
+                    android:layout_gravity="right|center_vertical"
+                    android:layout_marginLeft="100dp"
+                    android:background="@drawable/round_btn_bk"
+                    android:gravity="center"
+                    android:text="立即咨询"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="6dp"
+                    android:layout_height="14dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="5dp"
+                    android:src="@drawable/col_divide_span"></ImageView>
+
+                <TextView
+                    android:layout_width="38dp"
+                    android:layout_height="16dp"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center"
+                    android:text="擅长领域"
+                    android:textColor="#ff799dfe"
+                    android:textSize="8sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/round_green_bk"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:text="覆盖的城市有许多：北京，上海，天津，重庆， 江苏，浙江，江西，安徽，广东，四川，河南， 湖北，湖南，福建，云南，山东，辽宁，海南 等等，具体医院可以咨询客服。"></TextView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="6dp"
+                    android:layout_height="14dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="5dp"
+                    android:src="@drawable/col_divide_span"></ImageView>
+
+                <TextView
+                    android:layout_width="38dp"
+                    android:layout_height="16dp"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center"
+                    android:text="直播大纲"
+                    android:textColor="#ff799dfe"
+                    android:textSize="8sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/round_yellow_bk"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="10dp"
+                    android:text="01.直播主题：某某某某某某某某"></TextView>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:text="02.直播类目：某某某某某某某某"></TextView>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:text="03.危险因素：某某某某某某某某"></TextView>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:text="04.直播关键词：某某某某某某某某"></TextView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="10dp"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/round_inter_green_bk">
+
+                    <TextView
+                        android:id="@+id/tv_oneitem_left"
+                        android:layout_width="35dp"
+                        android:layout_height="50dp"
+                        android:gravity="center"
+                        android:text="A"
+                        android:textStyle="bold"></TextView>
+
+                    <TextView
+                        android:id="@+id/tv_oneitem_righttop"
+                        android:layout_width="wrap_content"
+                        android:layout_height="25dp"
+                        android:layout_toRightOf="@+id/tv_oneitem_left"
+                        android:gravity="center_vertical"
+                        android:text="某某某某某某某某"></TextView>
+
+                    <TextView
+                        android:id="@+id/tv_oneitem_rightbottom"
+                        android:layout_width="wrap_content"
+                        android:layout_height="25dp"
+                        android:layout_below="@+id/tv_oneitem_righttop"
+                        android:layout_toRightOf="@+id/tv_oneitem_left"
+                        android:text="某某某某某某某某某某某"></TextView>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/round_inter_yellow_bk">
+
+                    <TextView
+                        android:id="@+id/tv_twoitem_left"
+                        android:layout_width="35dp"
+                        android:layout_height="50dp"
+                        android:gravity="center"
+                        android:text="B"
+                        android:textStyle="bold"></TextView>
+
+                    <TextView
+                        android:id="@+id/tv_twoitem_righttop"
+                        android:layout_width="wrap_content"
+                        android:layout_height="25dp"
+                        android:layout_toRightOf="@+id/tv_twoitem_left"
+                        android:gravity="center_vertical"
+                        android:text="某某某某某某某某"></TextView>
+
+                    <TextView
+                        android:id="@+id/tv_twoitem_rightbottom"
+                        android:layout_width="wrap_content"
+                        android:layout_height="25dp"
+                        android:layout_below="@+id/tv_twoitem_righttop"
+                        android:layout_toRightOf="@+id/tv_twoitem_left"
+                        android:text="某某某某某某某某某某某"></TextView>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/round_inter_green_bk">
+
+                    <TextView
+                        android:id="@+id/tv_threeitem_left"
+                        android:layout_width="35dp"
+                        android:layout_height="50dp"
+                        android:gravity="center"
+                        android:text="C"
+                        android:textStyle="bold"></TextView>
+
+                    <TextView
+                        android:id="@+id/tv_threeitem_righttop"
+                        android:layout_width="wrap_content"
+                        android:layout_height="25dp"
+                        android:layout_toRightOf="@+id/tv_threeitem_left"
+                        android:gravity="center_vertical"
+                        android:text="某某某某某某某某"></TextView>
+
+                    <TextView
+                        android:id="@+id/tv_threeitem_rightbottom"
+                        android:layout_width="wrap_content"
+                        android:layout_height="25dp"
+                        android:layout_below="@+id/tv_threeitem_righttop"
+                        android:layout_toRightOf="@+id/tv_threeitem_left"
+                        android:text="某某某某某某某某某某某"></TextView>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/round_inter_yellow_bk">
+
+                    <TextView
+                        android:id="@+id/tv_fouritem_left"
+                        android:layout_width="35dp"
+                        android:layout_height="50dp"
+                        android:gravity="center"
+                        android:text="D"
+                        android:textStyle="bold"></TextView>
+
+                    <TextView
+                        android:id="@+id/tv_fouritem_righttop"
+                        android:layout_width="wrap_content"
+                        android:layout_height="25dp"
+                        android:layout_toRightOf="@+id/tv_fouritem_left"
+                        android:gravity="center_vertical"
+                        android:text="某某某某某某某某"></TextView>
+
+                    <TextView
+                        android:id="@+id/tv_fouritem_rightbottom"
+                        android:layout_width="wrap_content"
+                        android:layout_height="25dp"
+                        android:layout_below="@+id/tv_fouritem_righttop"
+                        android:layout_toRightOf="@+id/tv_fouritem_left"
+                        android:text="某某某某某某某某某某某"></TextView>
+                </RelativeLayout>
+            </LinearLayout>
+        </LinearLayout>
     </ScrollView>
 </LinearLayout>

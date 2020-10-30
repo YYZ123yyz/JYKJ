@@ -194,7 +194,7 @@ public class MyPatientFragment extends Fragment {
                         startActivity(new Intent(getActivity(), SigningDetailsActivity.class)
                                 .putExtra("patientCode", patientLablePunchClockState.getPatientCode())
                                 .putExtra("patientName", patientLablePunchClockState.getUserName())
-                                .putExtra("singCode", "")
+                                .putExtra("singCode", patientLablePunchClockState.getSignCode())
                                 .putExtra("doctorUrl", com.hyphenate.easeui.hyhd.model.Constant.doctorUrl)
                         );
                     }
