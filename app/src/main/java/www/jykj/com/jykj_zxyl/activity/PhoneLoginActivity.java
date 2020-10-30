@@ -22,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.blankj.utilcode.util.KeyboardUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.hyphenate.EMCallBack;
@@ -248,6 +249,7 @@ public class PhoneLoginActivity extends BaseActivity {
                         String retuser = EMClient.getInstance().getCurrentUser();
                         // setNewsMessage();
                         Log.e("iis",retuser);
+
                         startActivity(new Intent(mContext, MainActivity.class));
                         finish();
                     }
@@ -373,16 +375,19 @@ public class PhoneLoginActivity extends BaseActivity {
         public void onClick(View view) {
             switch (view.getId()) {
                 case R.id.textView_activityPhoneLogin_getVcodeTextView:
+                    KeyboardUtils.hideSoftInput(PhoneLoginActivity.this);
                     getVCode();
                     break;
                 case R.id.textView_activityPhoneLogin_userRegistTextView:
                     startActivity(new Intent(mContext, UseRegistActivity.class));
                     break;
                 case R.id.bt_activityPhoneLogin_loginBt:
+                    KeyboardUtils.hideSoftInput(PhoneLoginActivity.this);
                     userLogin();
                     break;
 
                 case R.id.phonelogin_WeChat:
+                    KeyboardUtils.hideSoftInput(PhoneLoginActivity.this);
                     weChatLogin();
                     break;
                 case R.id.phome_back:

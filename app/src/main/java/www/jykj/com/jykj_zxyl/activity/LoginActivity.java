@@ -26,6 +26,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.blankj.utilcode.util.KeyboardUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.hyphenate.EMCallBack;
@@ -253,10 +254,12 @@ public class LoginActivity extends BaseActivity {
                     startActivity(intent);
                     break;
                 case R.id.button_activityLogin_LoginButton:
+                    KeyboardUtils.hideSoftInput(LoginActivity.this);
                     userLogin();
                     break;
                 //微信登录
                 case R.id.login_WeChat:
+                    KeyboardUtils.hideSoftInput(LoginActivity.this);
                     weChatLogin();
                     break;
                 //忘记密码

@@ -18,6 +18,7 @@ import www.jykj.com.jykj_zxyl.app_base.http.ParameUtil;
 import www.jykj.com.jykj_zxyl.app_base.http.RetrofitUtil;
 import www.jykj.com.jykj_zxyl.app_base.mvp.BasePresenterImpl;
 import www.jykj.com.jykj_zxyl.util.GsonUtils;
+import www.jykj.com.jykj_zxyl.util.StringUtils;
 
 /**
  * Description:处方药品Presenter
@@ -144,10 +145,14 @@ public class PrescriptionMedicinalPresenter extends BasePresenterImpl
     public void sendSaveAndUpdatePrescriptionRequest(List<PrescriptionItemUploadBean> uploadBeans
             ,String prescribeVouche, Activity activity) {
         HashMap<String, Object> hashMap = ParameUtil.buildBaseDoctorParam(activity);
-        hashMap.put("prescribeListStr",uploadBeans);
-        hashMap.put("prescribeVoucher",prescribeVouche);
+        hashMap.put("prescribeListStr", uploadBeans);
+        if (StringUtils.isNotEmpty(prescribeVouche)) {
+            hashMap.put("prescribeVoucher", prescribeVouche);
+        } else {
+            hashMap.put("prescribeVoucher", "");
+        }
         String s = RetrofitUtil.encodeParam(hashMap);
-        ApiHelper.getLocalApi().operUpdMyClinicDetailByPrescribe_200915(s)
+        ApiHelper.getApiService().operUpdMyClinicDetailByPrescribe_200915(s)
                 .compose(Transformer.switchSchedulers(new ILoadingView() {
             @Override
             public void showLoadingView() {

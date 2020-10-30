@@ -424,7 +424,7 @@ public class ChatActivity extends BaseActivity {
             public void action() {
                 Bundle prescriptionBundle=new Bundle();
                 prescriptionBundle.putString("patientCode",userCode);
-                prescriptionBundle.putString("patientName",userCode);
+                prescriptionBundle.putString("patientName",userName);
                 prescriptionBundle.putString("orderId",orderCode);
                 startActivity(PrescriptionNotesListActivity.class,prescriptionBundle,100);
 
