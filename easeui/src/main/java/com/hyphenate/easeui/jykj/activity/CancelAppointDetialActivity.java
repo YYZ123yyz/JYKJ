@@ -28,7 +28,7 @@ public class CancelAppointDetialActivity extends AbstractMvpBaseActivity<
     private TextView mTvCancelContractDesc;
     private LinearLayout mLLContentRoot;
     private BaseToolBar toolBar;
-    private String orderCode;
+    private String reserveCode;
     private LoadingLayoutManager mLoadingLayoutManager;//重新加载布局
     @Override
     protected int setLayoutId() {
@@ -41,7 +41,7 @@ public class CancelAppointDetialActivity extends AbstractMvpBaseActivity<
         super.initView();
         Bundle extras = this.getIntent().getExtras();
         if (extras!=null) {
-            orderCode=extras.getString("orderCode");
+            reserveCode=extras.getString("reserveCode");
         }
         mTvCancelContract=findViewById(R.id.tv_cancel_contract);
         mTvCancelContractDesc=findViewById(R.id.tv_cancel_contract_desc);
@@ -54,7 +54,7 @@ public class CancelAppointDetialActivity extends AbstractMvpBaseActivity<
     @Override
     protected void initData() {
         super.initData();
-        mPresenter.sendSearchReservePatientDoctorInfoXxRequest(orderCode,this);
+        mPresenter.sendSearchReservePatientDoctorInfoXxRequest(reserveCode,this);
 
     }
 
@@ -64,7 +64,7 @@ public class CancelAppointDetialActivity extends AbstractMvpBaseActivity<
     private void initLoadingAndRetryManager() {
         mLoadingLayoutManager = LoadingLayoutManager.wrap(mLLContentRoot);
         mLoadingLayoutManager.setRetryListener(v -> {
-            mPresenter.sendSearchReservePatientDoctorInfoXxRequest(orderCode,this);
+            mPresenter.sendSearchReservePatientDoctorInfoXxRequest(reserveCode,this);
         });
         mLoadingLayoutManager.showLoading();
 

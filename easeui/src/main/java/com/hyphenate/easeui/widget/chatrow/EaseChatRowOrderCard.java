@@ -139,6 +139,7 @@ public class EaseChatRowOrderCard extends EaseChatRow {
     private String patientUrl;
     private String imageUrl;
     private String format;
+    private String reserveCode;
 
     //   private List<ProvideDoctorPatientUserInfo> mProvideDoctorPatientUserInfo = new ArrayList<>();
     public EaseChatRowOrderCard(Context context, EMMessage message,
@@ -249,6 +250,7 @@ public class EaseChatRowOrderCard extends EaseChatRow {
         patientType=message.getStringAttribute("patientType","");
         patientName=message.getStringAttribute("patientName","");
         flagReplyType=message.getStringAttribute("flagReplyType","");
+        reserveCode=message.getStringAttribute("reserveCode","");
         mTvMonitValue.setText(monitoringType);
         mTvCoachRateValue.setText(coach);
         mTvSignTimeValue.setText(signUpTime);
@@ -872,13 +874,13 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                     }
                     case "appointment": {
                         Bundle bundle = new Bundle();
-                        bundle.putString("orderCode", orderCode);
+                        bundle.putString("reserveCode", reserveCode);
                         startActivity(CancelAppointDetialActivity.class, bundle);
                         break;
                     }
                     case "receiveTreatment":{
                         Bundle bundle=new Bundle();
-                        bundle.putString("orderCode",orderCode);
+                        bundle.putString("reserveCode",reserveCode);
                         startActivity(AppointOrderDetialActivity.class,bundle);
 
                         break;

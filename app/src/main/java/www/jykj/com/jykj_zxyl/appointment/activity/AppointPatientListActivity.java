@@ -391,9 +391,11 @@ public class AppointPatientListActivity extends AbstractMvpBaseActivity<
         Bundle bundle = new Bundle();
         OrderMessage receiveTreatment = new OrderMessage(mApp.mViewSysUserDoctorInfoAndHospital.getUserName(),
                 mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl(),
-                currentPatientInfoBean.getReserveCode(), receiveTime,
+                currentPatientInfoBean.getOrderCode(),
+                currentPatientInfoBean.getSignCode(), receiveTime,
                 endTime, surplusTimes, appointMentType, "receiveTreatment");
         receiveTreatment.setOrderType(currentPatientInfoBean.getTreatmentType()+"");
+        receiveTreatment.setReserveCode(currentPatientInfoBean.getReserveCode());
         bundle.putSerializable("orderMsg",
                 receiveTreatment);
         intent.putExtras(bundle);

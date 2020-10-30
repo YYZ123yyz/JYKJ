@@ -26,7 +26,7 @@ public class OrderMessage implements Serializable {
     private String appointMentProject;
     private String appointMentType;
     private String statusType;
-
+    private String reserveCode;
 
     private String receiveTime;
     private String endTime;
@@ -92,6 +92,7 @@ public class OrderMessage implements Serializable {
     public OrderMessage(String nickName,
                         String imageUrl,
                         String orderId,
+                        String signCode,
                         String startTime,
                         String cancelTime,
                         String appointMentProject,
@@ -101,6 +102,7 @@ public class OrderMessage implements Serializable {
         this.nickName = nickName;
         this.imageUrl = imageUrl;
         this.orderCode = orderId;
+        this.signCode=signCode;
         this.startTime = startTime;
         this.cancelTime = cancelTime;
         this.appointMentProject = appointMentProject;
@@ -113,6 +115,7 @@ public class OrderMessage implements Serializable {
     public OrderMessage(String nickName,
                         String imageUrl,
                         String orderId,
+                        String signCode,
                         String receiveTime,
                         String endTime,
                         String surplusTimes,
@@ -121,6 +124,7 @@ public class OrderMessage implements Serializable {
         this.nickName=nickName;
         this.imageUrl=imageUrl;
         this.orderCode=orderId;
+        this.signCode=signCode;
         this.receiveTime=receiveTime;
         this.endTime=endTime;
         this.surplusTimes=surplusTimes;
@@ -337,5 +341,13 @@ public class OrderMessage implements Serializable {
 
     public void setSignCode(String signCode) {
         this.signCode = signCode;
+    }
+
+    public String getReserveCode() {
+        return reserveCode;
+    }
+
+    public void setReserveCode(String reserveCode) {
+        this.reserveCode = reserveCode;
     }
 }

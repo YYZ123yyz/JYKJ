@@ -44,7 +44,7 @@ public class AppointOrderDetialActivity
     private BaseToolBar toolbar;
     private ScrollView mScrollView;
     private LoadingLayoutManager mLoadingLayoutManager;//重新加载布局
-    private String orderCode;
+    private String reserveCode;
     @Override
     protected int setLayoutId() {
         return R.layout.activity_appoint_order_detial;
@@ -55,7 +55,7 @@ public class AppointOrderDetialActivity
         super.onBeforeSetContentLayout();
         Bundle extras = this.getIntent().getExtras();
         if (extras!=null) {
-            orderCode= extras.getString("orderCode");
+            reserveCode= extras.getString("reserveCode");
         }
     }
 
@@ -90,7 +90,7 @@ public class AppointOrderDetialActivity
     @Override
     protected void initData() {
         super.initData();
-        mPresenter.sendSearchReserveInfoRequest(orderCode,this);
+        mPresenter.sendSearchReserveInfoRequest(reserveCode,this);
 
     }
 

@@ -35,9 +35,9 @@ public class AppointOrderDetialPresenter
     }
 
     @Override
-    public void sendSearchReserveInfoRequest(String orderCode, Activity activity) {
+    public void sendSearchReserveInfoRequest(String reserveCode, Activity activity) {
         HashMap<String, Object> hashMap = ParameUtil.buildBaseDoctorParam(activity);
-        hashMap.put("reserveCode", orderCode);
+        hashMap.put("reserveCode", reserveCode);
         String s = RetrofitUtil.encodeParam(hashMap);
         ApiHelper.getApiService().searchReserveInfo(s).compose(Transformer.<String>switchSchedulers(new ILoadingView() {
             @Override

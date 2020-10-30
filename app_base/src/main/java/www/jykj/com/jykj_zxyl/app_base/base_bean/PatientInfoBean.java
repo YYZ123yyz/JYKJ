@@ -46,6 +46,7 @@ public class PatientInfoBean implements Serializable {
     private int version;
     private String patientLinkPhone;
     private String orderCode;
+    private String signCode;
     private String reportUrl;
     private String chiefComplaint;
 
@@ -199,5 +200,13 @@ public class PatientInfoBean implements Serializable {
 
     public void setChiefComplaint(String chiefComplaint) {
         this.chiefComplaint = chiefComplaint;
+    }
+
+    public String getSignCode() {
+        return signCode;
+    }
+
+    public void setSignCode(String signCode) {
+        this.signCode = signCode;
     }
 }

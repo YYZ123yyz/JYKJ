@@ -230,12 +230,15 @@ public class CancelAppointActivity extends BaseActivity {
             treatmentTypeValue="签约就诊";
         }
         Bundle bundle = new Bundle();
+        OrderMessage appointment = new OrderMessage(mApp.mViewSysUserDoctorInfoAndHospital.getUserName(),
+                mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl(),
+                currentPatientInfoBean.getOrderCode(),
+                currentPatientInfoBean.getSignCode(), appointTime,
+                cancelTime, currentPatientInfoBean.getReserveProjectName()
+                , treatmentTypeValue, "2", "appointment");
+        appointment.setReserveCode(currentPatientInfoBean.getReserveCode());
         bundle.putSerializable("orderMsg",
-                new OrderMessage(mApp.mViewSysUserDoctorInfoAndHospital.getUserName(),
-                        mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl(),
-                        currentPatientInfoBean.getReserveCode(),appointTime,
-                        cancelTime,currentPatientInfoBean.getReserveProjectName()
-                        ,treatmentTypeValue,"2","appointment"));
+                appointment);
         intent.putExtras(bundle);
         startActivity(intent);
     }
