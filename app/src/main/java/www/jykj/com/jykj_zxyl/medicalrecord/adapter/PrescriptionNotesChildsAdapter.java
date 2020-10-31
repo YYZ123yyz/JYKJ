@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.List;
@@ -82,7 +83,7 @@ public class PrescriptionNotesChildsAdapter extends  RecyclerView.Adapter
         }else{
             holder.mIvDeleteBtn.setVisibility(View.GONE);
         }
-        holder.mIvDeleteBtn.setOnClickListener(new View.OnClickListener() {
+        holder.mRlDeleteRoot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onClickItemListener.onClickDeleteItem(position);
@@ -106,6 +107,7 @@ public class PrescriptionNotesChildsAdapter extends  RecyclerView.Adapter
         private TextView mTvTakeMedicinalRemind;
         private LinearLayout mLLRootView;
         private ImageView mIvDeleteBtn;
+        private RelativeLayout mRlDeleteRoot;
         public ViewHolder(View view) {
             super(view);
             mTvMedicalName=view.findViewById(R.id.tv_medical_name);
@@ -118,6 +120,7 @@ public class PrescriptionNotesChildsAdapter extends  RecyclerView.Adapter
             mTvTakeMedicinalRemind=view.findViewById(R.id.tv_take_medicinal_remind);
             mLLRootView=view.findViewById(R.id.ll_root_view);
             mIvDeleteBtn=view.findViewById(R.id.iv_delete_btn);
+            mRlDeleteRoot=view.findViewById(R.id.rl_delete_root);
 
         }
     }

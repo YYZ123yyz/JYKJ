@@ -1,159 +1,199 @@
-<FrameLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:hyphenate="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/root"
-        xmlns:tools="http://schemas.android.com/tools"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:hyphenate="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#B1A49B"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/live_rl"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/transparent">
+
+        <ImageView
+            android:id="@+id/iv_back_left"
+            android:layout_width="10dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="15dp"
+            android:src="@mipmap/arrow_left" />
+
+        <TextView
+            android:id="@+id/tv_liveroom_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/iv_back_left"
+            android:text="测试结果"
+            android:textColor="@color/writeColor"
+            android:textSize="10pt" />
+    </RelativeLayout>
+
+    <com.tencent.rtmp.ui.TXCloudVideoView
+        android:id="@+id/video_view"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_300"
+        android:layout_gravity="top"
+        android:layout_marginTop="@dimen/dp_0"
+        android:clickable="false" />
+
+    <ImageView
+        android:id="@+id/iv_zoom_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_marginTop="@dimen/dp_280"
+        android:layout_marginRight="@dimen/dp_5"
+        android:src="@mipmap/full_rotate"></ImageView>
+
+    <RelativeLayout
+        android:id="@+id/video_releative_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#B1A49B" android:orientation="vertical">
-    <RelativeLayout
-            android:id="@+id/live_rl"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:id="@+id/btns_video"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:background="@color/transparent">
-        <ImageView
-                android:id="@+id/iv_back_left"
-                android:layout_width="10dp"
-                android:layout_height="20dp"
-                android:layout_centerVertical="true"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="15dp"
-                android:src="@mipmap/arrow_left" />
-        <TextView
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal">
+
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="测试结果"
-                android:layout_toRightOf="@+id/iv_back_left"
-                android:layout_marginLeft="10dp"
-                android:id="@+id/tv_liveroom_name"
-                android:layout_centerVertical="true"
-                android:textColor="@color/writeColor"
-                android:textSize="10pt" />
-    </RelativeLayout>
-    <com.tencent.rtmp.ui.TXCloudVideoView
-            android:id="@+id/video_view"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_300"
-            android:layout_gravity="top"
-            android:layout_marginTop="@dimen/dp_0"
-            android:clickable="false"/>
-    <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="@dimen/dp_5"
-               android:layout_gravity="right" android:layout_marginTop="@dimen/dp_280" android:src="@mipmap/full_rotate" android:id="@+id/iv_zoom_btn"></ImageView>
-    <RelativeLayout
-            android:id="@+id/video_releative_layout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" android:visibility="gone">
-        <LinearLayout
-                android:id="@+id/btns_video"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="10dp"
-                android:layout_alignParentBottom="true">
-            <TextView
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:layout_weight="1"/>
-            <Button
-                    android:id="@+id/btnMessage"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@mipmap/message"
-                    android:minHeight="0dp"
-                    android:minWidth="0dp"/>
-            <TextView
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:layout_weight="1"/>
-            <TextView
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:layout_weight="1"/>
-            <TextView
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:layout_weight="1"/>
-            <TextView
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:layout_weight="1"/>
-            <TextView
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:layout_weight="1"/>
-            <TextView
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:layout_weight="1"/>
-            <TextView
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:layout_weight="1"/>
-            <TextView
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:layout_weight="1"/>
-            <TextView
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:layout_weight="1"/>
+                android:layout_weight="1" />
 
             <Button
-                    android:id="@+id/btnOriention"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@mipmap/camerarienthg"
-                    android:minHeight="0dp"
-                    android:minWidth="0dp"/>
+                android:id="@+id/btnMessage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@mipmap/message"
+                android:minWidth="0dp"
+                android:minHeight="0dp" />
+
             <TextView
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:layout_weight="1"/>
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
             <Button
-                    android:id="@+id/btnShare"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@mipmap/share_tran"
-                    android:minHeight="0dp"
-                    android:minWidth="0dp"/>
+                android:id="@+id/btnOriention"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@mipmap/camerarienthg"
+                android:minWidth="0dp"
+                android:minHeight="0dp" />
+
             <TextView
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:layout_weight="1"/>
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
             <Button
-                    android:id="@+id/btnShut"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@mipmap/shut_video"
-                    android:minHeight="0dp"
-                    android:minWidth="0dp"/>
+                android:id="@+id/btnShare"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@mipmap/share_tran"
+                android:minWidth="0dp"
+                android:minHeight="0dp" />
+
             <TextView
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:layout_weight="1"/>
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <Button
+                android:id="@+id/btnShut"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@mipmap/shut_video"
+                android:minWidth="0dp"
+                android:minHeight="0dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
         </LinearLayout>
     </RelativeLayout>
+
     <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_35"
-            android:orientation="horizontal"
-            android:layout_marginTop="@dimen/dp_300"
-            android:background="@color/writeColor" android:id="@+id/tab_hold_layout">
+        android:id="@+id/tab_hold_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_35"
+        android:layout_marginTop="@dimen/dp_300"
+        android:background="@color/writeColor"
+        android:orientation="horizontal">
+
         <android.support.design.widget.TabLayout
-                android:id="@+id/tab_layout"
-                android:layout_width="match_parent"
-                android:background="@color/writeColor"
-                app:tabIndicatorColor="@color/groabColor"
-                android:layout_height="match_parent">
-        </android.support.design.widget.TabLayout>
-    </LinearLayout>
-    <android.support.v4.view.ViewPager
-            android:id="@+id/live_publish_page"
+            android:id="@+id/tab_layout"
             android:layout_width="match_parent"
-            android:layout_marginTop="@dimen/dp_330"
-            android:layout_height="wrap_content">
-    </android.support.v4.view.ViewPager>
-    <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="5dp" android:layout_marginLeft="5dp"
-               android:layout_gravity="bottom|left" android:src="@mipmap/mimal_room" android:id="@+id/iv_miniaml_zoom_btn" android:visibility="gone"></ImageView>
+            android:layout_height="match_parent"
+            android:background="@color/writeColor"
+            app:tabIndicatorColor="@color/groabColor"/>
+    </LinearLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/live_publish_page"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_330"/>
+
+    <ImageView
+        android:id="@+id/iv_miniaml_zoom_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|left"
+        android:layout_marginLeft="5dp"
+        android:layout_marginBottom="5dp"
+        android:src="@mipmap/mimal_room"
+        android:visibility="gone"/>
 </FrameLayout>
