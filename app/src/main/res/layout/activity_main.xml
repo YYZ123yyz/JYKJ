@@ -38,7 +38,6 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
                 android:id="@+id/l1_activityMain_ShouYeLayout"
@@ -145,7 +144,7 @@
                 <TextView
                     android:layout_width="80dp"
                     android:layout_height="wrap_content"
-                    android:text="医疗资讯"
+                    android:text="资讯"
                     android:gravity="center"
                     android:id="@+id/tv_activityMain_TextYLZX"
                     android:layout_marginTop="5dp"
@@ -157,7 +156,6 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:id="@+id/l1_activityMain_LayoutGRZX"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
@@ -183,6 +181,8 @@
                     android:layout_height="45dp"
                     android:scaleType="centerCrop"
                     android:id="@+id/iv_user_head"
+                    android:layout_marginEnd="25dp"
+                    android:layout_marginStart="25dp"
                     android:layout_gravity="center_vertical"
                     android:src="@mipmap/bg_default_user_head"
                    />
