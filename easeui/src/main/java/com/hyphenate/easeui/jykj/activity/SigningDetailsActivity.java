@@ -212,6 +212,8 @@ public class SigningDetailsActivity extends BaseActivity implements View.OnClick
             status = extras.getString("status");
             doctorUrl = extras.getString("doctorUrl");
             patientUrl= extras.getString("patientUrl");
+            patientCode = intent.getStringExtra("patientCode");
+            patientName1 = intent.getStringExtra("patientName");
 
         }
     }

@@ -259,7 +259,7 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
         itemStrings = new int[]{R.string.attach_take_pic, R.string.attach_picture,
                 R.string.attach_voice_call, R.string.attach_video, R.string.attach_file};
         itemdrawables = new int[]{R.mipmap.hyhd_pz, R.mipmap.hyhd_tp,
-                R.mipmap.hyhd_yy, R.mipmap.hyhd_sp, R.mipmap.hyhd_wj};
+                R.mipmap.hyhd_yy, R.mipmap.hyhd_sp, R.mipmap.bg_sign_up_icon};
         itemIds = new int[]{ITEM_TAKE_PICTURE, ITEM_PICTURE, ITEM_CALL, ITEM_VIDEO, ITEM_WJ};
         if ("twjz".equals(mChatType)) {
             itemStrings = new int[]{R.string.attach_take_pic, R.string.attach_picture};
@@ -509,7 +509,7 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
                 itemStrings = new int[]{R.string.attach_take_pic, R.string.attach_picture,
                         R.string.attach_voice_call, R.string.attach_video, R.string.attach_file};
                 itemdrawables = new int[]{R.mipmap.hyhd_pz, R.mipmap.hyhd_tp,
-                        R.mipmap.hyhd_yy, R.mipmap.hyhd_sp, R.mipmap.hyhd_wj};
+                        R.mipmap.hyhd_yy, R.mipmap.hyhd_sp, R.mipmap.bg_sign_up_icon};
                 itemIds = new int[]{ITEM_TAKE_PICTURE, ITEM_PICTURE, ITEM_CALL, ITEM_VIDEO, ITEM_WJ};
             }else{
                 itemStrings = new int[]{R.string.attach_take_pic, R.string.attach_picture,

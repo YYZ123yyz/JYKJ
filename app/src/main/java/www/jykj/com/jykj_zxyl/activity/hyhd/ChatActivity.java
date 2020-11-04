@@ -93,6 +93,10 @@ public class ChatActivity extends BaseActivity {
     private String operType="";
     private String userCode;
     private String userName;
+    private String isBinding;
+    private String isSigning;
+    private String isReserveing;
+    private boolean isFirstOperation;
     @Override
     protected int setLayoutId() {
         return R.layout.activity_chat;
@@ -109,6 +113,7 @@ public class ChatActivity extends BaseActivity {
         if (extras!=null) {
             orderMessage =(OrderMessage)extras.getSerializable("orderMsg");
         }
+        isFirstOperation=true;
         medcalRecordDialog=new MedcalRecordDialog(this);
 
         mContext = this;
@@ -509,9 +514,9 @@ public class ChatActivity extends BaseActivity {
                     String resJsonData = baseBean.getResJsonData();
                     checkImResultBean = GsonUtils.fromJson(resJsonData, CheckImResultBean.class);
                     orderCode = checkImResultBean.getOrderCode();
-                    String isBinding = checkImResultBean.getIsBinding();
-                    String isSigning = checkImResultBean.getIsSigning();
-                    String isReserveing = checkImResultBean.getIsReserveing();
+                    isBinding = checkImResultBean.getIsBinding();
+                    isSigning = checkImResultBean.getIsSigning();
+                    isReserveing = checkImResultBean.getIsReserveing();
                     if (StringUtils.isNotEmpty(isBinding)&&isBinding.equals("1")) {
                         if (StringUtils.isNotEmpty(isSigning)&&isSigning.equals("0")) {
                             chatFragment.setSignUpBtnStatus(true);

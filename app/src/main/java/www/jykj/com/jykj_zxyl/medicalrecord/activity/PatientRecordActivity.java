@@ -354,6 +354,7 @@ public class PatientRecordActivity
         newEt.setText(det.getHistoryNew());
         pastEt.setText(det.getHistoryPast());
         ed_examinationEt.setText(det.getHistoryAllergy());
+        lookEt.setText(det.getMedicalExamination());
 //        lookTv.setText(det.getMedicalExamination());
         suggestEt.setText(det.getTreatmentProposal());
         paientName.setText(det.getPatientName());

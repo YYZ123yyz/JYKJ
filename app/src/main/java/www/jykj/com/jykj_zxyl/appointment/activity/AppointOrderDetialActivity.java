@@ -2,6 +2,7 @@ package www.jykj.com.jykj_zxyl.appointment.activity;
 
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -51,8 +52,6 @@ public class AppointOrderDetialActivity
     TextView tvConsultantPhone;
     @BindView(R.id.tv_order_date)
     TextView tvOrderDate;
-    @BindView(R.id.tv_appoint_service_time)
-    TextView tvAppointServiceTime;
     @BindView(R.id.tv_service_total_price)
     TextView tvServiceTotalPrice;
     @BindView(R.id.tv_coupon)
@@ -69,6 +68,22 @@ public class AppointOrderDetialActivity
     TextView tvPaymentMode;
     @BindView(R.id.iv_payment_icon)
     ImageView ivPaymentIcon;
+
+    @BindView(R.id.ll_appointment_service_time)
+    LinearLayout llAppointmentServiceTime;
+    @BindView(R.id.tv_appoint_service_time)
+    TextView tvAppointServiceTime;
+    @BindView(R.id.ll_sign_up_start_time)
+    LinearLayout llSignUpStartTime;
+    @BindView(R.id.tv_service_start_time)
+    TextView tvServiceStartTime;
+    @BindView(R.id.ll_service_end_time)
+    LinearLayout llServiceEndTime;
+    @BindView(R.id.tv_service_end_time)
+    TextView tvServiceEndTime;
+
+
+
     private LoadingLayoutManager mLoadingLayoutManager;//重新加载布局
     @Override
     protected int setLayoutId() {

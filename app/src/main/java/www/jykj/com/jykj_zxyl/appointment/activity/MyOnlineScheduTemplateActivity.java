@@ -348,33 +348,104 @@ public class MyOnlineScheduTemplateActivity extends AbstractMvpBaseActivity<
         columnWheelDialog.show();
         columnWheelDialog.setShowTitle(true);
         columnWheelDialog.setCancelButton("取消", null);
-        columnWheelDialog.setOKButton("确定", new ColumnWheelDialog.OnClickCallBack<WheelItem, WheelItem, WheelItem, WheelItem, WheelItem>() {
-            @Override
-            public boolean callBack(View v, @Nullable WheelItem item0, @Nullable WheelItem item1,
-                                    @Nullable WheelItem item2, @Nullable WheelItem item3, @Nullable WheelItem item4) {
-                //tvResult.setText(result);
-                mStartTime=item0.getShowText();
-                mEndTime=item1.getShowText();
+        columnWheelDialog.setOKButton("确定", (v, item0, item1, item2, item3, item4) -> {
+            //tvResult.setText(result);
+            String dateToYYYYMMDD = DateUtils.getDateToYYYYMMDD(currentCalendarItemBean.getTimes());
+            String deviceTimeOfYMD = DateUtils.getDeviceTimeOfYMD();
+            if (dateToYYYYMMDD.equals(deviceTimeOfYMD)) {
+                String currentTime = www.jykj.com.jykj_zxyl.util.DateUtils.getCurrentTimeHH();
+                int currentTimeHour = Integer.parseInt(currentTime);
+                int startTimeHour=0;
+                int endTimeHour=0;
+                String startTime=item0.getShowText();
+                String[] splitStartTime = startTime.split(":");
+                if (splitStartTime.length>1) {
+                    startTime=splitStartTime[0];
+                    startTimeHour=Integer.parseInt(startTime);
+                }
+                String endTime = item1.getShowText();
+                String[] splitEndTime = endTime.split(":");
+                if (splitEndTime.length>1) {
+                    endTime=splitEndTime[0];
+                    endTimeHour=Integer.parseInt(endTime);
+                }
 
-                boolean lessThanEndDate = com.hyphenate.easeui.jykj.utils.DateUtils.isLessThanEndDate(mStartTime, mEndTime);
-                if(!lessThanEndDate){
-                    ToastUtils.showToast("结束时间不能小于开始时间");
+
+                if(startTimeHour<currentTimeHour){
+                    ToastUtils.showToast("开始时间不能小于当前时间");
                     return true;
                 }
-                if (addSignalSourceDialog.isShowing()) {
-                    addSignalSourceDialog.setAppointTime(mStartTime,mEndTime);
+                if(endTimeHour<currentTimeHour){
+                    ToastUtils.showToast("结束时间不能小于当前时间");
+                    return true;
                 }
-                return false;
             }
+            mStartTime=item0.getShowText();
+            mEndTime=item1.getShowText();
+            com.hyphenate.easeui.jykj.utils.DateUtils.isLessThanEndDate(mStartTime, mEndTime);
+            boolean lessThanEndDate = com.hyphenate.easeui.jykj.utils.DateUtils.isLessThanEndDate(mStartTime, mEndTime);
+            if(!lessThanEndDate){
+                ToastUtils.showToast("结束时间不能小于开始时间");
+                return true;
+            }
+            if (addSignalSourceDialog.isShowing()) {
+                addSignalSourceDialog.setAppointTime(mStartTime,mEndTime);
+            }
+            return false;
         });
         List<String> startTimes = DataUtil.getStartTimes();
         List<String> endTimes = DataUtil.getEndTimes();
         WheelItem[] wheelItems = DataUtil.convertStrToWheelArry(startTimes);
         WheelItem[] wheelItems1 = DataUtil.convertStrToWheelArry(endTimes);
         columnWheelDialog.setItems(wheelItems,wheelItems1,null,null,null);
-//        columnWheelDialog.setSelected(new Random().nextInt(startTimes.size())
-//                ,new Random().nextInt(endTimes.size()),0,0,0);
+        String currentTime = com.hyphenate.easeui.jykj.utils.DateUtils.getCurrentTime();
+        columnWheelDialog.setSelected(getCurrentTimePos(startTimes,currentTime)
+                ,getCurrentTimePos(startTimes,currentTime),0,0,0);
     }
+
+
+    /**
+     * 获取当前时间位置
+     *
+     * @param startTimes  时间列表
+     * @param currentTime 当前时间
+     * @return poisiton 位置
+     */
+    private int getCurrentTimePos(List<String> startTimes, String currentTime) {
+        String[] split1 = currentTime.split(":");
+        int currentPos = 0;
+        for (int i = 0; i < startTimes.size(); i++) {
+            String s = startTimes.get(i);
+
+            String[] split2 = s.split(":");
+            String time1 = "";
+            String time2 = "";
+            String endTime1 = "";
+            String endTime2 = "";
+
+            if (split1.length > 1) {
+                time1 = split1[0];
+                endTime1 = split1[1];
+            }
+            if (split2.length > 1) {
+                time2 = split2[0];
+                endTime2 = split2[1];
+            }
+            if (time1.equals(time2)) {
+                int i1 = Integer.parseInt(endTime1);
+                int i2 = Integer.parseInt(endTime2);
+                if (i1 > i2) {
+                    currentPos = i + 1;
+                } else {
+                    currentPos = i;
+                }
+
+                break;
+            }
+        }
+        return currentPos;
+    }
+
 
 
     /**

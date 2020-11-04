@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.allen.library.utils.ToastUtils;
 import com.google.gson.Gson;
 import com.hyphenate.easeui.hyhd.model.Constant;
 import com.hyphenate.easeui.jykj.activity.SigningDetailsActivity;
@@ -116,13 +117,19 @@ public class AllFragment extends AbstractMvpBaseFragment<FragmentContract.View,
             public void onClickSignUpContract(int pos) {
                 ProvideViewPatientLablePunchClockState
                         patientLablePunchClockState = mDatas.get(pos);
-                startActivity(new Intent(getActivity(), SigningDetailsActivity.class)
-                        .putExtra("patientCode", patientLablePunchClockState.getPatientCode())
-                        .putExtra("patientName", patientLablePunchClockState.getUserName())
-                        .putExtra("singCode", "")
-                        .putExtra("patientUrl",patientLablePunchClockState.getUserLogoUrl())
-                        .putExtra("doctorUrl", Constant.doctorUrl)
-                );
+                int isSigning = patientLablePunchClockState.getIsSigning();
+                if (isSigning==0) {
+                    startActivity(new Intent(getActivity(), SigningDetailsActivity.class)
+                            .putExtra("patientCode", patientLablePunchClockState.getPatientCode())
+                            .putExtra("patientName", patientLablePunchClockState.getUserName())
+                            .putExtra("singCode", "")
+                            .putExtra("patientUrl",patientLablePunchClockState.getUserLogoUrl())
+                            .putExtra("doctorUrl", Constant.doctorUrl)
+                    );
+                }else{
+                    ToastUtils.showToast("已存在未支付签约，不可再次发起");
+                }
+
             }
 
             @Override

@@ -49,6 +49,8 @@ public class ProvideViewPatientLablePunchClockState implements Serializable{
     private String userLogoUrl;
     private String userName;
     private String reportUrl;
+    private int isSigning;
+
 
 
     public long getBirthday() {
@@ -225,5 +227,13 @@ public class ProvideViewPatientLablePunchClockState implements Serializable{
 
     public void setReportUrl(String reportUrl) {
         this.reportUrl = reportUrl;
+    }
+
+    public int getIsSigning() {
+        return isSigning;
+    }
+
+    public void setIsSigning(int isSigning) {
+        this.isSigning = isSigning;
     }
 }

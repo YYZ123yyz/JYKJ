@@ -1,7 +1,9 @@
 package com.hyphenate.easeui.jykj.activity;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -37,12 +39,18 @@ public class AppointOrderDetialActivity
     private TextView tvIntegral;
     private TextView tvServiceValidity;
     private TextView tvServiceProject;
+
     private TextView tvActualPayment;
     private TextView tvPaymentMode;
     private TextView tvOrderDesc;
     private ImageView ivPaymentIcon;
     private BaseToolBar toolbar;
     private ScrollView mScrollView;
+    private LinearLayout llAppointmentServiceTime;
+    private LinearLayout llSignUpStartTime;
+    private LinearLayout llServiceEndTime;
+    private TextView tvServiceStartTime;
+    private TextView tvServiceEndTime;
     private LoadingLayoutManager mLoadingLayoutManager;//重新加载布局
     private String reserveCode;
     @Override
@@ -80,6 +88,11 @@ public class AppointOrderDetialActivity
         tvPaymentMode=findViewById(R.id.tv_payment_mode);
         ivPaymentIcon=findViewById(R.id.iv_payment_icon);
         tvOrderDesc=findViewById(R.id.tv_order_desc);
+        llAppointmentServiceTime=findViewById(R.id.ll_appointment_service_time);
+        llSignUpStartTime=findViewById(R.id.ll_sign_up_start_time);
+        llServiceEndTime=findViewById(R.id.ll_service_end_time);
+        tvServiceStartTime=findViewById(R.id.tv_service_start_time);
+        tvServiceEndTime=findViewById(R.id.tv_service_end_time);
 
 
         setToolBar();
@@ -130,15 +143,27 @@ public class AppointOrderDetialActivity
         switch (treatmentType){
             case 1:
                 tvOrderType.setText("图文就诊");
+                llSignUpStartTime.setVisibility(View.VISIBLE);
+                llServiceEndTime.setVisibility(View.VISIBLE);
+                llAppointmentServiceTime.setVisibility(View.GONE);
                 break;
             case 2:
                 tvOrderType.setText("音频就诊");
+                llAppointmentServiceTime.setVisibility(View.VISIBLE);
+                llSignUpStartTime.setVisibility(View.GONE);
+                llServiceEndTime.setVisibility(View.GONE);
                 break;
             case 3:
                 tvOrderType.setText("视频就诊");
+                llAppointmentServiceTime.setVisibility(View.VISIBLE);
+                llSignUpStartTime.setVisibility(View.GONE);
+                llServiceEndTime.setVisibility(View.GONE);
                 break;
             case 5:
                 tvOrderType.setText("电话就诊");
+                llAppointmentServiceTime.setVisibility(View.VISIBLE);
+                llSignUpStartTime.setVisibility(View.GONE);
+                llServiceEndTime.setVisibility(View.GONE);
                 break;
                 default:
         }
@@ -172,7 +197,10 @@ public class AppointOrderDetialActivity
         tvActualPayment.setText(String.format("%s元", orderInfoBean.getActualPayment()));
         String orderDesc = orderInfoBean.getOrderDesc();
         tvOrderDesc.setText(StringUtils.isNotEmpty(orderDesc)?orderDesc:"无");
-
+        long signStartTime = orderInfoBean.getSignStartTime();
+        long signEndTime = orderInfoBean.getSignEndTime();
+        tvServiceStartTime.setText(DateUtils.getDateToYYYYMMDDHHMM(signStartTime));
+        tvServiceEndTime.setText(DateUtils.getDateToYYYYMMDDHHMM(signEndTime));
     }
 
     @Override

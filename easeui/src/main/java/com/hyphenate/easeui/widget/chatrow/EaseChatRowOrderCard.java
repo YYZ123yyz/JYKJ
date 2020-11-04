@@ -35,6 +35,8 @@ import com.hyphenate.easeui.widget.EaseImageView;
 import org.greenrobot.eventbus.EventBus;
 import java.util.HashMap;
 
+import www.jykj.com.jykj_zxyl.app_base.base_utils.StringUtils;
+
 
 /**
  * Description:自定义卡片
@@ -235,6 +237,9 @@ public class EaseChatRowOrderCard extends EaseChatRow {
         messageType = message.getStringAttribute("messageType", "");
 
         patientCode = message.getStringAttribute("patientCode", "");
+        if (TextUtils.isEmpty(patientCode)) {
+            patientCode= message.getFrom();
+        }
         nickName = message.getStringAttribute("nickName", "");
         imageUrl = message.getStringAttribute("imageUrl", "");
         patientUrl=message.getStringAttribute("patientUrl","");
@@ -863,7 +868,7 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                             Bundle bundle = new Bundle();
                             bundle.putString("orderCode", orderCode);
                             bundle.putString("signCode",signCode);
-                            bundle.putString("signNo", singNO);
+                            bundle.putString("singNO", singNO);
                             bundle.putString("patientName", nickName);
                             bundle.putString("patientCode", patientCode);
                             bundle.putString("orderCode",orderCode);
@@ -874,13 +879,13 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                     }
                     case "appointment": {
                         Bundle bundle = new Bundle();
-                        bundle.putString("reserveCode", reserveCode);
+                        bundle.putString("reserveCode", StringUtils.isNotEmpty(reserveCode)?reserveCode:orderCode);
                         startActivity(CancelAppointDetialActivity.class, bundle);
                         break;
                     }
                     case "receiveTreatment":{
                         Bundle bundle=new Bundle();
-                        bundle.putString("reserveCode",reserveCode);
+                        bundle.putString("reserveCode",StringUtils.isNotEmpty(reserveCode)?reserveCode:orderCode);
                         startActivity(AppointOrderDetialActivity.class,bundle);
 
                         break;
