@@ -232,7 +232,7 @@ public class CancelAppointActivity extends BaseActivity {
         Bundle bundle = new Bundle();
         OrderMessage appointment = new OrderMessage(mApp.mViewSysUserDoctorInfoAndHospital.getUserName(),
                 mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl(),
-                currentPatientInfoBean.getOrderCode(),
+                currentPatientInfoBean.getReserveCode(),
                 currentPatientInfoBean.getSignCode(), appointTime,
                 cancelTime, currentPatientInfoBean.getReserveProjectName()
                 , treatmentTypeValue, "2", "appointment");

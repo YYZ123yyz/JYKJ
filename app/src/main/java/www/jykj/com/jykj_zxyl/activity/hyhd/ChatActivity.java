@@ -113,7 +113,7 @@ public class ChatActivity extends BaseActivity {
         if (extras!=null) {
             orderMessage =(OrderMessage)extras.getSerializable("orderMsg");
         }
-        isFirstOperation=true;
+
         medcalRecordDialog=new MedcalRecordDialog(this);
 
         mContext = this;
@@ -202,7 +202,12 @@ public class ChatActivity extends BaseActivity {
             @Override
             public void onBallClick() {
                 if(StringUtils.isNotEmpty(orderCode)){
-                    sendMedicalRecordRequest(orderCode);
+                    if (!isFirstOperation) {
+                        sendMedicalRecordRequest(orderCode);
+                    }else{
+                        ToastUtils.showToast("已发送过病例不能重复发送");
+                    }
+
                 }
             }
         });
@@ -297,6 +302,9 @@ public class ChatActivity extends BaseActivity {
                 this),"主诉") {
             @Override
             public void action() {
+                if (isFirstOperation) {
+                    return;
+                }
                 medcalRecordDialog.show();
                 int chiefComplaintType = MedcalRecordDialog.CHIEF_COMPLAINT_TYPE;
                 String content = stringSparseArray.get(chiefComplaintType);
@@ -314,6 +322,9 @@ public class ChatActivity extends BaseActivity {
                 this),"现病史") {
             @Override
             public void action() {
+                if (isFirstOperation) {
+                    return;
+                }
                 medcalRecordDialog.show();
                 int historyNewType = MedcalRecordDialog.HISTORY_NEW_TYPE;
                 String content = stringSparseArray.get(historyNewType);
@@ -332,6 +343,9 @@ public class ChatActivity extends BaseActivity {
                 this),"既往史") {
             @Override
             public void action() {
+                if (isFirstOperation) {
+                    return;
+                }
                 medcalRecordDialog.show();
                 int historyPastType = MedcalRecordDialog.HISTORY_PAST_TYPE;
                 String content = stringSparseArray.get(historyPastType);
@@ -349,6 +363,9 @@ public class ChatActivity extends BaseActivity {
                 this),"查体") {
             @Override
             public void action() {
+                if (isFirstOperation) {
+                    return;
+                }
                 medcalRecordDialog.show();
                 int medicalexaminationType = MedcalRecordDialog.MEDICAL_EXAMINATION_TYPE;
                 String content = stringSparseArray.get(medicalexaminationType);
@@ -365,6 +382,9 @@ public class ChatActivity extends BaseActivity {
                 this),"临床诊断") {
             @Override
             public void action() {
+                if (isFirstOperation) {
+                    return;
+                }
 
                 ProvideViewInteractOrderTreatmentAndPatientInterrogation patientInterrogation
                         =new ProvideViewInteractOrderTreatmentAndPatientInterrogation();
@@ -381,6 +401,9 @@ public class ChatActivity extends BaseActivity {
                 this),"过敏史") {
             @Override
             public void action() {
+                if (isFirstOperation) {
+                    return;
+                }
                 medcalRecordDialog.show();
                 int historyAllergyType = MedcalRecordDialog.HISTORY_ALLERGY_TYPE;
                 String content = stringSparseArray.get(historyAllergyType);
@@ -399,6 +422,9 @@ public class ChatActivity extends BaseActivity {
                 this),"治疗建议") {
             @Override
             public void action() {
+                if (isFirstOperation) {
+                    return;
+                }
                 medcalRecordDialog.show();
                 int treatmentproposalType = MedcalRecordDialog.TREATMENTPROPOSAL_TYPE;
                 String content = stringSparseArray.get(treatmentproposalType);
@@ -415,6 +441,9 @@ public class ChatActivity extends BaseActivity {
                 this),"检查检验") {
             @Override
             public void action() {
+                if (isFirstOperation) {
+                    return;
+                }
                 Bundle inspectionBundle=new Bundle();
                 inspectionBundle.putString("patientCode",userCode);
                 inspectionBundle.putString("patientName",userName);
@@ -427,6 +456,9 @@ public class ChatActivity extends BaseActivity {
                 this),"处方笺") {
             @Override
             public void action() {
+                if (isFirstOperation) {
+                    return;
+                }
                 Bundle prescriptionBundle=new Bundle();
                 prescriptionBundle.putString("patientCode",userCode);
                 prescriptionBundle.putString("patientName",userName);
@@ -658,6 +690,7 @@ public class ChatActivity extends BaseActivity {
             protected void onSuccessResult(BaseBean baseBean) {
                 int resCode = baseBean.getResCode();
                 if (resCode==1) {
+                    isFirstOperation=true;
                     long reserveConfigEnd = patientRecordDetBean.getReserveConfigEnd();
                     String endTime = DateUtils.getDateToYYYYMMDD(reserveConfigEnd);
                     String treatmentMould = patientRecordDetBean.getTreatmentMould();
