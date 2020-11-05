@@ -32,13 +32,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/dp_1"
                 android:layout_marginTop="@dimen/dp_1"
-                hyphenate:numColumns="5" />
+                hyphenate:numColumns="4" />
 
         <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/emojicon_menu_container"
-        ></FrameLayout>
+        />
     </FrameLayout>
 
 </LinearLayout>

@@ -81,6 +81,7 @@ public class DiagnosisReplayActivity extends
     private String patientCode;//患者code
     private String patientName;//患者name
     private String patientPhone;//患者phone
+    private boolean isFromCard;//是否从卡片过来
     private WZZXImageViewRecycleAdapter mAdapter;
     private FullyGridLayoutManager mGridLayoutManager;
     private List<ProvideBasicsImg> mProvideBasicsImg;
@@ -101,6 +102,7 @@ public class DiagnosisReplayActivity extends
             patientCode = extras.getString("patientCode");
             patientName = extras.getString("patientName");
             patientPhone = extras.getString("patientPhone");
+            isFromCard=extras.getBoolean("isFromCard");
         }
 
     }
@@ -268,7 +270,9 @@ public class DiagnosisReplayActivity extends
     @Override
     public void getOperUpdMyClinicDetailByOrderPatientMessageResult(boolean isSucess, String msg) {
         if (isSucess) {
-            startJumpChatActivity();
+            if (!isFromCard) {
+                startJumpChatActivity();
+            }
             this.finish();
         } else {
             ToastUtils.showToast(msg);

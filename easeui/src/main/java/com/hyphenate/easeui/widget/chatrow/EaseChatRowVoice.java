@@ -94,18 +94,21 @@ public class EaseChatRowVoice extends EaseChatRowFile {
                 EaseUserUtils.setUserNick(message.getUserName(),tvUserName);
             }
         }
-        long reserveConfigStart = message.getLongAttribute("reserveConfigStart", 0);
-        long reserveConfigEnd = message.getLongAttribute("reserveConfigEnd", 0);
-        if(reserveConfigStart!=0&&reserveConfigEnd!=0){
-            long msgTime = message.getMsgTime();
-            if(msgTime>=reserveConfigStart&&msgTime<=reserveConfigEnd){
-                llUserInfoRoot.setVisibility(View.VISIBLE);
+        if (llUserInfoRoot!=null) {
+            long reserveConfigStart = message.getLongAttribute("reserveConfigStart", 0);
+            long reserveConfigEnd = message.getLongAttribute("reserveConfigEnd", 0);
+            if(reserveConfigStart!=0&&reserveConfigEnd!=0){
+                long msgTime = message.getMsgTime();
+                if(msgTime>=reserveConfigStart&&msgTime<=reserveConfigEnd){
+                    llUserInfoRoot.setVisibility(View.VISIBLE);
+                }else{
+                    llUserInfoRoot.setVisibility(View.GONE);
+                }
             }else{
                 llUserInfoRoot.setVisibility(View.GONE);
             }
-        }else{
-            llUserInfoRoot.setVisibility(View.GONE);
         }
+
 
     }
 

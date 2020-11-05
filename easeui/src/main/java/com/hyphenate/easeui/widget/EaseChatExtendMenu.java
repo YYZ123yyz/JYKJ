@@ -61,7 +61,8 @@ public class EaseChatExtendMenu extends GridView{
         setGravity(Gravity.CENTER_VERTICAL);
         setVerticalSpacing(DensityUtil.dip2px(context, 8));
     }
-    
+
+
     /**
      * init
      */
@@ -105,8 +106,9 @@ public class EaseChatExtendMenu extends GridView{
     public void registerMenuItem(int nameRes, int drawableRes, int itemId, EaseChatExtendMenuItemClickListener listener) {
         registerMenuItem(context.getString(nameRes), drawableRes, itemId, listener);
     }
-    
-    
+
+
+
     private class ItemAdapter extends ArrayAdapter<ChatMenuItemModel>{
 
         private Context context;
@@ -124,7 +126,7 @@ public class EaseChatExtendMenu extends GridView{
             }
             menuItem = (ChatMenuItem) convertView;
             menuItem.setImage(getItem(position).image);
-//            menuItem.setText(getItem(position).name);
+            menuItem.setText(getItem(position).name);
             menuItem.setOnClickListener(new OnClickListener() {
                 
                 @Override
@@ -174,19 +176,19 @@ public class EaseChatExtendMenu extends GridView{
         private void init(Context context, AttributeSet attrs) {
             LayoutInflater.from(context).inflate(R.layout.ease_chat_menu_item, this);
             imageView = (ImageView) findViewById(R.id.image);
-//            textView = (TextView) findViewById(R.id.text);
+            textView = (TextView) findViewById(R.id.text);
         }
 
         public void setImage(int resid) {
             imageView.setBackgroundResource(resid);
         }
 
-//        public void setText(int resid) {
-//            textView.setText(resid);
-//        }
-//
-//        public void setText(String text) {
-//            textView.setText(text);
-//        }
+        public void setText(int resid) {
+            textView.setText(resid);
+        }
+
+        public void setText(String text) {
+            textView.setText(text);
+        }
     }
 }
