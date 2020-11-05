@@ -20,9 +20,11 @@ import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.hyphenate.chat.EMCallSession;
 import com.hyphenate.chat.EMCallStateChangeListener;
 import com.hyphenate.chat.EMClient;
@@ -45,8 +47,8 @@ import java.util.UUID;
 public class VoiceCallActivity extends CallActivity implements OnClickListener {
     private LinearLayout comingBtnContainer;
     private Button hangupBtn;
-    private Button refuseBtn;
-    private Button answerBtn;
+    private LinearLayout refuseBtn;
+    private LinearLayout answerBtn;
     private ImageView muteImage;
     private ImageView handsFreeImage;
 
@@ -57,13 +59,21 @@ public class VoiceCallActivity extends CallActivity implements OnClickListener {
     private boolean endCallTriggerByMe = false;
     private Chronometer chronometer;
     String st1;
-    private LinearLayout voiceContronlLayout;
+    private RelativeLayout voiceContronlLayout; //声音控制 两个按钮
     private TextView netwrokStatusVeiw;
     private boolean monitor = false;
 
-    private int mVoiceTime;                //可拨打语音时长（单位：秒）
+    private             int mVoiceTime;                //可拨打语音时长（单位：秒）
     private Handler mHandler;
-    private TextView nickTextView;
+    private TextView msgState;
+    private LinearLayout hangUpLayout;
+    private LinearLayout muitLayout;
+    private LinearLayout noHandLayout;
+    private ImageView ivMuit,ivNoHand;
+    private String headUrl;
+    private ImageView headView;
+    private LinearLayout cancleCallLayout;
+    private RelativeLayout sendingLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,26 +89,37 @@ public class VoiceCallActivity extends CallActivity implements OnClickListener {
         DemoHelper.getInstance().isVoiceCalling = true;
         EMClient.getInstance().callManager().getCallOptions().setIsSendPushIfOffline(true);
         callType = 0;
-
-        comingBtnContainer = (LinearLayout) findViewById(R.id.ll_coming_call);
-        refuseBtn = (Button) findViewById(R.id.btn_refuse_call);
-        answerBtn = (Button) findViewById(R.id.btn_answer_call);
-        hangupBtn = (Button) findViewById(R.id.btn_hangup_call);
+        headView = findViewById(R.id.swing_card);
+        comingBtnContainer = (LinearLayout) findViewById(R.id.linyout_is_accept);  //ll_coming_call
+        refuseBtn = (LinearLayout) findViewById(R.id.linyout_refuse); //拒绝
+        answerBtn = (LinearLayout) findViewById(R.id.linyout_accept);//接受
+        hangupBtn = (Button) findViewById(R.id.btn_hangup_call); //挂断
         muteImage = (ImageView) findViewById(R.id.iv_mute);
         handsFreeImage = (ImageView) findViewById(R.id.iv_handsfree);
         callStateTextView = (TextView) findViewById(R.id.tv_call_state);
-        nickTextView = (TextView) findViewById(R.id.tv_nick);
-        TextView durationTextView = (TextView) findViewById(R.id.tv_calling_duration);
+        TextView nickTextView = (TextView) findViewById(R.id.tv_nick);
+//        TextView durationTextView = (TextView) findViewById(R.id.tv_calling_duration);
         chronometer = (Chronometer) findViewById(R.id.chronometer);
-        voiceContronlLayout = (LinearLayout) findViewById(R.id.ll_voice_control);
+        voiceContronlLayout = (RelativeLayout) findViewById(R.id.linyout_is_calling);
         netwrokStatusVeiw = (TextView) findViewById(R.id.tv_network_status);
+        msgState = (TextView) findViewById(R.id.msg_state);
+        hangUpLayout = (LinearLayout) findViewById(R.id.layout_hang_up);
+        muitLayout = (LinearLayout) findViewById(R.id.layout_muit);
+        noHandLayout = (LinearLayout) findViewById(R.id.layout_no_hand);
+        ivMuit =(ImageView)findViewById(R.id.iv_muit);
+        ivNoHand =(ImageView)findViewById(R.id.iv_no_hand);
+        cancleCallLayout = (LinearLayout) findViewById(R.id.layout_cancel_call);
+        sendingLayout = (RelativeLayout) findViewById(R.id.layout_sending);
 
         refuseBtn.setOnClickListener(this);
         answerBtn.setOnClickListener(this);
         hangupBtn.setOnClickListener(this);
         muteImage.setOnClickListener(this);
         handsFreeImage.setOnClickListener(this);
-
+        hangUpLayout.setOnClickListener(this);
+        muitLayout.setOnClickListener(this);
+        noHandLayout.setOnClickListener(this);
+        cancleCallLayout.setOnClickListener(this);
         getWindow().addFlags(
                 WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD
                         | WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
@@ -109,15 +130,18 @@ public class VoiceCallActivity extends CallActivity implements OnClickListener {
         username = getIntent().getStringExtra("username");
         nickName = getIntent().getStringExtra("nickName");
         isInComingCall = getIntent().getBooleanExtra("isComingCall", false);
+        if (getIntent().hasExtra("headUrl")){
+            headUrl = getIntent().getStringExtra("headUrl");
+            Glide.with(this).load(headUrl).into(headView);
+        }
         nickTextView.setText(nickName);
-        if (!isInComingCall) {
-            // outgoing call
-            Log.e(TAG, "onCreate: "+"111111" );
+        if (!isInComingCall) {// outgoing call
             soundPool = new SoundPool(1, AudioManager.STREAM_RING, 0);
             outgoing = soundPool.load(this, R.raw.em_outgoing, 1);
 
             comingBtnContainer.setVisibility(View.INVISIBLE);
-            hangupBtn.setVisibility(View.VISIBLE);
+            // TODO: 2020/11/4 0004 之前的挂断visible
+            hangupBtn.setVisibility(View.GONE);
             st1 = getResources().getString(R.string.Are_connected_to_each_other);
             callStateTextView.setText(st1);
             handler.sendEmptyMessage(MSG_CALL_MAKE_VOICE);
@@ -127,13 +151,6 @@ public class VoiceCallActivity extends CallActivity implements OnClickListener {
                 }
             }, 300);
         } else { // incoming call
-            Log.e(TAG, "onCreate: "+"22222" );
-            if(EMClient.getInstance().callManager().getCallState() == EMCallStateChangeListener.CallState.IDLE
-                    || EMClient.getInstance().callManager().getCallState() == EMCallStateChangeListener.CallState.DISCONNECTED) {
-                // the call has ended
-                finish();
-                return;
-            }
             voiceContronlLayout.setVisibility(View.INVISIBLE);
             Uri ringUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
             audioManager.setMode(AudioManager.MODE_RINGTONE);
@@ -196,9 +213,8 @@ public class VoiceCallActivity extends CallActivity implements OnClickListener {
 
                             @Override
                             public void run() {
-                                String st3 = "已经和对方建立连接";
-                                callStateTextView.setText(st3);
-
+//                            String st3 = "已经和对方建立连接";
+//                            callStateTextView.setText(st3);
                             }
                         });
                         break;
@@ -216,13 +232,19 @@ public class VoiceCallActivity extends CallActivity implements OnClickListener {
                                 }
                                 if(!isHandsfreeState)
                                     closeSpeakerOn();
-                                //show relay or direct call, for testing purpose
-//                            ((TextView)findViewById(R.id.tv_is_p2p)).setText(EMClient.getInstance().callManager().isDirectCall()
-//                                    ? R.string.direct_call : R.string.relay_call);
-                                chronometer.setVisibility(View.VISIBLE);
                                 chronometer.setBase(SystemClock.elapsedRealtime());
                                 // duration start
                                 chronometer.start();
+                                //show relay or direct call, for testing purpose
+//                            ((TextView)findViewById(R.id.tv_is_p2p)).setText(EMClient.getInstance().callManager().isDirectCall()
+//                                    ? R.string.direct_call : R.string.relay_call);
+                                sendingLayout.setVisibility(View.GONE);
+                                msgState.setVisibility(View.GONE);
+                                voiceContronlLayout.setVisibility(View.VISIBLE);
+                                chronometer.setVisibility(View.VISIBLE);
+//                                chronometer.setBase(SystemClock.elapsedRealtime());
+//                                // duration start
+//                                chronometer.start();
                                 String str4 = getResources().getString(R.string.In_the_call);
                                 MediaSoundUtil mediaSoundUtil = new MediaSoundUtil(getApplicationContext());
                                 mediaSoundUtil.stopPlay();
@@ -298,15 +320,17 @@ public class VoiceCallActivity extends CallActivity implements OnClickListener {
                                         runOnUiThread(new Runnable() {
                                             @Override
                                             public void run() {
+                                                Log.d("AAA", "CALL DISCONNETED");
                                                 removeCallStateListener();
+
                                                 // Stop to watch the phone call state.
                                                 PhoneStateManager.get(VoiceCallActivity.this).removeStateCallback(phoneStateCallback);
+
                                                 saveCallRecord();
                                                 Animation animation = new AlphaAnimation(1.0f, 0.0f);
                                                 animation.setDuration(800);
                                                 findViewById(R.id.root_layout).startAnimation(animation);
                                                 finish();
-                                                Log.e("AAA", "onClick"+"关闭页面");
                                             }
                                         });
                                     }
@@ -416,7 +440,6 @@ public class VoiceCallActivity extends CallActivity implements OnClickListener {
                 case TelephonyManager.CALL_STATE_IDLE:      // 电话挂断
                     // resume current voice conference.
                     if (isMuteState) {
-                        Log.e(TAG, "onClick: "+"环信挂断" );
                         try {
                             EMClient.getInstance().callManager().resumeVoiceTransfer();
                         } catch (HyphenateException e) {
@@ -441,29 +464,69 @@ public class VoiceCallActivity extends CallActivity implements OnClickListener {
     @Override
     public void onClick(View v) {
         int i = v.getId();
-        if (i == R.id.btn_refuse_call) {
+        if (i == R.id.linyout_refuse) {
             isRefused = true;
             refuseBtn.setEnabled(false);
             handler.sendEmptyMessage(MSG_CALL_REJECT);
 
-            Log.e(TAG, "onClick: "+"挂断" );
-        } else if (i == R.id.btn_answer_call) {
+        } else if (i == R.id.linyout_accept) {
             answerBtn.setEnabled(false);
             closeSpeakerOn();
             callStateTextView.setText("正在接听...");
+            msgState.setVisibility(View.INVISIBLE);
             comingBtnContainer.setVisibility(View.INVISIBLE);
-            hangupBtn.setVisibility(View.VISIBLE);
+            // TODO: 2020/11/4 0004 之前的挂断visible
+            hangupBtn.setVisibility(View.GONE);
             voiceContronlLayout.setVisibility(View.VISIBLE);
             handler.sendEmptyMessage(MSG_CALL_ANSWER);
 
-        } else if (i == R.id.btn_hangup_call) {
+        } else if (i == R.id.btn_hangup_call  ||i ==R.id.layout_cancel_call) {   //挂断
             hangupBtn.setEnabled(false);
             chronometer.stop();
             endCallTriggerByMe = true;
             callStateTextView.setText(getResources().getString(R.string.hanging_up));
             handler.sendEmptyMessage(MSG_CALL_END);
 
-        } else if (i == R.id.iv_mute) {
+        }else if (i ==R.id.layout_hang_up){
+            hangupBtn.setEnabled(false);
+            chronometer.stop();
+            endCallTriggerByMe = true;
+            handler.sendEmptyMessage(MSG_CALL_END);
+        }else if (i ==R.id.layout_no_hand){
+
+            if (isHandsfreeState) {
+//                handsFreeImage.setImageResource(R.mipmap.em_icon_speaker_normal);
+                ivNoHand.setSelected(false);
+                closeSpeakerOn();
+                isHandsfreeState = false;
+            } else {
+//                handsFreeImage.setImageResource(R.mipmap.em_icon_speaker_on);
+                ivNoHand.setSelected(true);
+                openSpeakerOn();
+                isHandsfreeState = true;
+            }
+        }else if (i == R.id.layout_muit){
+            if (isMuteState) {
+//                muteImage.setImageResource(R.mipmap.em_icon_mute_normal);
+                ivMuit.setSelected(false);
+                try {
+                    EMClient.getInstance().callManager().resumeVoiceTransfer();
+                } catch (HyphenateException e) {
+                    e.printStackTrace();
+                }
+                isMuteState = false;
+            } else {
+//                muteImage.setImageResource(R.mipmap.em_icon_mute_on);
+                ivMuit.setSelected(true);
+                try {
+                    EMClient.getInstance().callManager().pauseVoiceTransfer();
+                } catch (HyphenateException e) {
+                    e.printStackTrace();
+                }
+                isMuteState = true;
+            }
+        }
+        else if (i == R.id.iv_mute) {
             if (isMuteState) {
                 muteImage.setImageResource(R.mipmap.em_icon_mute_normal);
                 try {

@@ -53,11 +53,11 @@ public class CallReceiver extends BroadcastReceiver {
 							if ("video".equals(mType)) { //video call
 								mContext.startActivity(new Intent(mContext, VideoCallActivity.class).
 										putExtra("username", mFrom).putExtra("isComingCall", true).putExtra("nickName", doctorPatientUserInfo.getUserName()).
-										addFlags(Intent.FLAG_ACTIVITY_NEW_TASK).putExtra("vedioNum", 1000000));
+										addFlags(Intent.FLAG_ACTIVITY_NEW_TASK).putExtra("headUrl",doctorPatientUserInfo.getUserLogoUrl()).putExtra("vedioNum", 1000000));
 							} else { //voice call
 								mContext.startActivity(new Intent(mContext, VoiceCallActivity.class).
 										putExtra("username", mFrom).putExtra("isComingCall", true).putExtra("nickName", doctorPatientUserInfo.getUserName()).
-										addFlags(Intent.FLAG_ACTIVITY_NEW_TASK).putExtra("voiceNum", 1000000));
+										addFlags(Intent.FLAG_ACTIVITY_NEW_TASK).putExtra("headUrl",doctorPatientUserInfo.getUserLogoUrl()).putExtra("voiceNum", 1000000));
 								//			MediaSoundUtil mediaSoundUtil = new MediaSoundUtil(context);
 								//			mediaSoundUtil.playRingSound();
 							}

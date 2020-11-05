@@ -1073,6 +1073,7 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
                     }
                     startActivity(new Intent(getActivity(), VideoCallActivity.class).putExtra("username", toChatUsername)
                             .putExtra("isComingCall", false).putExtra(EaseConstant.EXTRA_VEDIO_NUM, mVedioTime)
+                            .putExtra("headUrl",patientUrl)
                             .putExtra("nickName", toChatUsernameName)
                     );
                     break;
@@ -1086,6 +1087,7 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
                             .putExtra("username", toChatUsername)
                             .putExtra("isComingCall", false)
                             .putExtra("nickName", toChatUsernameName)
+                            .putExtra("headUrl",patientUrl)
                             .putExtra(EaseConstant.EXTRA_VOICE_NUM, mVoiceTime));
                     break;
 

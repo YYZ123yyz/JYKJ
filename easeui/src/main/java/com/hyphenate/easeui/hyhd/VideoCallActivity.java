@@ -22,6 +22,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.hyphenate.chat.EMCallSession;
 import com.hyphenate.chat.EMCallStateChangeListener;
 import com.hyphenate.chat.EMClient;
@@ -56,8 +57,8 @@ public class VideoCallActivity extends CallActivity implements OnClickListener {
     private TextView callStateTextView;
 
     private LinearLayout comingBtnContainer;
-    private Button refuseBtn;
-    private Button answerBtn;
+    private LinearLayout refuseBtn;
+    private LinearLayout answerBtn;
     private Button hangupBtn;
     private ImageView muteImage;
     private ImageView handsFreeImage;
@@ -79,6 +80,15 @@ public class VideoCallActivity extends CallActivity implements OnClickListener {
 
     private             int mVedioTime;                //可拨打语音时长（单位：秒）
     private Handler mHandler;
+    private RelativeLayout msgRel;
+    private LinearLayout hangUpLayout;
+    private LinearLayout muitLayout;
+    private LinearLayout noHandLayout;
+    private ImageView ivMuit;
+    private ImageView ivNoHand;
+    private String headUrl;
+    private ImageView headView;
+    private RelativeLayout layoutSending;
 
 
     @Override
@@ -101,25 +111,36 @@ public class VideoCallActivity extends CallActivity implements OnClickListener {
                         | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
 
         uiHandler = new Handler();
-
+        headView = findViewById(R.id.swing_card);
         callStateTextView = (TextView) findViewById(R.id.tv_call_state);
-        comingBtnContainer = (LinearLayout) findViewById(R.id.ll_coming_call);
+        comingBtnContainer = (LinearLayout) findViewById(R.id.linyout_is_accept);
         rootContainer = (RelativeLayout) findViewById(R.id.root_layout);
-        refuseBtn = (Button) findViewById(R.id.btn_refuse_call);
-        answerBtn = (Button) findViewById(R.id.btn_answer_call);
+
+        refuseBtn = (LinearLayout) findViewById(R.id.linyout_refuse);
+        answerBtn = (LinearLayout) findViewById(R.id.linyout_accept);
         hangupBtn = (Button) findViewById(R.id.btn_hangup_call);
         muteImage = (ImageView) findViewById(R.id.iv_mute);
         handsFreeImage = (ImageView) findViewById(R.id.iv_handsfree);
         callStateTextView = (TextView) findViewById(R.id.tv_call_state);
         nickTextView = (TextView) findViewById(R.id.tv_nick);
         chronometer = (Chronometer) findViewById(R.id.chronometer);
-        voiceContronlLayout = (LinearLayout) findViewById(R.id.ll_voice_control);
+
+        voiceContronlLayout = (LinearLayout) findViewById(R.id.linyout_state);
         RelativeLayout btnsContainer = (RelativeLayout) findViewById(R.id.ll_btns);
         topContainer = (LinearLayout) findViewById(R.id.ll_top_container);
         bottomContainer = (LinearLayout) findViewById(R.id.ll_bottom_container);
-        monitorTextView = (TextView) findViewById(R.id.tv_call_monitor);
+//        monitorTextView = (TextView) findViewById(R.id.tv_call_monitor);
         netwrokStatusVeiw = (TextView) findViewById(R.id.tv_network_status);
-        Button switchCameraBtn = (Button) findViewById(R.id.btn_switch_camera);
+
+        findViewById(R.id.layout_muit).setOnClickListener(this);
+        msgRel = (RelativeLayout)findViewById(R.id.relayout_msg);
+        hangUpLayout = (LinearLayout) findViewById(R.id.layout_hang_up);
+//        muitLayout = (LinearLayout) findViewById(R.id.layout_muit);
+        noHandLayout = (LinearLayout) findViewById(R.id.layout_no_hand);
+        ivMuit =(ImageView)findViewById(R.id.iv_muit);
+        ivNoHand =(ImageView)findViewById(R.id.iv_no_hand);
+        layoutSending = (RelativeLayout) findViewById(R.id.layout_sending);
+        findViewById(R.id.layout_cancel_call).setOnClickListener(this);
 
         refuseBtn.setOnClickListener(this);
         answerBtn.setOnClickListener(this);
@@ -127,12 +148,21 @@ public class VideoCallActivity extends CallActivity implements OnClickListener {
         muteImage.setOnClickListener(this);
         handsFreeImage.setOnClickListener(this);
         rootContainer.setOnClickListener(this);
-        switchCameraBtn.setOnClickListener(this);
+        hangUpLayout.setOnClickListener(this);
+//        muitLayout.setOnClickListener(this);
+        noHandLayout.setOnClickListener(this);
+
+//        switchCameraBtn.setOnClickListener(this);
 
         msgid = UUID.randomUUID().toString();
         isInComingCall = getIntent().getBooleanExtra("isComingCall", false);
         username = getIntent().getStringExtra("username");
         nickName = getIntent().getStringExtra("nickName");
+        if (getIntent().hasExtra("headUrl")){
+            headUrl = getIntent().getStringExtra("headUrl");
+            Glide.with(this).load(headUrl).into(headView);
+        }
+
         nickTextView.setText(nickName);
 
         // local surfaceview
@@ -170,7 +200,8 @@ public class VideoCallActivity extends CallActivity implements OnClickListener {
                 finish();
                 return;
             }
-            voiceContronlLayout.setVisibility(View.INVISIBLE);
+            voiceContronlLayout.setVisibility(View.INVISIBLE); //声音控制
+            msgRel.setVisibility(View.VISIBLE);
             localSurface.setVisibility(View.INVISIBLE);
             Uri ringUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
             audioManager.setMode(AudioManager.MODE_RINGTONE);
@@ -194,17 +225,18 @@ public class VideoCallActivity extends CallActivity implements OnClickListener {
             @Override
             public void handleMessage(Message msg) {
                 switch (msg.what)
-                {                    case 1:
-                    /**
-                     * 挂断通话
-                     */
-                    try {
-                        EMClient.getInstance().callManager().endCall();
-                    } catch (EMNoActiveCallException e) {
-                        e.printStackTrace();
-                    }
-                    Toast.makeText(VideoCallActivity.this,"视频时长已用尽",Toast.LENGTH_SHORT).show();
-                    break;
+                {
+                    case 1:
+                        /**
+                         * 挂断通话
+                         */
+                        try {
+                            EMClient.getInstance().callManager().endCall();
+                        } catch (EMNoActiveCallException e) {
+                            e.printStackTrace();
+                        }
+                        Toast.makeText(VideoCallActivity.this,"视频时长已用尽",Toast.LENGTH_SHORT).show();
+                        break;
                 }
             }
         };
@@ -268,8 +300,16 @@ public class VideoCallActivity extends CallActivity implements OnClickListener {
                                 } catch (Exception e) {
                                 }
                                 openSpeakerOn();
+
+                                layoutSending.setVisibility(View.GONE);
+                                voiceContronlLayout.setVisibility(View.VISIBLE);
+                                ivNoHand.setSelected(true);
+                                localSurface.setVisibility(View.VISIBLE);
+//                            ((TextView)findViewById(R.id.tv_is_p2p)).setText(EMClient.getInstance().callManager().isDirectCall()
+//                                    ? R.string.direct_call : R.string.relay_call);
                                 ((TextView)findViewById(R.id.tv_is_p2p)).setText(EMClient.getInstance().callManager().isDirectCall()
-                                        ? R.string.direct_call : R.string.relay_call);
+                                        ? nickName : nickName);
+                                msgRel.setVisibility(View.GONE);
                                 handsFreeImage.setImageResource(R.mipmap.em_icon_speaker_on);
                                 isHandsfreeState = true;
                                 isInCalling = true;
@@ -528,14 +568,15 @@ public class VideoCallActivity extends CallActivity implements OnClickListener {
         if (i == R.id.local_surface) {
             changeCallView();
 
-        } else if (i == R.id.btn_refuse_call) {
+        } else if (i == R.id.linyout_refuse) {
             isRefused = true;
             refuseBtn.setEnabled(false);
             handler.sendEmptyMessage(MSG_CALL_REJECT);
 
-        } else if (i == R.id.btn_answer_call) {
+        } else if (i == R.id.linyout_accept) {
             EMLog.d(TAG, "btn_answer_call clicked");
             answerBtn.setEnabled(false);
+            ivNoHand.setSelected(true);
             openSpeakerOn();
             if (ringtone != null)
                 ringtone.stop();
@@ -548,9 +589,10 @@ public class VideoCallActivity extends CallActivity implements OnClickListener {
             comingBtnContainer.setVisibility(View.INVISIBLE);
             hangupBtn.setVisibility(View.VISIBLE);
             voiceContronlLayout.setVisibility(View.VISIBLE);
+            msgRel.setVisibility(View.VISIBLE);
             localSurface.setVisibility(View.VISIBLE);
 
-        } else if (i == R.id.btn_hangup_call) {
+        } else if (i == R.id.layout_hang_up  || i== R.id.layout_cancel_call) {//挂断
             hangupBtn.setEnabled(false);
             chronometer.stop();
             endCallTriggerByMe = true;
@@ -558,10 +600,11 @@ public class VideoCallActivity extends CallActivity implements OnClickListener {
             EMLog.d(TAG, "btn_hangup_call");
             handler.sendEmptyMessage(MSG_CALL_END);
 
-        } else if (i == R.id.iv_mute) {
+        } /*else if (i == R.id.layout_muit) {    //静音
             if (isMuteState) {
                 // resume voice transfer
-                muteImage.setImageResource(R.mipmap.em_icon_mute_normal);
+//                muteImage.setImageResource(R.mipmap.em_icon_mute_normal);
+                ivMuit.setSelected(false);
                 try {
                     EMClient.getInstance().callManager().resumeVoiceTransfer();
                 } catch (HyphenateException e) {
@@ -570,7 +613,8 @@ public class VideoCallActivity extends CallActivity implements OnClickListener {
                 isMuteState = false;
             } else {
                 // pause voice transfer
-                muteImage.setImageResource(R.mipmap.em_icon_mute_on);
+//                muteImage.setImageResource(R.mipmap.em_icon_mute_on);
+                ivMuit.setSelected(true);
                 try {
                     EMClient.getInstance().callManager().pauseVoiceTransfer();
                 } catch (HyphenateException e) {
@@ -579,14 +623,16 @@ public class VideoCallActivity extends CallActivity implements OnClickListener {
                 isMuteState = true;
             }
 
-        } else if (i == R.id.iv_handsfree) {
+        }*/ else if (i == R.id.layout_no_hand) {
             if (isHandsfreeState) {
                 // turn off speaker
-                handsFreeImage.setImageResource(R.mipmap.em_icon_speaker_normal);
+//                handsFreeImage.setImageResource(R.mipmap.em_icon_speaker_normal);
+                ivNoHand.setSelected(false);
                 closeSpeakerOn();
                 isHandsfreeState = false;
             } else {
-                handsFreeImage.setImageResource(R.mipmap.em_icon_speaker_on);
+//                handsFreeImage.setImageResource(R.mipmap.em_icon_speaker_on);
+                ivNoHand.setSelected(true);
                 openSpeakerOn();
                 isHandsfreeState = true;
             }
@@ -616,12 +662,14 @@ public class VideoCallActivity extends CallActivity implements OnClickListener {
 
                 } else {
                     bottomContainer.setVisibility(View.VISIBLE);
-                    topContainer.setVisibility(View.VISIBLE);
+                    //暂时隐藏
+                    topContainer.setVisibility(View.GONE);
                     oppositeSurface.setScaleMode(VideoView.EMCallViewScaleMode.EMCallViewScaleModeAspectFit);
                 }
             }
 
-        } else if (i == R.id.btn_switch_camera) {
+        } else if (i == R.id.layout_muit) {
+
             handler.sendEmptyMessage(MSG_CALL_SWITCH_CAMERA);
 
         } else {
@@ -632,9 +680,9 @@ public class VideoCallActivity extends CallActivity implements OnClickListener {
     protected void onDestroy() {
         DemoHelper.getInstance().isVideoCalling = false;
         stopMonitor();
-        //localSurface.getRenderer().dispose();
+        localSurface.getRenderer().dispose();
         localSurface = null;
-        //oppositeSurface.getRenderer().dispose();
+        oppositeSurface.getRenderer().dispose();
         oppositeSurface = null;
         super.onDestroy();
     }
@@ -671,9 +719,11 @@ public class VideoCallActivity extends CallActivity implements OnClickListener {
 //                                    + "\nLocalBitrate：" + callHelper.getLocalBitrate()
 //                                    + "\nRemoteBitrate：" + callHelper.getRemoteBitrate()
 //                                    + "\n" + recordString);
-//
+
 //                            ((TextView)findViewById(R.id.tv_is_p2p)).setText(EMClient.getInstance().callManager().isDirectCall()
 //                                    ? R.string.direct_call : R.string.relay_call);
+                            ((TextView)findViewById(R.id.tv_is_p2p)).setText(EMClient.getInstance().callManager().isDirectCall()
+                                    ? nickName : nickName);
                         }
                     });
                     try {
@@ -712,5 +762,4 @@ public class VideoCallActivity extends CallActivity implements OnClickListener {
             }
         }
     }
-
 }
