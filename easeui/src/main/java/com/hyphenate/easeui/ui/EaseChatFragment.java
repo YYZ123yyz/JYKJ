@@ -177,8 +177,8 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
 
     protected int[] itemStrings = {R.string.attach_take_pic, R.string.attach_picture,
             R.string.attach_voice_call, R.string.attach_video, R.string.attach_file};
-    protected int[] itemdrawables = {R.mipmap.hyhd_pz, R.mipmap.hyhd_tp,
-            R.mipmap.hyhd_yy, R.mipmap.hyhd_sp, R.mipmap.hyhd_wj};
+    protected int[] itemdrawables = {R.mipmap.bg_chat_picture, R.mipmap.bg_chat_take_picture,
+            R.mipmap.bg_chat_video, R.mipmap.bg_chat_call_phone, R.mipmap.bg_chat_sign_up};
     protected int[] itemIds = {ITEM_TAKE_PICTURE, ITEM_PICTURE, ITEM_CALL, ITEM_VIDEO, ITEM_WJ};
     private boolean isMessageListInited;
     protected MyItemClickListener extendMenuItemClickListener;
@@ -506,17 +506,17 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
     public void setSignUpBtnStatus(boolean isVisible){
         if (isAdded()) {
             if (isVisible) {
-                itemStrings = new int[]{R.string.attach_take_pic, R.string.attach_picture,
-                        R.string.attach_voice_call, R.string.attach_video, R.string.attach_file};
-                itemdrawables = new int[]{R.mipmap.hyhd_pz, R.mipmap.hyhd_tp,
-                        R.mipmap.hyhd_yy, R.mipmap.hyhd_sp, R.mipmap.bg_sign_up_icon};
-                itemIds = new int[]{ITEM_TAKE_PICTURE, ITEM_PICTURE, ITEM_CALL, ITEM_VIDEO, ITEM_WJ};
+                itemStrings = new int[]{R.string.attach_picture, R.string.attach_take_pic,
+                        R.string.attach_video_call, R.string.attach_voice_call, R.string.attach_sign_up};
+                itemdrawables = new int[]{R.mipmap.bg_chat_picture, R.mipmap.bg_chat_take_picture,
+                        R.mipmap.bg_chat_video, R.mipmap.bg_chat_call_phone, R.mipmap.bg_chat_sign_up};
+                itemIds = new int[]{ITEM_PICTURE, ITEM_TAKE_PICTURE, ITEM_VIDEO, ITEM_CALL, ITEM_WJ};
             }else{
-                itemStrings = new int[]{R.string.attach_take_pic, R.string.attach_picture,
-                        R.string.attach_voice_call, R.string.attach_video};
-                itemdrawables = new int[]{R.mipmap.hyhd_pz, R.mipmap.hyhd_tp,
-                        R.mipmap.hyhd_yy, R.mipmap.hyhd_sp};
-                itemIds = new int[]{ITEM_TAKE_PICTURE, ITEM_PICTURE, ITEM_CALL, ITEM_VIDEO};
+                itemStrings = new int[]{R.string.attach_picture, R.string.attach_take_pic,
+                        R.string.attach_video_call, R.string.attach_voice_call};
+                itemdrawables = new int[]{R.mipmap.bg_chat_picture, R.mipmap.bg_chat_take_picture,
+                        R.mipmap.bg_chat_video, R.mipmap.bg_chat_call_phone};
+                itemIds = new int[]{ITEM_PICTURE, ITEM_TAKE_PICTURE, ITEM_VIDEO, ITEM_CALL};
             }
         }
        registerExtendMenuItem();

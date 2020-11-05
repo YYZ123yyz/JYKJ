@@ -22,16 +22,16 @@
 
         <Button
             android:id="@+id/btn_set_mode_voice"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
             android:layout_marginLeft="6dp"
             android:background="@drawable/ease_chatting_setmode_voice_btn"
             android:visibility="gone" />
 
         <Button
             android:id="@+id/btn_set_mode_keyboard"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
             android:layout_marginLeft="6dp"
             android:background="@drawable/ease_chatting_setmode_keyboard_btn"
             android:visibility="gone" />
@@ -72,8 +72,10 @@
                 android:id="@+id/et_sendmessage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="35dip"
-                android:background="@null"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:layout_toStartOf="@+id/rl_face"
+                android:background="@drawable/bg_round_ffffff_4"
                 android:maxLines="3"
                 android:minHeight="40dp"
                 android:paddingBottom="3dp"
@@ -89,12 +91,12 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:visibility="gone"
+                android:visibility="visible"
                 >
                 <ImageView
                     android:id="@+id/iv_face_normal"
-                    android:layout_width="24dip"
-                    android:layout_height="24dip"
+                    android:layout_width="26dp"
+                    android:layout_height="26dp"
                     android:layout_margin="1dip"
                     android:scaleType="fitCenter"
                     android:src="@drawable/ease_chatting_biaoqing_btn_normal"
@@ -102,8 +104,8 @@
 
                 <ImageView
                     android:id="@+id/iv_face_checked"
-                    android:layout_width="24dip"
-                    android:layout_height="24dip"
+                    android:layout_width="26dp"
+                    android:layout_height="26dp"
                     android:layout_margin="1dip"
                     android:scaleType="fitCenter"
                     android:src="@drawable/ease_chatting_biaoqing_btn_enable"
@@ -114,11 +116,13 @@
 
         <Button
             android:id="@+id/btn_more"
-            android:layout_width="32dip"
-            android:layout_height="32dip"
-            android:layout_marginLeft="4dp"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:layout_marginLeft="15dp"
             android:layout_marginRight="10dp"
-            android:background="@drawable/ease_type_select_btn" android:visibility="gone" />
+            android:layout_marginBottom="3dp"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/ease_type_select_btn" android:visibility="visible" />
 
         <Button
             android:id="@+id/btn_send"

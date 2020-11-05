@@ -254,6 +254,9 @@ public class EaseChatRowOrderCard extends EaseChatRow {
 
         patientType=message.getStringAttribute("patientType","");
         patientName=message.getStringAttribute("patientName","");
+        if (TextUtils.isEmpty(patientName)) {
+            patientName=nickName;
+        }
         flagReplyType=message.getStringAttribute("flagReplyType","");
         reserveCode=message.getStringAttribute("reserveCode","");
         mTvMonitValue.setText(monitoringType);
@@ -437,7 +440,6 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                 break;
             case "MessageAfterDiagnosis":
                 mTvCardTitle.setText("诊后留言");
-
                 rlMonitorType.setVisibility(View.GONE);
                 rlMonitorRate.setVisibility(View.GONE);
                 rlSignTime.setVisibility(View.GONE);
@@ -446,14 +448,16 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                 rlCancelAppointTime.setVisibility(View.GONE);
                 rlAppointProject.setVisibility(View.GONE);
                 rlAppointType.setVisibility(View.GONE);
-                mTvCancelContractMsg.setVisibility(View.GONE);
+               // mTvCancelContractMsg.setVisibility(View.GONE);
                 rlReceiveTime.setVisibility(View.GONE);
                 rlEndTime.setVisibility(View.GONE);
                 rlSurplusTimes.setVisibility(View.GONE);
                 rlSurplusDuration.setVisibility(View.GONE);
-                mTvOrderUpdateBtn.setVisibility(View.GONE);
+                //mTvOrderUpdateBtn.setVisibility(View.GONE);
                 mTvPriceValue.setVisibility(View.GONE);
-
+                if (mTvOperMsg!=null) {
+                    mTvOperMsg.setVisibility(View.GONE);
+                }
                 rlMedicalPatient.setVisibility(View.GONE);
                 rlMedicalEndTime.setVisibility(View.GONE);
                 rlMedicalDoctor.setVisibility(View.GONE);
@@ -542,6 +546,10 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                 }else if(statusType.equals("2")){
                     mTvOperMsg.setText("对方已取消预约");
                 }
+            }else if(messageType.equals("MessageAfterDiagnosis")){
+                tvImmediatelySeeBtn.setText("立即回复");
+                ivStampIcon.setVisibility(View.GONE);
+                tvDiagnosisMessage.setText(String.format("患者%s向您发起诊后留言,请及时回复", nickName));
             }
 
         } else if (direct == EMMessage.Direct.SEND) {
@@ -619,6 +627,7 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                 mTvCancelContractMsg.setVisibility(View.VISIBLE);
                 mTvCancelContractMsg.setText("您已接诊");
             }else if(messageType.equals("MessageAfterDiagnosis")){
+                tvImmediatelySeeBtn.setText("立即查看");
                 rlConsultationMessage.setVisibility(View.VISIBLE);
                 switch (flagReplyType) {
                     case "1":
@@ -638,6 +647,7 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                         tvMessageTypeValue.setText("重大紧急");
                         tvMessageTypeValue.setTextColor(ContextCompat.getColor(mContext, R.color.color_D70000));
                         break;
+                        default:
                 }
 
 
@@ -908,6 +918,7 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                         bundle.putString("orderCode", orderCode);
                         bundle.putString("patientCode", message.getTo());
                         bundle.putString("patientName", patientName);
+                        bundle.putBoolean("isFromCard",true);
                         Intent intent = new Intent();
                         intent.setAction("www.jykj.com.jykj_zxyl.personal.activity.DiagnosisReplayActivity");
                         intent.addCategory(Intent.CATEGORY_DEFAULT);

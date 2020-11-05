@@ -9,6 +9,7 @@ import com.google.gson.Gson;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
 import com.hyphenate.chat.EMMessage;
+import com.hyphenate.chat.EMMessageBody;
 import com.hyphenate.easeui.utils.MainMessage;
 import com.scwang.smart.refresh.header.ClassicsHeader;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
@@ -29,6 +30,7 @@ import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.activity.hyhd.ChatActivity;
 import www.jykj.com.jykj_zxyl.adapter.MessageInfoRecycleAdapter;
 import www.jykj.com.jykj_zxyl.app_base.base_utils.CollectionUtils;
+import www.jykj.com.jykj_zxyl.app_base.base_utils.GsonUtils;
 import www.jykj.com.jykj_zxyl.app_base.base_view.LoadingLayoutManager;
 import www.jykj.com.jykj_zxyl.app_base.mvp.AbstractMvpBaseFragment;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
@@ -217,9 +219,18 @@ public class MessageListFragment extends AbstractMvpBaseFragment<MessageListCont
         for (int i = 0; i < mProvideDoctorPatientUserInfo.size(); i++) {
             EMConversation emcConversation = conversationMap.get(mProvideDoctorPatientUserInfo.get(i).getUserCode());
             EMMessage emMessage = emcConversation.getAllMessages().get(emcConversation.getAllMessages().size() - 1);
-            String str = "{" + emMessage.getBody().toString() + "}";
-            EMMessageEntity emMessageEntity = new Gson().fromJson(str, EMMessageEntity.class);
-            mProvideDoctorPatientUserInfo.get(i).setLastMessage(emMessageEntity.getTxt());
+           // String str = "{" + emMessage.getBody().toString() + "}";
+           // EMMessageEntity emMessageEntity = new Gson().fromJson(str, EMMessageEntity.class);
+           // EMMessageEntity emMessageEntity = GsonUtils.fromJson(str, EMMessageEntity.class);
+            String s = emMessage.getBody().toString();
+            String msg="";
+            if (s.contains(":")) {
+                String[] split = s.split(":");
+                if (split.length>=2) {
+                    msg=split[1];
+                }
+            }
+            mProvideDoctorPatientUserInfo.get(i).setLastMessage(strReplace(msg));
             //获取未读消息数
             EMConversation conversation = EMClient.getInstance().chatManager()
                     .getConversation(mProvideDoctorPatientUserInfo.get(i).getUserCode());
@@ -229,6 +240,13 @@ public class MessageListFragment extends AbstractMvpBaseFragment<MessageListCont
             } else
                 mProvideDoctorPatientUserInfo.get(i).setNoRead(false);
         }
+    }
+
+    public  String strReplace(String str) {
+        //去掉" "号
+        String st= str.replace("\"", "");
+        return st ;
+
     }
     @Override
     public void onDestroyView() {
