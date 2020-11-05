@@ -25,13 +25,22 @@ public class MedicalRecordDrugAdapter extends BaseQuickAdapter<PatientRecordDetB
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, PatientRecordDetBean.InteractOrderPrescribeListBean.PrescribeInfoBean item) {
+    protected void convert(BaseViewHolder helper,
+                           PatientRecordDetBean.InteractOrderPrescribeListBean.PrescribeInfoBean item) {
 
         helper.setText(R.id.name,item.getDrugName())
                 .setText(R.id.speci,item.getSpecName())
                 .setText(R.id.quantity,String.valueOf(item.getDrugAmount()))
                 .setText(R.id.price,String.valueOf(item.getDrugPrice()));
         ImageView type = (ImageView) helper.getView(R.id.type);
+        View view = helper.getView(R.id.ll_title_root);
+
+        int position = helper.getLayoutPosition();
+        if(position==0){
+            view.setVisibility(View.VISIBLE);
+        }else{
+            view.setVisibility(View.GONE);
+        }
         switch (item.getType()) {
             case 0:
                 type.setVisibility(View.INVISIBLE);

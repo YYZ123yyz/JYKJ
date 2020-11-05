@@ -30,7 +30,7 @@ public class Rv_detectAdapter extends RecyclerView.Adapter<Rv_detectAdapter.View
     private OnItemClickListener mOnItemClickListener;
     private Context mContext;
 
-
+    private boolean isEdit;
     public Rv_detectAdapter(List<DetectBean> list, Context context, SigningDetailsActivity mainActivity) {
         mContext = context;
         datas = list;
@@ -49,6 +49,11 @@ public class Rv_detectAdapter extends RecyclerView.Adapter<Rv_detectAdapter.View
         ViewHolder vh = new ViewHolder(view);
         return vh;
     }
+
+    public void setEdit(boolean edit) {
+        isEdit = edit;
+    }
+
     //将数据与界面进行绑定的操作
 
     /**
@@ -61,9 +66,13 @@ public class Rv_detectAdapter extends RecyclerView.Adapter<Rv_detectAdapter.View
      */
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, @SuppressLint("RecyclerView") final int position) {
-        //viewHolder.ed_price.setCursorVisible(false);
+        if (isEdit) {
+            viewHolder.ed_price.setCursorVisible(true);
+        }else{
+            viewHolder.ed_price.setCursorVisible(false);
+        }
         viewHolder.tv_name.setText(datas.get(position).getConfigDetailName());
-        viewHolder.ed_price.setText(datas.get(position).getPrice()+"");
+        viewHolder.ed_price.setText(datas.get(position).getPrice()+"0");
 //        if (mOnItemClickListener != null) {
 //            viewHolder.mClickLinearLayout.setOnClickListener(new View.OnClickListener() {
 //                @Override

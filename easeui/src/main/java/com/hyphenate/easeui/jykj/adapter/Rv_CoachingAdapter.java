@@ -31,6 +31,7 @@ public class Rv_CoachingAdapter extends RecyclerView.Adapter<Rv_CoachingAdapter.
     private SigningDetailsActivity mActivity;
     private OnItemClickListener mOnItemClickListener;
     private Context mContext;
+    private boolean isEdit;
 
     private OnItemCoachingClickListener OnItemCoachingClickListener;
     private OnItemCoachingLinClickListener OnItemCoachingLinClickListener;
@@ -40,9 +41,15 @@ public class Rv_CoachingAdapter extends RecyclerView.Adapter<Rv_CoachingAdapter.
         mActivity = mainActivity;
     }
 
+
+
     //重新设置数据
     public void setDate(List<DetectBean> list) {
         datas = list;
+    }
+
+    public void setEdit(boolean edit) {
+        isEdit = edit;
     }
 
     //创建新View，被LayoutManager所调用
@@ -71,7 +78,12 @@ public class Rv_CoachingAdapter extends RecyclerView.Adapter<Rv_CoachingAdapter.
 //            viewHolder.time.setText(datas.get(position).getTime()+"分钟");
 //            viewHolder.frequency.setText(datas.get(position).getTimes()+"/"+ datas.get(position).getMonth());
 //        }
- //       viewHolder.ed_price.setCursorVisible(false);
+        if(isEdit){
+            viewHolder.ed_price.setCursorVisible(true);
+        }else{
+            viewHolder.ed_price.setCursorVisible(false);
+        }
+
         DetectBean detectBean = datas.get(position);
         int minute = detectBean.getMinute();
         if (minute!=0) {
@@ -110,7 +122,7 @@ public class Rv_CoachingAdapter extends RecyclerView.Adapter<Rv_CoachingAdapter.
 
 
         viewHolder.tv_name.setText(datas.get(position).getConfigDetailName());
-        viewHolder.ed_price.setText(datas.get(position).getPrice()+"");
+        viewHolder.ed_price.setText(datas.get(position).getPrice()+"0");
         if (mOnItemClickListener != null) {
             viewHolder.mClickLinearLayout.setOnClickListener(new View.OnClickListener() {
                 @Override

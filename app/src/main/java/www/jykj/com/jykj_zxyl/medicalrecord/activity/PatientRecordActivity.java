@@ -3,6 +3,7 @@ package www.jykj.com.jykj_zxyl.medicalrecord.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -395,7 +396,7 @@ public class PatientRecordActivity
 
         String drugName = det.getDrugName();
         if (StringUtils.isNotEmpty(drugName)) {
-            prescrFlow.setVisibility(View.VISIBLE);
+            prescrFlow.setVisibility(View.GONE);
             prescrFlow.setAdapter(getTagAdapter(drugName, prescrFlow));
         }else{
             prescrFlow.setVisibility(View.GONE);
@@ -426,6 +427,7 @@ public class PatientRecordActivity
             drugRecycleview.setVisibility(View.GONE);
         }
         MedicalRecordDrugAdapter medicalRecordDrugAdapter = new MedicalRecordDrugAdapter(R.layout.item_record_drug, prescribeInfoBeans);
+        drugRecycleview.setLayoutManager(new LinearLayoutManager(this));
         drugRecycleview.setAdapter(medicalRecordDrugAdapter);
 
     }

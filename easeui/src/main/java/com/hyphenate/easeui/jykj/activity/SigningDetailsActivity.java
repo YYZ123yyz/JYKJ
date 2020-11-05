@@ -278,9 +278,13 @@ public class SigningDetailsActivity extends BaseActivity implements View.OnClick
         linTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Frequencyofdetection();
+                if (TextUtils.isEmpty(orderCode)||isUpdate()) {
+                    Frequencyofdetection();
+                }
+
             }
         });
+
         linClass = (LinearLayout) findViewById(R.id.lin_class);
         tvDuration = (TextView) findViewById(R.id.tv_duration);
         linDuration = (LinearLayout) findViewById(R.id.lin_duration);
@@ -312,6 +316,7 @@ public class SigningDetailsActivity extends BaseActivity implements View.OnClick
         rvqbzz.setHasFixedSize(true);
 //        //创建并设置Adapter
         rv_detectAdapter = new Rv_detectAdapter(mDetectBeans, mContext, mActivity);
+        rv_detectAdapter.setEdit(TextUtils.isEmpty(orderCode));
         rvqbzz.setAdapter(rv_detectAdapter);
         rv_detectAdapter.setOnItemClickListener(new Rv_detectAdapter.OnItemClickListener() {
             @Override
@@ -353,11 +358,15 @@ public class SigningDetailsActivity extends BaseActivity implements View.OnClick
         rvClass.setHasFixedSize(true);
 //        //创建并设置Adapter
         rvCoachingAdapter = new Rv_CoachingAdapter(mCoachingBean, mContext, mActivity);
+        rvCoachingAdapter.setEdit(TextUtils.isEmpty(orderCode));
         rvClass.setAdapter(rvCoachingAdapter);
         rvCoachingAdapter.setOnItemCoachingClickListener(new Rv_CoachingAdapter.OnItemCoachingClickListener() {
             @Override
             public void onClick(int position) {
-                time(position);
+                if (TextUtils.isEmpty(orderCode)||isUpdate()) {
+                    time(position);
+                }
+
             }
 
             @Override
@@ -368,7 +377,10 @@ public class SigningDetailsActivity extends BaseActivity implements View.OnClick
         rvCoachingAdapter.setOnItemCoachingLinClickListener(new Rv_CoachingAdapter.OnItemCoachingLinClickListener() {
             @Override
             public void onClick(int position) {
-                Videofrequency(position);
+                if (TextUtils.isEmpty(orderCode)||isUpdate()) {
+                    Videofrequency(position);
+                }
+
             }
 
             @Override
@@ -441,6 +453,14 @@ public class SigningDetailsActivity extends BaseActivity implements View.OnClick
             }
 
         });
+    }
+
+    private boolean isUpdate(){
+        boolean isFlag=false;
+        if (!TextUtils.isEmpty(status)&&status.equals("2")) {
+            isFlag=true;
+        }
+        return isFlag;
     }
 
     private void getUser() {
@@ -920,7 +940,10 @@ public class SigningDetailsActivity extends BaseActivity implements View.OnClick
         linStartTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startTime();
+                if(TextUtils.isEmpty(orderCode)){
+                    startTime();
+                }
+
             }
         });
         ivBackLeft.setOnClickListener(new View.OnClickListener() {
@@ -932,13 +955,18 @@ public class SigningDetailsActivity extends BaseActivity implements View.OnClick
         linDetect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivityForResult(new Intent(mContext, DetectActivity.class).putExtra("detect", (Serializable) mDetectBeans), 1);
+                if (TextUtils.isEmpty(orderCode)||isUpdate()) {
+                    startActivityForResult(new Intent(mContext, DetectActivity.class).putExtra("detect", (Serializable) mDetectBeans), 1);
+                }
             }
         });
         linClass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivityForResult(new Intent(mContext, CoachingActivity.class).putExtra("coaching", (Serializable) mCoachingBean), 2);
+                if (TextUtils.isEmpty(orderCode)||isUpdate()) {
+                    startActivityForResult(new Intent(mContext, CoachingActivity.class).putExtra("coaching", (Serializable) mCoachingBean), 2);
+                }
+
             }
         });
 
@@ -949,7 +977,10 @@ public class SigningDetailsActivity extends BaseActivity implements View.OnClick
                 if (TextUtils.isEmpty(tvStartTime.getText().toString())) {
                     Toast.makeText(mActivity, "请选择开始时间", Toast.LENGTH_SHORT).show();
                 } else {
-                    Duration();
+                    if (TextUtils.isEmpty(orderCode)||isUpdate()) {
+                        Duration();
+                    }
+
                 }
             }
         });

@@ -901,7 +901,7 @@
 
                 <LinearLayout
                     android:id="@+id/ll_prescription_notes_root"
-                    android:layout_width="match_parent"
+                    android:layout_width="400dp"
                     android:layout_height="45dp"
                     android:orientation="horizontal">
 
@@ -924,7 +924,6 @@
                         android:layout_marginRight="5dp"
                         android:src="@mipmap/iv_filled"
                         android:visibility="visible" />
-
 
 
                     <ImageView

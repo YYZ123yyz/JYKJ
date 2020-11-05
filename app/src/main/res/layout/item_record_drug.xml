@@ -4,7 +4,91 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:id="@+id/ll_title_root"
+        >
 
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="10dp"
+            >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/iv_code_shang"
+                android:visibility="gone"
+                />
+
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="药品名称"
+                android:textStyle="bold"
+                android:textColor="@color/tabColor_nomal"
+                android:textSize="14sp"
+
+                />
+
+        </LinearLayout>
+
+
+
+
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="规格"
+            android:textStyle="bold"
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/tabColor_nomal"
+            android:textSize="14sp"
+            android:gravity="center"
+            />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="数量"
+            android:textStyle="bold"
+            android:layout_toLeftOf="@+id/price"
+            android:textColor="@color/tabColor_nomal"
+            android:textSize="14sp"
+            android:gravity="center"
+            />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="单价(元)"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:layout_alignParentRight="true"
+            android:textColor="@color/tabColor_nomal"
+            android:textSize="14sp"
+            />
+
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/color_EEEEEE"
+        >
+
+    </View>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
@@ -83,6 +167,13 @@
             />
 
     </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/color_EEEEEE"
+        >
+
+    </View>
 
 
 </LinearLayout>
