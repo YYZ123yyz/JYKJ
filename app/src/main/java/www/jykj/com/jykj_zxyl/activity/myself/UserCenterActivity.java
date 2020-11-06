@@ -30,6 +30,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
+import com.bigkoo.pickerview.builder.TimePickerBuilder;
+import com.bigkoo.pickerview.listener.OnTimeSelectListener;
+import com.bigkoo.pickerview.view.TimePickerView;
 import com.blankj.utilcode.util.StringUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.bumptech.glide.Glide;
@@ -37,6 +40,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.hyphenate.easeui.jykj.utils.DateUtils;
 import com.tbruyelle.rxpermissions.RxPermissions;
 
 import org.w3c.dom.Text;
@@ -77,7 +81,6 @@ import www.jykj.com.jykj_zxyl.application.Constant;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.util.ActivityUtil;
 import www.jykj.com.jykj_zxyl.util.BitmapUtil;
-import www.jykj.com.jykj_zxyl.util.DateUtils;
 import www.jykj.com.jykj_zxyl.util.ProvincePicker;
 
 import www.jykj.com.jykj_zxyl.util.Util;
@@ -85,6 +88,8 @@ import yyz_exploit.Utils.QueryUserCond;
 import yyz_exploit.Utils.StrUtils;
 import yyz_exploit.Utils.UserResultInfo;
 import zxing.android.CaptureActivity;
+
+import static android.widget.Toast.LENGTH_SHORT;
 
 /**
  * 个人中心
@@ -417,7 +422,8 @@ public class UserCenterActivity extends BaseActivity {
                     showSexChoiceDialog();
                     break;
                 case R.id.li_activityUserCenter_userBirthLayout:
-                    showBirthDayChoiceDialog();
+                    //showBirthDayChoiceDialog();
+                    showCalendarDialog();
                     break;
                 case R.id.li_activityUserCenter_userRegionLayout:
                     //选择区域
@@ -788,6 +794,24 @@ public class UserCenterActivity extends BaseActivity {
             }
         }.start();
     }
+
+
+
+    private void showCalendarDialog(){
+        TimePickerView timePickerView=new TimePickerBuilder(mContext, new OnTimeSelectListener() {
+            @Override
+            public void onTimeSelect(Date date, View v) {
+                String dateTime = DateUtils.getDate(date);
+                mUserBirthDayText.setText(dateTime);
+                mProvideViewSysUserDoctorInfoAndHospital.setBirthday(Util.strToDateLongV2(dateTime));
+            }
+
+        }).setCancelColor(getResources().getColor(com.hyphenate.easeui.R.color.textColor_vt)).setSubmitColor(getResources().getColor(com.hyphenate.easeui.R.color.textColor_hzgltabzc))
+                .setType(new boolean[]{true, true, true, false, false, false})
+                .setLabel("年", "月", "日", "", "", "").build();
+        timePickerView.show();
+    }
+
 
 
     /**

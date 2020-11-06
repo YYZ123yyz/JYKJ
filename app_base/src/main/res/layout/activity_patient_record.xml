@@ -998,7 +998,7 @@
         <Button
             android:id="@+id/send"
             android:layout_width="wrap_content"
-            android:layout_height="35dp"
+            android:layout_height="32dp"
             android:layout_marginRight="30dp"
             android:layout_toLeftOf="@+id/middle"
             android:background="@drawable/bg_paid"

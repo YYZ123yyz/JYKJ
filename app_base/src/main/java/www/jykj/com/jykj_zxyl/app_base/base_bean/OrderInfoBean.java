@@ -47,6 +47,7 @@ public class OrderInfoBean {
     private long signEndTime;
     private long signStartTime;
     private int treatmentType;
+    private int orderType;
 
     public double getActualPayment() {
         return actualPayment;
@@ -190,5 +191,13 @@ public class OrderInfoBean {
 
     public void setTreatmentType(int treatmentType) {
         this.treatmentType = treatmentType;
+    }
+
+    public int getOrderType() {
+        return orderType;
+    }
+
+    public void setOrderType(int orderType) {
+        this.orderType = orderType;
     }
 }

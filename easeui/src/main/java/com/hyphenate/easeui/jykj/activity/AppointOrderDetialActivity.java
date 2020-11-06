@@ -143,29 +143,28 @@ public class AppointOrderDetialActivity
         switch (treatmentType){
             case 1:
                 tvOrderType.setText("图文就诊");
-                llSignUpStartTime.setVisibility(View.VISIBLE);
-                llServiceEndTime.setVisibility(View.VISIBLE);
-                llAppointmentServiceTime.setVisibility(View.GONE);
                 break;
             case 2:
                 tvOrderType.setText("音频就诊");
-                llAppointmentServiceTime.setVisibility(View.VISIBLE);
-                llSignUpStartTime.setVisibility(View.GONE);
-                llServiceEndTime.setVisibility(View.GONE);
                 break;
             case 3:
                 tvOrderType.setText("视频就诊");
-                llAppointmentServiceTime.setVisibility(View.VISIBLE);
-                llSignUpStartTime.setVisibility(View.GONE);
-                llServiceEndTime.setVisibility(View.GONE);
                 break;
             case 5:
                 tvOrderType.setText("电话就诊");
-                llAppointmentServiceTime.setVisibility(View.VISIBLE);
-                llSignUpStartTime.setVisibility(View.GONE);
-                llServiceEndTime.setVisibility(View.GONE);
                 break;
                 default:
+        }
+
+        int orderType = orderInfoBean.getOrderType();
+        if (orderType == 1) {
+            llAppointmentServiceTime.setVisibility(View.VISIBLE);
+            llSignUpStartTime.setVisibility(View.GONE);
+            llServiceEndTime.setVisibility(View.GONE);
+        } else if (orderType == 2) {
+            llSignUpStartTime.setVisibility(View.VISIBLE);
+            llServiceEndTime.setVisibility(View.VISIBLE);
+            llAppointmentServiceTime.setVisibility(View.GONE);
         }
 
         int paymentMode = orderInfoBean.getPaymentMode();

@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.RotateAnimation;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -35,6 +36,7 @@ import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.activity.home.twjz.TWJZ_ZDMSActivity;
 import www.jykj.com.jykj_zxyl.activity.home.wdzs.ProvideViewInteractOrderTreatmentAndPatientInterrogation;
 import www.jykj.com.jykj_zxyl.activity.hyhd.ChatActivity;
+import www.jykj.com.jykj_zxyl.app_base.base_bean.CheckImResultBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.PatientRecordDetBean;
 import www.jykj.com.jykj_zxyl.app_base.http.ParameUtil;
 import www.jykj.com.jykj_zxyl.app_base.http.RetrofitUtil;
@@ -155,12 +157,15 @@ public class PatientRecordActivity
     LinearLayout llDiagnosis;
     @BindView(R.id.input_prescription_state)
     ImageView inputPrescriptionState;//处方笺
+    @BindView(R.id.send)
+    Button sendBtn;
     private JYKJApplication mApp;
     private LayoutInflater mInflater;
     private String gendder;
     private String orderCode;//订单Id
     private String patientCode;//患者code
     private String patientName;//患者名称
+    private String isReserveing;//是否存在接诊中的预约 1存在 0不存在
     private PatientRecordDetBean patientRecordDetBean;
     private static final int DRUG_TYPE_NOMAL = 0;
     private static final int DRUG_TYPE_START = 1;
@@ -208,6 +213,7 @@ public class PatientRecordActivity
         hashMap.put("orderCode", orderCode);
         String s = RetrofitUtil.encodeParam(hashMap);
         mPresenter.getPatientRecord(s);
+
     }
 
     @OnClick({R.id.lin_chief, R.id.lin_history, R.id.lin_past, R.id.lin_look, R.id.lin_examination,
@@ -239,10 +245,8 @@ public class PatientRecordActivity
                 saveData();
                 break;
             case R.id.send: //发送
-                HashMap<String, Object> hashMap = ParameUtil.buildBaseDoctorParam(this);
-                hashMap.put("orderCode", orderCode);
-                String s = RetrofitUtil.encodeParam(hashMap);
-                mPresenter.sendPatientRecord(s);
+                mPresenter.sendiMTestingRequest(patientCode,patientName,this);
+
                 break;
             case R.id.left_image_id:
                 finish();
@@ -509,6 +513,20 @@ public class PatientRecordActivity
     @Override
     public void getSendSucess(boolean isSucess) {
         startJumpChatActivity(patientRecordDetBean);
+    }
+
+    @Override
+    public void getCheckImResult(CheckImResultBean checkImResultBean) {
+        isReserveing = checkImResultBean.getIsReserveing();
+        if (StringUtils.isNotEmpty(isReserveing) && isReserveing.equals("1")) {
+            HashMap<String, Object> hashMap = ParameUtil.buildBaseDoctorParam(this);
+            hashMap.put("orderCode", orderCode);
+            String s = RetrofitUtil.encodeParam(hashMap);
+            mPresenter.sendPatientRecord(s);
+        }else{
+            ToastUtils.showShort("已发送过病例不能重复发送");
+        }
+
     }
 
 

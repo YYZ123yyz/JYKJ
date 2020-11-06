@@ -215,8 +215,6 @@ public class ChatActivity extends BaseActivity {
         //添加监听
         addListener();
 
-        String name = this.getClass().getName();
-        System.out.println(name);
     }
 
 

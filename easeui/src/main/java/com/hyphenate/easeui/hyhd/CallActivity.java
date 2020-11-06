@@ -21,6 +21,7 @@ import com.hyphenate.chat.EMMessage;
 import com.hyphenate.chat.EMMessage.Status;
 import com.hyphenate.chat.EMTextMessageBody;
 import com.hyphenate.easeui.R;
+import com.hyphenate.easeui.entity.CallStatusEnum;
 import com.hyphenate.easeui.hyhd.model.Constant;
 import com.hyphenate.easeui.hyhd.model.PreferenceManager;
 import com.hyphenate.easeui.utils.MediaSoundUtil;
@@ -352,15 +353,35 @@ public class CallActivity extends BaseActivity {
         String st12 = "service not enable";
         String st13 = "service arrearages";
         String st14 = "service forbidden";
+        int callStatus=0;
         switch (callingState) {
             case NORMAL:
                 txtBody = new EMTextMessageBody(st1 + callDruationText);
+                if(callType==0){
+                    callStatus=CallStatusEnum.TALK_TIME_AUDIO_CODE;
+                }else{
+                    callStatus=CallStatusEnum.TALK_TIME_VIDEO_CODE;
+                }
+
                 break;
             case REFUSED:
+
                 txtBody = new EMTextMessageBody(st2);
+                if (callType==0) {
+                    callStatus= CallStatusEnum.CANCEL_BY_SELF_VIDEO_CODE;
+                }else{
+                    callStatus= CallStatusEnum.CANCEL_BY_SELF_AUDIO_CODE;
+                }
+
                 break;
             case BEREFUSED:
                 txtBody = new EMTextMessageBody(st3);
+                if(callType==0){
+                    callStatus= CallStatusEnum.OTHER_SIDE_REFUSED_AUDIO_CODE;
+                }else{
+                    callStatus=CallStatusEnum.OTHER_SIDE_REFUSED_VIDEO_CODE;
+                }
+
                 break;
             case OFFLINE:
                 txtBody = new EMTextMessageBody(st4);
@@ -382,10 +403,22 @@ public class CallActivity extends BaseActivity {
                 break;
             case SERVICE_NOT_ENABLE:
                 txtBody = new EMTextMessageBody(st12);
+                if(callType==0){
+                    callStatus=CallStatusEnum.CANCEL_BY_SELF_AUDIO_CODE;
+                }else{
+                    callStatus= CallStatusEnum.CANCEL_BY_SELF_VIDEO_CODE;
+                }
+
                 break;
 
             default:
                 txtBody = new EMTextMessageBody(st8);
+                if(callType==0){
+                    callStatus=CallStatusEnum.CANCEL_BY_SELF_AUDIO_CODE;
+                }else{
+                    callStatus=CallStatusEnum.CANCEL_BY_SELF_VIDEO_CODE;
+                }
+
                 break;
         }
         // set message extension
@@ -396,9 +429,9 @@ public class CallActivity extends BaseActivity {
 
         // set message body
         message.addBody(txtBody);
+        message.setAttribute("callStatus",callStatus);
         message.setMsgId(msgid);
         message.setStatus(Status.SUCCESS);
-
         // save
         EMClient.getInstance().chatManager().saveMessage(message);
     }

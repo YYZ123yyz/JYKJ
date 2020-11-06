@@ -4,6 +4,7 @@ import android.app.Activity;
 
 import java.util.List;
 
+import www.jykj.com.jykj_zxyl.app_base.base_bean.CheckImResultBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.InspectionItemBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.MedicinalInfoBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.MedicinalTypeBean;
@@ -26,6 +27,8 @@ public class PatientRecordContract {
         void getSaveSucess(boolean isSucess);
 
         void getSendSucess(boolean isSucess);
+
+        void getCheckImResult(CheckImResultBean checkImResultBean);
     }
 
 
@@ -35,6 +38,8 @@ public class PatientRecordContract {
         void savePatientMedicalRecord(String param);
 
         void sendPatientRecord(String param);
+
+        void sendiMTestingRequest(String mainPatientCode,String mainPatientName,Activity activity);
 
     }
 }
