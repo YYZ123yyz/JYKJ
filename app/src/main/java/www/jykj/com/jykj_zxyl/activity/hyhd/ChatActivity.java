@@ -38,6 +38,10 @@ import com.hyphenate.easeui.widget.EaseChatInputMenu;
 import com.hyphenate.easeui.widget.EaseChatMessageList;
 import com.hyphenate.easeui.widget.EaseTitleBar;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.HashMap;
 
 import netService.HttpNetService;
@@ -106,6 +110,7 @@ public class ChatActivity extends BaseActivity {
     @Override
     protected void initView() {
         super.initView();
+        EventBus.getDefault().register(this);
         ivTransparent=findViewById(R.id.iv_transparent);
         ActivityStackManager.getInstance().add(this);
         ActivityUtil.setStatusBarMain(ChatActivity.this);
@@ -945,5 +950,20 @@ public class ChatActivity extends BaseActivity {
                 sendGetMedicalRecordInfoRequest(orderCode);
             }
         }
+    }
+
+    //主线程中执行
+    @SuppressLint("DefaultLocale")
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMainEventBus(OrderMessage msg) {
+        if (msg==null) {
+            sendGetCheckRequest(userCode,userName);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }

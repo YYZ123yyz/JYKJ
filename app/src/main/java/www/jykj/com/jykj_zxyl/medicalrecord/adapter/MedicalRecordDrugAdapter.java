@@ -28,10 +28,11 @@ public class MedicalRecordDrugAdapter extends BaseQuickAdapter<PatientRecordDetB
     protected void convert(BaseViewHolder helper,
                            PatientRecordDetBean.InteractOrderPrescribeListBean.PrescribeInfoBean item) {
 
+        Double drugAmount = item.getDrugAmount();
         helper.setText(R.id.name,item.getDrugName())
                 .setText(R.id.speci,item.getSpecName())
-                .setText(R.id.quantity,String.valueOf(item.getDrugAmount()))
-                .setText(R.id.price,String.valueOf(item.getDrugPrice()));
+                .setText(R.id.quantity,String.valueOf( drugAmount.intValue()))
+                .setText(R.id.price,item.getDrugPrice()+"0");
         ImageView type = (ImageView) helper.getView(R.id.type);
         View view = helper.getView(R.id.ll_title_root);
 

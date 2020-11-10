@@ -51,16 +51,22 @@ public class DoctorFragment extends AbstractMvpBaseFragment<HistoryContract.View
     private List<DoctorRecordBean> list;
     private String patientCode;
 
-    public static DoctorFragment newInstance() {
+    public static DoctorFragment newInstance(String patientCode) {
         DoctorFragment fragment = new DoctorFragment();
         Bundle args = new Bundle();
+        args.putString("patientCode",patientCode);
+        fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     protected void initData() {
         super.initData();
-        mPresenter.sendSearchHistoryRequest(pageSize + "", pageIndex + "", mApp.loginDoctorPosition, "1", mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(), mApp.mViewSysUserDoctorInfoAndHospital.getUserName(), "dafd840808d64027b64893eed11b97b8", "2");
+        Bundle arguments = this.getArguments();
+        if (arguments!=null) {
+            patientCode= arguments.getString("patientCode");
+        }
+        mPresenter.sendSearchHistoryRequest(pageSize + "", pageIndex + "", mApp.loginDoctorPosition, "1", mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(), mApp.mViewSysUserDoctorInfoAndHospital.getUserName(), patientCode, "2");
     }
 
     @Override

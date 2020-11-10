@@ -121,15 +121,15 @@ public class SignedPatientFragment extends AbstractMvpBaseFragment<SignedPatient
             }
             TabLayout.Tab tabAt1 = tableLayout.getTabAt(1);
             if (tabAt1!=null) {
-                tabAt1.setText("预警"+"("+stateType_3+")");
+                tabAt1.setText("预警"+"("+stateType_1+")");
             }
             TabLayout.Tab tabAt2 = tableLayout.getTabAt(2);
             if (tabAt2!=null) {
-                tabAt2.setText("预警"+"("+stateType_2+")");
+                tabAt2.setText("提醒"+"("+stateType_2+")");
             }
-            TabLayout.Tab tabAt3 = tableLayout.getTabAt(1);
+            TabLayout.Tab tabAt3 = tableLayout.getTabAt(3);
             if (tabAt3!=null) {
-                tabAt3.setText("预警"+"("+stateType_1+")");
+                tabAt3.setText("正常"+"("+stateType_3+")");
             }
         }
     }

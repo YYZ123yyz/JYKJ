@@ -67,7 +67,7 @@ public class HistoryActivity extends BaseActivity {
         mTitles.add("医生填写");
         myselfFragment = MyselfFragment.newInstance();
         mFragments.add(myselfFragment);
-        doctorFragment = DoctorFragment.newInstance();
+        doctorFragment = DoctorFragment.newInstance(patientCode);
         mFragments.add(doctorFragment);
 
         fragmentAdapter = new FragmentAdapter(this.getSupportFragmentManager(),

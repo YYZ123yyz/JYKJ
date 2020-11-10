@@ -19,6 +19,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.Gravity;
@@ -256,28 +257,28 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
         toChatUsernameName = fragmentArgs.getString(EaseConstant.EXTRA_USER_NAME);
 
         mChatType = fragmentArgs.getString("chatType");
-        itemStrings = new int[]{R.string.attach_take_pic, R.string.attach_picture,
-                R.string.attach_voice_call, R.string.attach_video, R.string.attach_file};
-        itemdrawables = new int[]{R.mipmap.hyhd_pz, R.mipmap.hyhd_tp,
-                R.mipmap.hyhd_yy, R.mipmap.hyhd_sp, R.mipmap.bg_sign_up_icon};
-        itemIds = new int[]{ITEM_TAKE_PICTURE, ITEM_PICTURE, ITEM_CALL, ITEM_VIDEO, ITEM_WJ};
-        if ("twjz".equals(mChatType)) {
-            itemStrings = new int[]{R.string.attach_take_pic, R.string.attach_picture};
-            itemdrawables = new int[]{R.mipmap.hyhd_pz, R.mipmap.hyhd_tp};
-            itemIds = new int[]{ITEM_TAKE_PICTURE, ITEM_PICTURE};
-        }
-
-        if ("dhjz".equals(mChatType)) {
-            itemStrings = new int[]{R.string.attach_voice_call};
-            itemdrawables = new int[]{R.mipmap.hyhd_yy};
-            itemIds = new int[]{ITEM_CALL};
-        }
-
-        if ("spjz".equals(mChatType)) {
-            itemStrings = new int[]{R.string.attach_video};
-            itemdrawables = new int[]{R.mipmap.hyhd_sp};
-            itemIds = new int[]{ITEM_VIDEO};
-        }
+//        itemStrings = new int[]{R.string.attach_take_pic, R.string.attach_picture,
+//                R.string.attach_voice_call, R.string.attach_video, R.string.attach_file};
+//        itemdrawables = new int[]{R.mipmap.hyhd_pz, R.mipmap.hyhd_tp,
+//                R.mipmap.hyhd_yy, R.mipmap.hyhd_sp, R.mipmap.bg_sign_up_icon};
+//        itemIds = new int[]{ITEM_TAKE_PICTURE, ITEM_PICTURE, ITEM_CALL, ITEM_VIDEO, ITEM_WJ};
+//        if ("twjz".equals(mChatType)) {
+//            itemStrings = new int[]{R.string.attach_take_pic, R.string.attach_picture};
+//            itemdrawables = new int[]{R.mipmap.hyhd_pz, R.mipmap.hyhd_tp};
+//            itemIds = new int[]{ITEM_TAKE_PICTURE, ITEM_PICTURE};
+//        }
+//
+//        if ("dhjz".equals(mChatType)) {
+//            itemStrings = new int[]{R.string.attach_voice_call};
+//            itemdrawables = new int[]{R.mipmap.hyhd_yy};
+//            itemIds = new int[]{ITEM_CALL};
+//        }
+//
+//        if ("spjz".equals(mChatType)) {
+//            itemStrings = new int[]{R.string.attach_video};
+//            itemdrawables = new int[]{R.mipmap.hyhd_sp};
+//            itemIds = new int[]{ITEM_VIDEO};
+//        }
         this.turnOnTyping = turnOnTyping();
         if (orderMessage != null) {
             sendOrderCardMsg(orderMessage);
@@ -1773,7 +1774,9 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
     @SuppressLint("DefaultLocale")
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMainEventBus(OrderMessage msg) {
-        sendOrderCardMsg(msg);
+        if (msg != null) {
+            sendOrderCardMsg(msg);
+        }
     }
 
     /**

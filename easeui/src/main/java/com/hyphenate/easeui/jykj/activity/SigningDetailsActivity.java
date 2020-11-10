@@ -897,10 +897,8 @@ public class SigningDetailsActivity extends BaseActivity implements View.OnClick
                             if (netRetEntity.getResCode() == 1) {
                                provideDoctorPatientUserInfo = JSON.parseObject(netRetEntity.getResJsonData(),
                                         ProvideDoctorPatientUserInfo.class);
-                                String birthday = provideDoctorPatientUserInfo.getBirthday();
-                                if (StringUtils.isNotEmpty(birthday)) {
-                                    patientAge.setText( DateUtils.getAgeFromBirthTime(birthday+"")+"");
-                                }
+                                int patientAge = provideDoctorPatientUserInfo.getPatientAge();
+                                SigningDetailsActivity.this.patientAge.setText(String.format("%d", patientAge));
 
                             }
                         }

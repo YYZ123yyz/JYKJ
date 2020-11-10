@@ -368,9 +368,9 @@ public class CallActivity extends BaseActivity {
 
                 txtBody = new EMTextMessageBody(st2);
                 if (callType==0) {
-                    callStatus= CallStatusEnum.CANCEL_BY_SELF_VIDEO_CODE;
-                }else{
                     callStatus= CallStatusEnum.CANCEL_BY_SELF_AUDIO_CODE;
+                }else{
+                    callStatus= CallStatusEnum.CANCEL_BY_SELF_VIDEO_CODE;
                 }
 
                 break;

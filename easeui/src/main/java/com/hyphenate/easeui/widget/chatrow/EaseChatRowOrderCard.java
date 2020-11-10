@@ -263,7 +263,6 @@ public class EaseChatRowOrderCard extends EaseChatRow {
         mTvCoachRateValue.setText(coach);
         mTvSignTimeValue.setText(signUpTime);
         mTvPriceValue.setText(String.format("¥ %s", price));
-        mTvPriceValue.setText("￥ "+ price);
         orderType = message.getStringAttribute("orderType", "");//1已同意 2 修改 3 拒绝（由患者操作发起时会携带此参数）
         switch (messageType) {
             case "terminationOrder":
@@ -474,38 +473,13 @@ public class EaseChatRowOrderCard extends EaseChatRow {
 
         EMMessage.Direct direct = message.direct();
         if (direct== EMMessage.Direct.RECEIVE) {
-            if (messageType.equals("card")) {
-                mRlCancelContractOrderRoot.setVisibility(View.GONE);
-                mTvOperMsg.setVisibility(View.VISIBLE);
-                mTvPriceValue.setVisibility(View.VISIBLE);
-                switch (orderType) {
-                    case "1":
-                        tvOrderReceivedUpdateBtn.setVisibility(View.GONE);
-                        ivStampIcon.setVisibility(View.VISIBLE);
-                        ivStampIcon.setImageResource(R.mipmap.bg_agree_stamp);
-                        mTvOperMsg.setVisibility(View.VISIBLE);
-                        mTvOperMsg.setText("对方已同意");
-                        break;
-                    case "2":
-                        ivStampIcon.setVisibility(View.GONE);
-                        mTvOperMsg.setText("修改");
-                        mTvOperMsg.setVisibility(View.GONE);
-                        tvOrderReceivedUpdateBtn.setVisibility(View.VISIBLE);
-                        break;
-                    case "3":
-                        ivStampIcon.setVisibility(View.VISIBLE);
-                        ivStampIcon.setImageResource(R.mipmap.bg_refuse_stamp);
-                        mTvOperMsg.setText("对方已拒绝");
-                        tvOrderReceivedUpdateBtn.setVisibility(View.GONE);
-                        mTvOperMsg.setVisibility(View.VISIBLE);
-                        break;
-                    default:
-                }
-            } else if (messageType.equals("terminationOrder")) {
-                if (!TextUtils.isEmpty(orderType)) {
+            switch (messageType) {
+                case "card":
+                    mRlCancelContractOrderRoot.setVisibility(View.GONE);
+                    mTvOperMsg.setVisibility(View.VISIBLE);
+                    mTvPriceValue.setVisibility(View.VISIBLE);
                     switch (orderType) {
                         case "1":
-                            mRlCancelContractOrderRoot.setVisibility(View.GONE);
                             tvOrderReceivedUpdateBtn.setVisibility(View.GONE);
                             ivStampIcon.setVisibility(View.VISIBLE);
                             ivStampIcon.setImageResource(R.mipmap.bg_agree_stamp);
@@ -513,144 +487,184 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                             mTvOperMsg.setText("对方已同意");
                             break;
                         case "2":
-                            ivStampIcon.setVisibility(View.VISIBLE);
-                            ivStampIcon.setImageResource(R.mipmap.bg_refuse_stamp);
-                            mTvOperMsg.setVisibility(View.VISIBLE);
-                            mTvOperMsg.setText("对方已拒绝");
-                            tvOrderReceivedUpdateBtn.setVisibility(View.GONE);
-                            mRlCancelContractOrderRoot.setVisibility(View.GONE);
+                            ivStampIcon.setVisibility(View.GONE);
+                            mTvOperMsg.setText("修改");
+                            mTvOperMsg.setVisibility(View.GONE);
+                            tvOrderReceivedUpdateBtn.setVisibility(View.VISIBLE);
                             break;
                         case "3":
-                            ivStampIcon.setVisibility(View.GONE);
-                            mTvOperMsg.setVisibility(View.VISIBLE);
-                            mTvOperMsg.setText("对方已撤销解约");
+                            ivStampIcon.setVisibility(View.VISIBLE);
+                            ivStampIcon.setImageResource(R.mipmap.bg_refuse_stamp);
+                            mTvOperMsg.setText("对方已拒绝");
                             tvOrderReceivedUpdateBtn.setVisibility(View.GONE);
-                            mRlCancelContractOrderRoot.setVisibility(View.GONE);
-
+                            mTvOperMsg.setVisibility(View.VISIBLE);
                             break;
-                            default:
+                        default:
                     }
-                }else{
-                    mTvOperMsg.setVisibility(View.GONE);
+                    break;
+                case "terminationOrder":
+                    if (!TextUtils.isEmpty(orderType)) {
+                        switch (orderType) {
+                            case "1":
+                                mRlCancelContractOrderRoot.setVisibility(View.GONE);
+                                tvOrderReceivedUpdateBtn.setVisibility(View.GONE);
+                                ivStampIcon.setVisibility(View.VISIBLE);
+                                ivStampIcon.setImageResource(R.mipmap.bg_agree_stamp);
+                                mTvOperMsg.setVisibility(View.VISIBLE);
+                                mTvOperMsg.setText("对方已同意");
+                                break;
+                            case "2":
+                                ivStampIcon.setVisibility(View.VISIBLE);
+                                ivStampIcon.setImageResource(R.mipmap.bg_refuse_stamp);
+                                mTvOperMsg.setVisibility(View.VISIBLE);
+                                mTvOperMsg.setText("对方已拒绝");
+                                tvOrderReceivedUpdateBtn.setVisibility(View.GONE);
+                                mRlCancelContractOrderRoot.setVisibility(View.GONE);
+                                EventBus.getDefault().post("");
+                                break;
+                            case "3":
+                                ivStampIcon.setVisibility(View.GONE);
+                                mTvOperMsg.setVisibility(View.VISIBLE);
+                                mTvOperMsg.setText("对方已撤销解约");
+                                tvOrderReceivedUpdateBtn.setVisibility(View.GONE);
+                                mRlCancelContractOrderRoot.setVisibility(View.GONE);
+
+                                break;
+                            default:
+                        }
+                    } else {
+                        mTvOperMsg.setVisibility(View.GONE);
+                        ivStampIcon.setVisibility(View.GONE);
+                        tvOrderReceivedUpdateBtn.setVisibility(View.GONE);
+                        mRlCancelContractOrderRoot.setVisibility(View.VISIBLE);
+                    }
+
+
+                    break;
+                case "appointment":
+                    mRlCancelContractOrderRoot.setVisibility(View.GONE);
                     ivStampIcon.setVisibility(View.GONE);
-                    tvOrderReceivedUpdateBtn.setVisibility(View.GONE);
-                    mRlCancelContractOrderRoot.setVisibility(View.VISIBLE);
-                }
-
-
-            }else if(messageType.equals("appointment")){
-                ivStampIcon.setVisibility(View.GONE);
-                mTvPriceValue.setVisibility(View.GONE);
-                if (statusType.equals("1")) {
-                  mTvOperMsg.setText("对方预约成功");
-                }else if(statusType.equals("2")){
-                    mTvOperMsg.setText("对方已取消预约");
-                }
-            }else if(messageType.equals("MessageAfterDiagnosis")){
-                tvImmediatelySeeBtn.setText("立即回复");
-                ivStampIcon.setVisibility(View.GONE);
-                tvDiagnosisMessage.setText(String.format("患者%s向您发起诊后留言,请及时回复", nickName));
+                    mTvPriceValue.setVisibility(View.GONE);
+                    if (statusType.equals("1")) {
+                        mTvOperMsg.setText("对方预约成功");
+                    } else if (statusType.equals("2")) {
+                        mTvOperMsg.setText("对方已取消预约");
+                    }
+                    break;
+                case "MessageAfterDiagnosis":
+                    mRlCancelContractOrderRoot.setVisibility(View.GONE);
+                    tvImmediatelySeeBtn.setText("立即回复");
+                    ivStampIcon.setVisibility(View.GONE);
+                    tvDiagnosisMessage.setText(String.format("患者%s向您发起诊后留言,请及时回复", nickName));
+                    break;
             }
 
         } else if (direct == EMMessage.Direct.SEND) {
-            if (messageType.equals("terminationOrder")) {
-                rlConsultationMessage.setVisibility(View.GONE);
-                switch (orderType) {
-                    case "1":
-                        ivStampIcon.setVisibility(View.VISIBLE);
-                        ivStampIcon.setImageResource(R.mipmap.bg_agree_stamp);
-                        mTvCancelContractMsg.setVisibility(View.VISIBLE);
-                        mTvOrderUpdateBtn.setVisibility(View.GONE);
-                        mTvCancelContractMsg.setText("您已同意");
-                        break;
-                    case "2":
-                        ivStampIcon.setVisibility(View.VISIBLE);
-                        ivStampIcon.setImageResource(R.mipmap.bg_refuse_stamp);
-                        mTvCancelContractMsg.setVisibility(View.VISIBLE);
-                        mTvOrderUpdateBtn.setVisibility(View.GONE);
-                        mTvCancelContractMsg.setText("您已拒绝");
-                        break;
-                    case "3":
-                        ivStampIcon.setVisibility(View.GONE);
-                        mTvOrderUpdateBtn.setVisibility(View.GONE);
-                        mTvCancelContractMsg.setVisibility(View.VISIBLE);
-                        mTvCancelContractMsg.setText("您已撤销解约");
-                        break;
-                    default:
-                        mTvCancelContractMsg.setVisibility(View.VISIBLE);
-                        mTvOrderUpdateBtn.setVisibility(View.GONE);
-                        ivStampIcon.setVisibility(View.GONE);
-                        mTvCancelContractMsg.setText("您已成功发起解约，等待对方确认");
-                        break;
-                }
-
-
-            } else if (messageType.equals("card")) {
-                mTvOrderUpdateBtn.setVisibility(View.VISIBLE);
-                mTvCancelContractMsg.setVisibility(View.GONE);
-                mTvPriceValue.setVisibility(View.VISIBLE);
-                rlConsultationMessage.setVisibility(View.GONE);
-                //修改
-                mTvOrderUpdateBtn.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        //卡片发出点击修改跳转订单修改页面
-                        Bundle bundle = new Bundle();
-                        bundle.putString("signCode", signCode);
-                        bundle.putString("orderCode",orderCode);
-                        bundle.putString("patientName", nickName);
-                        bundle.putString("patientCode", patientCode);
-                        bundle.putString("singNO", singNO);
-                        bundle.putString("status", "2");
-                        bundle.putString("doctorUrl",imageUrl);
-                        bundle.putString("patientUrl",Constant.patientUrl);
-                        startActivity(SigningDetailsActivity.class, bundle);
-                    }
-                });
-            }else if(messageType.equals("appointment")){
-                rlConsultationMessage.setVisibility(View.GONE);
-                mTvOrderUpdateBtn.setVisibility(View.GONE);
-                ivStampIcon.setVisibility(View.GONE);
-                mTvPriceValue.setVisibility(View.GONE);
-                mTvCancelContractMsg.setVisibility(View.VISIBLE);
-
-                if (statusType.equals("1")) {
-                    mTvCancelContractMsg.setText("您已预约成功");
-                }else if(statusType.equals("2")){
-                    mTvCancelContractMsg.setText("您已取消预约");
-                }
-            }else if(messageType.equals("receiveTreatment")){
-                rlConsultationMessage.setVisibility(View.GONE);
-                mTvOrderUpdateBtn.setVisibility(View.GONE);
-                ivStampIcon.setVisibility(View.GONE);
-                mTvPriceValue.setVisibility(View.GONE);
-                mTvCancelContractMsg.setVisibility(View.VISIBLE);
-                mTvCancelContractMsg.setText("您已接诊");
-            }else if(messageType.equals("MessageAfterDiagnosis")){
-                tvImmediatelySeeBtn.setText("立即查看");
-                rlConsultationMessage.setVisibility(View.VISIBLE);
-                switch (flagReplyType) {
-                    case "1":
-                        tvMessageTypeValue.setText("正常");
-                        tvMessageTypeValue.setTextColor(ContextCompat.getColor(mContext, R.color.color_999999));
-                        break;
-                    case "2":
-                        tvMessageTypeValue.setText("一般");
-                        tvMessageTypeValue.setTextColor(ContextCompat.getColor(mContext, R.color.color_00C017));
-
-                        break;
-                    case "3":
-                        tvMessageTypeValue.setText("紧急");
-                        tvMessageTypeValue.setTextColor(ContextCompat.getColor(mContext, R.color.color_FF6600));
-                        break;
-                    case "4":
-                        tvMessageTypeValue.setText("重大紧急");
-                        tvMessageTypeValue.setTextColor(ContextCompat.getColor(mContext, R.color.color_D70000));
-                        break;
+            switch (messageType) {
+                case "terminationOrder":
+                    rlConsultationMessage.setVisibility(View.GONE);
+                    switch (orderType) {
+                        case "1":
+                            ivStampIcon.setVisibility(View.VISIBLE);
+                            ivStampIcon.setImageResource(R.mipmap.bg_agree_stamp);
+                            mTvCancelContractMsg.setVisibility(View.VISIBLE);
+                            mTvOrderUpdateBtn.setVisibility(View.GONE);
+                            mTvCancelContractMsg.setText("您已同意");
+                            break;
+                        case "2":
+                            ivStampIcon.setVisibility(View.VISIBLE);
+                            ivStampIcon.setImageResource(R.mipmap.bg_refuse_stamp);
+                            mTvCancelContractMsg.setVisibility(View.VISIBLE);
+                            mTvOrderUpdateBtn.setVisibility(View.GONE);
+                            mTvCancelContractMsg.setText("您已拒绝");
+                            break;
+                        case "3":
+                            ivStampIcon.setVisibility(View.GONE);
+                            mTvOrderUpdateBtn.setVisibility(View.GONE);
+                            mTvCancelContractMsg.setVisibility(View.VISIBLE);
+                            mTvCancelContractMsg.setText("您已撤销解约");
+                            break;
                         default:
-                }
+                            mTvCancelContractMsg.setVisibility(View.VISIBLE);
+                            mTvOrderUpdateBtn.setVisibility(View.GONE);
+                            ivStampIcon.setVisibility(View.GONE);
+                            mTvCancelContractMsg.setText("您已成功发起解约，等待对方确认");
+                            break;
+                    }
 
 
+                    break;
+                case "card":
+                    mTvOrderUpdateBtn.setVisibility(View.VISIBLE);
+                    mTvCancelContractMsg.setVisibility(View.GONE);
+                    mTvPriceValue.setVisibility(View.VISIBLE);
+                    rlConsultationMessage.setVisibility(View.GONE);
+                    //修改
+                    mTvOrderUpdateBtn.setOnClickListener(new OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            //卡片发出点击修改跳转订单修改页面
+                            Bundle bundle = new Bundle();
+                            bundle.putString("signCode", signCode);
+                            bundle.putString("orderCode", orderCode);
+                            bundle.putString("patientName", nickName);
+                            bundle.putString("patientCode", patientCode);
+                            bundle.putString("singNO", singNO);
+                            bundle.putString("status", "2");
+                            bundle.putString("doctorUrl", imageUrl);
+                            bundle.putString("patientUrl", Constant.patientUrl);
+                            startActivity(SigningDetailsActivity.class, bundle);
+                        }
+                    });
+                    break;
+                case "appointment":
+                    rlConsultationMessage.setVisibility(View.GONE);
+                    mTvOrderUpdateBtn.setVisibility(View.GONE);
+                    ivStampIcon.setVisibility(View.GONE);
+                    mTvPriceValue.setVisibility(View.GONE);
+                    mTvCancelContractMsg.setVisibility(View.VISIBLE);
+
+                    if (statusType.equals("1")) {
+                        mTvCancelContractMsg.setText("您已预约成功");
+                    } else if (statusType.equals("2")) {
+                        mTvCancelContractMsg.setText("您已取消预约");
+                    }
+                    break;
+                case "receiveTreatment":
+                    rlConsultationMessage.setVisibility(View.GONE);
+                    mTvOrderUpdateBtn.setVisibility(View.GONE);
+                    ivStampIcon.setVisibility(View.GONE);
+                    mTvPriceValue.setVisibility(View.GONE);
+                    mTvCancelContractMsg.setVisibility(View.VISIBLE);
+                    mTvCancelContractMsg.setText("您已接诊");
+                    break;
+                case "MessageAfterDiagnosis":
+                    tvImmediatelySeeBtn.setText("立即查看");
+                    rlConsultationMessage.setVisibility(View.VISIBLE);
+                    switch (flagReplyType) {
+                        case "1":
+                            tvMessageTypeValue.setText("正常");
+                            tvMessageTypeValue.setTextColor(ContextCompat.getColor(mContext, R.color.color_999999));
+                            break;
+                        case "2":
+                            tvMessageTypeValue.setText("一般");
+                            tvMessageTypeValue.setTextColor(ContextCompat.getColor(mContext, R.color.color_00C017));
+
+                            break;
+                        case "3":
+                            tvMessageTypeValue.setText("紧急");
+                            tvMessageTypeValue.setTextColor(ContextCompat.getColor(mContext, R.color.color_FF6600));
+                            break;
+                        case "4":
+                            tvMessageTypeValue.setText("重大紧急");
+                            tvMessageTypeValue.setTextColor(ContextCompat.getColor(mContext, R.color.color_D70000));
+                            break;
+                        default:
+                    }
+
+
+                    break;
+                    default:
             }
 
 

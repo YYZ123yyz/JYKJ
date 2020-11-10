@@ -1,28 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/pull_to_refresh_header"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-               android:background="@color/white"
-                android:gravity="center"
-                android:paddingBottom="10dip"
-                android:paddingTop="10dip">
+    android:id="@+id/pull_to_refresh_header"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/color_eeeeee"
+    android:gravity="center"
+    android:paddingTop="10dip"
+    android:paddingBottom="10dip">
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:orientation="horizontal"
-        >
+        android:orientation="horizontal">
+
         <ImageView
             android:id="@+id/pull_to_refresh_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:gravity="center"
             android:layout_marginEnd="@dimen/dp_5"
+            android:gravity="center"
             android:src="@mipmap/era"
-            android:visibility="visible"/>
+            android:visibility="visible" />
+
         <TextView
             android:id="@+id/pull_to_refresh_text"
             android:layout_width="match_parent"
@@ -31,7 +32,7 @@
             android:gravity="center"
             android:text="下拉刷新…"
             android:textColor="@color/black"
-            android:visibility="visible"/>
+            android:visibility="visible" />
 
         <ImageView
             android:id="@+id/pull_to_refresh_image1"
@@ -40,7 +41,7 @@
             android:layout_gravity="center_vertical"
             android:gravity="center"
             android:src="@mipmap/era"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
     </LinearLayout>
 

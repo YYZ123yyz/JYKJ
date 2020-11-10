@@ -714,14 +714,14 @@ public class LivePlayerTwoActivity extends ChatPopDialogActivity implements ITXL
         mLivePlayer.setAudioRawDataListener(new TXLivePlayer.ITXAudioRawDataListener() {
             @Override
             public void onPcmDataAvailable(byte[] bytes, long l) {
-                LogUtils.e("音频   "+bytes.length);
+              //  LogUtils.e("音频   "+bytes.length);
             }
 
             @Override
             public void onAudioInfoChanged(int i, int i1, int i2) {
-                LogUtils.e("音频 1111  "+i);
-                LogUtils.e("音频 2222  "+i1);
-                LogUtils.e("音频 3333  "+i2);
+//                LogUtils.e("音频 1111  "+i);
+//                LogUtils.e("音频 2222  "+i1);
+//                LogUtils.e("音频 3333  "+i2);
             }
         });
 

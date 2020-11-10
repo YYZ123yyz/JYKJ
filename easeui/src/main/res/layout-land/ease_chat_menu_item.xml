@@ -17,12 +17,14 @@
             android:scaleType="fitCenter" />
     </RelativeLayout>
 
-    <!--<TextView-->
-        <!--android:id="@+id/text"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:gravity="center"-->
-        <!--android:text="@string/attach_take_pic"-->
-        <!--android:textColor="#727171" />-->
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="13sp"
+        android:layout_marginTop="5dp"
+        android:text="@string/attach_take_pic"
+        android:textColor="#575757" />
 
 </LinearLayout>

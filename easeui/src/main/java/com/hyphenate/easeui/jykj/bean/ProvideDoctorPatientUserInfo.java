@@ -42,6 +42,7 @@ public class ProvideDoctorPatientUserInfo implements Serializable {
 	private String address;
 	private String area;
 	private String birthday;
+	private int patientAge;
 	private String city;
 	private String cityName;
 	private String country;
@@ -254,5 +255,13 @@ public class ProvideDoctorPatientUserInfo implements Serializable {
 
 	public void setUserUseType(int userUseType) {
 		this.userUseType = userUseType;
+	}
+
+	public int getPatientAge() {
+		return patientAge;
+	}
+
+	public void setPatientAge(int patientAge) {
+		this.patientAge = patientAge;
 	}
 }

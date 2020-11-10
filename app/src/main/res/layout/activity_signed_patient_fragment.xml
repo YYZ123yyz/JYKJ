@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     tools:context=".mypatient.fragment.SignedPatientFragment">
     <android.support.design.widget.TabLayout
-        app:tabPaddingEnd="20dp"
+        app:tabPaddingEnd="30dp"
         app:tabPaddingStart="20dp"
         android:id="@+id/table_layout"
         app:tabIndicatorColor="@color/groabColor"

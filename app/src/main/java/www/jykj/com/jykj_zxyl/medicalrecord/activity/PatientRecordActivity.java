@@ -1,5 +1,6 @@
 package www.jykj.com.jykj_zxyl.medicalrecord.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -330,6 +331,7 @@ public class PatientRecordActivity
         view.startAnimation(rotateAnimation);
     }
 
+    @SuppressLint("DefaultLocale")
     @Override
     public void getPatientRecordDet(PatientRecordDetBean det) {
         patientRecordDetBean=det;
@@ -380,7 +382,7 @@ public class PatientRecordActivity
                 break;
         }
         userGendder.setText(gendder);
-        userAge.setText(String.valueOf(det.getPatientAge()));
+        userAge.setText(String.format("%d岁", det.getPatientAge()));
         Glide.with(PatientRecordActivity.this).load(det.getPatientLogoUrl()).into(headView);
 
         String diagnosisName = det.getDiagnosisName();
