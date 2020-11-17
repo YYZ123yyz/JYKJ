@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tool="http://schemas.android.com/tools"
+    android:id="@+id/ll_root_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_comm_toast"
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:paddingTop="13dp"
+    android:paddingBottom="13dp"
+    android:paddingStart="19dp"
+    android:paddingEnd="19dp"
+    >
+
+    <TextView
+        android:id="@+id/tv_toast_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+
+        tool:text="测试toast的长度, 淡淡的,测试测试是是是得到" />
+
+</LinearLayout>

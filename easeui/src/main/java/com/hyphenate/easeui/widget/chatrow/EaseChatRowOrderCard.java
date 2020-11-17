@@ -498,6 +498,7 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                             mTvOperMsg.setText("对方已拒绝");
                             tvOrderReceivedUpdateBtn.setVisibility(View.GONE);
                             mTvOperMsg.setVisibility(View.VISIBLE);
+                            EventBus.getDefault().post(new OrderMessage());
                             break;
                         default:
                     }
@@ -520,7 +521,7 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                                 mTvOperMsg.setText("对方已拒绝");
                                 tvOrderReceivedUpdateBtn.setVisibility(View.GONE);
                                 mRlCancelContractOrderRoot.setVisibility(View.GONE);
-                                EventBus.getDefault().post("");
+                                EventBus.getDefault().post(new OrderMessage());
                                 break;
                             case "3":
                                 ivStampIcon.setVisibility(View.GONE);
@@ -603,17 +604,27 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                     mTvOrderUpdateBtn.setOnClickListener(new OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            //卡片发出点击修改跳转订单修改页面
-                            Bundle bundle = new Bundle();
-                            bundle.putString("signCode", signCode);
-                            bundle.putString("orderCode", orderCode);
-                            bundle.putString("patientName", nickName);
-                            bundle.putString("patientCode", patientCode);
-                            bundle.putString("singNO", singNO);
-                            bundle.putString("status", "2");
-                            bundle.putString("doctorUrl", imageUrl);
-                            bundle.putString("patientUrl", Constant.patientUrl);
-                            startActivity(SigningDetailsActivity.class, bundle);
+                            Object tag = mTvOrderUpdateBtn.getTag();
+                            if (tag!=null) {
+                                String strTag = tag.toString();
+                                if (!TextUtils.isEmpty(strTag)) {
+                                    int isValid = Integer.parseInt(strTag);
+                                    if(isValid==1){
+                                        //卡片发出点击修改跳转订单修改页面
+                                        Bundle bundle = new Bundle();
+                                        bundle.putString("signCode", signCode);
+                                        bundle.putString("orderCode", orderCode);
+                                        bundle.putString("patientName", nickName);
+                                        bundle.putString("patientCode", patientCode);
+                                        bundle.putString("singNO", singNO);
+                                        bundle.putString("status", "2");
+                                        bundle.putString("doctorUrl", imageUrl);
+                                        bundle.putString("patientUrl", Constant.patientUrl);
+                                        startActivity(SigningDetailsActivity.class, bundle);
+                                    }
+                                }
+                            }
+
                         }
                     });
                     break;

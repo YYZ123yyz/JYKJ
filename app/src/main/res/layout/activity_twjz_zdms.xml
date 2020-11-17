@@ -123,16 +123,18 @@
                       android:textSize="7pt" />
 
                   <TextView
+                      android:id="@+id/tv_zdbm1"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
                       android:layout_gravity="center_vertical"
-                      android:hint="请填写别名"
-                      android:id="@+id/tv_zdbm1"
                       android:layout_marginRight="10dp"
-                      android:background="@null"
                       android:layout_toLeftOf="@+id/rv_rightImg"
+                      android:background="@null"
+                      android:gravity="end"
+                      android:hint="请填写别名"
                       android:textColor="@color/textColor_vt"
                       android:textSize="7pt" />
+
                   <ImageView
                       android:layout_width="10dp"
                       android:layout_height="20dp"
@@ -219,14 +221,15 @@
                       android:textSize="7pt" />
 
                   <TextView
+                      android:id="@+id/tv_zdbm2"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
                       android:layout_gravity="center_vertical"
-                      android:hint="请填写别名"
-                      android:id="@+id/tv_zdbm2"
                       android:layout_marginRight="10dp"
-                      android:background="@null"
                       android:layout_toLeftOf="@+id/rv_rightImg"
+                      android:background="@null"
+                      android:hint="请填写别名"
+                      android:gravity="end"
                       android:textColor="@color/textColor_vt"
                       android:textSize="7pt" />
                   <ImageView
@@ -313,14 +316,15 @@
                       android:textSize="7pt" />
 
                   <TextView
+                      android:id="@+id/tv_zdbm3"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
                       android:layout_gravity="center_vertical"
-                      android:hint="请填写别名"
-                      android:id="@+id/tv_zdbm3"
                       android:layout_marginRight="10dp"
-                      android:background="@null"
                       android:layout_toLeftOf="@+id/rv_rightImg"
+                      android:background="@null"
+                      android:hint="请填写别名"
+                      android:gravity="end"
                       android:textColor="@color/textColor_vt"
                       android:textSize="7pt" />
                   <ImageView

@@ -8,7 +8,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
+import android.os.Vibrator;
 import android.telephony.TelephonyManager;
+import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
@@ -39,6 +41,9 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.UUID;
 
+import www.jykj.com.jykj_zxyl.app_base.base_utils.PeterTimeCountRefresh;
+import www.jykj.com.jykj_zxyl.app_base.base_utils.ToastCommonUtil;
+import www.jykj.com.jykj_zxyl.app_base.base_view.ZoomTextView;
 
 
 public class VideoCallActivity extends CallActivity implements OnClickListener {
@@ -70,7 +75,7 @@ public class VideoCallActivity extends CallActivity implements OnClickListener {
     private LinearLayout bottomContainer;
     private TextView monitorTextView;
     private TextView netwrokStatusVeiw;
-
+    private RelativeLayout rlAddTimeBtn;
     private Handler uiHandler;
 
     private boolean isInCalling;
@@ -86,11 +91,13 @@ public class VideoCallActivity extends CallActivity implements OnClickListener {
     private LinearLayout noHandLayout;
     private ImageView ivMuit;
     private ImageView ivNoHand;
+    private ZoomTextView tvCountDownTime;
     private String headUrl;
     private ImageView headView;
     private RelativeLayout layoutSending;
-
-
+    private PeterTimeCountRefresh petterTimer;
+    private boolean isOneMinuteVibrator;
+    private boolean isThreeMinuteVibrator;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -140,6 +147,8 @@ public class VideoCallActivity extends CallActivity implements OnClickListener {
         ivMuit =(ImageView)findViewById(R.id.iv_muit);
         ivNoHand =(ImageView)findViewById(R.id.iv_no_hand);
         layoutSending = (RelativeLayout) findViewById(R.id.layout_sending);
+        tvCountDownTime=findViewById(R.id.tv_count_down_time);
+        rlAddTimeBtn=findViewById(R.id.rl_add_time_btn);
         findViewById(R.id.layout_cancel_call).setOnClickListener(this);
 
         refuseBtn.setOnClickListener(this);
@@ -151,6 +160,7 @@ public class VideoCallActivity extends CallActivity implements OnClickListener {
         hangUpLayout.setOnClickListener(this);
 //        muitLayout.setOnClickListener(this);
         noHandLayout.setOnClickListener(this);
+        rlAddTimeBtn.setOnClickListener(this);
 
 //        switchCameraBtn.setOnClickListener(this);
 
@@ -158,6 +168,7 @@ public class VideoCallActivity extends CallActivity implements OnClickListener {
         isInComingCall = getIntent().getBooleanExtra("isComingCall", false);
         username = getIntent().getStringExtra("username");
         nickName = getIntent().getStringExtra("nickName");
+        surplusDuration=getIntent().getIntExtra("surplusDuration",0);
         if (getIntent().hasExtra("headUrl")){
             headUrl = getIntent().getStringExtra("headUrl");
             Glide.with(this).load(headUrl).into(headView);
@@ -201,6 +212,7 @@ public class VideoCallActivity extends CallActivity implements OnClickListener {
                 return;
             }
             voiceContronlLayout.setVisibility(View.INVISIBLE); //声音控制
+            tvCountDownTime.setVisibility(View.INVISIBLE);
             msgRel.setVisibility(View.VISIBLE);
             localSurface.setVisibility(View.INVISIBLE);
             Uri ringUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
@@ -303,6 +315,7 @@ public class VideoCallActivity extends CallActivity implements OnClickListener {
 
                                 layoutSending.setVisibility(View.GONE);
                                 voiceContronlLayout.setVisibility(View.VISIBLE);
+                                tvCountDownTime.setVisibility(View.VISIBLE);
                                 ivNoHand.setSelected(true);
                                 localSurface.setVisibility(View.VISIBLE);
 //                            ((TextView)findViewById(R.id.tv_is_p2p)).setText(EMClient.getInstance().callManager().isDirectCall()
@@ -342,6 +355,42 @@ public class VideoCallActivity extends CallActivity implements OnClickListener {
                                     }
                                 };
                                 timer.schedule(task, 0, 1000);
+
+                                petterTimer = new PeterTimeCountRefresh(1 * 1000 * 60,
+                                        1000, tvCountDownTime, new PeterTimeCountRefresh.OnTimerListener() {
+                                    @Override
+                                    public void onTickTime(long millisUntilFinished) {
+                                        int  minute =(int) Math.floor(millisUntilFinished / 60000);
+                                        if(minute<3&&!isThreeMinuteVibrator){
+                                            Vibrator vibrator = (Vibrator)
+                                                    VideoCallActivity.this
+                                                            .getSystemService(VideoCallActivity.this.VIBRATOR_SERVICE);
+                                            vibrator.vibrate(1000);
+                                            ToastCommonUtil.showToastCustom(VideoCallActivity.this
+                                                    ,"通话即将到时，到时后通话将被中断", Gravity.CENTER);
+                                            isThreeMinuteVibrator=true;
+                                        }
+
+                                        if (minute<1&&!isOneMinuteVibrator) {
+                                            Vibrator vibrator = (Vibrator)
+                                                    VideoCallActivity.this
+                                                            .getSystemService(VideoCallActivity.this.VIBRATOR_SERVICE);
+                                            vibrator.vibrate(1000);
+                                            ToastCommonUtil.showToastCustom(VideoCallActivity.this
+                                                    ,"通话即将到时，到时后通话将被中断", Gravity.CENTER);
+                                            isOneMinuteVibrator=true;
+                                        }
+
+                                    }
+
+                                    @Override
+                                    public void onFinish() {
+                                        mHandler.sendEmptyMessage(1);
+                                    }
+                                });
+                                petterTimer.start();
+                                tvCountDownTime.amplify();
+
                             }
 
                         });
@@ -589,6 +638,7 @@ public class VideoCallActivity extends CallActivity implements OnClickListener {
             comingBtnContainer.setVisibility(View.INVISIBLE);
             hangupBtn.setVisibility(View.VISIBLE);
             voiceContronlLayout.setVisibility(View.VISIBLE);
+            tvCountDownTime.setVisibility(View.VISIBLE);
             msgRel.setVisibility(View.VISIBLE);
             localSurface.setVisibility(View.VISIBLE);
 
@@ -672,7 +722,8 @@ public class VideoCallActivity extends CallActivity implements OnClickListener {
 
             handler.sendEmptyMessage(MSG_CALL_SWITCH_CAMERA);
 
-        } else {
+        } else if(i==R.id.rl_add_time_btn){
+
         }
     }
 
@@ -701,6 +752,7 @@ public class VideoCallActivity extends CallActivity implements OnClickListener {
         EMCallSession callSession = EMClient.getInstance().callManager().getCurrentCallSession();
         final boolean isRecord = callSession.isRecordOnServer();
         final String serverRecordId = callSession.getServerRecordId();
+        EMLog.e(TAG, "server record id: " + serverRecordId);
 
         EMLog.e(TAG, "server record: " + isRecord);
         if (isRecord) {

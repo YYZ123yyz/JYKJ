@@ -42,6 +42,15 @@ public class AppUrlConfig {
     static String SERVICE_PATIENT_API_URL="https://www.jiuyihtn.com:28081/";
 
     /**
+     * 直播 key
+     */
+    static String SERVICE_LIVE_API_KEY="service_live_api_key";
+    /**
+     * 直播 url
+     */
+    static String SERVICE_LIVE_API_URL="https://www.jiuyihtn.com:41041/";
+
+    /**
      * 本地Api key
      */
     static String SERVICE_API_LOCAL_KEY = "service_api_local_key";
@@ -49,6 +58,8 @@ public class AppUrlConfig {
      * 本地Api url
      */
     static String SERVICE_API_LOCAL_URL = "https://192.168.0.132:28081/";
+
+
 
     /**
      * 本地Api key
@@ -73,6 +84,7 @@ public class AppUrlConfig {
         map.put(SERVICE_API_LOCAL_KEY, SERVICE_API_LOCAL_URL);
         map.put(SERVICE_API_LOCAL_KEY_1, SERVICE_API_LOCAL_URL_1);
         map.put(SERVICE_PATIENT_API_KEY,SERVICE_PATIENT_API_URL);
+        map.put(SERVICE_LIVE_API_KEY,SERVICE_LIVE_API_URL);
         return map;
     }
 

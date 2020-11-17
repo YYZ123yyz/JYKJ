@@ -18,7 +18,9 @@ public class CheckImResultBean {
     private long reserveConfigEnd;// 预约结束时间
     private String sumDuration;//总的可以发送消息的次数 -1为不限制
     private String useDuration;//已发送消息次数
-
+    private int surplusDuration;
+    private int reserveType;
+    private int treatmentType;
     public String getIsBinding() {
         return isBinding;
     }
@@ -90,5 +92,29 @@ public class CheckImResultBean {
 
     public void setUseDuration(String useDuration) {
         this.useDuration = useDuration;
+    }
+
+    public int getSurplusDuration() {
+        return surplusDuration;
+    }
+
+    public void setSurplusDuration(int surplusDuration) {
+        this.surplusDuration = surplusDuration;
+    }
+
+    public int getReserveType() {
+        return reserveType;
+    }
+
+    public void setReserveType(int reserveType) {
+        this.reserveType = reserveType;
+    }
+
+    public int getTreatmentType() {
+        return treatmentType;
+    }
+
+    public void setTreatmentType(int treatmentType) {
+        this.treatmentType = treatmentType;
     }
 }

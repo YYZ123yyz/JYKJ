@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/title_bar"
+        layout="@layout/item_toolbar">
+
+    </include>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/title_bar"
+        android:layout_marginTop="42dp"
+        android:layout_marginBottom="20dp"
+        android:id="@+id/ll_content_root"
+        android:layout_above="@+id/tv_add_btn"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:text="快上传有关直播内容的图片吧，让大家迅速了解直播内容吧!"
+            android:textColor="@color/color_999999"
+            android:textSize="15sp"
+
+            >
+
+
+        </TextView>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="17dp"
+            android:layout_marginTop="31dp"
+            android:layout_marginEnd="17dp">
+
+        </android.support.v7.widget.RecyclerView>
+
+
+    </LinearLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/rl_empty_root"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title_bar"
+        android:layout_centerHorizontal="true"
+        android:visibility="gone"
+        android:layout_marginTop="72dp">
+
+
+        <ImageView
+            android:id="@+id/iv_live_empty_pic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:src="@mipmap/bg_live_empty_pic">
+
+
+        </ImageView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/iv_live_empty_pic"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="44dp"
+            android:text="一张图片也没有，快去添加吧"
+            android:textColor="@color/color_999999"
+            android:textSize="15sp">
+
+
+        </TextView>
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_add_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="42dp"
+        android:background="@drawable/bg_round_799dfe_22"
+        android:paddingStart="110dp"
+        android:paddingTop="14dp"
+        android:paddingEnd="110dp"
+        android:paddingBottom="14dp"
+        android:text="确认"
+        android:textColor="@color/color_white">
+
+
+    </TextView>
+
+</RelativeLayout>

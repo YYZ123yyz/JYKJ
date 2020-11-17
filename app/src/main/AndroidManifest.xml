@@ -68,10 +68,9 @@
         android:roundIcon="@mipmap/logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-        tools:ignore="GoogleAppIndexingWarning"
-        tools:replace="android:allowBackup,android:icon"
         android:vmSafeMode="true"
-        >
+        tools:ignore="GoogleAppIndexingWarning"
+        tools:replace="android:allowBackup,android:icon">
         <activity android:name=".mypatient.fragment.SignedPatientFragment"></activity>
         <activity android:name=".mypatient.activity.PatientActivity" />
         <activity android:name=".activity.home.mypatient.fillindetails.FillindetailsActivity" />
@@ -106,10 +105,10 @@
         <activity android:name="yyz_exploit.activity.activity.HelpActivity" /> <!-- 帮助与反馈页面 -->
         <activity android:name="yyz_exploit.activity.activity.ResActivity" />
         <activity android:name="yyz_exploit.activity.Myself_Service" /> <!-- 用户登录 -->
-<!--        <activity android:name=".activity.LoginActivity"-->
-<!--            -->
-<!--            -->
-<!--            /> &lt;!&ndash; 手机号登录 &ndash;&gt;-->
+        <!--        <activity android:name=".activity.LoginActivity"-->
+        <!--            -->
+        <!--            -->
+        <!--            /> &lt;!&ndash; 手机号登录 &ndash;&gt;-->
 
         <activity android:name=".activity.LoginActivity">
             <intent-filter>
@@ -121,9 +120,9 @@
         </activity>
         <activity android:name=".activity.PhoneLoginActivity" /> <!-- 用户注册 -->
         <activity android:name=".activity.UseRegistActivity" /> <!-- 首页 -->
-        <activity android:name=".activity.MainActivity"
-            android:launchMode="singleTask"
-            >
+        <activity
+            android:name=".activity.MainActivity"
+            android:launchMode="singleTask">
             <!-- 忘记密码 -->
 
 
@@ -338,9 +337,9 @@
             android:name=".activity.home.tjhz.IDCardScanningActivity"
             android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 患医互动==》聊天页面 -->
 
-        <activity android:name=".activity.hyhd.ChatActivity"
-            android:windowSoftInputMode="stateHidden|stateUnchanged"
-            >
+        <activity
+            android:name=".activity.hyhd.ChatActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged">
             <intent-filter>
                 <action android:name="activity.hyhd.ChatActivity" />
 
@@ -372,7 +371,8 @@
             android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 我的直播间 -->
         <activity
             android:name=".activity.home.MyLiveRoomActivity"
-            android:windowSoftInputMode="stateHidden|stateUnchanged" android:screenOrientation="portrait"/> <!-- 我的诊所 -->
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 我的诊所 -->
         <activity
             android:name=".activity.home.MyClinicActivity"
             android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 我的消息==》患者就诊 -->
@@ -417,8 +417,10 @@
             android:name=".activity.hyhd.LivePublisherActivity"
             android:screenOrientation="portrait" />
         <activity
-                android:name=".activity.hyhd.LivePublisherThreeActivity" android:configChanges="keyboardHidden|orientation|screenSize"
-                android:screenOrientation="landscape" android:theme="@style/HorLiveTheme"/>
+            android:name=".activity.hyhd.LivePublisherThreeActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="landscape"
+            android:theme="@style/HorLiveTheme" />
         <activity
             android:name=".activity.liveroom.LiveroomDetailActivity"
             android:screenOrientation="portrait" />
@@ -435,20 +437,27 @@
             android:name=".activity.hyhd.TCVideoPreviewActivity"
             android:screenOrientation="portrait" />
         <activity
-                android:name=".activity.hyhd.SetLivePriceActivity"
-                android:screenOrientation="portrait" />
+            android:name=".activity.hyhd.SetLivePriceActivity"
+            android:screenOrientation="portrait" />
         <activity
-                android:name=".activity.hyhd.LivePublisherTwoActivity"
-                android:screenOrientation="portrait" android:theme="@style/HorLiveTheme"/>
+            android:name=".activity.hyhd.LivePublisherTwoActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/HorLiveTheme" />
         <activity
-                android:name=".activity.hyhd.LivePlayerTwoActivity" android:configChanges="keyboardHidden|orientation|screenSize"
-                android:screenOrientation="portrait" android:theme="@style/HorLiveTheme"/>
+            android:name=".activity.hyhd.LivePlayerTwoActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="portrait"
+            android:theme="@style/HorLiveTheme" />
         <activity
-                android:name=".activity.hyhd.VodPlayerActivity" android:configChanges="keyboardHidden|orientation|screenSize"
-                android:screenOrientation="portrait" android:theme="@style/HorLiveTheme"/>
+            android:name=".activity.hyhd.VodPlayerActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="portrait"
+            android:theme="@style/HorLiveTheme" />
         <activity
-                android:name=".activity.hyhd.LectureDetailActivity" android:configChanges="keyboardHidden|orientation|screenSize"
-                android:screenOrientation="portrait" android:theme="@style/HorLiveTheme"/>
+            android:name=".activity.hyhd.LectureDetailActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="portrait"
+            android:theme="@style/HorLiveTheme" />
         <activity
             android:name=".appointment.activity.MyOnlineScheduActivity"
             android:screenOrientation="portrait" />
@@ -516,7 +525,23 @@
             </intent-filter>
 
         </activity>
+        <activity
+            android:name=".live.AddLiveProgromActivity"
+            android:screenOrientation="portrait"
+            />
 
+        <activity android:name=".live.LiveProgromListActivity"
+            android:screenOrientation="portrait"
+            >
+
+
+        </activity>
+        <activity android:name=".live.LiveAddPicActivity"
+            android:screenOrientation="portrait"
+            >
+
+
+        </activity>
         <meta-data
             android:name="EASEMOB_APPKEY"
             android:value="1114191231107514#jiuyiteck-htn" /> <!-- 声明SDK所需的service SDK核心功能 -->

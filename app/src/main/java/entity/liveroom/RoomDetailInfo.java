@@ -21,6 +21,8 @@ public class RoomDetailInfo implements Serializable {
     private String titleDetailShow;
     private String titleMainShow;
     private String userCode;
+    private int flagHasSyllabus;
+
 
     public String getAttrName() {
         return attrName;
@@ -164,5 +166,13 @@ public class RoomDetailInfo implements Serializable {
 
     public void setUserCode(String userCode) {
         this.userCode = userCode;
+    }
+
+    public int getFlagHasSyllabus() {
+        return flagHasSyllabus;
+    }
+
+    public void setFlagHasSyllabus(int flagHasSyllabus) {
+        this.flagHasSyllabus = flagHasSyllabus;
     }
 }

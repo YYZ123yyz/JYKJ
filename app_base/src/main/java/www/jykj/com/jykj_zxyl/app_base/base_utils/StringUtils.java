@@ -3,6 +3,7 @@ package www.jykj.com.jykj_zxyl.app_base.base_utils;
 import android.os.Bundle;
 
 import java.security.MessageDigest;
+import java.util.List;
 
 /**
  * Description:
@@ -75,4 +76,6 @@ public class StringUtils {
 
         return sb.toString();
     }
+
+
 }

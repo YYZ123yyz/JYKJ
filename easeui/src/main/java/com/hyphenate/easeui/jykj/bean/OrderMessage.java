@@ -37,6 +37,10 @@ public class OrderMessage implements Serializable {
 
     private String flagReplyType;
 
+    public OrderMessage(){
+
+    }
+
     public OrderMessage(String nickName,
                         String imageUrl,
                         String orderId,

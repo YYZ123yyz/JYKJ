@@ -105,6 +105,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 
+import www.jykj.com.jykj_zxyl.app_base.base_utils.StringUtils;
+
 import static android.content.Context.MODE_PRIVATE;
 import static com.baidu.mapapi.BMapManager.getContext;
 import static com.hyphenate.easeui.EaseConstant.CHATTYPE_GROUP;
@@ -213,6 +215,8 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
     private OrderMessage orderMessage;
     private long reserveConfigStart;//预约开始时间
     private long reserveConfigEnd;// 预约结束时间
+    private int surplusDuration;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -498,6 +502,7 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
         for (int i = 0; i < itemStrings.length; i++) {
             inputMenu.registerExtendMenuItem(itemStrings[i], itemdrawables[i], itemIds[i], extendMenuItemClickListener);
         }
+        inputMenu.refreshDrawableState();
     }
 
     /**
@@ -1076,6 +1081,7 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
                             .putExtra("isComingCall", false).putExtra(EaseConstant.EXTRA_VEDIO_NUM, mVedioTime)
                             .putExtra("headUrl",patientUrl)
                             .putExtra("nickName", toChatUsernameName)
+                            .putExtra("surplusDuration",surplusDuration)
                     );
                     break;
                 case ITEM_CALL:
@@ -1089,6 +1095,7 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
                             .putExtra("isComingCall", false)
                             .putExtra("nickName", toChatUsernameName)
                             .putExtra("headUrl",patientUrl)
+                            .putExtra("surplusDuration",surplusDuration)
                             .putExtra(EaseConstant.EXTRA_VOICE_NUM, mVoiceTime));
                     break;
 
@@ -1775,7 +1782,10 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMainEventBus(OrderMessage msg) {
         if (msg != null) {
-            sendOrderCardMsg(msg);
+            String messageType = msg.getMessageType();
+            if (StringUtils.isNotEmpty(messageType)) {
+                sendOrderCardMsg(msg);
+            }
         }
     }
 
@@ -1904,6 +1914,14 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
 
     public void setReserveConfigEnd(long reserveConfigEnd) {
         this.reserveConfigEnd = reserveConfigEnd;
+    }
+
+    public int getSurplusDuration() {
+        return surplusDuration;
+    }
+
+    public void setSurplusDuration(int surplusDuration) {
+        this.surplusDuration = surplusDuration;
     }
 
     @Override

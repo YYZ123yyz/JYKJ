@@ -166,6 +166,7 @@ public class SigningDetailsActivity extends BaseActivity implements View.OnClick
     private String dayListattrName;
     private OrderMessage orderMessage;
     private long day1;
+    private int patientAgeValue;
     private TextView tv_prices;
     private ProvideDoctorPatientUserInfo provideDoctorPatientUserInfo;
     private String status;
@@ -651,11 +652,7 @@ public class SigningDetailsActivity extends BaseActivity implements View.OnClick
         map.put("mainUserName", patientName1);
         map.put("mainUserNameAlias", patientName1);
         map.put("gender", "1");
-        String value = patientAge.getText().toString();
-        if (TextUtils.isEmpty(value)) {
-            value="0";
-        }
-        map.put("age", value);
+        map.put("age", patientAgeValue);
         map.put("signDuration", monthsListattrCode1 + "");
         map.put("signUnit", "月");
         map.put("version", getdetailsBeans.getVersion());
@@ -730,11 +727,8 @@ public class SigningDetailsActivity extends BaseActivity implements View.OnClick
         map.put("mainUserName", patientName1);
         map.put("mainUserNameAlias", patientName1);
         map.put("gender", "1");
-        String value = patientAge.getText().toString();
-        if (TextUtils.isEmpty(value)) {
-            value="0";
-        }
-        map.put("age", value);
+
+        map.put("age", patientAgeValue);
         map.put("signDuration", monthsListattrCode1 + "");
         map.put("signUnit", "月");
         map.put("signDurationUnit", "月");
@@ -897,8 +891,8 @@ public class SigningDetailsActivity extends BaseActivity implements View.OnClick
                             if (netRetEntity.getResCode() == 1) {
                                provideDoctorPatientUserInfo = JSON.parseObject(netRetEntity.getResJsonData(),
                                         ProvideDoctorPatientUserInfo.class);
-                                int patientAge = provideDoctorPatientUserInfo.getPatientAge();
-                                SigningDetailsActivity.this.patientAge.setText(String.format("%d", patientAge));
+                                patientAgeValue = provideDoctorPatientUserInfo.getPatientAge();
+                                SigningDetailsActivity.this.patientAge.setText(String.format("%d", patientAgeValue));
 
                             }
                         }

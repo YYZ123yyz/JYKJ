@@ -21,6 +21,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.util.Objects;
 
 import www.jykj.com.jykj_zxyl.app_base.R;
+import www.jykj.com.jykj_zxyl.app_base.base_utils.CopyButtonLibrary;
 import www.jykj.com.jykj_zxyl.app_base.base_utils.StringUtils;
 
 /**
@@ -145,6 +146,13 @@ public class MedcalRecordDialog extends Dialog {
                     onClickListener.onClickSaveBtn(edInputContent.getText().toString(),contentType);
                 }
                 MedcalRecordDialog.this.dismiss();
+            }
+        });
+        tvDialogContent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CopyButtonLibrary copyButtonLibrary = new CopyButtonLibrary(mContext,tvDialogContent);
+                copyButtonLibrary.init();
             }
         });
     }

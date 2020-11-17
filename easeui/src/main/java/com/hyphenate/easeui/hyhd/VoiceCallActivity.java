@@ -1,5 +1,6 @@
 package com.hyphenate.easeui.hyhd;
 
+import android.annotation.SuppressLint;
 import android.content.IntentFilter;
 import android.media.AudioManager;
 import android.media.RingtoneManager;
@@ -9,8 +10,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
+import android.os.Vibrator;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
@@ -39,6 +42,10 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.UUID;
 
+import www.jykj.com.jykj_zxyl.app_base.base_utils.PeterTimeCountRefresh;
+import www.jykj.com.jykj_zxyl.app_base.base_utils.ToastCommonUtil;
+import www.jykj.com.jykj_zxyl.app_base.base_view.ZoomTextView;
+
 
 /**
  * 语音通话页面
@@ -51,7 +58,8 @@ public class VoiceCallActivity extends CallActivity implements OnClickListener {
     private LinearLayout answerBtn;
     private ImageView muteImage;
     private ImageView handsFreeImage;
-
+    private ZoomTextView tvCountDownTime;
+    private RelativeLayout rlAddTimeBtn;
     private boolean isMuteState;
     private boolean isHandsfreeState;
 
@@ -70,11 +78,13 @@ public class VoiceCallActivity extends CallActivity implements OnClickListener {
     private LinearLayout muitLayout;
     private LinearLayout noHandLayout;
     private ImageView ivMuit,ivNoHand;
-    private String headUrl;
+
     private ImageView headView;
     private LinearLayout cancleCallLayout;
     private RelativeLayout sendingLayout;
-
+    private PeterTimeCountRefresh petterTimer;
+    private boolean isOneMinuteVibrator;
+    private boolean isThreeMinuteVibrator;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -110,6 +120,8 @@ public class VoiceCallActivity extends CallActivity implements OnClickListener {
         ivNoHand =(ImageView)findViewById(R.id.iv_no_hand);
         cancleCallLayout = (LinearLayout) findViewById(R.id.layout_cancel_call);
         sendingLayout = (RelativeLayout) findViewById(R.id.layout_sending);
+        tvCountDownTime=findViewById(R.id.tv_count_down_time);
+        rlAddTimeBtn=findViewById(R.id.rl_add_time_btn);
 
         refuseBtn.setOnClickListener(this);
         answerBtn.setOnClickListener(this);
@@ -120,6 +132,7 @@ public class VoiceCallActivity extends CallActivity implements OnClickListener {
         muitLayout.setOnClickListener(this);
         noHandLayout.setOnClickListener(this);
         cancleCallLayout.setOnClickListener(this);
+        rlAddTimeBtn.setOnClickListener(this);
         getWindow().addFlags(
                 WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD
                         | WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
@@ -129,6 +142,7 @@ public class VoiceCallActivity extends CallActivity implements OnClickListener {
 
         username = getIntent().getStringExtra("username");
         nickName = getIntent().getStringExtra("nickName");
+        surplusDuration=getIntent().getIntExtra("surplusDuration",0);
         isInComingCall = getIntent().getBooleanExtra("isComingCall", false);
         if (getIntent().hasExtra("headUrl")){
             headUrl = getIntent().getStringExtra("headUrl");
@@ -162,9 +176,13 @@ public class VoiceCallActivity extends CallActivity implements OnClickListener {
         handler.removeCallbacks(timeoutHangup);
         handler.postDelayed(timeoutHangup, MAKE_CALL_TIMEOUT);
         initHandler();
+
+
+
     }
 
 
+    @SuppressLint("HandlerLeak")
     private void initHandler() {
         mHandler = new Handler(){
             @Override
@@ -241,7 +259,7 @@ public class VoiceCallActivity extends CallActivity implements OnClickListener {
                                 sendingLayout.setVisibility(View.GONE);
                                 msgState.setVisibility(View.GONE);
                                 voiceContronlLayout.setVisibility(View.VISIBLE);
-                                chronometer.setVisibility(View.VISIBLE);
+                                //chronometer.setVisibility(View.VISIBLE);
 //                                chronometer.setBase(SystemClock.elapsedRealtime());
 //                                // duration start
 //                                chronometer.start();
@@ -272,6 +290,42 @@ public class VoiceCallActivity extends CallActivity implements OnClickListener {
                                     }
                                 };
                                 timer.schedule(task, 0, 1000);
+
+                                petterTimer = new PeterTimeCountRefresh(1 * 1000 * 60,
+                                        1000, tvCountDownTime, new PeterTimeCountRefresh.OnTimerListener() {
+                                    @Override
+                                    public void onTickTime(long millisUntilFinished) {
+                                        int  minute =(int) Math.floor(millisUntilFinished / 60000);
+                                        if(minute<3&&!isThreeMinuteVibrator){
+                                            Vibrator vibrator = (Vibrator)
+                                                    VoiceCallActivity.this
+                                                            .getSystemService(VoiceCallActivity.this.VIBRATOR_SERVICE);
+                                            vibrator.vibrate(1000);
+                                            ToastCommonUtil.showToastCustom(VoiceCallActivity.this
+                                                    ,"通话即将到时，到时后通话将被中断", Gravity.CENTER);
+                                            isThreeMinuteVibrator=true;
+                                        }
+
+                                        if (minute<1&&!isOneMinuteVibrator) {
+                                            Vibrator vibrator = (Vibrator)
+                                                    VoiceCallActivity.this
+                                                            .getSystemService(VoiceCallActivity.this.VIBRATOR_SERVICE);
+                                            vibrator.vibrate(1000);
+                                            ToastCommonUtil.showToastCustom(VoiceCallActivity.this
+                                                    ,"通话即将到时，到时后通话将被中断", Gravity.CENTER);
+                                            isOneMinuteVibrator=true;
+                                        }
+
+                                    }
+
+                                    @Override
+                                    public void onFinish() {
+                                        mHandler.sendEmptyMessage(1);
+                                    }
+                                });
+                                petterTimer.start();
+                                tvCountDownTime.amplify();
+
                             }
                         });
                         break;
@@ -556,7 +610,9 @@ public class VoiceCallActivity extends CallActivity implements OnClickListener {
                 isHandsfreeState = true;
             }
 
-        } else {
+        } else if(i==R.id.rl_add_time_btn) {
+
+
         }
     }
 

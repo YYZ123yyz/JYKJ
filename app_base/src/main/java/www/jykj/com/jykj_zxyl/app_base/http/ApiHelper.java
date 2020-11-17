@@ -58,6 +58,16 @@ public class ApiHelper {
     }
 
 
+    /**
+     * 获取直播Api
+     * @return ApiService
+     */
+    public static ApiService getLiveApi(){
+        return RxHttpUtils.createApi(AppUrlConfig.SERVICE_LIVE_API_KEY,
+                AppUrlConfig.SERVICE_LIVE_API_URL, ApiService.class);
+    }
+
+
 
     /**
      * 获取本地Api

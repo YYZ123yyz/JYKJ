@@ -57,6 +57,12 @@ public class TimelyTreatmentAdapter extends RecyclerView.Adapter<TimelyTreatment
         holder.tvAppointmentNum.setText(String.format("%d", timelyTreatmentBean.getReserveCount()));
         holder.tvReceiveTreatmentNum.setText(String.format("%s", timelyTreatmentBean.getConfirmCount()));
         holder.tvCancelAppointmentNum.setText(String.format("%s", timelyTreatmentBean.getCancelCount()));
+        String reserveTypeName = timelyTreatmentBean.getReserveTypeName();
+        if (reserveTypeName.length()>=4) {
+            holder.tvOrderType.setText(reserveTypeName.substring(0,2));
+        }else{
+            holder.tvOrderType.setText(reserveTypeName);
+        }
 
         String sourceType = timelyTreatmentBean.getSourceType();
         if (sourceType.equals("1")) {
@@ -120,6 +126,7 @@ public class TimelyTreatmentAdapter extends RecyclerView.Adapter<TimelyTreatment
         private TextView tvAppointmentNum;
         private TextView tvReceiveTreatmentNum;
         private TextView tvCancelAppointmentNum;
+        private TextView tvOrderType;
         private ImageView ivEditBtn;
         private RelativeLayout rlLayoutRoot;
         private LinearLayout llAppointRoot;
@@ -133,6 +140,7 @@ public class TimelyTreatmentAdapter extends RecyclerView.Adapter<TimelyTreatment
             tvAppointmentNum = view.findViewById(R.id.tv_appointment_num);
             tvReceiveTreatmentNum = view.findViewById(R.id.tv_receive_treatment_num);
             tvCancelAppointmentNum = view.findViewById(R.id.tv_cancel_appointment_num);
+            tvOrderType=view.findViewById(R.id.tv_order_type);
             ivEditBtn = view.findViewById(R.id.iv_eidt_btn);
             rlLayoutRoot=view.findViewById(R.id.rl_layout_root);
             llAppointRoot=view.findViewById(R.id.ll_appoint_root);

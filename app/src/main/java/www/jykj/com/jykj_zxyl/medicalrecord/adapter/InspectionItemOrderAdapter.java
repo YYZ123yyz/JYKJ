@@ -62,7 +62,11 @@ public class InspectionItemOrderAdapter extends RecyclerView.Adapter
         holder.mTvInspectionTime.setText(StringUtils.isNotEmpty(inspectionTime) ? inspectionTime : "未填写");
         String inspectionPurpose = itemDataBean.getInspectionPurpose();
         holder.edInputContent.setText(inspectionPurpose);
-        holder.mTvInspectionTitle.setText(itemDataBean.getInspectionTypeName());
+        String inspectionTypeName = itemDataBean.getInspectionTypeName();
+        boolean notEmpty = StringUtils.isNotEmpty(inspectionTypeName);
+        if(notEmpty){
+            holder.mTvInspectionTitle.setText(inspectionTypeName);
+        }
         holder.rlInspectionProject.setOnClickListener(v -> {
             if (onItemClickListener != null) {
                 onItemClickListener.onClickInspectionProject(position);

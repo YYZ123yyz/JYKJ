@@ -15,6 +15,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.view.View;
@@ -39,6 +40,7 @@ import www.jykj.com.jykj_zxyl.activity.hyhd.*;
 import www.jykj.com.jykj_zxyl.app_base.base_activity.BaseActivity;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.custom.ShareDialog;
+import www.jykj.com.jykj_zxyl.live.AddLiveProgromActivity;
 import www.jykj.com.jykj_zxyl.util.CircleImageView;
 import www.jykj.com.jykj_zxyl.util.StrUtils;
 
@@ -61,6 +63,7 @@ public class LiveroomDetailActivity extends BaseActivity {
     TextView det_room_watchnum;
     TextView det_live_time;
     TextView go_liveroom_btn;
+    TextView tv_add_btn;
     DragFloatActionButton room_det_live;
     private String detailCode;
     public ProgressDialog mDialogProgress = null;
@@ -106,6 +109,7 @@ public class LiveroomDetailActivity extends BaseActivity {
         room_det_live = findViewById(R.id.room_det_live);
         iv_live_room_share = findViewById(R.id.iv_live_room_share);
         liveroom_store_btn = findViewById(R.id.liveroom_store_btn);
+        tv_add_btn=findViewById(R.id.tv_add_btn);
         iv_live_room_share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -128,6 +132,15 @@ public class LiveroomDetailActivity extends BaseActivity {
                 doFocus();
             }
         });
+        tv_add_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle=new Bundle();
+                bundle.putString("detailCode",detailCode);
+                startActivity(AddLiveProgromActivity.class,bundle);
+            }
+        });
+
     }
 
     void doFocus(){
@@ -441,6 +454,17 @@ public class LiveroomDetailActivity extends BaseActivity {
                 if(null!=roomDetailInfo.getExtendBroadcastFollowNum()){
                     det_room_watchnum.setText(String.valueOf(roomDetailInfo.getExtendBroadcastFollowNum().intValue())+"人想看");
                 }
+                int flagHasSyllabus = roomDetailInfo.getFlagHasSyllabus();
+                if(flagHasSyllabus==0){
+                    tv_add_btn.setText("添加直播大纲");
+                    tv_add_btn.setTextColor(ContextCompat.getColor(LiveroomDetailActivity.this,R.color.white));
+                    tv_add_btn.setBackgroundResource(R.drawable.bg_round_799dfe_22);
+                }else if(flagHasSyllabus==1){
+                    tv_add_btn.setText("更新直播大纲");
+                    tv_add_btn.setTextColor(ContextCompat.getColor(LiveroomDetailActivity.this,R.color.color_799def));
+                    tv_add_btn.setBackgroundResource(R.drawable.bg_oval_799dfe_20);
+                }
+
             }
             cacerProgress();
         }

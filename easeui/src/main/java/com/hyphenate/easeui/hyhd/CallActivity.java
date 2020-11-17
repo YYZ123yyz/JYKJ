@@ -21,12 +21,15 @@ import com.hyphenate.chat.EMMessage;
 import com.hyphenate.chat.EMMessage.Status;
 import com.hyphenate.chat.EMTextMessageBody;
 import com.hyphenate.easeui.R;
+import com.hyphenate.easeui.entity.CallExtParameBean;
 import com.hyphenate.easeui.entity.CallStatusEnum;
 import com.hyphenate.easeui.hyhd.model.Constant;
 import com.hyphenate.easeui.hyhd.model.PreferenceManager;
 import com.hyphenate.easeui.utils.MediaSoundUtil;
 import com.hyphenate.exceptions.EMServiceNotReadyException;
 import com.hyphenate.util.EMLog;
+
+import www.jykj.com.jykj_zxyl.app_base.base_utils.GsonUtils;
 
 
 @SuppressLint("Registered")
@@ -44,6 +47,8 @@ public class CallActivity extends BaseActivity {
     protected boolean isRefused = false;
     protected String username;
     protected String nickName;
+    protected String headUrl;
+    protected int surplusDuration;
     protected CallingState callingState = CallingState.CANCELLED;
     protected String callDruationText;
     protected String msgid;
@@ -163,10 +168,15 @@ public class CallActivity extends BaseActivity {
                         PreferenceManager.init(getApplicationContext());
                         boolean record = PreferenceManager.getInstance().isRecordOnServer();
                         boolean merge = PreferenceManager.getInstance().isMergeStream();
+                        CallExtParameBean callExtParameBean=new CallExtParameBean();
+                        callExtParameBean.setNickName(nickName);
+                        callExtParameBean.setImageUrl(headUrl);
+                        callExtParameBean.setSurplusDuration(surplusDuration);
+                        String extMsg = GsonUtils.toJson(callExtParameBean);
                         if (msg.what == MSG_CALL_MAKE_VIDEO) {
-                            EMClient.getInstance().callManager().makeVideoCall(username, "", record, merge);
+                            EMClient.getInstance().callManager().makeVideoCall(username, extMsg, true, merge);
                         } else {
-                            EMClient.getInstance().callManager().makeVoiceCall(username, "", record, merge);
+                            EMClient.getInstance().callManager().makeVoiceCall(username, extMsg, true, merge);
 //                        MediaSoundUtil mediaSoundUtil = new MediaSoundUtil(getApplicationContext());
 //                        mediaSoundUtil.playRingSound();
                         }

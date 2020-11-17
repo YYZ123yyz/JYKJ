@@ -260,6 +260,30 @@ public interface ApiService {
     @POST("/doctorDataControlle/searchPatientIndexHealthEducationByImageTextDetail")
     Observable<String> searchPatientIndexHealthEducationByImageTextDetail(@Query(value = "jsonDataInfo"
             , encoded = true) String queryJson);
-    //
+    //新增直播大纲
+    @POST("/broadcastSyllabusController/addBroadcastSyllabus")
+    Observable<String> addBroadcastSyllabus(@Query(value = "jsonDataInfo"
+            , encoded = true) String queryJson);
+    //查询直播大纲
+    @POST("/broadcastLiveDataControlle/getBroadcastDetailInfo")
+    Observable<String> getBroadcastDetailInfo(@Query(value = "jsonDataInfo"
+            , encoded = true) String queryJson);
+    //修改直播大纲
+    @POST("/broadcastSyllabusController/updateBroadcastSyllabus")
+    Observable<String> updateBroadcastSyllabus(@Query(value = "jsonDataInfo"
+            , encoded = true) String queryJson);
+    //新增直播间图片
+    @POST("/broadcastImageController/addBroadcastImage")
+    Observable<String> addBroadcastImage(@Query(value = "jsonDataInfo"
+            , encoded = true) String queryJson);
+    //修改直播间图片
+    @POST("/broadcastImageController/updateBroadcastImage")
+    Observable<String> updateBroadcastImage(@Query(value = "jsonDataInfo"
+            , encoded = true) String queryJson);
+    //关闭直播
+    @POST("/broadcastLiveDataControlle/operLiveRoomDetailsNoticeResCloseBroadcasting")
+    Observable<String> operLiveRoomDetailsNoticeResCloseBroadcasting(@Query(value = "jsonDataInfo"
+            , encoded = true) String queryJson);
+
 }
 

@@ -31,7 +31,6 @@ import com.sak.ultilviewlib.UltimateRefreshView;
 import com.sak.ultilviewlib.interfaces.OnFooterRefreshListener;
 import com.sak.ultilviewlib.interfaces.OnHeaderRefreshListener;
 import com.tbruyelle.rxpermissions.RxPermissions;
-import com.tencent.bugly.crashreport.CrashReport;
 import com.youth.banner.Banner;
 import com.youth.banner.loader.ImageLoader;
 
@@ -51,7 +50,6 @@ import util.CustomViewPager;
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.activity.MainActivity;
 import www.jykj.com.jykj_zxyl.activity.home.MyLiveRoomActivity;
-import www.jykj.com.jykj_zxyl.activity.home.MyPatientActivity;
 import www.jykj.com.jykj_zxyl.activity.home.NewsActivity;
 import www.jykj.com.jykj_zxyl.activity.home.QRCodeActivity;
 import www.jykj.com.jykj_zxyl.activity.home.tjhz.AddPatientActivity;
@@ -72,6 +70,7 @@ import www.jykj.com.jykj_zxyl.fragment.home.HomeAudioFragment;
 import www.jykj.com.jykj_zxyl.fragment.home.HomeEducationFragment;
 import www.jykj.com.jykj_zxyl.fragment.home.HomeGraphicFragment;
 import www.jykj.com.jykj_zxyl.fragment.home.HomeVideoFragment;
+import www.jykj.com.jykj_zxyl.live.AddLiveProgromActivity;
 import www.jykj.com.jykj_zxyl.mypatient.activity.PatientActivity;
 import yyz_exploit.Utils.MyImageView;
 import yyz_exploit.bean.BindPatient;
@@ -168,7 +167,6 @@ public class FragmentShouYe extends AbstractMvpBaseFragment<HomePagerContract.Vi
         myLiveLin = view.findViewById(R.id.lin_mylive);
         topBanner = view.findViewById(R.id.top_banner);
         middleBanner = view.findViewById(R.id.middle_banner);
-
         pager = view.findViewById(R.id.page);
         tabLayout =  view.findViewById(R.id.tab_layout);
 
@@ -305,6 +303,7 @@ public class FragmentShouYe extends AbstractMvpBaseFragment<HomePagerContract.Vi
         initLoadingAndRetryManager();
         getBasicDate();
         initListener();
+
     }
 
     @Override
@@ -673,6 +672,8 @@ public class FragmentShouYe extends AbstractMvpBaseFragment<HomePagerContract.Vi
 //                } else
 //                    mPopupWindow.dismiss();
 //                break;
+
+
             //医师资格认证
             case R.id.home_certification:
                 Intent intent = new Intent(getContext(), UserAuthenticationActivity.class);
@@ -694,6 +695,7 @@ public class FragmentShouYe extends AbstractMvpBaseFragment<HomePagerContract.Vi
                     mPopupWindow.showAsDropDown(ivAdd, 0, 0);
                 } else
                     mPopupWindow.dismiss();
+
                 break;
             case R.id.iv_message:
                 startActivity(new Intent(getActivity(), NewsActivity.class).putExtra("newMessage", mActivity.mProvideMsgPushReminderCount));

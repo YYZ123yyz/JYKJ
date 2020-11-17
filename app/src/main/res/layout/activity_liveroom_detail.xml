@@ -259,4 +259,24 @@
         android:clickable="true"
         android:src="@mipmap/live"
         android:visibility="gone" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingStart="70dp"
+        android:paddingEnd="70dp"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp"
+        android:id="@+id/tv_add_btn"
+        android:layout_alignParentBottom="true"
+        android:textColor="@color/color_white"
+        android:text="添加直播大纲"
+        android:layout_marginBottom="34dp"
+        android:layout_centerHorizontal="true"
+        android:textSize="17sp"
+        android:background="@drawable/bg_round_799dfe_22"
+        >
+
+
+    </TextView>
 </RelativeLayout>

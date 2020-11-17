@@ -91,6 +91,9 @@ dependencies {
     api 'me.jessyan:autosize:0.9.5'
     //屏幕适配
     api 'com.github.smarxpan:NotchScreenTool:0.0.1'
+    //图片压缩
+    api 'top.zibin:Luban:1.1.8'
+    //api 'com.github.wildma:PictureSelector:2.1.0'
     //腾讯bugly
 
 //    implementation 'androidx.appcompat:appcompat:1.0.2'

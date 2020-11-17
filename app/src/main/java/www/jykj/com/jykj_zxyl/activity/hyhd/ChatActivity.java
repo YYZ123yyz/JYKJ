@@ -100,6 +100,7 @@ public class ChatActivity extends BaseActivity {
     private String isBinding;
     private String isSigning;
     private String isReserveing;
+    private int surplusDuration;
     private boolean isFirstOperation;
     @Override
     protected int setLayoutId() {
@@ -208,6 +209,10 @@ public class ChatActivity extends BaseActivity {
             public void onBallClick() {
                 if(StringUtils.isNotEmpty(orderCode)){
                     if (!isFirstOperation) {
+                        if (stringSparseArray.size()==0) {
+                            ToastUtils.showToast("病历信息不能为空");
+                            return;
+                        }
                         sendMedicalRecordRequest(orderCode);
                     }else{
                         ToastUtils.showToast("已发送过病例不能重复发送");
@@ -313,7 +318,7 @@ public class ChatActivity extends BaseActivity {
                 String content = stringSparseArray.get(chiefComplaintType);
                 String patientChiefComplaint="";
                 if (patientRecordDetBean!=null) {
-                    patientChiefComplaint=patientRecordDetBean.getPatientChiefComplaint();;
+                    patientChiefComplaint=patientRecordDetBean.getPatientChiefComplaint();
                     content= TextUtils.isEmpty(content)
                             ?patientRecordDetBean.getChiefComplaint():content;
                 }
@@ -552,6 +557,7 @@ public class ChatActivity extends BaseActivity {
                     isBinding = checkImResultBean.getIsBinding();
                     isSigning = checkImResultBean.getIsSigning();
                     isReserveing = checkImResultBean.getIsReserveing();
+                    surplusDuration = checkImResultBean.getSurplusDuration();
                     if (StringUtils.isNotEmpty(isBinding)&&isBinding.equals("1")) {
                         if (StringUtils.isNotEmpty(isSigning)&&isSigning.equals("0")) {
                             chatFragment.setSignUpBtnStatus(true);
@@ -563,6 +569,7 @@ public class ChatActivity extends BaseActivity {
                     }
                     chatFragment.setReserveConfigStart(checkImResultBean.getReserveConfigStart());
                     chatFragment.setReserveConfigEnd(checkImResultBean.getReserveConfigEnd());
+                    chatFragment.setSurplusDuration(surplusDuration);
                     if (StringUtils.isNotEmpty(isReserveing)&&isReserveing.equals("1")) {
                         mFloatballManager.show();
                     }else{
@@ -631,6 +638,7 @@ public class ChatActivity extends BaseActivity {
             , String historyNew, String historyPast, String flagHistoryAllergy
             , String historyAllergy, String medicalExamination
             , String treatmentProposal) {
+
         HashMap<String, Object> hashMap = ParameUtil.buildBaseDoctorParam(this);
         hashMap.put("orderCode", orderCode);
         hashMap.put("operType", operType);
@@ -644,22 +652,22 @@ public class ChatActivity extends BaseActivity {
         String s = RetrofitUtil.encodeParam(hashMap);
         ApiHelper.getApiService().savePatientMedicalRecord(s).compose(
                 Transformer.switchSchedulers(new ILoadingView() {
-            @Override
-            public void showLoadingView() {
-                showLoading("",null);
-            }
+                    @Override
+                    public void showLoadingView() {
+                        showLoading("", null);
+                    }
 
-            @Override
-            public void hideLoadingView() {
-                dismissLoading();
-            }
-        })).subscribe(new CommonDataObserver() {
+                    @Override
+                    public void hideLoadingView() {
+                        dismissLoading();
+                    }
+                })).subscribe(new CommonDataObserver() {
             @Override
             protected void onSuccessResult(BaseBean baseBean) {
                 int resCode = baseBean.getResCode();
-                if (resCode==1) {
+                if (resCode == 1) {
                     ToastUtils.showToast("保存成功");
-                }else{
+                } else {
                     ToastUtils.showToast("保存失败");
                 }
             }
@@ -955,8 +963,9 @@ public class ChatActivity extends BaseActivity {
     //主线程中执行
     @SuppressLint("DefaultLocale")
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMainEventBus(OrderMessage msg) {
-        if (msg==null) {
+    public void onMainEventBus(OrderMessage orderMessage) {
+        String messageType = orderMessage.getMessageType();
+        if (TextUtils.isEmpty(messageType)) {
             sendGetCheckRequest(userCode,userName);
         }
     }
