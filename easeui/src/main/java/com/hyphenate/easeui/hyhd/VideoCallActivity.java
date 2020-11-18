@@ -244,6 +244,9 @@ public class VideoCallActivity extends CallActivity implements OnClickListener {
                          * 挂断通话
                          */
                         try {
+                            if (petterTimer!=null) {
+                                petterTimer.cancel();
+                            }
                             EMClient.getInstance().callManager().endCall();
                         } catch (EMNoActiveCallException e) {
                             e.printStackTrace();
@@ -327,10 +330,10 @@ public class VideoCallActivity extends CallActivity implements OnClickListener {
                                 handsFreeImage.setImageResource(R.mipmap.em_icon_speaker_on);
                                 isHandsfreeState = true;
                                 isInCalling = true;
-                                chronometer.setVisibility(View.VISIBLE);
-                                chronometer.setBase(SystemClock.elapsedRealtime());
-                                // call durations start
-                                chronometer.start();
+//                                chronometer.setVisibility(View.VISIBLE);
+//                                chronometer.setBase(SystemClock.elapsedRealtime());
+//                                // call durations start
+//                                chronometer.start();
                                 nickTextView.setVisibility(View.INVISIBLE);
                                 callStateTextView.setText(R.string.In_the_call);
 //                            recordBtn.setVisibility(View.VISIBLE);
@@ -364,6 +367,7 @@ public class VideoCallActivity extends CallActivity implements OnClickListener {
                                         int  minute =(int) Math.floor(millisUntilFinished / 60000);
                                         currentMillisUntilFinished=millisUntilFinished;
                                         if(minute<3&&!isThreeMinuteVibrator){
+                                            tvCountDownTime.amplify();
                                             Vibrator vibrator = (Vibrator)
                                                     VideoCallActivity.this
                                                             .getSystemService(VideoCallActivity.this.VIBRATOR_SERVICE);
@@ -374,6 +378,7 @@ public class VideoCallActivity extends CallActivity implements OnClickListener {
                                         }
 
                                         if (minute<1&&!isOneMinuteVibrator) {
+                                            tvCountDownTime.amplify();
                                             Vibrator vibrator = (Vibrator)
                                                     VideoCallActivity.this
                                                             .getSystemService(VideoCallActivity.this.VIBRATOR_SERVICE);
@@ -391,7 +396,7 @@ public class VideoCallActivity extends CallActivity implements OnClickListener {
                                     }
                                 });
                                 petterTimer.start();
-                                tvCountDownTime.amplify();
+
 
                             }
 
@@ -731,7 +736,6 @@ public class VideoCallActivity extends CallActivity implements OnClickListener {
 
     @Override
     protected void againCalculationTime() {
-        super.againCalculationTime();
         if (petterTimer!=null) {
             petterTimer.cancel();
         }

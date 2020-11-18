@@ -295,7 +295,6 @@
                             android:layout_above="@+id/linyout_state"
                             android:layout_centerHorizontal="true"
                             android:layout_marginBottom="24dp"
-                            android:text="111"
                             android:textColor="#C9544F"
                             android:textSize="28sp"/>
 

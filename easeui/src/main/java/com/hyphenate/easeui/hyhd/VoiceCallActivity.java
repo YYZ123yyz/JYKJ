@@ -1,6 +1,9 @@
 package com.hyphenate.easeui.hyhd;
 
 import android.annotation.SuppressLint;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.media.AudioManager;
 import android.media.RingtoneManager;
@@ -32,7 +35,10 @@ import com.allen.library.interfaces.ILoadingView;
 import com.bumptech.glide.Glide;
 import com.hyphenate.chat.EMCallSession;
 import com.hyphenate.chat.EMCallStateChangeListener;
+import com.hyphenate.chat.EMChatManager;
 import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMMessage;
+import com.hyphenate.chat.adapter.message.EMACmdMessageBody;
 import com.hyphenate.easeui.EaseConstant;
 import com.hyphenate.easeui.R;
 import com.hyphenate.easeui.utils.MediaSoundUtil;
@@ -192,7 +198,6 @@ public class VoiceCallActivity extends CallActivity implements OnClickListener {
 
 
 
-
     @SuppressLint("HandlerLeak")
     private void initHandler() {
         mHandler = new Handler(){
@@ -205,6 +210,9 @@ public class VoiceCallActivity extends CallActivity implements OnClickListener {
                          * 挂断通话
                          */
                         try {
+                            if (petterTimer!=null) {
+                                petterTimer.cancel();
+                            }
                             EMClient.getInstance().callManager().endCall();
                         } catch (EMNoActiveCallException e) {
                             e.printStackTrace();
@@ -309,6 +317,7 @@ public class VoiceCallActivity extends CallActivity implements OnClickListener {
                                         int  minute =(int) Math.floor(millisUntilFinished / 60000);
                                         currentMillisUntilFinished=millisUntilFinished;
                                         if(minute<3&&!isThreeMinuteVibrator){
+                                            tvCountDownTime.amplify();
                                             Vibrator vibrator = (Vibrator)
                                                     VoiceCallActivity.this
                                                             .getSystemService(VoiceCallActivity.this.VIBRATOR_SERVICE);
@@ -319,6 +328,7 @@ public class VoiceCallActivity extends CallActivity implements OnClickListener {
                                         }
 
                                         if (minute<1&&!isOneMinuteVibrator) {
+                                            tvCountDownTime.amplify();
                                             Vibrator vibrator = (Vibrator)
                                                     VoiceCallActivity.this
                                                             .getSystemService(VoiceCallActivity.this.VIBRATOR_SERVICE);
@@ -336,7 +346,7 @@ public class VoiceCallActivity extends CallActivity implements OnClickListener {
                                     }
                                 });
                                 petterTimer.start();
-                                tvCountDownTime.amplify();
+
 
                             }
                         });
@@ -629,7 +639,6 @@ public class VoiceCallActivity extends CallActivity implements OnClickListener {
 
     @Override
     protected void againCalculationTime() {
-        super.againCalculationTime();
         if (petterTimer!=null) {
             petterTimer.cancel();
         }

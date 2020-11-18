@@ -927,6 +927,8 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
                         titleBar.setTitle(getString(R.string.alert_during_typing));
                     } else if (ACTION_TYPING_END.equals(body.action()) && msg.getFrom().equals(toChatUsername)) {
                         titleBar.setTitle(toChatUsername);
+                    }else if("addTime".equals(body.action())){
+
                     }
                 }
             });
@@ -1093,31 +1095,31 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
                     break;
                 case ITEM_CALL:
 
-//                    /**
-//                     * 拨打语音电话
-//                     * @param to
-//                     * @throws EMServiceNotReadyException
-//                     */
-//                    if (surplusDuration>0) {
-//                        startActivity(new Intent(getActivity(), VoiceCallActivity.class)
-//                                .putExtra("username", toChatUsername)
-//                                .putExtra("isComingCall", false)
-//                                .putExtra("nickName", toChatUsernameName)
-//                                .putExtra("headUrl",patientUrl)
-//                                .putExtra("orderCode",orderCode)
-//                                .putExtra("surplusDuration",surplusDuration)
-//                                .putExtra(EaseConstant.EXTRA_VOICE_NUM, mVoiceTime));
-//                    }else{
-//                        ToastUtils.showToast("该用户没有开通此功能");
-//                    }
-                    startActivity(new Intent(getActivity(), VoiceCallActivity.class)
-                            .putExtra("username", toChatUsername)
-                            .putExtra("isComingCall", false)
-                            .putExtra("nickName", toChatUsernameName)
-                            .putExtra("headUrl",patientUrl)
-                            .putExtra("orderCode",orderCode)
-                            .putExtra("surplusDuration",surplusDuration)
-                            .putExtra(EaseConstant.EXTRA_VOICE_NUM, mVoiceTime));
+                    /**
+                     * 拨打语音电话
+                     * @param to
+                     * @throws EMServiceNotReadyException
+                     */
+                    if (surplusDuration>0) {
+                        startActivity(new Intent(getActivity(), VoiceCallActivity.class)
+                                .putExtra("username", toChatUsername)
+                                .putExtra("isComingCall", false)
+                                .putExtra("nickName", toChatUsernameName)
+                                .putExtra("headUrl",patientUrl)
+                                .putExtra("orderCode",orderCode)
+                                .putExtra("surplusDuration",surplusDuration)
+                                .putExtra(EaseConstant.EXTRA_VOICE_NUM, mVoiceTime));
+                    }else{
+                        ToastUtils.showToast("该用户没有开通此功能");
+                    }
+//                    startActivity(new Intent(getActivity(), VoiceCallActivity.class)
+//                            .putExtra("username", toChatUsername)
+//                            .putExtra("isComingCall", false)
+//                            .putExtra("nickName", toChatUsernameName)
+//                            .putExtra("headUrl",patientUrl)
+//                            .putExtra("orderCode",orderCode)
+//                            .putExtra("surplusDuration",surplusDuration)
+//                            .putExtra(EaseConstant.EXTRA_VOICE_NUM, mVoiceTime));
 
                     break;
 
@@ -1944,6 +1946,14 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
 
     public void setSurplusDuration(int surplusDuration) {
         this.surplusDuration = surplusDuration;
+    }
+
+    public String getOrderCode() {
+        return orderCode;
+    }
+
+    public void setOrderCode(String orderCode) {
+        this.orderCode = orderCode;
     }
 
     @Override
