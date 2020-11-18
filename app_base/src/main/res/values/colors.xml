@@ -54,4 +54,6 @@
     <color name="color_F6F6F6">#F6F6F6</color>
     <color name="color_E5342C">#E5342C</color>
     <color name="color_253B55">#253B55</color>
+    <color name="color_D5D7DC">#D5D7DC</color>
+    <color name="divider_list">#d4d4d4</color>
 </resources>
