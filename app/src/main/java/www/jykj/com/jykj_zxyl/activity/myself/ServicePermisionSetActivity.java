@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -26,6 +27,7 @@ import netService.entity.NetRetEntity;
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.application.Constant;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
+import www.jykj.com.jykj_zxyl.custom.MoreFeaturesPopupWindow;
 import www.jykj.com.jykj_zxyl.util.ActivityUtil;
 
 /**
@@ -64,6 +66,8 @@ public class ServicePermisionSetActivity extends AppCompatActivity {
     private TextView mYPNumText;                      //音频通话时间
     private TextView mSPNumText;                      //视频通话时间
     private TextView mCommit;                        //保存
+    private ImageButton ivAdd;
+    private MoreFeaturesPopupWindow mPopupWindow;
 
     /**
      * 初始化布局
@@ -80,6 +84,9 @@ public class ServicePermisionSetActivity extends AppCompatActivity {
 
         mCommit = (TextView) this.findViewById(R.id.commit);
         mCommit.setOnClickListener(new ButtonClick());
+
+        ivAdd = findViewById(R.id.right_image_search);
+        ivAdd.setOnClickListener(new ButtonClick());
 
         mTitleText = (TextView) this.findViewById(R.id.titleText);
         mServiceSetTitleText = (TextView) this.findViewById(R.id.tv_activityServicePermisionSet_serviceTitle);
@@ -319,6 +326,16 @@ public class ServicePermisionSetActivity extends AppCompatActivity {
                 case R.id.commit:
                     commit();
                     finish();
+                    break;
+                case R.id.right_image_search:
+                    if (mPopupWindow ==null){
+                        mPopupWindow = new MoreFeaturesPopupWindow(ServicePermisionSetActivity.this);
+                    }
+                    if (!mPopupWindow.isShowing()) {
+                        mPopupWindow.showAsDropDown(ivAdd, 0, 0);
+                    }else {
+                        mPopupWindow.dismiss();
+                    }
                     break;
             }
         }

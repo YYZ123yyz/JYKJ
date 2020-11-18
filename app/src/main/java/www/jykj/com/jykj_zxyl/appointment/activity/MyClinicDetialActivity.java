@@ -66,6 +66,7 @@ import www.jykj.com.jykj_zxyl.appointment.listener.MyItemClickListener;
 import www.jykj.com.jykj_zxyl.appointment.view.FirstView;
 import www.jykj.com.jykj_zxyl.appointment.view.SecView;
 import www.jykj.com.jykj_zxyl.appointment.view.ThirdView;
+import www.jykj.com.jykj_zxyl.custom.MoreFeaturesPopupWindow;
 import www.jykj.com.jykj_zxyl.medicalrecord.activity.ConsultationInfoActivity;
 import www.jykj.com.jykj_zxyl.medicalrecord.activity.PatientRecordActivity;
 import www.jykj.com.jykj_zxyl.util.StringUtils;
@@ -181,6 +182,7 @@ public class MyClinicDetialActivity extends AbstractMvpBaseActivity<MyClinicDeti
     private String checkStep="0";//校验步骤
     private int currentWeek=-1;
     private long currentTimes;
+    private MoreFeaturesPopupWindow mPopupWindow;
 
     @Override
     protected void onBeforeSetContentLayout() {
@@ -716,6 +718,19 @@ public class MyClinicDetialActivity extends AbstractMvpBaseActivity<MyClinicDeti
                 DateUtils.getDeviceTimeOfYMD(),
                 mStartTime,mEndTime,mSignalSourceNum,checkStep,
                 reserveDateRosterCode,MyClinicDetialActivity.this));
+        rightImageSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mPopupWindow ==null){
+                    mPopupWindow = new MoreFeaturesPopupWindow(MyClinicDetialActivity.this);
+                }
+                if (!mPopupWindow.isShowing()) {
+                    mPopupWindow.showAsDropDown(rightImageSearch, 0, 0);
+                }else {
+                    mPopupWindow.dismiss();
+                }
+            }
+        });
     }
 
     /**

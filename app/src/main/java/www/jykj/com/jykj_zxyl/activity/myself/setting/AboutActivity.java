@@ -11,6 +11,7 @@ import android.text.Html;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,10 +26,12 @@ import netService.HttpNetService;
 import netService.entity.NetRetEntity;
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.activity.LoginActivity;
+import www.jykj.com.jykj_zxyl.activity.myself.SettingActivity;
 import www.jykj.com.jykj_zxyl.activity.myself.UserCenterActivity;
 import www.jykj.com.jykj_zxyl.app_base.base_activity.BaseActivity;
 import www.jykj.com.jykj_zxyl.application.Constant;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
+import www.jykj.com.jykj_zxyl.custom.MoreFeaturesPopupWindow;
 import www.jykj.com.jykj_zxyl.util.ActivityUtil;
 
 /**
@@ -46,7 +49,8 @@ public class AboutActivity extends BaseActivity {
     private TextView mAboutText;
     private LinearLayout mBack;
     private WebView about_wb;
-
+    private MoreFeaturesPopupWindow mPopupWindow;
+    private ImageButton ivAdd;
     @Override
     protected int setLayoutId() {
         return R.layout.activity_myself_setting_about;
@@ -71,6 +75,10 @@ public class AboutActivity extends BaseActivity {
         about_wb = findViewById(R.id.about_wb);
         about_wb.loadUrl("https://jiuyihtn.com/AppAssembly/aboutUs.html");
 
+
+        ivAdd = findViewById(R.id.right_image_search);
+        ivAdd.setOnClickListener(new ButtonClick());
+
         mAboutText = (TextView) this.findViewById(R.id.tv_about);
         mBack = (LinearLayout) this.findViewById(R.id.back);
         mBack.setOnClickListener(new View.OnClickListener() {
@@ -89,7 +97,16 @@ public class AboutActivity extends BaseActivity {
         @Override
         public void onClick(View view) {
             switch (view.getId()) {
-
+                case R.id.right_image_search:
+                    if (mPopupWindow ==null){
+                        mPopupWindow = new MoreFeaturesPopupWindow(AboutActivity.this);
+                    }
+                    if (!mPopupWindow.isShowing()) {
+                        mPopupWindow.showAsDropDown(ivAdd, 0, 0);
+                    }else {
+                        mPopupWindow.dismiss();
+                    }
+                    break;
             }
         }
     }

@@ -25,6 +25,7 @@ import butterknife.BindView;
 import jsc.kit.wheel.base.WheelItem;
 import jsc.kit.wheel.dialog.ColumnWheelDialog;
 import www.jykj.com.jykj_zxyl.R;
+import www.jykj.com.jykj_zxyl.activity.myself.MyAccountActivity;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.BaseReasonBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.CalendarItemBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.DoctorScheduTimesBean;
@@ -43,6 +44,7 @@ import www.jykj.com.jykj_zxyl.appointment.dialog.AppointTimeDialog;
 import www.jykj.com.jykj_zxyl.appointment.dialog.AppointTypeDialog;
 import www.jykj.com.jykj_zxyl.app_base.base_dialog.CommonConfirmDialog;
 import www.jykj.com.jykj_zxyl.appointment.view.CalendarView;
+import www.jykj.com.jykj_zxyl.custom.MoreFeaturesPopupWindow;
 import www.jykj.com.jykj_zxyl.util.DateUtils;
 import www.jykj.com.jykj_zxyl.util.StringUtils;
 
@@ -107,6 +109,8 @@ public class MyOnlineScheduActivity extends AbstractMvpBaseActivity<OnlineSchedu
     private String checkStep="0";//校验步骤
     private boolean isShowUpdateConfirmDialog;//是否弹出修改确认弹框
     private DoctorScheduTimesBean currentDoctorScheduTimesBean;//当前排班明细
+    private MoreFeaturesPopupWindow mPopupWindow;
+
     @Override
     protected int setLayoutId() {
         return R.layout.activity_online_scheduling_2;
@@ -139,12 +143,12 @@ public class MyOnlineScheduActivity extends AbstractMvpBaseActivity<OnlineSchedu
         toolbar.setRightTitleDrawable(R.mipmap.bg_schedu_set);
         //返回键
         toolbar.setLeftTitleClickListener(view -> finish());
-        toolbar.setRightTitleClickListener(new View.OnClickListener() {
+      /*  toolbar.setRightTitleClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(MyOnlineScheduTemplateActivity.class,null);
             }
-        });
+        });*/
     }
 
     @Override
@@ -375,7 +379,25 @@ public class MyOnlineScheduActivity extends AbstractMvpBaseActivity<OnlineSchedu
                 );
             }
         });
-
+        rightImageId.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(MyOnlineScheduTemplateActivity.class,null);
+            }
+        });
+        rightImageSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mPopupWindow ==null){
+                    mPopupWindow = new MoreFeaturesPopupWindow(MyOnlineScheduActivity.this);
+                }
+                if (!mPopupWindow.isShowing()) {
+                    mPopupWindow.showAsDropDown(rightImageSearch, 0, 0);
+                }else {
+                    mPopupWindow.dismiss();
+                }
+            }
+        });
     }
 
     @Override

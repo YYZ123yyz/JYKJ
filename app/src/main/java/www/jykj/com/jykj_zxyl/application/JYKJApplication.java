@@ -51,6 +51,8 @@ import com.hyphenate.push.EMPushHelper;
 import com.hyphenate.push.EMPushType;
 import com.hyphenate.push.PushListener;
 import com.hyphenate.util.EMLog;
+import com.iflytek.cloud.SpeechConstant;
+import com.iflytek.cloud.SpeechUtility;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -362,7 +364,7 @@ public class JYKJApplication extends Application {
         // 默认添加好友时，是不需要验证的，改成需要验证
         options.setAcceptInvitationAlways(false);
         EaseUI.getInstance().init(gContext, options);
-
+        SpeechUtility.createUtility(gContext, SpeechConstant.APPID +"=5facab57");
         //注册
         IntentFilter callFilter = new IntentFilter(EMClient.getInstance().callManager().getIncomingCallBroadcastAction());
         if (mCallReceiver == null) {
