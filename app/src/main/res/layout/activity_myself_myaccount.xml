@@ -33,16 +33,29 @@
             android:textColor="@color/writeColor"
             android:textSize="10pt" />
 
-        <TextView
+        <ImageButton
+            android:id="@+id/right_image_search"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="提现"
-            android:layout_alignParentRight="true"
+            android:background="@null"
+            android:gravity="center"
+            android:layout_toLeftOf="@+id/withdraw"
             android:layout_centerVertical="true"
-            android:textSize="16sp"
+            android:layout_marginRight="8dp"
+            android:src="@mipmap/icon_add_small" />
+
+
+        <TextView
+            android:id="@+id/withdraw"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
-            android:textColor="@color/writeColor" />
+            android:text="提现"
+            android:textColor="@color/writeColor"
+            android:textSize="16sp" />
     </RelativeLayout>
 
     <LinearLayout

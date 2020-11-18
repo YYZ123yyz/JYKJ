@@ -24,6 +24,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -79,6 +80,7 @@ import www.jykj.com.jykj_zxyl.activity.home.yslm.JoinDoctorsUnionActivity;
 import www.jykj.com.jykj_zxyl.app_base.base_activity.BaseActivity;
 import www.jykj.com.jykj_zxyl.application.Constant;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
+import www.jykj.com.jykj_zxyl.custom.MoreFeaturesPopupWindow;
 import www.jykj.com.jykj_zxyl.util.ActivityUtil;
 import www.jykj.com.jykj_zxyl.util.BitmapUtil;
 import www.jykj.com.jykj_zxyl.util.ProvincePicker;
@@ -87,6 +89,7 @@ import www.jykj.com.jykj_zxyl.util.Util;
 import yyz_exploit.Utils.QueryUserCond;
 import yyz_exploit.Utils.StrUtils;
 import yyz_exploit.Utils.UserResultInfo;
+import yyz_exploit.activity.activity.FeedbackActivity;
 import zxing.android.CaptureActivity;
 
 import static android.widget.Toast.LENGTH_SHORT;
@@ -165,7 +168,8 @@ public class UserCenterActivity extends BaseActivity {
     private ProvideViewSysUserDoctorInfoAndHospital mProvideViewSysUserDoctorInfoAndHospital = new ProvideViewSysUserDoctorInfoAndHospital();  //医生信息
     private ImageView usercenter_back;
     private LinearLayout usercenterBack;
-
+    private ImageButton ivAdd;
+    private MoreFeaturesPopupWindow mPopupWindow;
     public UserCenterActivity() throws IOException {
     }
 
@@ -341,6 +345,21 @@ public class UserCenterActivity extends BaseActivity {
         mChoiceSexLayout = (LinearLayout) this.findViewById(R.id.li_activityUserCenter_userSexLayout);
         mChoiceSexLayout.setOnClickListener(new ButtonClick());
         mUserHeadImage = (ImageView) this.findViewById(R.id.iv_activityUserCenter_userImage);
+
+        ivAdd = findViewById(R.id.right_image_search);
+        ivAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mPopupWindow ==null){
+                    mPopupWindow = new MoreFeaturesPopupWindow(UserCenterActivity.this);
+                }
+                if (!mPopupWindow.isShowing()) {
+                    mPopupWindow.showAsDropDown(ivAdd, 0, 0);
+                }else {
+                    mPopupWindow.dismiss();
+                }
+            }
+        });
 
         mChoiceBirthLayout = (LinearLayout) this.findViewById(R.id.li_activityUserCenter_userBirthLayout);
         mChoiceBirthLayout.setOnClickListener(new ButtonClick());

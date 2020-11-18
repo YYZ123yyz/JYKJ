@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -45,6 +46,8 @@ import www.jykj.com.jykj_zxyl.activity.hyhd.LivePublisherThreeActivity;
 import www.jykj.com.jykj_zxyl.activity.hyhd.LivePublisherTwoActivity;
 import www.jykj.com.jykj_zxyl.activity.myself.couponFragment.FragmentAdapter;
 import www.jykj.com.jykj_zxyl.app_base.base_activity.BaseActivity;
+import www.jykj.com.jykj_zxyl.appointment.activity.MyClinicDetialActivity;
+import www.jykj.com.jykj_zxyl.custom.MoreFeaturesPopupWindow;
 import www.jykj.com.jykj_zxyl.fragment.liveroom.HotRoomFragment;
 import www.jykj.com.jykj_zxyl.fragment.liveroom.PreRoomFragment;
 import www.jykj.com.jykj_zxyl.fragment.liveroom.SubjectRoomFragment;
@@ -84,6 +87,8 @@ public class MyLiveRoomActivity extends BaseActivity implements View.OnClickList
     private SubjectRoomFragment subjectRoomFragment;
     private String live_type = LivePublisherThreeActivity.LIVE_TYPE_PRELIVE;
     private int selectPageIndex=0;
+    private ImageButton ivAdd;
+    private MoreFeaturesPopupWindow mPopupWindow;
 
 
     @Override
@@ -113,6 +118,17 @@ public class MyLiveRoomActivity extends BaseActivity implements View.OnClickList
                 selectPageIndex=2;
                 roompager.setCurrentItem(selectPageIndex);
                 live_type = LivePublisherThreeActivity.LIVE_TYPE_SUBJECTLIVE;
+                break;
+            case R.id.right_image_search:
+                if (mPopupWindow ==null){
+                    mPopupWindow = new MoreFeaturesPopupWindow(MyLiveRoomActivity.this);
+                    mPopupWindow.setActivityCode(5);
+                }
+                if (!mPopupWindow.isShowing()) {
+                    mPopupWindow.showAsDropDown(ivAdd, 0, 0);
+                }else {
+                    mPopupWindow.dismiss();
+                }
                 break;
         }
     }
@@ -166,7 +182,8 @@ public class MyLiveRoomActivity extends BaseActivity implements View.OnClickList
                 startActivity(intent);
             }
         });
-
+        ivAdd = findViewById(R.id.right_image_search);
+        ivAdd.setOnClickListener(this);
         fragmentList = new ArrayList();
         preRoomFragment = new PreRoomFragment();
         fragmentList.add(preRoomFragment);

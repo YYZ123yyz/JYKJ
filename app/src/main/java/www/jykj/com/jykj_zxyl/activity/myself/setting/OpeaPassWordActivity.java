@@ -11,6 +11,7 @@ import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,6 +33,7 @@ import www.jykj.com.jykj_zxyl.activity.myself.SettingActivity;
 import www.jykj.com.jykj_zxyl.app_base.base_activity.BaseActivity;
 import www.jykj.com.jykj_zxyl.application.Constant;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
+import www.jykj.com.jykj_zxyl.custom.MoreFeaturesPopupWindow;
 import www.jykj.com.jykj_zxyl.util.ActivityUtil;
 
 /**
@@ -58,7 +60,8 @@ public class OpeaPassWordActivity extends BaseActivity {
     private int mTime = 60;
 
     private EditText mVCodeEdit;                         //短信验证码
-
+    private MoreFeaturesPopupWindow mPopupWindow;
+    private ImageButton ivAdd;
 
     @Override
     protected int setLayoutId() {
@@ -166,6 +169,8 @@ public class OpeaPassWordActivity extends BaseActivity {
                 finish();
             }
         });
+        ivAdd = findViewById(R.id.right_image_search);
+        ivAdd.setOnClickListener(new ButtonClick());
     }
 
 
@@ -181,6 +186,16 @@ public class OpeaPassWordActivity extends BaseActivity {
                     break;
                 case R.id.tv_getVCodeText:
                     getVCode();
+                    break;
+                case R.id.right_image_search:
+                    if (mPopupWindow ==null){
+                        mPopupWindow = new MoreFeaturesPopupWindow(OpeaPassWordActivity.this);
+                    }
+                    if (!mPopupWindow.isShowing()) {
+                        mPopupWindow.showAsDropDown(ivAdd, 0, 0);
+                    }else {
+                        mPopupWindow.dismiss();
+                    }
                     break;
             }
         }

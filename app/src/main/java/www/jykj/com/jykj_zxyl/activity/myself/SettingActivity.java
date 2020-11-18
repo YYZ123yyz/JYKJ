@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -22,6 +23,7 @@ import www.jykj.com.jykj_zxyl.activity.myself.setting.AboutActivity;
 import www.jykj.com.jykj_zxyl.activity.myself.setting.OpeaPassWordActivity;
 import www.jykj.com.jykj_zxyl.app_base.base_activity.BaseActivity;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
+import www.jykj.com.jykj_zxyl.custom.MoreFeaturesPopupWindow;
 import www.jykj.com.jykj_zxyl.util.ActivityUtil;
 import yyz_exploit.Utils.DestroyActivityUtil;
 import yyz_exploit.activity.activity.FeedbackActivity;
@@ -45,6 +47,8 @@ public class SettingActivity extends BaseActivity {
     private LinearLayout setting_opinion,myself_Update;
     private LinearLayout myselfBack;
     private String totalCacheSize;
+    private MoreFeaturesPopupWindow mPopupWindow;
+    private ImageButton ivAdd;
 
 
     @Override
@@ -74,7 +78,8 @@ public class SettingActivity extends BaseActivity {
         mAboutLayout = (LinearLayout) this.findViewById(R.id.li_activitySetting_aboutLayout);
         mAboutLayout.setOnClickListener(new ButtonClick());
 
-
+        ivAdd = findViewById(R.id.right_image_search);
+        ivAdd.setOnClickListener(new ButtonClick());
         mOperPassWord = (LinearLayout) this.findViewById(R.id.li_activitySetting_operPassWord);
         mOperPassWord.setOnClickListener(new ButtonClick());
 
@@ -148,6 +153,16 @@ public class SettingActivity extends BaseActivity {
                 case R.id.myself_Update:
                     Intent intent2 = new Intent(SettingActivity.this, VersionActivity.class);
                     startActivity(intent2);
+                    break;
+                case R.id.right_image_search:
+                    if (mPopupWindow ==null){
+                        mPopupWindow = new MoreFeaturesPopupWindow(SettingActivity.this);
+                    }
+                    if (!mPopupWindow.isShowing()) {
+                        mPopupWindow.showAsDropDown(ivAdd, 0, 0);
+                    }else {
+                        mPopupWindow.dismiss();
+                    }
                     break;
             }
         }

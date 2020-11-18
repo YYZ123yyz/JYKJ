@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,6 +31,7 @@ import www.jykj.com.jykj_zxyl.activity.MainActivity;
 import www.jykj.com.jykj_zxyl.app_base.base_activity.BaseActivity;
 import www.jykj.com.jykj_zxyl.application.Constant;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
+import www.jykj.com.jykj_zxyl.custom.MoreFeaturesPopupWindow;
 import www.jykj.com.jykj_zxyl.util.ActivityUtil;
 import yyz_exploit.activity.activity.ServiceActivity;
 
@@ -62,6 +64,8 @@ public class ServicePermisionActivity extends BaseActivity {
     private TextView tv_activityServicePermision_phone;
     private Intent intent;
     private Integer flagDoctorStatus;
+    private ImageButton ivAdd;
+    private MoreFeaturesPopupWindow mPopupWindow;
 
 
     @Override
@@ -166,6 +170,9 @@ public class ServicePermisionActivity extends BaseActivity {
 
         mBack = (LinearLayout) findViewById(R.id.ll_back);
         mBack.setOnClickListener(new ButtonClick());
+
+        ivAdd = findViewById(R.id.right_image_search);
+        ivAdd.setOnClickListener(new ButtonClick());
 
         mTWJZImageTextLayout = (LinearLayout) this.findViewById(R.id.li_activityServicePermision_ImageText);
         mTWJZImageTextLayout.setOnClickListener(new ButtonClick());
@@ -275,6 +282,16 @@ public class ServicePermisionActivity extends BaseActivity {
                         intent = new Intent();
                         intent.setClass(mContext, UserAuthenticationActivity.class);
                         startActivity(intent);
+                    }
+                    break;
+                case R.id.right_image_search:
+                    if (mPopupWindow ==null){
+                        mPopupWindow = new MoreFeaturesPopupWindow(ServicePermisionActivity.this);
+                    }
+                    if (!mPopupWindow.isShowing()) {
+                        mPopupWindow.showAsDropDown(ivAdd, 0, 0);
+                    }else {
+                        mPopupWindow.dismiss();
                     }
                     break;
             }

@@ -19,6 +19,7 @@ import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ImageButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +30,7 @@ import www.jykj.com.jykj_zxyl.activity.myself.couponFragment.AlreadyUserFragment
 import www.jykj.com.jykj_zxyl.activity.myself.couponFragment.FragmentAdapter;
 import www.jykj.com.jykj_zxyl.activity.myself.couponFragment.WithoutUserFragment;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
+import www.jykj.com.jykj_zxyl.custom.MoreFeaturesPopupWindow;
 import www.jykj.com.jykj_zxyl.fragment.ylzx.FragmentRMJX;
 import www.jykj.com.jykj_zxyl.fragment.ylzx.FragmentWDSC;
 import www.jykj.com.jykj_zxyl.fragment.ylzx.FragmentYXWX;
@@ -51,6 +53,8 @@ public class FragmentYLZX extends Fragment {
     private TabLayout tabLayout;
     private List<String> mTitles;
     private WebView web;
+    private MoreFeaturesPopupWindow mPopupWindow;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_ylzx, container, false);
@@ -66,7 +70,20 @@ public class FragmentYLZX extends Fragment {
      * 初始化布局
      */
     private void initLayout(View view) {
-
+        ImageButton ivAdd = view.findViewById(R.id.right_image_search);
+        ivAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mPopupWindow ==null){
+                    mPopupWindow = new MoreFeaturesPopupWindow(getActivity());
+                }
+                if (!mPopupWindow.isShowing()) {
+                    mPopupWindow.showAsDropDown(ivAdd, 0, 0);
+                }else {
+                    mPopupWindow.dismiss();
+                }
+            }
+        });
         web = view.findViewById(R.id.web);
         WebSettings webSettings = web.getSettings();
         web.loadUrl("http://jiuyihtn.com/AppAssembly/medicalAdvice.html");

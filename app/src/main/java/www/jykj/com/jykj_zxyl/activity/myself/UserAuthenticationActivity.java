@@ -20,6 +20,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -45,6 +46,7 @@ import www.jykj.com.jykj_zxyl.activity.home.tjhz.AddPatientQRCodeActivity;
 import www.jykj.com.jykj_zxyl.app_base.base_activity.BaseActivity;
 import www.jykj.com.jykj_zxyl.application.Constant;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
+import www.jykj.com.jykj_zxyl.custom.MoreFeaturesPopupWindow;
 import www.jykj.com.jykj_zxyl.util.ActivityUtil;
 import www.jykj.com.jykj_zxyl.util.BitmapUtil;
 import www.jykj.com.jykj_zxyl.util.ImageViewUtil;
@@ -98,6 +100,8 @@ public class UserAuthenticationActivity extends BaseActivity {
     private ImageView iv_zgz_img;
     private ImageView iv_zcz_img;
     private LinearLayout lin_data;
+    private ImageButton ivAdd;
+    private MoreFeaturesPopupWindow mPopupWindow;
 
 
     /**
@@ -464,7 +468,8 @@ public class UserAuthenticationActivity extends BaseActivity {
 
         //申请状态
         status = findViewById(R.id.status);
-
+        ivAdd = findViewById(R.id.right_image_search);
+        ivAdd.setOnClickListener(new ButtonClick());
 
         iv_zyz_img = findViewById(R.id.iv_zyz_img);
         iv_zgz_img = findViewById(R.id.iv_zgz_img);
@@ -503,6 +508,17 @@ public class UserAuthenticationActivity extends BaseActivity {
             switch (view.getId()) {
                 case R.id.li_activityAuthentication_back:
                     finish();
+                    break;
+
+                case R.id.right_image_search:
+                    if (mPopupWindow ==null){
+                        mPopupWindow = new MoreFeaturesPopupWindow(UserAuthenticationActivity.this);
+                    }
+                    if (!mPopupWindow.isShowing()) {
+                        mPopupWindow.showAsDropDown(ivAdd, 0, 0);
+                    }else {
+                        mPopupWindow.dismiss();
+                    }
                     break;
 
                 case R.id.ri_idcardFront:

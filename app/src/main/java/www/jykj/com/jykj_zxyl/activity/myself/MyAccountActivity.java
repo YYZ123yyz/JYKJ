@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -14,6 +15,8 @@ import www.jykj.com.jykj_zxyl.activity.MainActivity;
 import www.jykj.com.jykj_zxyl.activity.PhoneLoginActivity;
 import www.jykj.com.jykj_zxyl.activity.UseRegistActivity;
 import www.jykj.com.jykj_zxyl.app_base.base_activity.BaseActivity;
+import www.jykj.com.jykj_zxyl.appointment.activity.MyClinicDetialActivity;
+import www.jykj.com.jykj_zxyl.custom.MoreFeaturesPopupWindow;
 import www.jykj.com.jykj_zxyl.util.ActivityUtil;
 
 public class MyAccountActivity extends BaseActivity {
@@ -27,6 +30,8 @@ public class MyAccountActivity extends BaseActivity {
     private LinearLayout mMyIntegral;                //我的积分
     private LinearLayout mCoupon;                    //我的优惠券
     private LinearLayout mBack;
+    private ImageButton ivAdd;
+    private MoreFeaturesPopupWindow mPopupWindow;
 
 
     @Override
@@ -55,6 +60,8 @@ public class MyAccountActivity extends BaseActivity {
         mMyIntegral.setOnClickListener(new ButtonClick());
         mYSurplus.setOnClickListener(new ButtonClick());
         mBack.setOnClickListener(new ButtonClick());
+        ivAdd = findViewById(R.id.right_image_search);
+        ivAdd.setOnClickListener(new ButtonClick());
     }
 
 
@@ -62,6 +69,7 @@ public class MyAccountActivity extends BaseActivity {
      * 点击事件
      */
     class ButtonClick implements View.OnClickListener {
+
         @Override
         public void onClick(View view) {
             switch (view.getId()) {
@@ -85,6 +93,16 @@ public class MyAccountActivity extends BaseActivity {
                     break;
                 case R.id.ll_back:
                     finish();
+                    break;
+                case R.id.right_image_search:
+                    if (mPopupWindow ==null){
+                        mPopupWindow = new MoreFeaturesPopupWindow(MyAccountActivity.this);
+                    }
+                    if (!mPopupWindow.isShowing()) {
+                        mPopupWindow.showAsDropDown(ivAdd, 0, 0);
+                    }else {
+                        mPopupWindow.dismiss();
+                    }
                     break;
             }
         }
