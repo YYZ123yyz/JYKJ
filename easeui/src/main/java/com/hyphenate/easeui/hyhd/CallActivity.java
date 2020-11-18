@@ -1,7 +1,10 @@
 package com.hyphenate.easeui.hyhd;
 
 import android.annotation.SuppressLint;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.media.AudioManager;
 import android.media.Ringtone;
 import android.media.SoundPool;
@@ -13,11 +16,15 @@ import android.widget.Toast;
 
 import com.allen.library.interceptor.Transformer;
 import com.allen.library.interfaces.ILoadingView;
+import com.allen.library.utils.ToastUtils;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.EMError;
+import com.hyphenate.EMMessageListener;
 import com.hyphenate.chat.EMCallManager;
 import com.hyphenate.chat.EMCallStateChangeListener;
+import com.hyphenate.chat.EMChatManager;
 import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMCmdMessageBody;
 import com.hyphenate.chat.EMConversation;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.chat.EMMessage.Status;
@@ -26,6 +33,7 @@ import com.hyphenate.easeui.R;
 import com.hyphenate.easeui.entity.CallExtParameBean;
 import com.hyphenate.easeui.entity.CallStatusEnum;
 import com.hyphenate.easeui.entity.ImCheckResultBean;
+import com.hyphenate.easeui.hyhd.model.CallReceiver;
 import com.hyphenate.easeui.hyhd.model.Constant;
 import com.hyphenate.easeui.hyhd.model.PreferenceManager;
 import com.hyphenate.easeui.utils.MediaSoundUtil;
@@ -33,6 +41,7 @@ import com.hyphenate.exceptions.EMServiceNotReadyException;
 import com.hyphenate.util.EMLog;
 
 import java.util.HashMap;
+import java.util.List;
 
 import www.jykj.com.jykj_zxyl.app_base.base_bean.BaseBean;
 import www.jykj.com.jykj_zxyl.app_base.base_utils.GsonUtils;
@@ -43,7 +52,7 @@ import www.jykj.com.jykj_zxyl.app_base.http.RetrofitUtil;
 
 
 @SuppressLint("Registered")
-public class CallActivity extends BaseActivity {
+public class CallActivity extends BaseActivity    {
     public final static String TAG = "CallActivity";
     protected final int MSG_CALL_MAKE_VIDEO = 0;
     protected final int MSG_CALL_MAKE_VOICE = 1;
@@ -74,6 +83,7 @@ public class CallActivity extends BaseActivity {
     private ImCheckResultBean imCheckResultBean;
     private int addSurplusCount;
     private int addTotleCount;
+    private int useCount;
     /**
      * 0：voice call，1：video call
      */
@@ -131,7 +141,12 @@ public class CallActivity extends BaseActivity {
 
         EMClient.getInstance().callManager().setPushProvider(pushProvider);
         sendSearchReserveIMInfoRequest(orderCode);
+
+
+
+
     }
+
 
 
     /**
@@ -155,7 +170,7 @@ public class CallActivity extends BaseActivity {
                                     = GsonUtils.fromJson(resJsonData, ImCheckResultBean.class);
                             if (imCheckResultBean!=null) {
                                 addSurplusCount = imCheckResultBean.getAddSurplusCount();
-                                imCheckResultBean.getAddTotleCount();
+                                addTotleCount= imCheckResultBean.getAddTotleCount();
                             }
 
                         }
@@ -180,8 +195,12 @@ public class CallActivity extends BaseActivity {
             protected void onSuccessResult(BaseBean baseBean) {
                 int resCode = baseBean.getResCode();
                 if (resCode==1) {
-                    sendSearchReserveIMInfoRequest(orderCode);
+                    ToastUtils.showToast("操作成功");
                     againCalculationTime();
+                    sendCmdMessageRequest(username);
+                    sendSearchReserveIMInfoRequest(orderCode);
+                }else{
+                    ToastUtils.showToast(baseBean.getResMsg());
                 }
             }
         });
@@ -191,9 +210,28 @@ public class CallActivity extends BaseActivity {
      * 添加时长
      */
     protected void onClickAddTime() {
-//        int useCount = addTotleCount - addSurplusCount;
-//        sendOperReserveIMInfoRequest(orderCode, useCount + 1 + "");
-        againCalculationTime();
+        if (addSurplusCount<=0) {
+            ToastUtils.showToast("添加次数已经用完");
+            return;
+        }
+        useCount++;
+        sendOperReserveIMInfoRequest(orderCode, useCount+"");
+        //againCalculationTime();
+    }
+
+
+    /**
+     * 发送透传消息
+     * @param username 用户Id
+     */
+    private void sendCmdMessageRequest(String username){
+        EMMessage endMsg = EMMessage.createSendMessage(EMMessage.Type.CMD);
+        EMCmdMessageBody body = new EMCmdMessageBody("addTime");
+        // Only deliver this cmd msg to online users
+        body.deliverOnlineOnly(true);
+        endMsg.addBody(body);
+        endMsg.setTo(username);
+        EMClient.getInstance().chatManager().sendMessage(endMsg);
     }
 
     /**
@@ -202,6 +240,8 @@ public class CallActivity extends BaseActivity {
     protected void againCalculationTime(){
 
     }
+
+
 
 
     @Override
@@ -534,6 +574,17 @@ public class CallActivity extends BaseActivity {
         // save
         EMClient.getInstance().chatManager().saveMessage(message);
     }
+
+
+
+    /**
+     * 添加时长
+     */
+    protected void addTimeOperation(){
+
+    }
+
+
 
     enum CallingState {
         CANCELLED, NORMAL, REFUSED, BEREFUSED, UNANSWERED, OFFLINE, NO_RESPONSE, BUSY, VERSION_NOT_SAME, SERVICE_ARREARAGES, SERVICE_NOT_ENABLE

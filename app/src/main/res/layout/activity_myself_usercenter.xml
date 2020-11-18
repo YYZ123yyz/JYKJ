@@ -44,6 +44,18 @@
             android:layout_width="60dp"
             android:textColor="@color/writeColor"
             android:layout_height="match_parent"/>
+
+        <ImageButton
+            android:id="@+id/right_image_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:layout_toLeftOf="@+id/tv_activityUserCenter_commit"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:gravity="center"
+            android:src="@mipmap/icon_add_small"
+            />
     </RelativeLayout>
 
     <ScrollView

@@ -42,6 +42,7 @@ public class MoreFeaturesPopupWindow extends PopupWindow implements View.OnClick
     private TextView tv_wdzbj;
     private HelpActivity helpActivity;
     private QRCodeActivity qrCodeActivity;
+    private int mCode =0 ;
     public MoreFeaturesPopupWindow(Activity context) {
         super(context);
         mContext = context;
@@ -130,7 +131,11 @@ public class MoreFeaturesPopupWindow extends PopupWindow implements View.OnClick
 //                mContext.startActivity(new Intent(mContext,DoctorsUnionActivity.class));
 //                break;
             case R.id.tv_wdzbj:
-                mContext.startActivity(new Intent(mContext, MyLiveRoomActivity.class));
+                if (mCode != 5){
+                    mContext.startActivity(new Intent(mContext, MyLiveRoomActivity.class));
+                }else {
+                    dismiss();
+                }
                 break;
 
                 //帮助与反馈
@@ -170,5 +175,9 @@ public class MoreFeaturesPopupWindow extends PopupWindow implements View.OnClick
      */
     public void setQRCodeActivity(QRCodeActivity mActivity) {
         qrCodeActivity = mActivity;
+    }
+
+    public void setActivityCode(int code){
+        this.mCode =code ;
     }
 }

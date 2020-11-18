@@ -346,6 +346,19 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onDestroy();
         EMClient.getInstance().removeConnectionListener(emConnectionListener);
         unbinder.unbind();
+        KeyboardUtils.unregisterSoftInputChangedListener(this.getWindow());
+        if (popupWindow != null) {
+            if (popupWindow.isShowing()) {
+                popupWindow.dismiss();
+            }
+            popupWindow = null;
+        }
+        if (mPopWindow !=null ){
+            if (mPopWindow.isShowing()){
+                mPopWindow.dismiss();
+            }
+            mPopWindow = null;
+        }
     }
 
     private void initSpeech() {

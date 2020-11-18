@@ -4,12 +4,16 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.widget.ImageButton;
+
 import java.util.ArrayList;
 import java.util.List;
 import butterknife.BindView;
 import www.jykj.com.jykj_zxyl.R;
+import www.jykj.com.jykj_zxyl.activity.home.MyLiveRoomActivity;
 import www.jykj.com.jykj_zxyl.activity.myself.couponFragment.FragmentAdapter;
 import www.jykj.com.jykj_zxyl.app_base.base_activity.BaseFragment;
+import www.jykj.com.jykj_zxyl.custom.MoreFeaturesPopupWindow;
 
 /**
  * Description:会诊
@@ -22,6 +26,8 @@ public class ConsultationFragment extends BaseFragment {
     TabLayout tabLayout;
     @BindView(R.id.vp_pager)
     ViewPager vpPager;
+    @BindView(R.id.right_image_search)
+    ImageButton ivAdd;
     private List<String> mTitles;//标题集合列表
     private List<Fragment> mFragments;//Fragment集合列表
     private FragmentAdapter fragmentAdapter;
@@ -29,6 +35,8 @@ public class ConsultationFragment extends BaseFragment {
     private AllPatientListFragment mAllPatientListFragment;
     private SignUpPatientListFragment mSignUpPatientListFragment;
     private DoctorFriendsListFragment mDoctorFriendsListFragment;
+    private MoreFeaturesPopupWindow mPopupWindow;
+
     @Override
     protected int getFragmentLayoutId() {
         return R.layout.fragment_consultation_list;
@@ -41,7 +49,19 @@ public class ConsultationFragment extends BaseFragment {
 
         mTitles=new ArrayList<>();
         mFragments=new ArrayList<>();
-
+        ivAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mPopupWindow ==null){
+                    mPopupWindow = new MoreFeaturesPopupWindow(getActivity());
+                }
+                if (!mPopupWindow.isShowing()) {
+                    mPopupWindow.showAsDropDown(ivAdd, 0, 0);
+                }else {
+                    mPopupWindow.dismiss();
+                }
+            }
+        });
         //初始化tablelayout
         initTabLayout();
     }

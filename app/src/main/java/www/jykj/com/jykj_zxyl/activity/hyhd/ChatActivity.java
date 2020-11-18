@@ -570,6 +570,7 @@ public class ChatActivity extends BaseActivity {
                     chatFragment.setReserveConfigStart(checkImResultBean.getReserveConfigStart());
                     chatFragment.setReserveConfigEnd(checkImResultBean.getReserveConfigEnd());
                     chatFragment.setSurplusDuration(surplusDuration);
+                    chatFragment.setOrderCode(orderCode);
                     if (StringUtils.isNotEmpty(isReserveing)&&isReserveing.equals("1")) {
                         mFloatballManager.show();
                     }else{

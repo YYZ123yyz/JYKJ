@@ -40,6 +40,18 @@
                     android:layout_width="wrap_content"
                     android:textColor="@color/writeColor"
                     android:layout_height="wrap_content"/>
+
+                <ImageButton
+                    android:id="@+id/right_image_search"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:gravity="center"
+                    android:src="@mipmap/icon_add_small"
+                    />
             </RelativeLayout>
             <LinearLayout
                 android:layout_width="match_parent"
