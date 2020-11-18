@@ -11,6 +11,8 @@ import android.os.HandlerThread;
 import android.os.Message;
 import android.widget.Toast;
 
+import com.allen.library.interceptor.Transformer;
+import com.allen.library.interfaces.ILoadingView;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.EMError;
 import com.hyphenate.chat.EMCallManager;
@@ -23,13 +25,21 @@ import com.hyphenate.chat.EMTextMessageBody;
 import com.hyphenate.easeui.R;
 import com.hyphenate.easeui.entity.CallExtParameBean;
 import com.hyphenate.easeui.entity.CallStatusEnum;
+import com.hyphenate.easeui.entity.ImCheckResultBean;
 import com.hyphenate.easeui.hyhd.model.Constant;
 import com.hyphenate.easeui.hyhd.model.PreferenceManager;
 import com.hyphenate.easeui.utils.MediaSoundUtil;
 import com.hyphenate.exceptions.EMServiceNotReadyException;
 import com.hyphenate.util.EMLog;
 
+import java.util.HashMap;
+
+import www.jykj.com.jykj_zxyl.app_base.base_bean.BaseBean;
 import www.jykj.com.jykj_zxyl.app_base.base_utils.GsonUtils;
+import www.jykj.com.jykj_zxyl.app_base.http.ApiHelper;
+import www.jykj.com.jykj_zxyl.app_base.http.CommonDataObserver;
+import www.jykj.com.jykj_zxyl.app_base.http.ParameUtil;
+import www.jykj.com.jykj_zxyl.app_base.http.RetrofitUtil;
 
 
 @SuppressLint("Registered")
@@ -61,15 +71,18 @@ public class CallActivity extends BaseActivity {
     protected int streamID = -1;
 
     EMCallManager.EMCallPushProvider pushProvider;
-
+    private ImCheckResultBean imCheckResultBean;
+    private int addSurplusCount;
+    private int addTotleCount;
     /**
      * 0：voice call，1：video call
      */
     protected int callType = 0;
-
+    protected String orderCode;
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
+        orderCode=this.getIntent().getStringExtra("orderCode");
         audioManager = (AudioManager) this.getSystemService(Context.AUDIO_SERVICE);
 
         pushProvider = new EMCallManager.EMCallPushProvider() {
@@ -110,13 +123,86 @@ public class CallActivity extends BaseActivity {
                     public void onProgress(int progress, String status) {
                     }
                 });
+
                 // send messages
                 EMClient.getInstance().chatManager().sendMessage(message);
             }
         };
 
         EMClient.getInstance().callManager().setPushProvider(pushProvider);
+        sendSearchReserveIMInfoRequest(orderCode);
     }
+
+
+    /**
+     * Im 查询追加次数
+     *
+     * @param orderCode 订单code
+     */
+    private void sendSearchReserveIMInfoRequest(String orderCode) {
+        HashMap<String, Object> hashMap = ParameUtil.buildBaseDoctorParam(this);
+        hashMap.put("orderCode", orderCode);
+        String s = RetrofitUtil.encodeParam(hashMap);
+        ApiHelper.getApiService().searchReserveIMInfo(s)
+                .compose(Transformer.switchSchedulers())
+                .subscribe(new CommonDataObserver() {
+                    @Override
+                    protected void onSuccessResult(BaseBean baseBean) {
+                        int resCode = baseBean.getResCode();
+                        if (resCode == 1) {
+                            String resJsonData = baseBean.getResJsonData();
+                            imCheckResultBean
+                                    = GsonUtils.fromJson(resJsonData, ImCheckResultBean.class);
+                            if (imCheckResultBean!=null) {
+                                addSurplusCount = imCheckResultBean.getAddSurplusCount();
+                                imCheckResultBean.getAddTotleCount();
+                            }
+
+                        }
+                    }
+                });
+    }
+
+
+    /**
+     * 变更IM追加次数
+     * @param orderCode 订单code
+     * @param useCount 使用次数
+     */
+    private void sendOperReserveIMInfoRequest(String orderCode,String useCount){
+        HashMap<String, Object> hashMap = ParameUtil.buildBaseDoctorParam(this);
+        hashMap.put("orderCode",orderCode);
+        hashMap.put("useCount",useCount);
+        String s = RetrofitUtil.encodeParam(hashMap);
+        ApiHelper.getApiService().operReserveIMInfo(s).compose(Transformer.switchSchedulers())
+                .subscribe(new CommonDataObserver() {
+            @Override
+            protected void onSuccessResult(BaseBean baseBean) {
+                int resCode = baseBean.getResCode();
+                if (resCode==1) {
+                    sendSearchReserveIMInfoRequest(orderCode);
+                    againCalculationTime();
+                }
+            }
+        });
+    }
+
+    /**
+     * 添加时长
+     */
+    protected void onClickAddTime() {
+//        int useCount = addTotleCount - addSurplusCount;
+//        sendOperReserveIMInfoRequest(orderCode, useCount + 1 + "");
+        againCalculationTime();
+    }
+
+    /**
+     * 重新记时
+     */
+    protected void againCalculationTime(){
+
+    }
+
 
     @Override
     protected void onDestroy() {
@@ -137,6 +223,9 @@ public class CallActivity extends BaseActivity {
         releaseHandler();
         super.onDestroy();
     }
+
+
+
 
     @Override
     public void onBackPressed() {

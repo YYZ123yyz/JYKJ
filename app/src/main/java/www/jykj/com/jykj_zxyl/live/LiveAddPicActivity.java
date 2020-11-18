@@ -50,7 +50,7 @@ import www.jykj.com.jykj_zxyl.util.StringUtils;
  * @date: 2020-11-14 11:47
  */
 public class LiveAddPicActivity extends AbstractMvpBaseActivity<AddLivePhotoContract.View
-        ,AddLivePhotoPresenter> implements AddLivePhotoContract.View{
+        , AddLivePhotoPresenter> implements AddLivePhotoContract.View {
 
     @BindView(R.id.toolbar)
     BaseToolBar toolbar;
@@ -74,8 +74,8 @@ public class LiveAddPicActivity extends AbstractMvpBaseActivity<AddLivePhotoCont
     protected void onBeforeSetContentLayout() {
         super.onBeforeSetContentLayout();
         Bundle extras = this.getIntent().getExtras();
-        if (extras!=null) {
-            detailCode= extras.getString("detailCode");
+        if (extras != null) {
+            detailCode = extras.getString("detailCode");
         }
     }
 
@@ -88,8 +88,8 @@ public class LiveAddPicActivity extends AbstractMvpBaseActivity<AddLivePhotoCont
     @Override
     protected void initView() {
         super.initView();
-        mPhotoInfos=new ArrayList<>();
-        mUpdateInfos=new ArrayList<>();
+        mPhotoInfos = new ArrayList<>();
+        mUpdateInfos = new ArrayList<>();
         //初始化ToolBar
         setToolBar();
         //初始化RecyclerView
@@ -135,14 +135,14 @@ public class LiveAddPicActivity extends AbstractMvpBaseActivity<AddLivePhotoCont
     /**
      * 添加监听
      */
-    private void addListener(){
+    private void addListener() {
         mImageViewRecycleAdapter.setOnItemClickListener(new ImageViewRecycleAdapter.OnItemClickListener() {
             @Override
             public void onClick(int position) {
                 String photoID = mPhotoInfos.get(position).getPhotoID();
                 if (photoID.equals("ADDPHOTO")) {
                     startTakePhotoRequest();
-                }else{
+                } else {
 
                 }
             }
@@ -168,24 +168,24 @@ public class LiveAddPicActivity extends AbstractMvpBaseActivity<AddLivePhotoCont
             @Override
             public void onClick(View v) {
 
-                if (mPhotoInfos.size()==1&&mUpdateInfos.size()==0) {
+                if (mPhotoInfos.size() == 1 && mUpdateInfos.size() == 0) {
                     ToastUtils.showToast("请选择图片");
                     return;
                 }
-                if (liveProtromDetialBean!=null
+                if (liveProtromDetialBean != null
                         && !CollectionUtils.isEmpty(liveProtromDetialBean.getImageList())) {
                     String imageIds = buildBasicsImgId(mUpdateInfos);
                     String imageDatas = buildImageDatas(mPhotoInfos);
-                    if (TextUtils.isEmpty(imageIds)&&TextUtils.isEmpty(imageDatas)) {
+                    if (TextUtils.isEmpty(imageIds) && TextUtils.isEmpty(imageDatas)) {
                         LiveAddPicActivity.this.finish();
                         return;
                     }
                     mPresenter.sendUpdateBroadcastImageRequest(
                             liveProtromDetialBean.getImageCode()
-                            ,detailCode,imageIds,imageDatas,LiveAddPicActivity.this);
-                }else{
+                            , detailCode, imageIds, imageDatas, LiveAddPicActivity.this);
+                } else {
                     String content = buildImageDatas(mPhotoInfos);
-                    mPresenter.sendAddBroadCastImageRequest(detailCode,content,
+                    mPresenter.sendAddBroadCastImageRequest(detailCode, content,
                             LiveAddPicActivity.this);
                 }
 
@@ -202,7 +202,7 @@ public class LiveAddPicActivity extends AbstractMvpBaseActivity<AddLivePhotoCont
                 .subscribe(aBoolean -> {
                     if (aBoolean) {//允许权限，6.0以下默认true
                         String[] items = {"拍照", "从相册选择"};
-                       new android.support.v7.app.AlertDialog.Builder(LiveAddPicActivity.this)
+                        new android.support.v7.app.AlertDialog.Builder(LiveAddPicActivity.this)
                                 .setItems(items, new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -255,12 +255,10 @@ public class LiveAddPicActivity extends AbstractMvpBaseActivity<AddLivePhotoCont
     }
 
 
-
     /**
      * 初始化RecyclerView
-     *
      */
-    private void imageCompressImg(Uri uri){
+    private void imageCompressImg(Uri uri) {
         Luban.with(this)
                 .load(UriUtils.uri2File(uri))
                 .ignoreBy(100)
@@ -274,7 +272,7 @@ public class LiveAddPicActivity extends AbstractMvpBaseActivity<AddLivePhotoCont
                     @Override
                     public void onSuccess(File file) {
                         // TODO 压缩成功后调用，返回压缩后的图片文件
-                       // System.out.println(file);
+                        // System.out.println(file);
                         Bitmap bitmap = ImageUtils.getBitmap(file);
                         Bitmap clipBitmap = ImageUtils.clip(bitmap, 1, 1, 450, 450);
 
@@ -296,10 +294,9 @@ public class LiveAddPicActivity extends AbstractMvpBaseActivity<AddLivePhotoCont
     }
 
     /**
-     *
      * @param list 图片列表
      */
-    private void addLastImageBtn(List<ImageInfoBean> list){
+    private void addLastImageBtn(List<ImageInfoBean> list) {
         if (!CollectionUtils.isEmpty(list)) {
             for (int i = 0; i < list.size(); i++) {
                 String photoID = list.get(i).getPhotoID();
@@ -312,18 +309,19 @@ public class LiveAddPicActivity extends AbstractMvpBaseActivity<AddLivePhotoCont
         }
         ImageInfoBean imageInfoBean = new ImageInfoBean();
         imageInfoBean.setPhotoID("ADDPHOTO");
-        list.add(list.size(),imageInfoBean);
+        list.add(list.size(), imageInfoBean);
     }
 
     /**
      * 构建Image Data 数据
+     *
      * @param list 图片列表
      * @return 图片数据
      */
     private String buildImageDatas(List<ImageInfoBean> list) {
-        boolean flag=false;
+        boolean flag = false;
         StringBuilder stringBuilder = new StringBuilder();
-        if(!CollectionUtils.isEmpty(list)&&list.size()>1){
+        if (!CollectionUtils.isEmpty(list) && list.size() > 1) {
             stringBuilder.append("data:image/jpg;base64,");
         }
         for (int i = 0; i < list.size(); i++) {
@@ -331,37 +329,38 @@ public class LiveAddPicActivity extends AbstractMvpBaseActivity<AddLivePhotoCont
             if (StringUtils.isNotEmpty(photo)) {
                 if (i == list.size() - 1) {
                     stringBuilder.append(list.get(i).getPhoto());
-                    flag=true;
+                    flag = true;
                 } else {
                     stringBuilder.append(list.get(i).getPhoto()).append("^");
-                    flag=true;
+                    flag = true;
                 }
             }
         }
-        if(!flag){
-           return "";
+        if (!flag) {
+            return "";
         }
         return stringBuilder.toString();
     }
 
     /**
      * 构建图片Id 列表
+     *
      * @param list 图片数据list
      * @return 图片Id list
      */
-    private String buildBasicsImgId(List<ImageInfoBean> list){
+    private String buildBasicsImgId(List<ImageInfoBean> list) {
         StringBuilder stringBuilder = new StringBuilder();
         if (null != list && !list.isEmpty())
-        for (int i = 0; i < list.size(); i++) {
-            int basicsImgId = list.get(i).getBasicsImgId();
-            if (basicsImgId!=0) {
-                if (i == list.size() - 1) {
-                    stringBuilder.append(basicsImgId);
-                } else {
-                    stringBuilder.append(basicsImgId).append("^");
+            for (int i = 0; i < list.size(); i++) {
+                int basicsImgId = list.get(i).getBasicsImgId();
+                if (basicsImgId != 0) {
+                    if (i == list.size() - 1) {
+                        stringBuilder.append(basicsImgId);
+                    } else {
+                        stringBuilder.append(basicsImgId).append("^");
+                    }
                 }
             }
-        }
         return stringBuilder.toString();
     }
 
@@ -378,6 +377,7 @@ public class LiveAddPicActivity extends AbstractMvpBaseActivity<AddLivePhotoCont
 
     @Override
     public void getAddBroadCastImageResult(UploadLiveImageResultBean uploadLiveImageResultBean) {
+        this.finish();
     }
 
     @Override
@@ -387,10 +387,10 @@ public class LiveAddPicActivity extends AbstractMvpBaseActivity<AddLivePhotoCont
 
     @Override
     public void getBroadcastDetailInfoResult(LiveProtromDetialBean liveProtromDetialBean) {
-        this.liveProtromDetialBean=liveProtromDetialBean;
+        this.liveProtromDetialBean = liveProtromDetialBean;
         List<LiveProtromDetialBean.ImageListBean> imageList = liveProtromDetialBean.getImageList();
         for (LiveProtromDetialBean.ImageListBean imageListBean : imageList) {
-            ImageInfoBean imageInfoBean=new ImageInfoBean();
+            ImageInfoBean imageInfoBean = new ImageInfoBean();
             imageInfoBean.setBasicsImgId(imageListBean.getBasicsImgId());
             imageInfoBean.setTableImgId(imageListBean.getTableImgId());
             imageInfoBean.setPhotoUrl(imageListBean.getImgUrl());

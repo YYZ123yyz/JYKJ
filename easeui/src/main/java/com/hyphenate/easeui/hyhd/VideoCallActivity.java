@@ -98,6 +98,7 @@ public class VideoCallActivity extends CallActivity implements OnClickListener {
     private PeterTimeCountRefresh petterTimer;
     private boolean isOneMinuteVibrator;
     private boolean isThreeMinuteVibrator;
+    private long currentMillisUntilFinished;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -356,11 +357,12 @@ public class VideoCallActivity extends CallActivity implements OnClickListener {
                                 };
                                 timer.schedule(task, 0, 1000);
 
-                                petterTimer = new PeterTimeCountRefresh(1 * 1000 * 60,
+                                petterTimer = new PeterTimeCountRefresh(surplusDuration * 1000 * 60,
                                         1000, tvCountDownTime, new PeterTimeCountRefresh.OnTimerListener() {
                                     @Override
                                     public void onTickTime(long millisUntilFinished) {
                                         int  minute =(int) Math.floor(millisUntilFinished / 60000);
+                                        currentMillisUntilFinished=millisUntilFinished;
                                         if(minute<3&&!isThreeMinuteVibrator){
                                             Vibrator vibrator = (Vibrator)
                                                     VideoCallActivity.this
@@ -723,8 +725,50 @@ public class VideoCallActivity extends CallActivity implements OnClickListener {
             handler.sendEmptyMessage(MSG_CALL_SWITCH_CAMERA);
 
         } else if(i==R.id.rl_add_time_btn){
-
+            onClickAddTime();
         }
+    }
+
+    @Override
+    protected void againCalculationTime() {
+        super.againCalculationTime();
+        if (petterTimer!=null) {
+            petterTimer.cancel();
+        }
+        petterTimer = new PeterTimeCountRefresh(currentMillisUntilFinished+1000 * 60,
+                1000, tvCountDownTime, new PeterTimeCountRefresh.OnTimerListener() {
+            @Override
+            public void onTickTime(long millisUntilFinished) {
+                int  minute =(int) Math.floor(millisUntilFinished / 60000);
+                currentMillisUntilFinished=millisUntilFinished;
+                if(minute<3&&!isThreeMinuteVibrator){
+                    Vibrator vibrator = (Vibrator)
+                            VideoCallActivity.this
+                                    .getSystemService(VideoCallActivity.this.VIBRATOR_SERVICE);
+                    vibrator.vibrate(1000);
+                    ToastCommonUtil.showToastCustom(VideoCallActivity.this
+                            ,"通话即将到时，到时后通话将被中断", Gravity.CENTER);
+                    isThreeMinuteVibrator=true;
+                }
+
+                if (minute<1&&!isOneMinuteVibrator) {
+                    Vibrator vibrator = (Vibrator)
+                            VideoCallActivity.this
+                                    .getSystemService(VideoCallActivity.this.VIBRATOR_SERVICE);
+                    vibrator.vibrate(1000);
+                    ToastCommonUtil.showToastCustom(VideoCallActivity.this
+                            ,"通话即将到时，到时后通话将被中断", Gravity.CENTER);
+                    isOneMinuteVibrator=true;
+                }
+
+            }
+
+            @Override
+            public void onFinish() {
+                mHandler.sendEmptyMessage(1);
+            }
+        });
+        petterTimer.start();
     }
 
     @Override

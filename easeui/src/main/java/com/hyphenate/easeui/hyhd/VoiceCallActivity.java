@@ -27,6 +27,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.allen.library.interceptor.Transformer;
+import com.allen.library.interfaces.ILoadingView;
 import com.bumptech.glide.Glide;
 import com.hyphenate.chat.EMCallSession;
 import com.hyphenate.chat.EMCallStateChangeListener;
@@ -38,13 +40,19 @@ import com.hyphenate.exceptions.EMNoActiveCallException;
 import com.hyphenate.exceptions.HyphenateException;
 import com.hyphenate.util.EMLog;
 
+import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.UUID;
 
+import www.jykj.com.jykj_zxyl.app_base.base_bean.BaseBean;
 import www.jykj.com.jykj_zxyl.app_base.base_utils.PeterTimeCountRefresh;
 import www.jykj.com.jykj_zxyl.app_base.base_utils.ToastCommonUtil;
 import www.jykj.com.jykj_zxyl.app_base.base_view.ZoomTextView;
+import www.jykj.com.jykj_zxyl.app_base.http.ApiHelper;
+import www.jykj.com.jykj_zxyl.app_base.http.CommonDataObserver;
+import www.jykj.com.jykj_zxyl.app_base.http.ParameUtil;
+import www.jykj.com.jykj_zxyl.app_base.http.RetrofitUtil;
 
 
 /**
@@ -85,6 +93,7 @@ public class VoiceCallActivity extends CallActivity implements OnClickListener {
     private PeterTimeCountRefresh petterTimer;
     private boolean isOneMinuteVibrator;
     private boolean isThreeMinuteVibrator;
+    private long currentMillisUntilFinished;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -180,6 +189,8 @@ public class VoiceCallActivity extends CallActivity implements OnClickListener {
 
 
     }
+
+
 
 
     @SuppressLint("HandlerLeak")
@@ -291,11 +302,12 @@ public class VoiceCallActivity extends CallActivity implements OnClickListener {
                                 };
                                 timer.schedule(task, 0, 1000);
 
-                                petterTimer = new PeterTimeCountRefresh(1 * 1000 * 60,
+                                petterTimer = new PeterTimeCountRefresh(surplusDuration * 1000 * 60,
                                         1000, tvCountDownTime, new PeterTimeCountRefresh.OnTimerListener() {
                                     @Override
                                     public void onTickTime(long millisUntilFinished) {
                                         int  minute =(int) Math.floor(millisUntilFinished / 60000);
+                                        currentMillisUntilFinished=millisUntilFinished;
                                         if(minute<3&&!isThreeMinuteVibrator){
                                             Vibrator vibrator = (Vibrator)
                                                     VoiceCallActivity.this
@@ -611,9 +623,50 @@ public class VoiceCallActivity extends CallActivity implements OnClickListener {
             }
 
         } else if(i==R.id.rl_add_time_btn) {
-
-
+            onClickAddTime();
         }
+    }
+
+    @Override
+    protected void againCalculationTime() {
+        super.againCalculationTime();
+        if (petterTimer!=null) {
+            petterTimer.cancel();
+        }
+        petterTimer = new PeterTimeCountRefresh(currentMillisUntilFinished+1000 * 60,
+                1000, tvCountDownTime, new PeterTimeCountRefresh.OnTimerListener() {
+            @Override
+            public void onTickTime(long millisUntilFinished) {
+                int  minute =(int) Math.floor(millisUntilFinished / 60000);
+                currentMillisUntilFinished=millisUntilFinished;
+                if(minute<3&&!isThreeMinuteVibrator){
+                    Vibrator vibrator = (Vibrator)
+                            VoiceCallActivity.this
+                                    .getSystemService(VoiceCallActivity.this.VIBRATOR_SERVICE);
+                    vibrator.vibrate(1000);
+                    ToastCommonUtil.showToastCustom(VoiceCallActivity.this
+                            ,"通话即将到时，到时后通话将被中断", Gravity.CENTER);
+                    isThreeMinuteVibrator=true;
+                }
+
+                if (minute<1&&!isOneMinuteVibrator) {
+                    Vibrator vibrator = (Vibrator)
+                            VoiceCallActivity.this
+                                    .getSystemService(VoiceCallActivity.this.VIBRATOR_SERVICE);
+                    vibrator.vibrate(1000);
+                    ToastCommonUtil.showToastCustom(VoiceCallActivity.this
+                            ,"通话即将到时，到时后通话将被中断", Gravity.CENTER);
+                    isOneMinuteVibrator=true;
+                }
+
+            }
+
+            @Override
+            public void onFinish() {
+                mHandler.sendEmptyMessage(1);
+            }
+        });
+        petterTimer.start();
     }
 
     @Override

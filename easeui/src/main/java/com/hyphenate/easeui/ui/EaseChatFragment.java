@@ -34,6 +34,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.allen.library.utils.ToastUtils;
 import com.google.gson.Gson;
 import com.huxq17.floatball.libarary.FloatBallManager;
 import com.huxq17.floatball.libarary.floatball.FloatBallCfg;
@@ -1071,32 +1072,53 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
                 case ITEM_VIDEO:
 //                selectVideo();
                     //视频通话就是跳转VideoCallActivity
-                    if ("twjz".equals(mChatType) || "dhjz".equals(mChatType) || "spjz".equals(mChatType)) {
-                        if (mVedioTime <= 0) {
-                            Toast.makeText(getContext(), "视频时长已用尽", Toast.LENGTH_LONG).show();
-                            return;
-                        }
+//                    if ("twjz".equals(mChatType) || "dhjz".equals(mChatType) || "spjz".equals(mChatType)) {
+//                        if (mVedioTime <= 0) {
+//                            Toast.makeText(getContext(), "视频时长已用尽", Toast.LENGTH_LONG).show();
+//                            return;
+//                        }
+//                    }
+                    if (surplusDuration>0) {
+                        startActivity(new Intent(getActivity(), VideoCallActivity.class).putExtra("username", toChatUsername)
+                                .putExtra("isComingCall", false).putExtra(EaseConstant.EXTRA_VEDIO_NUM, mVedioTime)
+                                .putExtra("headUrl",patientUrl)
+                                .putExtra("orderCode",orderCode)
+                                .putExtra("nickName", toChatUsernameName)
+                                .putExtra("surplusDuration",surplusDuration)
+                        );
+                    }else{
+                        ToastUtils.showToast("该用户没有开通此功能");
                     }
-                    startActivity(new Intent(getActivity(), VideoCallActivity.class).putExtra("username", toChatUsername)
-                            .putExtra("isComingCall", false).putExtra(EaseConstant.EXTRA_VEDIO_NUM, mVedioTime)
-                            .putExtra("headUrl",patientUrl)
-                            .putExtra("nickName", toChatUsernameName)
-                            .putExtra("surplusDuration",surplusDuration)
-                    );
+
                     break;
                 case ITEM_CALL:
-                    /**
-                     * 拨打语音电话
-                     * @param to
-                     * @throws EMServiceNotReadyException
-                     */
+
+//                    /**
+//                     * 拨打语音电话
+//                     * @param to
+//                     * @throws EMServiceNotReadyException
+//                     */
+//                    if (surplusDuration>0) {
+//                        startActivity(new Intent(getActivity(), VoiceCallActivity.class)
+//                                .putExtra("username", toChatUsername)
+//                                .putExtra("isComingCall", false)
+//                                .putExtra("nickName", toChatUsernameName)
+//                                .putExtra("headUrl",patientUrl)
+//                                .putExtra("orderCode",orderCode)
+//                                .putExtra("surplusDuration",surplusDuration)
+//                                .putExtra(EaseConstant.EXTRA_VOICE_NUM, mVoiceTime));
+//                    }else{
+//                        ToastUtils.showToast("该用户没有开通此功能");
+//                    }
                     startActivity(new Intent(getActivity(), VoiceCallActivity.class)
                             .putExtra("username", toChatUsername)
                             .putExtra("isComingCall", false)
                             .putExtra("nickName", toChatUsernameName)
                             .putExtra("headUrl",patientUrl)
+                            .putExtra("orderCode",orderCode)
                             .putExtra("surplusDuration",surplusDuration)
                             .putExtra(EaseConstant.EXTRA_VOICE_NUM, mVoiceTime));
+
                     break;
 
                 case ITEM_WJ:

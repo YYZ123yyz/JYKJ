@@ -282,8 +282,15 @@ public interface ApiService {
             , encoded = true) String queryJson);
     //关闭直播
     @POST("/broadcastLiveDataControlle/operLiveRoomDetailsNoticeResCloseBroadcasting")
-    Observable<String> operLiveRoomDetailsNoticeResCloseBroadcasting(@Query(value = "jsonDataInfo"
-            , encoded = true) String queryJson);
-
+    Observable<String> operLiveRoomDetailsNoticeResCloseBroadcasting(
+            @Query(value = "jsonDataInfo", encoded = true) String queryJson);
+    //Im查询追加次数
+    @POST("/imDataControlle/searchReserveIMInfo")
+    Observable<String> searchReserveIMInfo( @Query(value = "jsonDataInfo", encoded = true)
+                                                    String queryJson);
+    //变更Im追加次数
+    @POST("/imDataControlle/operReserveIMInfo")
+    Observable<String> operReserveIMInfo(@Query(value = "jsonDataInfo", encoded = true)
+                                                 String queryJson);
 }
 
