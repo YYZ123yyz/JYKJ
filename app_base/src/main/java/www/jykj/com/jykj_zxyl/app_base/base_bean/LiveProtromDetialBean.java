@@ -22,6 +22,8 @@ public class LiveProtromDetialBean {
     private String riskName;
     private SyllabusBean syllabus;
     private String className;
+    private String attrName;
+    private String broadcastTitle;
     private String imageCode;
     private DoctorInfoBean doctorInfo;
     private List<ImageListBean> imageList;
@@ -230,5 +232,21 @@ public class LiveProtromDetialBean {
 
     public void setImageCode(String imageCode) {
         this.imageCode = imageCode;
+    }
+
+    public String getAttrName() {
+        return attrName;
+    }
+
+    public void setAttrName(String attrName) {
+        this.attrName = attrName;
+    }
+
+    public String getBroadcastTitle() {
+        return broadcastTitle;
+    }
+
+    public void setBroadcastTitle(String broadcastTitle) {
+        this.broadcastTitle = broadcastTitle;
     }
 }

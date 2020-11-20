@@ -13,6 +13,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
@@ -20,13 +22,34 @@ import android.util.Log;
 import android.view.ContextMenu;
 import android.view.View;
 import android.widget.*;
+
+import com.allen.library.interceptor.Transformer;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.tencent.rtmp.ITXLivePlayListener;
 import com.tencent.rtmp.TXLiveConstants;
 import com.tencent.rtmp.TXVodPlayConfig;
 import com.tencent.rtmp.TXVodPlayer;
 import com.tencent.rtmp.ui.TXCloudVideoView;
+
+import butterknife.BindView;
 import www.jykj.com.jykj_zxyl.R;
+import www.jykj.com.jykj_zxyl.app_base.base_activity.BaseActivity;
+import www.jykj.com.jykj_zxyl.app_base.base_bean.BaseBean;
+import www.jykj.com.jykj_zxyl.app_base.base_bean.LiveProtromDetialBean;
+import www.jykj.com.jykj_zxyl.app_base.base_bean.UpLoadLiveProgromBean;
+import www.jykj.com.jykj_zxyl.app_base.base_utils.CollectionUtils;
+import www.jykj.com.jykj_zxyl.app_base.base_utils.GsonUtils;
+import www.jykj.com.jykj_zxyl.app_base.http.ApiHelper;
+import www.jykj.com.jykj_zxyl.app_base.http.CommonDataObserver;
+import www.jykj.com.jykj_zxyl.app_base.http.ParameUtil;
+import www.jykj.com.jykj_zxyl.app_base.http.RetrofitUtil;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
+import www.jykj.com.jykj_zxyl.fragment.liveroom.adapter.LiveProgromAdapter;
+import www.jykj.com.jykj_zxyl.fragment.liveroom.adapter.LiveProgromPicAdapter;
+import www.jykj.com.jykj_zxyl.util.CircleImageView;
+import www.jykj.com.jykj_zxyl.util.StringUtils;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -34,9 +57,30 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class VodPlayerActivity extends Activity implements ITXLivePlayListener {
+public class VodPlayerActivity extends BaseActivity implements ITXLivePlayListener {
     private static final String TAG = VodPlayerActivity.class.getSimpleName();
-
+    @BindView(R.id.iv_live_user_head)
+    CircleImageView ivLiveUserHead;
+    @BindView(R.id.tv_academic_title)
+    TextView tvAcademicTitle;
+    @BindView(R.id.tv_hospital)
+    TextView tvHospital;
+    @BindView(R.id.tv_consult_btn)
+    TextView tvConsultBtn;
+    @BindView(R.id.tv_areas_expertise)
+    TextView tvAreasExpertise;
+    @BindView(R.id.tv_live_theme)
+    TextView tvLiveTheme;
+    @BindView(R.id.tv_live_category)
+    TextView tvLiveCategory;
+    @BindView(R.id.tv_risk_factor)
+    TextView tvRiskFactor;
+    @BindView(R.id.tv_live_keywords)
+    TextView tvLiveKeywords;
+    @BindView(R.id.rv_live_protrom_list)
+    RecyclerView rvLiveProtromList;
+    @BindView(R.id.rv_live_picture_list)
+    RecyclerView rvLivePictureList;
     static JYKJApplication mApp;
     private TXVodPlayer mLivePlayer = null;
     private TXCloudVideoView mPlayerView;
@@ -69,14 +113,23 @@ public class VodPlayerActivity extends Activity implements ITXLivePlayListener {
     RelativeLayout rl_back;
     int videowidth = 0;
     int videoheight = 0;
+    private String detailsCode;
+
+
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected int setLayoutId() {
+        return R.layout.activity_vod;
+    }
+
+    @Override
+    protected void initView() {
+        super.initView();
         mApp = (JYKJApplication)getApplication();
         mPlayUrl = getIntent().getStringExtra("playurl");
         mPlayUrl = mPlayUrl.replaceAll("https:","http:");
         mCurrentRenderMode = TXLiveConstants.RENDER_MODE_FULL_FILL_SCREEN;
         mCurrentRenderRotation = TXLiveConstants.RENDER_ROTATION_PORTRAIT;
+        detailsCode= getIntent().getStringExtra("detailsCode");
         mPlayConfig = new TXVodPlayConfig();
 
         setContentView();
@@ -130,6 +183,112 @@ public class VodPlayerActivity extends Activity implements ITXLivePlayListener {
         });
 
         mVideoPlay = startPlayRtmp();
+        sendGetLiveProgromRequest(detailsCode);
+    }
+
+//    @Override
+//    public void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//
+//    }
+
+    /**
+     * 发送直播大纲请求
+     *
+     * @param detailsCode 直播大纲code
+     */
+    private void sendGetLiveProgromRequest(String detailsCode) {
+        HashMap<String, Object> hashMap = ParameUtil.buildBaseDoctorParam(this);
+        hashMap.put("detailsCode", detailsCode);
+        String s = RetrofitUtil.encodeParam(hashMap);
+        ApiHelper.getLiveApi().getBroadcastDetailInfo(s).compose(Transformer.switchSchedulers())
+                .subscribe(new CommonDataObserver() {
+                    @Override
+                    protected void onSuccessResult(BaseBean baseBean) {
+                        int resCode = baseBean.getResCode();
+                        if (resCode==1) {
+                            String resJsonData = baseBean.getResJsonData();
+                            LiveProtromDetialBean liveProtromDetialBean
+                                    = GsonUtils.fromJson(resJsonData, LiveProtromDetialBean.class);
+                            setLiveDetialData(liveProtromDetialBean);
+                        }
+                    }
+
+                    @Override
+                    protected void onError(String s) {
+                        super.onError(s);
+                    }
+                });
+    }
+
+
+    /**
+     * 设置直播详情数据
+     *
+     * @param liveProtromDetialBean 直播详情
+     */
+    private void setLiveDetialData(LiveProtromDetialBean liveProtromDetialBean) {
+        LiveProtromDetialBean.DoctorInfoBean doctorInfo = liveProtromDetialBean.getDoctorInfo();
+        Glide.with(this).load(doctorInfo.getUserLogoUrl())
+                .apply(RequestOptions.placeholderOf(com.hyphenate.easeui.R.mipmap.docter_heard)
+                        .diskCacheStrategy(DiskCacheStrategy.ALL))
+                .into(ivLiveUserHead);
+        tvAcademicTitle.setText(doctorInfo.getDoctorTitleName());
+        tvHospital.setText(doctorInfo.getHospitalInfoName());
+        String goodAtRealm = doctorInfo.getGoodAtRealm();
+        tvAreasExpertise.setText(StringUtils.isNotEmpty(goodAtRealm)?goodAtRealm:"无");
+        tvLiveTheme.setText(String.format("01.直播主题：%s", liveProtromDetialBean.getBroadcastTitle()));
+        tvLiveCategory.setText(String.format("02.直播类目：%s", liveProtromDetialBean.getClassName()));
+        tvRiskFactor.setText(String.format("03.危险因素：%s", liveProtromDetialBean.getRiskName()));
+        tvLiveKeywords.setText(String.format("04.直播关键字：%s", liveProtromDetialBean.getAttrName()));
+        LiveProtromDetialBean.SyllabusBean syllabus = liveProtromDetialBean.getSyllabus();
+        if (syllabus != null) {
+            String syllabusContent = syllabus.getSyllabusContent();
+            if (StringUtils.isNotEmpty(syllabusContent)) {
+                List<UpLoadLiveProgromBean> list
+                        = www.jykj.com.jykj_zxyl.util.GsonUtils.jsonToList(syllabusContent, UpLoadLiveProgromBean.class);
+                setLiveProgromAdapter(list);
+            }
+        }
+        List<LiveProtromDetialBean.ImageListBean> imageList = liveProtromDetialBean.getImageList();
+        if (!CollectionUtils.isEmpty(imageList)) {
+            setLivePhotoAdapter(imageList);
+        }
+
+    }
+
+    /**
+     * 设置直播大纲数据
+     * @param list 直播大纲列表
+     */
+    private void setLiveProgromAdapter(List<UpLoadLiveProgromBean> list){
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this){
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        };
+        rvLiveProtromList.setLayoutManager(layoutManager);
+        LiveProgromAdapter liveProgromAdapter=new LiveProgromAdapter(list,this);
+        liveProgromAdapter.setData(list);
+        rvLiveProtromList.setAdapter(liveProgromAdapter);
+    }
+
+    /**
+     * 设置图片数九
+     * @param listBeans 图片列表
+     */
+    private void setLivePhotoAdapter(List<LiveProtromDetialBean.ImageListBean> listBeans){
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this){
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        };
+        rvLivePictureList.setLayoutManager(layoutManager);
+        LiveProgromPicAdapter liveProgromPicAdapter=new LiveProgromPicAdapter(listBeans,this);
+        liveProgromPicAdapter.setData(listBeans);
+        rvLivePictureList.setAdapter(liveProgromPicAdapter);
     }
 
     void goFullscreen(){
@@ -190,7 +349,6 @@ public class VodPlayerActivity extends Activity implements ITXLivePlayListener {
 
 
     public void setContentView() {
-        super.setContentView(R.layout.activity_vod);
         mRootView = (LinearLayout) findViewById(R.id.root);
         if (mLivePlayer == null){
             mLivePlayer = new TXVodPlayer(this);
@@ -330,6 +488,8 @@ public class VodPlayerActivity extends Activity implements ITXLivePlayListener {
     public void onPause() {
         super.onPause();
     }
+
+
     @Override
     public void onStop(){
         super.onStop();

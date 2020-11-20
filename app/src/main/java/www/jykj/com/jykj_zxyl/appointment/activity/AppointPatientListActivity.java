@@ -176,6 +176,7 @@ public class AppointPatientListActivity extends AbstractMvpBaseActivity<
                 bundle.putString("orderCode",patientInfoBean.getOrderCode());
                 bundle.putString("patientCode",patientInfoBean.getMainPatientCode());
                 bundle.putString("patientName",patientInfoBean.getMainPatientName());
+                bundle.putBoolean("isEdit",true);
                 startActivity(PatientRecordActivity.class,bundle);
             }
 

@@ -9,6 +9,8 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.animation.RotateAnimation;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,6 +18,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.CollectionUtils;
@@ -160,6 +164,10 @@ public class PatientRecordActivity
     ImageView inputPrescriptionState;//处方笺
     @BindView(R.id.send)
     Button sendBtn;
+    @BindView(R.id.scroll_view)
+    ScrollView scrollView;
+    @BindView(R.id.lin_confirm)
+    RelativeLayout linConfirm;
     private JYKJApplication mApp;
     private LayoutInflater mInflater;
     private String gendder;
@@ -171,6 +179,7 @@ public class PatientRecordActivity
     private static final int DRUG_TYPE_NOMAL = 0;
     private static final int DRUG_TYPE_START = 1;
     private static final int DRUG_TYPE_END = 2;
+    private boolean isEdit;
     @Override
     protected void onBeforeSetContentLayout() {
         super.onBeforeSetContentLayout();
@@ -179,6 +188,7 @@ public class PatientRecordActivity
             orderCode = extras.getString("orderCode");
             patientCode=extras.getString("patientCode");
             patientName=extras.getString("patientName");
+            isEdit=extras.getBoolean("isEdit");
         }
 
     }
@@ -202,9 +212,11 @@ public class PatientRecordActivity
     @Override
     protected void initView() {
         super.initView();
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         mApp = (JYKJApplication) getApplication();
         mInflater = LayoutInflater.from(this);
         tittle.setText("病历");
+        setEnableEdit(isEdit);
     }
 
     @Override
@@ -253,28 +265,34 @@ public class PatientRecordActivity
                 finish();
                 break;
             case R.id.ll_prescription_notes_root:
-                Bundle prescriptionBundle=new Bundle();
-                prescriptionBundle.putString("patientCode",patientCode);
-                prescriptionBundle.putString("patientName",patientName);
-                prescriptionBundle.putString("orderId",orderCode);
-                startActivity(PrescriptionNotesListActivity.class,prescriptionBundle,100);
-                break;
-            case R.id.ll_inspection_root:
-                Bundle inspectionBundle=new Bundle();
-                inspectionBundle.putString("patientCode",patientCode);
-                inspectionBundle.putString("patientName",patientName);
-                inspectionBundle.putString("orderId",orderCode);
-                startActivity(InspectionOrderListActivity.class,inspectionBundle,100);
+                if (isEdit) {
+                    Bundle prescriptionBundle=new Bundle();
+                    prescriptionBundle.putString("patientCode",patientCode);
+                    prescriptionBundle.putString("patientName",patientName);
+                    prescriptionBundle.putString("orderId",orderCode);
+                    startActivity(PrescriptionNotesListActivity.class,prescriptionBundle,100);
+                }
 
                 break;
+            case R.id.ll_inspection_root:
+                if (isEdit) {
+                    Bundle inspectionBundle=new Bundle();
+                    inspectionBundle.putString("patientCode",patientCode);
+                    inspectionBundle.putString("patientName",patientName);
+                    inspectionBundle.putString("orderId",orderCode);
+                    startActivity(InspectionOrderListActivity.class,inspectionBundle,100);
+                }
+                break;
             case R.id.ll_clinical_diagnosis:
-                ProvideViewInteractOrderTreatmentAndPatientInterrogation patientInterrogation
-                        =new ProvideViewInteractOrderTreatmentAndPatientInterrogation();
-                patientInterrogation.setOrderCode(orderCode);
-                patientInterrogation.setPatientCode(patientCode);
-                patientInterrogation.setPatientName(patientName);
-                startActivityForResult(new Intent(this, TWJZ_ZDMSActivity.class)
-                        .putExtra("wzxx", patientInterrogation),100);
+                if (isEdit) {
+                    ProvideViewInteractOrderTreatmentAndPatientInterrogation patientInterrogation
+                            =new ProvideViewInteractOrderTreatmentAndPatientInterrogation();
+                    patientInterrogation.setOrderCode(orderCode);
+                    patientInterrogation.setPatientCode(patientCode);
+                    patientInterrogation.setPatientName(patientName);
+                    startActivityForResult(new Intent(this, TWJZ_ZDMSActivity.class)
+                            .putExtra("wzxx", patientInterrogation),100);
+                }
                 break;
                 default:
 
@@ -435,6 +453,39 @@ public class PatientRecordActivity
         MedicalRecordDrugAdapter medicalRecordDrugAdapter = new MedicalRecordDrugAdapter(R.layout.item_record_drug, prescribeInfoBeans);
         drugRecycleview.setLayoutManager(new LinearLayoutManager(this));
         drugRecycleview.setAdapter(medicalRecordDrugAdapter);
+
+    }
+
+
+    /**
+     * 找出当前页面的所有editText
+     *
+     * @param view 遍历View中的EditText加入集合
+     */
+    private void findEditText(View view,boolean isEdit) {
+        if (view instanceof ViewGroup) {
+            ViewGroup viewGroup = (ViewGroup) view;
+            for (int i = 0; i < viewGroup.getChildCount(); i++) {
+                View v = viewGroup.getChildAt(i);
+                findEditText(v,isEdit);
+            }
+        } else if (view instanceof EditText) {
+            EditText editText = (EditText) view;
+            editText.setEnabled(isEdit);
+        }
+    }
+
+    /**
+     * 设置是否可以编辑
+     * @param isEdit ture or false
+     */
+    private void setEnableEdit(boolean isEdit){
+        findEditText(scrollView,isEdit);
+        if (isEdit) {
+            linConfirm.setVisibility(View.VISIBLE);
+        }else{
+            linConfirm.setVisibility(View.GONE);
+        }
 
     }
 
