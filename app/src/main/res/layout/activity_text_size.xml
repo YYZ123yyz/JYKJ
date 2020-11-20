@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+   >
+    <RelativeLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/groabColor"
+        >
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="10dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:src="@mipmap/arrow_left"/>
+        <TextView
+            android:text="字体大小"
+            android:textSize="10pt"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:textColor="@color/writeColor"
+            android:layout_height="wrap_content"/>
+        <LinearLayout
+            android:id="@+id/lin_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:orientation="horizontal"
+            android:layout_marginRight="10dp">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="10dp"
+
+                android:drawablePadding="5dp"
+                />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:layout_weight="1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView
+            android:textSize="@dimen/sp_stander"
+            android:id="@+id/tv_font_size"
+            android:text="拖动下面的滑块，可设置字体的大小，设置后，会改"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/tv_font_size1"
+            android:textSize="@dimen/sp_stander"
+            android:text="变界面文字大小，下面为预览文字："
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/tv_font_size2"
+            android:textSize="@dimen/sp_stander"
+            android:text="护好血管 控好血压"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/tv_font_size3"
+            android:textSize="@dimen/sp_stander"
+            android:text="心脑健康 快乐生活"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+    <www.jykj.com.jykj_zxyl.util.FontSizeView
+        android:id="@+id/fsv_font_size"
+        android:layout_width="wrap_content"
+        android:layout_height="120dp"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
+        android:background="@color/white"
+        app:circleRadius="11dp"
+        app:standerSize="16" />
+</LinearLayout>

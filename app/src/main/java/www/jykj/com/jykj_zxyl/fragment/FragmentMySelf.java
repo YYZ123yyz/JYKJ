@@ -2,6 +2,8 @@ package www.jykj.com.jykj_zxyl.fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -72,6 +74,7 @@ public class FragmentMySelf extends Fragment {
     }
 
     private void initLayout(View v) {
+
         lin_invite = v.findViewById(R.id.lin_invite);
         lin_invite.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -225,5 +228,9 @@ public class FragmentMySelf extends Fragment {
                     break;
             }
         }
+
     }
+
+
+
 }

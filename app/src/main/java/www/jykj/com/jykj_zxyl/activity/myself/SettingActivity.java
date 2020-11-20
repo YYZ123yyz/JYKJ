@@ -47,6 +47,7 @@ public class SettingActivity extends BaseActivity {
     private LinearLayout setting_opinion,myself_Update;
     private LinearLayout myselfBack;
     private String totalCacheSize;
+    private LinearLayout lin_textsize;
     private MoreFeaturesPopupWindow mPopupWindow;
     private ImageButton ivAdd;
 
@@ -72,6 +73,15 @@ public class SettingActivity extends BaseActivity {
      * 初始化布局
      */
     private void initLayout() {
+        //设置字体大小
+        lin_textsize = findViewById(R.id.lin_textsize);
+        lin_textsize.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(SettingActivity.this, TextSizeActivity.class);
+                startActivity(intent);
+            }
+        });
         mExitButton = (Button) this.findViewById(R.id.bt_activityMySelfSetting_exitButton);
         mExitButton.setOnClickListener(new ButtonClick());
 

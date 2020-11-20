@@ -8,6 +8,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
@@ -51,6 +53,8 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import util.VersionsUpdata;
 import www.jykj.com.jykj_zxyl.app_base.base_activity.BaseActivity;
+import www.jykj.com.jykj_zxyl.app_base.base_utils.Constants;
+import www.jykj.com.jykj_zxyl.app_base.base_utils.SPUtils;
 import www.jykj.com.jykj_zxyl.consultation.fragment.ConsultationFragment;
 import www.jykj.com.jykj_zxyl.util.ImageViewUtil;
 import yyz_exploit.Utils.BadgeUtil;
@@ -121,7 +125,7 @@ public class MainActivity extends BaseActivity {
     private ErrorDialog errorDialog;
     private TextView mTvUnreadBtn;
     private int unreadMessageCount;
-
+    private float fontSizeScale;
 
     @Override
     protected int setLayoutId() {
@@ -132,7 +136,6 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void initView() {
         super.initView();
-
         mContext = this;
         mainActivity = this;
         EventBus.getDefault().register(this);
@@ -373,7 +376,7 @@ public class MainActivity extends BaseActivity {
         mTextViewYLZX = (TextView) this.findViewById(R.id.tv_activityMain_TextYLZX);
         mIvUserHead=this.findViewById(R.id.iv_user_head);
         //       mTextViewSelf = (TextView) this.findViewById(R.id.tv_activityMain_TextGRZX);
-
+        fontSizeScale = (float) SPUtils.get(this, Constants.SP_FontScale, 0.0f);
         setDefaultLayout();
         mImageViewShouYe.setBackgroundResource(R.mipmap.sy_press);
         mTextViewShouYE.setTextColor(getResources().getColor(R.color.tabColor_press));
@@ -728,5 +731,16 @@ public class MainActivity extends BaseActivity {
         super.onDestroy();
 
         EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public Resources getResources() {
+        Resources res =super.getResources();
+        Configuration config = res.getConfiguration();
+        if(fontSizeScale>0.5){
+            config.fontScale= fontSizeScale;//1 设置正常字体大小的倍数
+        }
+        res.updateConfiguration(config,res.getDisplayMetrics());
+        return res;
     }
 }

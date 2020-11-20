@@ -51,8 +51,10 @@ import io.reactivex.internal.schedulers.ExecutorScheduler;
 import www.jykj.com.jykj_zxyl.app_base.R;
 import www.jykj.com.jykj_zxyl.app_base.base_utils.ActivityStackManager;
 import www.jykj.com.jykj_zxyl.app_base.base_utils.AndroidThreadExecutor;
+import www.jykj.com.jykj_zxyl.app_base.base_utils.Constants;
 import www.jykj.com.jykj_zxyl.app_base.base_utils.JsonParserUtil;
 import www.jykj.com.jykj_zxyl.app_base.base_utils.LogUtils;
+import www.jykj.com.jykj_zxyl.app_base.base_utils.SPUtils;
 import www.jykj.com.jykj_zxyl.app_base.base_utils.SharedPreferences_DataSave;
 
 /**
@@ -90,13 +92,14 @@ public abstract class BaseActivity extends AppCompatActivity {
     private PopupWindow mPopWindow;
     private View decorView;
     private int popHigh;
-
+    private float fontSizeScale;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         onBeforeSetContentLayout();
         context = this;
+        fontSizeScale = (float) SPUtils.get(this, Constants.SP_FontScale, 0.0f);
         String localClassName = getLocalClassName();
         decorView = this.getWindow().getDecorView();
         com.blankj.utilcode.util.LogUtils.e("activity    " + localClassName);
@@ -560,5 +563,16 @@ public abstract class BaseActivity extends AppCompatActivity {
                 getWindow().setAttributes(lp);
             }
         });
+    }
+
+    @Override
+    public Resources getResources() {
+        Resources res =super.getResources();
+        Configuration config = res.getConfiguration();
+        if(fontSizeScale>0.5){
+            config.fontScale= fontSizeScale;//1 设置正常字体大小的倍数
+        }
+        res.updateConfiguration(config,res.getDisplayMetrics());
+        return res;
     }
 }

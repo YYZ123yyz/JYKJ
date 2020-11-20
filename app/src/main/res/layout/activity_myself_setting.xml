@@ -88,7 +88,35 @@
                 android:layout_height="1dp"
                 android:layout_marginLeft="5dp"
                 android:background="#ffeeeeee" />
+            <LinearLayout
+                android:id="@+id/lin_textsize"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/writeColor"
+                android:orientation="horizontal">
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:text="设置文字大小"
+                    android:textColor="@color/textColor_vo" />
+
+                <ImageView
+                    android:layout_width="12dp"
+                    android:layout_height="18dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="15dp"
+                    android:src="@mipmap/fragmentmyself_jt_r" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="5dp"
+                android:background="#ffeeeeee" />
             <LinearLayout
                 android:id="@+id/li_activitySetting_aboutLayout"
                 android:layout_width="match_parent"

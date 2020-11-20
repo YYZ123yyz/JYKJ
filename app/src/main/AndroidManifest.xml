@@ -157,6 +157,7 @@
         <activity android:name=".activity.myself.setting.AboutActivity" /> <!-- 设置 == > 修改密码 -->
         <activity android:name=".activity.myself.setting.OpeaPassWordActivity" /> <!-- 设置 == > 客服热线 -->
         <activity android:name=".activity.myself.setting.ServiceHotlineActivity" /> <!-- 个人资料 -->
+        <activity android:name=".activity.myself.TextSizeActivity"/>
         <!-- 微信支付 -->
         <activity
             android:name=".wxapi.WXPayEntryActivity"
