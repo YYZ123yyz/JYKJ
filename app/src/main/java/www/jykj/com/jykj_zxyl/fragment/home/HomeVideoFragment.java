@@ -14,6 +14,7 @@ import butterknife.BindView;
 import entity.liveroom.HotLiveInfo;
 import util.CustomViewPager;
 import www.jykj.com.jykj_zxyl.R;
+import www.jykj.com.jykj_zxyl.activity.chapter.activity.VideoChapterActivity;
 import www.jykj.com.jykj_zxyl.activity.hyhd.LivePlayerTwoActivity;
 import www.jykj.com.jykj_zxyl.activity.hyhd.LivePublisherActivity;
 import www.jykj.com.jykj_zxyl.activity.hyhd.LivePublisherThreeActivity;
@@ -120,11 +121,12 @@ public class HomeVideoFragment extends AbstractMvpBaseFragment<HealthEducationCo
                     theintent.putExtra("live_type", LivePublisherThreeActivity.LIVE_TYPE_HOTLIVE);
                     mActivity.startActivity(theintent);
                 }else{
-                    Intent theintent = new Intent(mActivity, LivePlayerTwoActivity.class);
-                    theintent.putExtra("chatId",healthEducationBean.getChatRoomCode());
+//                    Intent theintent = new Intent(mActivity, LivePlayerTwoActivity.class);
+                    Intent theintent = new Intent(mActivity, VideoChapterActivity.class);
+              /*      theintent.putExtra("chatId",healthEducationBean.getChatRoomCode());
                     theintent.putExtra("pullUrl",healthEducationBean.getPullUrl());
                     theintent.putExtra("detailCode",healthEducationBean.getDetailsCode());
-                    theintent.putExtra("PLAY_TYPE", LivePlayerTwoActivity.ACTIVITY_TYPE_LIVE_PLAY);
+                    theintent.putExtra("PLAY_TYPE", LivePlayerTwoActivity.ACTIVITY_TYPE_LIVE_PLAY);*/
                     mActivity.startActivity(theintent);
                 }
 
