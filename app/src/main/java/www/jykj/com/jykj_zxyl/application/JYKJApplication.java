@@ -395,7 +395,7 @@ public class JYKJApplication extends Application {
         initLitesmat();
         //   login();
         initRxHttpUtils();
-        initUmengSDK();
+        //initUmengSDK();
         initBugly();
     }
 

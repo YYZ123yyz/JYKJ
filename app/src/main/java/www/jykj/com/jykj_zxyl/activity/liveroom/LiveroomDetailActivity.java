@@ -140,6 +140,30 @@ public class LiveroomDetailActivity extends BaseActivity {
                 startActivity(AddLiveProgromActivity.class,bundle);
             }
         });
+        go_liveroom_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(null!=mRoomDetailInfo && mRoomDetailInfo.getUserCode().equals(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode())){
+                    Intent parint = new Intent(mActivity, LivePublisherThreeActivity.class);
+                    parint.putExtra("pushUrl",mRoomDetailInfo.getPullUrl());
+                    parint.putExtra("chatRoomName",mRoomDetailInfo.getChatRoomCode());
+                    parint.putExtra("chatId",mRoomDetailInfo.getChatRoomCode());
+                    parint.putExtra("liveTitle",mRoomDetailInfo.getTitleMainShow());
+                    parint.putExtra("detailCode",mRoomDetailInfo.getDetailsCode());
+                    parint.putExtra("live_type", LivePublisherThreeActivity.LIVE_TYPE_HOTLIVE);
+                    LiveroomDetailActivity.this.startActivity(parint);
+                }else{
+                    Intent theintent = new Intent(mActivity, LivePlayerTwoActivity.class);
+                    theintent.putExtra("chatId",mRoomDetailInfo.getChatRoomCode());
+                    theintent.putExtra("pullUrl",mRoomDetailInfo.getPullUrl());
+                    theintent.putExtra("detailCode",mRoomDetailInfo.getDetailsCode());
+                    theintent.putExtra("PLAY_TYPE", LivePlayerTwoActivity.ACTIVITY_TYPE_LIVE_PLAY);
+                    mActivity.startActivity(theintent);
+                }
+            }
+        });
+
+
 
     }
 
@@ -464,6 +488,29 @@ public class LiveroomDetailActivity extends BaseActivity {
                     tv_add_btn.setTextColor(ContextCompat.getColor(LiveroomDetailActivity.this,R.color.color_799def));
                     tv_add_btn.setBackgroundResource(R.drawable.bg_oval_799dfe_20);
                 }
+                String userCode = roomDetailInfo.getUserCode();
+                if (userCode.equals(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode())) {
+                    go_liveroom_btn.setBackgroundResource(R.drawable.bg_round_799dfe_12);
+                    go_liveroom_btn.setText("开直播");
+                    go_liveroom_btn.setTextColor(ContextCompat.getColor(mContext,R.color.color_white));
+                    tv_add_btn.setVisibility(View.VISIBLE);
+
+                }else{
+                    tv_add_btn.setVisibility(View.GONE);
+                    int flagAnchorStates = roomDetailInfo.getFlagAnchorStates();
+                    if (flagAnchorStates==0) {
+                        go_liveroom_btn.setBackgroundResource(R.drawable.bg_gradient_b5b5b5_13);
+                        go_liveroom_btn.setText("未开播");
+                        go_liveroom_btn.setTextColor(ContextCompat.getColor(mContext,R.color.color_333333));
+                    }else if(flagAnchorStates==1){
+                        go_liveroom_btn.setBackgroundResource(R.drawable.bg_round_799dfe_12);
+                        go_liveroom_btn.setText("进入直播");
+                        go_liveroom_btn.setTextColor(ContextCompat.getColor(mContext,R.color.color_white));
+                    }
+                }
+
+
+
 
             }
             cacerProgress();

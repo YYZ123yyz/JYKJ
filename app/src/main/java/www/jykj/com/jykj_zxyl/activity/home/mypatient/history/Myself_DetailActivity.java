@@ -93,7 +93,8 @@ public class Myself_DetailActivity extends AbstractMvpBaseActivity<Myself_Detail
     @Override
     protected void initData() {
         super.initData();
-        mPresenter.sendSearchMyself_DetaiRequest(mApp.loginDoctorPosition, "1", patientCode, patientName, recordId);
+        mPresenter.sendSearchMyself_DetaiRequest(mApp.loginDoctorPosition,
+                "1", patientCode, patientName, recordId,this);
     }
 
     @Override

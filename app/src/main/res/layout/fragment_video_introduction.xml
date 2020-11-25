@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:id="@+id/introduction_layout"
+    android:orientation="vertical">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="简介"
+        android:layout_marginTop="11dp"
+        android:layout_marginBottom="3dp"
+        android:layout_gravity="center_horizontal"
+        android:textColor="@color/color_000000"
+        android:textSize="16sp"
+        >
+
+
+    </TextView>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="11dp"
+        android:layout_marginEnd="11dp"
+        android:orientation="horizontal">
+
+        <com.meg7.widget.CircleImageView
+            android:id="@+id/liveroom_det_head_pic"
+            android:layout_width="63dp"
+            android:layout_height="65dp"
+            android:layout_gravity="center_vertical"
+            android:scaleType="fitXY"
+            android:src="@mipmap/liveroom_head" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/doctor_head_tit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="授课专家"
+                android:textColor="@color/tv2"
+                android:textSize="17sp" />
+
+            <TextView
+                android:id="@+id/live_doctor_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/doctor_head_tit"
+                android:text="某某某"
+                android:textColor="@color/blackColor"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/live_doctor_education"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/doctor_head_tit"
+                android:layout_marginStart="11.5dp"
+                android:layout_toEndOf="@+id/live_doctor_name"
+                android:text="博士、研究员"
+                android:textColor="@color/color_333333" />
+
+            <TextView
+                android:id="@+id/live_doctor_dep"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/live_doctor_name"
+                android:text="中国营养学会常务理事"
+                android:textColor="@color/color_333333"
+                android:textSize="15sp" />
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="22dp"
+        android:layout_marginEnd="22dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="19dp"
+        android:textColor="@color/color_010101"
+        android:textSize="15sp"
+        android:text="擅长：西安交通大学"
+        android:id="@+id/tv_specialze_content"
+        >
+
+
+    </TextView>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:background="@color/color_eeeeee"
+        >
+
+
+    </View>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="22dp"
+        android:layout_marginEnd="22dp"
+        android:layout_marginTop="13dp"
+        android:textColor="@color/color_010101"
+        android:text="视频主题："
+        android:textStyle="bold"
+        >
+
+
+    </TextView>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="22dp"
+        android:layout_marginEnd="22dp"
+        android:layout_marginTop="10dp"
+        android:text="如何预防高血压"
+        android:id="@+id/tv_video_theme_content"
+        >
+
+    </TextView>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="22dp"
+        android:layout_marginEnd="22dp"
+        android:layout_marginTop="13dp"
+        android:textColor="@color/color_010101"
+        android:text="视频内容："
+        android:textStyle="bold"
+        >
+
+
+    </TextView>
+    </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+</LinearLayout>

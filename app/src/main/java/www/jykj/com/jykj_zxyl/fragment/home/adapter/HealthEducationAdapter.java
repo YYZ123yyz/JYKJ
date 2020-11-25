@@ -15,8 +15,11 @@ import java.util.List;
 
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.HealthEducationBean;
+import www.jykj.com.jykj_zxyl.app_base.base_bean.HomeHealthEducationBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.MultiItemEntity;
 import www.jykj.com.jykj_zxyl.app_base.base_view.RoundedRectangleImageView;
+import www.jykj.com.jykj_zxyl.util.DateUtils;
+import www.jykj.com.jykj_zxyl.util.StringUtils;
 
 /**
  * Description:
@@ -38,7 +41,7 @@ public class HealthEducationAdapter extends MultiItemRecycleViewAdapter<MultiIte
 
     @Override
     public void convert(ViewHolder viewHolder, MultiItemEntity multiItemEntity, int i) {
-        HealthEducationBean healthEducationBean = (HealthEducationBean) multiItemEntity;
+        HomeHealthEducationBean healthEducationBean = (HomeHealthEducationBean) multiItemEntity;
         int layoutId = viewHolder.getLayoutId();
         if (layoutId == R.layout.item_health_education_video) {
             View layoutRoot = viewHolder.getView(R.id.rl_layout_root);
@@ -51,20 +54,28 @@ public class HealthEducationAdapter extends MultiItemRecycleViewAdapter<MultiIte
             TextView tvCategoryName = viewHolder.getView(R.id.tv_category_name);
             TextView tvBrowseNam = viewHolder.getView(R.id.tv_browse_num);
             TextView tvPriceValue = viewHolder.getView(R.id.tv_price_vlaue);
-            Glide.with(mContext).load(healthEducationBean.getBroadcastCoverImgUrl())
+            Glide.with(mContext).load(healthEducationBean.getCoverImgUrl())
                     .apply(RequestOptions.placeholderOf(com.hyphenate.easeui.R.mipmap.docter_heard)
                             .diskCacheStrategy(DiskCacheStrategy.ALL))
                     .into(roundedRectangleImageView);
-            int flagBroadcastState = healthEducationBean.getFlagBroadcastState();
-            if (flagBroadcastState == 1) {
-                ivContentLabel.setImageResource(R.mipmap.bg_notice_label);
-            } else if (flagBroadcastState == 2) {
-                ivContentLabel.setImageResource(R.mipmap.bg_hot_seed);
-            } else if (flagBroadcastState == 3) {
-                ivContentLabel.setImageResource(R.mipmap.bg_hot_seed);
+            int state = healthEducationBean.getState();
+            switch (state) {
+                case 1:
+                    ivContentLabel.setImageResource(R.mipmap.bg_notice_label);
+                    break;
+                case 2:
+                    ivContentLabel.setImageResource(R.mipmap.bg_hot_seed);
+                    break;
+                case 3:
+                    ivContentLabel.setImageResource(R.mipmap.bg_special);
+                    break;
+                case 5:
+                    ivContentLabel.setImageResource(R.mipmap.bg_course_icon);
+                    break;
+                default:
             }
             tvLabelName.setText("视频直播");
-            tvContentTitle.setText(healthEducationBean.getBroadcastTitle());
+            tvContentTitle.setText(healthEducationBean.getTitle());
             tvCategoryName.setText(String.format("类目：%s", healthEducationBean.getClassName()));
             tvBrowseNam.setText(String.format("浏览量：%s", healthEducationBean.getShowWatchNum()));
             tvPriceValue.setText(healthEducationBean.getShowExtendBroadcastPrice());
@@ -89,20 +100,28 @@ public class HealthEducationAdapter extends MultiItemRecycleViewAdapter<MultiIte
             TextView tvCategoryName = viewHolder.getView(R.id.tv_category_name);
             TextView tvBrowseNam = viewHolder.getView(R.id.tv_browse_num);
             TextView tvPriceValue = viewHolder.getView(R.id.tv_price_vlaue);
-            Glide.with(mContext).load(healthEducationBean.getBroadcastCoverImgUrl())
+            Glide.with(mContext).load(healthEducationBean.getCoverImgUrl())
                     .apply(RequestOptions.placeholderOf(com.hyphenate.easeui.R.mipmap.docter_heard)
                             .diskCacheStrategy(DiskCacheStrategy.ALL))
                     .into(roundedRectangleImageView);
-            int flagBroadcastState = healthEducationBean.getFlagBroadcastState();
-            if (flagBroadcastState == 1) {
-                ivContentLabel.setImageResource(R.mipmap.bg_notice_label);
-            } else if (flagBroadcastState == 2) {
-                ivContentLabel.setImageResource(R.mipmap.bg_hot_seed);
-            } else if (flagBroadcastState == 3) {
-                ivContentLabel.setImageResource(R.mipmap.bg_hot_seed);
+            int state = healthEducationBean.getState();
+            switch (state) {
+                case 1:
+                    ivContentLabel.setImageResource(R.mipmap.bg_notice_label);
+                    break;
+                case 2:
+                    ivContentLabel.setImageResource(R.mipmap.bg_hot_seed);
+                    break;
+                case 3:
+                    ivContentLabel.setImageResource(R.mipmap.bg_special);
+                    break;
+                case 5:
+                    ivContentLabel.setImageResource(R.mipmap.bg_course_icon);
+                    break;
+                default:
             }
             tvLabelName.setText("音频直播");
-            tvContentTitle.setText(healthEducationBean.getBroadcastTitle());
+            tvContentTitle.setText(healthEducationBean.getTitle());
             tvCategoryName.setText(String.format("类目：%s", healthEducationBean.getClassName()));
             tvBrowseNam.setText(String.format("浏览量：%s", healthEducationBean.getShowWatchNum()));
             tvPriceValue.setText(healthEducationBean.getShowExtendBroadcastPrice());
@@ -116,19 +135,54 @@ public class HealthEducationAdapter extends MultiItemRecycleViewAdapter<MultiIte
                 }
             });
 
-        } else if (layoutId == R.layout.item_health_education_picture_text) {
+        } else if(layoutId==R.layout.item_health_education_course){
+            View layoutRoot = viewHolder.getView(R.id.rl_layout_root);
+            RoundedRectangleImageView roundedRectangleImageView
+                    = viewHolder.getView(R.id.iv_health_education_icon);
+            ImageView ivContentLabel = viewHolder.getView(R.id.iv_content_label);
+            TextView tvLabelName = viewHolder.getView(R.id.tv_label_name);
+            TextView tvContentTitle = viewHolder.getView(R.id.tv_content_title);
+            TextView tvContentMsg = viewHolder.getView(R.id.tv_content_msg);
+            TextView tvCategoryName = viewHolder.getView(R.id.tv_category_name);
+            TextView tvBrowseNam = viewHolder.getView(R.id.tv_browse_num);
+            TextView tvPriceValue = viewHolder.getView(R.id.tv_price_vlaue);
+            Glide.with(mContext).load(healthEducationBean.getCoverImgUrl())
+                    .apply(RequestOptions.placeholderOf(com.hyphenate.easeui.R.mipmap.docter_heard)
+                            .diskCacheStrategy(DiskCacheStrategy.ALL))
+                    .into(roundedRectangleImageView);
+            ivContentLabel.setImageResource(R.mipmap.bg_course_icon);
+            int type = healthEducationBean.getType();
+            if (type == 1) {
+                tvLabelName.setText("视频直播");
+            } else if (type == 2) {
+                tvLabelName.setText("音频直播");
+            }
+            tvContentTitle.setText(healthEducationBean.getTitle());
+            tvCategoryName.setText(String.format("类目：%s", healthEducationBean.getClassName()));
+            tvBrowseNam.setText(String.format("浏览量：%s", healthEducationBean.getShowWatchNum()));
+            tvPriceValue.setText(healthEducationBean.getShowExtendBroadcastPrice());
+            tvContentMsg.setText(healthEducationBean.getAttrName());
+            layoutRoot.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (onClickItemListener!=null) {
+                        onClickItemListener.onClickItemPos(i);
+                    }
+                }
+            });
+        }else if (layoutId == R.layout.item_health_education_picture_text) {
             View layoutRoot = viewHolder.getView(R.id.rl_layout_root);
 
             TextView tvContentMsg = viewHolder.getView(R.id.tv_content_msg);
-            String imageTextTitle = healthEducationBean.getImageTextTitle();
+            String imageTextTitle = healthEducationBean.getTitle();
             tvContentMsg.setText(imageTextTitle);
             TextView tvBrowseNum = viewHolder.getView(R.id.tv_browse_num);
             tvBrowseNum.setText(String.format("%s人看过", healthEducationBean.getShowWatchNum()));
             TextView tvDateTime = viewHolder.getView(R.id.tv_date_time);
-            String showBroadcastDate = healthEducationBean.getImageTextCreateDate();
-            tvDateTime.setText(showBroadcastDate);
+            long createDate = healthEducationBean.getCreateDate();
+            tvDateTime.setText( DateUtils.getDateToString(createDate));
             ImageView ivContentImg = viewHolder.getView(R.id.iv_content_img);
-            Glide.with(mContext).load(healthEducationBean.getImageTextCoverImgUrl())
+            Glide.with(mContext).load(healthEducationBean.getCoverImgUrl())
                     .apply(RequestOptions.placeholderOf(com.hyphenate.easeui.R.mipmap.docter_heard)
                             .diskCacheStrategy(DiskCacheStrategy.ALL))
                     .into(ivContentImg);

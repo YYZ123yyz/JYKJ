@@ -1,14 +1,12 @@
 package www.jykj.com.jykj_zxyl.fragment.home;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
-
-import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,11 +15,9 @@ import butterknife.BindView;
 import util.CustomViewPager;
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.activity.hyhd.LivePlayerTwoActivity;
-import www.jykj.com.jykj_zxyl.activity.hyhd.LivePublisherActivity;
 import www.jykj.com.jykj_zxyl.activity.hyhd.LivePublisherThreeActivity;
-import www.jykj.com.jykj_zxyl.activity.hyhd.NewLivePlayerActivity;
 import www.jykj.com.jykj_zxyl.activity.liveroom.LiveroomDetailActivity;
-import www.jykj.com.jykj_zxyl.app_base.base_bean.HealthEducationBean;
+import www.jykj.com.jykj_zxyl.app_base.base_bean.HomeHealthEducationBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.MultiItemEntity;
 import www.jykj.com.jykj_zxyl.app_base.base_html5.H5Activity;
 import www.jykj.com.jykj_zxyl.app_base.base_utils.CollectionUtils;
@@ -31,6 +27,7 @@ import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.fragment.FragmentShouYe;
 import www.jykj.com.jykj_zxyl.fragment.home.adapter.HealthEducationAdapter;
 import www.jykj.com.jykj_zxyl.fragment.home.adapter.HealthEducationItemType;
+import www.jykj.com.jykj_zxyl.util.DateUtils;
 
 public class HomeEducationFragment extends AbstractMvpBaseFragment<HealthEducationContract.View,
         HealthEducationPresenter> implements HealthEducationContract.View {
@@ -40,6 +37,8 @@ public class HomeEducationFragment extends AbstractMvpBaseFragment<HealthEducati
     private HealthEducationAdapter mHealthEducationAdapter;
     private OnClickRelationContractListener onClickRelationContractListener;
     private JYKJApplication mApp;
+    private String createDate="";
+    private boolean isLoadMore=true;
 
     public void setOnClickRelationContractListener(OnClickRelationContractListener onClickRelationContractListener) {
         this.onClickRelationContractListener = onClickRelationContractListener;
@@ -70,8 +69,8 @@ public class HomeEducationFragment extends AbstractMvpBaseFragment<HealthEducati
     @Override
     protected void initData() {
         super.initData();
-        mPresenter.sendSearchIndexHealthEducationRequest("1","0"
-                ,pageSize,pageIndex,this.getActivity());
+        mPresenter.sendListGetIndexHealthEducationRequest("0"
+                ,createDate,pageSize,this.getActivity());
     }
 
     /**
@@ -79,9 +78,9 @@ public class HomeEducationFragment extends AbstractMvpBaseFragment<HealthEducati
      */
     public void refreshData(){
         if (isAdded()) {
-            pageIndex=1;
-            mPresenter.sendSearchIndexHealthEducationRequest("1","0"
-                    ,pageSize,pageIndex,this.getActivity());
+            createDate="";
+            mPresenter.sendListGetIndexHealthEducationRequest("0"
+                    ,createDate,pageSize,this.getActivity());
         }
 
     }
@@ -91,9 +90,15 @@ public class HomeEducationFragment extends AbstractMvpBaseFragment<HealthEducati
      */
     public void loadMoreData(){
         if (isAdded()) {
-            pageIndex++;
-            mPresenter.sendSearchIndexHealthEducationRequest("1","0"
-                    ,pageSize,pageIndex,this.getActivity());
+            if (isLoadMore) {
+                mPresenter.sendListGetIndexHealthEducationRequest("0"
+                        ,createDate,pageSize,this.getActivity());
+            }else{
+                if (onClickRelationContractListener!=null) {
+                    onClickRelationContractListener.finishLoadMore();
+                }
+            }
+
         }
 
     }
@@ -111,61 +116,65 @@ public class HomeEducationFragment extends AbstractMvpBaseFragment<HealthEducati
         mHealthEducationAdapter = new HealthEducationAdapter(this.getContext(), mMultiItemEntitys);
         rvList.setLayoutManager(layoutManager);
         rvList.setAdapter(mHealthEducationAdapter);
-        mHealthEducationAdapter.setOnClickItemListener(new HealthEducationAdapter.OnClickItemListener() {
-            @Override
-            public void onClickItemPos(int pos) {
-                HealthEducationBean healthEducationBean
-                        = (HealthEducationBean) mMultiItemEntitys.get(pos);
-                int flagContentType = healthEducationBean.getFlagContentType();
-                if (flagContentType==1) {
-                    Intent parintent = new Intent(mActivity, LiveroomDetailActivity.class);
-                    parintent.putExtra("detailCode",healthEducationBean.getDetailsCode());
-                    mActivity.startActivity(parintent);
-                }else if(flagContentType==2){
-
-                    if(healthEducationBean.getUserCode().equals(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode())) {
-                        Intent theintent = new Intent(mActivity, LivePublisherThreeActivity.class);
-                        theintent.putExtra("detailCode", healthEducationBean.getDetailsCode());
-                        theintent.putExtra("pushUrl", healthEducationBean.getPullUrl());
-                        theintent.putExtra("chatRoomName", healthEducationBean.getChatRoomCode());
-                        theintent.putExtra("chatId", healthEducationBean.getChatRoomCode());
-                        theintent.putExtra("liveTitle", healthEducationBean.getBroadcastTitle());
-                        theintent.putExtra("live_type", LivePublisherThreeActivity.LIVE_TYPE_HOTLIVE);
-                        mActivity.startActivity(theintent);
-                    }else{
-                        Intent theintent = new Intent(mActivity, LivePlayerTwoActivity.class);
-                        theintent.putExtra("chatId",healthEducationBean.getChatRoomCode());
-                        theintent.putExtra("pullUrl",healthEducationBean.getPullUrl());
-                        theintent.putExtra("detailCode",healthEducationBean.getDetailsCode());
-                        theintent.putExtra("PLAY_TYPE", LivePlayerTwoActivity.ACTIVITY_TYPE_LIVE_PLAY);
-                        mActivity.startActivity(theintent);
-                    }
-
-                }else if(flagContentType==3){
-                    Bundle bundle=new Bundle();
-                    bundle.putString("url",healthEducationBean.getImageTextWatchUrl());
-                    bundle.putString("title","图文");
-                    int flagImageTextVisitType = healthEducationBean.getFlagImageTextVisitType();
-                    if (flagImageTextVisitType==1) {
-                        bundle.putString("imageTextCode",healthEducationBean.getImageTextCode());
-                    }
-                    startActivity(H5Activity.class,bundle);
-                }
+        mHealthEducationAdapter.setOnClickItemListener(pos -> {
+            HomeHealthEducationBean healthEducationBean
+                    = (HomeHealthEducationBean) mMultiItemEntitys.get(pos);
+            int flagContentType = healthEducationBean.getType();
+            if (flagContentType==3) {
+                Bundle bundle=new Bundle();
+                bundle.putString("url",healthEducationBean.getLinkUrl());
+                bundle.putString("title","图文");
+                startActivity(H5Activity.class,bundle);
+            }else{
+                Intent parintent = new Intent(mActivity, LiveroomDetailActivity.class);
+                parintent.putExtra("detailCode",healthEducationBean.getRelationCode());
+                mActivity.startActivity(parintent);
             }
+//            if (flagContentType==1) {
+//                Intent parintent = new Intent(mActivity, LiveroomDetailActivity.class);
+//                parintent.putExtra("detailCode",healthEducationBean.getRelationCode());
+//                mActivity.startActivity(parintent);
+//            }else if(flagContentType==2){
+//
+//                if(healthEducationBean.getUserCode().equals(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode())) {
+//                    Intent theintent = new Intent(mActivity, LivePublisherThreeActivity.class);
+//                    theintent.putExtra("detailCode", healthEducationBean.getRelationCode());
+//                    theintent.putExtra("pushUrl", healthEducationBean.getPushUrl());
+//                    theintent.putExtra("chatRoomName", healthEducationBean.getChatRoomCode());
+//                    theintent.putExtra("chatId", healthEducationBean.getChatRoomCode());
+//                    theintent.putExtra("liveTitle", healthEducationBean.getTitle());
+//                    theintent.putExtra("live_type", LivePublisherThreeActivity.LIVE_TYPE_HOTLIVE);
+//                    mActivity.startActivity(theintent);
+//                }else{
+//                    Intent theintent = new Intent(mActivity, LivePlayerTwoActivity.class);
+//                    theintent.putExtra("chatId",healthEducationBean.getChatRoomCode());
+//                    theintent.putExtra("pullUrl",healthEducationBean.getLinkUrl());
+//                    theintent.putExtra("detailCode",healthEducationBean.getRelationCode());
+//                    theintent.putExtra("PLAY_TYPE", LivePlayerTwoActivity.ACTIVITY_TYPE_LIVE_PLAY);
+//                    mActivity.startActivity(theintent);
+//                }
+//
+//            }else if(flagContentType==3){
+//                Bundle bundle=new Bundle();
+//                bundle.putString("url",healthEducationBean.getLinkUrl());
+//                bundle.putString("title","图文");
+//                startActivity(H5Activity.class,bundle);
+//            }
+
         });
     }
 
 
 
     @Override
-    public void getSearchIndexHealthEducationResult(List<HealthEducationBean> list) {
-       if(pageIndex==1){
-           mMultiItemEntitys.clear();
-           if (onClickRelationContractListener!=null) {
-               onClickRelationContractListener.finishRefresh();
-           }
+    public void getIndexHealthEducationResult(List<HomeHealthEducationBean> list) {
+        if(TextUtils.isEmpty(createDate)){
+            mMultiItemEntitys.clear();
+            if (onClickRelationContractListener!=null) {
+                onClickRelationContractListener.finishRefresh();
+            }
 
-       }
+        }
         if (!CollectionUtils.isEmpty(list)) {
             mMultiItemEntitys.addAll(list);
             handleData(mMultiItemEntitys);
@@ -174,9 +183,15 @@ public class HomeEducationFragment extends AbstractMvpBaseFragment<HealthEducati
             if (onClickRelationContractListener!=null) {
                 onClickRelationContractListener.finishLoadMore();
             }
+            if (list.size()<pageSize) {
+                isLoadMore=false;
+            }
+
+            HomeHealthEducationBean homeHealthEducationBean = list.get(list.size() - 1);
+            createDate=DateUtils.getDateToStringYYYMMDDHHMMSS(homeHealthEducationBean.getCreateDate());
 
         } else {
-            if (pageIndex == 1) {
+            if (TextUtils.isEmpty(createDate)) {
 
                 //mLoadingLayout.showEmpty();
             } else {
@@ -187,12 +202,24 @@ public class HomeEducationFragment extends AbstractMvpBaseFragment<HealthEducati
         }
     }
 
+    @Override
+    public void showEmpty() {
+        super.showEmpty();
+        if (onClickRelationContractListener!=null) {
+            onClickRelationContractListener.finishLoadMore();
+        }
+    }
 
-    private void handleData(List<MultiItemEntity> list){
+    /**
+     * 处理数据
+     *
+     * @param list 数据列表
+     */
+    private void handleData(List<MultiItemEntity> list) {
         for (MultiItemEntity multiItemEntity : list) {
-            HealthEducationBean healthEducationBean
-                    = (HealthEducationBean) multiItemEntity;
-            int flagContentType = healthEducationBean.getFlagContentType();
+            HomeHealthEducationBean healthEducationBean
+                    = (HomeHealthEducationBean) multiItemEntity;
+            int flagContentType = healthEducationBean.getType();
             switch (flagContentType) {
                 case 1:
                     healthEducationBean.setItemType(HealthEducationItemType.MULTIPLE_VIDEO_TYPE);
@@ -203,7 +230,10 @@ public class HomeEducationFragment extends AbstractMvpBaseFragment<HealthEducati
                 case 3:
                     healthEducationBean.setItemType(HealthEducationItemType.MULTIPLE_PICTURE_TEXT_TYPE);
                     break;
-                    default:
+//                case 4:
+//                    healthEducationBean.setItemType(HealthEducationItemType.MULTIPLE_COURSE_WARE);
+//                    break;
+                default:
             }
         }
     }

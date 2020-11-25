@@ -325,10 +325,12 @@ public class LiveAddPicActivity extends AbstractMvpBaseActivity<AddLivePhotoCont
             String photo = list.get(i).getPhoto();
             if (StringUtils.isNotEmpty(photo)) {
                 if (i == list.size() - 1) {
-                    stringBuilder.append("data:image/jpg;base64,"+list.get(i).getPhoto());
+                    stringBuilder.append("data:image/jpg;base64,")
+                            .append(list.get(i).getPhoto());
                     flag = true;
                 } else {
-                    stringBuilder.append("data:image/jpg;base64,"+list.get(i).getPhoto()).append("^");
+                    stringBuilder.append("data:image/jpg;base64,")
+                            .append(list.get(i).getPhoto()).append("^");
                     flag = true;
                 }
             }

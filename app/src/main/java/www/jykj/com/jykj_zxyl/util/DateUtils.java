@@ -39,6 +39,13 @@ public class DateUtils {
         return format.format(date);
     }
 
+    public static String getDateToStringYYYMMDDHHMMSS(long milSecond) {
+        Date date = new Date(milSecond);
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return format.format(date);
+    }
+
+
     public static String getDateToStringDD(long milSecond) {
         Date date = new Date(milSecond);
         SimpleDateFormat format = new SimpleDateFormat("H:mm");

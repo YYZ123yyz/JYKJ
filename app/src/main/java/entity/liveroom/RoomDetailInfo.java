@@ -22,6 +22,7 @@ public class RoomDetailInfo implements Serializable {
     private String titleMainShow;
     private String userCode;
     private int flagHasSyllabus;
+    private int flagAnchorStates;
 
 
     public String getAttrName() {
@@ -174,5 +175,13 @@ public class RoomDetailInfo implements Serializable {
 
     public void setFlagHasSyllabus(int flagHasSyllabus) {
         this.flagHasSyllabus = flagHasSyllabus;
+    }
+
+    public int getFlagAnchorStates() {
+        return flagAnchorStates;
+    }
+
+    public void setFlagAnchorStates(int flagAnchorStates) {
+        this.flagAnchorStates = flagAnchorStates;
     }
 }

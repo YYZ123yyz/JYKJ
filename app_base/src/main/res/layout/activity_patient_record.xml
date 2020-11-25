@@ -277,14 +277,18 @@
                         <TextView
                             android:id="@+id/chief"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="20dp"
                             android:layout_marginLeft="20dp"
                             android:layout_marginTop="10dp"
                             android:layout_marginBottom="10dp"
                             android:text="2222222"
                             android:textColor="@color/color_666666"
                             android:visibility="visible" />
+                        <include
+                            android:id="@+id/rl_chief"
+                            layout="@layout/common_down_arrow">
 
+                        </include>
                         <View style="@style/div_h" />
 
                         <EditText
@@ -370,7 +374,11 @@
                             android:textColor="@color/color_666666"
                             android:visibility="visible" />
 
+                        <include
+                            android:id="@+id/rl_medicalhistory"
+                            layout="@layout/common_down_arrow">
 
+                        </include>
                         <View style="@style/div_h" />
 
                         <EditText
@@ -453,7 +461,11 @@
                             android:layout_marginBottom="10dp"
                             android:text="66666666666666666"
                             android:textColor="#666666" />
+                        <include
+                            android:id="@+id/rl_past"
+                            layout="@layout/common_down_arrow">
 
+                        </include>
                         <View style="@style/div_h" />
 
                         <EditText
@@ -537,7 +549,11 @@
                             android:layout_marginBottom="10dp"
                             android:text="2222222"
                             android:textColor="@color/color_666666" />
+                        <include
+                            android:id="@+id/rl_examination"
+                            layout="@layout/common_down_arrow">
 
+                        </include>
                         <View style="@style/div_h" />
 
                         <RadioGroup

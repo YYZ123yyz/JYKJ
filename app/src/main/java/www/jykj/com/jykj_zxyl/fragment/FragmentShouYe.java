@@ -54,6 +54,7 @@ import www.jykj.com.jykj_zxyl.activity.home.NewsActivity;
 import www.jykj.com.jykj_zxyl.activity.home.QRCodeActivity;
 import www.jykj.com.jykj_zxyl.activity.home.tjhz.AddPatientActivity;
 import www.jykj.com.jykj_zxyl.activity.hyhd.BindDoctorFriend;
+import www.jykj.com.jykj_zxyl.activity.hyhd.VideoDetialPlayerActivity;
 import www.jykj.com.jykj_zxyl.activity.myself.UserAuthenticationActivity;
 import www.jykj.com.jykj_zxyl.adapter.TittleFragmentAdapter;
 import www.jykj.com.jykj_zxyl.adapter.TraditionFooterAdapter;
@@ -303,7 +304,7 @@ public class FragmentShouYe extends AbstractMvpBaseFragment<HomePagerContract.Vi
         initLoadingAndRetryManager();
         getBasicDate();
         initListener();
-
+        //startActivity(VideoDetialPlayerActivity.class,null);
     }
 
     @Override
