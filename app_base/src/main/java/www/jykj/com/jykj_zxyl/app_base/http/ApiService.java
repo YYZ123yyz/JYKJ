@@ -300,5 +300,20 @@ public interface ApiService {
     @POST("/imDataControlle/operReserveIMInfo")
     Observable<String> operReserveIMInfo(@Query(value = "jsonDataInfo", encoded = true)
                                                  String queryJson);
+
+    //课件价格详情
+    @POST("/liveRoomController/getCourseWarePrice")
+    Observable<String> getChapterPrice(@Query(value = "jsonDataInfo", encoded = true)
+                                                 String queryJson);
+    //课件预支付
+    @POST("/liveRoomController/doUnifiedOrder")
+    Observable<String> go2payChapter(@Query(value = "jsonDataInfo", encoded = true)
+                                                 String queryJson);
+
+    //课件查询直播资源
+    @POST("/liveRoomController/getCourseWareLinkUrl")
+    Observable<String> getChapterSource(@Query(value = "jsonDataInfo", encoded = true)
+                                                 String queryJson);
+
 }
 
