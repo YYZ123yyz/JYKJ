@@ -24,6 +24,25 @@ public class ChapterListBean {
     private int freeType;
     private String iconUrl;
     private String title;
+    private String className;
+    private String doctorLogoUrl;
+
+    public String getDoctorLogoUrl() {
+        return doctorLogoUrl;
+    }
+
+    public void setDoctorLogoUrl(String doctorLogoUrl) {
+        this.doctorLogoUrl = doctorLogoUrl;
+    }
+
+    public String getClassName() {
+        return className;
+    }
+
+    public void setClassName(String className) {
+        this.className = className;
+    }
+
     /**
      * vipFreeType : 0
      * duration : 00:00

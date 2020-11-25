@@ -159,10 +159,7 @@
         <activity android:name=".activity.myself.setting.ServiceHotlineActivity" /> <!-- 个人资料 -->
         <activity android:name=".activity.myself.TextSizeActivity"/>
         <!-- 微信支付 -->
-        <activity
-            android:name=".wxapi.WXPayEntryActivity"
-            android:exported="true"
-            android:launchMode="singleTop" />
+
         <activity
             android:name=".activity.myself.UserCenterActivity"
             android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 用户认证 -->
@@ -170,9 +167,7 @@
             android:name=".activity.myself.UserAuthenticationActivity"
             android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 我的积分 -->
         <!-- 微信登录 -->
-        <activity
-            android:name=".wxapi.WXEntryActivity"
-            android:exported="true" /> <!-- 主播页面 -->
+       <!-- 主播页面 -->
         <activity android:name="yyz_exploit.activity.LivePushActivity" />
 
         <activity
@@ -544,6 +539,9 @@
 
         </activity>
         <activity android:name=".activity.chapter.activity.VideoChapterActivity" />
+        <activity android:name="www.jykj.com.jykj_zxyl.wxapi.WXPayEntryActivity"
+            android:exported="true"
+            android:launchMode="singleTop"/>
 
         <meta-data
             android:name="EASEMOB_APPKEY"
@@ -657,7 +655,7 @@
 
 
         <!-- 以下为基本配置信息，需要自行添加至您的AndroidManifest文件中 start-->
-        <service
+      <!--  <service
             android:name="com.taobao.accs.ChannelService"
             android:exported="true"
             android:process=":channel">
@@ -793,7 +791,7 @@
             android:authorities="${applicationId}.umeng.message"
             android:exported="false">
             <grant-uri-permission android:pathPattern=".*" />
-        </provider>
+        </provider>-->
     </application>
 
 </manifest>

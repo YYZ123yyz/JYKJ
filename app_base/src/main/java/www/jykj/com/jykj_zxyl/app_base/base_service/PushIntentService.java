@@ -1,3 +1,4 @@
+/*
 package www.jykj.com.jykj_zxyl.app_base.base_service;
 
 import android.content.Context;
@@ -14,12 +15,14 @@ import java.util.Map;
 
 import www.jykj.com.jykj_zxyl.app_base.base_utils.StringUtils;
 
+*/
 /**
  * Description:
  *
  * @author: qiuxinhai
  * @date: 2020-05-21 14:21
- */
+ *//*
+
 public class PushIntentService extends UmengMessageService {
     private static final String TAG = PushIntentService.class.getName();
 
@@ -48,3 +51,4 @@ public class PushIntentService extends UmengMessageService {
 
 
 }
+*/
