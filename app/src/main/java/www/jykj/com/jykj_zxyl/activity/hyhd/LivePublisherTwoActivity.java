@@ -60,6 +60,7 @@ import www.jykj.com.jykj_zxyl.adapter.LiveFragmentAdapter;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.fragment.liveroom.IntroductionFragment;
 import www.jykj.com.jykj_zxyl.fragment.liveroom.LiveChatFragment;
+import www.jykj.com.jykj_zxyl.fragment.liveroom.LiveProgromFragment;
 import www.jykj.com.jykj_zxyl.util.CircleImageView;
 import www.jykj.com.jykj_zxyl.util.ImageViewUtil;
 import www.jykj.com.jykj_zxyl.util.StrUtils;
@@ -420,7 +421,7 @@ public class LivePublisherTwoActivity extends ChatPopDialogActivity implements V
         mTitles.add("简介");
         mTitles.add("互动");
         introductionFragment = new IntroductionFragment();
-        fragmentList.add(introductionFragment);
+        fragmentList.add(LiveProgromFragment.newInstance(mdetailcode));
         liveChatFragment = new LiveChatFragment();
         fragmentList.add(liveChatFragment);
         liveFragmentAdapter = new LiveFragmentAdapter(getSupportFragmentManager(),fragmentList,mTitles);

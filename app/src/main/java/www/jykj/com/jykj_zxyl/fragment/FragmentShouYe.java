@@ -70,7 +70,6 @@ import www.jykj.com.jykj_zxyl.fragment.home.HomeAudioFragment;
 import www.jykj.com.jykj_zxyl.fragment.home.HomeEducationFragment;
 import www.jykj.com.jykj_zxyl.fragment.home.HomeGraphicFragment;
 import www.jykj.com.jykj_zxyl.fragment.home.HomeVideoFragment;
-import www.jykj.com.jykj_zxyl.live.AddLiveProgromActivity;
 import www.jykj.com.jykj_zxyl.mypatient.activity.PatientActivity;
 import yyz_exploit.Utils.MyImageView;
 import yyz_exploit.bean.BindPatient;
@@ -226,10 +225,12 @@ public class FragmentShouYe extends AbstractMvpBaseFragment<HomePagerContract.Vi
                 mRefreshLayout.onFooterRefreshComplete();
             }
         });
+
         fragmentList.add(homeEducationFragment);
         fragmentList.add(homeVideoFragment);
         fragmentList.add(homeAudioFragment);
         fragmentList.add(homeGraphicFragment);
+
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override

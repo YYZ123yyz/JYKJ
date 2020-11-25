@@ -55,6 +55,7 @@ import www.jykj.com.jykj_zxyl.adapter.LiveFragmentAdapter;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.fragment.liveroom.IntroductionFragment;
 import www.jykj.com.jykj_zxyl.fragment.liveroom.LiveChatFragment;
+import www.jykj.com.jykj_zxyl.fragment.liveroom.LiveProgromFragment;
 import www.jykj.com.jykj_zxyl.util.CircleImageView;
 import www.jykj.com.jykj_zxyl.util.StrUtils;
 import www.jykj.com.jykj_zxyl.util.TCConstants;
@@ -411,7 +412,7 @@ public class LivePlayerTwoActivity extends ChatPopDialogActivity implements ITXL
             mTitles.add("简介");
             mTitles.add("互动");
             introductionFragment = new IntroductionFragment();
-            fragmentList.add(introductionFragment);
+            fragmentList.add(LiveProgromFragment.newInstance(mdetailCode));
             liveChatFragment = new LiveChatFragment();
             fragmentList.add(liveChatFragment);
             liveFragmentAdapter = new LiveFragmentAdapter(getSupportFragmentManager(), fragmentList, mTitles);

@@ -224,7 +224,15 @@ public interface ApiService {
     @POST("/doctorDataControlle/searchIndexHealthEducation")
     Observable<String> searchIndexHealthEducation(@Query(value = "jsonDataInfo"
             , encoded = true) String queryJson);
+    //课件
+    @POST("/liveRoomController/listGetIndexHealthEducation")
+    Observable<String> getHomeChapterDataList(@Query(value = "jsonDataInfo"
+            , encoded = true) String queryJson);
 
+    //课件详情
+    @POST("/liveRoomController/listGetCourseWare")
+    Observable<String> getHomeChapterList(@Query(value = "jsonDataInfo"
+            , encoded = true) String queryJson);
   //患者数量统计
   @POST("/bindingDoctorPatientControlle/searchDoctorManagePatientDataByTotal")
   Observable<String> getNumber(@Query(value = "jsonDataInfo"

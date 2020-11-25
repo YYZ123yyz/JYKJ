@@ -321,17 +321,14 @@ public class LiveAddPicActivity extends AbstractMvpBaseActivity<AddLivePhotoCont
     private String buildImageDatas(List<ImageInfoBean> list) {
         boolean flag = false;
         StringBuilder stringBuilder = new StringBuilder();
-        if (!CollectionUtils.isEmpty(list) && list.size() > 1) {
-            stringBuilder.append("data:image/jpg;base64,");
-        }
         for (int i = 0; i < list.size(); i++) {
             String photo = list.get(i).getPhoto();
             if (StringUtils.isNotEmpty(photo)) {
                 if (i == list.size() - 1) {
-                    stringBuilder.append(list.get(i).getPhoto());
+                    stringBuilder.append("data:image/jpg;base64,"+list.get(i).getPhoto());
                     flag = true;
                 } else {
-                    stringBuilder.append(list.get(i).getPhoto()).append("^");
+                    stringBuilder.append("data:image/jpg;base64,"+list.get(i).getPhoto()).append("^");
                     flag = true;
                 }
             }

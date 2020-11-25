@@ -40,6 +40,7 @@ import wechatShare.WechatShareManager;
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.custom.ShareDialog;
+import www.jykj.com.jykj_zxyl.util.ActivityUtil;
 import www.jykj.com.jykj_zxyl.util.CircleImageView;
 import www.jykj.com.jykj_zxyl.util.StrUtils;
 
@@ -81,6 +82,7 @@ public class LectureDetailActivity extends AppCompatActivity {
         mApp = (JYKJApplication)getApplication();
         mActivity = LectureDetailActivity.this;
         mContext = LectureDetailActivity.this;
+        ActivityUtil.setStatusBarMain(this);
         mShareManager = WechatShareManager.getInstance(mContext);
         setContentView(R.layout.activity_liveroom_lecture_detail);
         initview();
@@ -131,6 +133,7 @@ public class LectureDetailActivity extends AppCompatActivity {
                 Intent vodint = new Intent(mActivity,VodPlayerActivity.class);
                 vodint.putExtra("playurl",mSubliveDetail.getPlayUrl());
                 vodint.putExtra("TITLE",mSubliveDetail.getBroadcastTitle());
+                vodint.putExtra("detailsCode",mSubliveDetail.getDetailsCode());
                 mActivity.startActivity(vodint);
             }
         });
