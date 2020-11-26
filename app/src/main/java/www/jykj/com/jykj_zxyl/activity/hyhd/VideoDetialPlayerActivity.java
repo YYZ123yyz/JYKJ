@@ -16,6 +16,8 @@ import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -24,6 +26,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.meg7.widget.CircleImageView;
 import com.tencent.rtmp.ITXLivePlayListener;
 import com.tencent.rtmp.TXLiveConstants;
@@ -39,17 +42,21 @@ import java.util.Map;
 
 import butterknife.BindView;
 import www.jykj.com.jykj_zxyl.R;
-import www.jykj.com.jykj_zxyl.app_base.base_activity.BaseActivity;
+import www.jykj.com.jykj_zxyl.activity.hyhd.contract.VideoDetialContract;
+import www.jykj.com.jykj_zxyl.activity.hyhd.presenter.VideoDetialPresenter;
+import www.jykj.com.jykj_zxyl.app_base.base_bean.VideoDetialBean;
 import www.jykj.com.jykj_zxyl.app_base.base_view.BaseToolBar;
+import www.jykj.com.jykj_zxyl.app_base.mvp.AbstractMvpBaseActivity;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 
 /**
- * Description:
+ * Description:视频详情
  *
  * @author: qiuxinhai
  * @date: 2020-11-24 17:34
  */
-public class VideoDetialPlayerActivity extends BaseActivity implements ITXLivePlayListener {
+public class VideoDetialPlayerActivity extends AbstractMvpBaseActivity<VideoDetialContract.View
+        , VideoDetialPresenter>implements ITXLivePlayListener,VideoDetialContract.View {
     @BindView(R.id.toolbar)
     BaseToolBar toolbar;
     @BindView(R.id.video_view)
@@ -86,12 +93,14 @@ public class VideoDetialPlayerActivity extends BaseActivity implements ITXLivePl
     ImageView iv_zoom_btn;
     @BindView(R.id.introduction_layout)
     LinearLayout introduction_layout;
-
+    @BindView(R.id.tv_video_content)
+    TextView mTvVideoContent;
     private int videowidth = 0;
     private int videoheight = 0;
     private TXVodPlayer mLivePlayer = null;
     private TXPhoneStateListener mPhoneListener = null;
     private TXVodPlayConfig mPlayConfig;
+    private String courseWareCode;
     private boolean mHWDecode;
     private boolean mEnableCache;
     private int mCurrentRenderMode;
@@ -112,15 +121,27 @@ public class VideoDetialPlayerActivity extends BaseActivity implements ITXLivePl
     protected void initView() {
         super.initView();
         mApp = (JYKJApplication)getApplication();
-        mPlayUrl = getIntent().getStringExtra("playurl");
+        Bundle extras = this.getIntent().getExtras();
+        if (extras!=null) {
+            courseWareCode=extras.getString("courseWareCode");
+            mPlayUrl = extras.getString("playUrl");
+        }
         mPlayConfig = new TXVodPlayConfig();
         if (mLivePlayer == null){
             mLivePlayer = new TXVodPlayer(this);
         }
+        mPhoneListener = new TXPhoneStateListener(this, mLivePlayer);
+        mPhoneListener.startListen();
         setToolBar();
         checkPublishPermission();
         mVideoPlay = startPlayRtmp();
         addListener();
+    }
+
+    @Override
+    protected void initData() {
+        super.initData();
+        mPresenter.sendGetCourseWareDetailRequest(courseWareCode,this);
     }
 
     /**
@@ -201,6 +222,55 @@ public class VideoDetialPlayerActivity extends BaseActivity implements ITXLivePl
                 mVideoPlay = startPlayRtmp();
             }
         });
+
+        mPlayerView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showOrHide();
+            }
+        });
+    }
+
+    /**
+     * 显示隐藏动画
+     */
+    protected void showOrHide() {
+        if (playProgress.getVisibility() == View.VISIBLE) {
+            hideAnim();
+        } else {
+            showAnim();
+        }
+    }
+
+    /**
+     * 隐藏动画
+     */
+    private void hideAnim(){
+        Animation animation1 = AnimationUtils.loadAnimation(this
+                , R.anim.option_leave_from_bottom);
+        animation1.setAnimationListener(new AnimationImp() {
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                super.onAnimationEnd(animation);
+                //隐藏锚点
+
+                playProgress.setVisibility(View.GONE);
+
+            }
+        });
+        playProgress.startAnimation(animation1);
+    }
+
+    /**
+     * 展示动画
+     */
+    private void showAnim(){
+        if (playProgress.getVisibility() == View.GONE) {
+            playProgress.setVisibility(View.VISIBLE);
+            playProgress.clearAnimation();
+            Animation animation = AnimationUtils.loadAnimation(this, R.anim.boxing_option_entry_from_top);
+            playProgress.startAnimation(animation);
+        }
     }
 
     @Override
@@ -415,6 +485,25 @@ public class VideoDetialPlayerActivity extends BaseActivity implements ITXLivePl
 
     }
 
+    @Override
+    public void showLoading(int code) {
+
+    }
+
+    @Override
+    public void getCourseWareDetailResult(VideoDetialBean videoDetialBean) {
+//        Glide.with(this)
+//                .load(parinfo.getBroadcastCoverImgUrl()).into(viewHolder.pre_live_btn);
+        liveDoctorName.setText(videoDetialBean.getDoctorName());
+        liveDoctorEducation.setText(videoDetialBean.getDoctorTitleName());
+        liveDoctorDep.setText(videoDetialBean.getDoctorSynopsis());
+        tvSpecialzeContent.setText(String.format("擅长：%s",
+                videoDetialBean.getDoctorGoodAtRealm()));
+        tvVideoThemeContent.setText(videoDetialBean.getTitle());
+        mTvVideoContent.setText(videoDetialBean.getRemark());
+
+    }
+
 
     class TXPhoneStateListener extends PhoneStateListener implements Application.ActivityLifecycleCallbacks {
         WeakReference<TXVodPlayer> mPlayer;
@@ -521,5 +610,25 @@ public class VideoDetialPlayerActivity extends BaseActivity implements ITXLivePl
         stopPlayRtmp();
         super.onBackPressed();
     }
+
+    /**
+     * 动画实现类
+     */
+    private class AnimationImp implements Animation.AnimationListener {
+
+        @Override
+        public void onAnimationEnd(Animation animation) {
+        }
+
+        @Override
+        public void onAnimationRepeat(Animation animation) {
+        }
+
+        @Override
+        public void onAnimationStart(Animation animation) {
+        }
+
+    }
+
 
 }

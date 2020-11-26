@@ -15,6 +15,7 @@ import java.util.List;
 import butterknife.BindView;
 import util.CustomViewPager;
 import www.jykj.com.jykj_zxyl.R;
+import www.jykj.com.jykj_zxyl.activity.chapter.activity.VideoChapterActivity;
 import www.jykj.com.jykj_zxyl.activity.hyhd.LivePlayerTwoActivity;
 import www.jykj.com.jykj_zxyl.activity.hyhd.LivePublisherThreeActivity;
 import www.jykj.com.jykj_zxyl.activity.liveroom.LiveroomDetailActivity;
@@ -117,13 +118,20 @@ public class HomeVideoFragment extends AbstractMvpBaseFragment<HealthEducationCo
             HomeHealthEducationBean healthEducationBean
                     = (HomeHealthEducationBean) mMultiItemEntitys.get(pos);
             int flagContentType = healthEducationBean.getType();
+            int state = healthEducationBean.getState();
             if (flagContentType==1) {
-                Intent parintent = new Intent(mActivity, LiveroomDetailActivity.class);
-                parintent.putExtra("detailCode",healthEducationBean.getRelationCode());
-                mActivity.startActivity(parintent);
+                if (state==5) {
+                    Bundle bundle=new Bundle();
+                    bundle.putString("courseWareCode",healthEducationBean.getRelationCode());
+                    startActivity(VideoChapterActivity.class,bundle);
+                }else{
+                    Intent parintent = new Intent(mActivity, LiveroomDetailActivity.class);
+                    parintent.putExtra("detailCode",healthEducationBean.getRelationCode());
+                    mActivity.startActivity(parintent);
+                }
             }else if(flagContentType==2){
-
-                if(healthEducationBean.getUserCode().equals(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode())) {
+                if(healthEducationBean.getUserCode().equals(
+                        mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode())) {
                     Intent theintent = new Intent(mActivity, LivePublisherThreeActivity.class);
                     theintent.putExtra("detailCode", healthEducationBean.getRelationCode());
                     theintent.putExtra("pushUrl", healthEducationBean.getPushUrl());
@@ -147,6 +155,7 @@ public class HomeVideoFragment extends AbstractMvpBaseFragment<HealthEducationCo
                 bundle.putString("title","图文");
                 startActivity(H5Activity.class,bundle);
             }
+
 
         });
         rvList.setLayoutManager(layoutManager);
@@ -177,7 +186,7 @@ public class HomeVideoFragment extends AbstractMvpBaseFragment<HealthEducationCo
             }
 
             HomeHealthEducationBean homeHealthEducationBean = list.get(list.size() - 1);
-            createDate= DateUtils.getDateToStringYYYMMDDHHMMSS(homeHealthEducationBean.getCreateDate());
+            createDate= DateUtils.getDateToStringYYYMMDDHHMMSS(homeHealthEducationBean.getCreatetime());
 
         } else {
             if (TextUtils.isEmpty(createDate)) {

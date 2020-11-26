@@ -14,6 +14,7 @@ import java.util.List;
 import butterknife.BindView;
 import util.CustomViewPager;
 import www.jykj.com.jykj_zxyl.R;
+import www.jykj.com.jykj_zxyl.activity.chapter.activity.VideoChapterActivity;
 import www.jykj.com.jykj_zxyl.activity.hyhd.LivePlayerTwoActivity;
 import www.jykj.com.jykj_zxyl.activity.hyhd.LivePublisherThreeActivity;
 import www.jykj.com.jykj_zxyl.activity.liveroom.LiveroomDetailActivity;
@@ -120,46 +121,43 @@ public class HomeEducationFragment extends AbstractMvpBaseFragment<HealthEducati
             HomeHealthEducationBean healthEducationBean
                     = (HomeHealthEducationBean) mMultiItemEntitys.get(pos);
             int flagContentType = healthEducationBean.getType();
-            if (flagContentType==3) {
+            int state = healthEducationBean.getState();
+            if (flagContentType==1) {
+                if (state==5) {
+                    Bundle bundle=new Bundle();
+                    bundle.putString("courseWareCode",healthEducationBean.getRelationCode());
+                    startActivity(VideoChapterActivity.class,bundle);
+                }else{
+                    Intent parintent = new Intent(mActivity, LiveroomDetailActivity.class);
+                    parintent.putExtra("detailCode",healthEducationBean.getRelationCode());
+                    mActivity.startActivity(parintent);
+                }
+            }else if(flagContentType==2){
+                if(healthEducationBean.getUserCode().equals(
+                        mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode())) {
+                    Intent theintent = new Intent(mActivity, LivePublisherThreeActivity.class);
+                    theintent.putExtra("detailCode", healthEducationBean.getRelationCode());
+                    theintent.putExtra("pushUrl", healthEducationBean.getPushUrl());
+                    theintent.putExtra("chatRoomName", healthEducationBean.getChatRoomCode());
+                    theintent.putExtra("chatId", healthEducationBean.getChatRoomCode());
+                    theintent.putExtra("liveTitle", healthEducationBean.getTitle());
+                    theintent.putExtra("live_type", LivePublisherThreeActivity.LIVE_TYPE_HOTLIVE);
+                    mActivity.startActivity(theintent);
+                }else{
+                    Intent theintent = new Intent(mActivity, LivePlayerTwoActivity.class);
+                    theintent.putExtra("chatId",healthEducationBean.getChatRoomCode());
+                    theintent.putExtra("pullUrl",healthEducationBean.getLinkUrl());
+                    theintent.putExtra("detailCode",healthEducationBean.getRelationCode());
+                    theintent.putExtra("PLAY_TYPE", LivePlayerTwoActivity.ACTIVITY_TYPE_LIVE_PLAY);
+                    mActivity.startActivity(theintent);
+                }
+
+            }else if(flagContentType==3){
                 Bundle bundle=new Bundle();
                 bundle.putString("url",healthEducationBean.getLinkUrl());
                 bundle.putString("title","图文");
                 startActivity(H5Activity.class,bundle);
-            }else{
-                Intent parintent = new Intent(mActivity, LiveroomDetailActivity.class);
-                parintent.putExtra("detailCode",healthEducationBean.getRelationCode());
-                mActivity.startActivity(parintent);
             }
-//            if (flagContentType==1) {
-//                Intent parintent = new Intent(mActivity, LiveroomDetailActivity.class);
-//                parintent.putExtra("detailCode",healthEducationBean.getRelationCode());
-//                mActivity.startActivity(parintent);
-//            }else if(flagContentType==2){
-//
-//                if(healthEducationBean.getUserCode().equals(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode())) {
-//                    Intent theintent = new Intent(mActivity, LivePublisherThreeActivity.class);
-//                    theintent.putExtra("detailCode", healthEducationBean.getRelationCode());
-//                    theintent.putExtra("pushUrl", healthEducationBean.getPushUrl());
-//                    theintent.putExtra("chatRoomName", healthEducationBean.getChatRoomCode());
-//                    theintent.putExtra("chatId", healthEducationBean.getChatRoomCode());
-//                    theintent.putExtra("liveTitle", healthEducationBean.getTitle());
-//                    theintent.putExtra("live_type", LivePublisherThreeActivity.LIVE_TYPE_HOTLIVE);
-//                    mActivity.startActivity(theintent);
-//                }else{
-//                    Intent theintent = new Intent(mActivity, LivePlayerTwoActivity.class);
-//                    theintent.putExtra("chatId",healthEducationBean.getChatRoomCode());
-//                    theintent.putExtra("pullUrl",healthEducationBean.getLinkUrl());
-//                    theintent.putExtra("detailCode",healthEducationBean.getRelationCode());
-//                    theintent.putExtra("PLAY_TYPE", LivePlayerTwoActivity.ACTIVITY_TYPE_LIVE_PLAY);
-//                    mActivity.startActivity(theintent);
-//                }
-//
-//            }else if(flagContentType==3){
-//                Bundle bundle=new Bundle();
-//                bundle.putString("url",healthEducationBean.getLinkUrl());
-//                bundle.putString("title","图文");
-//                startActivity(H5Activity.class,bundle);
-//            }
 
         });
     }
@@ -188,7 +186,7 @@ public class HomeEducationFragment extends AbstractMvpBaseFragment<HealthEducati
             }
 
             HomeHealthEducationBean homeHealthEducationBean = list.get(list.size() - 1);
-            createDate=DateUtils.getDateToStringYYYMMDDHHMMSS(homeHealthEducationBean.getCreateDate());
+            createDate=DateUtils.getDateToStringYYYMMDDHHMMSS(homeHealthEducationBean.getCreatetime());
 
         } else {
             if (TextUtils.isEmpty(createDate)) {

@@ -460,7 +460,7 @@
             android:name=".activity.hyhd.VideoDetialPlayerActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait"
-            android:theme="@style/HorLiveTheme" />
+            />
         <activity
             android:name=".activity.hyhd.LectureDetailActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -556,6 +556,8 @@
 
 
         </activity>
+        <activity android:name=".activity.chapter.activity.VideoChapterActivity" />
+
         <meta-data
             android:name="EASEMOB_APPKEY"
             android:value="1114191231107514#jiuyiteck-htn" /> <!-- 声明SDK所需的service SDK核心功能 -->

@@ -244,7 +244,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="bottom"
-            android:layout_marginTop="250dp"/>
+            android:layout_marginTop="250dp" />
 
         <ImageView
             android:id="@+id/iv_miniaml_zoom_btn"

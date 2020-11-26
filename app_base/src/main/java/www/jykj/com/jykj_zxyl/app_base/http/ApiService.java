@@ -224,7 +224,15 @@ public interface ApiService {
     @POST("/doctorDataControlle/searchIndexHealthEducation")
     Observable<String> searchIndexHealthEducation(@Query(value = "jsonDataInfo"
             , encoded = true) String queryJson);
+    //课件
+    @POST("/liveRoomController/listGetIndexHealthEducation")
+    Observable<String> getHomeChapterDataList(@Query(value = "jsonDataInfo"
+            , encoded = true) String queryJson);
 
+    //课件详情
+    @POST("/liveRoomController/listGetCourseWare")
+    Observable<String> getHomeChapterList(@Query(value = "jsonDataInfo"
+            , encoded = true) String queryJson);
   //患者数量统计
   @POST("/bindingDoctorPatientControlle/searchDoctorManagePatientDataByTotal")
   Observable<String> getNumber(@Query(value = "jsonDataInfo"
@@ -305,5 +313,23 @@ public interface ApiService {
     Observable<String> operLiveRoomDetailsNoticeResStartBroadcasting(@Query(value = "jsonDataInfo"
             , encoded = true) String queryJson);
 
+
+    //课件价格详情
+    @POST("/liveRoomController/getCourseWarePrice")
+    Observable<String> getChapterPrice(@Query(value = "jsonDataInfo", encoded = true)
+                                                 String queryJson);
+    //课件预支付
+    @POST("/liveRoomController/doUnifiedOrder")
+    Observable<String> go2payChapter(@Query(value = "jsonDataInfo", encoded = true)
+                                                 String queryJson);
+
+    //课件查询直播资源
+    @POST("/liveRoomController/getCourseWareLinkUrl")
+    Observable<String> getChapterSource(@Query(value = "jsonDataInfo", encoded = true)
+                                                 String queryJson);
+    //课件详情信息
+    @POST("/liveRoomController/getCourseWareDetail")
+    Observable<String> getCourseWareDetail(@Query(value = "jsonDataInfo", encoded = true)
+                                                   String queryJson);
 }
 

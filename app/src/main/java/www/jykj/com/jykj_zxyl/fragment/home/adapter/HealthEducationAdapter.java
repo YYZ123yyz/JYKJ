@@ -179,7 +179,7 @@ public class HealthEducationAdapter extends MultiItemRecycleViewAdapter<MultiIte
             TextView tvBrowseNum = viewHolder.getView(R.id.tv_browse_num);
             tvBrowseNum.setText(String.format("%s人看过", healthEducationBean.getShowWatchNum()));
             TextView tvDateTime = viewHolder.getView(R.id.tv_date_time);
-            long createDate = healthEducationBean.getCreateDate();
+            long createDate = healthEducationBean.getCreatetime();
             tvDateTime.setText( DateUtils.getDateToString(createDate));
             ImageView ivContentImg = viewHolder.getView(R.id.iv_content_img);
             Glide.with(mContext).load(healthEducationBean.getCoverImgUrl())

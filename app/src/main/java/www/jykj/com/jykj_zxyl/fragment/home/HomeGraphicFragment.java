@@ -137,7 +137,7 @@ public class HomeGraphicFragment extends AbstractMvpBaseFragment<HealthEducation
             }
 
             HomeHealthEducationBean homeHealthEducationBean = list.get(list.size() - 1);
-            createDate= DateUtils.getDateToStringYYYMMDDHHMMSS(homeHealthEducationBean.getCreateDate());
+            createDate= DateUtils.getDateToStringYYYMMDDHHMMSS(homeHealthEducationBean.getCreatetime());
 
         } else {
             if (TextUtils.isEmpty(createDate)) {

@@ -6,13 +6,6 @@
 
         </activity>
 
-        <service android:name="www.jykj.com.jykj_zxyl.app_base.base_service.PushIntentService"
-            android:permission="android.permission.BIND_JOB_SERVICE"
-            />
-        <service
-            android:name="www.jykj.com.jykj_zxyl.app_base.base_service.NotificationService"
-            android:enabled="true"
-            android:exported="false" />
 
 
         <!--Android-autoSize 设计稿目标宽高-->

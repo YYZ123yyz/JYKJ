@@ -72,16 +72,15 @@ public class HomeHealthEducationBean  extends MultiItemEntity{
     private String pushUrl;
 
     /**
-     * 创建时间
-     */
-    private long createDate;
-    /**
      * 用户code
      */
     private String userCode;
 
     private String chatRoomCode;
-
+    /**
+     * 创建时间
+     */
+    private long createtime;
 
     public int getType() {
         return type;
@@ -197,13 +196,6 @@ public class HomeHealthEducationBean  extends MultiItemEntity{
         this.linkUrl = linkUrl;
     }
 
-    public long getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(long createDate) {
-        this.createDate = createDate;
-    }
 
     public int getState() {
         return state;
@@ -227,5 +219,13 @@ public class HomeHealthEducationBean  extends MultiItemEntity{
 
     public void setPushUrl(String pushUrl) {
         this.pushUrl = pushUrl;
+    }
+
+    public long getCreatetime() {
+        return createtime;
+    }
+
+    public void setCreatetime(long createtime) {
+        this.createtime = createtime;
     }
 }
