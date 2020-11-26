@@ -1,3 +1,4 @@
+/*
 package www.jykj.com.jykj_zxyl.app_base.base_service;
 
 import android.app.Notification;
@@ -26,17 +27,21 @@ import java.util.UUID;
 
 import www.jykj.com.jykj_zxyl.app_base.R;
 
+*/
 /**
  * Description:
  *
  * @author: qiuxinhai
  * @date: 2020-05-22 09:55
- */
+ *//*
+
 public class NotificationService extends Service {
     private static final String TAG = "NotificationService";
     private static final String KEY_MESSAGE_BODY = "MESSAGE_BODY";
     private static final String KEY_MESSAGE_TYPE = "MESSAGE_TYPE";
-    /** 错误类型 */
+    */
+/** 错误类型 *//*
+
     public static final int MSG_TYPE_ERROR = -1;
     private NotifyActionReceiver mReceiver;
     @Nullable
@@ -53,9 +58,11 @@ public class NotificationService extends Service {
         registerReceiver(mReceiver, new IntentFilter(NotifyActionReceiver.INTENT_FILTER));
     }
 
-    /**
+    */
+/**
      * start Notification Service
-     */
+     *//*
+
     public static void start(@NonNull Context context, int msgType, @NonNull String message){
         Intent i = new Intent();
         i.putExtra(KEY_MESSAGE_TYPE, msgType);
@@ -88,12 +95,14 @@ public class NotificationService extends Service {
 
     }
 
-    /**
+    */
+/**
      * 展示通知栏
      * @param context 上下文
      * @param msg 消息对象
      * @param id 通知Id
-     */
+     *//*
+
     public void showNotification(Context context, UMessage msg, int id) {
         NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         Notification.Builder builder = new Notification.Builder(context);
@@ -159,3 +168,4 @@ public class NotificationService extends Service {
         }
     }
 }
+*/

@@ -99,8 +99,7 @@ import okhttp3.OkHttpClient;
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.activity.LoginActivity;
 import www.jykj.com.jykj_zxyl.activity.MainActivity;
-import www.jykj.com.jykj_zxyl.app_base.BuildConfig;
-import www.jykj.com.jykj_zxyl.app_base.base_service.PushIntentService;
+
 import www.jykj.com.jykj_zxyl.app_base.base_utils.AndroidThreadExecutor;
 import www.jykj.com.jykj_zxyl.app_base.http.AppUrlConfig;
 import www.jykj.com.jykj_zxyl.service.MessageReciveService;
@@ -110,9 +109,7 @@ import yyz_exploit.dialog.ErrorDialog;
 
 import com.tencent.bugly.crashreport.CrashReport;
 import com.tencent.rtmp.TXLiveBase;
-import com.umeng.commonsdk.UMConfigure;
-import com.umeng.message.IUmengRegisterCallback;
-import com.umeng.message.PushAgent;
+
 
 public class JYKJApplication extends Application {
     private JYKJApplication instance;
@@ -283,6 +280,11 @@ public class JYKJApplication extends Application {
             closeLiveRoomTask.execute();
         }*/
     }
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
+    }
 
     class CloseLiveRoomTask extends AsyncTask<Void,Void,Boolean> {
         CloseRoomInfo subinfo;
@@ -403,28 +405,28 @@ public class JYKJApplication extends Application {
     /**
      * 初始化umeng sdk
      */
-    private void initUmengSDK(){
-        UMConfigure.setLogEnabled(true);
-        UMConfigure.init(this, Constant.UMENG_APPKEY, "umeng", UMConfigure.DEVICE_TYPE_PHONE,
-                Constant.UMENG_APP_SECRET);
-
-        PushAgent pushAgent = PushAgent.getInstance(this);
-        pushAgent.register(new IUmengRegisterCallback(){
-
-            @Override
-            public void onSuccess(String s) {
-                Log.i("walle", "--->>> onSuccess, s is " + s);
-
-            }
-
-            @Override
-            public void onFailure(String s, String s1) {
-                Log.i("walle", "--->>> onFailure, s is " + s + ", s1 is " + s1);
-            }
-        });
-        pushAgent.setPushIntentServiceClass(PushIntentService.class);
-        pushAgent.setDisplayNotificationNumber(3);
-    }
+//    private void initUmengSDK(){
+//        UMConfigure.setLogEnabled(true);
+//        UMConfigure.init(this, Constant.UMENG_APPKEY, "umeng", UMConfigure.DEVICE_TYPE_PHONE,
+//                Constant.UMENG_APP_SECRET);
+//
+//        PushAgent pushAgent = PushAgent.getInstance(this);
+//        pushAgent.register(new IUmengRegisterCallback(){
+//
+//            @Override
+//            public void onSuccess(String s) {
+//                Log.i("walle", "--->>> onSuccess, s is " + s);
+//
+//            }
+//
+//            @Override
+//            public void onFailure(String s, String s1) {
+//                Log.i("walle", "--->>> onFailure, s is " + s + ", s1 is " + s1);
+//            }
+//        });
+//        pushAgent.setPushIntentServiceClass(PushIntentService.class);
+//        pushAgent.setDisplayNotificationNumber(3);3
+//    }
 
 
 
@@ -800,7 +802,7 @@ public class JYKJApplication extends Application {
                 //全局超时配置
                 .setConnectTimeout(60)
                 //全局是否打开请求log日志
-                .setDebug(BuildConfig.DEBUG)
+//                .setDebug(BuildConfig.DEBUG)
                 .build();
 
         return okHttpClient;

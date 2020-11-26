@@ -21,6 +21,9 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.tencent.mm.opensdk.modelpay.PayReq;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 import java.io.File;
 import java.util.HashMap;
@@ -84,6 +87,7 @@ public class VideoChapterActivity extends AbstractMvpBaseActivity<VideoChapterCo
 
     }
 
+    public IWXAPI msgApi;
     @Override
     protected int setLayoutId() {
         return R.layout.activity_video_chapter;
@@ -166,13 +170,14 @@ public class VideoChapterActivity extends AbstractMvpBaseActivity<VideoChapterCo
         nameTv.setText(data.getCreateBy());
         int freeType = data.getFreeType();//0免费,1收费
         priceTv.setText(String.format("¥ %s元", data.getPrice()));
+        programTv.setText(data.getClassName());
+        Glide.with(this).load(data.getDoctorLogoUrl()).into(ivHead);
         List<ChapterListBean.SecondListBean> secondList = data.getSecondList();
         VideoChapterAdapter videoChapterAdapter = new VideoChapterAdapter(R.layout.item_videochapter, secondList);
         mRecycleview.setAdapter(videoChapterAdapter);
         videoChapterAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                ToastUtils.showShort("点击");
                 switch (view.getId()) {
                     case R.id.tv_price:
 //                        int freeTypePay = secondList.get(position).getFreeType();
@@ -223,6 +228,20 @@ public class VideoChapterActivity extends AbstractMvpBaseActivity<VideoChapterCo
 
     @Override
     public void getPayInfoSucess(ChapterPayBean bean) {
-
+        if (null == msgApi) {
+            msgApi = WXAPIFactory.createWXAPI(this, "wxaf6f64f6a5878261");
+            msgApi.registerApp("wxaf6f64f6a5878261");
+        }
+        PayReq request = new PayReq();
+        request.appId = bean.getAppId();
+        request.partnerId = bean.getPartnerid();
+        String prepare_id = bean.getPrepayid();
+        request.prepayId = prepare_id;
+        request.packageValue = "Sign=WXPay";
+        request.nonceStr = bean.getNonceStr();
+        request.timeStamp = bean.getTimeStamp();
+        request.sign = bean.getSign();
+        request.signType = "MD5";
+        msgApi.sendReq(request);
     }
 }
