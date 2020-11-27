@@ -19,6 +19,15 @@ public class ChapterPayBean {
     private String prepayid;
     private String sign;
     private String timeStamp;
+    private String alipay_sdk;
+
+    public String getAlipay_sdk() {
+        return alipay_sdk;
+    }
+
+    public void setAlipay_sdk(String alipay_sdk) {
+        this.alipay_sdk = alipay_sdk;
+    }
 
     public String getAppId() {
         return appId;

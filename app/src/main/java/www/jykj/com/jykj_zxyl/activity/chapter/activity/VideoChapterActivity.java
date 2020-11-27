@@ -1,18 +1,26 @@
 package www.jykj.com.jykj_zxyl.activity.chapter.activity;
 
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.icu.lang.UCharacter;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
+import com.alipay.sdk.app.PayTask;
 import com.blankj.utilcode.util.ImageUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ToastUtils;
@@ -27,14 +35,17 @@ import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import java.io.File;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import netService.entity.NetRetEntity;
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.activity.chapter.bean.ChapterListBean;
 import www.jykj.com.jykj_zxyl.activity.chapter.bean.ChapterPayBean;
 import www.jykj.com.jykj_zxyl.activity.chapter.bean.ChapterPriceBean;
 import www.jykj.com.jykj_zxyl.activity.chapter.bean.ChatperSourceBean;
+import www.jykj.com.jykj_zxyl.activity.chapter.bean.PayResult;
 import www.jykj.com.jykj_zxyl.activity.chapter.contract.VideoChapterContract;
 import www.jykj.com.jykj_zxyl.activity.chapter.presenter.VideoChapterPresenter;
 import www.jykj.com.jykj_zxyl.adapter.VideoChapterAdapter;
@@ -71,8 +82,11 @@ public class VideoChapterActivity extends AbstractMvpBaseActivity<VideoChapterCo
     TextView allNum;//全部章节
     private JYKJApplication mApp;
     private ChapterPop chapterPop;
-    private int mPayType =0;
+    private int mPayType = 2;
     public IWXAPI msgApi;
+    private Handler mHandler;
+    private static final int SDK_PAY_FLAG = 3;
+
     @Override
     protected int setLayoutId() {
         return R.layout.activity_video_chapter;
@@ -82,6 +96,40 @@ public class VideoChapterActivity extends AbstractMvpBaseActivity<VideoChapterCo
     public void showLoading(int code) {
 
     }
+
+    @SuppressLint("HandlerLeak")
+    private void initHandler() {
+        mHandler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                switch (msg.what) {
+                    case SDK_PAY_FLAG:
+                        PayResult payResult = new PayResult((Map<String, String>) msg.obj);
+                        /**
+                         * 对于支付结果，请商户依赖服务端的异步通知结果。同步通知结果，仅作为支付结束的通知。
+                         */
+                        String resultInfo = payResult.getResult();
+                        String resultStatus = payResult.getResultStatus();
+
+                        if (TextUtils.equals(resultStatus, "9000")) {
+                            // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
+
+                        } else if (TextUtils.equals(resultStatus, "6001")) {
+//                         用户取消
+
+                        } else {
+
+                        }
+
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+        };
+    }
+
 
     @Override
     protected void initView() {
@@ -97,32 +145,33 @@ public class VideoChapterActivity extends AbstractMvpBaseActivity<VideoChapterCo
     @Override
     protected void initData() {
         super.initData();
-        mApp = (JYKJApplication)getApplication();
+        mApp = (JYKJApplication) getApplication();
         mPresenter.getVideoChapterList(getParams(0));
+        initHandler();
     }
 
-    private String getParams(int type){
+    private String getParams(int type) {
         HashMap<String, Object> stringStringHashMap = new HashMap<>();
-        stringStringHashMap.put("courseWareCode","1e18a17de66441c781bfe8a98d6dc1fc");
+        stringStringHashMap.put("courseWareCode", "1e18a17de66441c781bfe8a98d6dc1fc");
         switch (type) {
             case 0:  //预支付
-                stringStringHashMap.put("operUserCode",mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
+                stringStringHashMap.put("operUserCode", mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
                 break;
             case 1: //价格详情
 
                 break;
             case 2://资源
-                stringStringHashMap.put("operUserCode",mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
+                stringStringHashMap.put("operUserCode", mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
                 break;
             case 3://支付
-                stringStringHashMap.put("operUserCode",mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
-                stringStringHashMap.put("operUserName",mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
-                stringStringHashMap.put("requestClientType",1);
-                stringStringHashMap.put("payType",mPayType);//方式
-                stringStringHashMap.put("orderType",0);//购买类型
-                stringStringHashMap.put("rewardPoints",0);//积分
-                stringStringHashMap.put("couponCode","");//优惠券
-                stringStringHashMap.put("payAmount","100");//金额
+                stringStringHashMap.put("operUserCode", mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
+                stringStringHashMap.put("operUserName", mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
+                stringStringHashMap.put("requestClientType", 1);
+                stringStringHashMap.put("payType", mPayType);//方式
+                stringStringHashMap.put("orderType", 0);//购买类型
+                stringStringHashMap.put("rewardPoints", 0);//积分
+                stringStringHashMap.put("couponCode", "");//优惠券
+                stringStringHashMap.put("payAmount", "100");//金额
                 break;
         }
 
@@ -131,7 +180,7 @@ public class VideoChapterActivity extends AbstractMvpBaseActivity<VideoChapterCo
     }
 
     @OnClick({R.id.li_back})
-    public void onClick(View view){
+    public void onClick(View view) {
         switch (view.getId()) {
             case R.id.li_back:
                 finish();
@@ -144,17 +193,17 @@ public class VideoChapterActivity extends AbstractMvpBaseActivity<VideoChapterCo
         Glide.with(this).load(data.getIconUrl()).into(new SimpleTarget<Drawable>() {
             @Override
             public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
-                tittlePart.setBackground( ImageUtils.bitmap2Drawable(ImageUtils.fastBlur(ImageUtils.drawable2Bitmap(resource),1,25)));
+                tittlePart.setBackground(ImageUtils.bitmap2Drawable(ImageUtils.fastBlur(ImageUtils.drawable2Bitmap(resource), 1, 25)));
                 ivTittle.setImageDrawable(resource);
             }
         });
         allNum.setText(String.format("(共%d章节)", data.getSecondList().size()));
         clickNum.setText(String.format("浏览量: %d", data.getClickCount()));
         tittleTv.setText(data.getTitle());
-        nameTv.setText(data.getCreateBy());
+        nameTv.setText(data.getCreateby());
         int freeType = data.getFreeType();//0免费,1收费
         priceTv.setText(String.format("¥ %s元", data.getPrice()));
-        programTv.setText(data.getClassName());
+        programTv.setText(String.format("类目: %s", data.getClassName()));
         Glide.with(this).load(data.getDoctorLogoUrl()).into(ivHead);
         List<ChapterListBean.SecondListBean> secondList = data.getSecondList();
         VideoChapterAdapter videoChapterAdapter = new VideoChapterAdapter(R.layout.item_videochapter, secondList);
@@ -169,7 +218,7 @@ public class VideoChapterActivity extends AbstractMvpBaseActivity<VideoChapterCo
                         chapterPop.showPop(tittlePart);
                      /*   mPresenter.getChapterPriceDet(getParams(1));
                         mPresenter.getChapterSource(getParams(2));*/
-                        mPresenter.go2Pay(getParams(3));
+                        mPresenter.go2Pay(getParams(3),mPayType);
                         break;
                 }
             }
@@ -190,7 +239,7 @@ public class VideoChapterActivity extends AbstractMvpBaseActivity<VideoChapterCo
             @Override
             public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
 
-                tittlePart.setBackground( ImageUtils.bitmap2Drawable(ImageUtils.fastBlur(ImageUtils.drawable2Bitmap(resource),1,25)));
+                tittlePart.setBackground(ImageUtils.bitmap2Drawable(ImageUtils.fastBlur(ImageUtils.drawable2Bitmap(resource), 1, 25)));
                 ivTittle.setImageDrawable(resource);
             }
         });
@@ -223,5 +272,19 @@ public class VideoChapterActivity extends AbstractMvpBaseActivity<VideoChapterCo
         request.sign = bean.getSign();
         request.signType = "MD5";
         msgApi.sendReq(request);
+    }
+
+    @Override
+    public void getAliPayInfoSucess(String bean) {
+
+        final Runnable payRunnable = () -> {
+            PayTask alipay = new PayTask(VideoChapterActivity.this);
+            Map<String, String> result = alipay.payV2(bean, true);
+            Message msg = new Message();
+            msg.what = SDK_PAY_FLAG;
+            msg.obj = result;
+            mHandler.sendMessage(msg);
+        };
+        new Thread(payRunnable).start();
     }
 }
