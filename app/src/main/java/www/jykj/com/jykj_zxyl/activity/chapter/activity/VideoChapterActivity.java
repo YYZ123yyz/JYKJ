@@ -1,26 +1,21 @@
 package www.jykj.com.jykj_zxyl.activity.chapter.activity;
 
 
-import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.icu.lang.UCharacter;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.alibaba.fastjson.JSON;
-import com.alipay.sdk.app.PayTask;
 import com.blankj.utilcode.util.ImageUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ToastUtils;
@@ -35,11 +30,9 @@ import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import java.io.File;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import netService.entity.NetRetEntity;
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.activity.chapter.bean.ChapterListBean;
 import www.jykj.com.jykj_zxyl.activity.chapter.bean.ChapterPayBean;
@@ -48,6 +41,7 @@ import www.jykj.com.jykj_zxyl.activity.chapter.bean.ChatperSourceBean;
 import www.jykj.com.jykj_zxyl.activity.chapter.bean.PayResult;
 import www.jykj.com.jykj_zxyl.activity.chapter.contract.VideoChapterContract;
 import www.jykj.com.jykj_zxyl.activity.chapter.presenter.VideoChapterPresenter;
+import www.jykj.com.jykj_zxyl.activity.hyhd.VideoDetialPlayerActivity;
 import www.jykj.com.jykj_zxyl.adapter.VideoChapterAdapter;
 import www.jykj.com.jykj_zxyl.app_base.http.ParameUtil;
 import www.jykj.com.jykj_zxyl.app_base.http.RetrofitUtil;
@@ -82,6 +76,19 @@ public class VideoChapterActivity extends AbstractMvpBaseActivity<VideoChapterCo
     TextView allNum;//全部章节
     private JYKJApplication mApp;
     private ChapterPop chapterPop;
+    private int mPayType =0;
+    private String courseWareCode;
+
+    @Override
+    protected void onBeforeSetContentLayout() {
+        super.onBeforeSetContentLayout();
+        Bundle extras = this.getIntent().getExtras();
+        if (extras!=null) {
+            courseWareCode=extras.getString("courseWareCode");
+        }
+
+    }
+
     private int mPayType = 2;
     public IWXAPI msgApi;
     private Handler mHandler;
@@ -152,7 +159,7 @@ public class VideoChapterActivity extends AbstractMvpBaseActivity<VideoChapterCo
 
     private String getParams(int type) {
         HashMap<String, Object> stringStringHashMap = new HashMap<>();
-        stringStringHashMap.put("courseWareCode", "1e18a17de66441c781bfe8a98d6dc1fc");
+        stringStringHashMap.put("courseWareCode",courseWareCode);
         switch (type) {
             case 0:  //预支付
                 stringStringHashMap.put("operUserCode", mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
@@ -235,14 +242,14 @@ public class VideoChapterActivity extends AbstractMvpBaseActivity<VideoChapterCo
     @Override
     public void getDataFail(String msg) {
         ToastUtils.showShort(msg);
-        Glide.with(this).load("http://114.215.137.171:8040/liveImage/cover/915b29f3d1b7451fa1d4995a8f91b156/cover_20201120095105.jpg").into(new SimpleTarget<Drawable>() {
-            @Override
-            public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
-
-                tittlePart.setBackground(ImageUtils.bitmap2Drawable(ImageUtils.fastBlur(ImageUtils.drawable2Bitmap(resource), 1, 25)));
-                ivTittle.setImageDrawable(resource);
-            }
-        });
+//        Glide.with(this)
+//                .load("http://114.215.137.171:8040/liveImage/cover/915b29f3d1b7451fa1d4995a8f91b156/cover_20201120095105.jpg").into(new SimpleTarget<Drawable>() {
+//            @Override
+//            public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+//                tittlePart.setBackground( ImageUtils.bitmap2Drawable(ImageUtils.fastBlur(ImageUtils.drawable2Bitmap(resource),1,25)));
+//                ivTittle.setImageDrawable(resource);
+//            }
+//        });
     }
 
     @Override
@@ -252,7 +259,10 @@ public class VideoChapterActivity extends AbstractMvpBaseActivity<VideoChapterCo
 
     @Override
     public void getChapterSourceSucess(ChatperSourceBean bean) {
-
+        Bundle bundle=new Bundle();
+        bundle.putString("playUrl",bean.getLinkUrl());
+        bundle.putString("courseWareCode",courseWareCode);
+        startActivity(VideoDetialPlayerActivity.class,bundle);
     }
 
     @Override

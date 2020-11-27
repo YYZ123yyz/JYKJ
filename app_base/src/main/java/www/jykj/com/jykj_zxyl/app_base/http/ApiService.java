@@ -261,7 +261,7 @@ public interface ApiService {
     Observable<String> operUpdMyClinicDetailByOrderPatientMessage_20201012(@Query(value = "jsonDataInfo"
             , encoded = true) String queryJson);
     //健康档案-既往病史-个人填写详情
-    @POST("/patientHealthRecordsControlle/searchPatientConditionDiseaseRecordResData_V200916")
+    @POST("/patientDataControlle/searchDoctorManagePatientConditionDiseaseRecordResData")
     Observable<String> searchmyself_detail(@Query(value = "jsonDataInfo"
             , encoded = true) String queryJson);
     //健康教育-图文资讯详情
@@ -288,6 +288,10 @@ public interface ApiService {
     @POST("/broadcastImageController/updateBroadcastImage")
     Observable<String> updateBroadcastImage(@Query(value = "jsonDataInfo"
             , encoded = true) String queryJson);
+    //创建直播间
+    @POST("/broadcastLiveDataControlle/operLiveRoomDetails")
+    Observable<String> operLiveRoomDetails(@Query(value = "jsonDataInfo"
+            , encoded = true) String queryJson);
     //关闭直播
     @POST("/broadcastLiveDataControlle/operLiveRoomDetailsNoticeResCloseBroadcasting")
     Observable<String> operLiveRoomDetailsNoticeResCloseBroadcasting(
@@ -300,6 +304,15 @@ public interface ApiService {
     @POST("/imDataControlle/operReserveIMInfo")
     Observable<String> operReserveIMInfo(@Query(value = "jsonDataInfo", encoded = true)
                                                  String queryJson);
+    //查询首页健康教育整合数据列表
+    @POST("/liveRoomController/listGetIndexHealthEducation")
+    Observable<String> listGetIndexHealthEducation(@Query(value = "jsonDataInfo", encoded = true)
+                                                           String queryJson);
+    //开启直播
+    @POST("/broadcastLiveDataControlle/operLiveRoomDetailsNoticeResStartBroadcasting")
+    Observable<String> operLiveRoomDetailsNoticeResStartBroadcasting(@Query(value = "jsonDataInfo"
+            , encoded = true) String queryJson);
+
 
     //课件价格详情
     @POST("/liveRoomController/getCourseWarePrice")
@@ -314,6 +327,9 @@ public interface ApiService {
     @POST("/liveRoomController/getCourseWareLinkUrl")
     Observable<String> getChapterSource(@Query(value = "jsonDataInfo", encoded = true)
                                                  String queryJson);
-
+    //课件详情信息
+    @POST("/liveRoomController/getCourseWareDetail")
+    Observable<String> getCourseWareDetail(@Query(value = "jsonDataInfo", encoded = true)
+                                                   String queryJson);
 }
 

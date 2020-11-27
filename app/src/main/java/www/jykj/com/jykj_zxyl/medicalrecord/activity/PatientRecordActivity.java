@@ -43,6 +43,7 @@ import www.jykj.com.jykj_zxyl.activity.home.wdzs.ProvideViewInteractOrderTreatme
 import www.jykj.com.jykj_zxyl.activity.hyhd.ChatActivity;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.CheckImResultBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.PatientRecordDetBean;
+import www.jykj.com.jykj_zxyl.app_base.base_utils.CopyButtonLibrary;
 import www.jykj.com.jykj_zxyl.app_base.http.ParameUtil;
 import www.jykj.com.jykj_zxyl.app_base.http.RetrofitUtil;
 import www.jykj.com.jykj_zxyl.app_base.mvp.AbstractMvpBaseActivity;
@@ -168,6 +169,15 @@ public class PatientRecordActivity
     ScrollView scrollView;
     @BindView(R.id.lin_confirm)
     RelativeLayout linConfirm;
+    @BindView(R.id.rl_chief)
+    RelativeLayout rlChidef;
+    @BindView(R.id.rl_medicalhistory)
+    RelativeLayout rlMedicalHistory;
+    @BindView(R.id.rl_past)
+    RelativeLayout rlPast;
+    @BindView(R.id.rl_examination)
+    RelativeLayout rlExamination;
+
     private JYKJApplication mApp;
     private LayoutInflater mInflater;
     private String gendder;
@@ -233,6 +243,8 @@ public class PatientRecordActivity
             R.id.lin_suggest, R.id.confirm, R.id.send,R.id.left_image_id
             ,R.id.ll_prescription_notes_root
             ,R.id.ll_inspection_root,R.id.ll_clinical_diagnosis
+            ,R.id.rl_chief,R.id.rl_medicalhistory,R.id.rl_past,
+            R.id.rl_examination
     })
     public void onClick(View view) {
         switch (view.getId()) {
@@ -294,6 +306,19 @@ public class PatientRecordActivity
                             .putExtra("wzxx", patientInterrogation),100);
                 }
                 break;
+            case R.id.rl_chief:
+                new CopyButtonLibrary(context,chiefTv).init();
+                break;
+            case R.id.rl_medicalhistory:
+                new CopyButtonLibrary(context,medicalHistoryTv).init();
+                break;
+            case R.id.rl_past:
+                new CopyButtonLibrary(context,pastTv).init();
+                break;
+            case R.id.rl_examination:
+                new CopyButtonLibrary(context,examinationTv).init();
+                break;
+
                 default:
 
         }
@@ -483,8 +508,16 @@ public class PatientRecordActivity
         findEditText(scrollView,isEdit);
         if (isEdit) {
             linConfirm.setVisibility(View.VISIBLE);
+            rlChidef.setVisibility(View.VISIBLE);
+            rlMedicalHistory.setVisibility(View.VISIBLE);
+            rlExamination.setVisibility(View.VISIBLE);
+            rlPast.setVisibility(View.VISIBLE);
         }else{
             linConfirm.setVisibility(View.GONE);
+            rlChidef.setVisibility(View.GONE);
+            rlMedicalHistory.setVisibility(View.GONE);
+            rlExamination.setVisibility(View.GONE);
+            rlPast.setVisibility(View.GONE);
         }
 
     }

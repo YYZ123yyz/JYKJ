@@ -28,9 +28,20 @@ public class HealthEducationItemType implements IMulItemViewType<MultiItemEntity
      */
     public static final String MULTIPLE_AUDIO_TYPE="2";
 
+    /**
+     * 课件
+     */
+    public static final String MULTIPLE_COURSE_WARE="3";
+
+    /**
+     *专题
+     */
+    public static final String MULTIPLE_SPECIAL="4";
+
+
     @Override
     public int getViewTypeCount() {
-        return 3;
+        return 5;
     }
 
     @Override
@@ -46,6 +57,10 @@ public class HealthEducationItemType implements IMulItemViewType<MultiItemEntity
                 return 1;
             case MULTIPLE_AUDIO_TYPE://两张图片
                 return 2;
+            case MULTIPLE_COURSE_WARE://课件
+                return 3;
+            case MULTIPLE_SPECIAL://专题
+                return 4;
 
             default:
                 return -1;
@@ -65,6 +80,12 @@ public class HealthEducationItemType implements IMulItemViewType<MultiItemEntity
                 break;
             case 2:
                 layoutId = R.layout.item_health_education_audio;
+                break;
+            case 3:
+                layoutId = R.layout.item_health_education_course;
+                break;
+            case 4:
+                layoutId = R.layout.item_health_education_special;
                 break;
 
             default:

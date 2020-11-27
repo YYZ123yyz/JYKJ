@@ -58,7 +58,8 @@
 
     <uses-permission android:name="com.coloros.mcs.permission.RECIEVE_MCS_MESSAGE" />
     <uses-permission android:name="com.heytap.mcs.permission.RECIEVE_MCS_MESSAGE" />
-
+    <uses-permission android:name="android.permission.WRITE_CONTACTS" />
+    <uses-permission android:name="android.permission.CHANGE_CONFIGURATION" />
     <application
         android:name=".application.JYKJApplication"
         android:allowBackup="true"
@@ -449,6 +450,12 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait"
             android:theme="@style/HorLiveTheme" />
+
+        <activity
+            android:name=".activity.hyhd.VideoDetialPlayerActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="portrait"
+            />
         <activity
             android:name=".activity.hyhd.LectureDetailActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -533,6 +540,12 @@
 
         </activity>
         <activity android:name=".live.LiveAddPicActivity"
+            android:screenOrientation="portrait"
+            >
+
+
+        </activity>
+        <activity android:name=".activity.home.mypatient.history.Myself_DetailActivity"
             android:screenOrientation="portrait"
             >
 

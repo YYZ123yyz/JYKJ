@@ -346,6 +346,7 @@ public class MyOnlineScheduTemplateActivity extends AbstractMvpBaseActivity<
         ColumnWheelDialog<WheelItem, WheelItem, WheelItem, WheelItem, WheelItem>
                 columnWheelDialog=new ColumnWheelDialog<>(this);
         columnWheelDialog.show();
+        columnWheelDialog.setClickTipsWhenIsScrolling("");
         columnWheelDialog.setShowTitle(true);
         columnWheelDialog.setCancelButton("取消", null);
         columnWheelDialog.setOKButton("确定", (v, item0, item1, item2, item3, item4) -> {
