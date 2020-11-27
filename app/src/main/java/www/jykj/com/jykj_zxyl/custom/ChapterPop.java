@@ -136,7 +136,7 @@ public class ChapterPop extends PopupWindow implements View.OnClickListener {
             case R.id.go2pay_tv:
                 for (int i = 0; i < imageViews.size(); i++) {
                     if (imageViews.get(i).getVisibility()==View.VISIBLE){
-                        mListen.go2Pay(i);
+                        mListen.go2Pay(i,priceTv.getText().toString());
                     }
                 }
                 break;
@@ -162,7 +162,7 @@ public class ChapterPop extends PopupWindow implements View.OnClickListener {
         this.mListen = listen;
     }
     public interface go2PayListen{
-        void go2Pay(int type);
+        void go2Pay(int type,String money);
     }
 
 }

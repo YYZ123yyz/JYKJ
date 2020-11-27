@@ -26,6 +26,8 @@ public class VideoChapterContract {
         void getPayInfoSucess(ChapterPayBean bean);
 
         void getAliPayInfoSucess(String bean);
+
+        void paySucess(String msg);
     }
 
 
