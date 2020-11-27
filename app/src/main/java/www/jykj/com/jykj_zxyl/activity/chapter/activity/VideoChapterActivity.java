@@ -30,6 +30,10 @@ import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.io.File;
 import java.util.HashMap;
 import java.util.List;
@@ -52,6 +56,7 @@ import www.jykj.com.jykj_zxyl.app_base.http.RetrofitUtil;
 import www.jykj.com.jykj_zxyl.app_base.mvp.AbstractMvpBaseActivity;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.custom.ChapterPop;
+import www.jykj.com.jykj_zxyl.wxapi.PayInfoBean;
 
 
 public class VideoChapterActivity extends AbstractMvpBaseActivity<VideoChapterContract.View, VideoChapterPresenter>
@@ -124,10 +129,11 @@ public class VideoChapterActivity extends AbstractMvpBaseActivity<VideoChapterCo
 
                         if (TextUtils.equals(resultStatus, "9000")) {
                             // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
-
+                            mPresenter.getVideoChapterList(getParams(0));
+                            ToastUtils.showShort("支付成功");
                         } else if (TextUtils.equals(resultStatus, "6001")) {
 //                         用户取消
-
+                            ToastUtils.showShort("支付失败");
                         } else {
 
                         }
@@ -149,8 +155,13 @@ public class VideoChapterActivity extends AbstractMvpBaseActivity<VideoChapterCo
         chapterPop = new ChapterPop(this);
 
         chapterPop.setGo2PayListen((type, money) -> {
+
             mPayType = type;
-            mPresenter.go2Pay(getParams(3), Integer.getInteger(payMoney) <= 0 ? 3 : mPayType);
+            payMoney = money;
+            if (chapterPop.isShowing()){
+                chapterPop.dismiss();
+            }
+            mPresenter.go2Pay(getParams(3), Double.parseDouble(payMoney) <= 0 ? 3 : mPayType);
         });
     }
 
@@ -161,6 +172,13 @@ public class VideoChapterActivity extends AbstractMvpBaseActivity<VideoChapterCo
         mApp = (JYKJApplication) getApplication();
         mPresenter.getVideoChapterList(getParams(0));
         initHandler();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     private String getParams(int type) {
@@ -198,6 +216,12 @@ public class VideoChapterActivity extends AbstractMvpBaseActivity<VideoChapterCo
                 break;
         }
     }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMainEventBus(PayInfoBean msg) {
+        LogUtils.e("收到刷新了 ");
+        mPresenter.getVideoChapterList(getParams(0));
+    }
+
 
     @Override
     public void getListSucess(ChapterListBean data) {
@@ -227,10 +251,10 @@ public class VideoChapterActivity extends AbstractMvpBaseActivity<VideoChapterCo
                         int freeTypePay = secondList.get(position).getFreeType();
                         int flagUserHasBuy = secondList.get(position).getFlagUserHasBuy();
                         detCode = secondList.get(position).getCode();
-                        if (freeTypePay == 0) {
+                        if (freeTypePay == 0) {//修改0
                             mPresenter.getChapterSource(getParams(2));
                         } else {
-                            if (flagUserHasBuy == 0) { //没有买
+                            if (flagUserHasBuy == 0) { //没有买   修改0
                                 chapterPop.setPayMoney(secondList.get(position).getPrice());
                                 chapterPop.showPop(tittlePart);
                             } else {

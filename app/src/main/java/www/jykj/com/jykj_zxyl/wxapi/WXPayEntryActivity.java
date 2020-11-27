@@ -13,6 +13,8 @@ import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
+import org.greenrobot.eventbus.EventBus;
+
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.app_base.base_view.BaseToolBar;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
@@ -34,7 +36,6 @@ public class WXPayEntryActivity extends AppCompatActivity implements IWXAPIEvent
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.wxpay_result_activity);
-        LogUtils.e("走我了 ");
         mApp = (JYKJApplication) getApplication();
 
        mToolBar =(BaseToolBar)findViewById(R.id.toolbar);
@@ -126,5 +127,11 @@ public class WXPayEntryActivity extends AppCompatActivity implements IWXAPIEvent
     @Override
     public void onResp(BaseResp baseResp) {
         LogUtils.e("支付结果   "+baseResp.errCode);
+        if ( baseResp.errCode == 0) {
+            EventBus.getDefault().post(new PayInfoBean(true));
+            showMessage("成功");
+        }else {
+            showMessageError();
+        }
     }
 }
