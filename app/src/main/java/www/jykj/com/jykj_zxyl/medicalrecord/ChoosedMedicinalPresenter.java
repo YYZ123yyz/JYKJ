@@ -32,6 +32,9 @@ public class ChoosedMedicinalPresenter
     private static final String SEND_MEDICINAL_TYPE_LIST_REQUEST_TAG="send_medicinal_type_list_request_tag";
 
     private static final String SEND_MEDICINAL_INFO_LIST_REQUEST_TAG="send_medicinal_info_request_tag";
+    private static final String SEND_SEARCH_MY_CLINIC_DETAIL_REQUEST_TAG="send_search_my_clinic" +
+            "_detial_request_tag";
+    private static final String SEND_GET_DRUG_TYPE_MEDICINE_REQUEST_TAG="send_get_drug_type_medicine_request_tag";
     @Override
     protected Object[] getRequestTags() {
         return new Object[]{SEND_MEDICINAL_TYPE_LIST_REQUEST_TAG,SEND_MEDICINAL_INFO_LIST_REQUEST_TAG};
@@ -132,5 +135,89 @@ public class ChoosedMedicinalPresenter
         });
 
 
+    }
+
+    @Override
+    public void sendSearchMyClinicDetailResPrescribeDrugInfo_201116(String medicineCode,
+                                                                    String srarchDrugName,
+                                                                    int rowNum, int pageNum,
+                                                                    Activity activity) {
+
+        HashMap<String, Object> hashMap = ParameUtil.buildBaseDoctorParam(activity);
+        hashMap.put("medicineCode",medicineCode);
+        hashMap.put("srarchDrugName",srarchDrugName);
+        hashMap.put("rowNum",rowNum);
+        hashMap.put("pageNum",pageNum);
+        String s = RetrofitUtil.encodeParam(hashMap);
+        ApiHelper.getApiService().searchMyClinicDetailResPrescribeDrugInfo_201116(s).compose(Transformer.switchSchedulers(new ILoadingView() {
+            @Override
+            public void showLoadingView() {
+                if (mView!=null) {
+                    mView.showLoading(102);
+                }
+            }
+
+            @Override
+            public void hideLoadingView() {
+                if (mView!=null) {
+                    mView.hideLoading();
+                }
+
+            }
+        })).subscribe(new CommonDataObserver() {
+            @Override
+            protected void onSuccessResult(BaseBean baseBean) {
+
+            }
+
+            @Override
+            protected void onError(String s) {
+                super.onError(s);
+            }
+
+            @Override
+            protected String setTag() {
+                return SEND_SEARCH_MY_CLINIC_DETAIL_REQUEST_TAG;
+            }
+        });
+    }
+
+    @Override
+    public void sendGetDrugTypeMedicineRequest(String medicineCode, Activity activity) {
+        HashMap<String, Object> hashMap = ParameUtil.buildBaseDoctorParam(activity);
+        hashMap.put("medicineCode",medicineCode);
+        String s = RetrofitUtil.encodeParam(hashMap);
+        ApiHelper.getApiService().getDrugTypeMedicine(s).compose(Transformer.switchSchedulers(new ILoadingView() {
+            @Override
+            public void showLoadingView() {
+
+            }
+
+            @Override
+            public void hideLoadingView() {
+
+            }
+        })).subscribe(new CommonDataObserver() {
+            @Override
+            protected void onSuccessResult(BaseBean baseBean) {
+
+                int resCode = baseBean.getResCode();
+
+                System.out.println(resCode);
+                String resJsonData = baseBean.getResJsonData();
+                System.out.println(resJsonData);
+            }
+
+            @Override
+            protected void onError(String s) {
+                super.onError(s);
+                System.out.println(s);
+            }
+
+            @Override
+            protected String setTag() {
+                return SEND_GET_DRUG_TYPE_MEDICINE_REQUEST_TAG;
+            }
+        });
     }
 }

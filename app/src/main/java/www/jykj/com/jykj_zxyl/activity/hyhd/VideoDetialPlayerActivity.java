@@ -45,6 +45,7 @@ import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.activity.hyhd.contract.VideoDetialContract;
 import www.jykj.com.jykj_zxyl.activity.hyhd.presenter.VideoDetialPresenter;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.VideoDetialBean;
+import www.jykj.com.jykj_zxyl.app_base.base_utils.StringUtils;
 import www.jykj.com.jykj_zxyl.app_base.base_view.BaseToolBar;
 import www.jykj.com.jykj_zxyl.app_base.mvp.AbstractMvpBaseActivity;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
@@ -500,7 +501,8 @@ public class VideoDetialPlayerActivity extends AbstractMvpBaseActivity<VideoDeti
         tvSpecialzeContent.setText(String.format("擅长：%s",
                 videoDetialBean.getDoctorGoodAtRealm()));
         tvVideoThemeContent.setText(videoDetialBean.getTitle());
-        mTvVideoContent.setText(videoDetialBean.getRemark());
+        String remark = videoDetialBean.getRemark();
+        mTvVideoContent.setText(StringUtils.isNotEmpty(remark) ? remark : "无");
 
     }
 

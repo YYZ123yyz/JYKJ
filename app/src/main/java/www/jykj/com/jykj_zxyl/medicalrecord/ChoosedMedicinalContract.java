@@ -54,5 +54,22 @@ public class ChoosedMedicinalContract  {
                 ,String srarchDrugName,String rowNum,String pageNum,Activity activity);
 
 
+        /**
+         * 发送获取药品信息请求
+         * @param medicineCode 药物分类编码
+         * @param srarchDrugName 选填,可为空]查询的药品名称
+         * @param rowNum 分页查询属性.每页行数
+         * @param pageNum 分页查询属性.当前页码
+         * @param activity Activity
+         */
+        void sendSearchMyClinicDetailResPrescribeDrugInfo_201116(String medicineCode
+                ,String srarchDrugName,int rowNum,int pageNum,Activity activity);
+
+        /**
+         * 发送药品分类请求
+         * @param medicineCode 药物分类编码(0:显示全部; -1:一级目录; 显示子目录:如001 )
+         * @param activity Activity
+         */
+        void sendGetDrugTypeMedicineRequest(String medicineCode,Activity activity);
     }
 }

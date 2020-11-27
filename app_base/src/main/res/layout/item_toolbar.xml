@@ -85,6 +85,7 @@
                         android:layout_height="wrap_content"
                         android:background="@null"
                         android:gravity="center"
+
                         android:src="@mipmap/icon_add_small"
                         />
 
@@ -92,7 +93,7 @@
                         android:id="@+id/right_image_id"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-
+                        android:layout_marginStart="15dp"
                         android:padding="5dp"
                         android:background="@null"
                         android:gravity="center"
