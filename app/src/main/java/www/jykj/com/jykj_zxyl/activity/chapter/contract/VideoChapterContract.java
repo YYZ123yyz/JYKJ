@@ -24,6 +24,10 @@ public class VideoChapterContract {
         void getChapterSourceSucess(ChatperSourceBean bean);
 
         void getPayInfoSucess(ChapterPayBean bean);
+
+        void getAliPayInfoSucess(String bean);
+
+        void paySucess(String msg);
     }
 
 
@@ -32,7 +36,7 @@ public class VideoChapterContract {
 
         void getChapterPriceDet(String params);
 
-        void go2Pay(String params);
+        void go2Pay(String params ,int type);
 
         void getChapterSource(String params);
     }

@@ -1,6 +1,8 @@
 package www.jykj.com.jykj_zxyl.activity.chapter.presenter;
 
 
+import android.text.TextUtils;
+
 import com.allen.library.interceptor.Transformer;
 import com.allen.library.interfaces.ILoadingView;
 import com.blankj.utilcode.util.LogUtils;
@@ -150,7 +152,7 @@ public class VideoChapterPresenter extends BasePresenterImpl<VideoChapterContrac
     }
 
     @Override
-    public void go2Pay(String params) {
+    public void go2Pay(String params,int type) {
         ApiHelper.getLiveApi().go2payChapter(params).compose(
                 Transformer.switchSchedulers(new ILoadingView() {
                     @Override
@@ -175,8 +177,19 @@ public class VideoChapterPresenter extends BasePresenterImpl<VideoChapterContrac
                         String resJsonData = baseBean.getResJsonData();
                         LogUtils.e("课件详情  "+ resJsonData);
                         if (StringUtils.isNotEmpty(resJsonData)) {
-                            ChapterPayBean chapterListBean = GsonUtils.fromJson(resJsonData, ChapterPayBean.class);
-                            mView.getPayInfoSucess(chapterListBean);
+
+                            if (type==1){
+                                ChapterPayBean chapterListBean = GsonUtils.fromJson(resJsonData, ChapterPayBean.class);
+                                mView.getPayInfoSucess(chapterListBean);
+                            }else if (type ==2){
+                                if (TextUtils.isEmpty(resJsonData)){
+                                    mView.getDataFail("获取支付信息失败");
+                                }else {
+                                    mView.getAliPayInfoSucess(resJsonData);
+                                }
+                            }else if (type ==3){//支付金额=0
+                                mView.paySucess("支付成功");
+                            }
                         }else{
                             mView.getDataFail(baseBean.getResMsg());
                         }
