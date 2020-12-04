@@ -9,7 +9,7 @@
         android:layout_height="163dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
-        android:background="#fff"
+        android:background="@drawable/bg_round_ffffff_5"
         android:orientation="vertical">
 
         <LinearLayout
