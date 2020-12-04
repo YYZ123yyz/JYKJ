@@ -19,7 +19,7 @@ public abstract class AbstractMvpBaseFragment<V extends BaseView, P extends Base
     /**当前页*/
     protected  int pageIndex=1;
     /**每页大小*/
-    protected  int pageSize=5;
+    protected  int pageSize=10;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

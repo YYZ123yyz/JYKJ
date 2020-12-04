@@ -4,6 +4,7 @@ import android.app.Activity;
 
 import java.util.List;
 
+import www.jykj.com.jykj_zxyl.app_base.base_bean.DrugClassificationBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.MedicinalInfoBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.MedicinalTypeBean;
 import www.jykj.com.jykj_zxyl.app_base.mvp.BasePresenter;
@@ -30,6 +31,12 @@ public class ChoosedMedicinalContract  {
          * @param medicinalInfoBeans 药品信息列表
          */
         void getMedicinalInfoListResult(List<MedicinalInfoBean> medicinalInfoBeans);
+
+        /**
+         * 获取药品分类返回结果
+         * @param drugClassificationBeans 药品分类列表
+         */
+        void getDrugClassificationBeanResult(List<DrugClassificationBean> drugClassificationBeans);
     }
 
     public interface Presenter extends BasePresenter<View> {

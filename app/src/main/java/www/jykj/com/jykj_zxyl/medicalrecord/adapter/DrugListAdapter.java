@@ -1,12 +1,19 @@
 package www.jykj.com.jykj_zxyl.medicalrecord.adapter;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.app_base.base_adapter.SecondaryListAdapter;
+import www.jykj.com.jykj_zxyl.app_base.base_bean.DrugClassificationBean;
 
 /**
  * Description:药品列表
@@ -16,16 +23,37 @@ import www.jykj.com.jykj_zxyl.app_base.base_adapter.SecondaryListAdapter;
  */
 public class DrugListAdapter extends SecondaryListAdapter<DrugListAdapter.GroupItemViewHolder,
         DrugListAdapter.SubItemViewHolder> {
+    private List<DataTree<DrugClassificationBean,
+                DrugClassificationBean.DrugTypeMedicineListBean>> dts;
+    private Context mContext;
+    public DrugListAdapter(Context context){
+        this.mContext=context;
+        dts = new ArrayList<>();
+    }
 
+    /**
+     * 设置数据
+     *
+     * @param datas 数据
+     */
+    public void setData(List<DataTree<DrugClassificationBean,
+            DrugClassificationBean.DrugTypeMedicineListBean>> datas) {
+        dts = datas;
+        notifyNewData(dts);
+    }
 
     @Override
     public RecyclerView.ViewHolder groupItemViewHolder(ViewGroup parent) {
-        return null;
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_layout_leval_one,
+                parent, false);
+        return new GroupItemViewHolder(v);
     }
 
     @Override
     public RecyclerView.ViewHolder subItemViewHolder(ViewGroup parent) {
-        return null;
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_layout_leval_two,
+                parent, false);
+        return new SubItemViewHolder(v);
     }
 
     @Override
@@ -42,11 +70,15 @@ public class DrugListAdapter extends SecondaryListAdapter<DrugListAdapter.GroupI
     @Override
     public void onGroupItemClick(Boolean isExpand, GroupItemViewHolder holder, int groupItemIndex) {
 
+        DrugClassificationBean groupItem = dts.get(groupItemIndex).getGroupItem();
+        holder.tvDrugName.setText(groupItem.getMedicineName());
     }
 
     @Override
     public void onSubItemClick(SubItemViewHolder holder, int groupItemIndex, int subItemIndex) {
-
+        List<DrugClassificationBean.DrugTypeMedicineListBean> subItems = dts.get(groupItemIndex).getSubItems();
+        DrugClassificationBean.DrugTypeMedicineListBean drugTypeMedicineListBean = subItems.get(subItemIndex);
+        holder.tvChildDrugName.setText(drugTypeMedicineListBean.getMedicineName());
     }
 
     /**

@@ -23,6 +23,8 @@ public class RoomDetailInfo implements Serializable {
     private String userCode;
     private int flagHasSyllabus;
     private int flagAnchorStates;
+    private String share;
+    private long broadcastDate;
 
 
     public String getAttrName() {
@@ -183,5 +185,21 @@ public class RoomDetailInfo implements Serializable {
 
     public void setFlagAnchorStates(int flagAnchorStates) {
         this.flagAnchorStates = flagAnchorStates;
+    }
+
+    public String getShare() {
+        return share;
+    }
+
+    public void setShare(String share) {
+        this.share = share;
+    }
+
+    public long getBroadcastDate() {
+        return broadcastDate;
+    }
+
+    public void setBroadcastDate(long broadcastDate) {
+        this.broadcastDate = broadcastDate;
     }
 }

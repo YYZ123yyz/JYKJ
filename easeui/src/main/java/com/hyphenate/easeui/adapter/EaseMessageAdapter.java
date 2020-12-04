@@ -37,6 +37,7 @@ import com.hyphenate.easeui.widget.presenter.EaseChatImagePresenter;
 import com.hyphenate.easeui.widget.presenter.EaseChatLocationPresenter;
 import com.hyphenate.easeui.widget.presenter.EaseChatRoomTextPresenter;
 import com.hyphenate.easeui.widget.presenter.EaseChatOrderPresenter;
+import com.hyphenate.easeui.widget.presenter.EaseChatRoomTextPresenter2;
 import com.hyphenate.easeui.widget.presenter.EaseChatRowPresenter;
 import com.hyphenate.easeui.widget.presenter.EaseChatTextPresenter;
 import com.hyphenate.easeui.widget.presenter.EaseChatVideoPresenter;
@@ -74,6 +75,8 @@ public class EaseMessageAdapter extends BaseAdapter {
 	private static final int MESSAGE_TYPE_RECV_ORDER_CARD = 15;
 	private static final int MESSAGE_TYPE_SEND_TXT_ROOM=16;
 	private static final int MESSAGE_TYPE_RECV_TXT_ROOM=17;
+	private static final int MESSAGE_TYPE_SEND_TXT_ROOM_NEW=18;
+	private static final int MESSAGE_TYPE_RECV_TXT_ROOM_NEW=19;
 	
 	public int itemTypeCount; 
 	
@@ -250,9 +253,9 @@ public class EaseMessageAdapter extends BaseAdapter {
 	 */
 	public int getViewTypeCount() {
 	    if(customRowProvider != null && customRowProvider.getCustomChatRowTypeCount() > 0){
-	        return customRowProvider.getCustomChatRowTypeCount() + 14+4;
+	        return customRowProvider.getCustomChatRowTypeCount() + 14+6;
 	    }
-        return 14+4;
+        return 14+6;
     }
 
 
@@ -266,7 +269,7 @@ public class EaseMessageAdapter extends BaseAdapter {
 		}
 		
 		if(customRowProvider != null && customRowProvider.getCustomChatRowType(message) > 0){
-		    return customRowProvider.getCustomChatRowType(message) + 13+4;
+		    return customRowProvider.getCustomChatRowType(message) + 13+6;
 		}
 
 		if (message.getType() == EMMessage.Type.TXT) {
@@ -282,7 +285,14 @@ public class EaseMessageAdapter extends BaseAdapter {
                         ||messageType.equals("MessageAfterDiagnosis")){
                     return message.direct() == EMMessage.Direct.RECEIVE ? MESSAGE_TYPE_RECV_ORDER_CARD : MESSAGE_TYPE_SEND_ORDER_CARD;
                 }else if(itemStyle!=null&&itemStyle.isShowChatRoom()){
-                    return message.direct() == EMMessage.Direct.RECEIVE ? MESSAGE_TYPE_RECV_TXT_ROOM : MESSAGE_TYPE_SEND_TXT_ROOM;
+                    boolean showChatRoomNew = itemStyle.isShowChatRoomNew();
+                    if (showChatRoomNew) {
+                        return message.direct() == EMMessage.Direct.RECEIVE ? MESSAGE_TYPE_RECV_TXT_ROOM_NEW:MESSAGE_TYPE_SEND_TXT_ROOM_NEW;
+                    }else{
+                        return message.direct() == EMMessage.Direct.RECEIVE ? MESSAGE_TYPE_RECV_TXT_ROOM : MESSAGE_TYPE_SEND_TXT_ROOM;
+                    }
+
+
                 }
 
 			}
@@ -330,7 +340,13 @@ public class EaseMessageAdapter extends BaseAdapter {
 					presenter = new EaseChatOrderPresenter();
 				}else{
 					if (itemStyle.isShowChatRoom()) {
-						presenter=new EaseChatRoomTextPresenter();
+                        boolean showChatRoomNew = itemStyle.isShowChatRoomNew();
+                        if (showChatRoomNew) {
+                            presenter=new EaseChatRoomTextPresenter2();
+                        }else{
+                            presenter=new EaseChatRoomTextPresenter();
+                        }
+
 					}else{
 						presenter = new EaseChatTextPresenter();
 					}

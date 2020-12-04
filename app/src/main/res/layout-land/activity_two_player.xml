@@ -5,7 +5,8 @@
     android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#B1A49B">
+    android:background="#B1A49B"
+    android:orientation="vertical">
 
     <RelativeLayout
         android:id="@+id/live_rl"
@@ -32,23 +33,47 @@
             android:text="测试结果"
             android:textColor="@color/writeColor"
             android:textSize="10pt" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <com.tencent.rtmp.ui.TXCloudVideoView
+            android:id="@+id/video_view"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_300"
+            android:layout_gravity="top"
+            android:layout_marginTop="@dimen/dp_0"
+            android:clickable="false" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:layout_centerInParent="true"
+            android:paddingTop="5dp"
+            android:id="@+id/tv_play_error_msg"
+            android:paddingBottom="5dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:visibility="gone"
+            android:background="@drawable/bg_round_000000_1"
+            android:textSize="13sp"
+            />
 
     </RelativeLayout>
 
-    <com.tencent.rtmp.ui.TXCloudVideoView
-        android:id="@+id/video_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clickable="false" />
 
     <ImageView
         android:id="@+id/iv_zoom_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
-        android:layout_marginEnd="2dp"
-        android:layout_marginBottom="5dp"
-        android:src="@mipmap/mimal_rotate"/>
+        android:layout_gravity="right"
+        android:layout_marginTop="@dimen/dp_280"
+        android:layout_marginRight="@dimen/dp_5"
+        android:src="@mipmap/full_rotate"/>
+
 
     <RelativeLayout
         android:id="@+id/video_releative_layout"
@@ -164,25 +189,35 @@
     </RelativeLayout>
 
     <LinearLayout
+        android:id="@+id/tab_hold_layout"
         android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:layout_gravity="center_vertical"
+        android:layout_height="@dimen/dp_35"
+        android:layout_marginTop="@dimen/dp_300"
         android:background="@color/writeColor"
-        android:orientation="horizontal"
-        android:visibility="gone">
+        android:orientation="horizontal">
 
         <android.support.design.widget.TabLayout
             android:id="@+id/tab_layout"
             android:layout_width="match_parent"
-            android:layout_height="35dp"
+            android:layout_height="match_parent"
             android:background="@color/writeColor"
-            app:tabIndicatorColor="@color/groabColor"></android.support.design.widget.TabLayout>
+            app:tabIndicatorColor="@color/groabColor"/>
     </LinearLayout>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/live_publish_page"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:layout_gravity="bottom"
-        android:visibility="gone"></android.support.v4.view.ViewPager>
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_330"/>
+
+    <ImageView
+        android:id="@+id/iv_miniaml_zoom_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|left"
+        android:layout_marginLeft="5dp"
+        android:layout_marginBottom="5dp"
+        android:padding="7dp"
+        android:src="@mipmap/mimal_room"
+        android:visibility="gone"/>
 </FrameLayout>

@@ -23,6 +23,7 @@ public class EaseChatRowFile extends EaseChatRow{
     protected TextView fileNameView;
 	protected TextView fileSizeView;
     protected TextView fileStateView;
+    protected TextView tvUserStatus;
     private LinearLayout llUserInfoRoot;
     private TextView tvUserName;
     private EMNormalFileMessageBody fileMessageBody;
@@ -45,6 +46,7 @@ public class EaseChatRowFile extends EaseChatRow{
         percentageView = (TextView) findViewById(R.id.percentage);
         llUserInfoRoot=findViewById(R.id.ll_userinfo_root);
         tvUserName=findViewById(R.id.tv_user_name);
+        tvUserStatus=findViewById(R.id.tv_user_status);
 	}
 
 
@@ -72,16 +74,19 @@ public class EaseChatRowFile extends EaseChatRow{
         }
         long reserveConfigStart = message.getLongAttribute("reserveConfigStart", 0);
         long reserveConfigEnd = message.getLongAttribute("reserveConfigEnd", 0);
+
         if(reserveConfigStart!=0&&reserveConfigEnd!=0){
             long msgTime = message.getMsgTime();
             if(msgTime>=reserveConfigStart&&msgTime<=reserveConfigEnd){
                 llUserInfoRoot.setVisibility(View.VISIBLE);
+
             }else{
                 llUserInfoRoot.setVisibility(View.GONE);
             }
         }else{
             llUserInfoRoot.setVisibility(View.GONE);
         }
+
 
     }
 

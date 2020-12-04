@@ -23,6 +23,8 @@ import java.util.List;
 
 import butterknife.BindView;
 import www.jykj.com.jykj_zxyl.R;
+import www.jykj.com.jykj_zxyl.app_base.base_adapter.SecondaryListAdapter;
+import www.jykj.com.jykj_zxyl.app_base.base_bean.DrugClassificationBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.MedicinalInfoBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.MedicinalTypeBean;
 import www.jykj.com.jykj_zxyl.app_base.base_utils.CollectionUtils;
@@ -34,6 +36,7 @@ import www.jykj.com.jykj_zxyl.medicalrecord.ChoosedMedicinalContract;
 import www.jykj.com.jykj_zxyl.medicalrecord.ChoosedMedicinalPresenter;
 import www.jykj.com.jykj_zxyl.medicalrecord.adapter.MedicinalItemAdapter;
 import www.jykj.com.jykj_zxyl.medicalrecord.popup.MedicinalCategoryPopup;
+import www.jykj.com.jykj_zxyl.medicalrecord.popup.MedicinalCategoryPopup2;
 
 /**
  * Description:选择药物
@@ -70,6 +73,7 @@ public class ChoosedMedicinalListActivity extends AbstractMvpBaseActivity<
     TextView tvEnsureBtn;
     private LoadingLayoutManager mLoadingLayoutManager;//重新加载布局
     private MedicinalCategoryPopup medicinalCategoryPopup;//检查检验列表弹框
+    private MedicinalCategoryPopup2 medicinalCategoryPopup2;
     private MedicinalTypeBean currentMedicinalTypeBean;//当前药品类型
     private MedicinalItemAdapter mMedicinalItemAdapter;//药品选项适配器
     private List<MedicinalTypeBean> medicinalTypeBeans;//药品类型
@@ -77,6 +81,11 @@ public class ChoosedMedicinalListActivity extends AbstractMvpBaseActivity<
     private MedicinalInfoBean currentMedicinalInfoBean;//当前药品信息
     private String srarchDrugName="";
     private int pos;
+    /**
+     * 评论二级列表
+     */
+    private List<SecondaryListAdapter.DataTree<DrugClassificationBean
+            , DrugClassificationBean.DrugTypeMedicineListBean>> datas;
 
     @Override
     protected void onBeforeSetContentLayout() {
@@ -90,6 +99,7 @@ public class ChoosedMedicinalListActivity extends AbstractMvpBaseActivity<
         medicinalCategoryPopup = new MedicinalCategoryPopup(this);
         medicinalTypeBeans = new ArrayList<>();
         mMedicinalInfoBeans = new ArrayList<>();
+        datas=new ArrayList<>();
     }
 
     @Override
@@ -111,8 +121,8 @@ public class ChoosedMedicinalListActivity extends AbstractMvpBaseActivity<
     @Override
     protected void initData() {
         super.initData();
-       // mPresenter.sendMedicinalTypeListRequest("10036",this);
-        mPresenter.sendGetDrugTypeMedicineRequest("0",this);
+        mPresenter.sendMedicinalTypeListRequest("10036",this);
+        //mPresenter.sendGetDrugTypeMedicineRequest("0",this);
     }
 
 
@@ -281,6 +291,21 @@ public class ChoosedMedicinalListActivity extends AbstractMvpBaseActivity<
             }
         }
         mLoadingLayoutManager.showContent();
+    }
+
+    @Override
+    public void getDrugClassificationBeanResult(List<DrugClassificationBean> drugClassificationBeans) {
+        for (int i = 0; i < drugClassificationBeans.size(); i++) {
+            List<DrugClassificationBean.DrugTypeMedicineListBean> drugTypeMedicineList
+                    = drugClassificationBeans.get(i).getDrugTypeMedicineList();
+            if (!CollectionUtils.isEmpty(drugTypeMedicineList)) {
+                datas.add(new SecondaryListAdapter.DataTree<>(drugClassificationBeans.get(i),
+                        drugTypeMedicineList));
+            }else{
+                datas.add(new SecondaryListAdapter.DataTree<>(drugClassificationBeans.get(i),
+                        new ArrayList<>()));
+            }
+        }
     }
 
 

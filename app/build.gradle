@@ -16,6 +16,14 @@ android {
             storePassword 'JYKJ123456'
             v2SigningEnabled false
         }
+
+        debug {
+            keyAlias 'JYKJ'
+            keyPassword 'JYKJ123456'
+            storeFile file("../yyz.jks")
+            storePassword 'JYKJ123456'
+            v2SigningEnabled false
+        }
     }
 
     compileSdkVersion 28

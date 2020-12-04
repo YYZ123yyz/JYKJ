@@ -39,7 +39,7 @@ public class HotLiveAdapter extends RecyclerView.Adapter<HotLiveAdapter.ViewHold
         viewHolder.live_desc.setText(StrUtils.defaulObjToStr(parinfo.getAttrName()));
         viewHolder.live_price.setText(StrUtils.defaulObjToStr(parinfo.getExtendBroadcastPriceShow()));
         viewHolder.live_title.setText(StrUtils.defaulObjToStr(parinfo.getBroadcastTitle()));
-        viewHolder.watch_num.setText("想看人数："+StrUtils.defaulObjToStr(parinfo.getExtendBroadcastWatchNum()));
+        viewHolder.watch_num.setText("观看人数："+StrUtils.defaulObjToStr(parinfo.getExtendBroadcastWatchNum()));
         if(StrUtils.defaulObjToStr(parinfo.getBroadcastCoverImgUrl()).length()>0){
             Glide.with(viewHolder.hot_live_cover.getContext()).load(parinfo.getBroadcastCoverImgUrl()).into(viewHolder.hot_live_cover);
         }

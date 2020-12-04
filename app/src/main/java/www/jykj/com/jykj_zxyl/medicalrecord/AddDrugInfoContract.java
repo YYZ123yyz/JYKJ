@@ -23,6 +23,8 @@ public class AddDrugInfoContract {
          * @param msg 信息
          */
         void getOperUpdDrugInfoResult(boolean isSucess,String msg);
+
+
     }
 
     public interface Presenter extends BasePresenter<View> {

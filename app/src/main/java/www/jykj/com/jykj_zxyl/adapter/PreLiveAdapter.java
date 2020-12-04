@@ -45,9 +45,9 @@ public class PreLiveAdapter extends RecyclerView.Adapter<PreLiveAdapter.ViewHold
         viewHolder.pre_live_title.setText(StrUtils.defaulObjToStr(parinfo.getBroadcastTitle()));
         viewHolder.pre_watch_num.setText("想看人数：" + StrUtils.defaulObjToStr(parinfo.getExtendBroadcastFollowNum()));
         if(0==parinfo.getFlagLikes()){
-            viewHolder.iv_collection_btn.setImageResource(R.mipmap.store);
-        }else{
             viewHolder.iv_collection_btn.setImageResource(R.mipmap.store_cancel);
+        }else{
+            viewHolder.iv_collection_btn.setImageResource(R.mipmap.store);
         }
         if (StrUtils.defaulObjToStr(parinfo.getBroadcastCoverImgUrl()).length() > 0) {
             Glide.with(viewHolder.pre_live_btn.getContext()).load(parinfo.getBroadcastCoverImgUrl()).into(viewHolder.pre_live_btn);

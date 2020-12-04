@@ -336,7 +336,12 @@ public class DemoHelper {
             
             @Override
             public EaseUser getUser(String username) {
-                return getUserInfo(username);
+                EaseUser userInfo = getUserInfo(username);
+                if(userInfo!=null){
+                    return userInfo;
+                }else{
+                    return new EaseUser("");
+                }
             }
         });
 
@@ -1292,7 +1297,7 @@ public class DemoHelper {
             EaseUser currentUserInfo = getUserProfileManager().getCurrentUserInfo();
             return currentUserInfo;
         }
-        EaseUser easeUser;
+        EaseUser easeUser=null;
         if (contactList != null && contactList.containsKey(hxId)) {
 
         } else { // 如果内存中没有，则将本地数据库中的取出到内存中。
@@ -1302,13 +1307,16 @@ public class DemoHelper {
         // if (user == null && getRobotList() != null) {
         // user = getRobotList().get(hxId);
         // }
-        easeUser = contactList.get(hxId);
-        if(easeUser == null){
-            easeUser = new EaseUser(hxId);
-        } else {
-            if(TextUtils.isEmpty(easeUser.getNickname())){ // 如果名字为空，则显示环信号码
-                easeUser.setNickname(easeUser.getUsername());
+        if (contactList!=null&&!TextUtils.isEmpty(hxId)) {
+            easeUser = contactList.get(hxId);
+            if(easeUser == null){
+                easeUser = new EaseUser(hxId);
+            } else {
+                if(TextUtils.isEmpty(easeUser.getNickname())){ // 如果名字为空，则显示环信号码
+                    easeUser.setNickname(easeUser.getUsername());
+                }
             }
+            return easeUser;
         }
         return easeUser;
     }

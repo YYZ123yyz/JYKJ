@@ -1,6 +1,7 @@
 package www.jykj.com.jykj_zxyl.activity.hyhd;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -25,6 +26,7 @@ import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.TimeUtils;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.Surface;
@@ -54,8 +56,11 @@ import entity.conditions.QueryRoomDetailCond;
 import entity.liveroom.CloseRoomInfo;
 import entity.liveroom.OpenLiveResp;
 import entity.liveroom.RoomDetailInfo;
+import me.jessyan.autosize.AutoSize;
 import netService.HttpNetService;
 import netService.entity.NetRetEntity;
+import util.NetWorkUtils;
+import util.QRCodeUtil;
 import wechatShare.WechatShareManager;
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.adapter.HeadImageViewRecycleAdapter;
@@ -63,9 +68,11 @@ import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.custom.CloseRemindDialog;
 import www.jykj.com.jykj_zxyl.custom.ShareDialog;
 import www.jykj.com.jykj_zxyl.util.CircleImageView;
+import www.jykj.com.jykj_zxyl.util.DateUtils;
 import www.jykj.com.jykj_zxyl.util.ImageViewUtil;
 import www.jykj.com.jykj_zxyl.util.StrUtils;
 import www.jykj.com.jykj_zxyl.util.idcard_scanning_util.DisplayUtil;
+import yyz_exploit.dialog.LiveConfirmDialog;
 import ztextviewlib.MarqueeTextView;
 
 import java.io.*;
@@ -122,6 +129,7 @@ public class LivePublisherThreeActivity extends ChatPopDialogActivity implements
     RoomDetailInfo mRoomDetailInfo = null;
     WechatShareManager mShareManager;
     String live_push_type = PUSH_VIDEO;
+    LiveConfirmDialog liveConfirmDialog;
     //private ImageView close_video;
     private Bitmap decodeResource(Resources resources, int id) {
         TypedValue value = new TypedValue();
@@ -133,6 +141,7 @@ public class LivePublisherThreeActivity extends ChatPopDialogActivity implements
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AutoSize.autoConvertDensity(this, 667, true);
         mApp = (JYKJApplication)getApplication();
         mContext = LivePublisherThreeActivity.this;
         mActivity = LivePublisherThreeActivity.this;
@@ -160,12 +169,15 @@ public class LivePublisherThreeActivity extends ChatPopDialogActivity implements
         checkPublishPermission();
 
         mPhoneListener = new TXPhoneStateListener(mLivePusher);
-
+        liveConfirmDialog=new LiveConfirmDialog(this,"观众正在赶来的路上哦\n确认关闭直播吗？");
         statLive();
         createChat();
         loadData();
+
         //goChat();
     }
+
+
 
     void loadData(){
         //getProgressBar("加载数据","加载数据中心，请稍后...");
@@ -266,6 +278,35 @@ public class LivePublisherThreeActivity extends ChatPopDialogActivity implements
                 ToShare(SendMessageToWX.Req.WXSceneTimeline);
             }
         });
+        TextView tvUserName = (TextView) shareDialog.findViewById(R.id.tv_username);
+        tvUserName.setText(mRoomDetailInfo.getBroadcastUserName());
+        TextView tvLiveRoomTitle = shareDialog.findViewById(R.id.tv_live_room_title);
+        tvLiveRoomTitle.setText(mRoomDetailInfo.getBroadcastTitle());
+        ImageView ivAuthorQrcode = shareDialog.findViewById(R.id.iv_author_qrcode);
+        produceQrBitmap(mRoomDetailInfo.getShare(),ivAuthorQrcode);
+        TextView tvLiveRoomTime = shareDialog.findViewById(R.id.tv_live_room_time);
+        String date = DateUtils.getDateToStringYYYMMDDHHMM(mRoomDetailInfo.getBroadcastDate());
+        tvLiveRoomTime.setText(date);
+
+    }
+
+    /**
+     * 生成二维码
+     */
+    void produceQrBitmap(String qrUrl,ImageView ivAuthorQuCode){
+        Bitmap bitmap = NetWorkUtils.getHttpBitmap(qrUrl);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Bitmap bm = QRCodeUtil.getImageBitmap(bitmap, qrUrl, 360);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        ivAuthorQuCode.setImageBitmap(bm);
+                    }
+                });
+            }
+        }).start();
     }
 
     void copy_link(){
@@ -512,6 +553,7 @@ public class LivePublisherThreeActivity extends ChatPopDialogActivity implements
 
     static final int SHOW_MESSAGE_FLAG = 101;
 
+    @SuppressLint("HandlerLeak")
     Handler myHandler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
@@ -657,9 +699,21 @@ public class LivePublisherThreeActivity extends ChatPopDialogActivity implements
                 Button btn2 = altdialog.getButton(DialogInterface.BUTTON_POSITIVE);
                 btn2.setTextSize(parsize);
                 altdialog.getWindow().setLayout(DisplayUtil.dp2px(mContext,220), DisplayUtil.dp2px(mContext,150));*/
-                remind_dialog();
+               // remind_dialog();
                // ((Button)altdialog.findViewById(DialogInterface.BUTTON_NEGATIVE)).setTextSize(parsize);
                 //((Button)altdialog.findViewById(DialogInterface.BUTTON_POSITIVE)).setTextSize(parsize);
+                liveConfirmDialog.setOnClickListener(new LiveConfirmDialog.OnClickListener() {
+                    @Override
+                    public void onClickCancel() {
+                        liveConfirmDialog.cancel();
+                    }
+
+                    @Override
+                    public void onClickEnsure() {
+                        shutVideo();
+                    }
+                });
+                liveConfirmDialog.show();
             }
         });
 
@@ -867,6 +921,7 @@ public class LivePublisherThreeActivity extends ChatPopDialogActivity implements
             mLivePusher.resumePusher();
             mLivePusher.resumeBGM();
         }
+        AutoSize.autoConvertDensity(this, 667, true);
     }
 
     @Override
@@ -1091,8 +1146,10 @@ public class LivePublisherThreeActivity extends ChatPopDialogActivity implements
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         onActivityRotation();
+        AutoSize.autoConvertDensity(this, 667, true);
         super.onConfigurationChanged(newConfig);
     }
+
 
     protected void onActivityRotation()
     {

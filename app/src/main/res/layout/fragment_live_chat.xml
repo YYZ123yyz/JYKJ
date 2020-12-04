@@ -110,13 +110,14 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@+id/input_menu"
             android:layout_below="@id/layout_alert_kicked_off">
 
             <com.hyphenate.easeui.widget.EaseChatMessageList
                 android:id="@+id/message_list"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:layout_marginBottom="80dp"
+                />
 
             <com.hyphenate.easeui.widget.EaseVoiceRecorderView
                 android:id="@+id/voice_recorder"
@@ -124,13 +125,73 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:visibility="invisible" />
+
+
         </RelativeLayout>
 
-        <com.hyphenate.easeui.widget.EaseChatInputMenu
-            android:id="@+id/input_menu"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_40"
-            android:layout_alignParentBottom="true" />
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:id="@+id/rl_input_menu"
+            >
+            <com.hyphenate.easeui.widget.EaseChatInputMenu
+                android:id="@+id/input_menu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:background="@color/white"
+                android:id="@+id/rl_input_root"
+                >
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="10dp"
+                    android:id="@+id/ed_input_content"
+                    android:hint="跟讲师开始互动吧"
+                    android:textSize="13sp"
+                    android:paddingStart="11dp"
+                    android:paddingEnd="11dp"
+                    android:textColorHint="@color/color_999999"
+                    android:layout_toStartOf="@+id/tv_send_btn"
+                    android:background="@drawable/bg_oval_999999_4"
+                    >
+
+
+                </EditText>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/color_white"
+                    android:textSize="13sp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_centerVertical="true"
+                    android:text="发送"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
+                    android:paddingTop="6dp"
+                    android:paddingBottom="6dp"
+                    android:background="@drawable/bg_round_799dfe_4"
+                    android:layout_marginStart="20dp"
+                    android:layout_alignParentEnd="true"
+                    android:id="@+id/tv_send_btn"
+                    >
+
+
+                </TextView>
+            </RelativeLayout>
+
+        </RelativeLayout>
 
     </RelativeLayout>
 

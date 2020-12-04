@@ -1,14 +1,14 @@
 package www.jykj.com.jykj_zxyl.medicalrecord.activity;
 
-import android.os.Bundle;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
 import butterknife.BindView;
 import www.jykj.com.jykj_zxyl.R;
-import www.jykj.com.jykj_zxyl.app_base.base_activity.BaseActivity;
 import www.jykj.com.jykj_zxyl.app_base.base_view.BaseToolBar;
+import www.jykj.com.jykj_zxyl.app_base.mvp.AbstractMvpBaseActivity;
+import www.jykj.com.jykj_zxyl.medicalrecord.AddDrugInfoContract;
+import www.jykj.com.jykj_zxyl.medicalrecord.AddDrugInfoPresenter;
 
 /**
  * Description:
@@ -16,7 +16,8 @@ import www.jykj.com.jykj_zxyl.app_base.base_view.BaseToolBar;
  * @author: qiuxinhai
  * @date: 2020-11-26 17:05
  */
-public class AddDrugInfoActivity2 extends BaseActivity {
+public class AddDrugInfoActivity2 extends AbstractMvpBaseActivity<AddDrugInfoContract.View,
+        AddDrugInfoPresenter> implements AddDrugInfoContract.View{
 
     @BindView(R.id.toolbar)
     BaseToolBar toolbar;
@@ -47,5 +48,15 @@ public class AddDrugInfoActivity2 extends BaseActivity {
     @Override
     protected void initView() {
         super.initView();
+    }
+
+    @Override
+    public void getOperUpdDrugInfoResult(boolean isSucess, String msg) {
+
+    }
+
+    @Override
+    public void showLoading(int code) {
+
     }
 }

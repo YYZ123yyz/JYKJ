@@ -28,7 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="直播详情"
+            android:text="直播预告"
             android:textColor="@color/writeColor"
             android:textSize="10pt" />
 
@@ -193,7 +193,6 @@
                 android:id="@+id/det_room_key"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="7dp"
                 android:text="营养学专家教你如何吃出健康血压"
                 android:textColor="@color/color_666666"
                 android:textSize="14sp" />
@@ -201,7 +200,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="13.5dp">
+                android:layout_marginTop="8.5dp">
 
                 <TextView
                     android:id="@+id/det_room_type"

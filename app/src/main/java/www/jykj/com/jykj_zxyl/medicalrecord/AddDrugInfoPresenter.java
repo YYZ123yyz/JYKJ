@@ -13,6 +13,7 @@ import www.jykj.com.jykj_zxyl.app_base.http.CommonDataObserver;
 import www.jykj.com.jykj_zxyl.app_base.http.ParameUtil;
 import www.jykj.com.jykj_zxyl.app_base.http.RetrofitUtil;
 import www.jykj.com.jykj_zxyl.app_base.mvp.BasePresenterImpl;
+import www.jykj.com.jykj_zxyl.util.GsonUtils;
 
 /**
  * Description:添加药品Presenter
@@ -23,6 +24,7 @@ import www.jykj.com.jykj_zxyl.app_base.mvp.BasePresenterImpl;
 public class AddDrugInfoPresenter extends BasePresenterImpl<AddDrugInfoContract.View>
         implements AddDrugInfoContract.Presenter {
     private static final String SEND_OPERUPD_DRUG_INFO_REQUEST_TAG="send_operupd_drug_info_request_tag";
+
     private static final String SEND_OPERUPD_DRUG_INFO_REQUEST_NEW_TAG="send_operupd_drug_info_request_new_tag";
     @Override
     protected Object[] getRequestTags() {
@@ -113,7 +115,14 @@ public class AddDrugInfoPresenter extends BasePresenterImpl<AddDrugInfoContract.
         })).subscribe(new CommonDataObserver() {
             @Override
             protected void onSuccessResult(BaseBean baseBean) {
-                String resJsonData = baseBean.getResJsonData();
+                if (mView != null) {
+                    int resCode = baseBean.getResCode();
+                    if (resCode==1) {
+                        mView.getOperUpdDrugInfoResult(true,baseBean.getResMsg());
+                    }else{
+                        mView.getOperUpdDrugInfoResult(false,baseBean.getResMsg());
+                    }
+                }
 
             }
 

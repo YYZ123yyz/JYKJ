@@ -28,8 +28,9 @@
             <ImageView
                 android:id="@+id/class_back"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_gravity="center"
+                android:padding="5dp"
                 android:layout_marginRight="10dp"
                 android:src="@mipmap/back_beforese" />
         </LinearLayout>

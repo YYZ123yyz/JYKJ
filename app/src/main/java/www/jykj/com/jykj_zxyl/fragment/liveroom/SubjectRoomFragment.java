@@ -53,6 +53,7 @@ public class SubjectRoomFragment extends Fragment {
     private RefreshLayout refreshLayout;
     private int pageNumber=1;
     private int pageSize=10;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,6 +97,10 @@ public class SubjectRoomFragment extends Fragment {
         return retV;
     }
 
+    public void refreshData(){
+        pageNumber=1;
+        loadData();
+    }
     /**
      * 添加监听
      */
@@ -161,10 +166,10 @@ public class SubjectRoomFragment extends Fragment {
 
         @Override
         protected void onPostExecute(List<ProvideLiveBroadcastDetails> hotLiveInfos) {
+            if(pageNumber==1){
+                mdatas.clear();
+            }
             if(hotLiveInfos.size()>0){
-                if(pageNumber==1){
-                    mdatas.clear();
-                }
                 mdatas.addAll(hotLiveInfos);
                 subtitleLiveAdapter.setData(mdatas);
                 subtitleLiveAdapter.notifyDataSetChanged();
@@ -172,6 +177,7 @@ public class SubjectRoomFragment extends Fragment {
                 if(pageNumber>1){
                     pageNumber = pageNumber - 1;
                 }
+                subtitleLiveAdapter.notifyDataSetChanged();
             }
             if(pageNumber==1){
                 refreshLayout.finishRefresh(1000);

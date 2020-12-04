@@ -10,6 +10,7 @@ public class EaseMessageListItemStyle {
     private boolean showUserNick;
     private boolean showAvatar;
     private boolean showChatRoom;
+    private boolean showChatRoomNew;
     private Drawable myBubbleBg;
     private Drawable otherBubbleBg;
     private boolean showChatBack;
@@ -59,6 +60,14 @@ public class EaseMessageListItemStyle {
 
     public void setShowChatRoom(boolean showChatRoom) {
         this.showChatRoom = showChatRoom;
+    }
+
+    public boolean isShowChatRoomNew() {
+        return showChatRoomNew;
+    }
+
+    public void setShowChatRoomNew(boolean showChatRoomNew) {
+        this.showChatRoomNew = showChatRoomNew;
     }
 
     public boolean isShowChatBack() {

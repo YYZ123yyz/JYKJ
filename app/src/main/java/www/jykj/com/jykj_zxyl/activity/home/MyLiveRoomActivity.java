@@ -97,6 +97,24 @@ public class MyLiveRoomActivity extends BaseActivity implements View.OnClickList
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        switch (live_type){
+            case LivePublisherThreeActivity.LIVE_TYPE_PRELIVE:
+                preRoomFragment.refreshData();
+                break;
+            case LivePublisherThreeActivity.LIVE_TYPE_HOTLIVE:
+                hotRoomFragment.refreshData();
+                break;
+            case LivePublisherThreeActivity.LIVE_TYPE_SUBJECTLIVE:
+                subjectRoomFragment.refreshData();
+                break;
+                default:
+        }
+
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.live:

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:ignore="MissingDefaultResource"
+    android:layout_marginTop="10dp"
+    >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_round_b4b4b4_3"
+        android:textSize="13sp"
+        android:paddingTop="3dp"
+        android:paddingBottom="3dp"
+        android:paddingStart="9dp"
+        android:paddingEnd="9dp"
+        android:visibility="gone"
+        android:layout_marginTop="14dp"
+        android:layout_gravity="center_horizontal"
+        android:text="某某离开直播间"
+        android:textColor="@color/white"
+        android:id="@+id/tv_user_status"
+        >
+
+
+    </TextView>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/rl_content_root"
+        android:layout_marginTop="17dp"
+        >
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginEnd="10dp"
+            android:layout_centerVertical="true"
+            android:layout_toStartOf="@+id/iv_userhead"
+            >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_user_name"
+                android:textColor="@color/color_666666"
+                android:textSize="14sp"
+                android:text="某某某史蒂夫健康老地方"
+                android:gravity="end"
+
+                >
+
+
+            </TextView>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginStart="20dp"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/color_000000"
+                    android:textSize="15sp"
+                    android:text="某某某一亿元建立科技史蒂夫家收史蒂夫离开家打飞机"
+                    android:paddingTop="4dp"
+                    android:layout_marginTop="5dp"
+                    android:paddingBottom="4dp"
+                    android:paddingStart="9dp"
+                    android:paddingEnd="9dp"
+                    android:layout_toStartOf="@+id/iv_chat_arrow"
+                    android:background="@drawable/bg_round_799dfe_4"
+                    android:layout_gravity="end"
+                    android:id="@+id/tv_send_msg_content"
+
+                    >
+
+
+                </TextView>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/iv_chat_arrow"
+                    android:src="@drawable/bg_blue_chat_arrow"
+                    android:layout_alignParentEnd="true"
+                    >
+
+
+                </ImageView>
+            </RelativeLayout>
+
+
+
+        </LinearLayout>
+
+        <com.hyphenate.easeui.widget.EaseImageView
+            android:id="@+id/iv_userhead"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:scaleType="fitXY"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:src="@mipmap/doctor_head"
+            android:layout_marginEnd="5dp"
+            android:visibility="visible" />
+    </RelativeLayout>
+
+</LinearLayout>

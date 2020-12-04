@@ -17,6 +17,8 @@ import com.hyphenate.easeui.utils.EaseSmileUtils;
 
 import java.util.List;
 
+import www.jykj.com.jykj_zxyl.app_base.base_utils.StringUtils;
+
 public class EaseChatRoomRowText extends EaseChatRow{
 
 	private TextView contentView;
@@ -59,8 +61,28 @@ public class EaseChatRoomRowText extends EaseChatRow{
             }
         }else{
             Spannable span = EaseSmileUtils.getSmiledText(context, txtBody.getMessage());
-            // 设置内容
-            contentView.setText(span, BufferType.SPANNABLE);
+            String em_join = message.getStringAttribute("em_join", "");
+            String em_leave = message.getStringAttribute("em_leave", "");
+            EMMessage.Direct direct = message.direct();
+            if (StringUtils.isNotEmpty(em_join)&&em_join.equals("em_join")) {
+                if (direct== EMMessage.Direct.RECEIVE) {
+                    chat_gridrow_layout.setVisibility(View.VISIBLE);
+                    // 设置内容
+                    contentView.setText("进入直播间了", BufferType.SPANNABLE);
+                }else{
+                    chat_gridrow_layout.setVisibility(View.GONE);
+                }
+
+            }else if(StringUtils.isNotEmpty(em_leave)&&em_leave.equals("em_leave")){
+                chat_gridrow_layout.setVisibility(View.VISIBLE);
+                contentView.setText("离开直播间了", BufferType.SPANNABLE);
+            }else{
+                chat_gridrow_layout.setVisibility(View.VISIBLE);
+                contentView.setText(span);
+            }
+
+
+
         }
         /*if(null!=txtBody.getMessage() && txtBody.getMessage().contains("加入直播间了")){
             chat_gridrow_layout.setBackgroundColor(getResources().getColor(R.color.colorEnterroomBack));
@@ -74,25 +96,26 @@ public class EaseChatRoomRowText extends EaseChatRow{
         //&& (null!=txtBody.getMessage() && (txtBody.getMessage().contains("加入直播间了") || txtBody.getMessage().contains("离开直播间了")))
         if(!itemStyle.isShowChatBack()) {
             //chat_gridrow_layout.setVisibility(VISIBLE);
-            chat_gridrow_layout.setBackgroundColor(getResources().getColor(R.color.back_low_gray));
+           // chat_gridrow_layout.setBackgroundColor(getResources().getColor(R.color.back_low_gray));
             if(null!=txtBody.getMessage() && (txtBody.getMessage().contains("加入直播间了") || txtBody.getMessage().contains("离开直播间了"))){
-                contentView.setBackgroundColor(getResources().getColor(R.color.hintTextColor));
-                contentView.setTextColor(getResources().getColor(R.color.writeColor));
+//                contentView.setBackgroundColor(getResources().getColor(R.color.hintTextColor));
+//                contentView.setTextColor(getResources().getColor(R.color.writeColor));
             }else{
-                contentView.setBackgroundColor(Color.TRANSPARENT);
-                contentView.setTextColor(getResources().getColor(R.color.textColor_black));
+//                contentView.setBackgroundColor(Color.TRANSPARENT);
+//                contentView.setTextColor(getResources().getColor(R.color.textColor_black));
             }
         }else{
             if(null!=txtBody.getMessage() && txtBody.getMessage().contains("加入直播间了")){
-                chat_gridrow_layout.setBackgroundColor(getResources().getColor(R.color.colorEnterroomBack));
+                //chat_gridrow_layout.setBackgroundColor(getResources().getColor(R.color.colorEnterroomBack));
             }else if(null!=txtBody.getMessage() && txtBody.getMessage().contains("离开直播间了")){
-                chat_gridrow_layout.setBackgroundColor(getResources().getColor(R.color.colorExitroomBack));
+                //chat_gridrow_layout.setBackgroundColor(getResources().getColor(R.color.colorExitroomBack));
             }else{
                 if(itemStyle.isShowChatBack()) {
-                    chat_gridrow_layout.setBackgroundColor(getResources().getColor(R.color.colorNomalroomRow));
+                   // chat_gridrow_layout.setBackgroundColor(getResources().getColor(R.color.colorNomalroomRow));
                 }
             }
         }
+        userAvatarView.setVisibility(View.GONE);
 
         /*else{
             chat_gridrow_layout.setBackgroundColor(getResources().getColor(R.color.back_low_gray));

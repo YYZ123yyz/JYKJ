@@ -91,6 +91,7 @@ public class HotRoomFragment extends Fragment {
                             theintent.putExtra("chatId",parben.getChatRoomCode());
                             theintent.putExtra("pullUrl",parben.getPullUrl());
                             theintent.putExtra("detailCode",parben.getDetailsCode());
+                            theintent.putExtra("live_status",1);
                             theintent.putExtra("PLAY_TYPE", LivePlayerTwoActivity.ACTIVITY_TYPE_LIVE_PLAY);
                             mActivity.startActivity(theintent);
                         }
@@ -107,7 +108,10 @@ public class HotRoomFragment extends Fragment {
         return retV;
     }
 
-
+    public void refreshData(){
+        pageNumber=1;
+        loadData();
+    }
 
     /**
      * 添加监听
@@ -174,10 +178,10 @@ public class HotRoomFragment extends Fragment {
 
         @Override
         protected void onPostExecute(List<HotLiveInfo> hotLiveInfos) {
+            if(pageNumber==1){
+                mdatas.clear();
+            }
             if(hotLiveInfos.size()>0){
-                if(pageNumber==1){
-                    mdatas.clear();
-                }
                 mdatas.addAll(hotLiveInfos);
                 hotLiveAdapter.setData(mdatas);
                 hotLiveAdapter.notifyDataSetChanged();
@@ -186,6 +190,7 @@ public class HotRoomFragment extends Fragment {
                 if(pageNumber>1){
                     pageNumber = pageNumber - 1;
                 }
+                hotLiveAdapter.notifyDataSetChanged();
             }
             if(pageNumber==1){
                 refreshLayout.finishRefresh(1000);

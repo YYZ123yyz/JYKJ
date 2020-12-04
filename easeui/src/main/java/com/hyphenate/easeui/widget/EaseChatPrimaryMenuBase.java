@@ -70,6 +70,7 @@ public abstract class EaseChatPrimaryMenuBase extends RelativeLayout{
 
     public abstract void showMoreOption();
 
+    public abstract void hideEmojicon();
     /**
      * hide keyboard
      */

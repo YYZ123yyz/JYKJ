@@ -130,6 +130,11 @@ public class PreRoomFragment extends Fragment {
         });
     }
 
+    public void refreshData(){
+        pageNumber=1;
+        loadData();
+    }
+
     public void loadData() {
         if (isAdded() && refreshLayout != null) {
             refreshLayout.autoRefresh();
@@ -181,10 +186,10 @@ public class PreRoomFragment extends Fragment {
 
         @Override
         protected void onPostExecute(List<PreLiveInfo> hotLiveInfos) {
+            if(pageNumber==1){
+                mdatas.clear();
+            }
             if(hotLiveInfos.size()>0){
-               if(pageNumber==1){
-                   mdatas.clear();
-               }
                 mdatas.addAll(hotLiveInfos);
                 preLiveAdapter.setData(mdatas);
                 preLiveAdapter.notifyDataSetChanged();
@@ -193,6 +198,7 @@ public class PreRoomFragment extends Fragment {
                 if(pageNumber>1){
                     pageNumber = pageNumber - 1;
                 }
+                preLiveAdapter.notifyDataSetChanged();
             }
             if(pageNumber==1){
                 refreshLayout.finishRefresh(1000);

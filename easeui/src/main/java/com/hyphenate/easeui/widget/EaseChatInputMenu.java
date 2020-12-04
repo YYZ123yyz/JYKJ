@@ -88,6 +88,7 @@ public class EaseChatInputMenu extends LinearLayout {
         // primary menu, use default if no customized one
         if(chatPrimaryMenu == null){
             chatPrimaryMenu = (EaseChatPrimaryMenu) layoutInflater.inflate(R.layout.ease_layout_chat_primary_menu, null);
+
         }
         primaryMenuContainer.addView(chatPrimaryMenu);
 
@@ -161,7 +162,6 @@ public class EaseChatInputMenu extends LinearLayout {
     /**
      * register menu item
      * 
-     * @param name
      *            resource id of item name
      * @param drawableRes
      *            background of item
@@ -288,6 +288,10 @@ public class EaseChatInputMenu extends LinearLayout {
 
     public void showMoreOption(){
         chatPrimaryMenu.showMoreOption();
+    }
+
+    public void hideEnojicon(){
+        chatPrimaryMenu.hideEmojicon();
     }
 
     /**

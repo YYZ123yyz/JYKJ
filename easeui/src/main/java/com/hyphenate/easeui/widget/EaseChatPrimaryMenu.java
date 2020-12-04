@@ -318,4 +318,9 @@ public class EaseChatPrimaryMenu extends EaseChatPrimaryMenuBase implements OnCl
         buttonMore.setVisibility(View.VISIBLE);
     }
 
+    @Override
+    public void hideEmojicon() {
+        faceChecked.setVisibility(View.GONE);
+    }
+
 }

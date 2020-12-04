@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import www.jykj.com.jykj_zxyl.app_base.base_bean.BaseBean;
+import www.jykj.com.jykj_zxyl.app_base.base_bean.DrugClassificationBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.MedicinalInfoBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.MedicinalTypeBean;
 import www.jykj.com.jykj_zxyl.app_base.base_utils.CollectionUtils;
@@ -190,28 +191,40 @@ public class ChoosedMedicinalPresenter
         ApiHelper.getApiService().getDrugTypeMedicine(s).compose(Transformer.switchSchedulers(new ILoadingView() {
             @Override
             public void showLoadingView() {
-
+                if (mView!=null) {
+                    mView.showLoading(103);
+                }
             }
 
             @Override
             public void hideLoadingView() {
-
+                if (mView!=null) {
+                    mView.hideLoading();
+                }
             }
         })).subscribe(new CommonDataObserver() {
             @Override
             protected void onSuccessResult(BaseBean baseBean) {
-
-                int resCode = baseBean.getResCode();
-
-                System.out.println(resCode);
-                String resJsonData = baseBean.getResJsonData();
-                System.out.println(resJsonData);
+                if (mView!=null) {
+                    int resCode = baseBean.getResCode();
+                    if (resCode==1) {
+                        String resJsonData = baseBean.getResJsonData();
+                        List<DrugClassificationBean> drugClassificationBeans
+                                = GsonUtils.jsonToList(resJsonData, DrugClassificationBean.class);
+                        if (!CollectionUtils.isEmpty(drugClassificationBeans)) {
+                            mView.getDrugClassificationBeanResult(drugClassificationBeans);
+                        }else{
+                            mView.showEmpty();
+                        }
+                    }else{
+                        mView.showEmpty();
+                    }
+                }
             }
 
             @Override
             protected void onError(String s) {
                 super.onError(s);
-                System.out.println(s);
             }
 
             @Override
