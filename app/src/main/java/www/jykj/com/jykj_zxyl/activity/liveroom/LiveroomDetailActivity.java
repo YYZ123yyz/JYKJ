@@ -212,7 +212,7 @@ public class LiveroomDetailActivity extends BaseActivity {
         @Override
         protected void onPostExecute(Boolean aBoolean) {
             cacerProgress();
-            Toast.makeText(mContext,repmsg,Toast.LENGTH_SHORT).show();
+           // Toast.makeText(mContext,repmsg,Toast.LENGTH_SHORT).show();
             if(aBoolean){
                loadData();
             }

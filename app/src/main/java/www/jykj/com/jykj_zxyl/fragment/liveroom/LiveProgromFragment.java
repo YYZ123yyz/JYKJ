@@ -104,7 +104,7 @@ public class LiveProgromFragment extends
                 .apply(RequestOptions.placeholderOf(com.hyphenate.easeui.R.mipmap.docter_heard)
                         .diskCacheStrategy(DiskCacheStrategy.ALL))
                 .into(ivLiveUserHead);
-        tvAcademicTitle.setText(doctorInfo.getDoctorTitleName());
+        tvAcademicTitle.setText(String.format("%s：%s", doctorInfo.getUserName(), doctorInfo.getDoctorTitleName()));
         tvHospital.setText(doctorInfo.getHospitalInfoName());
         String goodAtRealm = doctorInfo.getGoodAtRealm();
         tvAreasExpertise.setText(StringUtils.isNotEmpty(goodAtRealm)?goodAtRealm:"无");

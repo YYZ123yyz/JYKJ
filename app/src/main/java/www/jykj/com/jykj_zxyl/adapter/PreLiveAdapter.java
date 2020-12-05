@@ -1,6 +1,8 @@
 package www.jykj.com.jykj_zxyl.adapter;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,6 +17,7 @@ import com.bumptech.glide.Glide;
 
 import entity.liveroom.PreLiveInfo;
 import www.jykj.com.jykj_zxyl.R;
+import www.jykj.com.jykj_zxyl.util.SocialOperationManager;
 import www.jykj.com.jykj_zxyl.util.StrUtils;
 
 import java.util.List;
@@ -22,9 +25,10 @@ import java.util.List;
 public class PreLiveAdapter extends RecyclerView.Adapter<PreLiveAdapter.ViewHolder> {
     List<PreLiveInfo> datas;
     OnHotliveItemClickListener myListener;
-
-    public PreLiveAdapter(List<PreLiveInfo> datas) {
+    private Context mContext;
+    public PreLiveAdapter(List<PreLiveInfo> datas,Context context) {
         this.datas = datas;
+        this.mContext=context;
     }
 
 
@@ -69,6 +73,24 @@ public class PreLiveAdapter extends RecyclerView.Adapter<PreLiveAdapter.ViewHold
             @Override
             public void onClick(View v) {
                 myListener.onClick(i, v);
+            }
+        });
+        viewHolder.rl_collection_root.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(parinfo.getFlagLikes()==0){
+                    SocialOperationManager.getInstance()
+                            .sendExtendBroadcastFollowNumRequest(parinfo.getDetailsCode(),
+                                    ((Activity) mContext),null);
+                    parinfo.setFlagLikes(1);
+                }else{
+                    SocialOperationManager.getInstance()
+                            .sendNumberofprecastviewerscancelledRequest(parinfo.getDetailsCode(),
+                            ((Activity) mContext),null);
+                    parinfo.setFlagLikes(0);
+                }
+
+                PreLiveAdapter.this.notifyDataSetChanged();
             }
         });
     }

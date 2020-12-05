@@ -1,9 +1,15 @@
 package www.jykj.com.jykj_zxyl.app_base.http;
 
 
+import java.util.List;
+
 import io.reactivex.Observable;
+import okhttp3.MultipartBody;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Query;
+import retrofit2.http.Url;
 
 /**
  * Description:存放所有的Api
@@ -284,10 +290,23 @@ public interface ApiService {
     @POST("/broadcastImageController/addBroadcastImage")
     Observable<String> addBroadcastImage(@Query(value = "jsonDataInfo"
             , encoded = true) String queryJson);
+    //新增直播间图片new
+    @Multipart
+    @POST
+    Observable<String> addBroadcastImage2(@Url String uploadUrl, @Query(value = "jsonDataInfo"
+                                                  , encoded = true) String queryJson,
+                                          @Part List<MultipartBody.Part> imagefiles);
     //修改直播间图片
     @POST("/broadcastImageController/updateBroadcastImage")
     Observable<String> updateBroadcastImage(@Query(value = "jsonDataInfo"
             , encoded = true) String queryJson);
+    //修改直播间图片
+    @Multipart
+    @POST
+    Observable<String> updateBroadcastImage2(@Url String uploadUrl, @Query(value = "jsonDataInfo"
+            , encoded = true) String queryJson,
+                                             @Part List<MultipartBody.Part> imagefiles);
+
     //创建直播间
     @POST("/broadcastLiveDataControlle/operLiveRoomDetails")
     Observable<String> operLiveRoomDetails(@Query(value = "jsonDataInfo"
@@ -343,5 +362,14 @@ public interface ApiService {
     @POST("/doctorInteractDataControlle/getDrugTypeMedicine")
     Observable<String> getDrugTypeMedicine(@Query(value = "jsonDataInfo", encoded = true)
                                                    String queryJson);
+    //点赞取
+    @POST("/broadcastLiveDataControlle/extendBroadcastFollowNum")
+    Observable<String> extendBroadcastFollowNum(@Query(value = "jsonDataInfo", encoded = true)
+                                                        String queryJson);
+    //取消点赞
+    @POST("/broadcastLiveDataControlle/Numberofprecastviewerscancelled")
+    Observable<String> Numberofprecastviewerscancelled(@Query(value = "jsonDataInfo", encoded = true)
+                                                               String queryJson);
+
 }
 

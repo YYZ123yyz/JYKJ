@@ -2,6 +2,8 @@ package www.jykj.com.jykj_zxyl.live;
 
 import android.app.Activity;
 
+import java.util.List;
+
 import www.jykj.com.jykj_zxyl.app_base.base_bean.LiveProtromDetialBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.UploadLiveImageResultBean;
 import www.jykj.com.jykj_zxyl.app_base.mvp.BasePresenter;
@@ -45,6 +47,13 @@ public class AddLivePhotoContract {
          */
         void sendAddBroadCastImageRequest(String detailsCode, String imgBase64Array, Activity activity);
 
+        /**
+         * 发送添加直播大纲图片请求
+         * @param detailsCode 直播间code
+         * @param urls url集合
+         * @param activity Activity
+         */
+        void sendAddBroadCastImageRequest2(String detailsCode, List<String> urls, Activity activity);
 
         /**
          * 发送更新图片请求
@@ -56,6 +65,16 @@ public class AddLivePhotoContract {
          */
         void sendUpdateBroadcastImageRequest(String imageCode
                 ,String detailsCode,String imgIdArray,String imgBase64Array,Activity activity);
+
+        /**
+         * 发送更新图片请求
+         * @param imageCode
+         * @param detailsCode
+         * @param imgIdArray
+         * @param activity
+         */
+        void sendUpdateBroadcastImageRequest2(String imageCode
+                ,String detailsCode,String imgIdArray,List<String> urls,Activity activity);
 
         /**
          * 获取直播大纲信息

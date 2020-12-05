@@ -42,6 +42,7 @@ import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.custom.ShareDialog;
 import www.jykj.com.jykj_zxyl.util.ActivityUtil;
 import www.jykj.com.jykj_zxyl.util.CircleImageView;
+import www.jykj.com.jykj_zxyl.util.DateUtils;
 import www.jykj.com.jykj_zxyl.util.StrUtils;
 
 import java.io.*;
@@ -440,12 +441,14 @@ public class LectureDetailActivity extends AppCompatActivity {
                 live_doctor_dep.setText(StrUtils.defaulObjToStr(roomDetailInfo.getTitleDetailShow()));
                 det_live_tit.setText(StrUtils.defaulObjToStr(roomDetailInfo.getBroadcastTitle()));
                 det_room_key.setText(StrUtils.defaulObjToStr(roomDetailInfo.getAttrName()));
-                det_room_type.setText(StrUtils.defaulObjToStr(roomDetailInfo.getClassName()));
-                det_live_time.setText("");
+                det_room_type.setText(String.format("直播类目：%s", StrUtils.defaulObjToStr(roomDetailInfo.getClassName())));
+                long broadcastDate = roomDetailInfo.getBroadcastDate();
+                String date = DateUtils.getDateToStringYYYMMDDHHMM(broadcastDate);
+                det_live_time.setText(date);
                 if(0==mRoomDetailInfo.getFlagLikes()) {
-                    liveroom_store_btn.setImageResource(R.mipmap.store);
-                }else{
                     liveroom_store_btn.setImageResource(R.mipmap.store_cancel);
+                }else{
+                    liveroom_store_btn.setImageResource(R.mipmap.store);
                 }
                 if(null!=roomDetailInfo.getExtendBroadcastFollowNum()){
                     det_room_watchnum.setText(String.valueOf(roomDetailInfo.getExtendBroadcastFollowNum().intValue())+"人想看");

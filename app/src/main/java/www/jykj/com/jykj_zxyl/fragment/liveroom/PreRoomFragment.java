@@ -73,7 +73,7 @@ public class PreRoomFragment extends Fragment {
         mLayoutManager = new LinearLayoutManager(mContext);
         mLayoutManager.setOrientation(LinearLayout.VERTICAL);
         hot_live_rc.setLayoutManager(mLayoutManager);
-        preLiveAdapter = new PreLiveAdapter(mdatas);
+        preLiveAdapter = new PreLiveAdapter(mdatas,getContext());
         hot_live_rc.setAdapter(preLiveAdapter);
         addListener();
         preLiveAdapter.setMyListener(new PreLiveAdapter.OnHotliveItemClickListener() {
@@ -87,8 +87,8 @@ public class PreRoomFragment extends Fragment {
                         mActivity.startActivity(parintent);
                         break;
                     case R.id.iv_collection_btn:
-                        PreLiveInfo starbean = mdatas.get(position);
-                        doFocus(starbean,position);
+                        //PreLiveInfo starbean = mdatas.get(position);
+                        //doFocus(starbean,position);
                         break;
                 }
 

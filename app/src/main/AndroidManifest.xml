@@ -355,7 +355,14 @@
             android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 患医互动==》聊天页面==》查看大图 -->
         <activity
             android:name="com.hyphenate.easeui.ui.EaseShowBigImageActivity"
-            android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 扫一扫 -->
+            android:windowSoftInputMode="stateHidden|stateUnchanged">
+        <intent-filter>
+            <action android:name="com.hyphenate.easeui.ui.EaseShowBigImageActivity" />
+
+            <category android:name="android.intent.category.DEFAULT" />
+        </intent-filter>
+        </activity>
+             <!-- 扫一扫 -->
         <activity android:name="zxing.android.CaptureActivity" /> <!-- 患医互动==》聊天页面==》观看视频 -->
         <activity
             android:name="com.hyphenate.easeui.ui.EaseShowVideoActivity"
@@ -458,9 +465,7 @@
             />
         <activity
             android:name=".activity.hyhd.LectureDetailActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:screenOrientation="portrait"
-            android:theme="@style/HorLiveTheme" />
+             />
         <activity
             android:name=".appointment.activity.MyOnlineScheduActivity"
             android:screenOrientation="portrait" />

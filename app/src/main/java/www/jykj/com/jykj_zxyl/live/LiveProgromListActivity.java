@@ -144,7 +144,8 @@ public class LiveProgromListActivity extends AbstractMvpBaseActivity<AddLiveProg
     }
 
 
-
+    //记录字数上限
+    int wordLimitNum= 30;
     @SuppressLint("DefaultLocale")
     private View getView(UpLoadLiveProgromBean upLoadLiveProgromBean) {
         View view = View.inflate(context, R.layout.item_live_progrom, null);
@@ -166,6 +167,11 @@ public class LiveProgromListActivity extends AbstractMvpBaseActivity<AddLiveProg
             }
         });
         edInputContent.addTextChangedListener(new TextWatcher() {
+
+            //记录输入的字数
+            private CharSequence enterWords;
+            private int selectionStart;
+            private int selectionEnd;
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -173,13 +179,27 @@ public class LiveProgromListActivity extends AbstractMvpBaseActivity<AddLiveProg
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
+                //实时记录输入的字数
+                enterWords= s;
             }
 
             @Override
             public void afterTextChanged(Editable s) {
                 int pos = getItemByUuId(upLoadLiveProgromBean.getUuId(), upLoadLiveProgromBeans);
                 upLoadLiveProgromBeans.get(pos).setContent(s.toString());
+
+                //已输入字数
+                //TextView显示剩余字数
+                selectionStart = edInputContent.getSelectionStart();
+                selectionEnd = edInputContent.getSelectionEnd();
+                if (enterWords.length() > wordLimitNum) {
+                    //删除多余输入的字（不会显示出来）
+                    s.delete(selectionStart - 1, selectionEnd);
+                    int tempSelection = selectionEnd;
+                    edInputContent.setText(s);
+                    //设置光标在最后
+                    edInputContent.setSelection(tempSelection);
+                }
             }
         });
 

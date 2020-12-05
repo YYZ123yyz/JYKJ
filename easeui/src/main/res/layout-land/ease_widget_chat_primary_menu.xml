@@ -113,21 +113,22 @@
 
         <Button
                 android:id="@+id/btn_more"
-                android:layout_width="@dimen/dp_15"
-                android:layout_height="@dimen/dp_15"
-                android:layout_marginLeft="@dimen/dp_2"
-                android:layout_marginRight="@dimen/dp_2"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
                 android:background="@drawable/ease_type_select_btn" />
 
         <Button
                 android:id="@+id/btn_send"
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/dp_20"
-                android:layout_marginRight="@dimen/dp_2"
+                android:layout_height="30dp"
+                android:layout_marginRight="2dp"
                 android:background="@drawable/ease_chat_send_btn_selector"
                 android:text="@string/button_send"
+                android:visibility="visible"
                 android:textColor="#666666"
-                android:textSize="@dimen/sp_8" />
+                android:textSize="13sp" />
     </LinearLayout>
 
 </LinearLayout>
