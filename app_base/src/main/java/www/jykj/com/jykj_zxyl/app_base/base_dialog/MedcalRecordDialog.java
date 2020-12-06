@@ -12,6 +12,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.allen.library.utils.ToastUtils;
@@ -39,6 +40,7 @@ public class MedcalRecordDialog extends Dialog {
     private TextView tvDialogContent;
     private EditText edInputContent;
     private TextView tvSaveBtn;
+    private RelativeLayout rlDownArrow;
     private OnClickListener onClickListener;
     public static final int CHIEF_COMPLAINT_TYPE=1;//主诉
     public static final int HISTORY_NEW_TYPE=2;//现病史
@@ -98,6 +100,7 @@ public class MedcalRecordDialog extends Dialog {
         tvDialogContent=view.findViewById(R.id.tv_dialog_content);
         edInputContent=view.findViewById(R.id.ed_input_content);
         tvSaveBtn=view.findViewById(R.id.tv_save);
+        rlDownArrow=view.findViewById(R.id.rl_down_arrow);
     }
 
 
@@ -153,6 +156,12 @@ public class MedcalRecordDialog extends Dialog {
             public void onClick(View v) {
                 CopyButtonLibrary copyButtonLibrary = new CopyButtonLibrary(mContext,tvDialogContent);
                 copyButtonLibrary.init();
+            }
+        });
+        rlDownArrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new CopyButtonLibrary(mContext,tvDialogContent).init();
             }
         });
     }

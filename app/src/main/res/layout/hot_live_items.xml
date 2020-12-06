@@ -77,7 +77,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/live_desc"
                 android:text="类目：高血压预防"
-                android:layout_marginTop="8.5dp"
+                android:layout_marginTop="5dp"
                 android:textSize="13sp"
                 android:textColor="@color/color_999999" />
 

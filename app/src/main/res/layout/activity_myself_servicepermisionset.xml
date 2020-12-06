@@ -93,7 +93,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="图文就诊基础价格"
+            android:text="就诊基础价格"
             android:id="@+id/tv_activityServicePermisionSet_servicePriceTitle"
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
@@ -104,21 +104,22 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="￥ "
+            android:visibility="gone"
             android:layout_gravity="center_vertical"
             android:textSize="8pt"
             android:textColor="@color/textColor_vo"/>
 
         <EditText
+            android:id="@+id/et_activityServicePermisionSet_servicePriceTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="请输入"
-            android:gravity="center"
-            android:background="@null"
-            android:id="@+id/et_activityServicePermisionSet_servicePriceTitle"
-            android:inputType="numberDecimal"
             android:layout_gravity="center_vertical"
-            android:textSize="8pt"
-            android:textColor="@color/textColor_vo"/>
+            android:background="@null"
+            android:gravity="center"
+            android:text="0.0"
+            android:inputType="numberDecimal"
+            android:textColor="@color/textColor_vo"
+            android:textSize="8pt" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -141,7 +142,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="图文就诊议价价格"
+            android:text="就诊优惠价格"
             android:id="@+id/tv_activityServicePermisionSet_serviceYJPriceTitle"
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
@@ -152,13 +153,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="￥ "
+            android:visibility="gone"
             android:layout_gravity="center_vertical"
             android:textSize="8pt"
             android:textColor="@color/textColor_vo"/>
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="请输入"
+            android:text="0.0"
             android:gravity="center"
             android:id="@+id/et_activityServicePermisionSet_yjPriceEdit"
             android:background="@null"
@@ -182,6 +184,7 @@
         android:layout_height="50dp"
         android:background="@color/writeColor"
         android:layout_marginTop="15dp"
+        android:visibility="gone"
         android:orientation="horizontal">
 
         <TextView
@@ -220,6 +223,7 @@
         android:layout_height="50dp"
         android:background="@color/writeColor"
         android:layout_marginTop="1dp"
+        android:visibility="gone"
         android:orientation="horizontal">
 
         <TextView
@@ -258,6 +262,7 @@
         android:layout_height="50dp"
         android:background="@color/writeColor"
         android:layout_marginTop="1dp"
+        android:visibility="gone"
         android:orientation="horizontal">
 
         <TextView

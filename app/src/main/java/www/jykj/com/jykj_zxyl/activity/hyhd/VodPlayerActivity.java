@@ -85,7 +85,7 @@ public class VodPlayerActivity extends BaseActivity implements ITXLivePlayListen
     private TXVodPlayer mLivePlayer = null;
     private TXCloudVideoView mPlayerView;
     private ImageView mLoadingView;
-    private boolean          mHWDecode   = false;
+    private boolean      mHWDecode   = false;
     private LinearLayout mRootView;
     private Button mBtnLog;
     private Button mBtnPlay;

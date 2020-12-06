@@ -1,5 +1,6 @@
 package www.jykj.com.jykj_zxyl.activity.home.mypatient.history;
 
+import android.app.Activity;
 import android.text.TextUtils;
 
 import com.allen.library.interceptor.Transformer;
@@ -21,12 +22,15 @@ import www.jykj.com.jykj_zxyl.util.GsonUtils;
 public class Myself_DetailPresenter  extends BasePresenterImpl<Myself_DetailContract.View>
         implements Myself_DetailContract.Presenter {
     @Override
-    public void sendSearchMyself_DetaiRequest(String loginPatientPosition, String requestClientType, String operPatientCode, String operPatientName, String recordId) {
-        HashMap<String, Object> hashMap = ParameUtil.buildBaseParam();
-        hashMap.put("loginPatientPosition", loginPatientPosition);
-        hashMap.put("requestClientType", requestClientType);
-        hashMap.put("operPatientCode", operPatientCode);
-        hashMap.put("operPatientName", operPatientName);
+    public void sendSearchMyself_DetaiRequest(String loginPatientPosition,
+                                              String requestClientType, String operPatientCode,
+                                              String operPatientName, String recordId, Activity activity) {
+//        HashMap<String, Object> hashMap = ParameUtil.buildBaseParam();
+//        hashMap.put("loginPatientPosition", loginPatientPosition);
+//        hashMap.put("requestClientType", requestClientType);
+//        hashMap.put("operDoctorCode", operPatientCode);
+//        hashMap.put("operDoctorName", operPatientName);
+        HashMap<String, Object> hashMap = ParameUtil.buildBaseDoctorParam(activity);
         hashMap.put("recordId", recordId);
         String s = RetrofitUtil.encodeParam(hashMap);
         ApiHelper.getApiService().searchmyself_detail(s).compose(Transformer.switchSchedulers(new ILoadingView() {

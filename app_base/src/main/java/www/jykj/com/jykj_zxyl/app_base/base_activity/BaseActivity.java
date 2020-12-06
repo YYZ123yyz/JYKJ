@@ -206,7 +206,8 @@ public abstract class BaseActivity extends AppCompatActivity {
             @Override
             public void onDisconnected(int error) {
 
-                if (error == EMError.USER_REMOVED || error == EMError.USER_LOGIN_ANOTHER_DEVICE || error == EMError.SERVER_SERVICE_RESTRICTED) {
+                if (error == EMError.USER_REMOVED || error == EMError.USER_LOGIN_ANOTHER_DEVICE
+                        || error == EMError.SERVER_SERVICE_RESTRICTED) {
                     AndroidThreadExecutor.getInstance().executeOnMainThread(new Runnable() {
                         @Override
                         public void run() {

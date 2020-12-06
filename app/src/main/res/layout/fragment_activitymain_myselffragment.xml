@@ -139,7 +139,7 @@
                     android:src="@mipmap/fragmentmyself_fwqxkt" />
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="321dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="10dp"

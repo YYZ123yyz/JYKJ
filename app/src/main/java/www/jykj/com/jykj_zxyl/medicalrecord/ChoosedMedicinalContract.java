@@ -4,6 +4,7 @@ import android.app.Activity;
 
 import java.util.List;
 
+import www.jykj.com.jykj_zxyl.app_base.base_bean.DrugClassificationBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.MedicinalInfoBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.MedicinalTypeBean;
 import www.jykj.com.jykj_zxyl.app_base.mvp.BasePresenter;
@@ -30,6 +31,12 @@ public class ChoosedMedicinalContract  {
          * @param medicinalInfoBeans 药品信息列表
          */
         void getMedicinalInfoListResult(List<MedicinalInfoBean> medicinalInfoBeans);
+
+        /**
+         * 获取药品分类返回结果
+         * @param drugClassificationBeans 药品分类列表
+         */
+        void getDrugClassificationBeanResult(List<DrugClassificationBean> drugClassificationBeans);
     }
 
     public interface Presenter extends BasePresenter<View> {
@@ -54,5 +61,22 @@ public class ChoosedMedicinalContract  {
                 ,String srarchDrugName,String rowNum,String pageNum,Activity activity);
 
 
+        /**
+         * 发送获取药品信息请求
+         * @param medicineCode 药物分类编码
+         * @param srarchDrugName 选填,可为空]查询的药品名称
+         * @param rowNum 分页查询属性.每页行数
+         * @param pageNum 分页查询属性.当前页码
+         * @param activity Activity
+         */
+        void sendSearchMyClinicDetailResPrescribeDrugInfo_201116(String medicineCode
+                ,String srarchDrugName,int rowNum,int pageNum,Activity activity);
+
+        /**
+         * 发送药品分类请求
+         * @param medicineCode 药物分类编码(0:显示全部; -1:一级目录; 显示子目录:如001 )
+         * @param activity Activity
+         */
+        void sendGetDrugTypeMedicineRequest(String medicineCode,Activity activity);
     }
 }

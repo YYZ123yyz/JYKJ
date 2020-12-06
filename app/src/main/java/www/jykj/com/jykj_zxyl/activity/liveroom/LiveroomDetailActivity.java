@@ -42,6 +42,7 @@ import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.custom.ShareDialog;
 import www.jykj.com.jykj_zxyl.live.AddLiveProgromActivity;
 import www.jykj.com.jykj_zxyl.util.CircleImageView;
+import www.jykj.com.jykj_zxyl.util.DateUtils;
 import www.jykj.com.jykj_zxyl.util.StrUtils;
 
 import java.io.*;
@@ -140,6 +141,31 @@ public class LiveroomDetailActivity extends BaseActivity {
                 startActivity(AddLiveProgromActivity.class,bundle);
             }
         });
+        go_liveroom_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(null!=mRoomDetailInfo && mRoomDetailInfo.getUserCode().equals(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode())){
+                    Intent parint = new Intent(mActivity, LivePublisherThreeActivity.class);
+                    parint.putExtra("pushUrl",mRoomDetailInfo.getPullUrl());
+                    parint.putExtra("chatRoomName",mRoomDetailInfo.getChatRoomCode());
+                    parint.putExtra("chatId",mRoomDetailInfo.getChatRoomCode());
+                    parint.putExtra("liveTitle",mRoomDetailInfo.getTitleMainShow());
+                    parint.putExtra("detailCode",mRoomDetailInfo.getDetailsCode());
+                    parint.putExtra("live_type", LivePublisherThreeActivity.LIVE_TYPE_HOTLIVE);
+                    LiveroomDetailActivity.this.startActivity(parint);
+                }else{
+                    Intent theintent = new Intent(mActivity, LivePlayerTwoActivity.class);
+                    theintent.putExtra("chatId",mRoomDetailInfo.getChatRoomCode());
+                    theintent.putExtra("pullUrl",mRoomDetailInfo.getPullUrl());
+                    theintent.putExtra("live_status",mRoomDetailInfo.getFlagAnchorStates());
+                    theintent.putExtra("detailCode",mRoomDetailInfo.getDetailsCode());
+                    theintent.putExtra("PLAY_TYPE", LivePlayerTwoActivity.ACTIVITY_TYPE_LIVE_PLAY);
+                    mActivity.startActivity(theintent);
+                }
+            }
+        });
+
+
 
     }
 
@@ -186,7 +212,7 @@ public class LiveroomDetailActivity extends BaseActivity {
         @Override
         protected void onPostExecute(Boolean aBoolean) {
             cacerProgress();
-            Toast.makeText(mContext,repmsg,Toast.LENGTH_SHORT).show();
+           // Toast.makeText(mContext,repmsg,Toast.LENGTH_SHORT).show();
             if(aBoolean){
                loadData();
             }
@@ -444,12 +470,14 @@ public class LiveroomDetailActivity extends BaseActivity {
                 live_doctor_dep.setText(StrUtils.defaulObjToStr(roomDetailInfo.getTitleDetailShow()));
                 det_live_tit.setText(StrUtils.defaulObjToStr(roomDetailInfo.getBroadcastTitle()));
                 det_room_key.setText(StrUtils.defaulObjToStr(roomDetailInfo.getAttrName()));
-                det_room_type.setText(StrUtils.defaulObjToStr(roomDetailInfo.getClassName()));
-                det_live_time.setText("");
+                det_room_type.setText(String.format("直播类目：%s", StrUtils.defaulObjToStr(roomDetailInfo.getClassName())));
+                long broadcastDate = roomDetailInfo.getBroadcastDate();
+                String date = DateUtils.getDateToStringYYYMMDDHHMM(broadcastDate);
+                det_live_time.setText(date);
                 if(0==mRoomDetailInfo.getFlagLikes()){
-                    liveroom_store_btn.setImageResource(R.mipmap.store);
-                }else{
                     liveroom_store_btn.setImageResource(R.mipmap.store_cancel);
+                }else{
+                    liveroom_store_btn.setImageResource(R.mipmap.store);
                 }
                 if(null!=roomDetailInfo.getExtendBroadcastFollowNum()){
                     det_room_watchnum.setText(String.valueOf(roomDetailInfo.getExtendBroadcastFollowNum().intValue())+"人想看");
@@ -464,6 +492,32 @@ public class LiveroomDetailActivity extends BaseActivity {
                     tv_add_btn.setTextColor(ContextCompat.getColor(LiveroomDetailActivity.this,R.color.color_799def));
                     tv_add_btn.setBackgroundResource(R.drawable.bg_oval_799dfe_20);
                 }
+                String userCode = roomDetailInfo.getUserCode();
+                if (userCode.equals(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode())) {
+                    go_liveroom_btn.setBackgroundResource(R.drawable.bg_round_799dfe_12);
+                    go_liveroom_btn.setText("开直播");
+                    go_liveroom_btn.setTextColor(ContextCompat.getColor(mContext,R.color.color_white));
+                    tv_add_btn.setVisibility(View.VISIBLE);
+
+                }else{
+                    tv_add_btn.setVisibility(View.GONE);
+                    go_liveroom_btn.setBackgroundResource(R.drawable.bg_round_799dfe_12);
+                    go_liveroom_btn.setText("进入直播");
+                    go_liveroom_btn.setTextColor(ContextCompat.getColor(mContext,R.color.color_white));
+//                    int flagAnchorStates = roomDetailInfo.getFlagAnchorStates();
+//                    if (flagAnchorStates==0) {
+//                        go_liveroom_btn.setBackgroundResource(R.drawable.bg_gradient_b5b5b5_13);
+//                        go_liveroom_btn.setText("未开播");
+//                        go_liveroom_btn.setTextColor(ContextCompat.getColor(mContext,R.color.color_333333));
+//                    }else if(flagAnchorStates==1){
+//                        go_liveroom_btn.setBackgroundResource(R.drawable.bg_round_799dfe_12);
+//                        go_liveroom_btn.setText("进入直播");
+//                        go_liveroom_btn.setTextColor(ContextCompat.getColor(mContext,R.color.color_white));
+//                    }
+                }
+
+
+
 
             }
             cacerProgress();

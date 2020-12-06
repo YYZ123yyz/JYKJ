@@ -49,6 +49,7 @@ public class AppUrlConfig {
      * 直播 url
      */
     static String SERVICE_LIVE_API_URL="https://www.jiuyihtn.com:41041/";
+    static String SERVICE_LIVE_API_URL2="https://192.168.0.105:41041/";
 
     /**
      * 本地Api key

@@ -13,6 +13,7 @@ import www.jykj.com.jykj_zxyl.app_base.http.CommonDataObserver;
 import www.jykj.com.jykj_zxyl.app_base.http.ParameUtil;
 import www.jykj.com.jykj_zxyl.app_base.http.RetrofitUtil;
 import www.jykj.com.jykj_zxyl.app_base.mvp.BasePresenterImpl;
+import www.jykj.com.jykj_zxyl.util.GsonUtils;
 
 /**
  * Description:添加药品Presenter
@@ -24,9 +25,10 @@ public class AddDrugInfoPresenter extends BasePresenterImpl<AddDrugInfoContract.
         implements AddDrugInfoContract.Presenter {
     private static final String SEND_OPERUPD_DRUG_INFO_REQUEST_TAG="send_operupd_drug_info_request_tag";
 
+    private static final String SEND_OPERUPD_DRUG_INFO_REQUEST_NEW_TAG="send_operupd_drug_info_request_new_tag";
     @Override
     protected Object[] getRequestTags() {
-        return new Object[]{SEND_OPERUPD_DRUG_INFO_REQUEST_TAG};
+        return new Object[]{SEND_OPERUPD_DRUG_INFO_REQUEST_TAG,SEND_OPERUPD_DRUG_INFO_REQUEST_NEW_TAG};
     }
 
     @Override
@@ -75,6 +77,58 @@ public class AddDrugInfoPresenter extends BasePresenterImpl<AddDrugInfoContract.
             @Override
             protected String setTag() {
                 return SEND_OPERUPD_DRUG_INFO_REQUEST_TAG;
+            }
+        });
+
+    }
+
+
+
+    @Override
+    public void sendOperUpdDrugInfo_201116(String medicineCode, String drugName, String drugNameAlias
+            , String specUnit, String specName, String dosageCode, String factoryName,
+                                           String drugUsageDay, String drugUsageNum,Activity activity) {
+        HashMap<String, Object> hashMap = ParameUtil.buildBaseDoctorParam(activity);
+        hashMap.put("medicineCode",medicineCode);
+        hashMap.put("drugName",drugName);
+        hashMap.put("drugNameAlias",drugNameAlias);
+        hashMap.put("specUnit",specUnit);
+        hashMap.put("specName",specName);
+        hashMap.put("dosageCode",dosageCode);
+        hashMap.put("factoryName",factoryName);
+        hashMap.put("drugUsageDay",drugUsageDay);
+        hashMap.put("drugUsageNum",drugUsageNum);
+        String s = RetrofitUtil.encodeParam(hashMap);
+        ApiHelper.getApiService().operUpdDrugInfo_201116(s).compose(
+                Transformer.switchSchedulers(new ILoadingView() {
+            @Override
+            public void showLoadingView() {
+                if (mView!=null) {
+                    mView.showLoading(101);
+                }
+            }
+
+            @Override
+            public void hideLoadingView() {
+
+            }
+        })).subscribe(new CommonDataObserver() {
+            @Override
+            protected void onSuccessResult(BaseBean baseBean) {
+                if (mView != null) {
+                    int resCode = baseBean.getResCode();
+                    if (resCode==1) {
+                        mView.getOperUpdDrugInfoResult(true,baseBean.getResMsg());
+                    }else{
+                        mView.getOperUpdDrugInfoResult(false,baseBean.getResMsg());
+                    }
+                }
+
+            }
+
+            @Override
+            protected String setTag() {
+                return SEND_OPERUPD_DRUG_INFO_REQUEST_NEW_TAG;
             }
         });
 

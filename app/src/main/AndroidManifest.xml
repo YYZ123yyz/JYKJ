@@ -58,7 +58,8 @@
 
     <uses-permission android:name="com.coloros.mcs.permission.RECIEVE_MCS_MESSAGE" />
     <uses-permission android:name="com.heytap.mcs.permission.RECIEVE_MCS_MESSAGE" />
-
+    <uses-permission android:name="android.permission.WRITE_CONTACTS" />
+    <uses-permission android:name="android.permission.CHANGE_CONFIGURATION" />
     <application
         android:name=".application.JYKJApplication"
         android:allowBackup="true"
@@ -159,10 +160,7 @@
         <activity android:name=".activity.myself.setting.ServiceHotlineActivity" /> <!-- 个人资料 -->
         <activity android:name=".activity.myself.TextSizeActivity"/>
         <!-- 微信支付 -->
-        <activity
-            android:name=".wxapi.WXPayEntryActivity"
-            android:exported="true"
-            android:launchMode="singleTop" />
+
         <activity
             android:name=".activity.myself.UserCenterActivity"
             android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 用户认证 -->
@@ -170,9 +168,7 @@
             android:name=".activity.myself.UserAuthenticationActivity"
             android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 我的积分 -->
         <!-- 微信登录 -->
-        <activity
-            android:name=".wxapi.WXEntryActivity"
-            android:exported="true" /> <!-- 主播页面 -->
+       <!-- 主播页面 -->
         <activity android:name="yyz_exploit.activity.LivePushActivity" />
 
         <activity
@@ -359,7 +355,14 @@
             android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 患医互动==》聊天页面==》查看大图 -->
         <activity
             android:name="com.hyphenate.easeui.ui.EaseShowBigImageActivity"
-            android:windowSoftInputMode="stateHidden|stateUnchanged" /> <!-- 扫一扫 -->
+            android:windowSoftInputMode="stateHidden|stateUnchanged">
+        <intent-filter>
+            <action android:name="com.hyphenate.easeui.ui.EaseShowBigImageActivity" />
+
+            <category android:name="android.intent.category.DEFAULT" />
+        </intent-filter>
+        </activity>
+             <!-- 扫一扫 -->
         <activity android:name="zxing.android.CaptureActivity" /> <!-- 患医互动==》聊天页面==》观看视频 -->
         <activity
             android:name="com.hyphenate.easeui.ui.EaseShowVideoActivity"
@@ -454,11 +457,15 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait"
             android:theme="@style/HorLiveTheme" />
+
         <activity
-            android:name=".activity.hyhd.LectureDetailActivity"
+            android:name=".activity.hyhd.VideoDetialPlayerActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait"
-            android:theme="@style/HorLiveTheme" />
+            />
+        <activity
+            android:name=".activity.hyhd.LectureDetailActivity"
+             />
         <activity
             android:name=".appointment.activity.MyOnlineScheduActivity"
             android:screenOrientation="portrait" />
@@ -497,6 +504,9 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".medicalrecord.activity.AddDrugInfoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".medicalrecord.activity.AddDrugInfoActivity2"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.tencent.rtmp.video.TXScreenCapture$TXScreenCaptureAssistantActivity"
@@ -543,7 +553,16 @@
 
 
         </activity>
+        <activity android:name=".activity.home.mypatient.history.Myself_DetailActivity"
+            android:screenOrientation="portrait"
+            >
+
+
+        </activity>
         <activity android:name=".activity.chapter.activity.VideoChapterActivity" />
+        <activity android:name="www.jykj.com.jykj_zxyl.wxapi.WXPayEntryActivity"
+            android:exported="true"
+            android:launchMode="singleTop"/>
 
         <meta-data
             android:name="EASEMOB_APPKEY"
@@ -657,7 +676,7 @@
 
 
         <!-- 以下为基本配置信息，需要自行添加至您的AndroidManifest文件中 start-->
-        <service
+      <!--  <service
             android:name="com.taobao.accs.ChannelService"
             android:exported="true"
             android:process=":channel">
@@ -793,7 +812,14 @@
             android:authorities="${applicationId}.umeng.message"
             android:exported="false">
             <grant-uri-permission android:pathPattern=".*" />
-        </provider>
+        </provider>-->
+
+        <meta-data
+            android:name="design_width_in_dp"
+            android:value="375"/>
+        <meta-data
+            android:name="design_height_in_dp"
+            android:value="667"/>
     </application>
 
 </manifest>

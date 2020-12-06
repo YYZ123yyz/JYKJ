@@ -72,6 +72,7 @@
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="15dp"
+                android:gravity="center"
                 android:text="某某：高血压患者、亚健康人群得干预方法（适合高血压患者观看）"
                 android:textColor="@color/blackColor"
                 android:textSize="16sp"

@@ -73,7 +73,7 @@ public class PreRoomFragment extends Fragment {
         mLayoutManager = new LinearLayoutManager(mContext);
         mLayoutManager.setOrientation(LinearLayout.VERTICAL);
         hot_live_rc.setLayoutManager(mLayoutManager);
-        preLiveAdapter = new PreLiveAdapter(mdatas);
+        preLiveAdapter = new PreLiveAdapter(mdatas,getContext());
         hot_live_rc.setAdapter(preLiveAdapter);
         addListener();
         preLiveAdapter.setMyListener(new PreLiveAdapter.OnHotliveItemClickListener() {
@@ -87,8 +87,8 @@ public class PreRoomFragment extends Fragment {
                         mActivity.startActivity(parintent);
                         break;
                     case R.id.iv_collection_btn:
-                        PreLiveInfo starbean = mdatas.get(position);
-                        doFocus(starbean,position);
+                        //PreLiveInfo starbean = mdatas.get(position);
+                        //doFocus(starbean,position);
                         break;
                 }
 
@@ -128,6 +128,11 @@ public class PreRoomFragment extends Fragment {
                 loadData();
             }
         });
+    }
+
+    public void refreshData(){
+        pageNumber=1;
+        loadData();
     }
 
     public void loadData() {
@@ -181,10 +186,10 @@ public class PreRoomFragment extends Fragment {
 
         @Override
         protected void onPostExecute(List<PreLiveInfo> hotLiveInfos) {
+            if(pageNumber==1){
+                mdatas.clear();
+            }
             if(hotLiveInfos.size()>0){
-               if(pageNumber==1){
-                   mdatas.clear();
-               }
                 mdatas.addAll(hotLiveInfos);
                 preLiveAdapter.setData(mdatas);
                 preLiveAdapter.notifyDataSetChanged();
@@ -193,6 +198,7 @@ public class PreRoomFragment extends Fragment {
                 if(pageNumber>1){
                     pageNumber = pageNumber - 1;
                 }
+                preLiveAdapter.notifyDataSetChanged();
             }
             if(pageNumber==1){
                 refreshLayout.finishRefresh(1000);

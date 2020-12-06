@@ -17,13 +17,41 @@ public class ChapterListBean {
      */
 
     private int vipFreeType;
-    private String createBy;
+    private String createby;
     private String code;
     private int clickCount;
     private String price;
     private int freeType;
     private String iconUrl;
+
+    public String getCreateby() {
+        return createby;
+    }
+
+    public void setCreateby(String createby) {
+        this.createby = createby;
+    }
+
     private String title;
+    private String className;
+    private String doctorLogoUrl;
+
+    public String getDoctorLogoUrl() {
+        return doctorLogoUrl;
+    }
+
+    public void setDoctorLogoUrl(String doctorLogoUrl) {
+        this.doctorLogoUrl = doctorLogoUrl;
+    }
+
+    public String getClassName() {
+        return className;
+    }
+
+    public void setClassName(String className) {
+        this.className = className;
+    }
+
     /**
      * vipFreeType : 0
      * duration : 00:00
@@ -46,13 +74,7 @@ public class ChapterListBean {
         this.vipFreeType = vipFreeType;
     }
 
-    public String getCreateBy() {
-        return createBy;
-    }
 
-    public void setCreateBy(String createBy) {
-        this.createBy = createBy;
-    }
 
     public String getCode() {
         return code;

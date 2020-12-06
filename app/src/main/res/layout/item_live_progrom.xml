@@ -50,7 +50,6 @@
             android:layout_marginBottom="11dp"
             android:background="@drawable/bg_round_f4f4f4_5"
             android:hint="字数不超过30字"
-            android:maxEms="30"
             android:paddingStart="20dp"
             android:paddingEnd="20dp"
             android:textColor="@color/color_000000"

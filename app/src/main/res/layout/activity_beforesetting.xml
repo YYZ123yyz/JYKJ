@@ -71,9 +71,10 @@
                 android:gravity="center"
                 android:id="@+id/notice_add_forecast"
                 android:text="视频直播"
-                android:textColor="#fff"
+                android:textColor="@color/color_799dfe"
                 android:drawableLeft="@mipmap/video"
                 android:layout_width="wrap_content"
+                android:drawablePadding="5dp"
                 android:layout_height="wrap_content"/>
             <TextView
                 android:textColor="#fff"
@@ -87,6 +88,7 @@
                 android:id="@+id/notice_Lecture"
                 android:text="语音直播"
                 android:textColor="#fff"
+                android:drawablePadding="5dp"
                 android:drawableLeft="@mipmap/voice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>

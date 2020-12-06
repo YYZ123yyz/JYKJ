@@ -15,8 +15,9 @@
         android:orientation="horizontal">
 
         <RelativeLayout
+            android:id="@+id/rl_live_layout"
             android:layout_width="135dp"
-            android:layout_height="80dp" android:id="@+id/rl_live_layout">
+            android:layout_height="80dp">
 
             <ImageView
                 android:id="@+id/pre_live_btn"
@@ -52,28 +53,27 @@
                 android:layout_height="wrap_content"
                 android:text="高血压患者、和健康人群的干预 方法"
                 android:textColor="@color/blackColor"
-                android:textSize="15sp"
-                />
+                android:textSize="15sp" />
 
             <TextView
                 android:id="@+id/pre_live_desc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/pre_live_title"
-                android:text="营养学专家教你如何吃出健康血压"
                 android:layout_marginTop="2dp"
-                android:textSize="14sp"
-                android:textColor="@color/color_666666" />
+                android:text="营养学专家教你如何吃出健康血压"
+                android:textColor="@color/color_666666"
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/pre_live_catalog"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/pre_live_desc"
+                android:layout_marginTop="5dp"
                 android:text="类目：高血压预防"
-                android:layout_marginTop="8.5dp"
-                android:textSize="13sp"
-                android:textColor="@color/color_999999" />
+                android:textColor="@color/color_999999"
+                android:textSize="13sp" />
 
             <TextView
                 android:id="@+id/pre_watch_num"
@@ -82,45 +82,44 @@
                 android:layout_below="@+id/pre_live_catalog"
                 android:layout_alignParentLeft="true"
                 android:text="想看人数：200"
-                android:textSize="12sp"
-                android:textColor="@color/color_999999" />
+                android:textColor="@color/color_999999"
+                android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/pre_live_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/pre_live_catalog"
+                android:layout_marginStart="15dp"
                 android:layout_toEndOf="@+id/pre_watch_num"
                 android:text="￥40.00"
-                android:layout_marginStart="15dp"
-                android:textSize="12sp"
-                android:textColor="@color/btn_red" />
+                android:textColor="@color/btn_red"
+                android:textSize="12sp" />
+
             <LinearLayout
+                android:id="@+id/rl_collection_root"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginEnd="10dp"
-                android:layout_marginTop="15dp"
-                android:id="@+id/rl_collection_root"
                 android:layout_below="@+id/pre_live_desc"
                 android:layout_alignParentEnd="true"
-                >
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="10dp"
+                android:orientation="vertical">
+
                 <ImageView
+                    android:id="@+id/iv_collection_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/iv_collection_btn"
                     android:layout_gravity="center_horizontal"
-                    android:src="@mipmap/bg_collection_normal"
-                   />
+                    android:src="@mipmap/bg_collection_normal" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:textSize="12sp"
                     android:text="想看"
                     android:textColor="@color/color_b3b3b3"
-                    >
+                    android:textSize="12sp">
 
                 </TextView>
 

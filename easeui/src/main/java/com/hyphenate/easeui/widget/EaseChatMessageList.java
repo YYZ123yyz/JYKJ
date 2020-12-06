@@ -138,6 +138,10 @@ public class EaseChatMessageList extends RelativeLayout{
         itemStyle.setShowChatRoom(showChatRoom);
     }
 
+    public void setShowChatRoomNew(boolean showChatRoomNew){
+        itemStyle.setShowChatRoomNew(showChatRoomNew);
+    }
+
     public boolean isShowChatRoom(){
         return itemStyle.isShowChatRoom();
     }

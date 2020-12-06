@@ -54,6 +54,7 @@ import www.jykj.com.jykj_zxyl.activity.home.NewsActivity;
 import www.jykj.com.jykj_zxyl.activity.home.QRCodeActivity;
 import www.jykj.com.jykj_zxyl.activity.home.tjhz.AddPatientActivity;
 import www.jykj.com.jykj_zxyl.activity.hyhd.BindDoctorFriend;
+import www.jykj.com.jykj_zxyl.activity.hyhd.VideoDetialPlayerActivity;
 import www.jykj.com.jykj_zxyl.activity.myself.UserAuthenticationActivity;
 import www.jykj.com.jykj_zxyl.adapter.TittleFragmentAdapter;
 import www.jykj.com.jykj_zxyl.adapter.TraditionFooterAdapter;
@@ -71,6 +72,7 @@ import www.jykj.com.jykj_zxyl.fragment.home.HomeEducationFragment;
 import www.jykj.com.jykj_zxyl.fragment.home.HomeGraphicFragment;
 import www.jykj.com.jykj_zxyl.fragment.home.HomeVideoFragment;
 import www.jykj.com.jykj_zxyl.mypatient.activity.PatientActivity;
+import www.jykj.com.jykj_zxyl.util.StringUtils;
 import yyz_exploit.Utils.MyImageView;
 import yyz_exploit.bean.BindPatient;
 import yyz_exploit.dialog.AddPatientAcitvityDialog;
@@ -304,7 +306,7 @@ public class FragmentShouYe extends AbstractMvpBaseFragment<HomePagerContract.Vi
         initLoadingAndRetryManager();
         getBasicDate();
         initListener();
-
+        //startActivity(VideoDetialPlayerActivity.class,null);
     }
 
     @Override
@@ -949,8 +951,10 @@ public class FragmentShouYe extends AbstractMvpBaseFragment<HomePagerContract.Vi
 
     @Override
     public void getBannerAndHospitalInfoResult(BannerAndHospitalInfoBean bannerAndHospitalInfoBean) {
-        setDataInfo(bannerAndHospitalInfoBean);
-        mLoadingLayoutManager.showContent();
+        if (bannerAndHospitalInfoBean!=null) {
+            setDataInfo(bannerAndHospitalInfoBean);
+            mLoadingLayoutManager.showContent();
+        }
     }
 
     /**
@@ -959,11 +963,17 @@ public class FragmentShouYe extends AbstractMvpBaseFragment<HomePagerContract.Vi
      */
     private void setDataInfo(BannerAndHospitalInfoBean bannerAndHospitalInfoBean){
         BannerAndHospitalInfoBean.HospitalInfoBean hospitalInfo = bannerAndHospitalInfoBean.getHospitalInfo();
-        Glide.with(mContext).load(hospitalInfo.getImgUrl())
-                .apply(RequestOptions.placeholderOf(com.hyphenate.easeui.R.mipmap.docter_heard)
-                        .diskCacheStrategy(DiskCacheStrategy.ALL))
-                .into(mUserHead);
-        mUserNameText.setText(hospitalInfo.getHospitalName());
+        if (hospitalInfo!=null) {
+            String imgUrl = hospitalInfo.getImgUrl();
+            if (StringUtils.isNotEmpty(imgUrl)) {
+                Glide.with(mContext).load(imgUrl)
+                        .apply(RequestOptions.placeholderOf(com.hyphenate.easeui.R.mipmap.docter_heard)
+                                .diskCacheStrategy(DiskCacheStrategy.ALL))
+                        .into(mUserHead);
+            }
+            mUserNameText.setText(hospitalInfo.getHospitalName());
+        }
+
         List<BannerAndHospitalInfoBean.ViewBasicsBannerFilesListBean>
                 viewBasicsBannerFilesList = bannerAndHospitalInfoBean.getViewBasicsBannerFilesList();
         for (BannerAndHospitalInfoBean.ViewBasicsBannerFilesListBean

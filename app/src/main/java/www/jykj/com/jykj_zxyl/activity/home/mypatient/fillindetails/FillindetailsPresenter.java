@@ -31,7 +31,7 @@ public class FillindetailsPresenter extends BasePresenterImpl<FillindetailsContr
         hashMap.put("operPatientName", operPatientName);
         hashMap.put("orderCode", orderCode);
         String s = RetrofitUtil.encodeParam(hashMap);
-        ApiHelper.getOnLineApi().getFillindetails(s).compose(Transformer.switchSchedulers(new ILoadingView() {
+        ApiHelper.getApiService().getFillindetails(s).compose(Transformer.switchSchedulers(new ILoadingView() {
             @Override
             public void showLoadingView() {
 

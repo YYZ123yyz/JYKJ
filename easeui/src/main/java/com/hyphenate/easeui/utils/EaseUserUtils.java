@@ -21,7 +21,7 @@ public class EaseUserUtils {
     }
     
     /**
-     * get EaseUser according username
+     * get EaseUser according usPUername
      * @param username
      * @return
      */

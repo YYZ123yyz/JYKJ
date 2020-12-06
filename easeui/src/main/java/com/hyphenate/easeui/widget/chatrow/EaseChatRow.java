@@ -154,7 +154,10 @@ public abstract class EaseChatRow extends LinearLayout {
                     timestamp.setVisibility(View.VISIBLE);
                 }
             }
-            //timestamp.setVisibility(View.GONE);
+            if (itemStyle.isShowChatRoom()) {
+                timestamp.setVisibility(View.GONE);
+            }
+
         }
         if(userAvatarView != null) {
             //set nickname and avatar

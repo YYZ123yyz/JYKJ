@@ -4,9 +4,11 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMFileMessageBody;
@@ -16,13 +18,17 @@ import com.hyphenate.easeui.R;
 import com.hyphenate.easeui.model.EaseImageCache;
 import com.hyphenate.easeui.utils.EaseImageUtils;
 import java.io.File;
+
+import com.hyphenate.easeui.utils.EaseUserUtils;
+import com.hyphenate.easeui.utils.ExtEaseUtils;
 import com.hyphenate.util.ImageUtils;
 
 public class EaseChatRowImage extends EaseChatRowFile{
 
     protected ImageView imageView;
     private EMImageMessageBody imgBody;
-
+    private LinearLayout llUserInfoRoot;
+    private TextView tvUserIdNew;
     public EaseChatRowImage(Context context, EMMessage message, int position, BaseAdapter adapter) {
         super(context, message, position, adapter);
     }
@@ -36,21 +42,66 @@ public class EaseChatRowImage extends EaseChatRowFile{
     protected void onFindViewById() {
         percentageView = (TextView) findViewById(R.id.percentage);
         imageView = (ImageView) findViewById(R.id.image);
+        llUserInfoRoot=findViewById(R.id.ll_userinfo_root);
+        tvUserIdNew=findViewById(R.id.tv_userid_new);
     }
 
 
     @Override
     protected void onSetUpView() {
         imgBody = (EMImageMessageBody) message.getBody();
+        boolean showChatRoomNew = itemStyle.isShowChatRoomNew();
+        if (showChatRoomNew) {
+            if (llUserInfoRoot!=null) {
+                llUserInfoRoot.setVisibility(View.GONE);
+            }
+
+        }else{
+            if (llUserInfoRoot!=null) {
+                llUserInfoRoot.setVisibility(View.VISIBLE);
+            }
+        }
+
+        boolean showChatRoom = itemStyle.isShowChatRoom();
+        if (showChatRoom) {
+
+            if (usernickView!=null) {
+                boolean isshowChatRoomNew = itemStyle.isShowChatRoomNew();
+                if (isshowChatRoomNew) {
+                    usernickView.setVisibility(View.VISIBLE);
+                }else{
+                    usernickView.setVisibility(View.GONE);
+                }
+            }
+            if (tvUserIdNew!=null) {
+                tvUserIdNew.setVisibility(View.VISIBLE);
+                if (message.direct() == EMMessage.Direct.SEND) {
+                    EaseUserUtils.setUserNick(ExtEaseUtils.getInstance().getNickName(),tvUserIdNew);
+                }else{
+                    EaseUserUtils.setUserNick(message.getUserName(),tvUserIdNew);
+                }
+            }
+
+        }else{
+            tvUserIdNew.setVisibility(View.GONE);
+            if (usernickView!=null) {
+                usernickView.setVisibility(View.VISIBLE);
+            }
+
+        }
+
 
         // received messages
         if (message.direct() == EMMessage.Direct.RECEIVE) {
             return;
         }
 
+
+
         String filePath = imgBody.getLocalUrl();
         String thumbPath = EaseImageUtils.getThumbnailImagePath(imgBody.getLocalUrl());
         showImageView(thumbPath, filePath, message);
+
     }
 
     @Override

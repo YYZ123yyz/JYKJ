@@ -30,7 +30,7 @@ public class VideoChapterAdapter extends BaseQuickAdapter<ChapterListBean.Second
             if (item.getFlagUserHasBuy() ==1){
                 playStr ="播放";
             }else {
-                playStr =item.getPrice();
+                playStr =String.format("¥ %s元", item.getPrice());
             }
         }
         helper.setText(R.id.tv_price,playStr);

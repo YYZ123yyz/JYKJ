@@ -101,4 +101,23 @@ public class ApiHelper {
 
 
 
+    /**
+     * 获取文件类型
+     * @param fileType 100新增 101 更新
+     * @return url
+     */
+    public static String getUploadFileUrl(int fileType) {
+        String fileUrl = null;
+        switch (fileType){
+            case 100:
+                fileUrl=AppUrlConfig.SERVICE_LIVE_API_URL+"broadcastImageController/addBroadcastImageNew";
+                break;
+            case 101:
+                fileUrl=AppUrlConfig.SERVICE_LIVE_API_URL+"broadcastImageController/updateBroadcastImageNew";
+                break;
+                default:
+        }
+        return fileUrl;
+    }
+
 }

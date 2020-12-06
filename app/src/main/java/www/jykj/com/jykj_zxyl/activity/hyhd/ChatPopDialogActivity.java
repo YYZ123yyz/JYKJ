@@ -1,5 +1,6 @@
 package www.jykj.com.jykj_zxyl.activity.hyhd;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ClipboardManager;
@@ -15,6 +16,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -22,8 +24,10 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.google.gson.Gson;
 import com.hyphenate.EMCallBack;
@@ -58,8 +62,10 @@ import com.hyphenate.exceptions.HyphenateException;
 import com.hyphenate.util.EMLog;
 import com.hyphenate.util.PathUtil;
 import www.jykj.com.jykj_zxyl.R;
+import www.jykj.com.jykj_zxyl.app_base.base_activity.BaseActivity;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.custom.JoinDialog;
+import www.jykj.com.jykj_zxyl.util.BitmapUtil;
 import www.jykj.com.jykj_zxyl.util.StrUtils;
 import www.jykj.com.jykj_zxyl.util.SwipeAnimationController;
 
@@ -107,7 +113,9 @@ public abstract class ChatPopDialogActivity extends AppCompatActivity implements
     protected String toChatUsernameName;
     protected EaseChatMessageList messageList;
     protected EaseChatInputMenu inputMenu;
-
+    protected RelativeLayout rlInputRoot;
+    private EditText edInputContent;
+    private TextView tvSendBtn;
     protected EMConversation conversation;
 
     protected InputMethodManager inputManager;
@@ -164,6 +172,7 @@ public abstract class ChatPopDialogActivity extends AppCompatActivity implements
     private SwipeAnimationController mSwipeAnimationController;
     protected RelativeLayout chatViewLayout;
     protected JYKJApplication mApp;
+    private File mTempFile;
     public abstract void createChat();
     public abstract void upJoinUsernum(int modnum);
     @Override
@@ -171,7 +180,19 @@ public abstract class ChatPopDialogActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         myActivity = this;
         inputMethodManager = (InputMethodManager) myActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
+        initDir();
     }
+
+    private void initDir() {
+        // 声明目录
+        File tempDir = new File(Environment.getExternalStorageDirectory().getAbsolutePath()
+                + "/_tempphoto");
+        if (!tempDir.exists()) {
+            tempDir.mkdirs();// 创建目录
+        }
+        mTempFile = new File(tempDir, BitmapUtil.getPhotoFileName());// 生成临时文件
+    }
+
     public UpdMyClinicDetailByOrderTreatmentLimitNum updMyClinicDetailByOrderTreatmentLimitNum;
     protected void initChat(Bundle params){
         fragmentArgs = params;
@@ -220,6 +241,7 @@ public abstract class ChatPopDialogActivity extends AppCompatActivity implements
     /**
      * init fragment view
      */
+    @SuppressLint("HandlerLeak")
     protected void initFragmentChatView(Fragment holdfrag) {
         // hold to record voice
         //noinspection ConstantConditions
@@ -252,7 +274,9 @@ public abstract class ChatPopDialogActivity extends AppCompatActivity implements
 
         extendMenuItemClickListener = new MyItemClickListener();
         inputMenu = (EaseChatInputMenu)holdfrag.getView().findViewById(R.id.input_menu);
-
+        rlInputRoot=holdfrag.getView().findViewById(R.id.rl_input_root);
+        edInputContent=holdfrag.getView().findViewById(R.id.ed_input_content);
+        tvSendBtn=holdfrag.getView().findViewById(R.id.tv_send_btn);
         registerExtendMenuItem();
         // init input menu
         inputMenu.init(null);
@@ -296,6 +320,15 @@ public abstract class ChatPopDialogActivity extends AppCompatActivity implements
                 sendBigExpressionMessage(emojicon.getName(), emojicon.getIdentityCode());
             }
         });
+        tvSendBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String content = edInputContent.getText().toString();
+                sendTextMessage(content);
+                edInputContent.setText("");
+            }
+        });
+
 
         swipeRefreshLayout = messageList.getSwipeRefreshLayout();
         swipeRefreshLayout.setColorSchemeResources(R.color.holo_blue_bright, R.color.holo_green_light,
@@ -366,9 +399,17 @@ public abstract class ChatPopDialogActivity extends AppCompatActivity implements
 
     }
 
+
+    protected void hideEnojicon(){
+        if (inputMenu!=null) {
+            inputMenu.hideEnojicon();
+        }
+
+    }
     /**
      * init view
      */
+    @SuppressLint("HandlerLeak")
     protected void initChatView() {
         // hold to record voice
         //noinspection ConstantConditions
@@ -754,6 +795,7 @@ public abstract class ChatPopDialogActivity extends AppCompatActivity implements
 
     static final int ADD_ENTERROOM_MSG = 551;
 
+    @SuppressLint("HandlerLeak")
     Handler messagehandler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
@@ -769,7 +811,8 @@ public abstract class ChatPopDialogActivity extends AppCompatActivity implements
                     addMsg.addBody(body);*/
                    //conversation.clearAllMessages();
                     //messageList.refresh();
-                    doSend("加入直播间了");
+                    //doSend("加入直播间了");
+                    sendJoinMessage();
                     //EMMessage.createReceiveMessage(EMMessage.Type.TXT);
                     //EMMessage message = EMMessage.createTxtSendMessage("加入直播间了", StrUtils.defaulObjToStr(msg.obj));
                     //conversation.appendMessage(addMsg);
@@ -854,8 +897,8 @@ public abstract class ChatPopDialogActivity extends AppCompatActivity implements
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == REQUEST_CODE_CAMERA) { // capture new image
-                if (cameraFile != null && cameraFile.exists())
-                    sendImageMessage(cameraFile.getAbsolutePath());
+                if (mTempFile != null)
+                    sendImageMessage(mTempFile.getAbsolutePath());
             } else if (requestCode == REQUEST_CODE_LOCAL) { // send local image
                 if (data != null) {
                     Uri selectedImage = data.getData();
@@ -944,9 +987,28 @@ public abstract class ChatPopDialogActivity extends AppCompatActivity implements
             return;
         }
         if(chatType == EaseConstant.CHATTYPE_CHATROOM && !isbacked) {
-            doSend("离开直播间了");
+            //doSend("离开直播间了");
+            sendLeaveMessage();
         }
         closeRoom();
+    }
+
+    /**
+     * 加入直播发送消息
+     */
+    private void sendJoinMessage() {
+        EMMessage msg = EMMessage.createTxtSendMessage("em_join", toChatUsername);
+        msg.setAttribute("em_join", "em_join");
+        sendMessage(msg);
+    }
+
+    /**
+     * 离开直播发送消息
+     */
+    private void sendLeaveMessage() {
+        EMMessage msg = EMMessage.createTxtSendMessage("em_leave", toChatUsername);
+        msg.setAttribute("em_leave", "em_leave");
+        sendMessage(msg);
     }
 
     boolean isbacked = false;
@@ -959,7 +1021,8 @@ public abstract class ChatPopDialogActivity extends AppCompatActivity implements
             }
             if (chatType == EaseConstant.CHATTYPE_CHATROOM) {
                 isbacked = true;
-                doSend("离开直播间了");
+                //doSend("离开直播间了");
+                sendLeaveMessage();
             }
             closeRoom();
         }
@@ -1191,7 +1254,7 @@ public abstract class ChatPopDialogActivity extends AppCompatActivity implements
 
                 public void run() {
                     if (toChatUsername.equals(groupId)) {
-                        makeText(myActivity, R.string.you_are_group, LENGTH_LONG).show();
+                        //makeText(myActivity, R.string.you_are_group, LENGTH_LONG).show();
                         myActivity.finish();
 
                     }
@@ -1205,13 +1268,25 @@ public abstract class ChatPopDialogActivity extends AppCompatActivity implements
             myActivity.runOnUiThread(new Runnable() {
                 public void run() {
                     if (toChatUsername.equals(groupId)) {
-                        makeText(myActivity, R.string.the_current_group_destroyed, LENGTH_LONG).show();
+                       // makeText(myActivity, R.string.the_current_group_destroyed, LENGTH_LONG).show();
                         myActivity.finish();
 
                     }
                 }
             });
         }
+    }
+
+
+    protected void onLiveError(){
+
+    }
+
+    /**
+     * 主播离开
+     */
+    protected void onAnchorLeave(){
+
     }
 
     /**
@@ -1224,8 +1299,9 @@ public abstract class ChatPopDialogActivity extends AppCompatActivity implements
             myActivity.runOnUiThread(new Runnable() {
                 public void run() {
                     if (roomId.equals(toChatUsername)) {
-                        Toast.makeText(myActivity, R.string.the_current_chat_room_destroyed, Toast.LENGTH_LONG).show();
-                        myActivity.finish();
+                        //Toast.makeText(myActivity, R.string.the_current_chat_room_destroyed, Toast.LENGTH_LONG).show();
+                        //myActivity.finish();
+                        onAnchorLeave();
                     }
                 }
             });
@@ -1237,14 +1313,14 @@ public abstract class ChatPopDialogActivity extends AppCompatActivity implements
                 public void run() {
                     if (roomId.equals(toChatUsername)) {
                         if (reason == EMAChatRoomManagerListener.BE_KICKED) {
-                            Toast.makeText(myActivity, R.string.quiting_the_chat_room, Toast.LENGTH_LONG).show();
+                            //Toast.makeText(myActivity, R.string.quiting_the_chat_room, Toast.LENGTH_LONG).show();
                             if (myActivity.isFinishing()) {
                                 myActivity.finish();
                             }
                         } else { // BE_KICKED_FOR_OFFLINE
                             // Current logged in user be kicked out by server for current user offline,
                             // show disconnect title bar, click to rejoin.
-                            Toast.makeText(myActivity, "User be kicked for offline", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(myActivity, "User be kicked for offline", Toast.LENGTH_SHORT).show();
                             kickedForOfflineLayout.setVisibility(View.VISIBLE);
                         }
                     }
@@ -1431,30 +1507,40 @@ public abstract class ChatPopDialogActivity extends AppCompatActivity implements
             }
             switch (itemId) {
                 case ITEM_TAKE_PICTURE:
-                    if (!isCompareDateTime(getCurrentFormart(),mStopDate))
-                    {
-                        Toast.makeText(myActivity,"图文消息次数已用尽",Toast.LENGTH_LONG).show();
-                        return;
-                    }
-                    if ("dhjz".equals(mChatType) ||"spjz".equals(mChatType))
-                    {
-                        if (mMessageNum <= 0)
-                        {
-                            Toast.makeText(myActivity,"图文消息次数已用尽",Toast.LENGTH_LONG).show();
-                            return;
-                        }
-                    }
-                    selectPicFromCamera();
+//                    if (!isCompareDateTime(getCurrentFormart(),mStopDate))
+//                    {
+//                        Toast.makeText(myActivity,"图文消息次数已用尽",Toast.LENGTH_LONG).show();
+//                        return;
+//                    }
+//                    if ("dhjz".equals(mChatType) ||"spjz".equals(mChatType))
+//                    {
+//                        if (mMessageNum <= 0)
+//                        {
+//                            Toast.makeText(myActivity,"图文消息次数已用尽",Toast.LENGTH_LONG).show();
+//                            return;
+//                        }
+//                    }
+                    //selectPicFromCamera();
+                    StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+                    StrictMode.setVmPolicy(builder.build());
+                    builder.detectFileUriExposure();
+                    // 添加Action类型：MediaStore.ACTION_IMAGE_CAPTURE
+                    Intent intents = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+                    // 指定调用相机拍照后照片(结果)的储存路径
+                    intents.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(mTempFile));
+                    // 等待返回结果
+                    startActivityForResult(intents, REQUEST_CODE_CAMERA);
                     break;
                 case ITEM_PICTURE:
-                    if ("dhjz".equals(mChatType) ||"spjz".equals(mChatType))
-                    {
-                        if (mMessageNum <= 0)
-                        {
-                            Toast.makeText(myActivity,"图文消息次数已用尽",Toast.LENGTH_LONG).show();
-                            return;
-                        }
-                    }
+//                    if ("dhjz".equals(mChatType) ||"spjz".equals(mChatType))
+//                    {
+//                        if (mMessageNum <= 0)
+//                        {
+//                            Toast.makeText(myActivity,"图文消息次数已用尽",Toast.LENGTH_LONG).show();
+//                            return;
+//                        }
+//                    }
                     selectPicFromLocal();
                     break;
 //            case ITEM_LOCATION:
@@ -1756,7 +1842,7 @@ public abstract class ChatPopDialogActivity extends AppCompatActivity implements
      */
     protected void selectPicFromCamera() {
         if (!EaseCommonUtils.isSdcardExist()) {
-            Toast.makeText(myActivity, R.string.sd_card_does_not_exist, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, com.hyphenate.easeui.R.string.sd_card_does_not_exist, Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -1766,7 +1852,8 @@ public abstract class ChatPopDialogActivity extends AppCompatActivity implements
         cameraFile.getParentFile().mkdirs();
         startActivityForResult(
                 new Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                        .putExtra(MediaStore.EXTRA_OUTPUT, EaseCompat.getUriForFile(myActivity, cameraFile)), REQUEST_CODE_CAMERA);
+                        .putExtra(MediaStore.EXTRA_OUTPUT, EaseCompat.getUriForFile(this,
+                                cameraFile)), REQUEST_CODE_CAMERA);
     }
 
 

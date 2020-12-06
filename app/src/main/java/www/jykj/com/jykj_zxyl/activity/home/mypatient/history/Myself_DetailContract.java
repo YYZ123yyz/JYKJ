@@ -1,5 +1,7 @@
 package www.jykj.com.jykj_zxyl.activity.home.mypatient.history;
 
+import android.app.Activity;
+
 import java.util.List;
 
 import www.jykj.com.jykj_zxyl.app_base.base_bean.DoctorRecordBean;
@@ -27,6 +29,7 @@ public class Myself_DetailContract {
         /**
          * 获取本人填写详情
          */
-        void sendSearchMyself_DetaiRequest(String loginPatientPosition, String requestClientType, String operPatientCode,String operPatientName,String recordId);
+        void sendSearchMyself_DetaiRequest(String loginPatientPosition, String requestClientType
+                , String operPatientCode, String operPatientName, String recordId, Activity activity);
     }
 }

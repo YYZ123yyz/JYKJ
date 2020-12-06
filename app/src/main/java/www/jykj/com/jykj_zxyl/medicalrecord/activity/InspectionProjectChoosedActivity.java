@@ -111,6 +111,7 @@ public class InspectionProjectChoosedActivity extends AbstractMvpBaseActivity<
         super.initData();
         mPresenter.sendSearchInspectionProjectDetailClassListRequest(
                 mApp.mViewSysUserDoctorInfoAndHospital.getHospitalInfoId()+"",this);
+
     }
 
 
@@ -164,6 +165,7 @@ public class InspectionProjectChoosedActivity extends AbstractMvpBaseActivity<
                     , inspectionName,
                     pageSize + "", pageIndex + "",
                     InspectionProjectChoosedActivity.this);
+            //mPresenter.sendSearchMyClinicDetailResPrescribeDrugInfo_201116();
         });
 
 

@@ -40,6 +40,7 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 /**
@@ -54,7 +55,7 @@ public class EaseShowBigImageActivity extends EaseBaseActivity {
 	private String localFilePath;
 	private Bitmap bitmap;
 	private boolean isDownloaded;
-
+	private TextView mTvCloseBtn;
 	@SuppressLint("NewApi")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +63,7 @@ public class EaseShowBigImageActivity extends EaseBaseActivity {
 		super.onCreate(savedInstanceState);
 
 		image = (EasePhotoView) findViewById(R.id.image);
+		mTvCloseBtn=findViewById(R.id.tv_close_btn);
 		ProgressBar loadLocalPb = (ProgressBar) findViewById(R.id.pb_load_local);
 		default_res = getIntent().getIntExtra("default_image", R.mipmap.docter_heard);
 		Uri uri = getIntent().getParcelableExtra("uri");
@@ -100,6 +102,13 @@ public class EaseShowBigImageActivity extends EaseBaseActivity {
 				finish();
 			}
 		});
+		mTvCloseBtn.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				finish();
+			}
+		});
+
 	}
 	
 	/**

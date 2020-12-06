@@ -115,8 +115,8 @@ public class ServicePermisionSetActivity extends AppCompatActivity {
             case 1:
                 mTitleText.setText("图文就诊设置");
                 mServiceSetTitleText.setText("开通图文就诊");
-                mBasePriceTitleText.setText("图文就诊基础价格");
-                mYJPriceTitleText.setText("图文就诊溢价价格");
+//                mBasePriceTitleText.setText("图文就诊基础价格");
+//                mYJPriceTitleText.setText("图文就诊溢价价格");
                 mMessageNumTitle.setText("回复消息数量");
                 mYPMessageNumTitle.setVisibility(View.GONE);
                 mSPMessageNumTitle.setVisibility(View.GONE);
@@ -124,8 +124,8 @@ public class ServicePermisionSetActivity extends AppCompatActivity {
             case 2:
                 mTitleText.setText("音频就诊设置");
                 mServiceSetTitleText.setText("音频图文就诊");
-                mBasePriceTitleText.setText("音频就诊基础价格");
-                mYJPriceTitleText.setText("音频就诊溢价价格");
+//                mBasePriceTitleText.setText("音频就诊基础价格");
+//                mYJPriceTitleText.setText("音频就诊溢价价格");
                 mMessageNumTitle.setText("音频通话时长");
                 mYPMessageNumTitle.setVisibility(View.GONE);
                 mSPMessageNumTitle.setVisibility(View.GONE);
@@ -133,8 +133,8 @@ public class ServicePermisionSetActivity extends AppCompatActivity {
             case 3:
                 mTitleText.setText("视频就诊设置");
                 mServiceSetTitleText.setText("视频图文就诊");
-                mBasePriceTitleText.setText("视频就诊基础价格");
-                mYJPriceTitleText.setText("视频就诊溢价价格");
+//                mBasePriceTitleText.setText("视频就诊基础价格");
+//                mYJPriceTitleText.setText("视频就诊溢价价格");
                 mMessageNumTitle.setText("视频通话时长");
                 mYPMessageNumTitle.setVisibility(View.GONE);
                 mSPMessageNumTitle.setVisibility(View.GONE);
@@ -142,8 +142,8 @@ public class ServicePermisionSetActivity extends AppCompatActivity {
             case 4:
                 mTitleText.setText("签约服务设置");
                 mServiceSetTitleText.setText("签约服务图文就诊");
-                mBasePriceTitleText.setText("签约服务基础价格");
-                mYJPriceTitleText.setText("签约服务溢价价格");
+//                mBasePriceTitleText.setText("签约服务基础价格");
+//                mYJPriceTitleText.setText("签约服务溢价价格");
                 mMessageNumTitle.setText("回复消息数量");
                 mYPMessageNumTitle.setVisibility(View.VISIBLE);
                 mSPMessageNumTitle.setVisibility(View.VISIBLE);
@@ -151,8 +151,8 @@ public class ServicePermisionSetActivity extends AppCompatActivity {
             case 5:
                 mTitleText.setText("电话就诊");
                 mServiceSetTitleText.setText("电话就诊");
-                mBasePriceTitleText.setText("签约服务基础价格");
-                mYJPriceTitleText.setText("签约服务溢价价格");
+//                mBasePriceTitleText.setText("签约服务基础价格");
+//                mYJPriceTitleText.setText("签约服务溢价价格");
                 mMessageNumTitle.setText("电话通话时长");
                 mMessageNumText.setText("15分钟");
                 mYPMessageNumTitle.setVisibility(View.GONE);

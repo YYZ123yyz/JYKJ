@@ -1,6 +1,7 @@
 package www.jykj.com.jykj_zxyl.activity.hyhd;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -29,6 +30,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.*;
 import com.alibaba.fastjson.JSON;
+import com.allen.library.utils.ToastUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -124,6 +126,7 @@ public class LivePlayerTwoActivity extends ChatPopDialogActivity implements ITXL
     ImageView iv_zoom_btn;
     ImageView iv_miniaml_zoom_btn;
     RelativeLayout live_rl;
+    TextView tvPlayErrorMsg;
     int videowidth = 0;
     int videoheight = 0;
 
@@ -184,6 +187,11 @@ public class LivePlayerTwoActivity extends ChatPopDialogActivity implements ITXL
             String parnickname = myroominfo.getBroadcastUserName();
             tv_head_tit.setText(parnickname);
             tv_liveroom_name.setText(myroominfo.getBroadcastTitle());
+            int flagAnchorStates = myroominfo.getFlagAnchorStates();
+            if (flagAnchorStates==0) {
+                tvPlayErrorMsg.setVisibility(View.VISIBLE);
+                tvPlayErrorMsg.setText("主播还未开播");
+            }
         }
     }
 
@@ -280,6 +288,7 @@ public class LivePlayerTwoActivity extends ChatPopDialogActivity implements ITXL
         mPhoneListener = new TXPhoneStateListener(mLivePlayer);
         TelephonyManager tm = (TelephonyManager) getApplicationContext().getSystemService(Service.TELEPHONY_SERVICE);
         tm.listen(mPhoneListener, PhoneStateListener.LISTEN_CALL_STATE);
+        tvPlayErrorMsg=findViewById(R.id.tv_play_error_msg);
         live_rl = findViewById(R.id.live_rl);
         tab_layout = findViewById(R.id.tab_layout);
         live_publish_page = findViewById(R.id.live_publish_page);
@@ -343,6 +352,7 @@ public class LivePlayerTwoActivity extends ChatPopDialogActivity implements ITXL
             }
         });
         live_rl.bringToFront();
+
         //3、获取屏幕的默认分辨率
         /*Display display = getWindowManager().getDefaultDisplay();
         int scrheight = display.getHeight();
@@ -355,14 +365,23 @@ public class LivePlayerTwoActivity extends ChatPopDialogActivity implements ITXL
         live_publish_page.setLayoutParams(pagerparams);*/
     }
 
+
+
+    @Override
+    protected void onAnchorLeave() {
+        super.onAnchorLeave();
+        tvPlayErrorMsg.setVisibility(View.VISIBLE);
+        tvPlayErrorMsg.setText("主播已经离开");
+    }
+
     @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
     }
 
     void goFullscreen(){
-        FrameLayout.LayoutParams fullparams = new FrameLayout.LayoutParams(
-                FrameLayout.LayoutParams.MATCH_PARENT,FrameLayout.LayoutParams.MATCH_PARENT);
+        RelativeLayout.LayoutParams fullparams = new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.MATCH_PARENT,RelativeLayout.LayoutParams.MATCH_PARENT);
         mPlayerView.setLayoutParams(fullparams);
         //mLivePlayer.setRenderMode(TXLiveConstants.RENDER_MODE_ADJUST_RESOLUTION);
         mLivePlayer.setRenderRotation(TXLiveConstants.RENDER_ROTATION_LANDSCAPE);
@@ -382,7 +401,7 @@ public class LivePlayerTwoActivity extends ChatPopDialogActivity implements ITXL
     }
     void goMinimalscreen(){
         //mLivePlayer.setRenderMode(TXLiveConstants.RENDER_MODE_ADJUST_RESOLUTION);
-        FrameLayout.LayoutParams fullparams = new FrameLayout.LayoutParams(videowidth,videoheight);
+        RelativeLayout.LayoutParams fullparams = new RelativeLayout.LayoutParams(videowidth,videoheight);
         mPlayerView.setLayoutParams(fullparams);
         mLivePlayer.setRenderRotation(TXLiveConstants.RENDER_ROTATION_PORTRAIT);
         tab_hold_layout.setVisibility(View.VISIBLE);
@@ -490,6 +509,10 @@ public class LivePlayerTwoActivity extends ChatPopDialogActivity implements ITXL
         joinChatroom();
         setUpView();
         isopenchat = true;
+        messageList.setShowChatRoomNew(true);
+        hideEnojicon();
+        inputMenu.setVisibility(View.GONE);
+        rlInputRoot.setVisibility(View.VISIBLE);
     }
 
     static final int GO_CHAT_ACT = 999;
@@ -505,6 +528,7 @@ public class LivePlayerTwoActivity extends ChatPopDialogActivity implements ITXL
     static final int SHOW_MESSAGE_FLAG = 101;
 
 
+    @SuppressLint("HandlerLeak")
     Handler myHandler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
@@ -766,7 +790,7 @@ public class LivePlayerTwoActivity extends ChatPopDialogActivity implements ITXL
         if (mActivityType == LivePlayerActivity.ACTIVITY_TYPE_VOD_PLAY) {
             findViewById(R.id.playerHeaderView).setVisibility(View.VISIBLE);
         }
-        FrameLayout.LayoutParams mlayoutparams = (FrameLayout.LayoutParams)mPlayerView.getLayoutParams();
+        RelativeLayout.LayoutParams mlayoutparams = (RelativeLayout.LayoutParams)mPlayerView.getLayoutParams();
         videowidth = mlayoutparams.width;
         videoheight = mlayoutparams.height;
         return true;
@@ -793,6 +817,9 @@ public class LivePlayerTwoActivity extends ChatPopDialogActivity implements ITXL
             stopPlayRtmp();
             mVideoPlay = false;
             mVideoPause = false;
+            onAnchorLeave();
+            //ToastUtils.showToast("主播退出了，主播退出了");
+
         } else if (event == TXLiveConstants.PLAY_EVT_PLAY_LOADING){
             startLoadingAnimation();
         } else if (event == TXLiveConstants.PLAY_EVT_RCV_FIRST_I_FRAME) {

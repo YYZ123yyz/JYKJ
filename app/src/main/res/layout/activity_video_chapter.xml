@@ -40,11 +40,19 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="10dp">
 
+
+
+
                 <ImageView
                     android:id="@+id/iv_tittle"
                     android:layout_width="130dp"
                     android:layout_height="80dp"
                     android:scaleType="fitXY" />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/iv_chapter_head"
+                    />
 
                 <TextView
                     android:id="@+id/click_num"
@@ -65,6 +73,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="15dp"
+                android:gravity="center_vertical"
                 android:orientation="vertical">
 
                 <TextView
@@ -81,6 +90,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="13dp"
                     android:text="ijojoj"
+                    android:textColor="@color/color_ffffff"
                     android:textSize="13sp" />
 
                 <TextView
@@ -101,7 +111,6 @@
                         android:layout_width="28dp"
                         android:layout_height="28dp"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="10dp"
                         android:src="@mipmap/doctor_head" />
 
                     <TextView
@@ -109,7 +118,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="8dp"
+                        android:layout_marginLeft="5dp"
                         android:layout_toRightOf="@+id/iv_userhead"
                         android:text="jxx"
                         android:textColor="@color/color_ffffff"
@@ -120,7 +129,7 @@
                         android:layout_width="85dp"
                         android:layout_height="30dp"
                         android:layout_alignParentRight="true"
-                        android:layout_marginRight="10dp"
+                        android:layout_marginRight="5dp"
                         android:background="@drawable/bg_round_e6302c"
                         android:gravity="center"
                         android:text="3434"

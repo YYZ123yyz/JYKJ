@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
@@ -21,10 +22,17 @@ import android.widget.Toast;
 import com.allen.library.utils.ToastUtils;
 import com.blankj.utilcode.util.ImageUtils;
 import com.blankj.utilcode.util.UriUtils;
+import com.bumptech.glide.Glide;
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMMessage;
+import com.hyphenate.easeui.ui.EaseShowBigImageActivity;
 import com.tbruyelle.rxpermissions.RxPermissions;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
@@ -69,7 +77,7 @@ public class LiveAddPicActivity extends AbstractMvpBaseActivity<AddLivePhotoCont
     private String detailCode;
     private LiveProtromDetialBean liveProtromDetialBean;
     private List<ImageInfoBean> mUpdateInfos;
-
+    private File mTempFile;
     @Override
     protected void onBeforeSetContentLayout() {
         super.onBeforeSetContentLayout();
@@ -96,6 +104,7 @@ public class LiveAddPicActivity extends AbstractMvpBaseActivity<AddLivePhotoCont
         initRecyclerView();
         //添加监听
         addListener();
+        initDir();
     }
 
 
@@ -113,6 +122,16 @@ public class LiveAddPicActivity extends AbstractMvpBaseActivity<AddLivePhotoCont
         //返回键
         toolbar.setLeftTitleClickListener(view -> finish());
 
+    }
+
+    private void initDir() {
+        // 声明目录
+        File tempDir = new File(Environment.getExternalStorageDirectory().getAbsolutePath()
+                + "/_tempphoto");
+        if (!tempDir.exists()) {
+            tempDir.mkdirs();// 创建目录
+        }
+        mTempFile = new File(tempDir, BitmapUtil.getPhotoFileName());// 生成临时文件
     }
 
     /**
@@ -139,11 +158,22 @@ public class LiveAddPicActivity extends AbstractMvpBaseActivity<AddLivePhotoCont
         mImageViewRecycleAdapter.setOnItemClickListener(new ImageViewRecycleAdapter.OnItemClickListener() {
             @Override
             public void onClick(int position) {
+
+
+
                 String photoID = mPhotoInfos.get(position).getPhotoID();
-                if (photoID.equals("ADDPHOTO")) {
+                if (StringUtils.isNotEmpty(photoID)&&photoID.equals("ADDPHOTO")) {
                     startTakePhotoRequest();
                 } else {
-
+                    Intent intent = new Intent(LiveAddPicActivity.this,
+                            EaseShowBigImageActivity.class);
+                    String photoUrl = mPhotoInfos.get(position).getPhotoUrl();
+                    File file = new File(photoUrl);
+                    if (file.exists()) {
+                        Uri uri = Uri.fromFile(file);
+                        intent.putExtra("uri", uri);
+                    }
+                    LiveAddPicActivity.this.startActivity(intent);
                 }
             }
 
@@ -180,17 +210,40 @@ public class LiveAddPicActivity extends AbstractMvpBaseActivity<AddLivePhotoCont
                         LiveAddPicActivity.this.finish();
                         return;
                     }
-                    mPresenter.sendUpdateBroadcastImageRequest(
-                            liveProtromDetialBean.getImageCode()
-                            , detailCode, imageIds, imageDatas, LiveAddPicActivity.this);
+//                    mPresenter.sendUpdateBroadcastImageRequest(
+//                            liveProtromDetialBean.getImageCode()
+//                            , detailCode, imageIds, imageDatas, LiveAddPicActivity.this);
+                    mPresenter.sendUpdateBroadcastImageRequest2(
+                            liveProtromDetialBean.getImageCode(),detailCode,
+                            imageIds,getImageUrls(mPhotoInfos),LiveAddPicActivity.this);
                 } else {
-                    String content = buildImageDatas(mPhotoInfos);
-                    mPresenter.sendAddBroadCastImageRequest(detailCode, content,
-                            LiveAddPicActivity.this);
+//                    String content = buildImageDatas(mPhotoInfos);
+//                    mPresenter.sendAddBroadCastImageRequest(detailCode, content,
+//                            LiveAddPicActivity.this);
+
+                    mPresenter.sendAddBroadCastImageRequest2(detailCode,getImageUrls(mPhotoInfos)
+                            ,LiveAddPicActivity.this);
                 }
 
             }
         });
+    }
+
+
+    /**
+     * 获取image List
+     * @param imageInfoBeans 列表
+     * @return List
+     */
+    private List<String> getImageUrls(List<ImageInfoBean> imageInfoBeans){
+        List<String> imgList=new ArrayList<>();
+        for (ImageInfoBean mUpdateInfo : imageInfoBeans) {
+            String photoUrl = mUpdateInfo.getPhotoUrl();
+            if (StringUtils.isNotEmpty(photoUrl)) {
+                imgList.add(photoUrl);
+            }
+        }
+        return imgList;
     }
 
     /**
@@ -215,7 +268,7 @@ public class LiveAddPicActivity extends AbstractMvpBaseActivity<AddLivePhotoCont
                                                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
                                                 // 指定调用相机拍照后照片(结果)的储存路径
-                                                //intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(mTempFile));
+                                                intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(mTempFile));
                                                 // 等待返回结果
                                                 startActivityForResult(intent, Constant.SELECT_PIC_BY_TACK_PHOTO);
 
@@ -247,8 +300,8 @@ public class LiveAddPicActivity extends AbstractMvpBaseActivity<AddLivePhotoCont
         // 处理拍照返回
         if (requestCode == Constant.SELECT_PIC_BY_TACK_PHOTO
                 && resultCode == RESULT_OK) {// 拍照成功 RESULT_OK= -1
-            final Uri uri = data.getData();//返回相册图片的Uri
-            imageCompressImg(uri);
+           // final Uri uri = data.getData();//返回相册图片的Uri
+            imageCompressImg2(mTempFile);
             // 剪裁图片
         }
         super.onActivityResult(requestCode, resultCode, data);
@@ -274,10 +327,11 @@ public class LiveAddPicActivity extends AbstractMvpBaseActivity<AddLivePhotoCont
                         // TODO 压缩成功后调用，返回压缩后的图片文件
                         // System.out.println(file);
                         Bitmap bitmap = ImageUtils.getBitmap(file);
-                        Bitmap clipBitmap = ImageUtils.clip(bitmap, 1, 1, 450, 450);
+                        Bitmap clipBitmap = ImageUtils.clip(bitmap, 1, 1, 900, 900);
 
                         ImageInfoBean imageInfoBean = new ImageInfoBean();
-                        imageInfoBean.setPhoto(BitmapUtil.bitmaptoString(clipBitmap));
+                        //imageInfoBean.setPhoto(BitmapUtil.bitmaptoString(clipBitmap));
+                        imageInfoBean.setPhotoUrl(file.getAbsolutePath());
                         mPhotoInfos.add(imageInfoBean);
                         addLastImageBtn(mPhotoInfos);
                         mImageViewRecycleAdapter.setDate(mPhotoInfos);
@@ -292,6 +346,46 @@ public class LiveAddPicActivity extends AbstractMvpBaseActivity<AddLivePhotoCont
                     }
                 }).launch();
     }
+
+    /**
+     * 初始化RecyclerView
+     */
+    private void imageCompressImg2(File file) {
+        Luban.with(this)
+                .load(file)
+                .ignoreBy(100)
+                .filter(path -> !(TextUtils.isEmpty(path) || path.toLowerCase().endsWith(".gif")))
+                .setCompressListener(new OnCompressListener() {
+                    @Override
+                    public void onStart() {
+                        // TODO 压缩开始前调用，可以在方法内启动 loading UI
+                    }
+
+                    @Override
+                    public void onSuccess(File file) {
+                        // TODO 压缩成功后调用，返回压缩后的图片文件
+                        // System.out.println(file);
+                        Bitmap bitmap = ImageUtils.getBitmap(file);
+                        Bitmap clipBitmap = ImageUtils.clip(bitmap, 1, 1, 900, 900);
+
+                        ImageInfoBean imageInfoBean = new ImageInfoBean();
+                        //imageInfoBean.setPhoto(BitmapUtil.bitmaptoString(clipBitmap));
+                        imageInfoBean.setPhotoUrl(file.getAbsolutePath());
+                        mPhotoInfos.add(imageInfoBean);
+                        addLastImageBtn(mPhotoInfos);
+                        mImageViewRecycleAdapter.setDate(mPhotoInfos);
+                        mImageViewRecycleAdapter.notifyDataSetChanged();
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        // TODO 当压缩过程出现问题时调用
+                        System.out.println(e);
+                    }
+                }).launch();
+    }
+
 
     /**
      * @param list 图片列表
@@ -325,10 +419,12 @@ public class LiveAddPicActivity extends AbstractMvpBaseActivity<AddLivePhotoCont
             String photo = list.get(i).getPhoto();
             if (StringUtils.isNotEmpty(photo)) {
                 if (i == list.size() - 1) {
-                    stringBuilder.append("data:image/jpg;base64,"+list.get(i).getPhoto());
+                    stringBuilder.append("data:image/jpg;base64,")
+                            .append(list.get(i).getPhoto());
                     flag = true;
                 } else {
-                    stringBuilder.append("data:image/jpg;base64,"+list.get(i).getPhoto()).append("^");
+                    stringBuilder.append("data:image/jpg;base64,")
+                            .append(list.get(i).getPhoto()).append("^");
                     flag = true;
                 }
             }
