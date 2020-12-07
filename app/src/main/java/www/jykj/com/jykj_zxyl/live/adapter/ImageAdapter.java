@@ -51,18 +51,21 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
 
            viewHolder.delete_img.setVisibility(View.VISIBLE);
            if ("ADDPHOTO".equals(datas.get(position).getPhotoID())) {
-               viewHolder.mImageView.setBackgroundResource(R.mipmap.addphoto);
+            //   viewHolder.mImageView.setBackgroundResource(R.mipmap.pz);
                Log.i("执行", "执行Add:" + position);
                viewHolder.delete_img.setVisibility(View.GONE);
+               viewHolder.img_view.setVisibility(View.VISIBLE);
            } else if (datas.get(position).getPhoto() != null) {
                viewHolder.mImageView.setImageBitmap(BitmapUtil.stringtoBitmap(datas.get(position).getPhoto()));
                Log.i("执行", "执行:" + position);
                viewHolder.delete_img.setVisibility(View.VISIBLE);
+               viewHolder.img_view.setVisibility(View.GONE);
            } else if (StrUtils.defaultStr(datas.get(position).getPhotoUrl()).length() > 0) {
                Glide.with(viewHolder.mImageView.getContext()).load(datas.get(position).getPhotoUrl())
                        .apply(RequestOptions.placeholderOf(com.hyphenate.easeui.R.mipmap.docter_heard)
                                .diskCacheStrategy(DiskCacheStrategy.ALL))
                        .into(viewHolder.mImageView);
+               viewHolder.img_view.setVisibility(View.GONE);
 
        }
 
@@ -113,12 +116,14 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
     //自定义的ViewHolder，持有每个Item的的所有界面元素
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public ImageView mImageView,delete_img;            //
+        public ImageView mImageView,delete_img,img_view;            //
 
         public ViewHolder(View view) {
             super(view);
             mImageView = (ImageView) view.findViewById(R.id.iv_itempublishActivity_addPicture);
             delete_img = (ImageView) view.findViewById(R.id.iv_delete_btn);
+            img_view = (ImageView) view.findViewById(R.id.img_view);
+
         }
     }
 

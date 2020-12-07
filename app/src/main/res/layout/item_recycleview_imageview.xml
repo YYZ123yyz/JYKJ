@@ -3,6 +3,14 @@
     android:orientation="vertical" android:layout_width="115dp"
     android:layout_height="110dp">
     <ImageView
+        android:id="@+id/img_view"
+        android:layout_marginTop="@dimen/dp_40"
+        android:layout_centerHorizontal="true"
+        android:src="@mipmap/pz"
+        android:scaleType="fitXY"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <ImageView
         android:layout_marginLeft="@dimen/dp10"
         android:layout_width="110dp"
         android:layout_height="100dp"
