@@ -3,7 +3,44 @@
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:orientation="vertical"
     android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/groabColor"
+        >
+        <LinearLayout
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:id="@+id/li_activityAuthentication_back"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="10dp"
+                android:layout_height="20dp"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="15dp"
+                android:src="@mipmap/arrow_left"/>
+        </LinearLayout>
+        <TextView
+            android:text="个人认证"
+            android:textSize="10pt"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:textColor="@color/writeColor"
+            android:layout_height="wrap_content"/>
 
+        <ImageButton
+            android:id="@+id/right_image_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:gravity="center"
+            android:src="@mipmap/icon_add_small"
+            />
+    </RelativeLayout>
 
     <ScrollView
         android:background="@color/pBackColor"
@@ -15,57 +52,95 @@
             android:layout_height="match_parent"
             android:layout_marginBottom="60dp"
             android:orientation="vertical">
-            <RelativeLayout
+            <!--进度条-->
+        <LinearLayout
+            android:id="@+id/lin_schedule"
+            android:layout_marginBottom="@dimen/dp_20"
+            android:layout_marginTop="@dimen/dp_20"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/img_status"
+                android:layout_marginLeft="@dimen/dp_30"
+                android:layout_marginRight="@dimen/dp_30"
+                android:src="@mipmap/sh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <!--状态-->
+            <LinearLayout
+                android:id="@+id/lin_status"
+                android:layout_marginTop="@dimen/dp10"
+                android:layout_marginLeft="@dimen/dp10"
+                android:layout_marginRight="18dp"
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:background="@color/groabColor"
-                >
-                <LinearLayout
-                    android:layout_width="60dp"
-                    android:layout_height="match_parent"
-                    android:id="@+id/li_activityAuthentication_back"
-                    android:orientation="horizontal">
-                    <ImageView
-                        android:layout_width="10dp"
-                        android:layout_height="20dp"
-                        android:layout_centerVertical="true"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="15dp"
-                        android:src="@mipmap/arrow_left"/>
-                </LinearLayout>
+                android:layout_height="wrap_content">
                 <TextView
-                    android:text="个人认证"
-                    android:textSize="10pt"
-                    android:layout_centerInParent="true"
+                    android:layout_weight="1"
+                    android:textColor="#000000"
+                    android:text="提交资料"
                     android:layout_width="wrap_content"
-                    android:textColor="@color/writeColor"
                     android:layout_height="wrap_content"/>
-
-                <ImageButton
-                    android:id="@+id/right_image_search"
+                <TextView
+                    android:textColor="#000000"
+                    android:layout_weight="1"
+                    android:text="审核中"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@null"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="10dp"
-                    android:gravity="center"
-                    android:src="@mipmap/icon_add_small"
-                    />
-            </RelativeLayout>
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:id="@+id/success"
+                    android:textColor="#000000"
+                    android:text="审核成功"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+            <!--时间-->
+            <LinearLayout
+                android:id="@+id/lin_time"
+                android:layout_marginRight="@dimen/dp10"
+                android:layout_marginLeft="@dimen/dp10"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:textColor="#000"
+                    android:text=""
+                  android:maxEms="5"
+                    android:id="@+id/tv_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:id="@+id/tv_too"
+                    android:text=""
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+        </LinearLayout>
+
+
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="50dp"
                 android:background="@color/writeColor"
                 android:orientation="horizontal">
                 <TextView
-                    android:textColor="#000"
+                    android:textColor="#333333"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="请上传您的身份证正反面照片"
                     android:layout_marginLeft="10dp"
-                    android:textSize="7pt"
+                    android:textSize="15sp"
                     android:layout_gravity="center_vertical"/>
+                <TextView
+                    android:layout_gravity="center_vertical"
+                    android:textColor="#DD0000"
+                    android:text="(*必传)"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -88,6 +163,7 @@
                         android:id="@+id/iv_idcardFont"
                         android:src="@mipmap/idcard_front"/>
                     <ImageView
+                        android:id="@+id/iv_idcardFont_img"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:layout_centerInParent="true"
@@ -108,6 +184,7 @@
                         android:id="@+id/iv_idcardBack"
                         android:src="@mipmap/idcard_verso"/>
                     <ImageView
+                        android:id="@+id/iv_idcardBack_img"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:layout_centerInParent="true"
@@ -142,67 +219,29 @@
                     />
 
             </LinearLayout>
-            <TextView
-                android:textColor="#000"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/writeColor"
-                android:layout_marginTop="15dp"
-                android:layout_gravity="center"
-                android:text="请上传医师认证资料，至少上传其中一项"
-                android:gravity="center_vertical"
-                android:textSize="7pt"
-                android:paddingLeft="10dp"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/writeColor"
-                android:layout_gravity="center"
-                android:textColor="@color/colorRed"
-                android:text="(请保持证件号清晰可见，最多可上传4张照片)"
-                android:paddingTop="5dp"
-                android:gravity="center_vertical"
-                android:textSize="6pt"
-                android:paddingLeft="10dp"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:background="@color/writeColor"
-                android:orientation="horizontal">
-                <TextView
-                    android:textColor="#000"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:textSize="7pt"
-                    android:layout_gravity="center"
-                    android:text="1.医师执业证"
-                    />
-
-                <TextView
-                    android:textColor="#000"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textSize="7pt"
-                    android:gravity="center"
-                    android:layout_gravity="center"
-                    android:text="2.医师资格证"
-                    />
-                <TextView
-                    android:textColor="#000"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textSize="7pt"
-                    android:gravity="center"
-                    android:layout_gravity="center"
-                    android:text="3.医师职称证"
-                    />
-
-            </LinearLayout>
+  <LinearLayout
+      android:orientation="horizontal"
+      android:background="#fff"
+      android:layout_marginTop="15dp"
+      android:layout_width="match_parent"
+      android:layout_height="40dp">
+      <TextView
+          android:textColor="#000"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:background="@color/writeColor"
+          android:layout_gravity="center"
+          android:text="请上传您的医师认证资料,请保持证件号清晰可见"
+          android:gravity="center_vertical"
+          android:textSize="13sp"
+          android:paddingLeft="10dp"/>
+      <TextView
+          android:layout_gravity="center"
+          android:textColor="#DD0000"
+          android:text="(*必传)"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"/>
+  </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -241,8 +280,32 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="10dp"
+                        android:id="@+id/iv_zcz"
+                        android:src="@mipmap/zcz"/>
+                    <ImageView
+                        android:id="@+id/iv_zcz_img"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_centerInParent="true"
+                        android:src="@mipmap/photograph"/>
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="@dimen/dp_104"
+                    android:layout_height="wrap_content"
+                    android:background="@color/pBackColor"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp">
+
+                    <ImageView
                         android:id="@+id/iv_zgz"
-                        android:src="@mipmap/zgz"/>
+                        android:layout_width="77dp"
+                        android:layout_height="92dp"
+                        android:layout_centerInParent="true"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        android:src="@mipmap/gongzuo" />
                     <ImageView
                         android:id="@+id/iv_zgz_img"
                         android:layout_width="40dp"
@@ -250,8 +313,7 @@
                         android:layout_centerInParent="true"
                         android:src="@mipmap/photograph"/>
                 </RelativeLayout>
-
-                <RelativeLayout
+               <!-- <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -262,89 +324,104 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="10dp"
-                        android:id="@+id/iv_zcz"
-                        android:src="@mipmap/zcz"/>
+                        android:id="@+id/iv_zgz"
+                        android:src="@mipmap/zgz"/>
                     <ImageView
-                        android:id="@+id/iv_zcz_img"
+                        android:id="@+id/iv_zgz_img"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:layout_centerInParent="true"
                         android:src="@mipmap/photograph"/>
-                </RelativeLayout>
+                </RelativeLayout>-->
+
+
+
 
 
             </LinearLayout>
 
-
             <LinearLayout
-                android:id="@+id/lin"
-                android:layout_marginTop="20dp"
-                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="70dp"
+                android:background="@color/writeColor"
+                android:orientation="horizontal">
+                <TextView
+                    android:textColor="#000"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textSize="7pt"
+                    android:layout_gravity="center"
+                    android:text="1.医师执业证"
+                    />
 
-            <LinearLayout
-                android:id="@+id/lin_sumbit"
-                android:layout_marginLeft="10dp"
-                android:layout_width="wrap_content"
-                android:orientation="horizontal"
-                android:layout_height="wrap_content">
                 <TextView
                     android:textColor="#000"
-                    android:text="提交状态:"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"></TextView>
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="7pt"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:text="2.医师职称证"
+                    />
                 <TextView
                     android:textColor="#000"
-                    android:id="@+id/submit_state"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"></TextView>
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="7pt"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:text="3.医师工作证"
+                    />
+
             </LinearLayout>
+
+            <!--其他相关证书-->
             <LinearLayout
-                android:id="@+id/lin_data"
-                android:layout_marginLeft="10dp"
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:textColor="#000"
-                    android:text="提交日期:"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                android:orientation="vertical"
+                android:layout_marginTop="@dimen/dp10"
+                android:background="#fff"
+                android:layout_width="match_parent"
+                android:layout_height="223.5dp">
+                <LinearLayout
+                    android:layout_marginTop="@dimen/dp17"
+                    android:layout_marginLeft="@dimen/dp14"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
                     <TextView
-                        android:textColor="#000"
-                        android:id="@+id/sumbit_data"
+                        android:textColor="#333"
+                        android:textSize="15sp"
+                        android:text="请上传其他相关证件"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
-            </LinearLayout>
-            <LinearLayout
-                android:id="@+id/lin_status"
-                android:layout_marginLeft="10dp"
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:textColor="#000"
-                    android:text="审核状态:"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-                <TextView
-                    android:textColor="#000"
-                    android:id="@+id/status"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-            </LinearLayout>
+                    <TextView
+                        android:textSize="13sp"
+                        android:text="（最多不超过3张）"
+                        android:textColor="#DD0000"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_img"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
             </LinearLayout>
 
             <Button
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="33dp"
                 android:layout_margin="60dp"
                 android:background="@mipmap/bg2"
                 android:id="@+id/bt_commit"
                 android:textColor="@color/writeColor"
-                android:textSize="10pt"
-                android:text="确认提交"/>
+                android:textSize="15sp"
+                android:text="提交"/>
         </LinearLayout>
     </ScrollView>
 

@@ -15,7 +15,9 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.StrictMode;
 import android.provider.MediaStore;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -34,6 +36,9 @@ import com.google.gson.Gson;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import entity.mySelf.ProvideViewSysUserDoctorInfoAndHospital;
 import entity.mySelf.UpLoadImgParment;
@@ -47,8 +52,11 @@ import www.jykj.com.jykj_zxyl.app_base.base_activity.BaseActivity;
 import www.jykj.com.jykj_zxyl.application.Constant;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.custom.MoreFeaturesPopupWindow;
+import www.jykj.com.jykj_zxyl.live.adapter.ImageAdapter;
 import www.jykj.com.jykj_zxyl.util.ActivityUtil;
 import www.jykj.com.jykj_zxyl.util.BitmapUtil;
+import www.jykj.com.jykj_zxyl.util.DateUtils;
+import www.jykj.com.jykj_zxyl.util.FullyGridLayoutManager;
 import www.jykj.com.jykj_zxyl.util.ImageViewUtil;
 import www.jykj.com.jykj_zxyl.util.Util;
 import yyz_exploit.bean.ProvideDoctorQualification;
@@ -93,16 +101,29 @@ public class UserAuthenticationActivity extends BaseActivity {
     private ProvideDoctorQualification provideDoctorQualification;
     private NetRetEntity netRetEntity;
     private LinearLayout lin;
-    private TextView submit_state;
-    private TextView sumbit_data;
-    private TextView status;
     private ImageView iv_zyz_img;
     private ImageView iv_zgz_img;
     private ImageView iv_zcz_img;
     private LinearLayout lin_data;
     private ImageButton ivAdd;
     private MoreFeaturesPopupWindow mPopupWindow;
-
+    private RecyclerView mImageRecycleView;
+    private FullyGridLayoutManager mGridLayoutManager;
+    private List<Photo_Info> mPhotoInfos = new ArrayList<>();
+    private ImageAdapter mImageAdapter;
+    private ImageView img_status;
+    private LinearLayout lin_status;
+    private LinearLayout lin_time;
+    private TextView tv_time;
+    private ArrayList<String> imageArrList = new ArrayList<String>();
+    private ArrayList<String> updataArrList = new ArrayList<String>();
+    private boolean isUpdata = false;
+    private TextView success;
+    private LinearLayout lin_schedule;
+    private TextView tv_too;
+    private String imgId;
+    private ImageView iv_idcardFont_img;
+    private ImageView iv_idcardBack_img;
 
     /**
      * 创建临时文件夹 _tempphoto
@@ -135,13 +156,13 @@ public class UserAuthenticationActivity extends BaseActivity {
         initDir();
         initHandler();
         initLayout();
-        getDate();
+        getData();
     }
 
     /**
      * 加载数据
      */
-    private void getDate() {
+    private void getData() {
         getProgressBar("请稍候", "正在加载数据。。。");
         //开始识别
         new Thread() {
@@ -154,9 +175,8 @@ public class UserAuthenticationActivity extends BaseActivity {
                     upLoadImgParment.setOperDoctorName(mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
                     String str = new Gson().toJson(upLoadImgParment);
                     mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + str, Constant.SERVICEURL + "doctorPersonalSetControlle/getUserDoctorQualificationImg");
-                    System.out.println("~~~~~~~~~~~~~返回~~~~~~~~~~~~~~" + mRetString);
+                    Log.e("TAG", "run:  返回   "+mNetRetStr );
                     NetRetEntity netRetEntity = new Gson().fromJson(mNetRetStr, NetRetEntity.class);
-                    Log.e("tag", "run:vvv "+mNetRetStr );
                     if (netRetEntity.getResCode() == 0) {
                         NetRetEntity retEntity = new NetRetEntity();
                         retEntity.setResCode(0);
@@ -194,61 +214,110 @@ public class UserAuthenticationActivity extends BaseActivity {
                         cacerProgress();
                         netRetEntity = JSON.parseObject(mNetRetStr, NetRetEntity.class);
                         if(netRetEntity.getResCode()==0) {
-                            lin.setVisibility(View.GONE);
+                          //  lin.setVisibility(View.GONE);
                         }else{
                             provideDoctorQualification = JSON.parseObject(JSON.parseObject(mNetRetStr, NetRetEntity.class).getResJsonData(), ProvideDoctorQualification.class);
-                            if(provideDoctorQualification.getFlagSubmitState()==1){
-                                submit_state.setText("已提交");
-                            }else{
-                                submit_state.setText("未提交");
+                            imgId = provideDoctorQualification.getImgId();
+                            //提交状态
+                            Integer flagSubmitState = provideDoctorQualification.getFlagSubmitState();
+                            //提交日期
+                            long submitDate = provideDoctorQualification.getSubmitDate();
+                            //审批状态
+                            Integer flagApplyState = provideDoctorQualification.getFlagApprovalState();
+                            //拒绝
+                            String refuseReason = provideDoctorQualification.getRefuseReason();
+                            //审核日期
+                            long approvalDate = provideDoctorQualification.getApprovalDate();
+
+                            if(flagSubmitState==0){
+                                mCommit.setVisibility(View.VISIBLE);
+                                lin_schedule.setVisibility(View.GONE);
+                            }else if(flagSubmitState==1){
+                                img_status.setImageDrawable(getResources().getDrawable(R.mipmap.tj));
+                                mCommit.setVisibility(View.GONE);
+                                lin_time.setVisibility(View.VISIBLE);
+                                lin_schedule.setVisibility(View.VISIBLE);
+                                tv_too.setVisibility(View.GONE);
+                              //  success.setVisibility(View.GONE);
+                                tv_time.setText(DateUtils.getDateToStringYYYMMDDHHMMSS(submitDate));
+                                tv_time.setVisibility(View.VISIBLE);
+                                //审核已提交
+                                if(flagApplyState==1){
+                                    img_status.setImageDrawable(getResources().getDrawable(R.mipmap.shz));
+                                    mCommit.setVisibility(View.GONE);
+                                }
+                                //审批未通过
+                                else if(flagApplyState==2){
+                                    mCommit.setVisibility(View.VISIBLE);
+                                    tv_too.setVisibility(View.VISIBLE);
+                                    success.setVisibility(View.VISIBLE);
+                                    success.setText("审核失败");
+                                    img_status.setImageDrawable(getResources().getDrawable(R.mipmap.shsb));
+                                    tv_too.setText(refuseReason);
+                                }
+                                //审批已通过
+                                else if(flagApplyState==3){
+                                    mCommit.setVisibility(View.GONE);
+                                    tv_too.setVisibility(View.VISIBLE);
+                                    success.setVisibility(View.VISIBLE);
+                                    success.setText("审核成功");
+                                    img_status.setImageDrawable(getResources().getDrawable(R.mipmap.shcg));
+                                    tv_too.setText(DateUtils.getDateToStringYYYMMDDHHMMSS(approvalDate));
+                                }
+                                //审批状态  未提交
+                                else if(flagApplyState==0){
+                                    lin_schedule.setVisibility(View.GONE);
+                                    mCommit.setVisibility(View.VISIBLE);
+                                }
                             }
-                            if(provideDoctorQualification.getSubmitDate()!=null){
-                                sumbit_data.setText(Util.dateToStr(provideDoctorQualification.getSubmitDate()));
-                            }else{
-                                lin_data.setVisibility(View.GONE);
-                            }
-                            if(provideDoctorQualification.getFlagApplyState()==0){
-                                status.setText("待处理");
-                            }else if(provideDoctorQualification.getFlagApplyState()==1){
-                                status.setText("未通过");
-                            }else if(provideDoctorQualification.getFlagApplyState()==2){
-                                status.setText("已过期");
-                            }else if(provideDoctorQualification.getFlagApplyState()==0){
-                                status.setText("通过");
-                            }
-//                            mIDCardFont = (ImageView) this.findViewById(R.id.iv_idcardFont);
-//                            mIDCardBack = (ImageView) this.findViewById(R.id.iv_idcardBack);
-//                            iv_zyz_img = findViewById(R.id.iv_zyz_img);
-//                            iv_zgz_img = findViewById(R.id.iv_zgz_img);
-//                            iv_zcz_img = findViewById(R.id.iv_zcz_img);
-//                            mIDCardFont = (ImageView) this.findViewById(R.id.iv_idcardFont);
-//                            mIDCardBack = (ImageView) this.findViewById(R.id.iv_idcardBack);
-                            //
+
                             if(!TextUtils.isEmpty(provideDoctorQualification.getIdNumberPositiveImgUrl())){
                                 ImageViewUtil.showImageView(mActivity, provideDoctorQualification.getIdNumberPositiveImgUrl(), mIDCardFont);
+                                iv_idcardFont_img.setVisibility(View.GONE);
                             }
                             if(!TextUtils.isEmpty(provideDoctorQualification.getIdNumberSideImgUrl())){
                                 ImageViewUtil.showImageView(mActivity, provideDoctorQualification.getIdNumberSideImgUrl(), mIDCardBack);
+                                iv_idcardBack_img.setVisibility(View.GONE);
                             }
                             if(!TextUtils.isEmpty(provideDoctorQualification.getPractisingImgUrl())){
-//                                Bitmap bm = BitmapFactory.decodeFile(provideDoctorQualification.getPractisingImgUrl());
-//                                mZYZImage.setImageBitmap(bm);
                                 ImageViewUtil.showImageView(mActivity, provideDoctorQualification.getPractisingImgUrl(), mZYZImage);
                                 iv_zyz_img.setVisibility(View.GONE);
                             }
+                            if(!TextUtils.isEmpty(provideDoctorQualification.getWorkCardImgUrl())){
+                                ImageViewUtil.showImageView(mActivity, provideDoctorQualification.getWorkCardImgUrl(),mZGZImage );
+                                iv_zgz_img .setVisibility(View.GONE);
+                            }
                             if(!TextUtils.isEmpty(provideDoctorQualification.getProfessionalImgUrl())){
-//                                Bitmap bm = BitmapFactory.decodeFile(provideDoctorQualification.getProfessionalImgUrl());
-//                                mZGZImage.setImageBitmap(bm);
-                                ImageViewUtil.showImageView(mActivity, provideDoctorQualification.getProfessionalImgUrl(), mZGZImage);
-                                iv_zgz_img.setVisibility(View.GONE);
+                                ImageViewUtil.showImageView(mActivity, provideDoctorQualification.getProfessionalImgUrl(),mZCZImage );
+                                iv_zcz_img  .setVisibility(View.GONE);
                             }
-                            if(!TextUtils.isEmpty(provideDoctorQualification.getQualificationImgUrl())){
-//                                Bitmap bm = BitmapFactory.decodeFile(provideDoctorQualification.getQualificationImgUrl());
-//                                mZCZImage.setImageBitmap(bm);
-                                ImageViewUtil.showImageView(mActivity, provideDoctorQualification.getQualificationImgUrl(), mZCZImage);
-                                iv_zcz_img.setVisibility(View.GONE);
-                            }
+                            //图片路径
+                            String otherCard1ImgUrl = provideDoctorQualification.getOtherCard1ImgUrl();
+                            Log.e("TAG", "handleMessage:  图片地址  "+otherCard1ImgUrl );
+                            if (otherCard1ImgUrl.contains("^")) {
+                              //  String s = otherCard1ImgUrl.replaceAll("^^", ",");
+                                String[] split = otherCard1ImgUrl.split("\\^");
+                                for (int i = 0; i < split.length; i++) {
+                                    Photo_Info photo_info = new Photo_Info();
+                                    photo_info.setPhotoUrl(split[i]);
+                                    photo_info.setStatus("2");
+                                    mPhotoInfos.add(photo_info);
+                                    Log.e("TAG", "handleMessage:   vvvv  "+photo_info.getPhotoUrl() );
+                                }
 
+                                Log.e("TAG", "handleMessage:  分割  "+mPhotoInfos.size() );
+                            } else {
+                                if (!TextUtils.isEmpty(otherCard1ImgUrl)) {
+                                    Photo_Info photo_info = new Photo_Info();
+                                    photo_info.setStatus("2");
+                                    photo_info.setPhotoUrl(otherCard1ImgUrl);
+                                    mPhotoInfos.add(photo_info);
+                                    Log.e("TAG", "handleMessage: ccc"+mPhotoInfos.size() );
+                                }
+
+                            }
+                            mImageAdapter.setDate(mPhotoInfos);
+                            mImageAdapter.notifyDataSetChanged();
                         }
 
                         break;
@@ -259,11 +328,9 @@ public class UserAuthenticationActivity extends BaseActivity {
                         cacerProgress();
                         netRetEntity = JSON.parseObject(mNetRetStr, NetRetEntity.class);
                         if (netRetEntity.getResCode() == 0) {
-                            Log.e("tag", "handleMessage: "+"失败" );
                             Toast.makeText(mContext, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
                             return;
                         } else {
-                            Log.e("tag", "handleMessage: "+mPhotoType+"" );
                             switch (mPhotoType) {
 
                                 case 1:
@@ -275,11 +342,11 @@ public class UserAuthenticationActivity extends BaseActivity {
                                 case 3:
                                     Glide.with(mContext).load(BitmapUtil.stringtoBitmap(mPhotoBitmapString)).into(mZYZImage);
                                     break;
-                                case 4:
-                                    Glide.with(mContext).load(BitmapUtil.stringtoBitmap(mPhotoBitmapString)).into(mZGZImage);
-                                    break;
                                 case 5:
                                     Glide.with(mContext).load(BitmapUtil.stringtoBitmap(mPhotoBitmapString)).into(mZCZImage);
+                                    break;
+                                case 6:
+                                    Glide.with(mContext).load(BitmapUtil.stringtoBitmap(mPhotoBitmapString)).into(mZGZImage);
                                     break;
                             }
                         }
@@ -290,6 +357,7 @@ public class UserAuthenticationActivity extends BaseActivity {
                         cacerProgress();
                         netRetEntity = JSON.parseObject(mNetRetStr, NetRetEntity.class);
                         Toast.makeText(mContext, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
+                        finish();
                         break;
                 }
             }
@@ -300,7 +368,7 @@ public class UserAuthenticationActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         if (requestCode == mIDCardFrontRequstCode && resultCode == RESULT_OK) {
-            getProgressBar("请稍候", "正在处理。。。");
+//            getProgressBar("请稍候", "正在处理。。。");
             new Thread() {
                 public void run() {
                     String bitmapString = mApp.gBitMapString;
@@ -311,7 +379,7 @@ public class UserAuthenticationActivity extends BaseActivity {
 
         }
         if (requestCode == mIDCardBackRequstCode && resultCode == RESULT_OK) {
-            getProgressBar("请稍候", "正在处理。。。");
+//            getProgressBar("请稍候", "正在处理。。。");
             new Thread() {
                 public void run() {
                     String bitmapString = mApp.gBitMapString;
@@ -321,15 +389,18 @@ public class UserAuthenticationActivity extends BaseActivity {
 
         }
         try {
-
             // 如果是直接从相册获取
             if (requestCode == Constant.SELECT_PIC_FROM_ALBUM
                     && resultCode == RESULT_OK
                     && data != null) {
+                if(mCurrentPhoto==6){
+                       setPicToView(data);
 
+                }
                 final Uri uri = data.getData();//返回相册图片的Uri
+                BitmapUtil.startPhotoZoom(mActivity, uri, 450);
                 final Bitmap[] photo = new Bitmap[1];
-                getProgressBar("请稍候", "正在处理。。。");
+//                getProgressBar("请稍候", "正在处理。。。");
                 new Thread() {
                     public void run() {
                         if (uri != null) {
@@ -352,12 +423,15 @@ public class UserAuthenticationActivity extends BaseActivity {
                                 upLoadImg(3, BitmapUtil.bitmaptoString(photo[0]));
                                 break;
                             case 2:
-                                upLoadImg(4, BitmapUtil.bitmaptoString(photo[0]));
-                                break;
-                            case 3:
                                 upLoadImg(5, BitmapUtil.bitmaptoString(photo[0]));
                                 break;
+                            case 3:
+                                upLoadImg(6, BitmapUtil.bitmaptoString(photo[0]));
+                                break;
+                            case 6:
+                                break;
                         }
+
                     }
                 }.start();
             }
@@ -365,7 +439,10 @@ public class UserAuthenticationActivity extends BaseActivity {
             // 处理拍照返回
             if (requestCode == Constant.SELECT_PIC_BY_TACK_PHOTO
                     && resultCode == RESULT_OK) {// 拍照成功 RESULT_OK= -1
-                getProgressBar("请稍候", "正在处理。。。");
+                if(mCurrentPhoto==6){
+                    setPicToView(data);
+
+                }
                 new Thread() {
                     public void run() {
                         Bitmap photo = null;
@@ -379,10 +456,13 @@ public class UserAuthenticationActivity extends BaseActivity {
                                 upLoadImg(3, BitmapUtil.bitmaptoString(photo));
                                 break;
                             case 2:
-                                upLoadImg(4, BitmapUtil.bitmaptoString(photo));
+                                upLoadImg(5, BitmapUtil.bitmaptoString(photo));
                                 break;
                             case 3:
-                                upLoadImg(5, BitmapUtil.bitmaptoString(photo));
+                                upLoadImg(6, BitmapUtil.bitmaptoString(photo));
+                                break;
+                            case 6:
+                              //  setPicToView(data);
                                 break;
                         }
                     }
@@ -390,6 +470,28 @@ public class UserAuthenticationActivity extends BaseActivity {
             }
         } catch (Exception e) {
             Log.i("yi", "yichahahaha");
+        }
+    }
+    //listview集合显示
+    private void setPicToView(Intent data) {
+        Bitmap photo;
+        try {
+            Uri u = data.getData();
+            if (u != null) {
+                photo = BitmapFactory.decodeStream(getContentResolver().openInputStream(data.getData()));//将imageUri对象的图片加载到内存
+            } else {
+                System.out.println("进来了");
+                photo = BitmapFactory.decodeStream(getContentResolver().openInputStream(Uri.fromFile(new File(Environment.getExternalStorageDirectory(), "test.jpg"))));//将imageUri对象的图片加载到内存
+            }
+            System.out.println("图片：" + photo);
+            Photo_Info photo_info = new Photo_Info();
+            photo_info.setPhoto(BitmapUtil.bitmaptoString(photo));
+            mPhotoInfos.add(photo_info);
+            mImageAdapter.setDate(mPhotoInfos);
+            mImageAdapter.notifyDataSetChanged();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         }
     }
 
@@ -456,18 +558,107 @@ public class UserAuthenticationActivity extends BaseActivity {
      * 初始化布局
      */
     private void initLayout() {
-        lin_data = findViewById(R.id.lin_data);
+        iv_idcardFont_img = findViewById(R.id.iv_idcardFont_img);
+        iv_idcardBack_img = findViewById(R.id.iv_idcardBack_img);
+        //原因
+        tv_too = findViewById(R.id.tv_too);
+        //进度条布局
+        lin_schedule = findViewById(R.id.lin_schedule);
+        //tv
+        success = findViewById(R.id.success);
+        //进度条
+        img_status = findViewById(R.id.img_status);
+        //状态
+        lin_status = findViewById(R.id.lin_status);
+        //提交时间
+        lin_time = findViewById(R.id.lin_time);
+        tv_time = findViewById(R.id.tv_time);
+        //照片listview
+        mImageRecycleView = (RecyclerView) this.findViewById(R.id.rv_img);
+        mGridLayoutManager = new FullyGridLayoutManager(mContext, 3);
+        mGridLayoutManager.setOrientation(LinearLayout.VERTICAL);
+        mImageRecycleView.setLayoutManager(mGridLayoutManager);
+        //如果可以确定每个item的高度是固定的，设置这个选项可以提高性能
+        mImageRecycleView.setHasFixedSize(true);
+        //创建并设置Adapter
+        final Photo_Info photo_info = new Photo_Info();
+        photo_info.setPhotoID("ADDPHOTO");
+        mPhotoInfos.add(photo_info);
+        mImageAdapter = new ImageAdapter(mPhotoInfos,mApp);
+        mImageRecycleView.setAdapter(mImageAdapter);
+        mImageAdapter.setOnItemClickListener(new ImageAdapter.OnItemClickListener() {
+            @Override
+            public void onClick(final int position) {
+                mCurrentPhoto = 6;
+                if ("ADDPHOTO".equals(mPhotoInfos.get(position).getPhotoID())) {
+                    if (mPhotoInfos.size() >= 4) {
+                        Toast.makeText(mContext, "照片不超过三张", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    String[] items = {"拍照", "从相册选择"};
+                    Dialog dialog = new AlertDialog.Builder(mContext)
+                            .setItems(items, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    switch (i) {
+                                        case 0:
+                                            StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+                                            StrictMode.setVmPolicy(builder.build());
+                                            builder.detectFileUriExposure();
+                                            // 添加Action类型：MediaStore.ACTION_IMAGE_CAPTURE
+                                            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                                            // 指定调用相机拍照后照片(结果)的储存路径
+                                            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(mTempFile));
+                                            // 等待返回结果
+                                            startActivityForResult(intent, Constant.SELECT_PIC_BY_TACK_PHOTO);
+                                            break;
+                                        case 1:
+                                            BitmapUtil.selectAlbum(mActivity);//从相册选择
+                                            break;
+                                    }
+                                }
+                            }).show();
+                } else {
+                    Dialog dialog = new AlertDialog.Builder(mContext)
+                            .setMessage("删除该照片")
+                            .setPositiveButton("是", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+
+                                    String photoID = mPhotoInfos.get(position).getPhotoID();
+                                    if (!updataArrList.contains(photoID)) {
+                                        updataArrList.add(photoID);
+                                    }
+
+                                    mPhotoInfos.remove(position);
+                                    if (mPhotoInfos.size() == 0) {
+                                        Photo_Info photo_info1 = new Photo_Info();
+                                        photo_info1.setPhotoID("ADDPHOTO");
+                                        mPhotoInfos.add(photo_info1);
+                                    }
+                                    mImageAdapter.setDate(mPhotoInfos);
+                                    mImageAdapter.notifyDataSetChanged();
+                                }
+                            }).setNegativeButton("否", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+
+                                }
+                            }).show();
+                }
+            }
+
+            @Override
+            public void onLongClick(int position) {
+
+            }
+        });
+
+
+
+       /* lin_data = findViewById(R.id.lin_data);
         //提交状态的布局
-        lin = findViewById(R.id.lin);
-
-        //提交状态
-        submit_state = findViewById(R.id.submit_state);
-
-        //提交日期
-        sumbit_data = findViewById(R.id.sumbit_data);
-
-        //申请状态
-        status = findViewById(R.id.status);
+        lin = findViewById(R.id.lin);*/
         ivAdd = findViewById(R.id.right_image_search);
         ivAdd.setOnClickListener(new ButtonClick());
 
@@ -509,7 +700,6 @@ public class UserAuthenticationActivity extends BaseActivity {
                 case R.id.li_activityAuthentication_back:
                     finish();
                     break;
-
                 case R.id.right_image_search:
                     if (mPopupWindow ==null){
                         mPopupWindow = new MoreFeaturesPopupWindow(UserAuthenticationActivity.this);
@@ -560,7 +750,7 @@ public class UserAuthenticationActivity extends BaseActivity {
                             }).show();
                     break;
                 case R.id.iv_zgz:
-                    mCurrentPhoto = 2;
+                    mCurrentPhoto = 3;
                     String[] items2 = {"拍照", "从相册选择"};
                     Dialog dialog2 = new android.support.v7.app.AlertDialog.Builder(mContext)
                              .setItems(items2, new DialogInterface.OnClickListener() {
@@ -586,7 +776,7 @@ public class UserAuthenticationActivity extends BaseActivity {
                             }).show();
                     break;
                 case R.id.iv_zcz:
-                    mCurrentPhoto = 3;
+                    mCurrentPhoto = 2;
                     String[] items3 = {"拍照", "从相册选择"};
                     Dialog dialog3 = new android.support.v7.app.AlertDialog.Builder(mContext)
                             .setItems(items3, new DialogInterface.OnClickListener() {
@@ -630,16 +820,47 @@ public class UserAuthenticationActivity extends BaseActivity {
             public void run() {
 //                //提交数据
                 try {
+                    StringBuilder photoUrl = new StringBuilder();
+                    if (mPhotoInfos.size() > 0) {
+
+                        for (int i = 1; i < mPhotoInfos.size(); i++) {
+                            if (mPhotoInfos.get(i) != null) {
+                                photoUrl.append("data:image/jpg;base64,");
+                                String photo = mPhotoInfos.get(i).getPhoto();
+                                Log.e("TAG", "run:  图片  "+photo );
+                                if (i == mPhotoInfos.size() - 1) {
+                                    photoUrl.append(photo);
+                                } else {
+                                    photoUrl.append(photo).append("^");
+                                }
+
+                            }
+                        }
+
+
+                    }
                     UpLoadImgParment upLoadImgParment = new UpLoadImgParment();
                     upLoadImgParment.setLoginDoctorPosition(mApp.loginDoctorPosition);
                     upLoadImgParment.setOperDoctorCode(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
                     upLoadImgParment.setOperDoctorName(mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
-                    String str = new Gson().toJson(upLoadImgParment);
-                    System.out.println("~~~~~~~~~~~~~开始提交了~~~~~~~~~~~~~~");
-                    mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + str, Constant.SERVICEURL + "doctorPersonalSetControlle/operSubmitDoctorQualification");
-                    System.out.println("~~~~~~~~~~~~~返回~~~~~~~~~~~~~~" + mRetString);
-                    NetRetEntity netRetEntity = new Gson().fromJson(mNetRetStr, NetRetEntity.class);
 
+                    upLoadImgParment.setImgIdArray("");
+                    if (photoUrl.toString().contains("null")) {
+                        upLoadImgParment.setImgBase64Array("");
+                    }else{
+                        Log.e("TAG", "run: bbbb"+photoUrl.toString() );
+                        upLoadImgParment.setImgBase64Array(photoUrl.toString());
+                    }
+                    Log.e("TAG", "run: 提交  经纬度"+upLoadImgParment.getLoginDoctorPosition() );
+                    Log.e("TAG", "run: 提交  code"+upLoadImgParment.getOperDoctorCode() );
+                    Log.e("TAG", "run: 提交  name"+upLoadImgParment.getOperDoctorName() );
+                    Log.e("TAG", "run: 提交  imgid"+upLoadImgParment.getImgIdArray() );
+                    Log.e("TAG", "run: 提交  imgarray"+upLoadImgParment.getImgBase64Array());
+
+                    String str = new Gson().toJson(upLoadImgParment);
+                    mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + str, Constant.SERVICEURL + "doctorPersonalSetControlle/operSubmitDoctorQualification_20201126");
+                    Log.e("TAG", "run: 提交2222"+mNetRetStr );
+                    NetRetEntity netRetEntity = new Gson().fromJson(mNetRetStr, NetRetEntity.class);
                     if (netRetEntity.getResCode() == 0) {
                         NetRetEntity retEntity = new NetRetEntity();
                         retEntity.setResCode(0);
