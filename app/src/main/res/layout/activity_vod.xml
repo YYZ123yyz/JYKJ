@@ -100,8 +100,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginRight="@dimen/dp_5"
-                android:src="@mipmap/full_rotate"></ImageView>
+                android:layout_margin="10dp"
+                android:src="@mipmap/full_rotate"/>
         </LinearLayout>
 
         <LinearLayout
@@ -226,11 +226,83 @@
             android:src="@drawable/loading_animation"
             android:visibility="gone" />
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:visibility="gone"
+            android:id="@+id/rl_horizontal_root"
+            >
 
+            <LinearLayout
+                android:id="@+id/landscape_back_ll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="12dp"
+                android:layout_centerVertical="true"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="14dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center"
+                    android:src="@drawable/btn_back_gray" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="4dp"
+                    android:gravity="center_vertical"
+                    android:text="返回"
+                    android:textColor="#ffffff"
+                    android:textSize="14dp" />
+
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_alignParentEnd="true"
+                >
+                <Button
+                    android:id="@+id/btnShare"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@mipmap/share_tran"
+                    android:minWidth="0dp"
+                    android:minHeight="0dp"
+                    android:layout_marginEnd="20dp"
+                    />
+
+
+
+                <Button
+                    android:id="@+id/btnShut"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@mipmap/shut_video"
+                    android:layout_marginBottom="10dp"
+                    android:minWidth="0dp"
+
+                    android:minHeight="0dp" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
         <RelativeLayout
             android:id="@id/rl_back"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_41"
+            android:layout_height="70dp"
             android:layout_gravity="top">
 
             <LinearLayout
@@ -240,6 +312,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="12dp"
+                android:layout_centerVertical="true"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -259,6 +332,9 @@
                     android:text="返回"
                     android:textColor="#ffffff"
                     android:textSize="14dp" />
+
+
+
             </LinearLayout>
 
             <TextView
@@ -267,8 +343,18 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:text="标题"
+                android:visibility="gone"
                 android:textColor="#ffffff"
                 android:textSize="18dp" />
+
+            <ImageView
+                android:id="@+id/iv_live_room_share"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:src="@mipmap/ic_share" />
         </RelativeLayout>
 
         <include
@@ -284,16 +370,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:layout_marginTop="@dimen/dp_350"></include>
+            android:layout_marginTop="@dimen/dp_350"/>
 
         <ImageView
             android:id="@+id/iv_miniaml_zoom_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|left"
-            android:layout_marginLeft="5dp"
-            android:layout_marginBottom="5dp"
+            android:padding="15dp"
             android:src="@mipmap/mimal_room"
-            android:visibility="gone"></ImageView>
+            android:visibility="gone"/>
+
+
+
     </FrameLayout>
 </LinearLayout>

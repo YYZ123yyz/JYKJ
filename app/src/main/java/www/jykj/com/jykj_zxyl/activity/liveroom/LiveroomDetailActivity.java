@@ -34,6 +34,9 @@ import entity.liveroom.RoomDetailInfo;
 import entity.liveroom.SubFocusResp;
 import netService.HttpNetService;
 import org.w3c.dom.Text;
+
+import util.NetWorkUtils;
+import util.QRCodeUtil;
 import wechatShare.WechatShareManager;
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.activity.hyhd.*;
@@ -232,7 +235,8 @@ public class LiveroomDetailActivity extends BaseActivity {
                 .apply(RequestOptions.placeholderOf(R.mipmap.def_head)
                         .diskCacheStrategy(DiskCacheStrategy.ALL))
                 .into((CircleImageView)shareDialog.findViewById(R.id.iv_userhead));
-        ((TextView)shareDialog.findViewById(R.id.tv_live_room_speaker)).setText(mRoomDetailInfo.getBroadcastUserName());
+        ((TextView)shareDialog.findViewById(R.id.tv_live_room_speaker))
+                .setText(String.format("主讲人：%s", mRoomDetailInfo.getBroadcastUserName()));
         ((ImageView)shareDialog.findViewById(R.id.iv_gb)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -275,8 +279,37 @@ public class LiveroomDetailActivity extends BaseActivity {
             public void onClick(View v) {
                 ToShare(SendMessageToWX.Req.WXSceneTimeline);
             }
+
         });
+        TextView tvLiveRoomTitle = shareDialog.findViewById(R.id.tv_live_room_title);
+        tvLiveRoomTitle.setText(mRoomDetailInfo.getBroadcastTitle());
+        ImageView ivAuthorQrcode = shareDialog.findViewById(R.id.iv_author_qrcode);
+        produceQrBitmap(mRoomDetailInfo.getShare(),ivAuthorQrcode);
+        TextView tvLiveRoomTime = shareDialog.findViewById(R.id.tv_live_room_time);
+        String date = DateUtils.getDateToStringYYYMMDDHHMM(mRoomDetailInfo.getBroadcastDate());
+        tvLiveRoomTime.setText(date);
     }
+
+
+    /**
+     * 生成二维码
+     */
+    void produceQrBitmap(String qrUrl,ImageView ivAuthorQuCode){
+        Bitmap bitmap = NetWorkUtils.getHttpBitmap(qrUrl);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Bitmap bm = QRCodeUtil.getImageBitmap(bitmap, qrUrl, 360);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        ivAuthorQuCode.setImageBitmap(bm);
+                    }
+                });
+            }
+        }).start();
+    }
+
 
     void copy_link(){
         //获取剪贴板管理器：

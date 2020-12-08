@@ -1,11 +1,13 @@
 package www.jykj.com.jykj_zxyl.medicalrecord.popup;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -67,8 +69,9 @@ public class MedicinalCategoryPopup2 extends PopupWindow {
         this.setContentView(myMenuView);
         // 设置AccessoryPopup弹出窗体的宽度
         this.setWidth(LinearLayout.LayoutParams.MATCH_PARENT);
-        // 设置AccessoryPopup弹出窗体的高度
         this.setHeight(LinearLayout.LayoutParams.MATCH_PARENT);
+        // 设置AccessoryPopup弹出窗体的高度
+
         // 设置AccessoryPopup弹出窗体可点击
         this.setFocusable(true);
         // 设置AccessoryPopup弹出窗体的动画效果
@@ -93,8 +96,19 @@ public class MedicinalCategoryPopup2 extends PopupWindow {
             rvList.setLayoutManager(new LinearLayoutManager(myContext));
             drugListAdapter = new DrugListAdapter(myContext);
             drugListAdapter.setData(datas);
+
             rvList.setAdapter(drugListAdapter);
 
+            drugListAdapter.setOnClickSubListener(new DrugListAdapter.OnClickSubListener() {
+                @Override
+                public void onClickChanged(DrugClassificationBean.DrugTypeMedicineListBean
+                                                   drugTypeMedicineListBean) {
+                    if (onClickListener!=null) {
+                        onClickListener.onClickChanged(drugTypeMedicineListBean);
+                        MedicinalCategoryPopup2.this.dismiss();
+                    }
+                }
+            });
         }
     }
 
@@ -104,6 +118,7 @@ public class MedicinalCategoryPopup2 extends PopupWindow {
      * @param anchor 根布局
      */
     public void show(View anchor) {
+
         if (Build.VERSION.SDK_INT >= 24) {
             Rect rect = new Rect();
             anchor.getGlobalVisibleRect(rect);
@@ -116,7 +131,8 @@ public class MedicinalCategoryPopup2 extends PopupWindow {
 
     public interface OnClickListener{
 
-        void onClickChanged(MedicinalTypeBean medicinalTypeBean);
+        void onClickChanged(DrugClassificationBean.DrugTypeMedicineListBean
+                                    drugTypeMedicineListBean);
     }
 
 }

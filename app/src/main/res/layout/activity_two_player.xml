@@ -11,17 +11,26 @@
     <RelativeLayout
         android:id="@+id/live_rl"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="80dp"
         android:background="@color/transparent">
 
-        <ImageView
-            android:id="@+id/iv_back_left"
-            android:layout_width="10dp"
-            android:layout_height="20dp"
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="15dp"
-            android:src="@mipmap/arrow_left" />
+            android:id="@+id/rl_back_left"
+            >
+
+            <ImageView
+                android:id="@+id/iv_back_left"
+                android:layout_width="10dp"
+                android:layout_height="20dp"
+                android:layout_margin="10dp"
+                android:layout_gravity="center_vertical"
+                android:src="@mipmap/arrow_left" />
+        </RelativeLayout>
+
 
         <TextView
             android:id="@+id/tv_liveroom_name"
@@ -29,10 +38,19 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@+id/iv_back_left"
+            android:layout_toRightOf="@+id/rl_back_left"
             android:text="测试结果"
             android:textColor="@color/writeColor"
             android:textSize="10pt" />
+
+        <ImageView
+            android:id="@+id/iv_live_room_share"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:padding="15dp"
+            android:src="@mipmap/ic_share" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -78,116 +96,75 @@
 
 
     <RelativeLayout
-        android:id="@+id/video_releative_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone">
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:visibility="gone"
+        android:id="@+id/rl_horizontal_root"
+        >
+
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:id="@+id/rl_landscape_back_left"
+            >
+
+            <ImageView
+                android:layout_width="10dp"
+                android:layout_height="20dp"
+                android:layout_margin="10dp"
+                android:layout_gravity="center_vertical"
+                android:src="@mipmap/arrow_left" />
+        </RelativeLayout>
+
+
+        <TextView
+            android:id="@+id/tv_landscape_liveroom_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/rl_landscape_back_left"
+            android:text="测试结果"
+            android:textColor="@color/writeColor"
+            android:textSize="10pt" />
+
 
         <LinearLayout
-            android:id="@+id/btns_video"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="10dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-
-            <Button
-                android:id="@+id/btnMessage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@mipmap/message"
-                android:minWidth="0dp"
-                android:minHeight="0dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-
-            <Button
-                android:id="@+id/btnOriention"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@mipmap/camerarienthg"
-                android:minWidth="0dp"
-                android:minHeight="0dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_alignParentEnd="true"
+            >
             <Button
                 android:id="@+id/btnShare"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginBottom="10dp"
                 android:background="@mipmap/share_tran"
                 android:minWidth="0dp"
-                android:minHeight="0dp" />
+                android:minHeight="0dp"
+                android:layout_marginEnd="20dp"
+                />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
+
 
             <Button
                 android:id="@+id/btnShut"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:background="@mipmap/shut_video"
+                android:layout_marginBottom="10dp"
                 android:minWidth="0dp"
+
                 android:minHeight="0dp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
         </LinearLayout>
+
     </RelativeLayout>
 
     <LinearLayout
@@ -219,7 +196,7 @@
         android:layout_gravity="bottom|left"
         android:layout_marginLeft="5dp"
         android:layout_marginBottom="5dp"
-        android:padding="7dp"
+        android:padding="15dp"
         android:src="@mipmap/mimal_room"
         android:visibility="gone"/>
 </FrameLayout>

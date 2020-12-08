@@ -119,6 +119,15 @@ public class FileUtils {
         return path;
     }
 
+
+    public static String getPath() {
+        String path = Environment.getExternalStorageDirectory() + "/jykj/doctor/image/";
+        File file = new File(path);
+        if (file.mkdirs()) {
+            return path;
+        }
+        return path;
+    }
     /**
      * @param uri the Uri to check
      * @return Whether the Uri authority is MediaProvider

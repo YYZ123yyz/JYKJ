@@ -1060,13 +1060,13 @@ public abstract class ChatPopDialogActivity extends AppCompatActivity implements
         }
     }
 
-    JoinDialog joinDialog = null;
+   // JoinDialog joinDialog = null;
     protected void onChatRoomViewCreation() {
         //final ProgressDialog pd = ProgressDialog.show(myActivity, "", "Joining......");
-        if(null==joinDialog){
-            joinDialog = new JoinDialog(myActivity);
-        }
-        joinDialog.show();
+//        if(null==joinDialog){
+//            joinDialog = new JoinDialog(myActivity);
+//        }
+//        joinDialog.show();
         EMClient.getInstance().chatroomManager().joinChatRoom(toChatUsername, new EMValueCallBack<EMChatRoom>() {
 
             @Override
@@ -1076,7 +1076,7 @@ public abstract class ChatPopDialogActivity extends AppCompatActivity implements
                     public void run() {
                         if(myActivity.isFinishing() || !toChatUsername.equals(value.getId()))
                             return;
-                        joinDialog.dismiss();
+                        //joinDialog.dismiss();
                         Message themsg = new Message();
                         themsg.what = ADD_ENTERROOM_MSG;
                         messagehandler.sendMessage(themsg);
@@ -1110,7 +1110,7 @@ public abstract class ChatPopDialogActivity extends AppCompatActivity implements
                 myActivity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        joinDialog.dismiss();
+                        //joinDialog.dismiss();
                     }
                 });
                 myActivity.finish();
@@ -1976,7 +1976,7 @@ public abstract class ChatPopDialogActivity extends AppCompatActivity implements
         if (chatType == CHATTYPE_GROUP) {
             EMGroup group = EMClient.getInstance().groupManager().getGroup(toChatUsername);
             if (group == null) {
-                Toast.makeText(myActivity, R.string.gorup_not_found, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(myActivity, R.string.gorup_not_found, Toast.LENGTH_SHORT).show();
                 return;
             }
             if(chatFragmentHelper != null){

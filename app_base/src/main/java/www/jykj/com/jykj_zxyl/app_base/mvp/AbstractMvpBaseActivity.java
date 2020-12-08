@@ -9,6 +9,8 @@ import android.widget.EditText;
 import android.widget.ScrollView;
 
 
+import com.blankj.utilcode.util.SizeUtils;
+
 import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.List;
@@ -135,7 +137,8 @@ public abstract class AbstractMvpBaseActivity<V extends BaseView, P extends Base
     }
 
     @Override
-    public void onLayoutChange(View v, int left, int top, int right, final int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) { //获取屏幕高度
+    public void onLayoutChange(View v, int left, int top, int right, final int bottom, int oldLeft
+            , int oldTop, int oldRight, int oldBottom) { //获取屏幕高度
         int screenHeight = this.getWindowManager().getDefaultDisplay().getHeight();
         //阀值设置为屏幕高度的1/3
         int keyHeight = screenHeight / 3;
@@ -156,10 +159,20 @@ public abstract class AbstractMvpBaseActivity<V extends BaseView, P extends Base
                 if (y > bottom && mainScrollView != null) {
                     final int finalY = y;
                     if (normalCanScroll) {
-                        scrollRunnable = () -> mainScrollView.scrollBy(0, finalY - bottom + offset);
+                        scrollRunnable = () -> mainScrollView.scrollBy(0, finalY - bottom
+                                + offset+SizeUtils.dp2px(90));
                         mainScrollView.postDelayed(scrollRunnable, 100);
                     } else {
-                        mainScrollView.scrollBy(0, finalY - bottom + offset);
+                       //mainScrollView.scrollBy(0, finalY - bottom + offset+SizeUtils.dp2px(90));
+
+                        scrollRunnable = new Runnable() {
+                            @Override
+                            public void run() {
+                                mainScrollView.scrollBy(0, finalY - bottom
+                                        +offset+SizeUtils.dp2px(90));
+                            }
+                        };
+                        mainScrollView.postDelayed(scrollRunnable, 100);
                     }
                 }
             }

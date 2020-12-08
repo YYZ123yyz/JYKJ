@@ -17,6 +17,7 @@ import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.activity.chapter.activity.VideoChapterActivity;
 import www.jykj.com.jykj_zxyl.activity.hyhd.LivePlayerTwoActivity;
 import www.jykj.com.jykj_zxyl.activity.hyhd.LivePublisherThreeActivity;
+import www.jykj.com.jykj_zxyl.activity.hyhd.VideoDetialPlayerActivity;
 import www.jykj.com.jykj_zxyl.activity.liveroom.LiveroomDetailActivity;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.HomeHealthEducationBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.MultiItemEntity;
@@ -124,9 +125,23 @@ public class HomeEducationFragment extends AbstractMvpBaseFragment<HealthEducati
             int state = healthEducationBean.getState();
             if (flagContentType==1) {
                 if (state==5) {
-                    Bundle bundle=new Bundle();
-                    bundle.putString("courseWareCode",healthEducationBean.getRelationCode());
-                    startActivity(VideoChapterActivity.class,bundle);
+                    int linkType = healthEducationBean.getLinkType();
+                    if (linkType==0) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("playUrl", healthEducationBean.getLinkUrl());
+                        bundle.putString("courseWareCode", healthEducationBean.getRelationCode());
+                        startActivity(VideoDetialPlayerActivity.class, bundle);
+                    }else if(linkType==1){
+                        Bundle bundle=new Bundle();
+                        bundle.putString("url",healthEducationBean.getLinkUrl());
+                        bundle.putString("title","图文");
+                        startActivity(H5Activity.class,bundle);
+                    }else if(linkType==2){
+                        Bundle bundle=new Bundle();
+                        bundle.putString("courseWareCode",healthEducationBean.getRelationCode());
+                        startActivity(VideoChapterActivity.class,bundle);
+                    }
+
                 }else{
                     Intent parintent = new Intent(mActivity, LiveroomDetailActivity.class);
                     parintent.putExtra("detailCode",healthEducationBean.getRelationCode());

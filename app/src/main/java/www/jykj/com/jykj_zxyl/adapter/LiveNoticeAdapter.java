@@ -38,12 +38,12 @@ public class LiveNoticeAdapter extends RecyclerView.Adapter<LiveNoticeAdapter.Vi
         viewHolder.pre_live_catalog.setText("类目:" + StrUtils.defaulObjToStr(parinfo.getClassName()));
         viewHolder.pre_live_desc.setText(StrUtils.defaulObjToStr(parinfo.getAttrName()));
         viewHolder.pre_live_price.setText(StrUtils.defaulObjToStr(parinfo.getExtendBroadcastPriceShow()));
-        viewHolder.go_live.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                myListener.onClick(i,v);
-            }
-        });
+//        viewHolder.go_live.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                myListener.onClick(i,v);
+//            }
+//        });
         viewHolder.pre_live_title.setText(StrUtils.defaulObjToStr(parinfo.getBroadcastTitle()));
         viewHolder.pre_watch_num.setText(StrUtils.defaulObjToStr(parinfo.getExtendBroadcastFollowNum())+"人想看");
         if (StrUtils.defaulObjToStr(parinfo.getBroadcastCoverImgUrl()).length() > 0) {

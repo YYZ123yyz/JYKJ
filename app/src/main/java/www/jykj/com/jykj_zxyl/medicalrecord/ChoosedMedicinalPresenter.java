@@ -168,7 +168,22 @@ public class ChoosedMedicinalPresenter
         })).subscribe(new CommonDataObserver() {
             @Override
             protected void onSuccessResult(BaseBean baseBean) {
+                if (mView!=null) {
+                    int resCode = baseBean.getResCode();
+                    if (resCode==1) {
+                        String resJsonData = baseBean.getResJsonData();
+                        List<MedicinalInfoBean> medicinalInfoBeans =
+                                GsonUtils.jsonToList(resJsonData, MedicinalInfoBean.class);
+                        if (!CollectionUtils.isEmpty(medicinalInfoBeans)) {
+                            mView.getMedicinalInfoListResult(medicinalInfoBeans);
+                        }else{
+                            mView.showEmpty();
+                        }
 
+                    }else{
+                        mView.showEmpty();
+                    }
+                }
             }
 
             @Override

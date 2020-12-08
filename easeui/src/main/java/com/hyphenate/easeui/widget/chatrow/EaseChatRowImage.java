@@ -35,7 +35,8 @@ public class EaseChatRowImage extends EaseChatRowFile{
 
     @Override
     protected void onInflateView() {
-        inflater.inflate(message.direct() == EMMessage.Direct.RECEIVE ? R.layout.ease_row_received_picture : R.layout.ease_row_sent_picture, this);
+        inflater.inflate(message.direct() == EMMessage.Direct.RECEIVE ? R.layout.ease_row_received_picture
+                : R.layout.ease_row_sent_picture, this);
     }
 
     @Override

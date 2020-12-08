@@ -58,7 +58,7 @@ public class PatientRecordPresenter extends BasePresenterImpl<PatientRecordContr
                     int resCode = baseBean.getResCode();
                     if (resCode == 1) {
                         String resJsonData = baseBean.getResJsonData();
-                        LogUtils.e("解析数据" + resJsonData);
+                        //LogUtils.e("解析数据" + resJsonData);
 
                         PatientRecordDetBean patientRecordDetBean =
                                 GsonUtils.fromJson(resJsonData, PatientRecordDetBean.class);

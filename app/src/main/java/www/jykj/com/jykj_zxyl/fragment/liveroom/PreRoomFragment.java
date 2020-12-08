@@ -209,75 +209,7 @@ public class PreRoomFragment extends Fragment {
         }
     }
 
-    void doFocus(PreLiveInfo parabean,int selpos){
-        getProgressBar("提交数据","数据提交中，请稍后");
-        FocusBean subbean = new FocusBean();
-        subbean.setDetailsCode(parabean.getDetailsCode());
-        subbean.setLoginUserPosition(mApp.loginDoctorPosition);
-        subbean.setOperUserCode(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
-        subbean.setOperUserName(mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
-        subbean.setRequestClientType("1");
-        SubFocusTask subFocusTask = new SubFocusTask(subbean,parabean,selpos);
-        subFocusTask.execute();
-    }
 
-    class SubFocusTask extends AsyncTask<Void,Void,Boolean> {
-        FocusBean subean;
-        String repmsg = "";
-        SubFocusResp subresp = null;
-        PreLiveInfo sellive = null;
-        int selpos = -1;
-
-        SubFocusTask(FocusBean subean, PreLiveInfo sellive, int selpos) {
-            this.subean = subean;
-            this.sellive = sellive;
-            this.selpos = selpos;
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... voids) {
-            try {
-                String suburl = "https://www.jiuyihtn.com:41041/broadcastLiveDataControlle/extendBroadcastFollowNum";
-                if (1 == sellive.getFlagLikes()) {
-                    suburl = "https://www.jiuyihtn.com:41041/broadcastLiveDataControlle/Numberofprecastviewerscancelled";
-                    sellive.setFlagLikes(0);
-                    if (null != sellive.getExtendBroadcastFollowNum() && sellive.getExtendBroadcastFollowNum().length() > 0) {
-                        sellive.setExtendBroadcastFollowNum(String.valueOf(Integer.parseInt(sellive.getExtendBroadcastFollowNum()) - 1));
-                    } else {
-                        sellive.setExtendBroadcastFollowNum("0");
-                    }
-                } else {
-                    sellive.setFlagLikes(1);
-                    if (null != sellive.getExtendBroadcastFollowNum() && sellive.getExtendBroadcastFollowNum().length() > 0) {
-                        sellive.setExtendBroadcastFollowNum(String.valueOf(Integer.parseInt(sellive.getExtendBroadcastFollowNum()) + 1));
-                    } else {
-                        sellive.setExtendBroadcastFollowNum("0");
-                    }
-                }
-                String repjson = HttpNetService.urlConnectionService("jsonDataInfo=" + new Gson().toJson(subean), suburl);
-                com.hyphenate.easeui.netService.entity.NetRetEntity retEntity = JSON.parseObject(repjson, com.hyphenate.easeui.netService.entity.NetRetEntity.class);
-                repmsg = retEntity.getResMsg();
-                if (1 == retEntity.getResCode()) {
-                    subresp = JSON.parseObject(StrUtils.defaulObjToStr(retEntity.getResJsonData()), SubFocusResp.class);
-                    return true;
-                }
-            } catch (Exception ex) {
-                repmsg = "系统异常";
-                ex.printStackTrace();
-            }
-            return false;
-        }
-
-        @Override
-        protected void onPostExecute(Boolean aBoolean) {
-            cacerProgress();
-            Toast.makeText(mContext, repmsg, Toast.LENGTH_SHORT).show();
-            if (aBoolean) {
-                mdatas.set(selpos, sellive);
-                preLiveAdapter.notifyDataSetChanged();
-            }
-        }
-    }
         /**
          * 获取进度条
          */

@@ -7,8 +7,12 @@ import android.widget.TextView;
 
 import com.allen.library.utils.ToastUtils;
 
+import java.util.List;
+
 import butterknife.BindView;
 import www.jykj.com.jykj_zxyl.R;
+import www.jykj.com.jykj_zxyl.app_base.base_bean.DrugClassificationBean;
+import www.jykj.com.jykj_zxyl.app_base.base_bean.DrugDosageBean;
 import www.jykj.com.jykj_zxyl.app_base.base_view.BaseToolBar;
 import www.jykj.com.jykj_zxyl.app_base.mvp.AbstractMvpBaseActivity;
 import www.jykj.com.jykj_zxyl.medicalrecord.AddDrugInfoContract;
@@ -119,5 +123,15 @@ public class AddDrugInfoActivity extends AbstractMvpBaseActivity<AddDrugInfoCont
         }else{
             ToastUtils.showToast(msg);
         }
+    }
+
+    @Override
+    public void getSearchDrugTypeDosageResult(List<DrugDosageBean> drugDosageBeans) {
+
+    }
+
+    @Override
+    public void getDrugClassificationBeanResult(List<DrugClassificationBean> drugClassificationBeans) {
+
     }
 }

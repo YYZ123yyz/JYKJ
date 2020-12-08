@@ -59,7 +59,7 @@ public abstract class SecondaryListAdapter<GVH, SVH extends RecyclerView.ViewHol
      */
     private void initGroupItemStatus(List l) {
         for (int i = 0; i < dataTrees.size(); i++) {
-            l.add(true);
+            l.add(false);
         }
     }
 
@@ -157,24 +157,24 @@ public abstract class SecondaryListAdapter<GVH, SVH extends RecyclerView.ViewHol
 
                     int groupItemIndex = itemStatus.getGroupItemIndex();
                     onGroupItemClick(true, (GVH) holder, groupItemIndex);
-//                    if ( !groupItemStatus.get(groupItemIndex) ) {
-//
-//                        onGroupItemClick(false, (GVH) holder, groupItemIndex);
-//
-//                        groupItemStatus.set(groupItemIndex, true);
-//                        notifyItemRangeInserted(holder.getAdapterPosition(), dt.getSubItems
-//                                ().size());
-//
-//
-//                    } else {
-//
-//                        onGroupItemClick(true, (GVH) holder, groupItemIndex);
-//
-//                        groupItemStatus.set(groupItemIndex, false);
-//                        notifyItemRangeRemoved(holder.getAdapterPosition(), dt.getSubItems
-//                                ().size());
-//
-//                    }
+                    if ( !groupItemStatus.get(groupItemIndex) ) {
+
+                        onGroupItemClick(false, (GVH) holder, groupItemIndex);
+
+                        groupItemStatus.set(groupItemIndex, true);
+                        notifyItemRangeInserted(holder.getAdapterPosition(), dt.getSubItems
+                                ().size());
+
+
+                    } else {
+
+                        onGroupItemClick(true, (GVH) holder, groupItemIndex);
+
+                        groupItemStatus.set(groupItemIndex, false);
+                        notifyItemRangeRemoved(holder.getAdapterPosition(), dt.getSubItems
+                                ().size());
+
+                    }
 
                 }
             });

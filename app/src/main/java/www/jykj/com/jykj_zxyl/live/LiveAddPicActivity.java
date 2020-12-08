@@ -1,9 +1,7 @@
 package www.jykj.com.jykj_zxyl.live;
-
 import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -18,23 +16,13 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.allen.library.utils.ToastUtils;
-import com.blankj.utilcode.util.ImageUtils;
 import com.blankj.utilcode.util.UriUtils;
-import com.bumptech.glide.Glide;
-import com.hyphenate.chat.EMClient;
-import com.hyphenate.chat.EMMessage;
 import com.hyphenate.easeui.ui.EaseShowBigImageActivity;
 import com.tbruyelle.rxpermissions.RxPermissions;
-
-import org.jetbrains.annotations.NotNull;
-
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-
 import butterknife.BindView;
 import top.zibin.luban.Luban;
 import top.zibin.luban.OnCompressListener;
@@ -43,6 +31,7 @@ import www.jykj.com.jykj_zxyl.app_base.base_bean.ImageInfoBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.LiveProtromDetialBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.UploadLiveImageResultBean;
 import www.jykj.com.jykj_zxyl.app_base.base_utils.CollectionUtils;
+import www.jykj.com.jykj_zxyl.app_base.base_utils.FileUtils;
 import www.jykj.com.jykj_zxyl.app_base.base_view.BaseToolBar;
 import www.jykj.com.jykj_zxyl.app_base.mvp.AbstractMvpBaseActivity;
 import www.jykj.com.jykj_zxyl.application.Constant;
@@ -59,7 +48,6 @@ import www.jykj.com.jykj_zxyl.util.StringUtils;
  */
 public class LiveAddPicActivity extends AbstractMvpBaseActivity<AddLivePhotoContract.View
         , AddLivePhotoPresenter> implements AddLivePhotoContract.View {
-
     @BindView(R.id.toolbar)
     BaseToolBar toolbar;
     @BindView(R.id.iv_live_empty_pic)
@@ -168,12 +156,17 @@ public class LiveAddPicActivity extends AbstractMvpBaseActivity<AddLivePhotoCont
                     Intent intent = new Intent(LiveAddPicActivity.this,
                             EaseShowBigImageActivity.class);
                     String photoUrl = mPhotoInfos.get(position).getPhotoUrl();
-                    File file = new File(photoUrl);
-                    if (file.exists()) {
-                        Uri uri = Uri.fromFile(file);
-                        intent.putExtra("uri", uri);
+                    if(photoUrl.contains("http")){
+                        intent.putExtra("path",photoUrl);
+                    }else{
+                        File file = new File(photoUrl);
+                        if (file.exists()) {
+                            Uri uri = Uri.fromFile(file);
+                            intent.putExtra("uri", uri);
+                        }
                     }
                     LiveAddPicActivity.this.startActivity(intent);
+
                 }
             }
 
@@ -205,17 +198,18 @@ public class LiveAddPicActivity extends AbstractMvpBaseActivity<AddLivePhotoCont
                 if (liveProtromDetialBean != null
                         && !CollectionUtils.isEmpty(liveProtromDetialBean.getImageList())) {
                     String imageIds = buildBasicsImgId(mUpdateInfos);
-                    String imageDatas = buildImageDatas(mPhotoInfos);
-                    if (TextUtils.isEmpty(imageIds) && TextUtils.isEmpty(imageDatas)) {
+                    List<String> imageUrls = getImageUrls(mPhotoInfos);
+                    if (TextUtils.isEmpty(imageIds) && CollectionUtils.isEmpty(imageUrls)) {
                         LiveAddPicActivity.this.finish();
                         return;
                     }
 //                    mPresenter.sendUpdateBroadcastImageRequest(
 //                            liveProtromDetialBean.getImageCode()
 //                            , detailCode, imageIds, imageDatas, LiveAddPicActivity.this);
+
                     mPresenter.sendUpdateBroadcastImageRequest2(
                             liveProtromDetialBean.getImageCode(),detailCode,
-                            imageIds,getImageUrls(mPhotoInfos),LiveAddPicActivity.this);
+                            imageIds, imageUrls,LiveAddPicActivity.this);
                 } else {
 //                    String content = buildImageDatas(mPhotoInfos);
 //                    mPresenter.sendAddBroadCastImageRequest(detailCode, content,
@@ -230,6 +224,7 @@ public class LiveAddPicActivity extends AbstractMvpBaseActivity<AddLivePhotoCont
     }
 
 
+
     /**
      * 获取image List
      * @param imageInfoBeans 列表
@@ -239,7 +234,7 @@ public class LiveAddPicActivity extends AbstractMvpBaseActivity<AddLivePhotoCont
         List<String> imgList=new ArrayList<>();
         for (ImageInfoBean mUpdateInfo : imageInfoBeans) {
             String photoUrl = mUpdateInfo.getPhotoUrl();
-            if (StringUtils.isNotEmpty(photoUrl)) {
+            if (StringUtils.isNotEmpty(photoUrl)&&!photoUrl.startsWith("http")) {
                 imgList.add(photoUrl);
             }
         }
@@ -315,6 +310,7 @@ public class LiveAddPicActivity extends AbstractMvpBaseActivity<AddLivePhotoCont
         Luban.with(this)
                 .load(UriUtils.uri2File(uri))
                 .ignoreBy(100)
+                .setTargetDir(FileUtils.getPath())
                 .filter(path -> !(TextUtils.isEmpty(path) || path.toLowerCase().endsWith(".gif")))
                 .setCompressListener(new OnCompressListener() {
                     @Override
@@ -325,12 +321,8 @@ public class LiveAddPicActivity extends AbstractMvpBaseActivity<AddLivePhotoCont
                     @Override
                     public void onSuccess(File file) {
                         // TODO 压缩成功后调用，返回压缩后的图片文件
-                        // System.out.println(file);
-                        Bitmap bitmap = ImageUtils.getBitmap(file);
-                        Bitmap clipBitmap = ImageUtils.clip(bitmap, 1, 1, 900, 900);
 
                         ImageInfoBean imageInfoBean = new ImageInfoBean();
-                        //imageInfoBean.setPhoto(BitmapUtil.bitmaptoString(clipBitmap));
                         imageInfoBean.setPhotoUrl(file.getAbsolutePath());
                         mPhotoInfos.add(imageInfoBean);
                         addLastImageBtn(mPhotoInfos);
@@ -354,6 +346,7 @@ public class LiveAddPicActivity extends AbstractMvpBaseActivity<AddLivePhotoCont
         Luban.with(this)
                 .load(file)
                 .ignoreBy(100)
+                .setTargetDir(FileUtils.getPath())
                 .filter(path -> !(TextUtils.isEmpty(path) || path.toLowerCase().endsWith(".gif")))
                 .setCompressListener(new OnCompressListener() {
                     @Override
@@ -364,12 +357,7 @@ public class LiveAddPicActivity extends AbstractMvpBaseActivity<AddLivePhotoCont
                     @Override
                     public void onSuccess(File file) {
                         // TODO 压缩成功后调用，返回压缩后的图片文件
-                        // System.out.println(file);
-                        Bitmap bitmap = ImageUtils.getBitmap(file);
-                        Bitmap clipBitmap = ImageUtils.clip(bitmap, 1, 1, 900, 900);
-
                         ImageInfoBean imageInfoBean = new ImageInfoBean();
-                        //imageInfoBean.setPhoto(BitmapUtil.bitmaptoString(clipBitmap));
                         imageInfoBean.setPhotoUrl(file.getAbsolutePath());
                         mPhotoInfos.add(imageInfoBean);
                         addLastImageBtn(mPhotoInfos);
@@ -406,34 +394,6 @@ public class LiveAddPicActivity extends AbstractMvpBaseActivity<AddLivePhotoCont
         list.add(list.size(), imageInfoBean);
     }
 
-    /**
-     * 构建Image Data 数据
-     *
-     * @param list 图片列表
-     * @return 图片数据
-     */
-    private String buildImageDatas(List<ImageInfoBean> list) {
-        boolean flag = false;
-        StringBuilder stringBuilder = new StringBuilder();
-        for (int i = 0; i < list.size(); i++) {
-            String photo = list.get(i).getPhoto();
-            if (StringUtils.isNotEmpty(photo)) {
-                if (i == list.size() - 1) {
-                    stringBuilder.append("data:image/jpg;base64,")
-                            .append(list.get(i).getPhoto());
-                    flag = true;
-                } else {
-                    stringBuilder.append("data:image/jpg;base64,")
-                            .append(list.get(i).getPhoto()).append("^");
-                    flag = true;
-                }
-            }
-        }
-        if (!flag) {
-            return "";
-        }
-        return stringBuilder.toString();
-    }
 
     /**
      * 构建图片Id 列表

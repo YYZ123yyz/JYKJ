@@ -370,6 +370,13 @@ public interface ApiService {
     @POST("/broadcastLiveDataControlle/Numberofprecastviewerscancelled")
     Observable<String> Numberofprecastviewerscancelled(@Query(value = "jsonDataInfo", encoded = true)
                                                                String queryJson);
-
+    //药品剂型信息获取
+    @POST("/doctorInteractDataControlle/searchDrugTypeDosage")
+    Observable<String> searchDrugTypeDosage(@Query(value = "jsonDataInfo", encoded = true)
+                                                    String queryJson);
+    //获取直播间状态
+    @POST("/liveRoomController/getDetailsState")
+    Observable<String> getDetailsState(@Query(value = "jsonDataInfo", encoded = true)
+                                               String queryJson);
 }
 

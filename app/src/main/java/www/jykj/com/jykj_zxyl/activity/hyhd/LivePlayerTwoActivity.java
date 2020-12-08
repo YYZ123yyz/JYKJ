@@ -6,12 +6,18 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.app.Service;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.ActivityInfo;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.graphics.drawable.AnimationDrawable;
+import android.net.Uri;
 import android.os.*;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -23,11 +29,14 @@ import android.support.v7.widget.RecyclerView;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.*;
 import com.alibaba.fastjson.JSON;
 import com.allen.library.utils.ToastUtils;
@@ -42,6 +51,7 @@ import com.hyphenate.chat.EMMessage;
 import com.hyphenate.chat.EMTextMessageBody;
 import com.hyphenate.easeui.EaseConstant;
 import com.hyphenate.easeui.utils.ExtEaseUtils;
+import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
 import com.tencent.rtmp.ITXLivePlayListener;
 import com.tencent.rtmp.TXLiveConstants;
 import com.tencent.rtmp.TXLivePlayConfig;
@@ -51,19 +61,28 @@ import entity.conditions.OpenLiveCond;
 import entity.liveroom.RoomDetailInfo;
 import netService.HttpNetService;
 import netService.entity.NetRetEntity;
+import util.NetWorkUtils;
+import util.QRCodeUtil;
+import wechatShare.WechatShareManager;
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.adapter.HeadImageViewRecycleAdapter;
 import www.jykj.com.jykj_zxyl.adapter.LiveFragmentAdapter;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
+import www.jykj.com.jykj_zxyl.custom.ShareDialog;
 import www.jykj.com.jykj_zxyl.fragment.liveroom.IntroductionFragment;
 import www.jykj.com.jykj_zxyl.fragment.liveroom.LiveChatFragment;
 import www.jykj.com.jykj_zxyl.fragment.liveroom.LiveProgromFragment;
 import www.jykj.com.jykj_zxyl.util.CircleImageView;
+import www.jykj.com.jykj_zxyl.util.DateUtils;
 import www.jykj.com.jykj_zxyl.util.StrUtils;
 import www.jykj.com.jykj_zxyl.util.TCConstants;
-import www.jykj.com.jykj_zxyl.util.idcard_scanning_util.DisplayUtil;
 import ztextviewlib.MarqueeTextView;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
@@ -112,6 +131,7 @@ public class LivePlayerTwoActivity extends ChatPopDialogActivity implements ITXL
     CircleImageView iv_live_user_head;
     RecyclerView chat_head_imgs;
     TextView tv_chat_num;
+    ImageView mIvLiveRoomShare;
     MarqueeTextView mv_chat_content;
     LinearLayoutManager mLayoutManager;
     HeadImageViewRecycleAdapter mImageViewRecycleAdapter;
@@ -123,13 +143,16 @@ public class LivePlayerTwoActivity extends ChatPopDialogActivity implements ITXL
     private LinearLayout tab_hold_layout;
     private ViewPager live_publish_page;
     TextView tv_liveroom_name;
+    TextView tv_landscape_liveroom_name;
     ImageView iv_zoom_btn;
     ImageView iv_miniaml_zoom_btn;
     RelativeLayout live_rl;
     TextView tvPlayErrorMsg;
+    ShareDialog shareDialog = null;
+    RelativeLayout rlHorizontalRoot;
     int videowidth = 0;
     int videoheight = 0;
-
+    WechatShareManager mShareManager;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -146,6 +169,7 @@ public class LivePlayerTwoActivity extends ChatPopDialogActivity implements ITXL
         setContentView(R.layout.activity_two_player);
         mActivityType = getIntent().getIntExtra("PLAY_TYPE", ACTIVITY_TYPE_LIVE_PLAY);
         mPlayConfig = new TXLivePlayConfig();
+        mShareManager = WechatShareManager.getInstance(mContext);
         checkPublishPermission();
         initview();
         createChat();
@@ -187,6 +211,7 @@ public class LivePlayerTwoActivity extends ChatPopDialogActivity implements ITXL
             String parnickname = myroominfo.getBroadcastUserName();
             tv_head_tit.setText(parnickname);
             tv_liveroom_name.setText(myroominfo.getBroadcastTitle());
+            tv_landscape_liveroom_name.setText(myroominfo.getBroadcastTitle());
             int flagAnchorStates = myroominfo.getFlagAnchorStates();
             if (flagAnchorStates==0) {
                 tvPlayErrorMsg.setVisibility(View.VISIBLE);
@@ -261,6 +286,7 @@ public class LivePlayerTwoActivity extends ChatPopDialogActivity implements ITXL
                     mychatid = retliveresp.getChatRoomCode();
                     playUrl = retliveresp.getPullUrl();
                     queroominfo = retliveresp;
+                    mRoomDetailInfo=retliveresp;
                     return true;
                 }
             }catch (Exception ex){
@@ -288,50 +314,69 @@ public class LivePlayerTwoActivity extends ChatPopDialogActivity implements ITXL
         mPhoneListener = new TXPhoneStateListener(mLivePlayer);
         TelephonyManager tm = (TelephonyManager) getApplicationContext().getSystemService(Service.TELEPHONY_SERVICE);
         tm.listen(mPhoneListener, PhoneStateListener.LISTEN_CALL_STATE);
+        rlHorizontalRoot=findViewById(R.id.rl_horizontal_root);
         tvPlayErrorMsg=findViewById(R.id.tv_play_error_msg);
         live_rl = findViewById(R.id.live_rl);
         tab_layout = findViewById(R.id.tab_layout);
         live_publish_page = findViewById(R.id.live_publish_page);
         mPlayerView = (TXCloudVideoView) findViewById(R.id.video_view);
+        mIvLiveRoomShare=findViewById(R.id.iv_live_room_share);
         //video_hold_layout = findViewById(R.id.video_hold_layout);
         mPlayerView.disableLog(true);
         //mLivePlayer.setRenderRotation(mCurrentRenderRotation);
         //mLivePlayer.setRenderMode(mCurrentRenderMode);
         mLoadingView = (ImageView) findViewById(R.id.loadingImageView);
         mVideoPlay = startPlayRtmp();
-        btnMessage = findViewById(R.id.btnMessage);
+        //btnMessage = findViewById(R.id.btnMessage);
         btnShare = findViewById(R.id.btnShare);
         btnShut = findViewById(R.id.btnShut);
-        tab_hold_layout = findViewById(R.id.tab_hold_layout);
-        mBtnOrientation = findViewById(R.id.btnOriention);
-        btnMessage.setOnClickListener(new View.OnClickListener() {
+        btnShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                goChat();
+                share_dialog();
             }
         });
+        tab_hold_layout = findViewById(R.id.tab_hold_layout);
+        mBtnOrientation = findViewById(R.id.btnOriention);
+//        btnMessage.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                goChat();
+//            }
+//        });
         btnShut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-                builder.setTitle("提示");
-                builder.setMessage("确认退出直播间吗?");
-                builder.setNegativeButton("取消", null);
-                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        LivePlayerTwoActivity.this.finish();
-                    }
-                });
-                builder.show();
+//                AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+//                builder.setTitle("提示");
+//                builder.setMessage("确认退出直播间吗?");
+//                builder.setNegativeButton("取消", null);
+//                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialogInterface, int i) {
+//                        LivePlayerTwoActivity.this.finish();
+//                    }
+//                });
+//                builder.show();
+                isminal_screen = true;
+                goMinimalscreen();
+
             }
         });
         tv_liveroom_name = findViewById(R.id.tv_liveroom_name);
-        findViewById(R.id.iv_back_left).setOnClickListener(new View.OnClickListener() {
+        tv_landscape_liveroom_name=findViewById(R.id.tv_landscape_liveroom_name);
+        findViewById(R.id.rl_back_left).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 stopPlayRtmp();
                 mActivity.finish();
+            }
+        });
+        findViewById(R.id.rl_landscape_back_left).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isminal_screen = true;
+                goMinimalscreen();
             }
         });
         goTab();
@@ -351,7 +396,19 @@ public class LivePlayerTwoActivity extends ChatPopDialogActivity implements ITXL
                 goMinimalscreen();
             }
         });
+        mIvLiveRoomShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                share_dialog();
+            }
+        });
         live_rl.bringToFront();
+        mPlayerView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showOrHide();
+            }
+        });
 
         //3、获取屏幕的默认分辨率
         /*Display display = getWindowManager().getDefaultDisplay();
@@ -366,6 +423,325 @@ public class LivePlayerTwoActivity extends ChatPopDialogActivity implements ITXL
     }
 
 
+    /**
+     * 显示隐藏动画
+     */
+    protected void showOrHide() {
+        Configuration mConfiguration = this.getResources().getConfiguration();
+        int ori = mConfiguration.orientation; //获取屏幕方向
+        if (ori == Configuration.ORIENTATION_LANDSCAPE) {
+            if (rlHorizontalRoot.getVisibility() == View.VISIBLE) {
+                hideAnim();
+            } else {
+                showAnim();
+            }
+        }else{
+
+            if(live_rl.getVisibility()== View.VISIBLE){
+                hideAnim();
+            }else{
+                showAnim();
+            }
+        }
+    }
+
+    /**
+     * 隐藏动画
+     */
+    private void hideAnim(){
+        Configuration mConfiguration = this.getResources().getConfiguration(); //获取设置的配置信息
+        int ori = mConfiguration.orientation; //获取屏幕方向
+        if (ori == Configuration.ORIENTATION_LANDSCAPE) {
+            Animation animation1 = AnimationUtils.loadAnimation(this
+                    , R.anim.anim_exit_bottom);
+            animation1.setAnimationListener(new AnimationImp() {
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    super.onAnimationEnd(animation);
+                    //隐藏锚点
+
+                    rlHorizontalRoot.setVisibility(View.GONE);
+
+                }
+            });
+            rlHorizontalRoot.startAnimation(animation1);
+        } else if (ori == Configuration.ORIENTATION_PORTRAIT) {
+            Animation animation1 = AnimationUtils.loadAnimation(this
+                    , R.anim.anim_exit_bottom);
+            animation1.setAnimationListener(new AnimationImp() {
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    super.onAnimationEnd(animation);
+                    //隐藏锚点
+
+                    live_rl.setVisibility(View.GONE);
+
+                }
+            });
+            live_rl.startAnimation(animation1);
+
+        }
+
+    }
+
+
+    /**
+     * 展示动画
+     */
+    private void showAnim(){
+        Configuration mConfiguration = this.getResources().getConfiguration(); //获取设置的配置信息
+        int ori = mConfiguration.orientation; //获取屏幕方向
+
+        if (ori == Configuration.ORIENTATION_LANDSCAPE) {
+            if (rlHorizontalRoot.getVisibility() == View.GONE) {
+                rlHorizontalRoot.setVisibility(View.VISIBLE);
+                rlHorizontalRoot.clearAnimation();
+                Animation animation = AnimationUtils.loadAnimation(this,
+                        R.anim.anim_enter_top);
+                rlHorizontalRoot.startAnimation(animation);
+            }
+        }else if (ori == Configuration.ORIENTATION_PORTRAIT) {
+            if (live_rl.getVisibility()== View.GONE) {
+                live_rl.setVisibility(View.VISIBLE);
+                live_rl.clearAnimation();
+                Animation animation = AnimationUtils.loadAnimation(this,
+                        R.anim.anim_enter_top);
+                live_rl.startAnimation(animation);
+            }
+        }
+
+    }
+
+    /**
+     * 动画实现类
+     */
+    private class AnimationImp implements Animation.AnimationListener {
+
+        @Override
+        public void onAnimationEnd(Animation animation) {
+        }
+
+        @Override
+        public void onAnimationRepeat(Animation animation) {
+        }
+
+        @Override
+        public void onAnimationStart(Animation animation) {
+        }
+
+    }
+
+
+    void share_dialog(){
+        if(null==mRoomDetailInfo){
+            Toast.makeText(mContext,"分享信息为空",Toast.LENGTH_SHORT).show();
+            return;
+        }
+        shareDialog = new ShareDialog(mActivity);
+        shareDialog.show();
+        Glide.with(mContext).load(mRoomDetailInfo.getBroadcastUserLogoUrl())
+                .apply(RequestOptions.placeholderOf(R.mipmap.def_head)
+                        .diskCacheStrategy(DiskCacheStrategy.ALL))
+                .into((CircleImageView)shareDialog.findViewById(R.id.iv_userhead));
+        ((TextView)shareDialog.findViewById(R.id.tv_live_room_speaker))
+                .setText(String.format("主讲人：%s", mRoomDetailInfo.getBroadcastUserName()));
+        ((ImageView)shareDialog.findViewById(R.id.iv_gb)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                shareDialog.dismiss();
+            }
+        });
+        ((ImageView)shareDialog.findViewById(R.id.save_pic_btn)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "jiuyikeji.jpg");
+                Bitmap bitmap = screenShot(mActivity);
+                try {
+                    if (!file.exists())
+                        file.createNewFile();
+                    boolean ret = save(bitmap, file, Bitmap.CompressFormat.JPEG, true);
+                    if (ret) {
+                        Toast.makeText(getApplicationContext(), "截图已保持至 " + file.getAbsolutePath(), Toast.LENGTH_SHORT).show();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
+        ((ImageView)shareDialog.findViewById(R.id.link_pic_btn)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                copy_link();
+                Toast.makeText(mContext,"已复制链接至剪贴板",Toast.LENGTH_SHORT).show();
+            }
+        });
+        ((ImageView)shareDialog.findViewById(R.id.friend_pic_btn)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ToShare(SendMessageToWX.Req.WXSceneSession);
+            }
+        });
+        ((ImageView)shareDialog.findViewById(R.id.webchat_pic_btn)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ToShare(SendMessageToWX.Req.WXSceneTimeline);
+            }
+
+        });
+        TextView tvLiveRoomTitle = shareDialog.findViewById(R.id.tv_live_room_title);
+        tvLiveRoomTitle.setText(mRoomDetailInfo.getBroadcastTitle());
+        ImageView ivAuthorQrcode = shareDialog.findViewById(R.id.iv_author_qrcode);
+        produceQrBitmap(mRoomDetailInfo.getShare(),ivAuthorQrcode);
+        TextView tvLiveRoomTime = shareDialog.findViewById(R.id.tv_live_room_time);
+        String date = DateUtils.getDateToStringYYYMMDDHHMM(mRoomDetailInfo.getBroadcastDate());
+        tvLiveRoomTime.setText(date);
+    }
+
+
+    /**
+     * 获取当前屏幕截图，不包含状态栏（Status Bar）。
+     *
+     * @param activity activity
+     * @return Bitmap
+     */
+    public static Bitmap screenShot(Activity activity) {
+        View view = activity.getWindow().getDecorView();
+        view.setDrawingCacheEnabled(true);
+        view.buildDrawingCache();
+        Bitmap bmp = view.getDrawingCache();
+        int statusBarHeight = getStatusBarHeight(activity);
+        int width = (int) getDeviceDisplaySize(activity)[0];
+        int height = (int) getDeviceDisplaySize(activity)[1];
+
+        Bitmap ret = Bitmap.createBitmap(bmp, 0, statusBarHeight, width, height - statusBarHeight);
+        view.destroyDrawingCache();
+
+        return ret;
+    }
+
+    /**
+     * 分享到微信
+     *
+     * @param type            SendMessageToWX.Req.WXSceneSession  //会话    SendMessageToWX.Req.WXSceneTimeline //朋友圈
+     */
+    public void ToShare(int type) {
+        //i   0是会话  1是朋友圈
+        if (isWeixinAvilible(mContext)) {
+            Bitmap bitmap = screenShot(mActivity);
+            WechatShareManager.ShareContentPicture mShareContent =
+                    (WechatShareManager.ShareContentPicture) mShareManager.getShareContentPicture(R.mipmap.logo, bitmap);
+
+            mShareManager.shareByWebchat(mShareContent, type);
+        } else {
+            Toast.makeText(mContext, "您还没有安装微信，请先安装微信客户端", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
+    /**
+     * 判断 用户是否安装微信客户端
+     */
+    public static boolean isWeixinAvilible(Context context) {
+        final PackageManager packageManager = context.getPackageManager();// 获取packagemanager
+        List<PackageInfo> pinfo = packageManager.getInstalledPackages(0);// 获取所有已安装程序的包信息
+        if (pinfo != null) {
+            for (int i = 0; i < pinfo.size(); i++) {
+                String pn = pinfo.get(i).packageName;
+                if (pn.equals("com.tencent.mm")) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 生成二维码
+     */
+    void produceQrBitmap(String qrUrl,ImageView ivAuthorQuCode){
+        Bitmap bitmap = NetWorkUtils.getHttpBitmap(qrUrl);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Bitmap bm = QRCodeUtil.getImageBitmap(bitmap, qrUrl, 360);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        ivAuthorQuCode.setImageBitmap(bm);
+                    }
+                });
+            }
+        }).start();
+    }
+
+    public static int getStatusBarHeight(Context context) {
+        int height = 0;
+        int resourceId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            height = context.getResources().getDimensionPixelSize(resourceId);
+        }
+
+        return height;
+    }
+
+    public static float[] getDeviceDisplaySize(Context context) {
+        Resources resources = context.getResources();
+        DisplayMetrics dm = resources.getDisplayMetrics();
+        int width = dm.widthPixels;
+        int height = dm.heightPixels;
+
+        float[] size = new float[2];
+        size[0] = width;
+        size[1] = height;
+
+        return size;
+    }
+
+
+    void copy_link(){
+        //获取剪贴板管理器：
+        ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+// 创建普通字符型ClipData
+        //ClipData mClipData = ClipData.newPlainText("Label", "这里是要复制的文字");
+        ClipData mClipData = ClipData.newRawUri(mRoomDetailInfo.getBroadcastTitle(), Uri.parse(mRoomDetailInfo.getPullUrl()));
+        cm.setPrimaryClip(mClipData);
+    }
+
+    /**
+     * 保存图片到文件File。
+     *
+     * @param src     源图片
+     * @param file    要保存到的文件
+     * @param format  格式
+     * @param recycle 是否回收
+     * @return true 成功 false 失败
+     */
+    public static boolean save(Bitmap src, File file, Bitmap.CompressFormat format, boolean recycle) {
+        if (isEmptyBitmap(src))
+            return false;
+
+        OutputStream os;
+        boolean ret = false;
+        try {
+            os = new BufferedOutputStream(new FileOutputStream(file));
+            ret = src.compress(format, 100, os);
+            if (recycle && !src.isRecycled())
+                src.recycle();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return ret;
+    }
+
+
+    /**
+     * Bitmap对象是否为空。
+     */
+    public static boolean isEmptyBitmap(Bitmap src) {
+        return src == null || src.getWidth() == 0 || src.getHeight() == 0;
+    }
 
     @Override
     protected void onAnchorLeave() {
@@ -380,16 +756,18 @@ public class LivePlayerTwoActivity extends ChatPopDialogActivity implements ITXL
     }
 
     void goFullscreen(){
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         RelativeLayout.LayoutParams fullparams = new RelativeLayout.LayoutParams(
                 RelativeLayout.LayoutParams.MATCH_PARENT,RelativeLayout.LayoutParams.MATCH_PARENT);
         mPlayerView.setLayoutParams(fullparams);
         //mLivePlayer.setRenderMode(TXLiveConstants.RENDER_MODE_ADJUST_RESOLUTION);
-        mLivePlayer.setRenderRotation(TXLiveConstants.RENDER_ROTATION_LANDSCAPE);
+        mLivePlayer.setRenderRotation(TXLiveConstants.RENDER_ROTATION_PORTRAIT);
         tab_hold_layout.setVisibility(View.GONE);
         live_publish_page.setVisibility(View.GONE);
         live_rl.setVisibility(View.GONE);
         iv_zoom_btn.setVisibility(View.GONE);
         iv_miniaml_zoom_btn.setVisibility(View.VISIBLE);
+        rlHorizontalRoot.setVisibility(View.VISIBLE);
         //mLivePlayer.setRenderRotation(TXLiveConstants.RENDER_ROTATION_LANDSCAPE);
         //mPlayerView.setRenderMode(TXLiveConstants.RENDER_MODE_FULL_FILL_SCREEN);
         //mPlayerView.setRenderMode(TXLiveConstants.RENDER_MODE_ADJUST_RESOLUTION);
@@ -401,12 +779,14 @@ public class LivePlayerTwoActivity extends ChatPopDialogActivity implements ITXL
     }
     void goMinimalscreen(){
         //mLivePlayer.setRenderMode(TXLiveConstants.RENDER_MODE_ADJUST_RESOLUTION);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         RelativeLayout.LayoutParams fullparams = new RelativeLayout.LayoutParams(videowidth,videoheight);
         mPlayerView.setLayoutParams(fullparams);
         mLivePlayer.setRenderRotation(TXLiveConstants.RENDER_ROTATION_PORTRAIT);
         tab_hold_layout.setVisibility(View.VISIBLE);
         live_publish_page.setVisibility(View.VISIBLE);
         live_rl.setVisibility(View.VISIBLE);
+        rlHorizontalRoot.setVisibility(View.GONE);
         //mLivePlayer.setRenderRotation(TXLiveConstants.RENDER_ROTATION_PORTRAIT);
         //mPlayerView.setRenderMode(TXLiveConstants.RENDER_MODE_FULL_FILL_SCREEN);
 

@@ -196,7 +196,8 @@ public class MyLiveRoomActivity extends BaseActivity implements View.OnClickList
         room_my.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MyLiveRoomActivity.this, LectureActivity.class);
+                Intent intent = new Intent(MyLiveRoomActivity.this,
+                        LectureActivity.class);
                 startActivity(intent);
             }
         });
@@ -324,7 +325,7 @@ public class MyLiveRoomActivity extends BaseActivity implements View.OnClickList
 
 
         //返回
-        findViewById(R.id.iv_back_left).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.rl_back_left).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();

@@ -18,6 +18,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.EMError;
 import com.hyphenate.chat.EMClient;
@@ -43,6 +46,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import www.jykj.com.jykj_zxyl.app_base.base_utils.StringUtils;
+
 /**
  * download and show original image
  * 
@@ -56,6 +61,7 @@ public class EaseShowBigImageActivity extends EaseBaseActivity {
 	private Bitmap bitmap;
 	private boolean isDownloaded;
 	private TextView mTvCloseBtn;
+	private String path;
 	@SuppressLint("NewApi")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +75,7 @@ public class EaseShowBigImageActivity extends EaseBaseActivity {
 		Uri uri = getIntent().getParcelableExtra("uri");
 		localFilePath = getIntent().getExtras().getString("localUrl");
 		String msgId = getIntent().getExtras().getString("messageId");
-		EMLog.d(TAG, "show big msgId:" + msgId );
+		path=getIntent().getExtras().getString("path");
 
 		//show the image if it exist in local path
 		if (uri != null && new File(uri.getPath()).exists()) {
@@ -92,7 +98,12 @@ public class EaseShowBigImageActivity extends EaseBaseActivity {
 			}
 		} else if(msgId != null) {
 		    downloadImage(msgId);
-		}else {
+		}else  if(StringUtils.isNotEmpty(path)){
+			Glide.with(this).load(path)
+					.apply(RequestOptions.placeholderOf(com.hyphenate.easeui.R.mipmap.docter_heard)
+							.diskCacheStrategy(DiskCacheStrategy.ALL))
+					.into(image);
+		}else{
 			image.setImageResource(default_res);
 		}
 

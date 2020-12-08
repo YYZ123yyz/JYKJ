@@ -269,7 +269,8 @@ public class VideoDetialPlayerActivity extends AbstractMvpBaseActivity<VideoDeti
         if (playProgress.getVisibility() == View.GONE) {
             playProgress.setVisibility(View.VISIBLE);
             playProgress.clearAnimation();
-            Animation animation = AnimationUtils.loadAnimation(this, R.anim.boxing_option_entry_from_top);
+            Animation animation = AnimationUtils.loadAnimation(this,
+                    R.anim.boxing_option_entry_from_top);
             playProgress.startAnimation(animation);
         }
     }

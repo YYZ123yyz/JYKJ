@@ -74,7 +74,7 @@ public class ChoosedMedicinalListActivity extends AbstractMvpBaseActivity<
     private LoadingLayoutManager mLoadingLayoutManager;//重新加载布局
     private MedicinalCategoryPopup medicinalCategoryPopup;//检查检验列表弹框
     private MedicinalCategoryPopup2 medicinalCategoryPopup2;
-    private MedicinalTypeBean currentMedicinalTypeBean;//当前药品类型
+    private DrugClassificationBean.DrugTypeMedicineListBean currentMedicinalTypeBean;//当前药品类型
     private MedicinalItemAdapter mMedicinalItemAdapter;//药品选项适配器
     private List<MedicinalTypeBean> medicinalTypeBeans;//药品类型
     private List<MedicinalInfoBean> mMedicinalInfoBeans;//药品信息
@@ -97,6 +97,7 @@ public class ChoosedMedicinalListActivity extends AbstractMvpBaseActivity<
                     extras.getSerializable("currentMedicinalInfo");
         }
         medicinalCategoryPopup = new MedicinalCategoryPopup(this);
+        medicinalCategoryPopup2= new MedicinalCategoryPopup2(this);
         medicinalTypeBeans = new ArrayList<>();
         mMedicinalInfoBeans = new ArrayList<>();
         datas=new ArrayList<>();
@@ -121,8 +122,8 @@ public class ChoosedMedicinalListActivity extends AbstractMvpBaseActivity<
     @Override
     protected void initData() {
         super.initData();
-        mPresenter.sendMedicinalTypeListRequest("10036",this);
-        //mPresenter.sendGetDrugTypeMedicineRequest("0",this);
+        //mPresenter.sendMedicinalTypeListRequest("10036",this);
+        mPresenter.sendGetDrugTypeMedicineRequest("0",this);
     }
 
 
@@ -138,9 +139,14 @@ public class ChoosedMedicinalListActivity extends AbstractMvpBaseActivity<
             @Override
             public void onClick(View v) {
 
+//                Bundle bundle=new Bundle();
+//                bundle.putString("drugUseType",currentMedicinalTypeBean.getMedicineCode()+"");
+//                startActivity(AddDrugInfoActivity.class,bundle,100);
+
+
                 Bundle bundle=new Bundle();
-                bundle.putString("drugUseType",currentMedicinalTypeBean.getAttrCode()+"");
-                startActivity(AddDrugInfoActivity.class,bundle,100);
+                bundle.putString("medicineCode",currentMedicinalTypeBean.getMedicineCode()+"");
+                startActivity(AddDrugInfoActivity2.class,bundle,100);
             }
         });
     }
@@ -163,19 +169,34 @@ public class ChoosedMedicinalListActivity extends AbstractMvpBaseActivity<
      */
     private void addListener(){
         rlChooseType.setOnClickListener(v -> {
-            if (!CollectionUtils.isEmpty(medicinalTypeBeans)) {
-                medicinalCategoryPopup.show(viewlTopLine);
-
-                medicinalCategoryPopup.setData(medicinalTypeBeans);
+//            if (!CollectionUtils.isEmpty(medicinalTypeBeans)) {
+//                medicinalCategoryPopup.show(viewlTopLine);
+//
+//                medicinalCategoryPopup.setData(medicinalTypeBeans);
+//            }
+            if(!CollectionUtils.isEmpty(datas)){
+                medicinalCategoryPopup2.show(viewlTopLine);
+                medicinalCategoryPopup2.setData(datas);
             }
         });
-        medicinalCategoryPopup.setOnClickListener(medicinalTypeBean -> {
-            currentMedicinalTypeBean=medicinalTypeBean;
-            tvTitleType.setText(currentMedicinalTypeBean.getAttrName());
-            mPresenter.sendMedicinalInfoListRequest(
-                    currentMedicinalTypeBean.getAttrCode()+""
-                    ,srarchDrugName,pageSize+"",pageIndex+""
-                    ,ChoosedMedicinalListActivity.this);
+//        medicinalCategoryPopup.setOnClickListener(medicinalTypeBean -> {
+//            currentMedicinalTypeBean=medicinalTypeBean;
+//            tvTitleType.setText(currentMedicinalTypeBean.getAttrName());
+//            mPresenter.sendMedicinalInfoListRequest(
+//                    currentMedicinalTypeBean.getAttrCode()+""
+//                    ,srarchDrugName,pageSize+"",pageIndex+""
+//                    ,ChoosedMedicinalListActivity.this);
+//        });
+        medicinalCategoryPopup2.setOnClickListener(new MedicinalCategoryPopup2.OnClickListener() {
+            @Override
+            public void onClickChanged(DrugClassificationBean.DrugTypeMedicineListBean drugTypeMedicineListBean) {
+                currentMedicinalTypeBean=drugTypeMedicineListBean;
+                tvTitleType.setText(currentMedicinalTypeBean.getMedicineName());
+                mPresenter.sendSearchMyClinicDetailResPrescribeDrugInfo_201116(
+                        currentMedicinalTypeBean.getMedicineCode()+""
+                        ,srarchDrugName,pageSize,pageIndex
+                        ,ChoosedMedicinalListActivity.this);
+            }
         });
         tvEnsureBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -205,9 +226,9 @@ public class ChoosedMedicinalListActivity extends AbstractMvpBaseActivity<
                     return;
                 }
                 pageIndex=1;
-                mPresenter.sendMedicinalInfoListRequest(
-                        currentMedicinalTypeBean.getAttrCode()+""
-                        ,srarchDrugName,pageSize+"",pageIndex+"",
+                mPresenter.sendSearchMyClinicDetailResPrescribeDrugInfo_201116(
+                        currentMedicinalTypeBean.getMedicineCode()+""
+                        ,srarchDrugName,pageSize,pageIndex,
                         ChoosedMedicinalListActivity.this);
             }
         });
@@ -227,9 +248,9 @@ public class ChoosedMedicinalListActivity extends AbstractMvpBaseActivity<
                 if (TextUtils.isEmpty(s)) {
                     pageIndex=1;
                     srarchDrugName="";
-                    mPresenter.sendMedicinalInfoListRequest(
-                            currentMedicinalTypeBean.getAttrCode()+""
-                            ,srarchDrugName,pageSize+"",pageIndex+"",
+                    mPresenter.sendSearchMyClinicDetailResPrescribeDrugInfo_201116(
+                            currentMedicinalTypeBean.getMedicineCode()+""
+                            ,srarchDrugName,pageSize,pageIndex,
                             ChoosedMedicinalListActivity.this);
                 }
             }
@@ -255,19 +276,19 @@ public class ChoosedMedicinalListActivity extends AbstractMvpBaseActivity<
 
     @Override
     public void getMedicinalTypeListResult(List<MedicinalTypeBean> list) {
-        medicinalTypeBeans = list;
-        MedicinalTypeBean medicinalTypeBeanTop = medicinalTypeBeans.get(0);
-        int attrCode = medicinalTypeBeanTop.getAttrCode();
-        if (attrCode != -1) {
-            MedicinalTypeBean medicinalTypeBean = new MedicinalTypeBean();
-            medicinalTypeBean.setAttrCode(-1);
-            medicinalTypeBean.setAttrName("全部");
-            medicinalTypeBeans.add(0, medicinalTypeBean);
-        }
-        currentMedicinalTypeBean = medicinalTypeBeans.get(0);
-        mPresenter.sendMedicinalInfoListRequest(
-                currentMedicinalTypeBean.getAttrCode() + ""
-                , srarchDrugName, pageSize + "", pageIndex + "", this);
+//        medicinalTypeBeans = list;
+//        MedicinalTypeBean medicinalTypeBeanTop = medicinalTypeBeans.get(0);
+//        int attrCode = medicinalTypeBeanTop.getAttrCode();
+//        if (attrCode != -1) {
+//            MedicinalTypeBean medicinalTypeBean = new MedicinalTypeBean();
+//            medicinalTypeBean.setAttrCode(-1);
+//            medicinalTypeBean.setAttrName("全部");
+//            medicinalTypeBeans.add(0, medicinalTypeBean);
+//        }
+//        currentMedicinalTypeBean = medicinalTypeBeans.get(0);
+//        mPresenter.sendMedicinalInfoListRequest(
+//                currentMedicinalTypeBean.getAttrCode() + ""
+//                , srarchDrugName, pageSize + "", pageIndex + "", this);
     }
 
     @Override
@@ -306,6 +327,27 @@ public class ChoosedMedicinalListActivity extends AbstractMvpBaseActivity<
                         new ArrayList<>()));
             }
         }
+//        MedicinalTypeBean medicinalTypeBeanTop = medicinalTypeBeans.get(0);
+//        int attrCode = medicinalTypeBeanTop.getAttrCode();
+//        if (attrCode != -1) {
+//            MedicinalTypeBean medicinalTypeBean = new MedicinalTypeBean();
+//            medicinalTypeBean.setAttrCode(-1);
+//            medicinalTypeBean.setAttrName("全部");
+//            medicinalTypeBeans.add(0, medicinalTypeBean);
+//        }
+        DrugClassificationBean groupItem = datas.get(0).getGroupItem();
+        if (groupItem!=null) {
+            List<DrugClassificationBean.DrugTypeMedicineListBean>
+                    drugTypeMedicineList = groupItem.getDrugTypeMedicineList();
+            if (!CollectionUtils.isEmpty(drugTypeMedicineList)) {
+                currentMedicinalTypeBean=drugTypeMedicineList.get(0);
+            }
+        }
+//        mPresenter.sendMedicinalInfoListRequest(
+//                currentMedicinalTypeBean.getMedicineCode() + ""
+//                , srarchDrugName, pageSize + "", pageIndex + "", this);
+        mPresenter.sendSearchMyClinicDetailResPrescribeDrugInfo_201116(   currentMedicinalTypeBean.getMedicineCode() + ""
+                , srarchDrugName, pageSize , pageIndex , this);
     }
 
 
@@ -353,9 +395,9 @@ public class ChoosedMedicinalListActivity extends AbstractMvpBaseActivity<
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode==1000) {
-            mPresenter.sendMedicinalInfoListRequest(
-                    currentMedicinalTypeBean.getAttrCode()+""
-                    ,srarchDrugName,pageSize+"",pageIndex+"",this);
+            mPresenter.sendSearchMyClinicDetailResPrescribeDrugInfo_201116(
+                    currentMedicinalTypeBean.getMedicineCode()+""
+                    ,srarchDrugName,pageSize,pageIndex,this);
         }
     }
 }

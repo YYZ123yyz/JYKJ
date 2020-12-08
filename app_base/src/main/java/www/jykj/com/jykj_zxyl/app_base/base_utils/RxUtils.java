@@ -37,14 +37,15 @@ public class RxUtils {
 
             }
         }
-        if (filePaths.size() == 0) {
-            return null;
-        }
+
         for (int i = 0; i < filePaths.size(); i++) {
             File file = new File(filePaths.get(i));
             RequestBody imageBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
             //"fileName"+i 后台接收图片流的参数名
             builder.addFormDataPart(fileName, file.getName(), imageBody);
+        }
+        if(CollectionUtils.isEmpty(filePaths)){
+            builder.addFormDataPart("","");
         }
         List<MultipartBody.Part> parts = builder.build().parts();
         return parts;

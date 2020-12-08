@@ -14,6 +14,7 @@ import java.util.List;
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.app_base.base_adapter.SecondaryListAdapter;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.DrugClassificationBean;
+import www.jykj.com.jykj_zxyl.app_base.base_bean.MedicinalTypeBean;
 
 /**
  * Description:药品列表
@@ -26,6 +27,12 @@ public class DrugListAdapter extends SecondaryListAdapter<DrugListAdapter.GroupI
     private List<DataTree<DrugClassificationBean,
                 DrugClassificationBean.DrugTypeMedicineListBean>> dts;
     private Context mContext;
+    private OnClickSubListener onClickSubListener;
+
+    public void setOnClickSubListener(OnClickSubListener onClickSubListener) {
+        this.onClickSubListener = onClickSubListener;
+    }
+
     public DrugListAdapter(Context context){
         this.mContext=context;
         dts = new ArrayList<>();
@@ -58,27 +65,33 @@ public class DrugListAdapter extends SecondaryListAdapter<DrugListAdapter.GroupI
 
     @Override
     public void onGroupItemBindViewHolder(RecyclerView.ViewHolder holder, int groupItemIndex) {
-
+        DrugClassificationBean groupItem = dts.get(groupItemIndex).getGroupItem();
+        ((GroupItemViewHolder) holder).tvDrugName.setText(groupItem.getMedicineName());
     }
 
     @Override
     public void onSubItemBindViewHolder(RecyclerView.ViewHolder holder,
                                         int groupItemIndex, int subItemIndex) {
-
+        List<DrugClassificationBean.DrugTypeMedicineListBean> subItems =
+                dts.get(groupItemIndex).getSubItems();
+        DrugClassificationBean.DrugTypeMedicineListBean drugTypeMedicineListBean = subItems.get(subItemIndex);
+        ((SubItemViewHolder) holder).tvChildDrugName.setText(drugTypeMedicineListBean.getMedicineName());
     }
 
     @Override
     public void onGroupItemClick(Boolean isExpand, GroupItemViewHolder holder, int groupItemIndex) {
 
-        DrugClassificationBean groupItem = dts.get(groupItemIndex).getGroupItem();
-        holder.tvDrugName.setText(groupItem.getMedicineName());
+
     }
 
     @Override
     public void onSubItemClick(SubItemViewHolder holder, int groupItemIndex, int subItemIndex) {
-        List<DrugClassificationBean.DrugTypeMedicineListBean> subItems = dts.get(groupItemIndex).getSubItems();
+        List<DrugClassificationBean.DrugTypeMedicineListBean> subItems =
+                dts.get(groupItemIndex).getSubItems();
         DrugClassificationBean.DrugTypeMedicineListBean drugTypeMedicineListBean = subItems.get(subItemIndex);
-        holder.tvChildDrugName.setText(drugTypeMedicineListBean.getMedicineName());
+        if (onClickSubListener!=null) {
+            onClickSubListener.onClickChanged(drugTypeMedicineListBean);
+        }
     }
 
     /**
@@ -106,5 +119,11 @@ public class DrugListAdapter extends SecondaryListAdapter<DrugListAdapter.GroupI
 
 
         }
+    }
+
+    public interface OnClickSubListener{
+
+        void onClickChanged(DrugClassificationBean.DrugTypeMedicineListBean
+                                    drugTypeMedicineListBean);
     }
 }

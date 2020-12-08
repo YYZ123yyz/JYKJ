@@ -160,6 +160,7 @@ dependencies {
     implementation project(':lvb')
     configurations {
         implementation.exclude group: 'com.google.zxing'
+
     }
 
 

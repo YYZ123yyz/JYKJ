@@ -2,6 +2,10 @@ package www.jykj.com.jykj_zxyl.medicalrecord;
 
 import android.app.Activity;
 
+import java.util.List;
+
+import www.jykj.com.jykj_zxyl.app_base.base_bean.DrugClassificationBean;
+import www.jykj.com.jykj_zxyl.app_base.base_bean.DrugDosageBean;
 import www.jykj.com.jykj_zxyl.app_base.mvp.BasePresenter;
 import www.jykj.com.jykj_zxyl.app_base.mvp.BaseView;
 
@@ -23,6 +27,18 @@ public class AddDrugInfoContract {
          * @param msg 信息
          */
         void getOperUpdDrugInfoResult(boolean isSucess,String msg);
+
+        /**
+         * 获取药剂返回结果
+         * @param drugDosageBeans 药剂列表
+         */
+        void getSearchDrugTypeDosageResult(List<DrugDosageBean> drugDosageBeans);
+
+        /**
+         * 获取药品分类返回结果
+         * @param drugClassificationBeans 药品分类列表
+         */
+        void getDrugClassificationBeanResult(List<DrugClassificationBean> drugClassificationBeans);
 
 
     }
@@ -57,5 +73,18 @@ public class AddDrugInfoContract {
                                         String drugNameAlias,String specUnit
                 ,String specName,String dosageCode,String factoryName
                 ,String drugUsageDay,String drugUsageNum,Activity activity);
+
+        /**
+         * [基础数据]药品剂型信息获取
+         * @param activity 获取药剂信息
+         */
+        void sendSearchDrugTypeDosageRequest(Activity activity);
+
+        /**
+         * 发送药品分类请求
+         * @param medicineCode 药物分类编码(0:显示全部; -1:一级目录; 显示子目录:如001 )
+         * @param activity Activity
+         */
+        void sendGetDrugTypeMedicineRequest(String medicineCode,Activity activity);
     }
 }
