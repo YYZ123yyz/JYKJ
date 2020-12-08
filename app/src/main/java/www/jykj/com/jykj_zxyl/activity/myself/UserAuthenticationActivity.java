@@ -121,6 +121,9 @@ public class UserAuthenticationActivity extends BaseActivity {
     private TextView success;
     private LinearLayout lin_schedule;
     private TextView tv_too;
+    private String imgId;
+    private ImageView iv_idcardFont_img;
+    private ImageView iv_idcardBack_img;
 
     /**
      * 创建临时文件夹 _tempphoto
@@ -153,13 +156,13 @@ public class UserAuthenticationActivity extends BaseActivity {
         initDir();
         initHandler();
         initLayout();
-        getDate();
+        getData();
     }
 
     /**
      * 加载数据
      */
-    private void getDate() {
+    private void getData() {
         getProgressBar("请稍候", "正在加载数据。。。");
         //开始识别
         new Thread() {
@@ -214,73 +217,107 @@ public class UserAuthenticationActivity extends BaseActivity {
                           //  lin.setVisibility(View.GONE);
                         }else{
                             provideDoctorQualification = JSON.parseObject(JSON.parseObject(mNetRetStr, NetRetEntity.class).getResJsonData(), ProvideDoctorQualification.class);
-
+                            imgId = provideDoctorQualification.getImgId();
                             //提交状态
                             Integer flagSubmitState = provideDoctorQualification.getFlagSubmitState();
                             //提交日期
                             long submitDate = provideDoctorQualification.getSubmitDate();
                             //审批状态
-                            Integer flagApplyState = provideDoctorQualification.getFlagApplyState();
+                            Integer flagApplyState = provideDoctorQualification.getFlagApprovalState();
                             //拒绝
                             String refuseReason = provideDoctorQualification.getRefuseReason();
                             //审核日期
                             long approvalDate = provideDoctorQualification.getApprovalDate();
 
                             if(flagSubmitState==0){
-                                Log.e("TAG", "handleMessage:vvvvvv "+"未提交" );
+                                mCommit.setVisibility(View.VISIBLE);
                                 lin_schedule.setVisibility(View.GONE);
                             }else if(flagSubmitState==1){
-                                Log.e("TAG", "handleMessage:vvvvvv "+"已提交" );
+                                img_status.setImageDrawable(getResources().getDrawable(R.mipmap.tj));
+                                mCommit.setVisibility(View.GONE);
                                 lin_time.setVisibility(View.VISIBLE);
                                 lin_schedule.setVisibility(View.VISIBLE);
                                 tv_too.setVisibility(View.GONE);
-                                success.setVisibility(View.GONE);
+                              //  success.setVisibility(View.GONE);
                                 tv_time.setText(DateUtils.getDateToStringYYYMMDDHHMMSS(submitDate));
                                 tv_time.setVisibility(View.VISIBLE);
+                                //审核已提交
                                 if(flagApplyState==1){
                                     img_status.setImageDrawable(getResources().getDrawable(R.mipmap.shz));
-                                }else if(flagApplyState==2){
+                                    mCommit.setVisibility(View.GONE);
+                                }
+                                //审批未通过
+                                else if(flagApplyState==2){
+                                    mCommit.setVisibility(View.VISIBLE);
                                     tv_too.setVisibility(View.VISIBLE);
                                     success.setVisibility(View.VISIBLE);
                                     success.setText("审核失败");
                                     img_status.setImageDrawable(getResources().getDrawable(R.mipmap.shsb));
                                     tv_too.setText(refuseReason);
-                                }else if(flagApplyState==3){
+                                }
+                                //审批已通过
+                                else if(flagApplyState==3){
+                                    mCommit.setVisibility(View.GONE);
                                     tv_too.setVisibility(View.VISIBLE);
                                     success.setVisibility(View.VISIBLE);
                                     success.setText("审核成功");
                                     img_status.setImageDrawable(getResources().getDrawable(R.mipmap.shcg));
                                     tv_too.setText(DateUtils.getDateToStringYYYMMDDHHMMSS(approvalDate));
                                 }
+                                //审批状态  未提交
                                 else if(flagApplyState==0){
-
+                                    lin_schedule.setVisibility(View.GONE);
+                                    mCommit.setVisibility(View.VISIBLE);
                                 }
                             }
 
                             if(!TextUtils.isEmpty(provideDoctorQualification.getIdNumberPositiveImgUrl())){
                                 ImageViewUtil.showImageView(mActivity, provideDoctorQualification.getIdNumberPositiveImgUrl(), mIDCardFont);
+                                iv_idcardFont_img.setVisibility(View.GONE);
                             }
                             if(!TextUtils.isEmpty(provideDoctorQualification.getIdNumberSideImgUrl())){
                                 ImageViewUtil.showImageView(mActivity, provideDoctorQualification.getIdNumberSideImgUrl(), mIDCardBack);
+                                iv_idcardBack_img.setVisibility(View.GONE);
                             }
                             if(!TextUtils.isEmpty(provideDoctorQualification.getPractisingImgUrl())){
-//                                Bitmap bm = BitmapFactory.decodeFile(provideDoctorQualification.getPractisingImgUrl());
-//                                mZYZImage.setImageBitmap(bm);
                                 ImageViewUtil.showImageView(mActivity, provideDoctorQualification.getPractisingImgUrl(), mZYZImage);
                                 iv_zyz_img.setVisibility(View.GONE);
                             }
                             if(!TextUtils.isEmpty(provideDoctorQualification.getWorkCardImgUrl())){
-//                                Bitmap bm = BitmapFactory.decodeFile(provideDoctorQualification.getProfessionalImgUrl());
-//                                mZGZImage.setImageBitmap(bm);
                                 ImageViewUtil.showImageView(mActivity, provideDoctorQualification.getWorkCardImgUrl(),mZGZImage );
                                 iv_zgz_img .setVisibility(View.GONE);
                             }
                             if(!TextUtils.isEmpty(provideDoctorQualification.getProfessionalImgUrl())){
-//                                Bitmap bm = BitmapFactory.decodeFile(provideDoctorQualification.getQualificationImgUrl());
-//                                mZCZImage.setImageBitmap(bm);professionalImgUrl
                                 ImageViewUtil.showImageView(mActivity, provideDoctorQualification.getProfessionalImgUrl(),mZCZImage );
                                 iv_zcz_img  .setVisibility(View.GONE);
                             }
+                            //图片路径
+                            String otherCard1ImgUrl = provideDoctorQualification.getOtherCard1ImgUrl();
+                            Log.e("TAG", "handleMessage:  图片地址  "+otherCard1ImgUrl );
+                            if (otherCard1ImgUrl.contains("^")) {
+                              //  String s = otherCard1ImgUrl.replaceAll("^^", ",");
+                                String[] split = otherCard1ImgUrl.split("\\^");
+                                for (int i = 0; i < split.length; i++) {
+                                    Photo_Info photo_info = new Photo_Info();
+                                    photo_info.setPhotoUrl(split[i]);
+                                    photo_info.setStatus("2");
+                                    mPhotoInfos.add(photo_info);
+                                    Log.e("TAG", "handleMessage:   vvvv  "+photo_info.getPhotoUrl() );
+                                }
+
+                                Log.e("TAG", "handleMessage:  分割  "+mPhotoInfos.size() );
+                            } else {
+                                if (!TextUtils.isEmpty(otherCard1ImgUrl)) {
+                                    Photo_Info photo_info = new Photo_Info();
+                                    photo_info.setStatus("2");
+                                    photo_info.setPhotoUrl(otherCard1ImgUrl);
+                                    mPhotoInfos.add(photo_info);
+                                    Log.e("TAG", "handleMessage: ccc"+mPhotoInfos.size() );
+                                }
+
+                            }
+                            mImageAdapter.setDate(mPhotoInfos);
+                            mImageAdapter.notifyDataSetChanged();
                         }
 
                         break;
@@ -291,11 +328,9 @@ public class UserAuthenticationActivity extends BaseActivity {
                         cacerProgress();
                         netRetEntity = JSON.parseObject(mNetRetStr, NetRetEntity.class);
                         if (netRetEntity.getResCode() == 0) {
-                            Log.e("tag", "handleMessage: "+"失败" );
                             Toast.makeText(mContext, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
                             return;
                         } else {
-                            Log.e("tag", "handleMessage: "+mPhotoType+"" );
                             switch (mPhotoType) {
 
                                 case 1:
@@ -523,6 +558,8 @@ public class UserAuthenticationActivity extends BaseActivity {
      * 初始化布局
      */
     private void initLayout() {
+        iv_idcardFont_img = findViewById(R.id.iv_idcardFont_img);
+        iv_idcardBack_img = findViewById(R.id.iv_idcardBack_img);
         //原因
         tv_too = findViewById(R.id.tv_too);
         //进度条布局
@@ -784,31 +821,23 @@ public class UserAuthenticationActivity extends BaseActivity {
 //                //提交数据
                 try {
                     StringBuilder photoUrl = new StringBuilder();
-                    StringBuilder updataIm = new StringBuilder();
-                    if (mPhotoInfos.size() > 1) {
+                    if (mPhotoInfos.size() > 0) {
+
                         for (int i = 1; i < mPhotoInfos.size(); i++) {
                             if (mPhotoInfos.get(i) != null) {
                                 photoUrl.append("data:image/jpg;base64,");
                                 String photo = mPhotoInfos.get(i).getPhoto();
+                                Log.e("TAG", "run:  图片  "+photo );
                                 if (i == mPhotoInfos.size() - 1) {
                                     photoUrl.append(photo);
                                 } else {
                                     photoUrl.append(photo).append("^");
-                                    updataIm.append(mPhotoInfos.get(i).getItemID());
                                 }
 
                             }
+                        }
 
-                        }
-                    }
-                    if (updataArrList.size() > 0) {
-                        for (int i = 0; i < updataArrList.size(); i++) {
-                            if (i == updataArrList.size() - 1) {
-                                updataIm.append(updataArrList.get(i));
-                            } else {
-                                updataIm.append(updataArrList.get(i)).append("^");
-                            }
-                        }
+
                     }
                     UpLoadImgParment upLoadImgParment = new UpLoadImgParment();
                     upLoadImgParment.setLoginDoctorPosition(mApp.loginDoctorPosition);
@@ -819,23 +848,9 @@ public class UserAuthenticationActivity extends BaseActivity {
                     if (photoUrl.toString().contains("null")) {
                         upLoadImgParment.setImgBase64Array("");
                     }else{
+                        Log.e("TAG", "run: bbbb"+photoUrl.toString() );
                         upLoadImgParment.setImgBase64Array(photoUrl.toString());
                     }
-                 /*   if (isUpdata) {
-                        if (updataArrList.size() > 0) {
-                            if (photoUrl.toString().contains("null")) {
-                                upLoadImgParment.setImgBase64Array("");
-                            } else {
-                                upLoadImgParment.setImgBase64Array(photoUrl.toString());
-                            }
-                        } else if (mPhotoInfos.size()> 1){
-                            upLoadImgParment.setImgBase64Array(photoUrl.toString());
-                        }else {
-                            upLoadImgParment.setImgBase64Array("");
-                        }
-                    } else {
-                        upLoadImgParment.setImgBase64Array(photoUrl.toString());
-                    }*/
                     Log.e("TAG", "run: 提交  经纬度"+upLoadImgParment.getLoginDoctorPosition() );
                     Log.e("TAG", "run: 提交  code"+upLoadImgParment.getOperDoctorCode() );
                     Log.e("TAG", "run: 提交  name"+upLoadImgParment.getOperDoctorName() );
@@ -844,6 +859,7 @@ public class UserAuthenticationActivity extends BaseActivity {
 
                     String str = new Gson().toJson(upLoadImgParment);
                     mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + str, Constant.SERVICEURL + "doctorPersonalSetControlle/operSubmitDoctorQualification_20201126");
+                    Log.e("TAG", "run: 提交2222"+mNetRetStr );
                     NetRetEntity netRetEntity = new Gson().fromJson(mNetRetStr, NetRetEntity.class);
                     if (netRetEntity.getResCode() == 0) {
                         NetRetEntity retEntity = new NetRetEntity();

@@ -1,6 +1,7 @@
-package www.jykj.com.jykj_zxyl.live.adapter;
+ package www.jykj.com.jykj_zxyl.live.adapter;
 
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,31 +49,42 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
          * 强制关闭复用，否则出现数据混乱
          */
         viewHolder.setIsRecyclable(false);
+        String status = datas.get(position).getStatus();
+        if(!TextUtils.isEmpty(status)){
+            if(status.equals("1")){
+                Log.e("TAG", "onBindViewHolder: "+status );
+                viewHolder.delete_img.setVisibility(View.VISIBLE);
+                if ("ADDPHOTO".equals(datas.get(position).getPhotoID())) {
+                    //   viewHolder.mImageView.setBackgroundResource(R.mipmap.pz);
+                    Log.i("执行", "执行Add:" + position);
+                    viewHolder.delete_img.setVisibility(View.GONE);
+                    viewHolder.img_view.setVisibility(View.VISIBLE);
+                } else if (datas.get(position).getPhoto() != null) {
+                    viewHolder.mImageView.setImageBitmap(BitmapUtil.stringtoBitmap(datas.get(position).getPhoto()));
+                    Log.i("执行", "执行:" + position);
+                    viewHolder.delete_img.setVisibility(View.VISIBLE);
+                    viewHolder.img_view.setVisibility(View.GONE);
+                } else if (StrUtils.defaultStr(datas.get(position).getPhotoUrl()).length() > 0) {
+                    Glide.with(viewHolder.mImageView.getContext()).load(datas.get(position).getPhotoUrl())
+                            .apply(RequestOptions.placeholderOf(com.hyphenate.easeui.R.mipmap.docter_heard)
+                                    .diskCacheStrategy(DiskCacheStrategy.ALL))
+                            .into(viewHolder.mImageView);
+                    viewHolder.img_view.setVisibility(View.GONE);
 
-           viewHolder.delete_img.setVisibility(View.VISIBLE);
-           if ("ADDPHOTO".equals(datas.get(position).getPhotoID())) {
-            //   viewHolder.mImageView.setBackgroundResource(R.mipmap.pz);
-               Log.i("执行", "执行Add:" + position);
-               viewHolder.delete_img.setVisibility(View.GONE);
-               viewHolder.img_view.setVisibility(View.VISIBLE);
-           } else if (datas.get(position).getPhoto() != null) {
-               viewHolder.mImageView.setImageBitmap(BitmapUtil.stringtoBitmap(datas.get(position).getPhoto()));
-               Log.i("执行", "执行:" + position);
-               viewHolder.delete_img.setVisibility(View.VISIBLE);
-               viewHolder.img_view.setVisibility(View.GONE);
-           } else if (StrUtils.defaultStr(datas.get(position).getPhotoUrl()).length() > 0) {
-               Glide.with(viewHolder.mImageView.getContext()).load(datas.get(position).getPhotoUrl())
-                       .apply(RequestOptions.placeholderOf(com.hyphenate.easeui.R.mipmap.docter_heard)
-                               .diskCacheStrategy(DiskCacheStrategy.ALL))
-                       .into(viewHolder.mImageView);
-               viewHolder.img_view.setVisibility(View.GONE);
+                }
 
-       }
+            }
+            else{
+                viewHolder.delete_img.setVisibility(View.GONE);
+                viewHolder.img_view.setVisibility(View.GONE);
+                Log.e("TAG", "onBindViewHolder:vvvvvv "+status );
+            }
+        }
 
 
 
         if (mOnItemClickListener != null) {
-            viewHolder.mImageView.setOnClickListener(new View.OnClickListener() {
+            viewHolder.delete_img.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if (mCanClick){
@@ -82,7 +94,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
                 }
             });
 
-            viewHolder.mImageView.setOnLongClickListener(new View.OnLongClickListener() {
+            viewHolder.delete_img.setOnLongClickListener(new View.OnLongClickListener() {
 
                 @Override
                 public boolean onLongClick(View view) {
@@ -93,7 +105,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
                 }
             });
         }
-        viewHolder.mImageView.setClickable(mCanClick);
+        viewHolder.delete_img.setClickable(mCanClick);
     }
 
     //获取数据的数量
