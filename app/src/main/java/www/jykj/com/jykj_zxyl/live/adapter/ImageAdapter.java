@@ -1,8 +1,11 @@
  package www.jykj.com.jykj_zxyl.live.adapter;
 
+import android.app.Activity;
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,11 +30,15 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
     private OnItemClickListener mOnItemClickListener;
     private JYKJApplication mApp;
     private boolean mCanClick = true;
-
-    public ImageAdapter(List<Photo_Info> list, JYKJApplication app) {
+    private Context mContext;
+    private int width;
+    public ImageAdapter(List<Photo_Info> list, JYKJApplication app, Context context) {
         datas = new ArrayList<>();
         datas.addAll(list);
         mApp = app;
+        this.mContext=context;
+        Display defaultDisplay = ((Activity) mContext).getWindowManager().getDefaultDisplay();
+         width = defaultDisplay.getWidth();
     }
 
     //创建新View，被LayoutManager所调用
@@ -73,11 +80,17 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
 
                 }
 
-            }
-            else{
+            } else{
                 viewHolder.delete_img.setVisibility(View.GONE);
                 viewHolder.img_view.setVisibility(View.GONE);
-                Log.e("TAG", "onBindViewHolder:vvvvvv "+status );
+                Glide.with(viewHolder.mImageView.getContext()).load(datas.get(position).getPhotoUrl())
+                        .apply(RequestOptions.placeholderOf(com.hyphenate.easeui.R.mipmap.docter_heard)
+                                .diskCacheStrategy(DiskCacheStrategy.ALL))
+                        .into(viewHolder.mImageView);
+                //Log.e("TAG", "onBindViewHolder:vvvvvv "+status );
+                ViewGroup.LayoutParams layoutParams = viewHolder.mImageView.getLayoutParams();
+                layoutParams.height=width/3;
+                viewHolder.mImageView.setLayoutParams(layoutParams);
             }
         }
 

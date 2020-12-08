@@ -294,6 +294,7 @@ public class UserAuthenticationActivity extends BaseActivity {
                             //图片路径
                             String otherCard1ImgUrl = provideDoctorQualification.getOtherCard1ImgUrl();
                             Log.e("TAG", "handleMessage:  图片地址  "+otherCard1ImgUrl );
+                            mPhotoInfos.clear();
                             if (otherCard1ImgUrl.contains("^")) {
                               //  String s = otherCard1ImgUrl.replaceAll("^^", ",");
                                 String[] split = otherCard1ImgUrl.split("\\^");
@@ -584,7 +585,7 @@ public class UserAuthenticationActivity extends BaseActivity {
         final Photo_Info photo_info = new Photo_Info();
         photo_info.setPhotoID("ADDPHOTO");
         mPhotoInfos.add(photo_info);
-        mImageAdapter = new ImageAdapter(mPhotoInfos,mApp);
+        mImageAdapter = new ImageAdapter(mPhotoInfos,mApp,this);
         mImageRecycleView.setAdapter(mImageAdapter);
         mImageAdapter.setOnItemClickListener(new ImageAdapter.OnItemClickListener() {
             @Override
