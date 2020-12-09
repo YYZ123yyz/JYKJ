@@ -51,7 +51,7 @@
             android:layout_centerVertical="true"
             android:layout_marginStart="5dp"
             android:layout_marginEnd="5dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:background="@drawable/bg_round_000000_15"
             >
 
@@ -124,14 +124,14 @@
     <RelativeLayout
         android:id="@+id/video_releative_layout"
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/dp_30"
+        android:layout_height="50dp"
         android:layout_gravity="right|top"
         android:layout_marginTop="@dimen/dp_5"
         android:layout_marginRight="@dimen/dp_5">
 
         <LinearLayout
             android:id="@+id/btns_video"
-            android:layout_width="@dimen/dp_140"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="@dimen/dp_5"
@@ -144,8 +144,9 @@
 
             <Button
                 android:id="@+id/btnMessage"
-                android:layout_width="@dimen/dp_25"
-                android:layout_height="@dimen/dp_25"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="10dp"
                 android:background="@mipmap/message"
                 android:minWidth="0dp"
                 android:minHeight="0dp" />
@@ -157,8 +158,9 @@
 
             <Button
                 android:id="@+id/btnOriention"
-                android:layout_width="@dimen/dp_25"
-                android:layout_height="@dimen/dp_25"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="10dp"
                 android:background="@mipmap/camerarienthg"
                 android:minWidth="0dp"
                 android:minHeight="0dp" />
@@ -170,8 +172,9 @@
 
             <Button
                 android:id="@+id/btnShare"
-                android:layout_width="@dimen/dp_25"
-                android:layout_height="@dimen/dp_25"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="10dp"
                 android:background="@mipmap/share_tran"
                 android:minWidth="0dp"
                 android:minHeight="0dp" />
@@ -183,8 +186,8 @@
 
             <Button
                 android:id="@+id/btnShut"
-                android:layout_width="@dimen/dp_25"
-                android:layout_height="match_parent"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:background="@mipmap/shut_video"
                 android:minWidth="0dp"
                 android:minHeight="0dp" />

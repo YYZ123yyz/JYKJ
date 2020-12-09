@@ -1216,7 +1216,7 @@ public class LivePlayerTwoActivity extends ChatPopDialogActivity implements ITXL
 //            mLivePlayer.onLogRecord("[event:"+event+"]"+msg+"\n");
 //        }
         if (event < 0) {
-            Toast.makeText(getApplicationContext(), param.getString(TXLiveConstants.EVT_DESCRIPTION), Toast.LENGTH_SHORT).show();
+           // Toast.makeText(getApplicationContext(), param.getString(TXLiveConstants.EVT_DESCRIPTION), Toast.LENGTH_SHORT).show();
         }
 
         else if (event == TXLiveConstants.PLAY_EVT_PLAY_BEGIN) {

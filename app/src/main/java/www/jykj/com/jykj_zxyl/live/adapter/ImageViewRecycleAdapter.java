@@ -35,7 +35,7 @@ public class ImageViewRecycleAdapter extends RecyclerView.Adapter<ImageViewRecyc
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         View view = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.item_recycleview_imageview, viewGroup, false);
+                .inflate(R.layout.item_live_imageview, viewGroup, false);
         ViewHolder vh = new ViewHolder(view);
         return vh;
     }
@@ -48,7 +48,7 @@ public class ImageViewRecycleAdapter extends RecyclerView.Adapter<ImageViewRecyc
          */
         viewHolder.setIsRecyclable(false);
         if ("ADDPHOTO".equals(datas.get(position).getPhotoID())) {
-            viewHolder.mImageView.setBackgroundResource(R.mipmap.bg_addphoto);
+            viewHolder.mImageView.setImageResource(R.mipmap.bg_live_add);
             viewHolder.mIvDeleteBtn.setVisibility(View.GONE);
             Log.i("执行", "执行Add:" + position);
         } else if (datas.get(position).getPhoto() != null) {
