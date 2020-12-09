@@ -26,7 +26,7 @@ import www.jykj.com.jykj_zxyl.medicalrecord.AddDrugInfoPresenter;
 import www.jykj.com.jykj_zxyl.util.ActivityUtil;
 
 /**
- * Description:
+ * Description:添加药品信息
  *
  * @author: qiuxinhai
  * @date: 2020-11-26 17:05
@@ -38,8 +38,6 @@ public class AddDrugInfoActivity2 extends AbstractMvpBaseActivity<AddDrugInfoCon
     BaseToolBar toolbar;
     @BindView(R.id.ed_input_medicine_content)
     EditText edInputMedicineContent;
-    @BindView(R.id.tv_unit_name)
-    TextView tvUnitName;
     @BindView(R.id.tv_dosage_name)
     TextView tvDosageName;
     @BindView(R.id.tv_specs_name)
@@ -62,18 +60,10 @@ public class AddDrugInfoActivity2 extends AbstractMvpBaseActivity<AddDrugInfoCon
     RelativeLayout rlChooseDrugTypeRoot;
     @BindView(R.id.tv_drug_type)
     TextView tvDrugType;
-    @BindView(R.id.ed_drug_unit)
-    EditText edDrugUnit;
-    @BindView(R.id.ed_drug_specs)
-    EditText edDrugSpecs;
     @BindView(R.id.ed_drug_name_alias)
     EditText edDrugNameAlias;
     @BindView(R.id.ed_factory_name)
     EditText edFactoryName;
-    @BindView(R.id.ed_use_usage)
-    EditText edUseUsage;
-    @BindView(R.id.ed_use_num)
-    EditText edUserNum;
     private List<DrugDosageBean> drugDosageBeans;
     private DrugDosageBean currentDrugDosageBean;
     private DrugClassificationBean.DrugTypeMedicineListBean currentDrugTypeMedicineListBean;
@@ -140,23 +130,18 @@ public class AddDrugInfoActivity2 extends AbstractMvpBaseActivity<AddDrugInfoCon
                     ToastUtils.showToast("请选择药品分类");
                     return;
                 }
-                String drugUnit = edDrugUnit.getText().toString();
-                if (TextUtils.isEmpty(drugUnit)) {
-                    ToastUtils.showToast("药品单位不能为空");
-                    return;
-                }
-                String drugSpecs = edDrugSpecs.getText().toString();
-                if (TextUtils.isEmpty(drugSpecs)) {
-                    ToastUtils.showToast("药品规格不能为空");
-                    return;
-                }
+//                String drugSpecs = edDrugSpecs.getText().toString();
+//                if (TextUtils.isEmpty(drugSpecs)) {
+//                    ToastUtils.showToast("药品规格不能为空");
+//                    return;
+//                }
                 String drugNameAlias = edDrugNameAlias.getText().toString();
 
                 mPresenter.sendOperUpdDrugInfo_201116(medicineCode,
-                        medicineName,drugNameAlias,drugUnit,drugSpecs
+                        medicineName,drugNameAlias,"",""
                         ,currentDrugDosageBean.getDosageCode()
                         ,edFactoryName.getText().toString()
-                        ,edUseUsage.getText().toString(),edUserNum.getText().toString(),
+                        ,"","",
                         AddDrugInfoActivity2.this);
 
 

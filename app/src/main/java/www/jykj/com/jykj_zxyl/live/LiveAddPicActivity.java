@@ -32,6 +32,7 @@ import www.jykj.com.jykj_zxyl.app_base.base_bean.LiveProtromDetialBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.UploadLiveImageResultBean;
 import www.jykj.com.jykj_zxyl.app_base.base_utils.CollectionUtils;
 import www.jykj.com.jykj_zxyl.app_base.base_utils.FileUtils;
+import www.jykj.com.jykj_zxyl.app_base.base_utils.OnClickHelper;
 import www.jykj.com.jykj_zxyl.app_base.base_view.BaseToolBar;
 import www.jykj.com.jykj_zxyl.app_base.mvp.AbstractMvpBaseActivity;
 import www.jykj.com.jykj_zxyl.application.Constant;
@@ -190,7 +191,10 @@ public class LiveAddPicActivity extends AbstractMvpBaseActivity<AddLivePhotoCont
         tvAddBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if (OnClickHelper.isFastDoubleClick()) {
+                    //防止恶意点击
+                    return;
+                }
                 if (mPhotoInfos.size() == 1 && mUpdateInfos.size() == 0) {
                     ToastUtils.showToast("请选择图片");
                     return;

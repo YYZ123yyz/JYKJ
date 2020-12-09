@@ -39,6 +39,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.*;
 import com.alibaba.fastjson.JSON;
+import com.allen.library.interceptor.Transformer;
 import com.allen.library.utils.ToastUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.bumptech.glide.Glide;
@@ -67,6 +68,12 @@ import wechatShare.WechatShareManager;
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.adapter.HeadImageViewRecycleAdapter;
 import www.jykj.com.jykj_zxyl.adapter.LiveFragmentAdapter;
+import www.jykj.com.jykj_zxyl.app_base.base_bean.BaseBean;
+import www.jykj.com.jykj_zxyl.app_base.base_bean.LiveStatusBean;
+import www.jykj.com.jykj_zxyl.app_base.http.ApiHelper;
+import www.jykj.com.jykj_zxyl.app_base.http.CommonDataObserver;
+import www.jykj.com.jykj_zxyl.app_base.http.ParameUtil;
+import www.jykj.com.jykj_zxyl.app_base.http.RetrofitUtil;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.custom.ShareDialog;
 import www.jykj.com.jykj_zxyl.fragment.liveroom.IntroductionFragment;
@@ -74,6 +81,7 @@ import www.jykj.com.jykj_zxyl.fragment.liveroom.LiveChatFragment;
 import www.jykj.com.jykj_zxyl.fragment.liveroom.LiveProgromFragment;
 import www.jykj.com.jykj_zxyl.util.CircleImageView;
 import www.jykj.com.jykj_zxyl.util.DateUtils;
+import www.jykj.com.jykj_zxyl.util.GsonUtils;
 import www.jykj.com.jykj_zxyl.util.StrUtils;
 import www.jykj.com.jykj_zxyl.util.TCConstants;
 import ztextviewlib.MarqueeTextView;
@@ -85,6 +93,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class LivePlayerTwoActivity extends ChatPopDialogActivity implements ITXLivePlayListener, View.OnClickListener {
@@ -173,6 +182,7 @@ public class LivePlayerTwoActivity extends ChatPopDialogActivity implements ITXL
         checkPublishPermission();
         initview();
         createChat();
+        sendGetLiveStatusRequest(mdetailCode);
     }
 
     RoomDetailInfo myroominfo = null;
@@ -212,11 +222,11 @@ public class LivePlayerTwoActivity extends ChatPopDialogActivity implements ITXL
             tv_head_tit.setText(parnickname);
             tv_liveroom_name.setText(myroominfo.getBroadcastTitle());
             tv_landscape_liveroom_name.setText(myroominfo.getBroadcastTitle());
-            int flagAnchorStates = myroominfo.getFlagAnchorStates();
-            if (flagAnchorStates==0) {
-                tvPlayErrorMsg.setVisibility(View.VISIBLE);
-                tvPlayErrorMsg.setText("主播还未开播");
-            }
+//            int flagAnchorStates = myroominfo.getFlagAnchorStates();
+//            if (flagAnchorStates==0) {
+//                tvPlayErrorMsg.setVisibility(View.VISIBLE);
+//                tvPlayErrorMsg.setText("主播还未开播");
+//            }
         }
     }
 
@@ -255,6 +265,36 @@ public class LivePlayerTwoActivity extends ChatPopDialogActivity implements ITXL
         if (mDialogProgress != null) {
             mDialogProgress.dismiss();
         }
+    }
+
+
+    /**
+     * 发送获取直播状态
+     * @param detailsCode 获取直播状态
+     */
+    void sendGetLiveStatusRequest(String detailsCode){
+        HashMap<String, Object> hashMap = ParameUtil.buildBaseParam();
+        hashMap.put("detailsCode",detailsCode);
+        String s = RetrofitUtil.encodeParam(hashMap);
+        ApiHelper.getLiveApi().getDetailsState(s).compose(Transformer.switchSchedulers())
+                .subscribe(new CommonDataObserver() {
+            @Override
+            protected void onSuccessResult(BaseBean baseBean) {
+                int resCode = baseBean.getResCode();
+                if (resCode==1) {
+                    LiveStatusBean liveStatusBean =
+                            GsonUtils.fromJson(baseBean.getResJsonData(), LiveStatusBean.class);
+                    if (liveStatusBean!=null) {
+                        int flagAnchorStates = liveStatusBean.getFlagAnchorStates();
+                        if (flagAnchorStates==0) {
+                            tvPlayErrorMsg.setVisibility(View.VISIBLE);
+                            tvPlayErrorMsg.setText("主播还未开播");
+                        }
+                    }
+
+                }
+            }
+        });
     }
 
     void loadLive(){

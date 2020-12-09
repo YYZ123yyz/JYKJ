@@ -1,13 +1,13 @@
 package www.jykj.com.jykj_zxyl.fragment.liveroom.adapter;
 
 import android.annotation.SuppressLint;
-import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -15,8 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
-
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -40,13 +38,13 @@ import www.jykj.com.jykj_zxyl.app_base.base_bean.LiveProtromDetialBean;
 public class LiveProgromPicAdapter extends RecyclerView.Adapter<LiveProgromPicAdapter.ViewHolder> {
     private Context mContext;
     private  List<LiveProtromDetialBean.ImageListBean> datas;
-    private int width;
+    private int mWidth;
     public LiveProgromPicAdapter(List<LiveProtromDetialBean.ImageListBean> list, Context context) {
         mContext = context;
         datas = new ArrayList<>();
         datas = list;
         Display defaultDisplay = ((Activity) context).getWindowManager().getDefaultDisplay();
-         width = defaultDisplay.getWidth();
+        mWidth = defaultDisplay.getWidth();
     }
 
 
@@ -87,12 +85,18 @@ public class LiveProgromPicAdapter extends RecyclerView.Adapter<LiveProgromPicAd
                     public boolean onResourceReady(Drawable drawable,
                                                    Object model, Target<Drawable> target,
                                                    DataSource dataSource, boolean isFirstResource) {
-                        int w = drawable.getIntrinsicWidth();
-                        int h = drawable.getIntrinsicHeight();
+
+                        BitmapDrawable bd = (BitmapDrawable) drawable;
+                        Bitmap bm= bd.getBitmap();
+                        int h = bm.getHeight();
                         ViewGroup.LayoutParams para= holder.ivLiveProgromPic.getLayoutParams();
                         para.height =h ;
-                        para.width = width;
+                        para.width = mWidth;
                         holder.ivLiveProgromPic.setLayoutParams(para);
+                        ViewGroup.LayoutParams layoutParams = holder.mLlRootView.getLayoutParams();
+                        layoutParams.width=mWidth;
+                        layoutParams.height=h;
+                        holder.mLlRootView.setLayoutParams(layoutParams);
                         return false;
                     }
                 })
@@ -110,8 +114,10 @@ public class LiveProgromPicAdapter extends RecyclerView.Adapter<LiveProgromPicAd
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private ImageView ivLiveProgromPic;
+        private LinearLayout mLlRootView;
         public ViewHolder(View view) {
             super(view);
+            mLlRootView=view.findViewById(R.id.ll_root_view);
             ivLiveProgromPic = view.findViewById(R.id.iv_live_progrom_pic);
 
         }
