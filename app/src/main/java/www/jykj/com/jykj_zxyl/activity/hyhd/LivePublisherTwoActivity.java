@@ -1,6 +1,7 @@
 package www.jykj.com.jykj_zxyl.activity.hyhd;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.app.Service;
@@ -275,6 +276,7 @@ public class LivePublisherTwoActivity extends ChatPopDialogActivity implements V
 
     static final int SHOW_MESSAGE_FLAG = 101;
 
+    @SuppressLint("HandlerLeak")
     Handler myHandler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
