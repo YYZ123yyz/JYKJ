@@ -2,4 +2,6 @@
 <paths>
     <!-- 物理路径为Context.getExternalFilesDir(String) + /files/* -->
     <external-files-path path="." name="externalfiles"/>
+    <external-path name="my_images"
+        path="Pictures"/>
 </paths>

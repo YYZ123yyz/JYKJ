@@ -2,6 +2,7 @@ package www.jykj.com.jykj_zxyl.live;
 import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -10,6 +11,7 @@ import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -19,6 +21,10 @@ import android.widget.Toast;
 import com.allen.library.utils.ToastUtils;
 import com.blankj.utilcode.util.UriUtils;
 import com.hyphenate.easeui.ui.EaseShowBigImageActivity;
+import com.luck.picture.lib.PictureSelector;
+import com.luck.picture.lib.config.PictureConfig;
+import com.luck.picture.lib.config.PictureMimeType;
+import com.luck.picture.lib.entity.LocalMedia;
 import com.tbruyelle.rxpermissions.RxPermissions;
 import java.io.File;
 import java.util.ArrayList;
@@ -148,11 +154,10 @@ public class LiveAddPicActivity extends AbstractMvpBaseActivity<AddLivePhotoCont
             @Override
             public void onClick(int position) {
 
-
-
                 String photoID = mPhotoInfos.get(position).getPhotoID();
                 if (StringUtils.isNotEmpty(photoID)&&photoID.equals("ADDPHOTO")) {
-                    startTakePhotoRequest();
+                   startTakePhotoRequest();
+
                 } else {
                     Intent intent = new Intent(LiveAddPicActivity.this,
                             EaseShowBigImageActivity.class);
@@ -228,6 +233,42 @@ public class LiveAddPicActivity extends AbstractMvpBaseActivity<AddLivePhotoCont
     }
 
 
+    /**
+     * 选择图库
+     */
+    private void choosePicture(){
+        PictureSelector.create(LiveAddPicActivity.this)
+                .openGallery(PictureMimeType.ofImage())// 全部.PictureMimeType.ofAll()、图片.ofImage()、视频.ofVideo()、音频.ofAudio()
+                .maxSelectNum(30)// 最大图片选择数量
+                .minSelectNum(1)// 最小选择数量
+                .imageSpanCount(3)// 每行显示个数
+                //.selectionMedia(tempList)
+                .isCloseMain(true)//是否关闭主页面
+                .selectionMode(PictureConfig.MULTIPLE)// 多选 or 单选
+                .previewImage(true)// 是否可预览图片
+                .previewVideo(true)// 是否可预览视频
+                .enablePreviewAudio(true) // 是否可播放音频
+                .isCamera(false)// 是否显示拍照按钮
+                .isZoomAnim(true)// 图片列表点击 缩放效果 默认true
+                //.imageFormat(PictureMimeType.PNG)// 拍照保存图片格式后缀,默认jpeg
+                //.setOutputCameraPath("/CustomPath")// 自定义拍照保存路径
+                .enableCrop(false)// 是否裁剪
+                .compress(true)// 是否压缩
+                .synOrAsy(true)//同步true或异步false 压缩 默认同步
+                //.compressSavePath(getPath())//压缩图片保存地址
+                //.sizeMultiplier(0.5f)// glide 加载图片大小 0~1之间 如设置 .glideOverride()无效
+                .glideOverride(160, 160)// glide 加载宽高，越小图片列表越流畅，但会影响列表图片浏览的清晰度
+                .withAspectRatio(16, 9)// 裁剪比例 如16:9 3:2 3:4 1:1 可自定义
+                .hideBottomControls(true)// 是否显示uCrop工具栏，默认不显示
+                .isGif(true)// 是否显示gif图片
+                .freeStyleCropEnabled(true)// 裁剪框是否可拖拽
+                .circleDimmedLayer(false)// 是否圆形裁剪
+                .showCropFrame(false)// 是否显示裁剪矩形边框 圆形裁剪时建议设为false
+                .showCropGrid(false)// 是否显示裁剪矩形网格 圆形裁剪时建议设为false
+                .openClickSound(false)// 是否开启点击声音
+                .minimumCompressSize(100)// 小于100kb的图片不压缩
+                .forResult(PictureConfig.CHOOSE_REQUEST);//结果回调onActivityResult code
+    }
 
     /**
      * 获取image List
@@ -273,7 +314,8 @@ public class LiveAddPicActivity extends AbstractMvpBaseActivity<AddLivePhotoCont
 
                                                 break;
                                             case 1:
-                                                BitmapUtil.selectAlbum(LiveAddPicActivity.this);//从相册选择
+                                               // BitmapUtil.selectAlbum(LiveAddPicActivity.this);//从相册选择
+                                                choosePicture();
                                                 break;
                                         }
                                     }
@@ -287,66 +329,55 @@ public class LiveAddPicActivity extends AbstractMvpBaseActivity<AddLivePhotoCont
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
 
+        if (resultCode == RESULT_OK) {
+
+           switch (requestCode){
+               case PictureConfig.CHOOSE_REQUEST:
+                   List<LocalMedia> selectList = PictureSelector.obtainMultipleResult(data);
+                   for (LocalMedia localMedia : selectList) {
+                       ImageInfoBean imageInfoBean = new ImageInfoBean();
+                       imageInfoBean.setPhotoUrl(localMedia.getCompressPath());
+                       mPhotoInfos.add(imageInfoBean);
+                   }
+
+                   addLastImageBtn(mPhotoInfos);
+                   mImageViewRecycleAdapter.setDate(mPhotoInfos);
+                   mImageViewRecycleAdapter.notifyDataSetChanged();
+                   break;
+               case Constant.SELECT_PIC_BY_TACK_PHOTO:
+                   imageCompressImg(mTempFile);
+                   break;
+                   default:
+
+           }
+
+        }
+
         // 如果是直接从相册获取
-        if (requestCode == Constant.SELECT_PIC_FROM_ALBUM
-                && resultCode == RESULT_OK
-                && data != null) {
-
-            final Uri uri = data.getData();//返回相册图片的Uri
-            imageCompressImg(uri);
-        }
-
-        // 处理拍照返回
-        if (requestCode == Constant.SELECT_PIC_BY_TACK_PHOTO
-                && resultCode == RESULT_OK) {// 拍照成功 RESULT_OK= -1
-           // final Uri uri = data.getData();//返回相册图片的Uri
-            imageCompressImg2(mTempFile);
-            // 剪裁图片
-        }
+//        if (requestCode == Constant.SELECT_PIC_FROM_ALBUM
+//                && resultCode == RESULT_OK
+//                && data != null) {
+//
+//            final Uri uri = data.getData();//返回相册图片的Uri
+//            imageCompressImg(uri);
+//        }
+//
+//        // 处理拍照返回
+//        if (requestCode == Constant.SELECT_PIC_BY_TACK_PHOTO
+//                && resultCode == RESULT_OK) {// 拍照成功 RESULT_OK= -1
+//           // final Uri uri = data.getData();//返回相册图片的Uri
+//            imageCompressImg2(mTempFile);
+//            // 剪裁图片
+//        }
         super.onActivityResult(requestCode, resultCode, data);
     }
 
 
-    /**
-     * 初始化RecyclerView
-     */
-    private void imageCompressImg(Uri uri) {
-        Luban.with(this)
-                .load(UriUtils.uri2File(uri))
-                .ignoreBy(100)
-                .setTargetDir(FileUtils.getPath())
-                .filter(path -> !(TextUtils.isEmpty(path) || path.toLowerCase().endsWith(".gif")))
-                .setCompressListener(new OnCompressListener() {
-                    @Override
-                    public void onStart() {
-                        // TODO 压缩开始前调用，可以在方法内启动 loading UI
-                    }
-
-                    @Override
-                    public void onSuccess(File file) {
-                        // TODO 压缩成功后调用，返回压缩后的图片文件
-
-                        ImageInfoBean imageInfoBean = new ImageInfoBean();
-                        imageInfoBean.setPhotoUrl(file.getAbsolutePath());
-                        mPhotoInfos.add(imageInfoBean);
-                        addLastImageBtn(mPhotoInfos);
-                        mImageViewRecycleAdapter.setDate(mPhotoInfos);
-                        mImageViewRecycleAdapter.notifyDataSetChanged();
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        // TODO 当压缩过程出现问题时调用
-                        System.out.println(e);
-                    }
-                }).launch();
-    }
 
     /**
      * 初始化RecyclerView
      */
-    private void imageCompressImg2(File file) {
+    private void imageCompressImg(File file) {
         Luban.with(this)
                 .load(file)
                 .ignoreBy(100)

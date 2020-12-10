@@ -205,7 +205,7 @@ public class SettingActivity extends BaseActivity {
             @Override
             public void onClick(DialogInterface dialog, int which)
             {
-                Toast.makeText(SettingActivity.this, "negative: " + which, Toast.LENGTH_SHORT).show();
+               // Toast.makeText(SettingActivity.this, "negative: " + which, Toast.LENGTH_SHORT).show();
             }
         });
 

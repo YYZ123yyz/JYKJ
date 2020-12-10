@@ -176,32 +176,7 @@ public class MainActivity extends BaseActivity {
 
     }
 
-    private void data() {
-        emConnectionListener = new EMConnectionListener() {
-            @Override
-            public void onDisconnected(int error) {
 
-                if (error == EMError.USER_REMOVED || error == EMError.USER_LOGIN_ANOTHER_DEVICE || error == EMError.SERVER_SERVICE_RESTRICTED) {
-
-                    new Thread() {
-                        public void run() {
-                            mHandler.sendEmptyMessage(1);
-                        }
-                    }.start();
-
-                } else {
-
-                    Log.e("tag", "onDisconnected: " + "00000");
-                }
-            }
-
-            @Override
-            public void onConnected() {
-
-            }
-        };
-        EMClient.getInstance().addConnectionListener(emConnectionListener);
-    }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     private void getLocation() {

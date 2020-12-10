@@ -1,5 +1,6 @@
 package www.jykj.com.jykj_zxyl.activity;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -26,6 +27,9 @@ import netService.HttpNetService;
 import netService.entity.NetRetEntity;
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.app_base.base_activity.BaseActivity;
+import www.jykj.com.jykj_zxyl.app_base.base_utils.GsonUtils;
+import www.jykj.com.jykj_zxyl.app_base.base_utils.SharedPreferences_DataSave;
+import www.jykj.com.jykj_zxyl.app_base.base_utils.StringUtils;
 import www.jykj.com.jykj_zxyl.application.Constant;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 
@@ -94,10 +98,14 @@ public class SplashActivity extends BaseActivity {
      * 自动登录
      */
     private void autoLogin() {
-
-
-        if (mApp.mViewSysUserDoctorInfoAndHospital != null) {
-            mApp.saveUserInfo();
+        SharedPreferences_DataSave m_persist = new SharedPreferences_DataSave(this,
+                "JYKJDOCTER");
+        String userInfoSuLogin = m_persist.getString("viewSysUserDoctorInfoAndHospital", "");
+        if (StringUtils.isNotEmpty(userInfoSuLogin)) {
+           ViewSysUserDoctorInfoAndHospital mProvideViewSysUserPatientInfoAndRegion
+                    = GsonUtils.fromJson(userInfoSuLogin, ViewSysUserDoctorInfoAndHospital.class);
+            mApp.mViewSysUserDoctorInfoAndHospital= mProvideViewSysUserPatientInfoAndRegion;
+           mApp.saveUserInfo();
             mApp.loginIM();
             Intent intent = new Intent(SplashActivity.this, MainActivity.class);
             startActivity(intent);
@@ -153,6 +161,7 @@ public class SplashActivity extends BaseActivity {
         }.start();
     }
 
+    @SuppressLint("HandlerLeak")
     private void initHandler() {
         mHandler = new Handler() {
             @Override
