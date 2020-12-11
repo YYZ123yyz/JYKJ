@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -35,6 +36,7 @@ public class MedicinalCategoryPopup2 extends PopupWindow {
     private LayoutInflater inflater ;
     private DrugListAdapter drugListAdapter;
     private View myMenuView;
+    private TextView mTvallBtn;
     private OnClickListener onClickListener;
 
     public void setOnClickListener(OnClickListener onClickListener) {
@@ -51,6 +53,7 @@ public class MedicinalCategoryPopup2 extends PopupWindow {
 
         initWidget();
         setPopup();
+        addListener();
     }
 
     /**
@@ -58,9 +61,22 @@ public class MedicinalCategoryPopup2 extends PopupWindow {
      */
     private void initWidget() {
         rvList =  myMenuView.findViewById(R.id.rv_list);
-
+        mTvallBtn=myMenuView.findViewById(R.id.tv_all_btn);
     }
 
+    /**
+     * 添加监听
+     */
+    private void addListener(){
+        mTvallBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onClickListener!=null) {
+                    onClickListener.onClickAll();
+                }
+            }
+        });
+    }
     /**
      * 设置popup的样式
      */
@@ -133,6 +149,8 @@ public class MedicinalCategoryPopup2 extends PopupWindow {
 
         void onClickChanged(DrugClassificationBean.DrugTypeMedicineListBean
                                     drugTypeMedicineListBean);
+
+        void onClickAll();
     }
 
 }

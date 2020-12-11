@@ -11,6 +11,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import www.jykj.com.jykj_zxyl.R;
+import www.jykj.com.jykj_zxyl.app_base.base_bean.BaseReasonBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.DrugClassificationBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.DrugDosageBean;
 import www.jykj.com.jykj_zxyl.app_base.base_view.BaseToolBar;
@@ -132,6 +133,16 @@ public class AddDrugInfoActivity extends AbstractMvpBaseActivity<AddDrugInfoCont
 
     @Override
     public void getDrugClassificationBeanResult(List<DrugClassificationBean> drugClassificationBeans) {
+
+    }
+
+    @Override
+    public void getDurgSmallUnitResult(List<BaseReasonBean> baseReasonBeans) {
+
+    }
+
+    @Override
+    public void getDrugBigUnitResult(List<BaseReasonBean> baseReasonBeans) {
 
     }
 }

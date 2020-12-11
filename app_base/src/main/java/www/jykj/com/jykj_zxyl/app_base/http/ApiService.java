@@ -358,6 +358,10 @@ public interface ApiService {
     @POST("/doctorInteractDataControlle/operUpdDrugInfo_201116")
     Observable<String> operUpdDrugInfo_201116(@Query(value = "jsonDataInfo", encoded = true)
                                                       String queryJson);
+    //药品信息增加
+    @POST("/doctorInteractDataControlle/operUpdDrugInfo_201208")
+    Observable<String> operUpdDrugInfo_201208(@Query(value = "jsonDataInfo", encoded = true)
+                                                      String queryJson);
     //获取药品分类数据
     @POST("/doctorInteractDataControlle/getDrugTypeMedicine")
     Observable<String> getDrugTypeMedicine(@Query(value = "jsonDataInfo", encoded = true)

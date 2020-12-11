@@ -153,7 +153,9 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="45dp">
+                    android:layout_height="45dp"
+                    android:id="@+id/rl_drug_specs_root"
+                    >
 
                     <TextView
 
@@ -189,7 +191,7 @@
 
                         <ImageView
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="20dp"
                             android:layout_gravity="center_vertical"
                             android:layout_marginStart="12dp"
                             android:src="@mipmap/bg_arrow">
@@ -272,7 +274,9 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="45dp">
+                    android:layout_height="45dp"
+                    android:id="@+id/rl_usage_root"
+                    >
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -329,7 +333,9 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="45dp">
+                    android:layout_height="45dp"
+                    android:id="@+id/rl_use_amount_root"
+                    >
 
                     <TextView
                         android:layout_width="wrap_content"

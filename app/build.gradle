@@ -126,7 +126,7 @@ dependencies {
     implementation files('libs/vivo_push_v2.3.1.jar')
     implementation files('libs/core-3.3.3.jar')
     //implementation files('libs/fastjson-1.2.49.jar')
-    implementation 'com.github.bumptech.glide:glide:3.7.0'
+    //implementation 'com.github.bumptech.glide:glide:3.7.0'
     implementation files('libs/jsoup-1.12.2.jar')
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
     //微信分享

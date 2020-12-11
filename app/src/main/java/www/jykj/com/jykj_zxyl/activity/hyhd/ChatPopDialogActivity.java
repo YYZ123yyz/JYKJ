@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -31,6 +32,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.google.gson.Gson;
 import com.hyphenate.EMCallBack;
+import com.hyphenate.EMConnectionListener;
+import com.hyphenate.EMError;
 import com.hyphenate.EMMessageListener;
 import com.hyphenate.EMValueCallBack;
 import com.hyphenate.chat.*;
@@ -63,6 +66,11 @@ import com.hyphenate.util.EMLog;
 import com.hyphenate.util.PathUtil;
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.app_base.base_activity.BaseActivity;
+import www.jykj.com.jykj_zxyl.app_base.base_bean.ViewSysUserDoctorInfoAndHospital;
+import www.jykj.com.jykj_zxyl.app_base.base_utils.ActivityStackManager;
+import www.jykj.com.jykj_zxyl.app_base.base_utils.AndroidThreadExecutor;
+import www.jykj.com.jykj_zxyl.app_base.base_utils.GsonUtils;
+import www.jykj.com.jykj_zxyl.app_base.base_utils.SharedPreferences_DataSave;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.custom.JoinDialog;
 import www.jykj.com.jykj_zxyl.util.BitmapUtil;
@@ -173,6 +181,7 @@ public abstract class ChatPopDialogActivity extends AppCompatActivity implements
     protected RelativeLayout chatViewLayout;
     protected JYKJApplication mApp;
     private File mTempFile;
+    private EMConnectionListener emConnectionListener;
     public abstract void createChat();
     public abstract void upJoinUsernum(int modnum);
     @Override
@@ -181,6 +190,9 @@ public abstract class ChatPopDialogActivity extends AppCompatActivity implements
         myActivity = this;
         inputMethodManager = (InputMethodManager) myActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
         initDir();
+        //添加Im监听
+        addImConnectionListener();
+        ActivityStackManager.getInstance().add(this);
     }
 
     private void initDir() {
@@ -991,6 +1003,7 @@ public abstract class ChatPopDialogActivity extends AppCompatActivity implements
             sendLeaveMessage();
         }
         closeRoom();
+        EMClient.getInstance().removeConnectionListener(emConnectionListener);
     }
 
     /**
@@ -1672,16 +1685,32 @@ public abstract class ChatPopDialogActivity extends AppCompatActivity implements
         if (message == null) {
             return;
         }
+        SharedPreferences_DataSave m_persist = new SharedPreferences_DataSave(this,
+                "JYKJDOCTER");
+        String userInfoSuLogin = m_persist.getString("viewSysUserDoctorInfoAndHospital", "");
+        ViewSysUserDoctorInfoAndHospital userDoctorInfoAndHospital
+                = GsonUtils.fromJson(userInfoSuLogin, ViewSysUserDoctorInfoAndHospital.class);
+
         String theNickName = ExtEaseUtils.getInstance().getNickName();
         String theImageUrl = ExtEaseUtils.getInstance().getImageUrl();
         theNickName = (null==theNickName)?"":theNickName;
         theImageUrl = (null==theImageUrl)?"":theImageUrl;
         if (theNickName.length()>0) {
             message.setAttribute("nickName", theNickName);
+        }else{
+            if (userDoctorInfoAndHospital!=null) {
+                message.setAttribute("nickName", userDoctorInfoAndHospital.getUserName());
+            }
         }
         if (theImageUrl.length()>0) {
             message.setAttribute("imageUrl", theImageUrl);
+        }else{
+            if(userDoctorInfoAndHospital!=null){
+                message.setAttribute("imageUrl", userDoctorInfoAndHospital.getUserLogoUrl());
+            }
+
         }
+
         if(chatFragmentHelper != null){
             //set extension
             chatFragmentHelper.onSetMessageAttributes(message);
@@ -2040,4 +2069,70 @@ public abstract class ChatPopDialogActivity extends AppCompatActivity implements
             EMClient.getInstance().chatroomManager().leaveChatRoom(forward_msg.getTo());
         }
     }
+
+    private void addImConnectionListener(){
+        emConnectionListener = new EMConnectionListener() {
+            @Override
+            public void onDisconnected(int error) {
+
+                if (error == EMError.USER_LOGIN_ANOTHER_DEVICE) {
+                    AndroidThreadExecutor.getInstance().executeOnMainThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            showComplexDialog();
+                        }
+                    });
+
+                } else {
+
+                    Log.e("tag", "onDisconnected: " + "00000");
+                }
+            }
+
+            @Override
+            public void onConnected() {
+
+            }
+        };
+        EMClient.getInstance().addConnectionListener(emConnectionListener);
+    }
+
+
+    void showComplexDialog() {
+        //    通过AlertDialog.Builder这个类来实例化我们的一个AlertDialog的对象
+        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
+        //    设置Content来显示一个信息
+        builder.setTitle("异地登录");
+        builder.setMessage("您的账号已在其他地方登陆！");
+        //    设置一个PositiveButton
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                try {
+                    ActivityStackManager.getInstance().finishActivityList();
+                    cleanPersistence();
+                    EMClient.getInstance().logout(true,null);
+                    Intent intent=new Intent();
+                    intent.setAction("www.jykj.com.jykj_zxyl.LoginActivity");
+                    startActivity(intent);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        builder.setCancelable(false);
+        //    显示出该对话框
+        builder.show();
+
+    }
+    //清空数据
+    public void cleanPersistence() {
+        SharedPreferences_DataSave m_persist = new SharedPreferences_DataSave(this, "JYKJDOCTER");
+        m_persist.remove("loginUserInfo");
+        m_persist.remove("viewSysUserDoctorInfoAndHospital");
+
+        m_persist.commit();
+    }
+
+
 }

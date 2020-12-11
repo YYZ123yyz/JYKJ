@@ -122,7 +122,7 @@ public class ChoosedMedicinalListActivity extends AbstractMvpBaseActivity<
     @Override
     protected void initData() {
         super.initData();
-        //mPresenter.sendMedicinalTypeListRequest("10036",this);
+       // mPresenter.sendMedicinalTypeListRequest("10036",this);
         mPresenter.sendGetDrugTypeMedicineRequest("0",this);
     }
 
@@ -169,24 +169,11 @@ public class ChoosedMedicinalListActivity extends AbstractMvpBaseActivity<
      */
     private void addListener(){
         rlChooseType.setOnClickListener(v -> {
-//            if (!CollectionUtils.isEmpty(medicinalTypeBeans)) {
-//                medicinalCategoryPopup.show(viewlTopLine);
-//
-//                medicinalCategoryPopup.setData(medicinalTypeBeans);
-//            }
             if(!CollectionUtils.isEmpty(datas)){
                 medicinalCategoryPopup2.show(viewlTopLine);
                 medicinalCategoryPopup2.setData(datas);
             }
         });
-//        medicinalCategoryPopup.setOnClickListener(medicinalTypeBean -> {
-//            currentMedicinalTypeBean=medicinalTypeBean;
-//            tvTitleType.setText(currentMedicinalTypeBean.getAttrName());
-//            mPresenter.sendMedicinalInfoListRequest(
-//                    currentMedicinalTypeBean.getAttrCode()+""
-//                    ,srarchDrugName,pageSize+"",pageIndex+""
-//                    ,ChoosedMedicinalListActivity.this);
-//        });
         medicinalCategoryPopup2.setOnClickListener(new MedicinalCategoryPopup2.OnClickListener() {
             @Override
             public void onClickChanged(DrugClassificationBean.DrugTypeMedicineListBean drugTypeMedicineListBean) {
@@ -194,6 +181,14 @@ public class ChoosedMedicinalListActivity extends AbstractMvpBaseActivity<
                 tvTitleType.setText(currentMedicinalTypeBean.getMedicineName());
                 mPresenter.sendSearchMyClinicDetailResPrescribeDrugInfo_201116(
                         currentMedicinalTypeBean.getMedicineCode()+""
+                        ,srarchDrugName,pageSize,pageIndex
+                        ,ChoosedMedicinalListActivity.this);
+            }
+
+            @Override
+            public void onClickAll() {
+                tvTitleType.setText("全部");
+                mPresenter.sendSearchMyClinicDetailResPrescribeDrugInfo_201116(""
                         ,srarchDrugName,pageSize,pageIndex
                         ,ChoosedMedicinalListActivity.this);
             }

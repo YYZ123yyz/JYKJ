@@ -1,8 +1,10 @@
 package www.jykj.com.jykj_zxyl.medicalrecord.activity;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
-import android.view.View;
+import android.text.TextWatcher;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
@@ -10,12 +12,13 @@ import android.widget.TextView;
 
 import com.allen.library.utils.ToastUtils;
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
-import com.bigkoo.pickerview.listener.OnOptionsSelectChangeListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
+import com.blankj.utilcode.util.KeyboardUtils;
 import java.util.ArrayList;
 import java.util.List;
 import butterknife.BindView;
 import www.jykj.com.jykj_zxyl.R;
+import www.jykj.com.jykj_zxyl.app_base.base_bean.BaseReasonBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.DrugClassificationBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.DrugDosageBean;
 import www.jykj.com.jykj_zxyl.app_base.base_utils.CollectionUtils;
@@ -64,12 +67,32 @@ public class AddDrugInfoActivity2 extends AbstractMvpBaseActivity<AddDrugInfoCon
     EditText edDrugNameAlias;
     @BindView(R.id.ed_factory_name)
     EditText edFactoryName;
+    @BindView(R.id.rl_drug_specs_root)
+    RelativeLayout rlDurgSpecsRoot;
+    @BindView(R.id.rl_usage_root)
+    RelativeLayout rlUsageRoot;
+    @BindView(R.id.rl_use_amount_root)
+    RelativeLayout rlUseAmountRoot;
     private List<DrugDosageBean> drugDosageBeans;
     private DrugDosageBean currentDrugDosageBean;
     private DrugClassificationBean.DrugTypeMedicineListBean currentDrugTypeMedicineListBean;
     private List<DrugClassificationBean> drugClassificationBeans;
+    private List<BaseReasonBean> smallReasonBeans;
+    private List<BaseReasonBean> bigReasonBeans;
+    private BaseReasonBean currentSmallReasonBean;
+    private BaseReasonBean currentBigReasonBean;
+    private List<String> listSpecsNumbers;
+    private List<String> listUsagesDay;
+    private List<String> listUageasRate;
+    private List<String> listUseAmounts;
     private OptionsPickerView optionPickUnit;
     private String medicineCode;
+    private int wordLimitNum= 20;
+    private String specsNum;//规格数量
+    private String usageDay;//用法
+    private String usageRate;//用法频率
+    private String consumptionNum;//用量
+    private String consumptionRate;//用量次数
     @Override
     protected int setLayoutId() {
         return R.layout.activity_add_drug_info;
@@ -83,6 +106,12 @@ public class AddDrugInfoActivity2 extends AbstractMvpBaseActivity<AddDrugInfoCon
             medicineCode=extras.getString("medicineCode");
         }
         drugDosageBeans=new ArrayList<>();
+        smallReasonBeans=new ArrayList<>();
+        bigReasonBeans=new ArrayList<>();
+        listSpecsNumbers=new ArrayList<>();
+        listUsagesDay=new ArrayList<>();
+        listUageasRate=new ArrayList<>();
+        listUseAmounts=new ArrayList<>();
         ActivityUtil.setStatusBarMain(this);
         initKeyBoardListener(scrollView);
         addListener();
@@ -92,6 +121,8 @@ public class AddDrugInfoActivity2 extends AbstractMvpBaseActivity<AddDrugInfoCon
     protected void initData() {
         super.initData();
         mPresenter.sendSearchDrugTypeDosageRequest(this);
+        mPresenter.sendGetDurgSmallUnitRequest("10041",this);
+        mPresenter.sendGetDrugBigUnitRequest("10040",this);
         mPresenter.sendGetDrugTypeMedicineRequest("",this);
     }
 
@@ -104,48 +135,149 @@ public class AddDrugInfoActivity2 extends AbstractMvpBaseActivity<AddDrugInfoCon
     /**
      * 添加监听
      */
-    private void addListener(){
+    private void addListener() {
+        edInputMedicineContent.addTextChangedListener(new TextWatcher() {
+            //记录输入的字数
+            private CharSequence enterWords;
+            private int selectionStart;
+            private int selectionEnd;
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                //实时记录输入的字数
+                enterWords = s;
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                //已输入字数
+                //TextView显示剩余字数
+                selectionStart = edInputMedicineContent.getSelectionStart();
+                selectionEnd = edInputMedicineContent.getSelectionEnd();
+                if (enterWords.length() > wordLimitNum) {
+                    //删除多余输入的字（不会显示出来）
+                    s.delete(selectionStart - 1, selectionEnd);
+                    int tempSelection = selectionEnd;
+                    edInputMedicineContent.setText(s);
+                    //设置光标在最后
+                    edInputMedicineContent.setSelection(tempSelection);
+                }
+            }
+        });
+
+        edDrugNameAlias.addTextChangedListener(new TextWatcher() {
+
+            //记录输入的字数
+            private CharSequence enterWords;
+            private int selectionStart;
+            private int selectionEnd;
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                //实时记录输入的字数
+                enterWords = s;
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                //已输入字数
+                //TextView显示剩余字数
+                selectionStart = edInputMedicineContent.getSelectionStart();
+                selectionEnd = edInputMedicineContent.getSelectionEnd();
+                if (enterWords.length() > wordLimitNum) {
+                    //删除多余输入的字（不会显示出来）
+                    s.delete(selectionStart - 1, selectionEnd);
+                    int tempSelection = selectionEnd;
+                    edInputMedicineContent.setText(s);
+                    //设置光标在最后
+                    edInputMedicineContent.setSelection(tempSelection);
+                }
+            }
+        });
+
         rlChooseDrugDosageRoot.setOnClickListener(v -> {
             if (!CollectionUtils.isEmpty(drugDosageBeans)) {
+                KeyboardUtils.hideSoftInput(AddDrugInfoActivity2.this);
                 showDrugDosageDialog(drugDosageBeans);
             }
         });
-        rlChooseDrugTypeRoot.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!CollectionUtils.isEmpty(drugClassificationBeans)) {
-                    showDrugTypeDialog(drugClassificationBeans);
-                }
+        rlChooseDrugTypeRoot.setOnClickListener(v -> {
+            if (!CollectionUtils.isEmpty(drugClassificationBeans)) {
+                KeyboardUtils.hideSoftInput(AddDrugInfoActivity2.this);
+                showDrugTypeDialog(drugClassificationBeans);
             }
         });
-        tvEnsureBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String medicineName = edInputMedicineContent.getText().toString();
-                if (TextUtils.isEmpty(medicineName)) {
-                    ToastUtils.showToast("药品名称不能为空");
-                    return;
-                }
-                if (currentDrugTypeMedicineListBean==null) {
-                    ToastUtils.showToast("请选择药品分类");
-                    return;
-                }
-//                String drugSpecs = edDrugSpecs.getText().toString();
-//                if (TextUtils.isEmpty(drugSpecs)) {
-//                    ToastUtils.showToast("药品规格不能为空");
-//                    return;
-//                }
-                String drugNameAlias = edDrugNameAlias.getText().toString();
 
-                mPresenter.sendOperUpdDrugInfo_201116(medicineCode,
-                        medicineName,drugNameAlias,"",""
-                        ,currentDrugDosageBean.getDosageCode()
-                        ,edFactoryName.getText().toString()
-                        ,"","",
-                        AddDrugInfoActivity2.this);
+        rlDurgSpecsRoot.setOnClickListener(v -> {
+            KeyboardUtils.hideSoftInput(AddDrugInfoActivity2.this);
+            showDrugSpecsDialog();
+        });
+        rlUsageRoot.setOnClickListener(v -> {
 
-
+            KeyboardUtils.hideSoftInput(AddDrugInfoActivity2.this);
+            showUsageDialog();
+        });
+        rlUseAmountRoot.setOnClickListener(v -> {
+            if (currentSmallReasonBean == null) {
+                ToastUtils.showToast("请选择药品规格");
+                return;
             }
+            KeyboardUtils.hideSoftInput(AddDrugInfoActivity2.this);
+            showUseAmountDialog();
+        });
+        tvEnsureBtn.setOnClickListener(v -> {
+            String medicineName = edInputMedicineContent.getText().toString();
+            if (TextUtils.isEmpty(medicineName)) {
+                ToastUtils.showToast("药品名称不能为空");
+                return;
+            }
+            if (currentDrugTypeMedicineListBean == null) {
+                ToastUtils.showToast("请选择药品分类");
+                return;
+            }
+
+            if (currentSmallReasonBean==null) {
+                ToastUtils.showToast("请选择规格");
+                return;
+            }
+
+            if (currentDrugDosageBean==null) {
+                ToastUtils.showToast("请选择剂型");
+                return;
+            }
+            if (TextUtils.isEmpty(usageDay)) {
+                ToastUtils.showToast("请选择用法");
+                return;
+            }
+            if (TextUtils.isEmpty(consumptionNum)) {
+                ToastUtils.showToast("请选择用量");
+                return;
+            }
+
+            String factoryName = edFactoryName.getText().toString();
+            if (TextUtils.isEmpty(factoryName)) {
+                ToastUtils.showToast("请填写厂家名称");
+            }
+
+            String drugNameAlias = edDrugNameAlias.getText().toString();
+            mPresenter.sendOperUpdDrugInfo_201208(medicineCode
+                    ,medicineName,drugNameAlias,specsNum
+                    ,currentSmallReasonBean.getAttrName()
+                    ,currentBigReasonBean.getAttrName(),
+                    tvSpecsName.getText().toString()
+                    ,currentDrugDosageBean.getDosageCode(),factoryName
+                    ,usageRate,usageDay,consumptionNum,
+                    consumptionRate,AddDrugInfoActivity2.this);
+
         });
     }
 
@@ -167,6 +299,16 @@ public class AddDrugInfoActivity2 extends AbstractMvpBaseActivity<AddDrugInfoCon
     @Override
     public void getDrugClassificationBeanResult(List<DrugClassificationBean> drugClassificationBeans) {
         this.drugClassificationBeans=drugClassificationBeans;
+    }
+
+    @Override
+    public void getDurgSmallUnitResult(List<BaseReasonBean> baseReasonBeans) {
+        smallReasonBeans=baseReasonBeans;
+    }
+
+    @Override
+    public void getDrugBigUnitResult(List<BaseReasonBean> baseReasonBeans) {
+        bigReasonBeans=baseReasonBeans;
     }
 
     @Override
@@ -196,7 +338,8 @@ public class AddDrugInfoActivity2 extends AbstractMvpBaseActivity<AddDrugInfoCon
                 .setSubmitColor(getResources().getColor(R.color.textColor_hzgltabzc))
                 .setSelectOptions(0).build();
 
-        optionPickUnit.setNPicker(getDrugDosageNameList(list), null, null);
+        optionPickUnit.setNPicker(getDrugDosageNameList(list),
+                null, null);
         optionPickUnit.show();
     }
 
@@ -214,15 +357,12 @@ public class AddDrugInfoActivity2 extends AbstractMvpBaseActivity<AddDrugInfoCon
                     tvDrugType.setText(currentDrugTypeMedicineListBean.getMedicineName());
                 }).setCancelColor(getResources().getColor(R.color.textColor_vt))
                 .setSubmitColor(getResources().getColor(R.color.textColor_hzgltabzc))
-                .setOptionsSelectChangeListener(new OnOptionsSelectChangeListener() {
-                    @Override
-                    public void onOptionsSelectChanged(int options1, int options2, int options3) {
-                        optionPickUnit.setNPicker(getDrugGroupName(drugClassificationBeans)
-                                , getDrugChildName(drugClassificationBeans
-                                        .get(options1).getDrugTypeMedicineList())
-                                , null);
-                        optionPickUnit.setSelectOptions(options1, options2);
-                    }
+                .setOptionsSelectChangeListener((options1, options2, options3) -> {
+                    optionPickUnit.setNPicker(getDrugGroupName(drugClassificationBeans)
+                            , getDrugChildName(drugClassificationBeans
+                                    .get(options1).getDrugTypeMedicineList())
+                            , null);
+                    optionPickUnit.setSelectOptions(options1, options2);
                 })
                 .setSelectOptions(0).build();
         optionPickUnit.setNPicker(getDrugGroupName(drugClassificationBeans),
@@ -232,9 +372,130 @@ public class AddDrugInfoActivity2 extends AbstractMvpBaseActivity<AddDrugInfoCon
 
     }
 
+    /**
+     * 药品规格弹框
+     */
+    private void showDrugSpecsDialog(){
+        OptionsPickerView optionPickUnit = new OptionsPickerBuilder(this,
+                (options1, options2, options3, v) -> {
+                    specsNum=listSpecsNumbers.get(options1);
+                    currentSmallReasonBean=smallReasonBeans.get(options2);
+                    currentBigReasonBean=bigReasonBeans.get(options3);
+                    tvSpecsName.setText(String.format("%s%s/%s",
+                            listSpecsNumbers.get(options1), smallReasonBeans.get(options2)
+                            .getAttrName(), bigReasonBeans.get(options3).getAttrName()));
+                    tvConsumptionName.setText(smallReasonBeans.get(options2).getAttrName());
+                })
+                .setCancelColor(getResources().getColor(R.color.textColor_vt))
+                .setSubmitColor(getResources().getColor(R.color.textColor_hzgltabzc))
+                .setSelectOptions(0).build();
+
+        listSpecsNumbers  = getSpecsNumbers();
+        optionPickUnit.setNPicker(listSpecsNumbers, getSmallUnits(), getBigUnits());
+        optionPickUnit.show();
+    }
+
+    /**
+     * 用法弹框
+     */
+    private void showUsageDialog(){
+        OptionsPickerView optionPickUnit = new OptionsPickerBuilder(this,
+                (options1, options2, options3, v) -> {
+                    tvUsageName.setText(String.format("%s/%s", listUageasRate.get(options1)
+                            , listUsagesDay.get(options2)));
+                    usageDay = listUsagesDay.get(options1).replace("天","");
+                    usageRate= listUageasRate.get(options2).replace("次","");
+                })
+                .setCancelColor(getResources().getColor(R.color.textColor_vt))
+                .setSubmitColor(getResources().getColor(R.color.textColor_hzgltabzc))
+                .setSelectOptions(0).build();
+
+        listUageasRate = getListUsagesRate();
+        listUsagesDay = getListUsagesDay();
+        optionPickUnit.setNPicker(listUageasRate, listUsagesDay,null);
+        optionPickUnit.show();
+    }
 
 
 
+    /**
+     * 用量弹框
+     */
+    private void showUseAmountDialog(){
+        OptionsPickerView optionPickUnit = new OptionsPickerBuilder(this,
+                (options1, options2, options3, v) -> {
+                    consumptionNum = listUseAmounts.get(options1);
+                    tvConsumptionName.setText(String.format("%s%s", consumptionNum,
+                            String.format("%s/%s", currentSmallReasonBean.getAttrName()
+                                    , listUageasRate.get(options2))));
+                    consumptionRate=listUageasRate.get(options2).replace("次","");
+                })
+                .setCancelColor(getResources().getColor(R.color.textColor_vt))
+                .setSubmitColor(getResources().getColor(R.color.textColor_hzgltabzc))
+                .setSelectOptions(0).build();
+
+        listUseAmounts  = getListUseAmounts();
+        List<String> listUsagesRate = getListUsagesRate();
+        optionPickUnit.setNPicker(listUseAmounts, listUsagesRate,null);
+        optionPickUnit.show();
+    }
+
+
+
+    private List<String> getSpecsNumbers(){
+       List<String> stringList=new ArrayList<>();
+        for (int i=0;i<200;i++){
+            stringList.add(i+1+"");
+        }
+        return stringList;
+    }
+
+    private List<String> getSmallUnits(){
+        List<String> stringList=new ArrayList<>();
+        if (!CollectionUtils.isEmpty(smallReasonBeans)) {
+            for (BaseReasonBean smallReasonBean : smallReasonBeans) {
+                stringList.add(smallReasonBean.getAttrName());
+            }
+        }
+        return stringList;
+    }
+
+    private List<String> getBigUnits(){
+        List<String> stringList=new ArrayList<>();
+        if (!CollectionUtils.isEmpty(bigReasonBeans)) {
+            for (BaseReasonBean bigReasonBean : bigReasonBeans) {
+                stringList.add(bigReasonBean.getAttrName());
+            }
+        }
+        return stringList;
+    }
+
+    @SuppressLint("DefaultLocale")
+    private List<String> getListUsagesDay(){
+        List<String> stringList=new ArrayList<>();
+        for (int i = 0; i < 12; i++) {
+            stringList.add(String.format("%d天", i + 1));
+        }
+        return stringList;
+    }
+
+    @SuppressLint("DefaultLocale")
+    private List<String> getListUsagesRate(){
+        List<String> stringList=new ArrayList<>();
+        for (int i = 0; i < 20; i++) {
+            stringList.add(String.format("%d次", i + 1));
+        }
+        return stringList;
+    }
+
+
+    private List<String> getListUseAmounts(){
+        List<String> stringList=new ArrayList<>();
+        for (int i = 0; i <20 ; i++) {
+            stringList.add(i+1+"");
+        }
+        return stringList;
+    }
 
 
     private List<String> getDrugGroupName(List<DrugClassificationBean> drugClassificationBeans){

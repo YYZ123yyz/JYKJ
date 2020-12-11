@@ -157,7 +157,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        EMClient.getInstance().removeConnectionListener(emConnectionListener);
+        //EMClient.getInstance().removeConnectionListener(emConnectionListener);
     }
 
     protected void initImmersionBar() {
@@ -206,8 +206,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             @Override
             public void onDisconnected(int error) {
 
-                if (error == EMError.USER_REMOVED || error == EMError.USER_LOGIN_ANOTHER_DEVICE
-                        || error == EMError.SERVER_SERVICE_RESTRICTED) {
+                if (error == EMError.USER_LOGIN_ANOTHER_DEVICE) {
                     AndroidThreadExecutor.getInstance().executeOnMainThread(new Runnable() {
                         @Override
                         public void run() {
@@ -241,6 +240,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 try {
+                    ActivityStackManager.getInstance().finishActivityList();
                     cleanPersistence();
                     EMClient.getInstance().logout(true,null);
                     Intent intent=new Intent();

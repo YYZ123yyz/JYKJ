@@ -44,12 +44,12 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.GET_PACKAGE_SIZE" />
-    <uses-permission android:name="com.sonyericsson.home.permission.BROADCAST_BADGE" />
-    <uses-permission android:name="com.sec.android.provider.badge.permission.READ" />
-    <uses-permission android:name="com.sec.android.provider.badge.permission.WRITE" /> <!-- 申请华为角标权限 -->
-    <uses-permission android:name="com.huawei.android.launcher.permission.CHANGE_BADGE" />
-    <uses-permission android:name="com.huawei.android.launcher.permission.READ_SETTINGS" />
-    <uses-permission android:name="com.huawei.android.launcher.permission.WRITE_SETTINGS" />
+<!--    <uses-permission android:name="com.sonyericsson.home.permission.BROADCAST_BADGE" />-->
+<!--    <uses-permission android:name="com.sec.android.provider.badge.permission.READ" />-->
+<!--    <uses-permission android:name="com.sec.android.provider.badge.permission.WRITE" /> &lt;!&ndash; 申请华为角标权限 &ndash;&gt;-->
+<!--    <uses-permission android:name="com.huawei.android.launcher.permission.CHANGE_BADGE" />-->
+<!--    <uses-permission android:name="com.huawei.android.launcher.permission.READ_SETTINGS" />-->
+<!--    <uses-permission android:name="com.huawei.android.launcher.permission.WRITE_SETTINGS" />-->
     <uses-permission android:name="android.permission.READ_LOGS" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
 
@@ -71,7 +71,7 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         android:vmSafeMode="true"
         tools:ignore="GoogleAppIndexingWarning"
-        tools:replace="android:allowBackup,android:icon">
+        tools:replace="android:allowBackup,android:icon,android:theme">
         <activity android:name=".mypatient.fragment.SignedPatientFragment"></activity>
         <activity android:name=".mypatient.activity.PatientActivity" />
         <activity android:name=".activity.home.mypatient.fillindetails.FillindetailsActivity" />
@@ -587,7 +587,7 @@
 
         <provider
             android:name="android.support.v4.content.FileProvider"
-            android:authorities="***.fileProvider"
+            android:authorities="www.jykj.com.jykj_zxyl.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true"
             tools:replace="android:authorities">
@@ -822,6 +822,15 @@
         <meta-data
             android:name="design_height_in_dp"
             android:value="667"/>
+<!--        <provider-->
+<!--            android:name="android.support.v4.content.FileProvider"-->
+<!--            android:authorities="com.zhihu.matisse.sample.fileprovider"-->
+<!--            android:exported="false"-->
+<!--            android:grantUriPermissions="true">-->
+<!--            <meta-data-->
+<!--                android:name="android.support.FILE_PROVIDER_PATHS"-->
+<!--                android:resource="@xml/file_paths_public"/>-->
+<!--        </provider>-->
     </application>
 
 </manifest>
