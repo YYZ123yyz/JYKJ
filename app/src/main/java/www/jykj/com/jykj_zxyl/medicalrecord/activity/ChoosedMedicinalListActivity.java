@@ -122,7 +122,7 @@ public class ChoosedMedicinalListActivity extends AbstractMvpBaseActivity<
     @Override
     protected void initData() {
         super.initData();
-        //mPresenter.sendMedicinalTypeListRequest("10036",this);
+       // mPresenter.sendMedicinalTypeListRequest("10036",this);
         mPresenter.sendGetDrugTypeMedicineRequest("0",this);
     }
 

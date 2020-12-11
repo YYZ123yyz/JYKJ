@@ -4,6 +4,7 @@ import android.app.Activity;
 
 import java.util.List;
 
+import www.jykj.com.jykj_zxyl.app_base.base_bean.BaseReasonBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.DrugClassificationBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.DrugDosageBean;
 import www.jykj.com.jykj_zxyl.app_base.mvp.BasePresenter;
@@ -41,6 +42,17 @@ public class AddDrugInfoContract {
         void getDrugClassificationBeanResult(List<DrugClassificationBean> drugClassificationBeans);
 
 
+        /**
+         * 获取药品信息小单位
+         * @param baseReasonBeans 小单位列表
+         */
+        void getDurgSmallUnitResult(List<BaseReasonBean> baseReasonBeans);
+
+        /**
+         * 获取药品信息大单位
+         * @param baseReasonBeans 药品大单位列表
+         */
+        void getDrugBigUnitResult(List<BaseReasonBean> baseReasonBeans);
     }
 
     public interface Presenter extends BasePresenter<View> {
@@ -74,6 +86,16 @@ public class AddDrugInfoContract {
                 ,String specName,String dosageCode,String factoryName
                 ,String drugUsageDay,String drugUsageNum,Activity activity);
 
+        void sendOperUpdDrugInfo_201208(String medicineCode
+                ,String  drugName, String drugNameAlias
+                ,String specUnitNum,String specUnit
+                ,String specUnitBig,String specName
+                ,String dosageCode,String factoryName
+                ,String drugUsageRateNum
+                , String drugUsageRateDay
+                ,String drugUsageNumUnit
+                ,String drugUsageNumFrequency,Activity activity);
+
         /**
          * [基础数据]药品剂型信息获取
          * @param activity 获取药剂信息
@@ -86,5 +108,20 @@ public class AddDrugInfoContract {
          * @param activity Activity
          */
         void sendGetDrugTypeMedicineRequest(String medicineCode,Activity activity);
+
+
+        /**
+         * 发送获取药品小单位请求
+         * @param baseCode 基础code
+         * @param activity Activity
+         */
+        void sendGetDurgSmallUnitRequest(String baseCode,Activity activity);
+
+        /**
+         * 获取药品大单位请求
+         * @param baseCode 基础code
+         * @param activity Activity
+         */
+        void sendGetDrugBigUnitRequest(String baseCode,Activity activity);
     }
 }

@@ -2,7 +2,6 @@ package www.jykj.com.jykj_zxyl.live;
 import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -11,15 +10,12 @@ import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.allen.library.utils.ToastUtils;
-import com.blankj.utilcode.util.UriUtils;
 import com.hyphenate.easeui.ui.EaseShowBigImageActivity;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
@@ -193,42 +189,32 @@ public class LiveAddPicActivity extends AbstractMvpBaseActivity<AddLivePhotoCont
                 mImageViewRecycleAdapter.notifyDataSetChanged();
             }
         });
-        tvAddBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (OnClickHelper.isFastDoubleClick()) {
-                    //防止恶意点击
-                    return;
-                }
-                if (mPhotoInfos.size() == 1 && mUpdateInfos.size() == 0) {
-                    ToastUtils.showToast("请选择图片");
-                    return;
-                }
-                if (liveProtromDetialBean != null
-                        && !CollectionUtils.isEmpty(liveProtromDetialBean.getImageList())) {
-                    String imageIds = buildBasicsImgId(mUpdateInfos);
-                    List<String> imageUrls = getImageUrls(mPhotoInfos);
-                    if (TextUtils.isEmpty(imageIds) && CollectionUtils.isEmpty(imageUrls)) {
-                        LiveAddPicActivity.this.finish();
-                        return;
-                    }
-//                    mPresenter.sendUpdateBroadcastImageRequest(
-//                            liveProtromDetialBean.getImageCode()
-//                            , detailCode, imageIds, imageDatas, LiveAddPicActivity.this);
-
-                    mPresenter.sendUpdateBroadcastImageRequest2(
-                            liveProtromDetialBean.getImageCode(),detailCode,
-                            imageIds, imageUrls,LiveAddPicActivity.this);
-                } else {
-//                    String content = buildImageDatas(mPhotoInfos);
-//                    mPresenter.sendAddBroadCastImageRequest(detailCode, content,
-//                            LiveAddPicActivity.this);
-
-                    mPresenter.sendAddBroadCastImageRequest2(detailCode,getImageUrls(mPhotoInfos)
-                            ,LiveAddPicActivity.this);
-                }
-
+        tvAddBtn.setOnClickListener(v -> {
+            if (OnClickHelper.isFastDoubleClick()) {
+                //防止恶意点击
+                return;
             }
+            if (mPhotoInfos.size() == 1 && mUpdateInfos.size() == 0) {
+                ToastUtils.showToast("请选择图片");
+                return;
+            }
+            if (liveProtromDetialBean != null
+                    && !CollectionUtils.isEmpty(liveProtromDetialBean.getImageList())) {
+                String imageIds = buildBasicsImgId(mUpdateInfos);
+                List<String> imageUrls = getImageUrls(mPhotoInfos);
+                if (TextUtils.isEmpty(imageIds) && CollectionUtils.isEmpty(imageUrls)) {
+                    LiveAddPicActivity.this.finish();
+                    return;
+                }
+                mPresenter.sendUpdateBroadcastImageRequest2(
+                        liveProtromDetialBean.getImageCode(),detailCode,
+                        imageIds, imageUrls,LiveAddPicActivity.this);
+            } else {
+                mPresenter.sendAddBroadCastImageRequest2(detailCode,
+                        getImageUrls(mPhotoInfos)
+                        ,LiveAddPicActivity.this);
+            }
+
         });
     }
 
@@ -328,9 +314,7 @@ public class LiveAddPicActivity extends AbstractMvpBaseActivity<AddLivePhotoCont
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-
         if (resultCode == RESULT_OK) {
-
            switch (requestCode){
                case PictureConfig.CHOOSE_REQUEST:
                    List<LocalMedia> selectList = PictureSelector.obtainMultipleResult(data);
@@ -352,23 +336,6 @@ public class LiveAddPicActivity extends AbstractMvpBaseActivity<AddLivePhotoCont
            }
 
         }
-
-        // 如果是直接从相册获取
-//        if (requestCode == Constant.SELECT_PIC_FROM_ALBUM
-//                && resultCode == RESULT_OK
-//                && data != null) {
-//
-//            final Uri uri = data.getData();//返回相册图片的Uri
-//            imageCompressImg(uri);
-//        }
-//
-//        // 处理拍照返回
-//        if (requestCode == Constant.SELECT_PIC_BY_TACK_PHOTO
-//                && resultCode == RESULT_OK) {// 拍照成功 RESULT_OK= -1
-//           // final Uri uri = data.getData();//返回相册图片的Uri
-//            imageCompressImg2(mTempFile);
-//            // 剪裁图片
-//        }
         super.onActivityResult(requestCode, resultCode, data);
     }
 
