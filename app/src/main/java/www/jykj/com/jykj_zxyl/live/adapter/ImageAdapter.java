@@ -62,27 +62,28 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
                 Log.e("TAG", "onBindViewHolder: "+status );
                 viewHolder.delete_img.setVisibility(View.VISIBLE);
                 if ("ADDPHOTO".equals(datas.get(position).getPhotoID())) {
-                    //   viewHolder.mImageView.setBackgroundResource(R.mipmap.pz);
-                    Log.i("执行", "执行Add:" + position);
+                       viewHolder.mImageView.setBackgroundResource(R.mipmap.vpzz);
+                    Log.e("执行", "   onBindViewHolder   执行Add:" + position);
                     viewHolder.delete_img.setVisibility(View.GONE);
-                    viewHolder.img_view.setVisibility(View.VISIBLE);
+                 //   viewHolder.img_view.setVisibility(View.VISIBLE);
                 } else if (datas.get(position).getPhoto() != null) {
                     viewHolder.mImageView.setImageBitmap(BitmapUtil.stringtoBitmap(datas.get(position).getPhoto()));
-                    Log.i("执行", "执行:" + position);
+                    Log.e("执行", "   onBindViewHolder    执行:" + position);
                     viewHolder.delete_img.setVisibility(View.VISIBLE);
-                    viewHolder.img_view.setVisibility(View.GONE);
+                  //  viewHolder.img_view.setVisibility(View.GONE);
                 } else if (StrUtils.defaultStr(datas.get(position).getPhotoUrl()).length() > 0) {
+                    Log.e("TAG", "onBindViewHolder: "+"hhhhh" );
                     Glide.with(viewHolder.mImageView.getContext()).load(datas.get(position).getPhotoUrl())
                             .apply(RequestOptions.placeholderOf(com.hyphenate.easeui.R.mipmap.docter_heard)
                                     .diskCacheStrategy(DiskCacheStrategy.ALL))
                             .into(viewHolder.mImageView);
-                    viewHolder.img_view.setVisibility(View.GONE);
+                 //   viewHolder.img_view.setVisibility(View.GONE);
 
                 }
 
             } else{
                 viewHolder.delete_img.setVisibility(View.GONE);
-                viewHolder.img_view.setVisibility(View.GONE);
+              //  viewHolder.img_view.setVisibility(View.GONE);
                 Glide.with(viewHolder.mImageView.getContext()).load(datas.get(position).getPhotoUrl())
                         .apply(RequestOptions.placeholderOf(com.hyphenate.easeui.R.mipmap.docter_heard)
                                 .diskCacheStrategy(DiskCacheStrategy.ALL))
@@ -147,7 +148,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
             super(view);
             mImageView = (ImageView) view.findViewById(R.id.iv_itempublishActivity_addPicture);
             delete_img = (ImageView) view.findViewById(R.id.iv_delete_btn);
-            img_view = (ImageView) view.findViewById(R.id.img_view);
+         //   img_view = (ImageView) view.findViewById(R.id.img_view);
 
         }
     }
