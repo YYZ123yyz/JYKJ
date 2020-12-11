@@ -169,24 +169,11 @@ public class ChoosedMedicinalListActivity extends AbstractMvpBaseActivity<
      */
     private void addListener(){
         rlChooseType.setOnClickListener(v -> {
-//            if (!CollectionUtils.isEmpty(medicinalTypeBeans)) {
-//                medicinalCategoryPopup.show(viewlTopLine);
-//
-//                medicinalCategoryPopup.setData(medicinalTypeBeans);
-//            }
             if(!CollectionUtils.isEmpty(datas)){
                 medicinalCategoryPopup2.show(viewlTopLine);
                 medicinalCategoryPopup2.setData(datas);
             }
         });
-//        medicinalCategoryPopup.setOnClickListener(medicinalTypeBean -> {
-//            currentMedicinalTypeBean=medicinalTypeBean;
-//            tvTitleType.setText(currentMedicinalTypeBean.getAttrName());
-//            mPresenter.sendMedicinalInfoListRequest(
-//                    currentMedicinalTypeBean.getAttrCode()+""
-//                    ,srarchDrugName,pageSize+"",pageIndex+""
-//                    ,ChoosedMedicinalListActivity.this);
-//        });
         medicinalCategoryPopup2.setOnClickListener(new MedicinalCategoryPopup2.OnClickListener() {
             @Override
             public void onClickChanged(DrugClassificationBean.DrugTypeMedicineListBean drugTypeMedicineListBean) {
