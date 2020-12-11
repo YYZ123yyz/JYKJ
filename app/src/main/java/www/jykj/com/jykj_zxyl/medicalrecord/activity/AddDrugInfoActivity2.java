@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.allen.library.utils.ToastUtils;
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
-import com.bigkoo.pickerview.listener.OnOptionsSelectChangeListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.blankj.utilcode.util.KeyboardUtils;
 import java.util.ArrayList;
@@ -358,15 +357,12 @@ public class AddDrugInfoActivity2 extends AbstractMvpBaseActivity<AddDrugInfoCon
                     tvDrugType.setText(currentDrugTypeMedicineListBean.getMedicineName());
                 }).setCancelColor(getResources().getColor(R.color.textColor_vt))
                 .setSubmitColor(getResources().getColor(R.color.textColor_hzgltabzc))
-                .setOptionsSelectChangeListener(new OnOptionsSelectChangeListener() {
-                    @Override
-                    public void onOptionsSelectChanged(int options1, int options2, int options3) {
-                        optionPickUnit.setNPicker(getDrugGroupName(drugClassificationBeans)
-                                , getDrugChildName(drugClassificationBeans
-                                        .get(options1).getDrugTypeMedicineList())
-                                , null);
-                        optionPickUnit.setSelectOptions(options1, options2);
-                    }
+                .setOptionsSelectChangeListener((options1, options2, options3) -> {
+                    optionPickUnit.setNPicker(getDrugGroupName(drugClassificationBeans)
+                            , getDrugChildName(drugClassificationBeans
+                                    .get(options1).getDrugTypeMedicineList())
+                            , null);
+                    optionPickUnit.setSelectOptions(options1, options2);
                 })
                 .setSelectOptions(0).build();
         optionPickUnit.setNPicker(getDrugGroupName(drugClassificationBeans),

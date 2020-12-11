@@ -184,6 +184,14 @@ public class ChoosedMedicinalListActivity extends AbstractMvpBaseActivity<
                         ,srarchDrugName,pageSize,pageIndex
                         ,ChoosedMedicinalListActivity.this);
             }
+
+            @Override
+            public void onClickAll() {
+                tvTitleType.setText("全部");
+                mPresenter.sendSearchMyClinicDetailResPrescribeDrugInfo_201116(""
+                        ,srarchDrugName,pageSize,pageIndex
+                        ,ChoosedMedicinalListActivity.this);
+            }
         });
         tvEnsureBtn.setOnClickListener(new View.OnClickListener() {
             @Override
