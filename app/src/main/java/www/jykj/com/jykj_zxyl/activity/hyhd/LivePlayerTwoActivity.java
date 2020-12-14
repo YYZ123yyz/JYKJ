@@ -403,7 +403,7 @@ public class LivePlayerTwoActivity extends ChatPopDialogActivity implements ITXL
 
             }
         });
-        tv_liveroom_name = findViewById(R.id.tv_liveroom_name);
+        tv_liveroom_name = findViewById(R.id.tv_portrait_title_name);
         tv_landscape_liveroom_name=findViewById(R.id.tv_landscape_liveroom_name);
         findViewById(R.id.rl_back_left).setOnClickListener(new View.OnClickListener() {
             @Override

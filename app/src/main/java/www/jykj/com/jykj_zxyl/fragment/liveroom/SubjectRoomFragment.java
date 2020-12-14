@@ -93,6 +93,7 @@ public class SubjectRoomFragment extends Fragment {
         });
         hot_live_rc.setAdapter(subtitleLiveAdapter);
         addListener();
+        refreshLayout.autoRefresh();
         loadData();
         return retV;
     }
@@ -119,7 +120,7 @@ public class SubjectRoomFragment extends Fragment {
 
     public void loadData(){
         if (isAdded()&&refreshLayout!=null) {
-            refreshLayout.autoRefresh();
+           // refreshLayout.autoRefresh();
             QueryLectureCond queryCond = new QueryLectureCond();
             queryCond.setLoginUserPosition(mApp.loginDoctorPosition);
             queryCond.setOperUserCode(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());

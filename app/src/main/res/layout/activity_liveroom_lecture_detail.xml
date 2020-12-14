@@ -92,6 +92,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/doctor_head_tit"
                     android:layout_marginStart="11.5dp"
+                    android:visibility="gone"
                     android:layout_toEndOf="@+id/live_doctor_name"
                     android:text="博士、研究员"
                     android:textColor="@color/color_333333" />
@@ -102,6 +103,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/live_doctor_name"
                     android:text="中国营养学会常务理事"
+                    android:visibility="gone"
                     android:textColor="@color/color_333333"
                     android:textSize="15sp" />
             </RelativeLayout>

@@ -3,10 +3,10 @@
     android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#B1A49B"
+    android:background="@color/white"
     android:orientation="vertical">
 
-    <FrameLayout
+    <RelativeLayout
         android:id="@+id/video_frame"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -15,7 +15,9 @@
         <com.tencent.rtmp.ui.TXCloudVideoView
             android:id="@+id/video_view"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_350" />
+            android:layout_height="@dimen/dp_350"
+            android:background="#B1A49B"
+            />
 
         <ImageView
             android:id="@+id/playerHeaderView"
@@ -54,7 +56,8 @@
             android:id="@+id/play_progress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_320"
+            android:layout_marginTop="-35dp"
+            android:layout_below="@+id/video_view"
             android:background="@color/transparent"
             android:orientation="horizontal"
             android:visibility="visible">
@@ -101,7 +104,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_margin="10dp"
-                android:src="@mipmap/full_rotate"/>
+                android:src="@mipmap/full_rotate" />
         </LinearLayout>
 
         <LinearLayout
@@ -227,21 +230,20 @@
             android:visibility="gone" />
 
         <RelativeLayout
+            android:id="@+id/rl_horizontal_root"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:visibility="gone"
-            android:id="@+id/rl_horizontal_root"
-            >
+            android:visibility="gone">
 
             <LinearLayout
                 android:id="@+id/landscape_back_ll"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="12dp"
-                android:layout_centerVertical="true"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -252,6 +254,7 @@
                     android:src="@drawable/btn_back_gray" />
 
                 <TextView
+                    android:id="@+id/tv_landscape_live_room_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -262,36 +265,33 @@
                     android:textSize="14dp" />
 
 
-
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:layout_alignParentEnd="true"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="10dp"
-                android:layout_alignParentEnd="true"
-                >
+                android:orientation="horizontal">
+
                 <Button
                     android:id="@+id/btnShare"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
+                    android:layout_marginEnd="20dp"
                     android:layout_marginBottom="10dp"
                     android:background="@mipmap/share_tran"
                     android:minWidth="0dp"
-                    android:minHeight="0dp"
-                    android:layout_marginEnd="20dp"
-                    />
-
+                    android:minHeight="0dp" />
 
 
                 <Button
                     android:id="@+id/btnShut"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:background="@mipmap/shut_video"
                     android:layout_marginBottom="10dp"
+                    android:background="@mipmap/shut_video"
                     android:minWidth="0dp"
 
                     android:minHeight="0dp" />
@@ -299,6 +299,7 @@
             </LinearLayout>
 
         </RelativeLayout>
+
         <RelativeLayout
             android:id="@id/rl_back"
             android:layout_width="match_parent"
@@ -310,9 +311,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="12dp"
-                android:layout_centerVertical="true"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -323,7 +324,7 @@
                     android:src="@drawable/btn_back_gray" />
 
                 <TextView
-                    android:id="@+id/back_tv"
+                    android:id="@+id/tv_portrait_live_room_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -334,7 +335,6 @@
                     android:textSize="14dp" />
 
 
-
             </LinearLayout>
 
             <TextView
@@ -343,9 +343,9 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:text="标题"
-                android:visibility="gone"
                 android:textColor="#ffffff"
-                android:textSize="18dp" />
+                android:textSize="18dp"
+                android:visibility="gone" />
 
             <ImageView
                 android:id="@+id/iv_live_room_share"
@@ -370,7 +370,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:layout_marginTop="@dimen/dp_350"/>
+            android:layout_below="@+id/video_view"
+            />
 
         <ImageView
             android:id="@+id/iv_miniaml_zoom_btn"
@@ -378,10 +379,11 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|left"
             android:padding="15dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
             android:src="@mipmap/mimal_room"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
 
-
-    </FrameLayout>
+    </RelativeLayout>
 </LinearLayout>

@@ -99,13 +99,16 @@ public class PreRoomFragment extends Fragment {
 
             }
         });
+        refreshLayout.autoRefresh();
+        loadData();
         return retV;
+
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        loadData();
+
     }
 
     /**
@@ -137,7 +140,6 @@ public class PreRoomFragment extends Fragment {
 
     public void loadData() {
         if (isAdded() && refreshLayout != null) {
-            refreshLayout.autoRefresh();
             QueryLiveroomCond queryCond = new QueryLiveroomCond();
             queryCond.setLoginUserPosition(mApp.loginDoctorPosition);
             queryCond.setOperUserCode(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());

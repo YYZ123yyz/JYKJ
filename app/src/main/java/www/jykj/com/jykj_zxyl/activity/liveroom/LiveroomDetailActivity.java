@@ -10,6 +10,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -17,6 +18,10 @@ import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.*;
@@ -498,7 +503,20 @@ public class LiveroomDetailActivity extends BaseActivity {
                     Glide.with(mContext).load(roomDetailInfo.getBroadcastUserLogoUrl()).into(liveroom_det_head_pic);
                 }
                 doctor_head_tit.setText(StrUtils.defaulObjToStr(roomDetailInfo.getBroadcastUserTitleName()));
-                live_doctor_name.setText(StrUtils.defaulObjToStr(roomDetailInfo.getBroadcastUserName()));
+                String broadcastUserName = roomDetailInfo.getBroadcastUserName();
+                String doctorIntroduction= broadcastUserName +" "+roomDetailInfo.getTitleMainShow()+"、"+roomDetailInfo.getTitleDetailShow();
+                SpannableString msp = new SpannableString(doctorIntroduction);
+                msp.setSpan(new ForegroundColorSpan(ContextCompat.getColor(
+                        LiveroomDetailActivity.this, R.color.color_000000)), 0,
+                        broadcastUserName.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                msp.setSpan(new StyleSpan(Typeface.BOLD),
+                        0, broadcastUserName.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                msp.setSpan(new ForegroundColorSpan(ContextCompat.getColor(
+                        LiveroomDetailActivity.this, R.color.color_333333)),
+                        broadcastUserName.length(),
+                        doctorIntroduction.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+                live_doctor_name.setText(msp);
                 live_doctor_education.setText(StrUtils.defaulObjToStr(roomDetailInfo.getTitleMainShow()));
                 live_doctor_dep.setText(StrUtils.defaulObjToStr(roomDetailInfo.getTitleDetailShow()));
                 det_live_tit.setText(StrUtils.defaulObjToStr(roomDetailInfo.getBroadcastTitle()));

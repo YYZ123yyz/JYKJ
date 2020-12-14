@@ -117,6 +117,10 @@ public class VodPlayerActivity extends BaseActivity implements ITXLivePlayListen
     RelativeLayout rlHorizontalRoot;
     @BindView(R.id.landscape_back_ll)
     LinearLayout landscapeBackLl;
+    @BindView(R.id.tv_portrait_live_room_title)
+    TextView tvPortaitLiveRoomTitle;
+    @BindView(R.id.tv_landscape_live_room_title)
+    TextView tvLandscapeLiveRoomTitle;
     static JYKJApplication mApp;
     private TXVodPlayer mLivePlayer = null;
     private TXCloudVideoView mPlayerView;
@@ -440,7 +444,7 @@ public class VodPlayerActivity extends BaseActivity implements ITXLivePlayListen
                 .apply(RequestOptions.placeholderOf(com.hyphenate.easeui.R.mipmap.docter_heard)
                         .diskCacheStrategy(DiskCacheStrategy.ALL))
                 .into(ivLiveUserHead);
-        tvAcademicTitle.setText(doctorInfo.getDoctorTitleName());
+        tvAcademicTitle.setText(String.format("%s：%s", doctorInfo.getUserName(), doctorInfo.getDoctorTitleName()));
         tvHospital.setText(doctorInfo.getHospitalInfoName());
         String goodAtRealm = doctorInfo.getGoodAtRealm();
         tvAreasExpertise.setText(StringUtils.isNotEmpty(goodAtRealm)?goodAtRealm:"无");
@@ -537,6 +541,8 @@ public class VodPlayerActivity extends BaseActivity implements ITXLivePlayListen
         @Override
         protected void onPostExecute(RoomDetailInfo roomDetailInfo) {
             mRoomDetailInfo=roomDetailInfo;
+            tvPortaitLiveRoomTitle.setText(roomDetailInfo.getBroadcastTitle());
+            tvLandscapeLiveRoomTitle.setText(roomDetailInfo.getBroadcastTitle());
         }
     }
 
@@ -750,15 +756,15 @@ public class VodPlayerActivity extends BaseActivity implements ITXLivePlayListen
 
     void goFullscreen(){
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        FrameLayout.LayoutParams fullparams = new FrameLayout.LayoutParams(
-                FrameLayout.LayoutParams.MATCH_PARENT,FrameLayout.LayoutParams.MATCH_PARENT);
+        RelativeLayout.LayoutParams fullparams = new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.MATCH_PARENT,RelativeLayout.LayoutParams.MATCH_PARENT);
         mPlayerView.setLayoutParams(fullparams);
         mLivePlayer.setRenderRotation(TXLiveConstants.RENDER_ROTATION_PORTRAIT);
 
     }
     void goMinimalscreen(){
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        FrameLayout.LayoutParams fullparams = new FrameLayout.LayoutParams(videowidth,videoheight);
+        RelativeLayout.LayoutParams fullparams = new RelativeLayout.LayoutParams(videowidth,videoheight);
         mPlayerView.setLayoutParams(fullparams);
         mLivePlayer.setRenderRotation(TXLiveConstants.RENDER_ROTATION_PORTRAIT);
 
@@ -1017,7 +1023,7 @@ public class VodPlayerActivity extends BaseActivity implements ITXLivePlayListen
         mStartPlayTS = System.currentTimeMillis();
 
         findViewById(R.id.playerHeaderView).setVisibility(View.VISIBLE);
-        FrameLayout.LayoutParams mlayoutparams = (FrameLayout.LayoutParams)mPlayerView.getLayoutParams();
+        RelativeLayout.LayoutParams mlayoutparams = (RelativeLayout.LayoutParams)mPlayerView.getLayoutParams();
         videowidth = mlayoutparams.width;
         videoheight = mlayoutparams.height;
         return true;
