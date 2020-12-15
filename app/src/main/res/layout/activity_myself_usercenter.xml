@@ -54,7 +54,7 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
             android:gravity="center"
-            android:src="@mipmap/icon_add_small"
+
             />
     </RelativeLayout>
 
@@ -109,14 +109,19 @@
                 android:background="@color/writeColor"
                 android:layout_marginTop="1dp"
                 android:orientation="horizontal">
-
+            <TextView
+                android:layout_marginLeft="10dp"
+                android:layout_gravity="center_vertical"
+                android:text="*"
+                android:textColor="@color/color_D70000"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="姓名"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
-                    android:layout_marginLeft="10dp"
                     android:textSize="8pt"
                     android:textColor="@color/textColor_vo"/>
                 <EditText
@@ -147,14 +152,19 @@
                 android:id="@+id/li_activityUserCenter_userSexLayout"
                 android:layout_marginTop="1dp"
                 android:orientation="horizontal">
-
+                <TextView
+                    android:layout_marginLeft="10dp"
+                    android:layout_gravity="center_vertical"
+                    android:text="*"
+                    android:textColor="@color/color_D70000"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="性别"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
-                    android:layout_marginLeft="10dp"
                     android:textSize="8pt"
                     android:textColor="@color/textColor_vo"/>
                 <TextView
@@ -186,14 +196,19 @@
                 android:id="@+id/li_activityUserCenter_userBirthLayout"
                 android:layout_marginTop="1dp"
                 android:orientation="horizontal">
-
+                <TextView
+                    android:layout_marginLeft="10dp"
+                    android:layout_gravity="center_vertical"
+                    android:text="*"
+                    android:textColor="@color/color_D70000"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="出生日期"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
-                    android:layout_marginLeft="10dp"
                     android:textSize="8pt"
                     android:textColor="@color/textColor_vo"/>
                 <TextView
@@ -225,14 +240,19 @@
                 android:id="@+id/li_activityUserCenter_userRegionLayout"
                 android:layout_marginTop="1dp"
                 android:orientation="horizontal">
-
+                <TextView
+                    android:layout_marginLeft="10dp"
+                    android:layout_gravity="center_vertical"
+                    android:text="*"
+                    android:textColor="@color/color_D70000"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="区域"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
-                    android:layout_marginLeft="10dp"
                     android:textSize="8pt"
                     android:textColor="@color/textColor_vo"/>
                 <TextView
@@ -264,14 +284,19 @@
                 android:id="@+id/li_activityUserCenter_choiceHospitalLayout"
                 android:layout_marginTop="1dp"
                 android:orientation="horizontal">
-
+                <TextView
+                    android:layout_marginLeft="10dp"
+                    android:layout_gravity="center_vertical"
+                    android:text="*"
+                    android:textColor="@color/color_D70000"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="医院"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
-                    android:layout_marginLeft="10dp"
                     android:textSize="8pt"
                     android:textColor="@color/textColor_vo"/>
 
@@ -303,14 +328,19 @@
                 android:id="@+id/li_activityUserCenter_choiceDepartmentLayout"
                 android:layout_marginTop="1dp"
                 android:orientation="horizontal">
-
+                <TextView
+                    android:layout_marginLeft="10dp"
+                    android:layout_gravity="center_vertical"
+                    android:text="*"
+                    android:textColor="@color/color_D70000"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="科室"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
-                    android:layout_marginLeft="10dp"
                     android:textSize="8pt"
                     android:textColor="@color/textColor_vo"/>
                 <TextView
@@ -341,14 +371,19 @@
                 android:layout_marginTop="1dp"
                 android:id="@+id/li_activityUserCenter_choiceDepartmentSecondLayout"
                 android:orientation="horizontal">
-
+                <TextView
+                    android:layout_marginLeft="10dp"
+                    android:layout_gravity="center_vertical"
+                    android:text="*"
+                    android:textColor="@color/color_D70000"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="二级科室"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
-                    android:layout_marginLeft="10dp"
                     android:textSize="8pt"
                     android:textColor="@color/textColor_vo"/>
                 <TextView
@@ -378,15 +413,19 @@
                 android:background="@color/writeColor"
                 android:layout_marginTop="1dp"
                 android:orientation="horizontal">
-
+                <TextView
+                    android:layout_marginLeft="10dp"
+                    android:layout_gravity="center_vertical"
+                    android:text="*"
+                    android:textColor="@color/color_D70000"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="职称"
-
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
-                    android:layout_marginLeft="10dp"
                     android:textSize="8pt"
                     android:textColor="@color/textColor_vo"/>
                 <TextView

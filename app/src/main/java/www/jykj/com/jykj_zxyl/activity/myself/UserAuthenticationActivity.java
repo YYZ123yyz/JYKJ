@@ -131,7 +131,8 @@ public class UserAuthenticationActivity extends BaseActivity {
     private String imgId;
     private ImageView iv_idcardFont_img;
     private ImageView iv_idcardBack_img;
-
+    private TextView text;
+    private boolean status=true;
     /**
      * 创建临时文件夹 _tempphoto
      */
@@ -235,7 +236,6 @@ public class UserAuthenticationActivity extends BaseActivity {
                             String refuseReason = provideDoctorQualification.getRefuseReason();
                             //审核日期
                             long approvalDate = provideDoctorQualification.getApprovalDate();
-
                             if(flagSubmitState==0){
                                 mCommit.setVisibility(View.VISIBLE);
                               //  lin_schedule.setVisibility(View.GONE);
@@ -250,6 +250,7 @@ public class UserAuthenticationActivity extends BaseActivity {
                                 tv_time.setVisibility(View.VISIBLE);
                                 //审核已提交
                                 if(flagApplyState==1){
+                                    status=false;
                                     iv_idcardFont_img.setVisibility(View.GONE);
                                     iv_idcardBack_img.setVisibility(View.GONE);
                                     iv_zyz_img.setVisibility(View.GONE);
@@ -269,6 +270,12 @@ public class UserAuthenticationActivity extends BaseActivity {
                                 }
                                 //审批已通过
                                 else if(flagApplyState==3){
+                                    status=false;
+                                    iv_idcardFont_img.setVisibility(View.GONE);
+                                    iv_idcardBack_img.setVisibility(View.GONE);
+                                    iv_zyz_img.setVisibility(View.GONE);
+                                    iv_zgz_img .setVisibility(View.GONE);
+                                    iv_zcz_img  .setVisibility(View.GONE);
                                     mCommit.setVisibility(View.GONE);
                                     tv_too.setVisibility(View.VISIBLE);
                                     success.setVisibility(View.VISIBLE);
@@ -307,6 +314,8 @@ public class UserAuthenticationActivity extends BaseActivity {
                             String otherCard1ImgUrl = provideDoctorQualification.getOtherCard1ImgUrl();
                             Log.e("TAG", "handleMessage:  图片地址  "+otherCard1ImgUrl );
                             if(!TextUtils.isEmpty(otherCard1ImgUrl)){
+                                text.setVisibility(View.GONE);
+                                mImageRecycleView.setVisibility(View.VISIBLE);
                                 if (otherCard1ImgUrl.contains("^")) {
                                     mPhotoInfos.clear();
                                     String[] split = otherCard1ImgUrl.split("\\^");
@@ -329,6 +338,8 @@ public class UserAuthenticationActivity extends BaseActivity {
                                 mImageAdapter.setDate(mPhotoInfos);
                                 mImageAdapter.notifyDataSetChanged();
                             }else{
+                                text.setVisibility(View.VISIBLE);
+                                mImageRecycleView.setVisibility(View.GONE);
                                 mPhotoInfos.clear();
                                 mImageAdapter.setDate(mPhotoInfos);
                                 mImageAdapter.notifyDataSetChanged();
@@ -592,6 +603,7 @@ public class UserAuthenticationActivity extends BaseActivity {
      * 初始化布局
      */
     private void initLayout() {
+        text = findViewById(R.id.text);
         iv_idcardFont_img = findViewById(R.id.iv_idcardFont_img);
         iv_idcardBack_img = findViewById(R.id.iv_idcardBack_img);
         //原因
@@ -823,94 +835,106 @@ public class UserAuthenticationActivity extends BaseActivity {
                     break;
 
                 case R.id.ri_idcardFront:
-                    startActivityForResult(new Intent(mContext, CameraActivity.class)
-                            .putExtra(KEY_CONTENT_TYPE, "IDCardFront")
-                            .putExtra(KEY_OUTPUT_FILE_PATH, mIDCardFrontPath), mIDCardFrontRequstCode);
+                    if(status==true){
+                        startActivityForResult(new Intent(mContext, CameraActivity.class)
+                                .putExtra(KEY_CONTENT_TYPE, "IDCardFront")
+                                .putExtra(KEY_OUTPUT_FILE_PATH, mIDCardFrontPath), mIDCardFrontRequstCode);
+                    }
+
                     break;
 
                 case R.id.ri_idcardBack:
-                    startActivityForResult(new Intent(mContext, CameraActivity.class)
-                            .putExtra(KEY_CONTENT_TYPE, "IDCardBack")
-                            .putExtra(KEY_OUTPUT_FILE_PATH, mIDCardFrontPath), mIDCardBackRequstCode);
+                    if(status==true) {
+                        startActivityForResult(new Intent(mContext, CameraActivity.class)
+                                .putExtra(KEY_CONTENT_TYPE, "IDCardBack")
+                                .putExtra(KEY_OUTPUT_FILE_PATH, mIDCardFrontPath), mIDCardBackRequstCode);
+                    }
                     break;
 
                 case R.id.iv_zyz:
-                    mCurrentPhoto = 1;
-                    String[] items = {"拍照", "从相册选择"};
-                    Dialog dialog = new android.support.v7.app.AlertDialog.Builder(mContext)
-                            .setItems(items, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    switch (i) {
-                                        case 0:
-                                            StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
-                                            StrictMode.setVmPolicy(builder.build());
-                                            builder.detectFileUriExposure();
-                                            // 添加Action类型：MediaStore.ACTION_IMAGE_CAPTURE
-                                            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                                            // 指定调用相机拍照后照片(结果)的储存路径
-                                            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(mTempFile));
-                                            // 等待返回结果
-                                            startActivityForResult(intent, Constant.SELECT_PIC_BY_TACK_PHOTO);
-                                            break;
-                                        case 1:
-                                            BitmapUtil.selectAlbum(mActivity);//从相册选择
-                                            break;
+                    if(status==true){
+                        mCurrentPhoto = 1;
+                        String[] items = {"拍照", "从相册选择"};
+                        Dialog dialog = new android.support.v7.app.AlertDialog.Builder(mContext)
+                                .setItems(items, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        switch (i) {
+                                            case 0:
+                                                StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+                                                StrictMode.setVmPolicy(builder.build());
+                                                builder.detectFileUriExposure();
+                                                // 添加Action类型：MediaStore.ACTION_IMAGE_CAPTURE
+                                                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                                                // 指定调用相机拍照后照片(结果)的储存路径
+                                                intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(mTempFile));
+                                                // 等待返回结果
+                                                startActivityForResult(intent, Constant.SELECT_PIC_BY_TACK_PHOTO);
+                                                break;
+                                            case 1:
+                                                BitmapUtil.selectAlbum(mActivity);//从相册选择
+                                                break;
+                                        }
                                     }
-                                }
-                            }).show();
+                                }).show();
+                    }
+
                     break;
                 case R.id.iv_zgz:
-                    mCurrentPhoto = 3;
-                    String[] items2 = {"拍照", "从相册选择"};
-                    Dialog dialog2 = new android.support.v7.app.AlertDialog.Builder(mContext)
-                             .setItems(items2, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    switch (i) {
-                                        case 0:
-                                            StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
-                                            StrictMode.setVmPolicy(builder.build());
-                                            builder.detectFileUriExposure();
-                                            // 添加Action类型：MediaStore.ACTION_IMAGE_CAPTURE
-                                            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                                            // 指定调用相机拍照后照片(结果)的储存路径
-                                            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(mTempFile));
-                                            // 等待返回结果
-                                            startActivityForResult(intent, Constant.SELECT_PIC_BY_TACK_PHOTO);
-                                            break;
-                                        case 1:
-                                            BitmapUtil.selectAlbum(mActivity);//从相册选择
-                                            break;
+                    if(status==true) {
+                        mCurrentPhoto = 3;
+                        String[] items2 = {"拍照", "从相册选择"};
+                        Dialog dialog2 = new android.support.v7.app.AlertDialog.Builder(mContext)
+                                .setItems(items2, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        switch (i) {
+                                            case 0:
+                                                StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+                                                StrictMode.setVmPolicy(builder.build());
+                                                builder.detectFileUriExposure();
+                                                // 添加Action类型：MediaStore.ACTION_IMAGE_CAPTURE
+                                                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                                                // 指定调用相机拍照后照片(结果)的储存路径
+                                                intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(mTempFile));
+                                                // 等待返回结果
+                                                startActivityForResult(intent, Constant.SELECT_PIC_BY_TACK_PHOTO);
+                                                break;
+                                            case 1:
+                                                BitmapUtil.selectAlbum(mActivity);//从相册选择
+                                                break;
+                                        }
                                     }
-                                }
-                            }).show();
+                                }).show();
+                    }
                     break;
                 case R.id.iv_zcz:
-                    mCurrentPhoto = 2;
-                    String[] items3 = {"拍照", "从相册选择"};
-                    Dialog dialog3 = new android.support.v7.app.AlertDialog.Builder(mContext)
-                            .setItems(items3, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    switch (i) {
-                                        case 0:
-                                            StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
-                                            StrictMode.setVmPolicy(builder.build());
-                                            builder.detectFileUriExposure();
-                                            // 添加Action类型：MediaStore.ACTION_IMAGE_CAPTURE
-                                            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                                            // 指定调用相机拍照后照片(结果)的储存路径
-                                            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(mTempFile));
-                                            // 等待返回结果
-                                            startActivityForResult(intent, Constant.SELECT_PIC_BY_TACK_PHOTO);
-                                            break;
-                                        case 1:
-                                            BitmapUtil.selectAlbum(mActivity);//从相册选择
-                                            break;
+                    if(status==true) {
+                        mCurrentPhoto = 2;
+                        String[] items3 = {"拍照", "从相册选择"};
+                        Dialog dialog3 = new android.support.v7.app.AlertDialog.Builder(mContext)
+                                .setItems(items3, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        switch (i) {
+                                            case 0:
+                                                StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+                                                StrictMode.setVmPolicy(builder.build());
+                                                builder.detectFileUriExposure();
+                                                // 添加Action类型：MediaStore.ACTION_IMAGE_CAPTURE
+                                                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                                                // 指定调用相机拍照后照片(结果)的储存路径
+                                                intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(mTempFile));
+                                                // 等待返回结果
+                                                startActivityForResult(intent, Constant.SELECT_PIC_BY_TACK_PHOTO);
+                                                break;
+                                            case 1:
+                                                BitmapUtil.selectAlbum(mActivity);//从相册选择
+                                                break;
+                                        }
                                     }
-                                }
-                            }).show();
+                                }).show();
+                    }
                     break;
 
                 case R.id.bt_commit:
@@ -941,10 +965,11 @@ public class UserAuthenticationActivity extends BaseActivity {
                     if (mPhotoInfos.size() > 0) {
                         for (int i = 1; i < mPhotoInfos.size(); i++) {
                             if (mPhotoInfos.get(i) != null) {
+                                photoUrl.append("data:image/jpg;base64,");
                                 String photo = mPhotoInfos.get(i).getPhoto();
                                 Log.e("TAG", "run:  图片  "+photo );
                                 if (i == mPhotoInfos.size() - 1) {
-                                    photoUrl.append("data:image/jpg;base64,"+photo);
+                                    photoUrl.append(photo);
                                 } else {
                                     photoUrl.append("data:image/jpg;base64,").append(photo).append("^");
                                 }
@@ -962,14 +987,13 @@ public class UserAuthenticationActivity extends BaseActivity {
                     upLoadImgParment.setImgIdArray("");
                     String s = photoUrl.toString();
                     if (!TextUtils.isEmpty(s)) {
-                        upLoadImgParment.setImgBase64Array((URLEncoder.encode( s)));
+                        upLoadImgParment.setImgBase64Array((URLEncoder.encode(s)));
                     }else{
                         upLoadImgParment.setImgBase64Array("");
                     }
 
                     String str = new Gson().toJson(upLoadImgParment);
                     mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + str, Constant.SERVICEURL + "doctorPersonalSetControlle/operSubmitDoctorQualification_20201126");
-                    Log.e("TAG", "run: 提交2222"+mNetRetStr );
                     NetRetEntity netRetEntity = new Gson().fromJson(mNetRetStr, NetRetEntity.class);
                     if (netRetEntity.getResCode() == 0) {
                         NetRetEntity retEntity = new NetRetEntity();

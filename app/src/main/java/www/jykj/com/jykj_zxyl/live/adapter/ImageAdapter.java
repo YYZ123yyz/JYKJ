@@ -80,12 +80,12 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
                 Log.e("TAG", "onBindViewHolder: "+"2222222222222222222" );
                 viewHolder.delete_img.setVisibility(View.GONE);
                 Glide.with(viewHolder.mImageView.getContext()).load(datas.get(position).getPhotoUrl())
-                        .apply(RequestOptions.placeholderOf(com.hyphenate.easeui.R.mipmap.docter_heard)
+                        .apply(RequestOptions.placeholderOf(R.color.color_ffffff)
                                 .diskCacheStrategy(DiskCacheStrategy.ALL))
                         .into(viewHolder.mImageView);
-                ViewGroup.LayoutParams layoutParams = viewHolder.mImageView.getLayoutParams();
+               /* ViewGroup.LayoutParams layoutParams = viewHolder.mImageView.getLayoutParams();
                 layoutParams.height=width/3;
-                viewHolder.mImageView.setLayoutParams(layoutParams);
+                viewHolder.mImageView.setLayoutParams(layoutParams);*/
             }
         }
 

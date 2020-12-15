@@ -291,6 +291,7 @@ public class FragmentShouYe extends AbstractMvpBaseFragment<HomePagerContract.Vi
             TabLayout.Tab tabAt = tabLayout.getTabAt(i);
             if (tabAt!=null){
                 tabAt.setCustomView(getTabView(i));
+
             }
         }
         pager.setCurrentItem(0);
