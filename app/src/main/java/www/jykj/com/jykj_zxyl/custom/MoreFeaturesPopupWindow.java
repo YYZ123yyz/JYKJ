@@ -18,6 +18,7 @@ import www.jykj.com.jykj_zxyl.activity.home.MyLiveRoomActivity;
 import www.jykj.com.jykj_zxyl.activity.home.MyPatientActivity;
 import www.jykj.com.jykj_zxyl.activity.home.QRCodeActivity;
 import www.jykj.com.jykj_zxyl.activity.home.tjhz.AddPatientActivity;
+import www.jykj.com.jykj_zxyl.appointment.activity.MyClinicDetialActivity;
 import www.jykj.com.jykj_zxyl.fragment.FragmentShouYe;
 import www.jykj.com.jykj_zxyl.mypatient.activity.PatientActivity;
 import yyz_exploit.activity.activity.HelpActivity;
@@ -123,7 +124,7 @@ public class MoreFeaturesPopupWindow extends PopupWindow implements View.OnClick
                 mContext.startActivity(new Intent(mContext,AddPatientActivity.class));
                 break;
             case R.id.tv_wdzs:
-                mContext.startActivity(new Intent(mContext,MyClinicActivity.class));
+                mContext.startActivity(new Intent(mContext, MyClinicDetialActivity.class));
 
                 break;
 

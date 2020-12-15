@@ -17,6 +17,7 @@ import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
@@ -30,6 +31,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
+import com.blankj.utilcode.util.ImageUtils;
+import com.blankj.utilcode.util.LogUtils;
+import com.blankj.utilcode.util.UriUtils;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 
@@ -108,7 +112,7 @@ public class UserAuthenticationActivity extends BaseActivity {
     private ImageButton ivAdd;
     private MoreFeaturesPopupWindow mPopupWindow;
     private RecyclerView mImageRecycleView;
-    private FullyGridLayoutManager mGridLayoutManager;
+    private GridLayoutManager mGridLayoutManager;
     private List<Photo_Info> mPhotoInfos = new ArrayList<>();
     private ImageAdapter mImageAdapter;
     private ImageView img_status;
@@ -231,7 +235,7 @@ public class UserAuthenticationActivity extends BaseActivity {
 
                             if(flagSubmitState==0){
                                 mCommit.setVisibility(View.VISIBLE);
-                                lin_schedule.setVisibility(View.GONE);
+                              //  lin_schedule.setVisibility(View.GONE);
                             }else if(flagSubmitState==1){
                                 img_status.setImageDrawable(getResources().getDrawable(R.mipmap.tj));
                                 mCommit.setVisibility(View.GONE);
@@ -243,6 +247,11 @@ public class UserAuthenticationActivity extends BaseActivity {
                                 tv_time.setVisibility(View.VISIBLE);
                                 //审核已提交
                                 if(flagApplyState==1){
+                                    iv_idcardFont_img.setVisibility(View.GONE);
+                                    iv_idcardBack_img.setVisibility(View.GONE);
+                                    iv_zyz_img.setVisibility(View.GONE);
+                                    iv_zgz_img .setVisibility(View.GONE);
+                                    iv_zcz_img  .setVisibility(View.GONE);
                                     img_status.setImageDrawable(getResources().getDrawable(R.mipmap.shz));
                                     mCommit.setVisibility(View.GONE);
                                 }
@@ -273,52 +282,56 @@ public class UserAuthenticationActivity extends BaseActivity {
 
                             if(!TextUtils.isEmpty(provideDoctorQualification.getIdNumberPositiveImgUrl())){
                                 ImageViewUtil.showImageView(mActivity, provideDoctorQualification.getIdNumberPositiveImgUrl(), mIDCardFont);
-                                iv_idcardFont_img.setVisibility(View.GONE);
+                             //   iv_idcardFont_img.setVisibility(View.GONE);
                             }
                             if(!TextUtils.isEmpty(provideDoctorQualification.getIdNumberSideImgUrl())){
                                 ImageViewUtil.showImageView(mActivity, provideDoctorQualification.getIdNumberSideImgUrl(), mIDCardBack);
-                                iv_idcardBack_img.setVisibility(View.GONE);
+                            //    iv_idcardBack_img.setVisibility(View.GONE);
                             }
                             if(!TextUtils.isEmpty(provideDoctorQualification.getPractisingImgUrl())){
                                 ImageViewUtil.showImageView(mActivity, provideDoctorQualification.getPractisingImgUrl(), mZYZImage);
-                                iv_zyz_img.setVisibility(View.GONE);
+                           //     iv_zyz_img.setVisibility(View.GONE);
                             }
                             if(!TextUtils.isEmpty(provideDoctorQualification.getWorkCardImgUrl())){
                                 ImageViewUtil.showImageView(mActivity, provideDoctorQualification.getWorkCardImgUrl(),mZGZImage );
-                                iv_zgz_img .setVisibility(View.GONE);
+                            //    iv_zgz_img .setVisibility(View.GONE);
                             }
                             if(!TextUtils.isEmpty(provideDoctorQualification.getProfessionalImgUrl())){
                                 ImageViewUtil.showImageView(mActivity, provideDoctorQualification.getProfessionalImgUrl(),mZCZImage );
-                                iv_zcz_img  .setVisibility(View.GONE);
+                            //    iv_zcz_img  .setVisibility(View.GONE);
                             }
                             //图片路径
                             String otherCard1ImgUrl = provideDoctorQualification.getOtherCard1ImgUrl();
                             Log.e("TAG", "handleMessage:  图片地址  "+otherCard1ImgUrl );
-                            mPhotoInfos.clear();
-                            if (otherCard1ImgUrl.contains("^")) {
-                              //  String s = otherCard1ImgUrl.replaceAll("^^", ",");
-                                String[] split = otherCard1ImgUrl.split("\\^");
-                                for (int i = 0; i < split.length; i++) {
-                                    Photo_Info photo_info = new Photo_Info();
-                                    photo_info.setPhotoUrl(split[i]);
-                                    photo_info.setStatus("2");
-                                    mPhotoInfos.add(photo_info);
-                                    Log.e("TAG", "handleMessage:   vvvv  "+photo_info.getPhotoUrl() );
+                            if(!TextUtils.isEmpty(otherCard1ImgUrl)){
+                                if (otherCard1ImgUrl.contains("^")) {
+                                    mPhotoInfos.clear();
+                                    String[] split = otherCard1ImgUrl.split("\\^");
+                                    for (int i = 0; i < split.length; i++) {
+                                        Photo_Info photo_info = new Photo_Info();
+                                        photo_info.setPhotoUrl(split[i]);
+                                        photo_info.setStatus("2");
+                                        mPhotoInfos.add(photo_info);
+                                    }
+                                } else {
+                                    mPhotoInfos.clear();
+                                    if (!TextUtils.isEmpty(otherCard1ImgUrl)) {
+                                        Photo_Info photo_info = new Photo_Info();
+                                        photo_info.setStatus("2");
+                                        photo_info.setPhotoUrl(otherCard1ImgUrl);
+                                        mPhotoInfos.add(photo_info);
+                                        Log.e("TAG", "handleMessage: ccc"+mPhotoInfos.size() );
+                                    }
                                 }
-
-                                Log.e("TAG", "handleMessage:  分割  "+mPhotoInfos.size() );
-                            } else {
-                                if (!TextUtils.isEmpty(otherCard1ImgUrl)) {
-                                    Photo_Info photo_info = new Photo_Info();
-                                    photo_info.setStatus("2");
-                                    photo_info.setPhotoUrl(otherCard1ImgUrl);
-                                    mPhotoInfos.add(photo_info);
-                                    Log.e("TAG", "handleMessage: ccc"+mPhotoInfos.size() );
-                                }
-
+                                mImageAdapter.setDate(mPhotoInfos);
+                                mImageAdapter.notifyDataSetChanged();
+                            }else{
+                                mPhotoInfos.clear();
+                                mImageAdapter.setDate(mPhotoInfos);
+                                mImageAdapter.notifyDataSetChanged();
                             }
-                            mImageAdapter.setDate(mPhotoInfos);
-                            mImageAdapter.notifyDataSetChanged();
+
+
                         }
 
                         break;
@@ -367,7 +380,7 @@ public class UserAuthenticationActivity extends BaseActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
+        Log.e("TAG", "onActivityResult: vvvvvvvvvv"+mCurrentPhoto );
         if (requestCode == mIDCardFrontRequstCode && resultCode == RESULT_OK) {
 //            getProgressBar("请稍候", "正在处理。。。");
             new Thread() {
@@ -394,108 +407,125 @@ public class UserAuthenticationActivity extends BaseActivity {
             if (requestCode == Constant.SELECT_PIC_FROM_ALBUM
                     && resultCode == RESULT_OK
                     && data != null) {
+                Log.e("TAG", "相册 "+mCurrentPhoto );
                 if(mCurrentPhoto==6){
-                       setPicToView(data);
+                    final Uri uri = data.getData();//返回相册图片的Uri
+                    File file = UriUtils.uri2File(uri);
+                    Bitmap bitmap = ImageUtils.getBitmap(file);
+                    Bitmap clipBitmap = ImageUtils.compressBySampleSize(bitmap, 200, 200);
+//                                Bitmap clipBitmap = ImageUtils.clip(bitmap, 1, 1, 450, 450);
+                    LogUtils.e("clipBitmap  大小 "+clipBitmap.getByteCount());
 
-                }
-                final Uri uri = data.getData();//返回相册图片的Uri
-                BitmapUtil.startPhotoZoom(mActivity, uri, 450);
-                final Bitmap[] photo = new Bitmap[1];
+                    Photo_Info photo_info = new Photo_Info();
+                    photo_info.setPhoto(BitmapUtil.bitmaptoString(clipBitmap));
+                    photo_info.setStatus("1");
+                    mPhotoInfos.add(photo_info);
+                    mImageAdapter.setDate(mPhotoInfos);
+                    mImageAdapter.notifyDataSetChanged();
+                }else{
+                    final Uri uri = data.getData();//返回相册图片的Uri
+                    BitmapUtil.startPhotoZoom(mActivity, uri, 450);
+
+                    final Bitmap[] photo = new Bitmap[1];
 //                getProgressBar("请稍候", "正在处理。。。");
-                new Thread() {
-                    public void run() {
-                        if (uri != null) {
-                            try {
-                                photo[0] = BitmapUtil.getimageBitmap(BitmapFactory.decodeStream(getContentResolver().openInputStream(data.getData())));//将imageUri对象的图片加载到内存
-                            } catch (FileNotFoundException e) {
-                                e.printStackTrace();
+                    new Thread() {
+                        public void run() {
+                            if (uri != null) {
+                                try {
+                                    photo[0] = BitmapUtil.getimageBitmap(BitmapFactory.decodeStream(getContentResolver().openInputStream(data.getData())));//将imageUri对象的图片加载到内存
+                                } catch (FileNotFoundException e) {
+                                    e.printStackTrace();
+                                }
+                            } else {
+                                System.out.println("进来了");
+                                try {
+                                    photo[0] = BitmapUtil.getimageBitmap(BitmapFactory.decodeStream(getContentResolver().openInputStream(Uri.fromFile(new File(Environment.getExternalStorageDirectory(), "test.jpg")))));//将imageUri对象的图片加载到内存
+                                } catch (FileNotFoundException e) {
+                                    e.printStackTrace();
+                                }
                             }
-                        } else {
-                            System.out.println("进来了");
-                            try {
-                                photo[0] = BitmapUtil.getimageBitmap(BitmapFactory.decodeStream(getContentResolver().openInputStream(Uri.fromFile(new File(Environment.getExternalStorageDirectory(), "test.jpg")))));//将imageUri对象的图片加载到内存
-                            } catch (FileNotFoundException e) {
-                                e.printStackTrace();
+                            System.out.println("图片：" + photo[0]);
+                            switch (mCurrentPhoto) {
+                                case 1:
+                                    upLoadImg(3, BitmapUtil.bitmaptoString(photo[0]));
+                                    break;
+                                case 2:
+                                    upLoadImg(5, BitmapUtil.bitmaptoString(photo[0]));
+                                    break;
+                                case 3:
+                                    upLoadImg(6, BitmapUtil.bitmaptoString(photo[0]));
+                                    break;
+                                case 6:
+                                    //  setPicToView(data);
+                                    break;
                             }
-                        }
-                        System.out.println("图片：" + photo[0]);
-                        switch (mCurrentPhoto) {
-                            case 1:
-                                upLoadImg(3, BitmapUtil.bitmaptoString(photo[0]));
-                                break;
-                            case 2:
-                                upLoadImg(5, BitmapUtil.bitmaptoString(photo[0]));
-                                break;
-                            case 3:
-                                upLoadImg(6, BitmapUtil.bitmaptoString(photo[0]));
-                                break;
-                            case 6:
-                                break;
-                        }
 
-                    }
-                }.start();
+                        }
+                    }.start();
+                }
+
             }
-
             // 处理拍照返回
             if (requestCode == Constant.SELECT_PIC_BY_TACK_PHOTO
                     && resultCode == RESULT_OK) {// 拍照成功 RESULT_OK= -1
                 if(mCurrentPhoto==6){
                     setPicToView(data);
-
+                }else{
+                    new Thread() {
+                        public void run() {
+                            Bitmap photo = null;
+                            try {
+                                photo = BitmapUtil.getimageBitmap(BitmapFactory.decodeStream(getContentResolver().openInputStream(Uri.fromFile(mTempFile))));//将imageUri对象的图片加载到内存
+                            } catch (FileNotFoundException e) {
+                                e.printStackTrace();
+                            }
+                            switch (mCurrentPhoto) {
+                                case 1:
+                                    upLoadImg(3, BitmapUtil.bitmaptoString(photo));
+                                    break;
+                                case 2:
+                                    upLoadImg(5, BitmapUtil.bitmaptoString(photo));
+                                    break;
+                                case 3:
+                                    upLoadImg(6, BitmapUtil.bitmaptoString(photo));
+                                    break;
+                                case 6:
+                                    //  setPicToView(data);
+                                    break;
+                            }
+                        }
+                    }.start();
                 }
-                new Thread() {
-                    public void run() {
-                        Bitmap photo = null;
-                        try {
-                            photo = BitmapUtil.getimageBitmap(BitmapFactory.decodeStream(getContentResolver().openInputStream(Uri.fromFile(mTempFile))));//将imageUri对象的图片加载到内存
-                        } catch (FileNotFoundException e) {
-                            e.printStackTrace();
-                        }
-                        switch (mCurrentPhoto) {
-                            case 1:
-                                upLoadImg(3, BitmapUtil.bitmaptoString(photo));
-                                break;
-                            case 2:
-                                upLoadImg(5, BitmapUtil.bitmaptoString(photo));
-                                break;
-                            case 3:
-                                upLoadImg(6, BitmapUtil.bitmaptoString(photo));
-                                break;
-                            case 6:
-                              //  setPicToView(data);
-                                break;
-                        }
-                    }
-                }.start();
+
             }
+            // 接收剪裁回来的结果
+           /* if (requestCode == Constant.REQUEST_PHOTO_CUT
+                    && resultCode == RESULT_OK) {// 剪裁加工成功
+                //让剪裁结果显示到图片框
+                setPicToView(data);
+            }*/
         } catch (Exception e) {
             Log.i("yi", "yichahahaha");
         }
     }
     //listview集合显示
     private void setPicToView(Intent data) {
-        Bitmap photo;
-        try {
-            Uri u = data.getData();
-            if (u != null) {
-                photo = BitmapFactory.decodeStream(getContentResolver().openInputStream(data.getData()));//将imageUri对象的图片加载到内存
-            } else {
-                System.out.println("进来了");
-                photo = BitmapFactory.decodeStream(getContentResolver().openInputStream(Uri.fromFile(new File(Environment.getExternalStorageDirectory(), "test.jpg"))));//将imageUri对象的图片加载到内存
-            }
-            System.out.println("图片：" + photo);
-            Photo_Info photo_info = new Photo_Info();
-            photo_info.setPhoto(BitmapUtil.bitmaptoString(photo));
-            mPhotoInfos.add(photo_info);
-            mImageAdapter.setDate(mPhotoInfos);
-            mImageAdapter.notifyDataSetChanged();
+        LogUtils.e("xxxxxxxxxxxx   000000000000");
+        Uri uri = Uri.fromFile(mTempFile);
+        File file = UriUtils.uri2File(uri);
+        Bitmap bitmap = ImageUtils.getBitmap(file);
+        Bitmap clipBitmap = ImageUtils.compressBySampleSize(bitmap, 200, 200);
+//                                Bitmap clipBitmap = ImageUtils.clip(bitmap, 1, 1, 450, 450);
+        LogUtils.e("clipBitmap  大小 "+clipBitmap.getByteCount());
 
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+        Photo_Info photo_info = new Photo_Info();
+        photo_info.setPhoto(BitmapUtil.bitmaptoString(clipBitmap));
+        photo_info.setStatus("1");
+        mPhotoInfos.add(photo_info);
+
+        mImageAdapter.setDate(mPhotoInfos);
+        mImageAdapter.notifyDataSetChanged();
     }
-
     //回调函数
     public void upLoadImg(int type, String bitmapString) {
 
@@ -576,18 +606,19 @@ public class UserAuthenticationActivity extends BaseActivity {
         tv_time = findViewById(R.id.tv_time);
         //照片listview
         mImageRecycleView = (RecyclerView) this.findViewById(R.id.rv_img);
-        mGridLayoutManager = new FullyGridLayoutManager(mContext, 3);
+        mGridLayoutManager = new GridLayoutManager(mContext, 3);
         mGridLayoutManager.setOrientation(LinearLayout.VERTICAL);
         mImageRecycleView.setLayoutManager(mGridLayoutManager);
         //如果可以确定每个item的高度是固定的，设置这个选项可以提高性能
         mImageRecycleView.setHasFixedSize(true);
         //创建并设置Adapter
         final Photo_Info photo_info = new Photo_Info();
+        photo_info.setStatus("1");
         photo_info.setPhotoID("ADDPHOTO");
         mPhotoInfos.add(photo_info);
         mImageAdapter = new ImageAdapter(mPhotoInfos,mApp,this);
         mImageRecycleView.setAdapter(mImageAdapter);
-        mImageAdapter.setOnItemClickListener(new ImageAdapter.OnItemClickListener() {
+      /*  mImageAdapter.setOnItemClickListener(new ImageAdapter.OnItemClickListener() {
             @Override
             public void onClick(final int position) {
                 mCurrentPhoto = 6;
@@ -653,9 +684,85 @@ public class UserAuthenticationActivity extends BaseActivity {
             public void onLongClick(int position) {
 
             }
+        });*/
+        //删除
+        mImageAdapter.setOnItemClickListener(new ImageAdapter.OnItemClickListener() {
+            @Override
+            public void onClick(int position) {
+                Dialog dialog = new AlertDialog.Builder(mContext)
+                        .setMessage("删除该照片")
+                        .setPositiveButton("是", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                                String photoID = mPhotoInfos.get(position).getPhotoID();
+                                if (!updataArrList.contains(photoID)) {
+                                    updataArrList.add(photoID);
+                                }
+
+                                mPhotoInfos.remove(position);
+                                if (mPhotoInfos.size() == 0) {
+                                    Photo_Info photo_info1 = new Photo_Info();
+                                    photo_info1.setPhotoID("ADDPHOTO");
+                                    mPhotoInfos.add(photo_info1);
+                                }
+                                mImageAdapter.setDate(mPhotoInfos);
+                                mImageAdapter.notifyDataSetChanged();
+                            }
+                        }).setNegativeButton("否", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                            }
+                        }).show();
+            }
+
+            @Override
+            public void onLongClick(int position) {
+
+            }
         });
 
+        mImageAdapter.setOnItemTakeClickListener(new ImageAdapter.OnItemTakeClickListener() {
+            @Override
+            public void onClick(int position) {
+                mCurrentPhoto = 6;
+                if (mPhotoInfos.size() >= 4) {
+                    Toast.makeText(mContext, "照片不超过三张", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if ("ADDPHOTO".equals(mPhotoInfos.get(position).getPhotoID())) {
+                    String[] items = {"拍照", "从相册选择"};
+                    Dialog dialog = new AlertDialog.Builder(mContext)
+                            .setItems(items, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    switch (i) {
+                                        case 0:
+                                            StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+                                            StrictMode.setVmPolicy(builder.build());
+                                            builder.detectFileUriExposure();
+                                            // 添加Action类型：MediaStore.ACTION_IMAGE_CAPTURE
+                                            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                                            // 指定调用相机拍照后照片(结果)的储存路径
+                                            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(mTempFile));
+                                            // 等待返回结果
+                                            startActivityForResult(intent, Constant.SELECT_PIC_BY_TACK_PHOTO);
+                                            break;
+                                        case 1:
+                                            BitmapUtil.selectAlbum(mActivity);//从相册选择
+                                            break;
+                                    }
+                                }
+                            }).show();
+                }
+            }
 
+            @Override
+            public void onLongClick(int position) {
+
+            }
+        });
 
        /* lin_data = findViewById(R.id.lin_data);
         //提交状态的布局
@@ -823,14 +930,12 @@ public class UserAuthenticationActivity extends BaseActivity {
                 try {
                     StringBuilder photoUrl = new StringBuilder();
                     if (mPhotoInfos.size() > 0) {
-
                         for (int i = 1; i < mPhotoInfos.size(); i++) {
                             if (mPhotoInfos.get(i) != null) {
-                                photoUrl.append("data:image/jpg;base64,");
                                 String photo = mPhotoInfos.get(i).getPhoto();
                                 Log.e("TAG", "run:  图片  "+photo );
                                 if (i == mPhotoInfos.size() - 1) {
-                                    photoUrl.append(photo);
+                                    photoUrl.append("data:image/jpg;base64,"+photo);
                                 } else {
                                     photoUrl.append(photo).append("^");
                                 }
@@ -846,17 +951,12 @@ public class UserAuthenticationActivity extends BaseActivity {
                     upLoadImgParment.setOperDoctorName(mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
 
                     upLoadImgParment.setImgIdArray("");
-                    if (photoUrl.toString().contains("null")) {
-                        upLoadImgParment.setImgBase64Array("");
+                    String s = photoUrl.toString();
+                    if (!TextUtils.isEmpty(s)) {
+                        upLoadImgParment.setImgBase64Array((URLEncoder.encode("data:image/jpg;base64," + s)));
                     }else{
-                        Log.e("TAG", "run: bbbb"+photoUrl.toString() );
-                        upLoadImgParment.setImgBase64Array(photoUrl.toString());
+                        upLoadImgParment.setImgBase64Array("");
                     }
-                    Log.e("TAG", "run: 提交  经纬度"+upLoadImgParment.getLoginDoctorPosition() );
-                    Log.e("TAG", "run: 提交  code"+upLoadImgParment.getOperDoctorCode() );
-                    Log.e("TAG", "run: 提交  name"+upLoadImgParment.getOperDoctorName() );
-                    Log.e("TAG", "run: 提交  imgid"+upLoadImgParment.getImgIdArray() );
-                    Log.e("TAG", "run: 提交  imgarray"+upLoadImgParment.getImgBase64Array());
 
                     String str = new Gson().toJson(upLoadImgParment);
                     mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + str, Constant.SERVICEURL + "doctorPersonalSetControlle/operSubmitDoctorQualification_20201126");

@@ -32,6 +32,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
     private boolean mCanClick = true;
     private Context mContext;
     private int width;
+    private OnItemTakeClickListener mOnItemTakeClickListener;
     public ImageAdapter(List<Photo_Info> list, JYKJApplication app, Context context) {
         datas = new ArrayList<>();
         datas.addAll(list);
@@ -57,38 +58,31 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
          */
         viewHolder.setIsRecyclable(false);
         String status = datas.get(position).getStatus();
+        Log.e("TAG", "onBindViewHolder: "+status );
         if(!TextUtils.isEmpty(status)){
             if(status.equals("1")){
-                Log.e("TAG", "onBindViewHolder: "+status );
-                viewHolder.delete_img.setVisibility(View.VISIBLE);
                 if ("ADDPHOTO".equals(datas.get(position).getPhotoID())) {
-                       viewHolder.mImageView.setBackgroundResource(R.mipmap.vpzz);
-                    Log.e("执行", "   onBindViewHolder   执行Add:" + position);
+                    //   viewHolder.mImageView.setBackgroundResource(R.mipmap.vpzz);
                     viewHolder.delete_img.setVisibility(View.GONE);
-                 //   viewHolder.img_view.setVisibility(View.VISIBLE);
+                  //  viewHolder.mImageView.setVisibility(View.VISIBLE);
                 } else if (datas.get(position).getPhoto() != null) {
                     viewHolder.mImageView.setImageBitmap(BitmapUtil.stringtoBitmap(datas.get(position).getPhoto()));
                     Log.e("执行", "   onBindViewHolder    执行:" + position);
                     viewHolder.delete_img.setVisibility(View.VISIBLE);
-                  //  viewHolder.img_view.setVisibility(View.GONE);
                 } else if (StrUtils.defaultStr(datas.get(position).getPhotoUrl()).length() > 0) {
-                    Log.e("TAG", "onBindViewHolder: "+"hhhhh" );
                     Glide.with(viewHolder.mImageView.getContext()).load(datas.get(position).getPhotoUrl())
                             .apply(RequestOptions.placeholderOf(com.hyphenate.easeui.R.mipmap.docter_heard)
                                     .diskCacheStrategy(DiskCacheStrategy.ALL))
                             .into(viewHolder.mImageView);
-                 //   viewHolder.img_view.setVisibility(View.GONE);
-
                 }
 
             } else{
+                Log.e("TAG", "onBindViewHolder: "+"2222222222222222222" );
                 viewHolder.delete_img.setVisibility(View.GONE);
-              //  viewHolder.img_view.setVisibility(View.GONE);
                 Glide.with(viewHolder.mImageView.getContext()).load(datas.get(position).getPhotoUrl())
                         .apply(RequestOptions.placeholderOf(com.hyphenate.easeui.R.mipmap.docter_heard)
                                 .diskCacheStrategy(DiskCacheStrategy.ALL))
                         .into(viewHolder.mImageView);
-                //Log.e("TAG", "onBindViewHolder:vvvvvv "+status );
                 ViewGroup.LayoutParams layoutParams = viewHolder.mImageView.getLayoutParams();
                 layoutParams.height=width/3;
                 viewHolder.mImageView.setLayoutParams(layoutParams);
@@ -120,6 +114,20 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
             });
         }
         viewHolder.delete_img.setClickable(mCanClick);
+
+        //拍照
+        if(mOnItemTakeClickListener!=null){
+            viewHolder.mImageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mCanClick){
+                        mOnItemTakeClickListener.onClick(position);
+                    }
+                }
+            });
+        }
+
+
     }
 
     //获取数据的数量
@@ -167,4 +175,16 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
     public void setCanClick(boolean canClick) {
         this.mCanClick = canClick;
     }
+
+
+    public interface OnItemTakeClickListener {
+        void onClick(int position);
+
+        void onLongClick(int position);
+    }
+
+    public void setOnItemTakeClickListener(OnItemTakeClickListener onItemTakeClickListener) {
+        this.mOnItemTakeClickListener = onItemTakeClickListener;
+    }
+
 }

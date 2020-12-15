@@ -15,7 +15,7 @@ public class Photo_Info implements Serializable {
     private String PhotoUrl;               //图片URL
     private String PhotoUrlSL;             //缩略图URL
     private int uploadStatus;//上传图片状态
-   private String status="1";
+   private String status;
 
     public String getStatus() {
         return status;
