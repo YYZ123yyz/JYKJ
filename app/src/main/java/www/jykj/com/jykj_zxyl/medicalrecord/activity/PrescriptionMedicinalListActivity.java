@@ -201,9 +201,9 @@ public class PrescriptionMedicinalListActivity extends AbstractMvpBaseActivity<
         String takeMedicinalNum = itemDataBean.getTakeMedicinalNum();
         mEdTakeMedicinalNum.setText(takeMedicinalNum);
         mTvTakeUnmUnit.setText(itemDataBean.getSpecUnit());
-        String takeMedicinalRateName = itemDataBean.getTakeMedicinalRateName();
-        mTvTakeMedicinalRate.setText(StringUtils.isNotEmpty(takeMedicinalRateName)
-                ?takeMedicinalRateName:"未填写");
+        String useUsageDay = itemDataBean.getUseUsageDay();
+        mTvTakeMedicinalRate.setText(StringUtils.isNotEmpty(useUsageDay)
+                ?useUsageDay:"未填写");
 
         edInputContent.setText(itemDataBean.getTakeMedicinalRemark());
         edTakeMedcinalCycle.setText(itemDataBean.getUseCycle());
@@ -240,7 +240,12 @@ public class PrescriptionMedicinalListActivity extends AbstractMvpBaseActivity<
         });
 
         mRlTakeMedicinalRate.setOnClickListener(v -> {
-            if (!CollectionUtils.isEmpty(takeMedicinalRateBeans)) {
+//            if (!CollectionUtils.isEmpty(takeMedicinalRateBeans)) {
+//                int pos = getItemByUuId(itemDataBean.getUuId(), dataBeans);
+//                showTakeMedicinalRateDialog(mTvTakeMedicinalRate,pos);
+//            }
+            if (!CollectionUtils.isEmpty(usageRateBeans)
+                    &&!CollectionUtils.isEmpty(usageDayBeans)) {
                 int pos = getItemByUuId(itemDataBean.getUuId(), dataBeans);
                 showTakeMedicinalRateDialog(mTvTakeMedicinalRate,pos);
             }
@@ -342,7 +347,8 @@ public class PrescriptionMedicinalListActivity extends AbstractMvpBaseActivity<
                                 mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode()
                                 , mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
 
-                mPresenter.sendSaveAndUpdatePrescriptionRequest(uploadBeans,prescribeVoucher,this);
+                mPresenter.sendSaveAndUpdatePrescriptionRequest(uploadBeans,prescribeVoucher
+                        ,this);
             }
 
         });
@@ -377,8 +383,8 @@ public class PrescriptionMedicinalListActivity extends AbstractMvpBaseActivity<
                 isPass=false;
                 break;
             }
-            String takeMedicinalRateName = dataBeans.get(i).getTakeMedicinalRateName();
-            if (TextUtils.isEmpty(takeMedicinalRateName)) {
+            String useUsageDay = dataBeans.get(i).getUseUsageDay();
+            if (TextUtils.isEmpty(useUsageDay)) {
                 ToastUtils.showToast("请选择服药频率");
                 isPass=false;
                 break;
@@ -466,11 +472,23 @@ public class PrescriptionMedicinalListActivity extends AbstractMvpBaseActivity<
     private void showTakeMedicinalRateDialog(TextView takeMedicinalRate,int pos) {
         OptionsPickerView optionPickUnit = new OptionsPickerBuilder(this,
                 (options1, options2, options3, v) -> {
-                    TakeMedicinalRateBean takeMedicinalRateBean = takeMedicinalRateBeans.get(options1);
-                    takeMedicinalRateSparseArray.put(pos,takeMedicinalRateBean);
-                    dataBeans.get(pos).setTakeMedicinalRateName(takeMedicinalRateBean.getAttrName());
-                    dataBeans.get(pos).setTakeMedicinalRateCode(takeMedicinalRateBean.getAttrCode()+"");
-                    takeMedicinalRate.setText(takeMedicinalRateBean.getAttrName());
+//                    TakeMedicinalRateBean takeMedicinalRateBean = takeMedicinalRateBeans.get(options1);
+//                    takeMedicinalRateSparseArray.put(pos,takeMedicinalRateBean);
+//                    dataBeans.get(pos).setTakeMedicinalRateName(takeMedicinalRateBean.getAttrName());
+//                    dataBeans.get(pos).setTakeMedicinalRateCode(takeMedicinalRateBean.getAttrCode()+"");
+//                    takeMedicinalRate.setText(takeMedicinalRateBean.getAttrName());
+
+                    BaseReasonBean usageRateBean = usageRateBeans.get(options1);
+                    BaseReasonBean usageDayBean = usageDayBeans.get(options2);
+                    takeUsageRateSparseArray.put(pos,usageRateBean);
+                    takeUsageDaySparseArray.put(pos,usageDayBean);
+                    dataBeans.get(pos).setUseFrequency(usageRateBean.getAttrName().replace("次",""));
+                    dataBeans.get(pos).setUseFrequencyDay(usageDayBean.getAttrName().replace("天",""));
+                    String usageRateName=usageRateBean.getAttrName()+"/"+ usageDayBean.getAttrName();
+                    dataBeans.get(pos).setUseUsageDay(usageRateName);
+                    takeMedicinalRate.setText(usageRateName);
+
+
                 })
                 .setCancelColor(getResources().getColor(com.hyphenate.easeui.R.color.textColor_vt))
                 .setSubmitColor(getResources().getColor(com.hyphenate.easeui.R.color.textColor_hzgltabzc))

@@ -72,6 +72,8 @@ public class PrescriptionNotesBean implements Serializable{
         private int useNum;
         private String useNumName;
         private double drugPrice;
+        private String useFrequencyDay;
+        private String useUsageDay;
         public double getDrugAmount() {
             return drugAmount;
         }
@@ -262,6 +264,22 @@ public class PrescriptionNotesBean implements Serializable{
 
         public void setDrugPrice(double drugPrice) {
             this.drugPrice = drugPrice;
+        }
+
+        public String getUseFrequencyDay() {
+            return useFrequencyDay;
+        }
+
+        public void setUseFrequencyDay(String useFrequencyDay) {
+            this.useFrequencyDay = useFrequencyDay;
+        }
+
+        public String getUseUsageDay() {
+            return useUsageDay;
+        }
+
+        public void setUseUsageDay(String useUsageDay) {
+            this.useUsageDay = useUsageDay;
         }
     }
 }

@@ -26,6 +26,9 @@ public class PrescriptionMedicinalItemDataBean {
     private String useCycle;
     private String useDesc;
     private String uuId;
+    private String useFrequency;
+    private String useFrequencyDay;
+    private String useUsageDay;
 
 
 
@@ -171,5 +174,29 @@ public class PrescriptionMedicinalItemDataBean {
 
     public void setUuId(String uuId) {
         this.uuId = uuId;
+    }
+
+    public String getUseFrequency() {
+        return useFrequency;
+    }
+
+    public void setUseFrequency(String useFrequency) {
+        this.useFrequency = useFrequency;
+    }
+
+    public String getUseFrequencyDay() {
+        return useFrequencyDay;
+    }
+
+    public void setUseFrequencyDay(String useFrequencyDay) {
+        this.useFrequencyDay = useFrequencyDay;
+    }
+
+    public String getUseUsageDay() {
+        return useUsageDay;
+    }
+
+    public void setUseUsageDay(String useUsageDay) {
+        this.useUsageDay = useUsageDay;
     }
 }

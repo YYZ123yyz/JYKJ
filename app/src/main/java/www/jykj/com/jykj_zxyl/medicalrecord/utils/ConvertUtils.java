@@ -194,6 +194,9 @@ public class ConvertUtils {
             uploadBean.setUseFrequencyCode(itemDataBean.getTakeMedicinalRateCode());
             uploadBean.setUseCycle(itemDataBean.getUseCycle());
             uploadBean.setUseDesc(itemDataBean.getTakeMedicinalRemark());
+            uploadBean.setUseFrequency(itemDataBean.getUseFrequency());
+            uploadBean.setUseFrequencyDay(itemDataBean.getUseFrequencyDay());
+            uploadBean.setUseUsageDay(itemDataBean.getUseUsageDay());
             uploadBeans.add(uploadBean);
 
         }
@@ -229,6 +232,9 @@ public class ConvertUtils {
                     itemDataBean.setOrderCode(prescribeInfo.getOrderCode());
                     itemDataBean.setUseCycle(prescribeInfo.getUseCycle()+"");
                     itemDataBean.setUuId(DateUtils.getCurrentMillis());
+                    itemDataBean.setUseFrequency(prescribeInfo.getUseFrequency()+"");
+                    itemDataBean.setUseFrequencyDay(prescribeInfo.getUseFrequencyDay());
+                    itemDataBean.setUseUsageDay(prescribeInfo.getUseUsageDay());
                     prescriptionItemBeans.add(itemDataBean);
                 }
 
