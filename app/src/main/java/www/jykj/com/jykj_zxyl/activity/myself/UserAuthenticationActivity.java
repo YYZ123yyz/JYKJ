@@ -924,34 +924,7 @@ public class UserAuthenticationActivity extends BaseActivity {
         }
     }
 
-    /**
-     * 构建Image Data 数据
-     *
-     * @param list 图片列表
-     * @return 图片数据
-     */
-    private String buildImageDatas(List<ImageInfoBean> list) {
-        boolean flag = false;
-        StringBuilder stringBuilder = new StringBuilder();
-        for (int i = 0; i < list.size(); i++) {
-            String photo = list.get(i).getPhoto();
-            if (StringUtils.isNotEmpty(photo)) {
-                if (i == list.size() - 1) {
-                    stringBuilder.append("data:image/jpg;base64,")
-                            .append(list.get(i).getPhoto());
-                    flag = true;
-                } else {
-                    stringBuilder.append("data:image/jpg;base64,")
-                            .append(list.get(i).getPhoto()).append("^");
-                    flag = true;
-                }
-            }
-        }
-        if (!flag) {
-            return "";
-        }
-        return stringBuilder.toString();
-    }
+
 
     /**
      * 提交
