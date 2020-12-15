@@ -44,6 +44,9 @@ public class PrescriptionItemUploadBean {
     private String useFrequencyCode;
     private String useCycle;
     private String useDesc;
+    private String useFrequency;
+    private String useFrequencyDay;
+    private String useUsageDay;
 
     public String getOrderCode() {
         return orderCode;
@@ -171,5 +174,29 @@ public class PrescriptionItemUploadBean {
 
     public void setUseDesc(String useDesc) {
         this.useDesc = useDesc;
+    }
+
+    public String getUseFrequency() {
+        return useFrequency;
+    }
+
+    public void setUseFrequency(String useFrequency) {
+        this.useFrequency = useFrequency;
+    }
+
+    public String getUseFrequencyDay() {
+        return useFrequencyDay;
+    }
+
+    public void setUseFrequencyDay(String useFrequencyDay) {
+        this.useFrequencyDay = useFrequencyDay;
+    }
+
+    public String getUseUsageDay() {
+        return useUsageDay;
+    }
+
+    public void setUseUsageDay(String useUsageDay) {
+        this.useUsageDay = useUsageDay;
     }
 }

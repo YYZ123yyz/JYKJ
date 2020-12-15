@@ -64,8 +64,9 @@ public class PrescriptionNotesChildsAdapter extends  RecyclerView.Adapter
         holder.mTvPriceValue.setText(drugMoneys+"");
         String useNumName = prescribeInfoBean.getUseNumName();
         holder.mTvMedicalNum.setText(String.format("用药数量：%s", useNumName));
-        String useFrequencyName = prescribeInfoBean.getUseFrequencyName();
-        holder.mTvTakeMedicinalRate.setText(String.format("服药频率：%s", useFrequencyName));
+        //String useFrequencyName = prescribeInfoBean.getUseFrequencyName();
+        String usageDay = prescribeInfoBean.getUseUsageDay();
+        holder.mTvTakeMedicinalRate.setText(String.format("服药频率：%s", usageDay));
         int useCycle = prescribeInfoBean.getUseCycle();
         holder.mTvTakeMedicinalCycle.setText(String.format("%d天", useCycle));
         String useDesc = prescribeInfoBean.getUseDesc();

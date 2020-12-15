@@ -58,7 +58,7 @@ public class AppUrlConfig {
     /**
      * 本地Api url
      */
-    static String SERVICE_API_LOCAL_URL = "https://192.168.0.132:28081/";
+    static String SERVICE_API_LOCAL_URL = "https://192.168.0.119:28081/";
 
 
 
