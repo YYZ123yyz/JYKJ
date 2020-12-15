@@ -188,7 +188,7 @@ public class ChoosedMedicinalListActivity extends AbstractMvpBaseActivity<
             @Override
             public void onClickAll() {
                 tvTitleType.setText("全部");
-                mPresenter.sendSearchMyClinicDetailResPrescribeDrugInfo_201116(""
+                mPresenter.sendSearchMyClinicDetailResPrescribeDrugInfo_201116("-1"
                         ,srarchDrugName,pageSize,pageIndex
                         ,ChoosedMedicinalListActivity.this);
             }

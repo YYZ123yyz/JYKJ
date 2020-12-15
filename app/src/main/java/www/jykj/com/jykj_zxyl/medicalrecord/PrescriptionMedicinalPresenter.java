@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import www.jykj.com.jykj_zxyl.app_base.base_bean.BaseBean;
+import www.jykj.com.jykj_zxyl.app_base.base_bean.BaseReasonBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.PrescriptionItemUploadBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.PrescriptionTypeBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.TakeMedicinalRateBean;
@@ -34,12 +35,16 @@ public class PrescriptionMedicinalPresenter extends BasePresenterImpl
     private static final String SEND_SAVE_AND_UPDATE_PRESCRIPTION_REQUEST_TAG
             ="send_save_and_update_prescription_request_tag";
     private static final String SEND_DELETE_PRESCRIPTION_REQUEST_TAG="send_delete_prescription_request_tag";
+    private static final String SEND_GET_USAGE_RATE_REQUEST_TAG="send_get_usage_rate_request_tag";
+    private static final String SEND_GET_USAGE_DAY_REQUEST_TAG="send_get_usage_day_request_tag";
+
     @Override
     protected Object[] getRequestTags() {
         return new Object[]{SEND_TAKE_MEDICINAL_RATE_REQUEST_TAG
                 ,SEND_PRESCRIPTION_TYPE_REQUEST_TAG
                 ,SEND_SAVE_AND_UPDATE_PRESCRIPTION_REQUEST_TAG
-                ,SEND_DELETE_PRESCRIPTION_REQUEST_TAG};
+                ,SEND_DELETE_PRESCRIPTION_REQUEST_TAG
+                ,SEND_GET_USAGE_RATE_REQUEST_TAG,SEND_GET_USAGE_DAY_REQUEST_TAG};
     }
 
 
@@ -241,5 +246,57 @@ public class PrescriptionMedicinalPresenter extends BasePresenterImpl
             }
         });
 
+    }
+
+    @Override
+    public void sendUsageRateRequest(String baseCode, Activity activity) {
+        HashMap<String, Object> hashMap = ParameUtil.buildBaseParam();
+        hashMap.put("baseCode", baseCode);
+        String s = RetrofitUtil.encodeParam(hashMap);
+        ApiHelper.getApiService().getBasicsDomain(s).compose(Transformer.switchSchedulers())
+                .subscribe(new CommonDataObserver() {
+                    @Override
+                    protected void onSuccessResult(BaseBean baseBean) {
+                        if (mView != null) {
+                            int resCode = baseBean.getResCode();
+                            if (resCode == 1) {
+                                List<BaseReasonBean> baseReasonBeans =
+                                        GsonUtils.jsonToList(baseBean.getResJsonData(), BaseReasonBean.class);
+                                mView.getUsageRateResult(baseReasonBeans);
+                            }
+                        }
+                    }
+
+                    @Override
+                    protected String setTag() {
+                        return SEND_GET_USAGE_RATE_REQUEST_TAG;
+                    }
+                });
+    }
+
+    @Override
+    public void sendUsageDayRequest(String baseCode, Activity activity) {
+        HashMap<String, Object> hashMap = ParameUtil.buildBaseParam();
+        hashMap.put("baseCode", baseCode);
+        String s = RetrofitUtil.encodeParam(hashMap);
+        ApiHelper.getApiService().getBasicsDomain(s).compose(Transformer.switchSchedulers())
+                .subscribe(new CommonDataObserver() {
+                    @Override
+                    protected void onSuccessResult(BaseBean baseBean) {
+                        if (mView != null) {
+                            int resCode = baseBean.getResCode();
+                            if (resCode == 1) {
+                                List<BaseReasonBean> baseReasonBeans =
+                                        GsonUtils.jsonToList(baseBean.getResJsonData(), BaseReasonBean.class);
+                                mView.getUsageDayResult(baseReasonBeans);
+                            }
+                        }
+                    }
+
+                    @Override
+                    protected String setTag() {
+                        return SEND_GET_USAGE_DAY_REQUEST_TAG;
+                    }
+                });
     }
 }

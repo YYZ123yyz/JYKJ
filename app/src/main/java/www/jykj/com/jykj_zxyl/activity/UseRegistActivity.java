@@ -253,6 +253,8 @@ public class UseRegistActivity extends BaseActivity {
             userInfo.setUserPwd(mPassWord.getText().toString());
             userInfo.setUserLoginSmsVerify(mVCode.getText().toString());
             userInfo.setTokenSmsVerify(mSmsToken);
+            userInfo.setLoginClient("2");
+            userInfo.setDeviceToken("1234567890");
             getProgressBar("请稍候", "正在注册");
             //连接网络，注册
             new Thread() {

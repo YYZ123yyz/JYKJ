@@ -79,6 +79,8 @@ public class AddDrugInfoActivity2 extends AbstractMvpBaseActivity<AddDrugInfoCon
     private List<DrugClassificationBean> drugClassificationBeans;
     private List<BaseReasonBean> smallReasonBeans;
     private List<BaseReasonBean> bigReasonBeans;
+    private List<BaseReasonBean> usageRateBeans;
+    private List<BaseReasonBean> usageDayBeans;
     private BaseReasonBean currentSmallReasonBean;
     private BaseReasonBean currentBigReasonBean;
     private List<String> listSpecsNumbers;
@@ -112,6 +114,8 @@ public class AddDrugInfoActivity2 extends AbstractMvpBaseActivity<AddDrugInfoCon
         listUsagesDay=new ArrayList<>();
         listUageasRate=new ArrayList<>();
         listUseAmounts=new ArrayList<>();
+        usageRateBeans=new ArrayList<>();
+        usageDayBeans=new ArrayList<>();
         ActivityUtil.setStatusBarMain(this);
         initKeyBoardListener(scrollView);
         addListener();
@@ -123,6 +127,8 @@ public class AddDrugInfoActivity2 extends AbstractMvpBaseActivity<AddDrugInfoCon
         mPresenter.sendSearchDrugTypeDosageRequest(this);
         mPresenter.sendGetDurgSmallUnitRequest("10041",this);
         mPresenter.sendGetDrugBigUnitRequest("10040",this);
+        mPresenter.sendUsageRateRequest("10038",this);
+        mPresenter.sendUsageDayRequest("10039",this);
         mPresenter.sendGetDrugTypeMedicineRequest("",this);
     }
 
@@ -276,7 +282,7 @@ public class AddDrugInfoActivity2 extends AbstractMvpBaseActivity<AddDrugInfoCon
                     tvSpecsName.getText().toString()
                     ,currentDrugDosageBean.getDosageCode(),factoryName
                     ,usageRate,usageDay,consumptionNum,
-                    consumptionRate,AddDrugInfoActivity2.this);
+                    "1",AddDrugInfoActivity2.this);
 
         });
     }
@@ -309,6 +315,16 @@ public class AddDrugInfoActivity2 extends AbstractMvpBaseActivity<AddDrugInfoCon
     @Override
     public void getDrugBigUnitResult(List<BaseReasonBean> baseReasonBeans) {
         bigReasonBeans=baseReasonBeans;
+    }
+
+    @Override
+    public void getUsageRateResult(List<BaseReasonBean> baseReasonBeans) {
+        usageRateBeans=baseReasonBeans;
+    }
+
+    @Override
+    public void getUsageDayResult(List<BaseReasonBean> baseReasonBeans) {
+        usageDayBeans=baseReasonBeans;
     }
 
     @Override
@@ -410,9 +426,9 @@ public class AddDrugInfoActivity2 extends AbstractMvpBaseActivity<AddDrugInfoCon
                 .setSubmitColor(getResources().getColor(R.color.textColor_hzgltabzc))
                 .setSelectOptions(0).build();
 
-        listUageasRate = getListUsagesRate();
-        listUsagesDay = getListUsagesDay();
-        optionPickUnit.setNPicker(listUageasRate, listUsagesDay,null);
+        listUageasRate = getUsageRate();
+        listUsagesDay = getUsageDay();
+        optionPickUnit.setNPicker(getUsageRate(), getUsageDay(),null);
         optionPickUnit.show();
     }
 
@@ -427,7 +443,7 @@ public class AddDrugInfoActivity2 extends AbstractMvpBaseActivity<AddDrugInfoCon
                     consumptionNum = listUseAmounts.get(options1);
                     tvConsumptionName.setText(String.format("%s%s", consumptionNum,
                             String.format("%s/%s", currentSmallReasonBean.getAttrName()
-                                    , listUageasRate.get(options2))));
+                                    , "1次")));
                     consumptionRate=listUageasRate.get(options2).replace("次","");
                 })
                 .setCancelColor(getResources().getColor(R.color.textColor_vt))
@@ -436,7 +452,7 @@ public class AddDrugInfoActivity2 extends AbstractMvpBaseActivity<AddDrugInfoCon
 
         listUseAmounts  = getListUseAmounts();
         List<String> listUsagesRate = getListUsagesRate();
-        optionPickUnit.setNPicker(listUseAmounts, listUsagesRate,null);
+        optionPickUnit.setNPicker(listUseAmounts, null,null);
         optionPickUnit.show();
     }
 
@@ -470,10 +486,30 @@ public class AddDrugInfoActivity2 extends AbstractMvpBaseActivity<AddDrugInfoCon
         return stringList;
     }
 
+    private List<String> getUsageRate(){
+        List<String> stringList=new ArrayList<>();
+        if (!CollectionUtils.isEmpty(usageRateBeans)) {
+            for (BaseReasonBean usageRateBean : usageRateBeans) {
+                stringList.add(usageRateBean.getAttrName());
+            }
+        }
+        return stringList;
+    }
+
+    private List<String> getUsageDay(){
+        List<String> stringList=new ArrayList<>();
+        if (!CollectionUtils.isEmpty(usageDayBeans)) {
+            for (BaseReasonBean usageDayBean : usageDayBeans) {
+                stringList.add(usageDayBean.getAttrName());
+            }
+        }
+        return stringList;
+    }
+
     @SuppressLint("DefaultLocale")
     private List<String> getListUsagesDay(){
         List<String> stringList=new ArrayList<>();
-        for (int i = 0; i < 12; i++) {
+        for (int i = 0; i < 7; i++) {
             stringList.add(String.format("%d天", i + 1));
         }
         return stringList;
@@ -482,7 +518,7 @@ public class AddDrugInfoActivity2 extends AbstractMvpBaseActivity<AddDrugInfoCon
     @SuppressLint("DefaultLocale")
     private List<String> getListUsagesRate(){
         List<String> stringList=new ArrayList<>();
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 12; i++) {
             stringList.add(String.format("%d次", i + 1));
         }
         return stringList;

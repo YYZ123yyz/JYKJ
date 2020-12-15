@@ -154,7 +154,7 @@ public class PhoneLoginActivity extends BaseActivity {
                         cacerProgress();
                         if (mNetRetStr != null && !mNetRetStr.equals("")) {
                             NetRetEntity netRetEntity = new Gson().fromJson(mNetRetStr, NetRetEntity.class);
-                            Toast.makeText(mContext, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(mContext, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
                             if (netRetEntity.getResCode() == 1) {
                                 startTask();
                                 mSmsToken = netRetEntity.getResTokenData();
@@ -460,6 +460,8 @@ public class PhoneLoginActivity extends BaseActivity {
         userInfo.setUserPhone(mPhoneNum.getText().toString());
         userInfo.setUserLoginSmsVerify(mVCode.getText().toString());
         userInfo.setTokenSmsVerify(mSmsToken);
+        userInfo.setLoginClient("1");
+        userInfo.setDeviceToken("1234567890");
         sp1 = getSharedPreferences("SP_Data_List", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp1.edit() ;
         editor.putString("KEY_Data_List_DATA", mPhoneNum.getText().toString()) ; //存入json串
@@ -469,7 +471,8 @@ public class PhoneLoginActivity extends BaseActivity {
         new Thread() {
             public void run() {
                 try {
-                    mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + new Gson().toJson(userInfo), Constant.SERVICEURL + "doctorLoginController/loginDoctorSmsVerify");
+                    mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo="
+                            + new Gson().toJson(userInfo), Constant.SERVICEURL + "doctorLoginController/loginDoctorSmsVerify");
 
                 } catch (Exception e) {
                     NetRetEntity retEntity = new NetRetEntity();

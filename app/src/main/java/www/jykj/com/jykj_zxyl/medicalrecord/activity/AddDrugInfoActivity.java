@@ -145,4 +145,14 @@ public class AddDrugInfoActivity extends AbstractMvpBaseActivity<AddDrugInfoCont
     public void getDrugBigUnitResult(List<BaseReasonBean> baseReasonBeans) {
 
     }
+
+    @Override
+    public void getUsageRateResult(List<BaseReasonBean> baseReasonBeans) {
+
+    }
+
+    @Override
+    public void getUsageDayResult(List<BaseReasonBean> baseReasonBeans) {
+
+    }
 }

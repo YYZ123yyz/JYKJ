@@ -401,10 +401,10 @@ public class JYKJApplication extends Application {
         initBugly();
     }
 
-
-    /**
-     * 初始化umeng sdk
-     */
+//
+//    /**
+//     * 初始化umeng sdk
+//     */
 //    private void initUmengSDK(){
 //        UMConfigure.setLogEnabled(true);
 //        UMConfigure.init(this, Constant.UMENG_APPKEY, "umeng", UMConfigure.DEVICE_TYPE_PHONE,
@@ -425,7 +425,7 @@ public class JYKJApplication extends Application {
 //            }
 //        });
 //        pushAgent.setPushIntentServiceClass(PushIntentService.class);
-//        pushAgent.setDisplayNotificationNumber(3);3
+//        pushAgent.setDisplayNotificationNumber(3);
 //    }
 
 

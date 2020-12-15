@@ -316,6 +316,8 @@ public class LoginActivity extends BaseActivity {
         UserInfo userInfo = new UserInfo();
         userInfo.setUserPhone(mAccountEdit.getText().toString());
         userInfo.setUserPwd(mPassWordEdit.getText().toString());
+        userInfo.setLoginClient("2");
+        userInfo.setDeviceToken("1234567890");
 //        //创建sp对象
         sp1 = getSharedPreferences("SP_Data_List", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp1.edit() ;

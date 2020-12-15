@@ -1,11 +1,13 @@
 package entity.user;
 
 public class UserInfo {
-    private                     String                  userPhone;                          //用户手机号
-    private                     String                  userPwd;                            //用户密码
-    private                     String                  userLoginSmsVerify;                 //用户短信验证码
-    private                     String                  tokenSmsVerify;                     //短信验证码Tokend
+    private String userPhone;                          //用户手机号
+    private String userPwd;                            //用户密码
+    private String userLoginSmsVerify;                 //用户短信验证码
+    private String tokenSmsVerify;                     //短信验证码Tokend
     private String loginDoctorPosition;
+    private String loginClient;
+    private String deviceToken;
     public String getLoginDoctorPosition() {
         return loginDoctorPosition;
     }
@@ -32,6 +34,7 @@ public class UserInfo {
 
     private String requestClientType;
     private String openId;
+
     public String getTokenSmsVerify() {
         return tokenSmsVerify;
     }
@@ -63,11 +66,28 @@ public class UserInfo {
     public void setUserPwd(String userPwd) {
         this.userPwd = userPwd;
     }
+
     public String getuserLoginSmsVerify(String userLoginSmsVerify) {
         return userLoginSmsVerify;
     }
 
     public void setuserLoginSmsVerify(String userLoginSmsVerify) {
         this.userPwd = userLoginSmsVerify;
+    }
+
+    public String getLoginClient() {
+        return loginClient;
+    }
+
+    public void setLoginClient(String loginClient) {
+        this.loginClient = loginClient;
+    }
+
+    public String getDeviceToken() {
+        return deviceToken;
+    }
+
+    public void setDeviceToken(String deviceToken) {
+        this.deviceToken = deviceToken;
     }
 }

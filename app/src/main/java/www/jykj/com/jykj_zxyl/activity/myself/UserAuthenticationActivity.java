@@ -53,6 +53,8 @@ import orcameralib.CameraActivity;
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.activity.home.tjhz.AddPatientQRCodeActivity;
 import www.jykj.com.jykj_zxyl.app_base.base_activity.BaseActivity;
+import www.jykj.com.jykj_zxyl.app_base.base_bean.ImageInfoBean;
+import www.jykj.com.jykj_zxyl.app_base.base_utils.OnClickHelper;
 import www.jykj.com.jykj_zxyl.application.Constant;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.custom.MoreFeaturesPopupWindow;
@@ -62,6 +64,7 @@ import www.jykj.com.jykj_zxyl.util.BitmapUtil;
 import www.jykj.com.jykj_zxyl.util.DateUtils;
 import www.jykj.com.jykj_zxyl.util.FullyGridLayoutManager;
 import www.jykj.com.jykj_zxyl.util.ImageViewUtil;
+import www.jykj.com.jykj_zxyl.util.StringUtils;
 import www.jykj.com.jykj_zxyl.util.Util;
 import yyz_exploit.bean.ProvideDoctorQualification;
 
@@ -911,10 +914,43 @@ public class UserAuthenticationActivity extends BaseActivity {
                     break;
 
                 case R.id.bt_commit:
+                    if (OnClickHelper.isFastDoubleClick()) {
+                        //防止恶意点击
+                        return;
+                    }
                     commit();
                     break;
             }
         }
+    }
+
+    /**
+     * 构建Image Data 数据
+     *
+     * @param list 图片列表
+     * @return 图片数据
+     */
+    private String buildImageDatas(List<ImageInfoBean> list) {
+        boolean flag = false;
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < list.size(); i++) {
+            String photo = list.get(i).getPhoto();
+            if (StringUtils.isNotEmpty(photo)) {
+                if (i == list.size() - 1) {
+                    stringBuilder.append("data:image/jpg;base64,")
+                            .append(list.get(i).getPhoto());
+                    flag = true;
+                } else {
+                    stringBuilder.append("data:image/jpg;base64,")
+                            .append(list.get(i).getPhoto()).append("^");
+                    flag = true;
+                }
+            }
+        }
+        if (!flag) {
+            return "";
+        }
+        return stringBuilder.toString();
     }
 
     /**
@@ -937,7 +973,7 @@ public class UserAuthenticationActivity extends BaseActivity {
                                 if (i == mPhotoInfos.size() - 1) {
                                     photoUrl.append("data:image/jpg;base64,"+photo);
                                 } else {
-                                    photoUrl.append(photo).append("^");
+                                    photoUrl.append("data:image/jpg;base64,").append(photo).append("^");
                                 }
 
                             }
@@ -953,7 +989,7 @@ public class UserAuthenticationActivity extends BaseActivity {
                     upLoadImgParment.setImgIdArray("");
                     String s = photoUrl.toString();
                     if (!TextUtils.isEmpty(s)) {
-                        upLoadImgParment.setImgBase64Array((URLEncoder.encode("data:image/jpg;base64," + s)));
+                        upLoadImgParment.setImgBase64Array((URLEncoder.encode( s)));
                     }else{
                         upLoadImgParment.setImgBase64Array("");
                     }

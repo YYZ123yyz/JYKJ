@@ -1,13 +1,11 @@
 package www.jykj.com.jykj_zxyl.medicalrecord.popup;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -19,9 +17,7 @@ import java.util.List;
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.app_base.base_adapter.SecondaryListAdapter;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.DrugClassificationBean;
-import www.jykj.com.jykj_zxyl.app_base.base_bean.MedicinalTypeBean;
 import www.jykj.com.jykj_zxyl.medicalrecord.adapter.DrugListAdapter;
-import www.jykj.com.jykj_zxyl.medicalrecord.adapter.MedicinalItemCategoryAdapter;
 
 /**
  * Description:药物类型弹框popup
@@ -32,7 +28,6 @@ import www.jykj.com.jykj_zxyl.medicalrecord.adapter.MedicinalItemCategoryAdapter
 public class MedicinalCategoryPopup2 extends PopupWindow {
     private Context myContext;
     private RecyclerView rvList;
-
     private LayoutInflater inflater ;
     private DrugListAdapter drugListAdapter;
     private View myMenuView;
@@ -73,6 +68,7 @@ public class MedicinalCategoryPopup2 extends PopupWindow {
             public void onClick(View v) {
                 if (onClickListener!=null) {
                     onClickListener.onClickAll();
+                    MedicinalCategoryPopup2.this.dismiss();
                 }
             }
         });

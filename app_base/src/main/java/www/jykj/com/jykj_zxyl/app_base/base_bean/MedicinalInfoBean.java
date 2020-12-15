@@ -22,6 +22,10 @@ public class MedicinalInfoBean implements Serializable {
     private String drugSpec;
     private String drugPack;
     private String drugUnit;
+    private String drugUsageRateNum;
+    private String drugUsageRateDay;
+    private String drugUsageNumUnit;
+    private String drugUsageNumFrequency;
     private boolean isChoosed;
 
 
@@ -71,5 +75,37 @@ public class MedicinalInfoBean implements Serializable {
 
     public void setDrugPack(String drugPack) {
         this.drugPack = drugPack;
+    }
+
+    public String getDrugUsageRateNum() {
+        return drugUsageRateNum;
+    }
+
+    public void setDrugUsageRateNum(String drugUsageRateNum) {
+        this.drugUsageRateNum = drugUsageRateNum;
+    }
+
+    public String getDrugUsageRateDay() {
+        return drugUsageRateDay;
+    }
+
+    public void setDrugUsageRateDay(String drugUsageRateDay) {
+        this.drugUsageRateDay = drugUsageRateDay;
+    }
+
+    public String getDrugUsageNumUnit() {
+        return drugUsageNumUnit;
+    }
+
+    public void setDrugUsageNumUnit(String drugUsageNumUnit) {
+        this.drugUsageNumUnit = drugUsageNumUnit;
+    }
+
+    public String getDrugUsageNumFrequency() {
+        return drugUsageNumFrequency;
+    }
+
+    public void setDrugUsageNumFrequency(String drugUsageNumFrequency) {
+        this.drugUsageNumFrequency = drugUsageNumFrequency;
     }
 }

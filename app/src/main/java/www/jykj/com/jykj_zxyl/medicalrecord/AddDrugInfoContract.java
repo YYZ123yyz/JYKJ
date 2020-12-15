@@ -53,6 +53,18 @@ public class AddDrugInfoContract {
          * @param baseReasonBeans 药品大单位列表
          */
         void getDrugBigUnitResult(List<BaseReasonBean> baseReasonBeans);
+
+        /**
+         * 获取用法频率返回结果
+         * @param baseReasonBeans 频率列表
+         */
+        void getUsageRateResult(List<BaseReasonBean> baseReasonBeans);
+
+        /**
+         * 获取用法时间返回结果
+         * @param baseReasonBeans
+         */
+        void getUsageDayResult(List<BaseReasonBean> baseReasonBeans);
     }
 
     public interface Presenter extends BasePresenter<View> {
@@ -123,5 +135,22 @@ public class AddDrugInfoContract {
          * @param activity Activity
          */
         void sendGetDrugBigUnitRequest(String baseCode,Activity activity);
+
+        /**
+         * 获取用法频率
+         * @param baseCode 基础code
+         * @param activity  Activity
+         */
+        void sendUsageRateRequest(String baseCode,Activity activity);
+
+        /**
+         *
+         * @param baseCode
+         * @param activity
+         */
+        void sendUsageDayRequest(String baseCode,Activity activity);
+
+
+
     }
 }

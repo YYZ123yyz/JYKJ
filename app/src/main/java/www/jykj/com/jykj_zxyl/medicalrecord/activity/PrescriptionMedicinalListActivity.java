@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import butterknife.BindView;
 import www.jykj.com.jykj_zxyl.R;
+import www.jykj.com.jykj_zxyl.app_base.base_bean.BaseReasonBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.MedicinalInfoBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.PrescriptionItemUploadBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.PrescriptionMedicinalItemDataBean;
@@ -68,6 +69,10 @@ public class PrescriptionMedicinalListActivity extends AbstractMvpBaseActivity<
     private SparseArray<MedicinalInfoBean> medicinalInfoSparseArray;//用药信息
     private SparseArray<PrescriptionTypeBean> prescriptionTypeSparseArray;//处方类型
     private SparseArray<TakeMedicinalRateBean> takeMedicinalRateSparseArray;//服药频率
+    private SparseArray<BaseReasonBean> takeUsageRateSparseArray;//次数
+    private SparseArray<BaseReasonBean> takeUsageDaySparseArray;
+    private List<BaseReasonBean> usageRateBeans;
+    private List<BaseReasonBean> usageDayBeans;
     private String patientCode;//患者Id
     private String patientName;//患者名称
     private String orderId;//订单Id
@@ -91,9 +96,13 @@ public class PrescriptionMedicinalListActivity extends AbstractMvpBaseActivity<
         dataBeans=new ArrayList<>();
         takeMedicinalRateBeans=new ArrayList<>();
         prescriptionTypeBeans=new ArrayList<>();
+        usageRateBeans=new ArrayList<>();
+        usageDayBeans=new ArrayList<>();
         medicinalInfoSparseArray=new SparseArray<>();
         prescriptionTypeSparseArray=new SparseArray<>();
         takeMedicinalRateSparseArray=new SparseArray<>();
+        takeUsageRateSparseArray=new SparseArray<>();
+        takeUsageDaySparseArray=new SparseArray<>();
 
     }
 
@@ -138,8 +147,10 @@ public class PrescriptionMedicinalListActivity extends AbstractMvpBaseActivity<
                 initKeyBoardListener(scrollView);
             }
         }
-        mPresenter.sendTakeMedicinalRateRequest("10035");
+        //mPresenter.sendTakeMedicinalRateRequest("10035");
         mPresenter.sendPrescriptionTypeRequest("10033");
+        mPresenter.sendUsageRateRequest("10038",this);
+        mPresenter.sendUsageDayRequest("10039",this);
     }
 
     /**
@@ -464,12 +475,30 @@ public class PrescriptionMedicinalListActivity extends AbstractMvpBaseActivity<
                 .setCancelColor(getResources().getColor(com.hyphenate.easeui.R.color.textColor_vt))
                 .setSubmitColor(getResources().getColor(com.hyphenate.easeui.R.color.textColor_hzgltabzc))
                 .setSelectOptions(0).build();
-        optionPickUnit.setNPicker(ConvertUtils.convertTakeMedicinalRateToStringArry(takeMedicinalRateBeans),
-                null, null);
+        optionPickUnit.setNPicker(getUsageRate(),
+                getUsageDay(), null);
         optionPickUnit.show();
     }
 
+    private List<String> getUsageRate(){
+        List<String> stringList=new ArrayList<>();
+        if (!CollectionUtils.isEmpty(usageRateBeans)) {
+            for (BaseReasonBean usageRateBean : usageRateBeans) {
+                stringList.add(usageRateBean.getAttrName());
+            }
+        }
+        return stringList;
+    }
 
+    private List<String> getUsageDay(){
+        List<String> stringList=new ArrayList<>();
+        if (!CollectionUtils.isEmpty(usageDayBeans)) {
+            for (BaseReasonBean usageDayBean : usageDayBeans) {
+                stringList.add(usageDayBean.getAttrName());
+            }
+        }
+        return stringList;
+    }
 
 
     @Override
@@ -553,6 +582,16 @@ public class PrescriptionMedicinalListActivity extends AbstractMvpBaseActivity<
         } else {
             ToastUtils.showToast(msg);
         }
+    }
+
+    @Override
+    public void getUsageRateResult(List<BaseReasonBean> baseReasonBeans) {
+        usageRateBeans=baseReasonBeans;
+    }
+
+    @Override
+    public void getUsageDayResult(List<BaseReasonBean> baseReasonBeans) {
+        usageDayBeans=baseReasonBeans;
     }
 
     @Override

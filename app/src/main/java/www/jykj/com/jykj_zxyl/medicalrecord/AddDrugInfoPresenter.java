@@ -36,14 +36,15 @@ public class AddDrugInfoPresenter extends BasePresenterImpl<AddDrugInfoContract.
     private static final String SEND_GET_DRUG_TYPE_MEDICINE_REQUEST_TAG = "send_get_drug_type_medicine_request_tag";
     private static final String SEND_GET_SMALL_UNIT_REQUEST_TAG = "send_get_small_unit_request_tag";
     private static final String SEND_GET_BIG_UNIT_REQUEST_TAG = "send_get_big_unit_request_tag";
-
+    private static final String SEND_GET_USAGE_RATE_REQUEST_TAG="send_get_usage_rate_request_tag";
+    private static final String SEND_GET_USAGE_DAY_REQUEST_TAG="send_get_usage_day_request_tag";
     @Override
     protected Object[] getRequestTags() {
         return new Object[]{SEND_OPERUPD_DRUG_INFO_REQUEST_TAG
                 , SEND_OPERUPD_DRUG_INFO_REQUEST_NEW_TAG, SEND_SEARCH_DRUG_TYPE_DOSAGE_REQUEST_TAG
                 , SEND_GET_DRUG_TYPE_MEDICINE_REQUEST_TAG
-                , SEND_GET_SMALL_UNIT_REQUEST_TAG,
-                SEND_GET_BIG_UNIT_REQUEST_TAG};
+                , SEND_GET_SMALL_UNIT_REQUEST_TAG, SEND_GET_BIG_UNIT_REQUEST_TAG,
+                SEND_GET_USAGE_RATE_REQUEST_TAG,SEND_GET_USAGE_DAY_REQUEST_TAG};
     }
 
     @Override
@@ -343,6 +344,57 @@ public class AddDrugInfoPresenter extends BasePresenterImpl<AddDrugInfoContract.
                 });
     }
 
+    @Override
+    public void sendUsageRateRequest(String baseCode, Activity activity) {
+        HashMap<String, Object> hashMap = ParameUtil.buildBaseParam();
+        hashMap.put("baseCode", baseCode);
+        String s = RetrofitUtil.encodeParam(hashMap);
+        ApiHelper.getApiService().getBasicsDomain(s).compose(Transformer.switchSchedulers())
+                .subscribe(new CommonDataObserver() {
+                    @Override
+                    protected void onSuccessResult(BaseBean baseBean) {
+                        if (mView != null) {
+                            int resCode = baseBean.getResCode();
+                            if (resCode == 1) {
+                                List<BaseReasonBean> baseReasonBeans =
+                                        GsonUtils.jsonToList(baseBean.getResJsonData(), BaseReasonBean.class);
+                                mView.getUsageRateResult(baseReasonBeans);
+                            }
+                        }
+                    }
+
+                    @Override
+                    protected String setTag() {
+                        return SEND_GET_USAGE_RATE_REQUEST_TAG;
+                    }
+                });
+    }
+
+    @Override
+    public void sendUsageDayRequest(String baseCode, Activity activity) {
+        HashMap<String, Object> hashMap = ParameUtil.buildBaseParam();
+        hashMap.put("baseCode", baseCode);
+        String s = RetrofitUtil.encodeParam(hashMap);
+        ApiHelper.getApiService().getBasicsDomain(s).compose(Transformer.switchSchedulers())
+                .subscribe(new CommonDataObserver() {
+                    @Override
+                    protected void onSuccessResult(BaseBean baseBean) {
+                        if (mView != null) {
+                            int resCode = baseBean.getResCode();
+                            if (resCode == 1) {
+                                List<BaseReasonBean> baseReasonBeans =
+                                        GsonUtils.jsonToList(baseBean.getResJsonData(), BaseReasonBean.class);
+                                mView.getUsageDayResult(baseReasonBeans);
+                            }
+                        }
+                    }
+
+                    @Override
+                    protected String setTag() {
+                        return SEND_GET_USAGE_DAY_REQUEST_TAG;
+                    }
+                });
+    }
 
 
 }

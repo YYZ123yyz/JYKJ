@@ -3,6 +3,7 @@ import android.app.Activity;
 
 import java.util.List;
 
+import www.jykj.com.jykj_zxyl.app_base.base_bean.BaseReasonBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.PrescriptionItemUploadBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.PrescriptionTypeBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.TakeMedicinalRateBean;
@@ -49,6 +50,18 @@ public class PrescriptionMedicinalContract {
         void getDeletePrescriptionResult(boolean isSucess,int pos,String msg);
 
 
+        /**
+         * 获取用法频率返回结果
+         * @param baseReasonBeans 频率列表
+         */
+        void getUsageRateResult(List<BaseReasonBean> baseReasonBeans);
+
+        /**
+         * 获取用法时间返回结果
+         * @param baseReasonBeans
+         */
+        void getUsageDayResult(List<BaseReasonBean> baseReasonBeans);
+
     }
 
     public interface Presenter extends BasePresenter<View> {
@@ -82,5 +95,19 @@ public class PrescriptionMedicinalContract {
          * @param activity 当前activity
          */
         void sendDeletePrescriptionRequest(String drugOrderCode,String orderCode,int pos,Activity activity);
+
+        /**
+         * 获取用法频率
+         * @param baseCode 基础code
+         * @param activity  Activity
+         */
+        void sendUsageRateRequest(String baseCode,Activity activity);
+
+        /**
+         *
+         * @param baseCode
+         * @param activity
+         */
+        void sendUsageDayRequest(String baseCode,Activity activity);
     }
 }
