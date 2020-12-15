@@ -33,7 +33,7 @@
 
 
         <TextView
-            android:id="@+id/tv_liveroom_name"
+            android:id="@+id/tv_portrait_title_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"

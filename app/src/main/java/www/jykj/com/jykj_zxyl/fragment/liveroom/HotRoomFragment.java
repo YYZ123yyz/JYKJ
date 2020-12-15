@@ -104,6 +104,7 @@ public class HotRoomFragment extends Fragment {
 
             }
         });
+        refreshLayout.autoRefresh();
         loadData();
         return retV;
     }
@@ -131,7 +132,6 @@ public class HotRoomFragment extends Fragment {
 
     public void loadData() {
         if (isAdded() && refreshLayout != null) {
-            refreshLayout.autoRefresh();
             QueryLiveroomCond queryCond = new QueryLiveroomCond();
             queryCond.setLoginUserPosition(mApp.loginDoctorPosition);
             queryCond.setOperUserCode(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());

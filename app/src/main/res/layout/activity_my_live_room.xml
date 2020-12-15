@@ -76,34 +76,38 @@
             android:layout_weight="1"
             android:id="@+id/room_forecast"
             android:text="直播预报"
+            android:textSize="15sp"
             android:textColor="@color/tabColor_nomal"
             android:drawableTop="@mipmap/forecast"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
         <TextView
             android:gravity="center"
             android:layout_weight="1"
             android:id="@+id/room_Hit"
             android:text="正在热播"
+            android:textSize="15sp"
             android:textColor="@color/tabColor_nomal"
             android:drawableTop="@mipmap/hit"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
         <TextView
             android:gravity="center"
             android:layout_weight="1"
             android:id="@+id/room_Lecture"
             android:text="专题讲座"
+            android:textSize="15sp"
             android:textColor="@color/tabColor_nomal"
             android:drawableTop="@mipmap/lecture"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
         <TextView
             android:id="@+id/room_my"
-            android:layout_width="90dp"
-            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:textSize="15sp"
             android:drawableTop="@mipmap/my"
             android:gravity="center"
             android:text="我主讲"

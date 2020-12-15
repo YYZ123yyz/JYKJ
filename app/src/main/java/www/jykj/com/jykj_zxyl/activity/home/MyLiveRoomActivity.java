@@ -125,7 +125,7 @@ public class MyLiveRoomActivity extends BaseActivity implements View.OnClickList
             case R.id.room_forecast:
                 selectPageIndex=0;
                 roompager.setCurrentItem(selectPageIndex);
-                live_type = LivePublisherThreeActivity.LIVE_TYPE_HOTLIVE;
+                live_type = LivePublisherThreeActivity.LIVE_TYPE_PRELIVE;
                 break;
             case R.id.room_Hit:
                 selectPageIndex=1;
