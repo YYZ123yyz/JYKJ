@@ -33,6 +33,7 @@ import android.widget.Toast;
 import com.alibaba.fastjson.JSON;
 import com.blankj.utilcode.util.ImageUtils;
 import com.blankj.utilcode.util.LogUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.blankj.utilcode.util.UriUtils;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
@@ -164,6 +165,12 @@ public class UserAuthenticationActivity extends BaseActivity {
         initDir();
         initHandler();
         initLayout();
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         getData();
     }
 
@@ -238,7 +245,7 @@ public class UserAuthenticationActivity extends BaseActivity {
                             long approvalDate = provideDoctorQualification.getApprovalDate();
                             if(flagSubmitState==0){
                                 mCommit.setVisibility(View.VISIBLE);
-                              //  lin_schedule.setVisibility(View.GONE);
+
                             }else if(flagSubmitState==1){
                                 img_status.setImageDrawable(getResources().getDrawable(R.mipmap.tj));
                                 mCommit.setVisibility(View.GONE);
@@ -258,6 +265,40 @@ public class UserAuthenticationActivity extends BaseActivity {
                                     iv_zcz_img  .setVisibility(View.GONE);
                                     img_status.setImageDrawable(getResources().getDrawable(R.mipmap.shz));
                                     mCommit.setVisibility(View.GONE);
+                                    //图片路径
+                                    String otherCard1ImgUrl = provideDoctorQualification.getOtherCard1ImgUrl();
+                                    Log.e("TAG", "handleMessage:  图片地址  "+otherCard1ImgUrl );
+                                    if(!TextUtils.isEmpty(otherCard1ImgUrl)){
+                                        text.setVisibility(View.GONE);
+                                        mImageRecycleView.setVisibility(View.VISIBLE);
+                                        if (otherCard1ImgUrl.contains("^")) {
+                                            mPhotoInfos.clear();
+                                            String[] split = otherCard1ImgUrl.split("\\^");
+                                            for (int i = 0; i < split.length; i++) {
+                                                Photo_Info photo_info = new Photo_Info();
+                                                photo_info.setPhotoUrl(split[i]);
+                                                photo_info.setStatus("2");
+                                                mPhotoInfos.add(photo_info);
+                                            }
+                                        } else {
+                                            mPhotoInfos.clear();
+                                            if (!TextUtils.isEmpty(otherCard1ImgUrl)) {
+                                                Photo_Info photo_info = new Photo_Info();
+                                                photo_info.setStatus("2");
+                                                photo_info.setPhotoUrl(otherCard1ImgUrl);
+                                                mPhotoInfos.add(photo_info);
+                                                Log.e("TAG", "handleMessage: ccc"+mPhotoInfos.size() );
+                                            }
+                                        }
+                                        mImageAdapter.setDate(mPhotoInfos);
+                                        mImageAdapter.notifyDataSetChanged();
+                                    }else{
+                                        text.setVisibility(View.VISIBLE);
+                                        mImageRecycleView.setVisibility(View.GONE);
+                                        mPhotoInfos.clear();
+                                        mImageAdapter.setDate(mPhotoInfos);
+                                        mImageAdapter.notifyDataSetChanged();
+                                    }
                                 }
                                 //审批未通过
                                 else if(flagApplyState==2){
@@ -267,6 +308,40 @@ public class UserAuthenticationActivity extends BaseActivity {
                                     success.setText("审核失败");
                                     img_status.setImageDrawable(getResources().getDrawable(R.mipmap.shsb));
                                     tv_too.setText(refuseReason);
+                                    //图片路径
+                                    String otherCard1ImgUrl = provideDoctorQualification.getOtherCard1ImgUrl();
+                                    Log.e("TAG", "handleMessage:  图片地址  "+otherCard1ImgUrl );
+                                    if(!TextUtils.isEmpty(otherCard1ImgUrl)){
+                                        text.setVisibility(View.GONE);
+                                        mImageRecycleView.setVisibility(View.VISIBLE);
+                                        if (otherCard1ImgUrl.contains("^")) {
+                                            mPhotoInfos.clear();
+                                            String[] split = otherCard1ImgUrl.split("\\^");
+                                            for (int i = 0; i < split.length; i++) {
+                                                Photo_Info photo_info = new Photo_Info();
+                                                photo_info.setPhotoUrl(split[i]);
+                                                photo_info.setStatus("2");
+                                                mPhotoInfos.add(photo_info);
+                                            }
+                                        } else {
+                                            mPhotoInfos.clear();
+                                            if (!TextUtils.isEmpty(otherCard1ImgUrl)) {
+                                                Photo_Info photo_info = new Photo_Info();
+                                                photo_info.setStatus("2");
+                                                photo_info.setPhotoUrl(otherCard1ImgUrl);
+                                                mPhotoInfos.add(photo_info);
+                                                Log.e("TAG", "handleMessage: ccc"+mPhotoInfos.size() );
+                                            }
+                                        }
+                                        mImageAdapter.setDate(mPhotoInfos);
+                                        mImageAdapter.notifyDataSetChanged();
+                                    }else{
+                                        text.setVisibility(View.VISIBLE);
+                                        mImageRecycleView.setVisibility(View.GONE);
+                                        mPhotoInfos.clear();
+                                        mImageAdapter.setDate(mPhotoInfos);
+                                        mImageAdapter.notifyDataSetChanged();
+                                    }
                                 }
                                 //审批已通过
                                 else if(flagApplyState==3){
@@ -282,11 +357,75 @@ public class UserAuthenticationActivity extends BaseActivity {
                                     success.setText("审核成功");
                                     img_status.setImageDrawable(getResources().getDrawable(R.mipmap.shcg));
                                     tv_too.setText(DateUtils.getDateToStringYYYMMDDHHMMSS(approvalDate));
+                                    //图片路径
+                                    String otherCard1ImgUrl = provideDoctorQualification.getOtherCard1ImgUrl();
+                                    Log.e("TAG", "handleMessage:  图片地址  "+otherCard1ImgUrl );
+                                    if(!TextUtils.isEmpty(otherCard1ImgUrl)){
+                                        text.setVisibility(View.GONE);
+                                        mImageRecycleView.setVisibility(View.VISIBLE);
+                                        if (otherCard1ImgUrl.contains("^")) {
+                                            mPhotoInfos.clear();
+                                            String[] split = otherCard1ImgUrl.split("\\^");
+                                            for (int i = 0; i < split.length; i++) {
+                                                Photo_Info photo_info = new Photo_Info();
+                                                photo_info.setPhotoUrl(split[i]);
+                                                photo_info.setStatus("2");
+                                                mPhotoInfos.add(photo_info);
+                                            }
+                                        } else {
+                                            mPhotoInfos.clear();
+                                            if (!TextUtils.isEmpty(otherCard1ImgUrl)) {
+                                                Photo_Info photo_info = new Photo_Info();
+                                                photo_info.setStatus("2");
+                                                photo_info.setPhotoUrl(otherCard1ImgUrl);
+                                                mPhotoInfos.add(photo_info);
+                                                Log.e("TAG", "handleMessage: ccc"+mPhotoInfos.size() );
+                                            }
+                                        }
+                                        mImageAdapter.setDate(mPhotoInfos);
+                                        mImageAdapter.notifyDataSetChanged();
+                                    }else{
+                                        text.setVisibility(View.VISIBLE);
+                                        mImageRecycleView.setVisibility(View.GONE);
+                                        mPhotoInfos.clear();
+                                        mImageAdapter.setDate(mPhotoInfos);
+                                        mImageAdapter.notifyDataSetChanged();
+                                    }
                                 }
                                 //审批状态  未提交
-                                else if(flagApplyState==0){
-                                    lin_schedule.setVisibility(View.GONE);
-                                    mCommit.setVisibility(View.VISIBLE);
+                                else if(flagApplyState==0) {
+                                    //图片路径
+                                    String otherCard1ImgUrl = provideDoctorQualification.getOtherCard1ImgUrl();
+                                    Log.e("TAG", "handleMessage:  图片地址  " + otherCard1ImgUrl);
+                                    if (!TextUtils.isEmpty(otherCard1ImgUrl)) {
+                                        text.setVisibility(View.GONE);
+                                        mImageRecycleView.setVisibility(View.VISIBLE);
+                                        if (otherCard1ImgUrl.contains("^")) {
+                                            mPhotoInfos.clear();
+                                            String[] split = otherCard1ImgUrl.split("\\^");
+                                            for (int i = 0; i < split.length; i++) {
+                                                Photo_Info photo_info = new Photo_Info();
+                                                photo_info.setPhotoUrl(split[i]);
+                                                photo_info.setStatus("2");
+                                                mPhotoInfos.add(photo_info);
+                                            }
+                                        } else {
+                                            mPhotoInfos.clear();
+                                            if (!TextUtils.isEmpty(otherCard1ImgUrl)) {
+                                                Photo_Info photo_info = new Photo_Info();
+                                                photo_info.setStatus("2");
+                                                photo_info.setPhotoUrl(otherCard1ImgUrl);
+                                                mPhotoInfos.add(photo_info);
+                                                Log.e("TAG", "handleMessage: ccc" + mPhotoInfos.size());
+                                            }
+                                        }
+                                        mImageAdapter.setDate(mPhotoInfos);
+                                        mImageAdapter.notifyDataSetChanged();
+                                        text.setVisibility(View.GONE);
+                                        mImageRecycleView.setVisibility(View.VISIBLE);
+                                        lin_schedule.setVisibility(View.GONE);
+                                        mCommit.setVisibility(View.VISIBLE);
+                                    }
                                 }
                             }
 
@@ -310,40 +449,7 @@ public class UserAuthenticationActivity extends BaseActivity {
                                 ImageViewUtil.showImageView(mActivity, provideDoctorQualification.getProfessionalImgUrl(),mZCZImage );
                             //    iv_zcz_img  .setVisibility(View.GONE);
                             }
-                            //图片路径
-                            String otherCard1ImgUrl = provideDoctorQualification.getOtherCard1ImgUrl();
-                            Log.e("TAG", "handleMessage:  图片地址  "+otherCard1ImgUrl );
-                            if(!TextUtils.isEmpty(otherCard1ImgUrl)){
-                                text.setVisibility(View.GONE);
-                                mImageRecycleView.setVisibility(View.VISIBLE);
-                                if (otherCard1ImgUrl.contains("^")) {
-                                    mPhotoInfos.clear();
-                                    String[] split = otherCard1ImgUrl.split("\\^");
-                                    for (int i = 0; i < split.length; i++) {
-                                        Photo_Info photo_info = new Photo_Info();
-                                        photo_info.setPhotoUrl(split[i]);
-                                        photo_info.setStatus("2");
-                                        mPhotoInfos.add(photo_info);
-                                    }
-                                } else {
-                                    mPhotoInfos.clear();
-                                    if (!TextUtils.isEmpty(otherCard1ImgUrl)) {
-                                        Photo_Info photo_info = new Photo_Info();
-                                        photo_info.setStatus("2");
-                                        photo_info.setPhotoUrl(otherCard1ImgUrl);
-                                        mPhotoInfos.add(photo_info);
-                                        Log.e("TAG", "handleMessage: ccc"+mPhotoInfos.size() );
-                                    }
-                                }
-                                mImageAdapter.setDate(mPhotoInfos);
-                                mImageAdapter.notifyDataSetChanged();
-                            }else{
-                                text.setVisibility(View.VISIBLE);
-                                mImageRecycleView.setVisibility(View.GONE);
-                                mPhotoInfos.clear();
-                                mImageAdapter.setDate(mPhotoInfos);
-                                mImageAdapter.notifyDataSetChanged();
-                            }
+
 
 
                         }
@@ -359,7 +465,7 @@ public class UserAuthenticationActivity extends BaseActivity {
                             Toast.makeText(mContext, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
                             return;
                         } else {
-                            switch (mPhotoType) {
+                            /*switch (mPhotoType) {
 
                                 case 1:
                                     Glide.with(mContext).load(BitmapUtil.stringtoBitmap(mPhotoBitmapString)).into(mIDCardFont);
@@ -376,7 +482,7 @@ public class UserAuthenticationActivity extends BaseActivity {
                                 case 6:
                                     Glide.with(mContext).load(BitmapUtil.stringtoBitmap(mPhotoBitmapString)).into(mZGZImage);
                                     break;
-                            }
+                            }*/
                         }
 
                         break;
@@ -400,6 +506,12 @@ public class UserAuthenticationActivity extends BaseActivity {
             new Thread() {
                 public void run() {
                     String bitmapString = mApp.gBitMapString;
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Glide.with(mContext).load(BitmapUtil.stringtoBitmap(bitmapString)).into(mIDCardFont);
+                        }
+                    });
                     upLoadImg(1, bitmapString);
                 }
             }.start();
@@ -410,7 +522,14 @@ public class UserAuthenticationActivity extends BaseActivity {
 //            getProgressBar("请稍候", "正在处理。。。");
             new Thread() {
                 public void run() {
+
                     String bitmapString = mApp.gBitMapString;
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Glide.with(mContext).load(BitmapUtil.stringtoBitmap(bitmapString)).into(mIDCardBack);
+                        }
+                    });
                     upLoadImg(2, bitmapString);
                 }
             }.start();
@@ -461,12 +580,30 @@ public class UserAuthenticationActivity extends BaseActivity {
                             System.out.println("图片：" + photo[0]);
                             switch (mCurrentPhoto) {
                                 case 1:
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            Glide.with(mContext).load(photo[0]).into(mZYZImage);
+                                        }
+                                    });
                                     upLoadImg(3, BitmapUtil.bitmaptoString(photo[0]));
                                     break;
                                 case 2:
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            Glide.with(mContext).load(photo[0]).into(mZCZImage);
+                                        }
+                                    });
                                     upLoadImg(5, BitmapUtil.bitmaptoString(photo[0]));
                                     break;
                                 case 3:
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            Glide.with(mContext).load(photo[0]).into(mZGZImage);
+                                        }
+                                    });
                                     upLoadImg(6, BitmapUtil.bitmaptoString(photo[0]));
                                     break;
                                 case 6:
@@ -476,6 +613,7 @@ public class UserAuthenticationActivity extends BaseActivity {
 
                         }
                     }.start();
+
                 }
 
             }
@@ -485,23 +623,41 @@ public class UserAuthenticationActivity extends BaseActivity {
                 if(mCurrentPhoto==6){
                     setPicToView(data);
                 }else{
+                    final Bitmap[] photo = {null};
                     new Thread() {
                         public void run() {
-                            Bitmap photo = null;
                             try {
-                                photo = BitmapUtil.getimageBitmap(BitmapFactory.decodeStream(getContentResolver().openInputStream(Uri.fromFile(mTempFile))));//将imageUri对象的图片加载到内存
+                                photo[0] = BitmapUtil.getimageBitmap(BitmapFactory.decodeStream(getContentResolver().openInputStream(Uri.fromFile(mTempFile))));//将imageUri对象的图片加载到内存
                             } catch (FileNotFoundException e) {
                                 e.printStackTrace();
                             }
                             switch (mCurrentPhoto) {
                                 case 1:
-                                    upLoadImg(3, BitmapUtil.bitmaptoString(photo));
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            Glide.with(mContext).load(photo[0]).into(mZYZImage);
+                                        }
+                                    });
+                                    upLoadImg(3, BitmapUtil.bitmaptoString(photo[0]));
                                     break;
                                 case 2:
-                                    upLoadImg(5, BitmapUtil.bitmaptoString(photo));
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            Glide.with(mContext).load(photo[0]).into(mZCZImage);
+                                        }
+                                    });
+                                    upLoadImg(5, BitmapUtil.bitmaptoString(photo[0]));
                                     break;
                                 case 3:
-                                    upLoadImg(6, BitmapUtil.bitmaptoString(photo));
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            Glide.with(mContext).load(photo[0]).into(mZGZImage);
+                                        }
+                                    });
+                                    upLoadImg(6, BitmapUtil.bitmaptoString(photo[0]));
                                     break;
                                 case 6:
                                     //  setPicToView(data);
@@ -954,13 +1110,28 @@ public class UserAuthenticationActivity extends BaseActivity {
      * 提交
      */
     private void commit() {
-
+        //身份证正面
+        int idNumberPositive = provideDoctorQualification.getIdNumberPositive();
+        //身份证反面
+        int idNumberSide = provideDoctorQualification.getIdNumberSide();
+        //医师执业证
+        int practising = provideDoctorQualification.getPractising();
+        //医师职称证
+        int professional = provideDoctorQualification.getProfessional();
+        //医师工作证
+        int workCard = provideDoctorQualification.getWorkCard();
+        Log.e("TAG", "commit:  bbbbbb "+mPhotoType );
+        if(idNumberPositive==0||idNumberSide==0||practising==0||professional==0||workCard==0){
+            ToastUtils.showShort("[医师资格认证]资质未全部上传,请上传成功后重试");
+            return;
+        }
         getProgressBar("请稍候", "正在提交。。。");
         //开始识别
         new Thread() {
             public void run() {
 //                //提交数据
                 try {
+
                     StringBuilder photoUrl = new StringBuilder();
                     if (mPhotoInfos.size() > 0) {
                         for (int i = 1; i < mPhotoInfos.size(); i++) {
