@@ -1,5 +1,6 @@
 package www.jykj.com.jykj_zxyl.fragment;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -14,6 +15,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.allen.library.interceptor.Transformer;
+import com.hyphenate.easeui.jykj.bean.ProvideDoctorPatientUserInfo;
+
+import java.util.HashMap;
 
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.activity.MainActivity;
@@ -30,9 +36,15 @@ import www.jykj.com.jykj_zxyl.activity.myself.SettingActivity;
 import www.jykj.com.jykj_zxyl.activity.myself.ShareDataSetActivity;
 import www.jykj.com.jykj_zxyl.activity.myself.UserAuthenticationActivity;
 import www.jykj.com.jykj_zxyl.activity.myself.UserCenterActivity;
+import www.jykj.com.jykj_zxyl.app_base.base_bean.BaseBean;
+import www.jykj.com.jykj_zxyl.app_base.http.ApiHelper;
+import www.jykj.com.jykj_zxyl.app_base.http.CommonDataObserver;
+import www.jykj.com.jykj_zxyl.app_base.http.ParameUtil;
+import www.jykj.com.jykj_zxyl.app_base.http.RetrofitUtil;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.appointment.activity.MyOnlineScheduActivity;
 import www.jykj.com.jykj_zxyl.personal.activity.MyServiceHistoryActivity;
+import www.jykj.com.jykj_zxyl.util.GsonUtils;
 import www.jykj.com.jykj_zxyl.util.ImageViewUtil;
 import yyz_exploit.activity.Myself_Service;
 import yyz_exploit.activity.activity.LectureActivity;
@@ -122,16 +134,52 @@ public class FragmentMySelf extends Fragment {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        if (mApp.mViewSysUserDoctorInfoAndHospital.getFlagDoctorStatus() == 1)
-            mUserAuthentication.setImageResource(R.mipmap.fragmentmyself_yrz);
-        else
-            mUserAuthentication.setImageResource(R.mipmap.fragmentmyself_wrz);
-        ImageViewUtil.showImageView(getContext(), mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl(), mUserHead);
-        mNameText.setText(mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            HashMap<String, Object> hashMap = ParameUtil.buildBaseParam();
+            hashMap.put("userCode",mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
+            String s = RetrofitUtil.encodeParam(hashMap);
+            ApiHelper.getApiService().getUserInfo(s).compose(Transformer.switchSchedulers())
+                    .subscribe(new CommonDataObserver() {
+                        @Override
+                        protected void onSuccessResult(BaseBean baseBean) {
+                            int resCode = baseBean.getResCode();
+                            if (resCode==1) {
+                                ProvideDoctorPatientUserInfo provideDoctorPatientUserInfo =
+                                        GsonUtils.fromJson(baseBean.getResJsonData(),
+                                                ProvideDoctorPatientUserInfo.class);
+                                if (provideDoctorPatientUserInfo!=null) {
+                                    int flagDoctorStatus = provideDoctorPatientUserInfo.getFlagDoctorStatus();
+                                    if (flagDoctorStatus==0) {
+                                        mUserAuthentication.setImageResource(R.mipmap.fragmentmyself_wrz);
+                                    }else{
+                                        mUserAuthentication.setImageResource(R.mipmap.fragmentmyself_yrz);
+                                    }
+
+                                    ImageViewUtil.showImageView(getContext(),
+                                            provideDoctorPatientUserInfo.getUserLogoUrl(), mUserHead);
+                                    mNameText.setText(provideDoctorPatientUserInfo.getUserName());
+                                }
+
+                            }
+                        }
+                    });
+        }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+//        if (mApp.mViewSysUserDoctorInfoAndHospital.getFlagDoctorStatus() == 1)
+//            mUserAuthentication.setImageResource(R.mipmap.fragmentmyself_yrz);
+//        else
+//            mUserAuthentication.setImageResource(R.mipmap.fragmentmyself_wrz);
+
+
+    }
+
+    @SuppressLint("HandlerLeak")
     private void initHandler() {
         mHandler = new Handler() {
             @Override

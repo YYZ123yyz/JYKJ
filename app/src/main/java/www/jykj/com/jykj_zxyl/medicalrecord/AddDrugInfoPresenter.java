@@ -152,12 +152,13 @@ public class AddDrugInfoPresenter extends BasePresenterImpl<AddDrugInfoContract.
     }
 
     @Override
-    public void sendOperUpdDrugInfo_201208(String medicineCode, String drugName,
-                                           String drugNameAlias, String specUnitNum,
-                                           String specUnit, String specUnitBig, String specName,
+    public void sendOperUpdDrugInfo_201208(String medicineCode, String drugName, String drugNameAlias
+            , String specUnitNum, String specUnit, String specUnitBig, String specName,
                                            String dosageCode, String factoryName,
                                            String drugUsageRateNum, String drugUsageRateDay,
                                            String drugUsageNumUnit, String drugUsageNumFrequency,
+                                           String drugUsageDay,
+                                           String drugUsageNum,
                                            Activity activity) {
         HashMap<String, Object> hashMap = ParameUtil.buildBaseDoctorParam(activity);
         hashMap.put("medicineCode",medicineCode);
@@ -173,23 +174,25 @@ public class AddDrugInfoPresenter extends BasePresenterImpl<AddDrugInfoContract.
         hashMap.put("drugUsageRateDay",drugUsageRateDay);
         hashMap.put("drugUsageNumUnit",drugUsageNumUnit);
         hashMap.put("drugUsageNumFrequency",drugUsageNumFrequency);
+        hashMap.put("drugUsageDay",drugUsageDay);
+        hashMap.put("drugUsageNum",drugUsageNum);
         String s = RetrofitUtil.encodeParam(hashMap);
         ApiHelper.getApiService().operUpdDrugInfo_201208(s).compose(
                 Transformer.switchSchedulers(new ILoadingView() {
-            @Override
-            public void showLoadingView() {
-                if (mView != null) {
-                    mView.showLoading(101);
-                }
-            }
+                    @Override
+                    public void showLoadingView() {
+                        if (mView != null) {
+                            mView.showLoading(101);
+                        }
+                    }
 
-            @Override
-            public void hideLoadingView() {
-                if (mView != null) {
-                    mView.hideLoading();
-                }
-            }
-        })).subscribe(new CommonDataObserver() {
+                    @Override
+                    public void hideLoadingView() {
+                        if (mView != null) {
+                            mView.hideLoading();
+                        }
+                    }
+                })).subscribe(new CommonDataObserver() {
             @Override
             protected void onSuccessResult(BaseBean baseBean) {
                 if (mView != null) {
@@ -208,8 +211,9 @@ public class AddDrugInfoPresenter extends BasePresenterImpl<AddDrugInfoContract.
             }
         });
 
-
     }
+
+
 
     @Override
     public void sendSearchDrugTypeDosageRequest(Activity activity) {
