@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 
 import www.jykj.com.jykj_zxyl.R;
+import www.jykj.com.jykj_zxyl.activity.MainActivity;
 import www.jykj.com.jykj_zxyl.activity.home.MyClinicActivity;
 import www.jykj.com.jykj_zxyl.activity.home.MyLiveRoomActivity;
 import www.jykj.com.jykj_zxyl.activity.home.MyPatientActivity;
@@ -44,6 +45,8 @@ public class MoreFeaturesPopupWindow extends PopupWindow implements View.OnClick
     private HelpActivity helpActivity;
     private QRCodeActivity qrCodeActivity;
     private int mCode =0 ;
+    private TextView tv_home;
+
     public MoreFeaturesPopupWindow(Activity context) {
         super(context);
         mContext = context;
@@ -60,6 +63,7 @@ public class MoreFeaturesPopupWindow extends PopupWindow implements View.OnClick
         tvBzfk.setOnClickListener(this);
         tv_wdhz.setOnClickListener(this);
         tv_wdzbj.setOnClickListener(this);
+        tv_home.setOnClickListener(this);
     }
 
     private void init(Activity context) {
@@ -75,6 +79,8 @@ public class MoreFeaturesPopupWindow extends PopupWindow implements View.OnClick
         tv_wdhz = mPopView.findViewById(R.id.tv_wdhz);
         //我的直播间
         tv_wdzbj = mPopView.findViewById(R.id.tv_wdzbj);
+
+        tv_home = mPopView.findViewById(R.id.tv_home);
     }
 
     /**
@@ -142,6 +148,9 @@ public class MoreFeaturesPopupWindow extends PopupWindow implements View.OnClick
                 //帮助与反馈
             case R.id.tv_bzfk:
                 mContext.startActivity(new Intent(mContext, HelpActivity.class));
+                break;
+            case R.id.tv_home:
+                mContext.startActivity(new Intent(mContext, MainActivity.class));
                 break;
         }
     }

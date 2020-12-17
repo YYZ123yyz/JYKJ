@@ -78,6 +78,7 @@ public class MyPatientActivity extends BaseActivity {
     @Override
     protected void initView() {
         super.initView();
+        ActivityUtil.setStatusBarMain(this);
         mApp = (JYKJApplication) getApplication();
         mContext = this;
         mActivity = this;

@@ -381,11 +381,12 @@
 
             <!--其他相关证书-->
             <LinearLayout
+                android:layout_marginBottom="@dimen/dp_20"
                 android:orientation="vertical"
                 android:layout_marginTop="@dimen/dp10"
                 android:background="#fff"
                 android:layout_width="match_parent"
-                android:layout_height="223.5dp">
+                android:layout_height="wrap_content">
                 <LinearLayout
                     android:layout_marginTop="@dimen/dp17"
                     android:layout_marginLeft="@dimen/dp14"
@@ -407,9 +408,21 @@
                 </LinearLayout>
 
                 <android.support.v7.widget.RecyclerView
+                    android:layout_marginBottom="@dimen/dp_20"
+                    android:layout_marginRight="@dimen/dp_10"
                     android:id="@+id/rv_img"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:layout_marginBottom="@dimen/dp_20"
+                    android:visibility="gone"
+                    android:id="@+id/text"
+                    android:layout_marginTop="@dimen/dp_20"
+                    android:layout_gravity="center_horizontal"
+                    android:textColor="@color/black"
+                    android:text="您未上传其他相关证件"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
 
             </LinearLayout>
 
