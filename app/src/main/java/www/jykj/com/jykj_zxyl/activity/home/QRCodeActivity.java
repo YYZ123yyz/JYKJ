@@ -35,7 +35,6 @@ import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
-import com.xiaomi.clientreport.data.Config;
 
 import java.io.File;
 import java.io.FileNotFoundException;

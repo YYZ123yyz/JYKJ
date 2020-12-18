@@ -282,7 +282,8 @@ public class AddDrugInfoActivity2 extends AbstractMvpBaseActivity<AddDrugInfoCon
                     tvSpecsName.getText().toString()
                     ,currentDrugDosageBean.getDosageCode(),factoryName
                     ,usageRate,usageDay,consumptionNum,
-                    "1",AddDrugInfoActivity2.this);
+                    "1",tvUsageName.getText().toString()
+                    ,tvConsumptionName.getText().toString(),AddDrugInfoActivity2.this);
 
         });
     }

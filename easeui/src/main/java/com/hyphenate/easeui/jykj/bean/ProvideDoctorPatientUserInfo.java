@@ -64,7 +64,7 @@ public class ProvideDoctorPatientUserInfo implements Serializable {
 	private String userNameAlias;
 	private String userNameSpell;
 	private int userUseType;
-
+	private int flagDoctorStatus;//医生认证状态.0:未认证;1:已认证;
 	public String getAddress() {
 		return address;
 	}
@@ -263,5 +263,13 @@ public class ProvideDoctorPatientUserInfo implements Serializable {
 
 	public void setPatientAge(int patientAge) {
 		this.patientAge = patientAge;
+	}
+
+	public int getFlagDoctorStatus() {
+		return flagDoctorStatus;
+	}
+
+	public void setFlagDoctorStatus(int flagDoctorStatus) {
+		this.flagDoctorStatus = flagDoctorStatus;
 	}
 }

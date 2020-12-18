@@ -106,7 +106,9 @@ public class AddDrugInfoContract {
                 ,String drugUsageRateNum
                 , String drugUsageRateDay
                 ,String drugUsageNumUnit
-                ,String drugUsageNumFrequency,Activity activity);
+                ,String drugUsageNumFrequency
+                ,String drugUsageDay
+                ,String drugUsageNum,Activity activity);
 
         /**
          * [基础数据]药品剂型信息获取
