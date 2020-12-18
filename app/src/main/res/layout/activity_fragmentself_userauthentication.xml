@@ -114,6 +114,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
                 <TextView
+                    android:maxEms="5"
                     android:id="@+id/tv_too"
                     android:text=""
                     android:layout_width="wrap_content"
