@@ -42,5 +42,10 @@ public class ReferenceMapAdapter extends BaseQuickAdapter<RefrecenmapBean, BaseV
         }
 
 
+        helper.setText(R.id.tv_age,item.getAgeStart() +"-"+item.getAgeEnd())
+                .setText(R.id.et_high,String.valueOf(item.getHighNum()))
+                .setText(R.id.et_low,String.valueOf(item.getLowNum()))
+                .setText(R.id.et_thre,String.valueOf(item.getGradeFloatingValue()));
+
     }
 }
