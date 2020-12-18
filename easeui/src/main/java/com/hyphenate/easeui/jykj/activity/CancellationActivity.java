@@ -181,17 +181,29 @@ public class CancellationActivity extends AppCompatActivity implements View.OnCl
                 case "1":
                     mLlCancelContractRoot.setVisibility(View.VISIBLE);
                     mLlRefuseRoot.setVisibility(View.GONE);
-                    if (from.equals("1")) {
-                        String relieveReasonClassNameD = signPatientDoctorOrderBean.getRelieveReasonClassNameD();
+                    String relieveReasonClassNameD = signPatientDoctorOrderBean.getRelieveReasonClassNameD();
+                    String relieveReasonClassName = signPatientDoctorOrderBean.getRelieveReasonClassName();
+                    if (StringUtils.isNotEmpty(relieveReasonClassNameD)) {
                         tvName.setText(relieveReasonClassNameD);
                         String relieveRemarkD = signPatientDoctorOrderBean.getRelieveRemarkD();
                         tvTermination.setText(StringUtils.isNotEmpty(relieveRemarkD) ? relieveRemarkD : "暂无");
-                    } else if (from.equals("2")) {
-                        String relieveReasonClassName = signPatientDoctorOrderBean.getRelieveReasonClassName();
+                    }else{
                         tvName.setText(relieveReasonClassName);
                         String relieveRemark = signPatientDoctorOrderBean.getRelieveRemark();
                         tvTermination.setText(StringUtils.isNotEmpty(relieveRemark) ? relieveRemark : "暂无");
                     }
+//                    if (from.equals("1")) {
+//                        String relieveReasonClassNameD = signPatientDoctorOrderBean.getRelieveReasonClassNameD();
+//                        tvName.setText(relieveReasonClassNameD);
+//                        String relieveRemarkD = signPatientDoctorOrderBean.getRelieveRemarkD();
+//                        tvTermination.setText(StringUtils.isNotEmpty(relieveRemarkD) ? relieveRemarkD : "暂无");
+//
+//                    } else if (from.equals("2")) {
+//                        String relieveReasonClassName = signPatientDoctorOrderBean.getRelieveReasonClassName();
+//                        tvName.setText(relieveReasonClassName);
+//                        String relieveRemark = signPatientDoctorOrderBean.getRelieveRemark();
+//                        tvTermination.setText(StringUtils.isNotEmpty(relieveRemark) ? relieveRemark : "暂无");
+//                    }
                     break;
                 case "2":
                     mLlCancelContractRoot.setVisibility(View.GONE);

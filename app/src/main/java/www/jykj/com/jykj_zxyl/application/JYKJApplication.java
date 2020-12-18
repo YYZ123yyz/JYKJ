@@ -3,21 +3,14 @@ package www.jykj.com.jykj_zxyl.application;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ActivityManager;
-import android.app.AlertDialog;
 import android.app.Application;
 import android.content.ComponentName;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.*;
 import android.support.multidex.MultiDex;
-import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.View;
-import android.view.WindowManager;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
@@ -26,31 +19,16 @@ import com.allen.library.config.OkHttpConfig;
 import com.allen.library.cookie.store.SPCookieStore;
 import com.allen.library.manage.RxUrlManager;
 import com.blankj.utilcode.util.AppUtils;
-import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.EMConnectionListener;
-import com.hyphenate.EMError;
-import com.hyphenate.EMMessageListener;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
-import com.hyphenate.chat.EMMessage;
 import com.hyphenate.chat.EMOptions;
-import com.hyphenate.chat.adapter.EMAChatClient;
 import com.hyphenate.easeui.EaseUI;
 import com.hyphenate.easeui.hyhd.DemoHelper;
 import com.hyphenate.easeui.hyhd.model.CallReceiver;
-import com.hyphenate.easeui.hyhd.model.DbOpenHelper;
-import com.hyphenate.easeui.hyhd.model.DemoDBManager;
-import com.hyphenate.easeui.hyhd.model.HMSPushHelper;
-import com.hyphenate.easeui.ui.EaseContactListFragment;
 import com.hyphenate.easeui.utils.ExtEaseUtils;
-import com.hyphenate.exceptions.HyphenateException;
-import com.hyphenate.push.EMPushHelper;
-import com.hyphenate.push.EMPushType;
-import com.hyphenate.push.PushListener;
-import com.hyphenate.util.EMLog;
 import com.iflytek.cloud.SpeechConstant;
 import com.iflytek.cloud.SpeechUtility;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
@@ -70,8 +48,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
-import java.util.concurrent.TimeUnit;
 
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshFooterCreator;
@@ -81,14 +57,11 @@ import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
-import com.tencent.bugly.Bugly;
 import com.tencent.bugly.crashreport.CrashReport;
-import entity.DoctorInfo.InteractPatient;
-import entity.basicDate.EMMessageEntity;
+
 import entity.basicDate.ProvideBasicsRegion;
 import entity.basicDate.ProvideDoctorPatientUserInfo;
 import entity.liveroom.CloseRoomInfo;
-import entity.mySelf.DataCleanManager;
 import entity.service.ViewSysUserDoctorInfoAndHospital;
 import entity.unionInfo.ProvideUnionDoctorOrg;
 import entity.user.ProvideDoctorQualification;
@@ -97,18 +70,23 @@ import netService.HttpNetService;
 import netService.entity.NetRetEntity;
 import okhttp3.OkHttpClient;
 import www.jykj.com.jykj_zxyl.R;
-import www.jykj.com.jykj_zxyl.activity.LoginActivity;
 import www.jykj.com.jykj_zxyl.activity.MainActivity;
 
-import www.jykj.com.jykj_zxyl.app_base.base_utils.AndroidThreadExecutor;
 import www.jykj.com.jykj_zxyl.app_base.http.AppUrlConfig;
-import www.jykj.com.jykj_zxyl.service.MessageReciveService;
-import www.jykj.com.jykj_zxyl.util.StrUtils;
-import yyz_exploit.dialog.AuthorityDialog;
-import yyz_exploit.dialog.ErrorDialog;
+import www.jykj.com.jykj_zxyl.service.PushIntentService;
 
-import com.tencent.bugly.crashreport.CrashReport;
 import com.tencent.rtmp.TXLiveBase;
+import com.umeng.commonsdk.UMConfigure;
+import com.umeng.message.IUmengRegisterCallback;
+import com.umeng.message.PushAgent;
+import com.umeng.message.UmengMessageHandler;
+import com.umeng.message.entity.UMessage;
+
+import org.android.agoo.huawei.HuaWeiRegister;
+import org.android.agoo.mezu.MeizuRegister;
+import org.android.agoo.oppo.OppoRegister;
+import org.android.agoo.vivo.VivoRegister;
+import org.android.agoo.xiaomi.MiPushRegistar;
 
 
 public class JYKJApplication extends Application {
@@ -397,16 +375,16 @@ public class JYKJApplication extends Application {
         initLitesmat();
         //   login();
         initRxHttpUtils();
-        //initUmengSDK();
-        initBugly();
+        initUmengSDK();
+        //initBugly();
     }
 
-//
-//    /**
-//     * 初始化umeng sdk
-//     */
-//    private void initUmengSDK(){
-//        UMConfigure.setLogEnabled(true);
+
+    /**
+     * 初始化umeng sdk
+     */
+    private void initUmengSDK(){
+//        //UMConfigure.setLogEnabled(true);
 //        UMConfigure.init(this, Constant.UMENG_APPKEY, "umeng", UMConfigure.DEVICE_TYPE_PHONE,
 //                Constant.UMENG_APP_SECRET);
 //
@@ -424,10 +402,89 @@ public class JYKJApplication extends Application {
 //                Log.i("walle", "--->>> onFailure, s is " + s + ", s1 is " + s1);
 //            }
 //        });
-//        pushAgent.setPushIntentServiceClass(PushIntentService.class);
+//        //pushAgent.setPushIntentServiceClass(PushIntentService.class);
 //        pushAgent.setDisplayNotificationNumber(3);
-//    }
 
+        UMConfigure.init(this, "5f7fbe6c80455950e49e57c9", "Umeng", UMConfigure.DEVICE_TYPE_PHONE, "b89940bde7a0eca09776f62228c05e88");
+
+        //获取消息推送代理示例
+        PushAgent mPushAgent = PushAgent.getInstance(this);
+//        mPushAgent.setNotificationPlaySound(MsgConstant.NOTIFICATION_PLAY_SERVER); //服务端控制声音
+
+
+        //注册推送服务，每次调用register方法都会回调该接口
+        mPushAgent.register(new IUmengRegisterCallback() {
+
+            @Override
+            public void onSuccess(String deviceToken) {
+                //注册成功会返回deviceToken deviceToken是推送消息的唯一标志
+                Log.i("walle","注册成功：deviceToken：-------->  " + deviceToken);
+            }
+
+            @Override
+            public void onFailure(String s, String s1) {
+                Log.e("walle","注册失败：-------->  " + "s:" + s + ",s1:" + s1);
+            }
+        });
+
+
+        /**
+         * 初始化厂商通道
+         */
+        //小米通道
+        MiPushRegistar.register(this, "填写您在小米后台APP对应的xiaomi id", "填写您在小米后台APP对应的xiaomi key");
+        //华为通道，注意华为通道的初始化参数在minifest中配置
+        HuaWeiRegister.register(this);
+        //魅族通道
+        MeizuRegister.register(this, "填写您在魅族后台APP对应的app id", "填写您在魅族后台APP对应的app key");
+        //OPPO通道
+        OppoRegister.register(this, "填写您在OPPO后台APP对应的app key", "填写您在魅族后台APP对应的app secret");
+        //VIVO 通道，注意VIVO通道的初始化参数在minifest中配置
+        VivoRegister.register(this);
+        setMessageHandler();
+    }
+    /**
+     * MessageHandler有很多回调方法，根据自己需要选择
+     */
+    private void setMessageHandler() {
+        UmengMessageHandler messageHandler = new UmengMessageHandler() {
+            @Override
+            public void dealWithNotificationMessage(Context context, UMessage uMessage) {
+                super.dealWithNotificationMessage(context, uMessage);
+                Log.e("walle", "um notification msg.extra" + uMessage.extra);
+//                try {
+//                    JSONObject object = new JSONObject(uMessage.extra);
+//
+//                    int type = object.getInt("type");
+//                    Long id = object.getLong("id");
+//                    String title = object.getString("title");
+//
+//                    ExtraBean bean = new ExtraBean();
+//                    bean.setId(id);
+//                    bean.setType(type);
+//                    bean.setTitle(title);
+//                    /**
+//                     * 应用不在前台时，不弹框，并把推送的数据存起来
+//                     *
+//                     * 在前台时直接弹框
+//                     */
+//
+//                    if (MyApplacation.getMyApplication().getActivityCount() == 0) {
+//                        ExtraBeanDao dao = MyApplacation.getMyApplication().getDaoSession().getExtraBeanDao();
+//                        dao.insertOrReplace(bean);
+//                        return;
+//                    }
+//                    Intent intent = new Intent(context, NotificationDialogActivity.class);
+//                    intent.putExtra("bean", bean);
+//                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                    context.startActivity(intent);
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+            }
+        };
+        PushAgent.getInstance(this).setMessageHandler(messageHandler);
+    }
 
 
     /**
