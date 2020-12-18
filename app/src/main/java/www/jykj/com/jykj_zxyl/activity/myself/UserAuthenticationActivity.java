@@ -232,7 +232,6 @@ public class UserAuthenticationActivity extends BaseActivity {
                           //  lin.setVisibility(View.GONE);
                         }else{
                             provideDoctorQualification = JSON.parseObject(JSON.parseObject(mNetRetStr, NetRetEntity.class).getResJsonData(), ProvideDoctorQualification.class);
-                            imgId = provideDoctorQualification.getImgId();
                             //提交状态
                             Integer flagSubmitState = provideDoctorQualification.getFlagSubmitState();
                             //提交日期
