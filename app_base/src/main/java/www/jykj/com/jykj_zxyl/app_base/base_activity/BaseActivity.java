@@ -136,7 +136,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             @Override
             public void onSoftInputChanged(int height) {
                 if (height > 0) {
-                    if (!localClassName.contains("ChatActivity")) {
+                    if (!localClassName.contains("ChatActivity") && !localClassName.contains("ReferenceMapActivity")) {
 
                         showPopupCommnet();
                     }

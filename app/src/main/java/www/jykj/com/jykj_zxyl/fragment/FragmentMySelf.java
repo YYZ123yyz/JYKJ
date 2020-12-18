@@ -45,6 +45,8 @@ import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.appointment.activity.MyOnlineScheduActivity;
 import www.jykj.com.jykj_zxyl.personal.activity.MyServiceHistoryActivity;
 import www.jykj.com.jykj_zxyl.util.GsonUtils;
+import www.jykj.com.jykj_zxyl.personal.activity.ReferenceMapActivity;
+import www.jykj.com.jykj_zxyl.personal.activity.WarningActivity;
 import www.jykj.com.jykj_zxyl.util.ImageViewUtil;
 import yyz_exploit.activity.Myself_Service;
 import yyz_exploit.activity.activity.LectureActivity;
@@ -73,6 +75,7 @@ public class FragmentMySelf extends Fragment {
     private LinearLayout lin_notice;
     private LinearLayout lin_lecture;
     private LinearLayout lin_invite;
+    private LinearLayout lin_warning;
 
 
     @Override
@@ -130,6 +133,8 @@ public class FragmentMySelf extends Fragment {
         lin_lecture = v.findViewById(R.id.lin_Lecture);
         lin_lecture.setOnClickListener(new ButtonClick());
 
+        lin_warning = v.findViewById(R.id.lin_warning);
+        lin_warning.setOnClickListener(new ButtonClick());
 
     }
 
@@ -273,6 +278,10 @@ public class FragmentMySelf extends Fragment {
 
                     Intent intent1 = new Intent(getActivity(), MyServiceHistoryActivity.class);
                     startActivity(intent1);
+                    break;
+                case R.id.lin_warning:
+                    Intent intent5 = new Intent(getActivity(), ReferenceMapActivity.class);//WarningActivity.class   ReferenceMapActivity
+                    startActivity(intent5);
                     break;
             }
         }

@@ -36,6 +36,7 @@
     <color name="color_ededed">#ededed</color>
     <color name="color_b3b3b3">#b3b3b3</color>
     <color name="color_EEEEEE">#EEEEEE</color>
+    <color name="color_dddddd">#dddddd</color>
     <color name="color_00ed16">#00ed16</color>
     <color name="color_ef0000">#ef0000</color>
     <color name="color_3EB2EE">#3EB2EE</color>
@@ -60,4 +61,6 @@
     <color name="color_EFF6FE">#EFF6FE</color>
     <color name="color_B1A49B">#B1A49B</color>
     <color name="color_010101">#010101</color>
+    <color name="color_FE6600">#FE6600</color>
+    <color name="color_FE2C2C">#FE2C2C</color>
 </resources>
