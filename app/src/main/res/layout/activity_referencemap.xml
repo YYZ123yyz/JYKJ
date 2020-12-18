@@ -15,8 +15,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            >
+            android:orientation="vertical">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -34,6 +33,7 @@
                     android:textSize="15sp" />
 
                 <TextView
+                    android:id="@+id/set_signtv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -99,7 +99,7 @@
 
             </LinearLayout>
 
-            <LinearLayout
+            <!--<LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:background="@color/white"
@@ -188,7 +188,7 @@
 
             <TextView
                 style="@style/div_h"
-                android:background="@color/color_dddddd" />
+                android:background="@color/color_dddddd" />-->
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/man_recycle"
@@ -259,7 +259,7 @@
 
             </LinearLayout>
 
-            <LinearLayout
+            <!--<LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:background="@color/white"
@@ -346,11 +346,29 @@
 
             </LinearLayout>
 
+
+            <TextView
+                style="@style/div_h"
+                android:background="@color/color_dddddd" />-->
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/women_recycle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white" />
+
+
+            <TextView
+                android:id="@+id/submit"
+                android:layout_width="230dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="35dp"
+                android:background="@drawable/bg_round_799dfe_17"
+                android:gravity="center"
+                android:layout_marginBottom="20dp"
+                android:text="提交"
+                android:textSize="15sp" />
 
 
         </LinearLayout>

@@ -1,6 +1,7 @@
 package www.jykj.com.jykj_zxyl.personal.activity;
 
 
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
@@ -38,6 +39,10 @@ public class ReferenceMapActivity extends AbstractMvpBaseActivity<ReferenceContr
     @BindView(R.id.women_recycle)
     RecyclerView womenRecyeleview;
     private JYKJApplication mApp;
+    private ArrayList<RefrecenmapBean> manBeans;
+    private ArrayList<RefrecenmapBean> womenBeans;
+    private ReferenceMapAdapter manAdapter;
+    private ReferenceMapAdapter womenAdapter;
 
     @Override
     protected int setLayoutId() {
@@ -53,12 +58,12 @@ public class ReferenceMapActivity extends AbstractMvpBaseActivity<ReferenceContr
     protected void initView() {
         super.initView();
         MyLinearManger linearLayoutManager = new MyLinearManger(this);
-        linearLayoutManager.setOrientation(OrientationHelper.VERTICAL);  //垂直
+        linearLayoutManager.setOrientation(OrientationHelper.VERTICAL);
         linearLayoutManager.setScrollEnabled(false);
         manRecycleview.setLayoutManager(linearLayoutManager);
 
         MyLinearManger linearLayoutManager1 = new MyLinearManger(this);
-        linearLayoutManager1.setOrientation(OrientationHelper.VERTICAL);  //垂直
+        linearLayoutManager1.setOrientation(OrientationHelper.VERTICAL);
         linearLayoutManager1.setScrollEnabled(false);
         womenRecyeleview.setLayoutManager(linearLayoutManager1);
     }
@@ -67,35 +72,38 @@ public class ReferenceMapActivity extends AbstractMvpBaseActivity<ReferenceContr
     protected void initData() {
         super.initData();
         mApp = (JYKJApplication) getApplication();
-//        mPresenter.getReferenceData(getParams(0));
-        ArrayList<RefrecenmapBean> strings = new ArrayList<>();
+        mPresenter.getReferenceData(getParams(0));
+        manBeans = new ArrayList<>();
+        womenBeans = new ArrayList<>();
 
-        for (int i = 0; i < 3; i++) {
-            RefrecenmapBean refrecenmapBean = new RefrecenmapBean();
-            strings.add(refrecenmapBean);
-        }
-        ReferenceMapAdapter riskNomalAdapter = new ReferenceMapAdapter(R.layout.item_referencemap, strings, this);
-        manRecycleview.setAdapter(riskNomalAdapter);
 
-        riskNomalAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+        manAdapter = new ReferenceMapAdapter(R.layout.item_referencemap, manBeans, this);
+        manRecycleview.setAdapter(manAdapter);
+
+        manAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 LogUtils.e("点击啊啊啊啊    "+position);
-                for (int i = 0; i < strings.size(); i++) {
-                    strings.get(i).setClick(i == position);
+                for (int i = 0; i < manBeans.size(); i++) {
+                    manBeans.get(i).setClick(i == position);
                 }
-                riskNomalAdapter.notifyDataSetChanged();
+                manAdapter.notifyDataSetChanged();
             }
         });
 
-        ReferenceMapAdapter riskNomalAdapter1 = new ReferenceMapAdapter(R.layout.item_referencemap, strings, this);
-        womenRecyeleview.setAdapter(riskNomalAdapter1);
+        womenAdapter = new ReferenceMapAdapter(R.layout.item_referencemap, womenBeans, this);
+        womenRecyeleview.setAdapter(womenAdapter);
     }
 
-    @OnClick({})
+    @OnClick({R.id.submit,R.id.set_signtv})
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.set_signtv:
+                startActivity(new Intent(ReferenceMapActivity.this,WarningActivity.class));
+                break;
+            case R.id.submit:
 
+                break;
         }
 
     }
@@ -113,5 +121,19 @@ public class ReferenceMapActivity extends AbstractMvpBaseActivity<ReferenceContr
         return RetrofitUtil.encodeParam(map);
     }
 
+    @Override
+    public void getManDataSucess(ArrayList<RefrecenmapBean> manBeans) {
+        manBeans.addAll(manBeans);
+    }
+
+    @Override
+    public void getWomenDataSucess(ArrayList<RefrecenmapBean> womenBeans) {
+        womenBeans.addAll(womenBeans);
+    }
+
+    @Override
+    public void showMsg(String msg) {
+
+    }
 }
 
