@@ -465,4 +465,5 @@
     <string name="scan_failed_tip" translatable="false">Scan image failed, please retry.</string>
     <string name="vod_ffplay">ffplay</string>
     <string name="vod_exo">exo</string>
+    <string name="msg_def">--</string>
 </resources>

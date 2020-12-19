@@ -192,6 +192,40 @@
                     android:src="@mipmap/fragmentmyself_jt_r" />
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/lin_warning"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="1dp"
+                android:background="@color/writeColor"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="15dp"
+                    android:src="@mipmap/my_notice" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:text="签约患者预警"
+                    android:textColor="@color/textColor_vo"
+                    android:textSize="8pt" />
+
+                <ImageView
+                    android:layout_width="12dp"
+                    android:layout_height="18dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="15dp"
+                    android:src="@mipmap/fragmentmyself_jt_r" />
+            </LinearLayout>
+
 
             <LinearLayout
                 android:id="@+id/lin_Lecture"

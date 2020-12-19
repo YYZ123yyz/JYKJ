@@ -382,6 +382,17 @@ public interface ApiService {
     @POST("/liveRoomController/getDetailsState")
     Observable<String> getDetailsState(@Query(value = "jsonDataInfo", encoded = true)
                                                String queryJson);
+
+    //医生预警列表
+    @POST("/warningDataControlle/searchDoctorSetSystemWarning")
+    Observable<String> getReferceList(@Query(value = "jsonDataInfo", encoded = true)
+                                               String queryJson);
+
+    //医生设置预警
+    @POST("/warningDataControlle/operDoctorSetSystemWarning")
+    Observable<String> updataReferceData(@Query(value = "jsonDataInfo", encoded = true)
+                                              String queryJson);
+
     //获取用户(医生、患者)的[详细]信息
     @POST("/doctorPatientCommonDataController/getUserInfo")
     Observable<String> getUserInfo(@Query(value = "jsonDataInfo", encoded = true)

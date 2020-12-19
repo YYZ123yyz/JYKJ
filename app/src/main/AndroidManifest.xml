@@ -573,6 +573,10 @@
             android:exported="true"
             android:launchMode="singleTop"/>
         <activity android:name="com.maiml.previewphoto.PhotoPreviewActivity"/>
+        <activity android:name=".personal.activity.WarningActivity" />
+        <activity android:name=".personal.activity.ReferenceMapActivity" />
+        <activity android:name=".personal.activity.StateDetActivity" />
+
         <meta-data
             android:name="EASEMOB_APPKEY"
             android:value="1114191231107514#jiuyiteck-htn" /> <!-- 声明SDK所需的service SDK核心功能 -->
