@@ -122,13 +122,17 @@ public class ReferenceMapActivity extends AbstractMvpBaseActivity<ReferenceContr
     }
 
     @Override
-    public void getManDataSucess(ArrayList<RefrecenmapBean> manBeans) {
-        manBeans.addAll(manBeans);
+    public void getManDataSucess(ArrayList<RefrecenmapBean> manBean) {
+        LogUtils.e("xxxxx"+manBean.size());
+        manBeans.addAll(manBean);
+        manAdapter.notifyDataSetChanged();
     }
 
     @Override
-    public void getWomenDataSucess(ArrayList<RefrecenmapBean> womenBeans) {
-        womenBeans.addAll(womenBeans);
+    public void getWomenDataSucess(ArrayList<RefrecenmapBean> womenBean) {
+        LogUtils.e("xxxxx"+womenBean.size());
+        womenBeans.addAll(womenBean);
+        womenAdapter.notifyDataSetChanged();
     }
 
     @Override

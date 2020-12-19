@@ -2,6 +2,7 @@ package www.jykj.com.jykj_zxyl.mypatient.adapter;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
@@ -26,7 +27,6 @@ public class ReferenceMapAdapter extends BaseQuickAdapter<RefrecenmapBean, BaseV
         EditText etHigh =helper.getView(R.id.et_high);
         EditText etLow =helper.getView(R.id.et_low);
         EditText etThre =helper.getView(R.id.et_thre);
-
         if (item.isClick()){
 
             etHigh.requestFocus();

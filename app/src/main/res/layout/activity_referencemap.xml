@@ -99,96 +99,10 @@
 
             </LinearLayout>
 
-            <!--<LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:background="@color/white"
-                android:orientation="horizontal">
-
-
-                <RelativeLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:gravity="center"
-                        android:text="≤20"
-                        android:textColor="@color/black"
-                        android:textSize="15sp" />
-
-
-                </RelativeLayout>
-
-
-                <RelativeLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:layout_marginLeft="20dp"
-                        android:background="@drawable/bg_round_999999_2"
-                        android:gravity="center"
-                        android:paddingTop="5dp"
-                        android:paddingBottom="5dp"
-                        android:text="例：80"
-                        android:textColor="@color/color_999999"
-                        android:textSize="15sp" />
-
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:layout_marginLeft="20dp"
-                        android:background="@drawable/bg_round_999999_2"
-                        android:gravity="center"
-                        android:paddingTop="5dp"
-                        android:paddingBottom="5dp"
-                        android:text="例：80"
-                        android:textColor="@color/color_999999"
-                        android:textSize="15sp" />
-
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:layout_marginLeft="20dp"
-                        android:background="@drawable/bg_round_999999_2"
-                        android:gravity="center"
-                        android:paddingTop="5dp"
-                        android:paddingBottom="5dp"
-                        android:text="例：80"
-                        android:textColor="@color/color_999999"
-                        android:textSize="15sp" />
-
-                </RelativeLayout>
-
-            </LinearLayout>
 
             <TextView
                 style="@style/div_h"
-                android:background="@color/color_dddddd" />-->
+                android:background="@color/color_dddddd" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/man_recycle"
@@ -259,97 +173,11 @@
 
             </LinearLayout>
 
-            <!--<LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:background="@color/white"
-                android:orientation="horizontal">
-
-
-                <RelativeLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:gravity="center"
-                        android:text="≤20"
-                        android:textColor="@color/black"
-                        android:textSize="15sp" />
-
-
-                </RelativeLayout>
-
-
-                <RelativeLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:layout_marginLeft="20dp"
-                        android:background="@drawable/bg_round_999999_2"
-                        android:gravity="center"
-                        android:paddingTop="5dp"
-                        android:paddingBottom="5dp"
-                        android:text="例：80"
-                        android:textColor="@color/color_999999"
-                        android:textSize="15sp" />
-
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:layout_marginLeft="20dp"
-                        android:background="@drawable/bg_round_999999_2"
-                        android:gravity="center"
-                        android:paddingTop="5dp"
-                        android:paddingBottom="5dp"
-                        android:text="例：80"
-                        android:textColor="@color/color_999999"
-                        android:textSize="15sp" />
-
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:layout_marginLeft="20dp"
-                        android:background="@drawable/bg_round_999999_2"
-                        android:gravity="center"
-                        android:paddingTop="5dp"
-                        android:paddingBottom="5dp"
-                        android:text="例：80"
-                        android:textColor="@color/color_999999"
-                        android:textSize="15sp" />
-
-                </RelativeLayout>
-
-            </LinearLayout>
 
 
             <TextView
                 style="@style/div_h"
-                android:background="@color/color_dddddd" />-->
+                android:background="@color/color_dddddd" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/women_recycle"
