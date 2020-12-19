@@ -84,7 +84,9 @@ public class EaseChatRowImage extends EaseChatRowFile{
             }
 
         }else{
-            tvUserIdNew.setVisibility(View.GONE);
+            if (tvUserIdNew!=null) {
+                tvUserIdNew.setVisibility(View.GONE);
+            }
             if (usernickView!=null) {
                 usernickView.setVisibility(View.VISIBLE);
             }

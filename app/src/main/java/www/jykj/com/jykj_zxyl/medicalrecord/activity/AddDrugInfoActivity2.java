@@ -2,6 +2,7 @@ package www.jykj.com.jykj_zxyl.medicalrecord.activity;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.support.v4.widget.NestedScrollView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -54,7 +55,7 @@ public class AddDrugInfoActivity2 extends AbstractMvpBaseActivity<AddDrugInfoCon
     @BindView(R.id.tv_ensure_btn)
     TextView tvEnsureBtn;
     @BindView(R.id.scroll_view)
-    ScrollView scrollView;
+    NestedScrollView scrollView;
     @BindView(R.id.rl_choose_drug_dosage_root)
     RelativeLayout rlChooseDrugDosageRoot;
     @BindView(R.id.tv_drug_dosage)

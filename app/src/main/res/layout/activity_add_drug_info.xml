@@ -10,7 +10,7 @@
 
     </include>
 
-    <ScrollView
+    <NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/scroll_view"
@@ -442,5 +442,5 @@
                 android:textSize="15sp" />
         </LinearLayout>
 
-    </ScrollView>
+    </NestedScrollView>
 </LinearLayout>

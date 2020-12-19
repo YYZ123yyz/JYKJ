@@ -307,16 +307,32 @@ public class PatientRecordActivity
                 }
                 break;
             case R.id.rl_chief:
-                new CopyButtonLibrary(context,chiefTv).init();
+                String s = chiefTv.getText().toString();
+                if (!s.equals("无")) {
+                    chiefEt.setText(s);
+                }
+                //new CopyButtonLibrary(context,chiefTv).init();
                 break;
             case R.id.rl_medicalhistory:
-                new CopyButtonLibrary(context,medicalHistoryTv).init();
+                String s1 = medicalHistoryTv.getText().toString();
+                if (!s1.equals("无")) {
+                    newEt.setText(s1);
+                }
+                //new CopyButtonLibrary(context,medicalHistoryTv).init();
                 break;
             case R.id.rl_past:
-                new CopyButtonLibrary(context,pastTv).init();
+                String s2 = pastTv.getText().toString();
+                if (!s2.equals("无")) {
+                    pastEt.setText(s2);
+                }
+                //new CopyButtonLibrary(context,pastTv).init();
                 break;
             case R.id.rl_examination:
-                new CopyButtonLibrary(context,examinationTv).init();
+                String s3 = examinationTv.getText().toString();
+                if (!s3.equals("无")) {
+                    ed_examinationEt.setText(s3);
+                }
+                //new CopyButtonLibrary(context,examinationTv).init();
                 break;
 
                 default:

@@ -1000,6 +1000,7 @@ public class SigningDetailsActivity extends BaseActivity implements View.OnClick
         patientName.setText(patientName1);
         day_tv.setText(getdetailsBeans.getOrderDetailList().get(0).getRate() + getdetailsBeans.getOrderDetailList().get(0).getRateUnitName());
         wzxxSc = (NestedScrollView) findViewById(R.id.wzxx_sc);
+        initKeyBoardListener(wzxxSc);
         //名称
         patientName.setText(getdetailsBeans.getMainUserName());
         //性别

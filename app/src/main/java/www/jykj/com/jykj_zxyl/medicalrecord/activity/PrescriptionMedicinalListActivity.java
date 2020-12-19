@@ -3,6 +3,7 @@ package www.jykj.com.jykj_zxyl.medicalrecord.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -62,7 +63,7 @@ public class PrescriptionMedicinalListActivity extends AbstractMvpBaseActivity<
     @BindView(R.id.ll_root_view)
     LinearLayout llRootView;
     @BindView(R.id.scroll_view)
-    ScrollView scrollView;
+    NestedScrollView scrollView;
     private List<PrescriptionMedicinalItemDataBean> dataBeans;
     private List<TakeMedicinalRateBean> takeMedicinalRateBeans;//服药频率
     private List<PrescriptionTypeBean> prescriptionTypeBeans;//处方类型

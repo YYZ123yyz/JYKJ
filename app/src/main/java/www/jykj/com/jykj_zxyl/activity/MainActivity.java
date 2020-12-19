@@ -158,7 +158,6 @@ public class MainActivity extends BaseActivity {
         //data();
         getLocation();
         BadgeUtil.setBadgeCount(this, unreadMessageCount, R.drawable.bg_red_circle);
-       // initUmengSDK();
     }
 
 
@@ -168,31 +167,7 @@ public class MainActivity extends BaseActivity {
 
     }
 
-    /**
-     * 初始化umeng sdk
-     */
-    private void initUmengSDK(){
-        //UMConfigure.setLogEnabled(true);
-        UMConfigure.init(this, Constant.UMENG_APPKEY, "umeng", UMConfigure.DEVICE_TYPE_PHONE,
-                Constant.UMENG_APP_SECRET);
 
-        PushAgent pushAgent = PushAgent.getInstance(this);
-        pushAgent.register(new IUmengRegisterCallback(){
-
-            @Override
-            public void onSuccess(String s) {
-                Log.i("walle", "--->>> onSuccess, s is " + s);
-
-            }
-
-            @Override
-            public void onFailure(String s, String s1) {
-                Log.i("walle", "--->>> onFailure, s is " + s + ", s1 is " + s1);
-            }
-        });
-        pushAgent.setPushIntentServiceClass(PushIntentService.class);
-        pushAgent.setDisplayNotificationNumber(3);
-    }
 
     /**
      * 设置环信网络状态

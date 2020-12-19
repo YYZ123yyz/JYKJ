@@ -315,12 +315,15 @@
         </LinearLayout>
 
     </LinearLayout>
-    <!--<LinearLayout
+    <LinearLayout
         android:orientation="horizontal"
-        android:layout_marginBottom="@dimen/dp_60"
+        android:layout_marginBottom="@dimen/dp_40"
         android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:id="@+id/ll_bottom_root"
+        android:visibility="gone"
+        >
         <Button
             android:id="@+id/btn_Refuse"
             android:layout_width="@dimen/dp_100"
@@ -343,6 +346,6 @@
             android:text="同意"
             android:textColor="@color/writeColor"
             android:textSize="8pt" />
-    </LinearLayout>-->
+    </LinearLayout>
 
 </RelativeLayout>
