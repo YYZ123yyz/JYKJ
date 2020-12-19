@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp"
+    android:background="@drawable/bg_round_ffffff_4"
+    android:layout_margin="10dp"
+    >
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="已提交"
+        android:textSize="16sp"
+        android:textColor="@color/color_4994c9"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+
+        />
+
+    <TextView
+        style="@style/div_h"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="平台服务费率"
+            android:textSize="15sp"
+            android:textColor="@color/black"
+            android:layout_marginTop="13dp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1.00% (最低10元)"
+            android:layout_alignParentRight="true"
+            android:textSize="15sp"
+            android:textColor="@color/color_666666"
+            android:layout_marginTop="13dp"
+            />
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="平台服务费"
+            android:textSize="15sp"
+            android:textColor="@color/black"
+            android:layout_marginTop="13dp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1.00% (最低10元)"
+            android:layout_alignParentRight="true"
+            android:textSize="15sp"
+            android:textColor="@color/color_666666"
+            android:layout_marginTop="13dp"
+            />
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="个税代扣代缴费率"
+            android:textSize="15sp"
+            android:textColor="@color/black"
+            android:layout_marginTop="13dp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1.00% (最低10元)"
+            android:layout_alignParentRight="true"
+            android:textSize="15sp"
+            android:textColor="@color/color_666666"
+            android:layout_marginTop="13dp"
+            />
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="个税代扣代缴费"
+            android:textSize="15sp"
+            android:textColor="@color/black"
+            android:layout_marginTop="13dp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1.00% (最低10元)"
+            android:layout_alignParentRight="true"
+            android:textSize="15sp"
+            android:textColor="@color/color_666666"
+            android:layout_marginTop="13dp"
+            />
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="发起时间"
+            android:textSize="15sp"
+            android:textColor="@color/black"
+            android:layout_marginTop="13dp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1.00% (最低10元)"
+            android:layout_alignParentRight="true"
+            android:textSize="15sp"
+            android:textColor="@color/color_666666"
+            android:layout_marginTop="13dp"
+            />
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="完成时间"
+            android:textSize="15sp"
+            android:textColor="@color/black"
+            android:layout_marginTop="13dp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1.00% (最低10元)"
+            android:layout_alignParentRight="true"
+            android:textSize="15sp"
+            android:textColor="@color/color_666666"
+            android:layout_marginTop="13dp"
+            />
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="实际应到金额"
+            android:textSize="15sp"
+            android:textColor="@color/black"
+            android:layout_marginTop="13dp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1.00% (最低10元)"
+            android:layout_alignParentRight="true"
+            android:textSize="15sp"
+            android:textColor="@color/color_f14646"
+            android:layout_marginTop="13dp"
+            />
+
+    </RelativeLayout>
+</LinearLayout>

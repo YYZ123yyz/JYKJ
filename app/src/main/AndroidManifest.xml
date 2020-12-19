@@ -576,6 +576,15 @@
         <activity android:name=".personal.activity.WarningActivity" />
         <activity android:name=".personal.activity.ReferenceMapActivity" />
         <activity android:name=".personal.activity.StateDetActivity" />
+        <activity android:name=".personal.activity.PreviewImageAvitity" />
+        <activity android:name=".capitalpool.activity.WithdrawActivity" />
+        <activity android:name=".capitalpool.activity.RechargeActivity" />
+        <activity android:name=".capitalpool.activity.AddBankcardActivity" />
+        <activity android:name=".capitalpool.activity.WithdrawDetActivity" />
+        <activity android:name=".capitalpool.activity.UserAccountActivity" />
+        <activity android:name=".capitalpool.activity.CollectionCodeActivity" />
+        <activity android:name=".capitalpool.activity.VerificationActivity" />
+        <activity android:name=".capitalpool.activity.ModifyIinforActivity" />
 
         <meta-data
             android:name="EASEMOB_APPKEY"

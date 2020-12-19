@@ -1,6 +1,7 @@
 package www.jykj.com.jykj_zxyl.personal.activity;
 
 
+import android.content.Intent;
 import android.view.View;
 
 
@@ -40,7 +41,7 @@ public class StateDetActivity extends AbstractMvpBaseActivity<StateDetContract.V
     public void onClick(View view){
         switch (view.getId()) {
             case R.id.look_im:
-
+                startActivity(new Intent(StateDetActivity.this,PreviewImageAvitity.class));
                 break;
         }
 
