@@ -340,17 +340,18 @@ public class JYKJApplication extends Application {
         DemoHelper.getInstance().init(gContext);
         //获取本地缓存
         getPersistence();
+        initUmengSDK();
         EMOptions options = new EMOptions();
         // 默认添加好友时，是不需要验证的，改成需要验证
         options.setAcceptInvitationAlways(false);
         EaseUI.getInstance().init(gContext, options);
         SpeechUtility.createUtility(gContext, SpeechConstant.APPID +"=5facab57");
-        //注册
-        IntentFilter callFilter = new IntentFilter(EMClient.getInstance().callManager().getIncomingCallBroadcastAction());
-        if (mCallReceiver == null) {
-            mCallReceiver = new CallReceiver();
-        }
-        getApplicationContext().registerReceiver(mCallReceiver, callFilter);
+//        //注册
+//        IntentFilter callFilter = new IntentFilter(EMClient.getInstance().callManager().getIncomingCallBroadcastAction());
+//        if (mCallReceiver == null) {
+//            mCallReceiver = new CallReceiver();
+//        }
+//        getApplicationContext().registerReceiver(mCallReceiver, callFilter);
         //初始化图片方法
         /**
          * 配置并初始化ImageLoader
@@ -375,7 +376,7 @@ public class JYKJApplication extends Application {
         initLitesmat();
         //   login();
         initRxHttpUtils();
-        initUmengSDK();
+
         //initBugly();
     }
 
@@ -384,64 +385,64 @@ public class JYKJApplication extends Application {
      * 初始化umeng sdk
      */
     private void initUmengSDK(){
-//        //UMConfigure.setLogEnabled(true);
-//        UMConfigure.init(this, Constant.UMENG_APPKEY, "umeng", UMConfigure.DEVICE_TYPE_PHONE,
-//                Constant.UMENG_APP_SECRET);
-//
-//        PushAgent pushAgent = PushAgent.getInstance(this);
-//        pushAgent.register(new IUmengRegisterCallback(){
-//
-//            @Override
-//            public void onSuccess(String s) {
-//                Log.i("walle", "--->>> onSuccess, s is " + s);
-//
-//            }
-//
-//            @Override
-//            public void onFailure(String s, String s1) {
-//                Log.i("walle", "--->>> onFailure, s is " + s + ", s1 is " + s1);
-//            }
-//        });
-//        //pushAgent.setPushIntentServiceClass(PushIntentService.class);
-//        pushAgent.setDisplayNotificationNumber(3);
+        //UMConfigure.setLogEnabled(true);
+        UMConfigure.init(this, Constant.UMENG_APPKEY, "umeng", UMConfigure.DEVICE_TYPE_PHONE,
+                Constant.UMENG_APP_SECRET);
 
-        UMConfigure.init(this, "5f7fbe6c80455950e49e57c9", "Umeng", UMConfigure.DEVICE_TYPE_PHONE, "b89940bde7a0eca09776f62228c05e88");
-
-        //获取消息推送代理示例
-        PushAgent mPushAgent = PushAgent.getInstance(this);
-//        mPushAgent.setNotificationPlaySound(MsgConstant.NOTIFICATION_PLAY_SERVER); //服务端控制声音
-
-
-        //注册推送服务，每次调用register方法都会回调该接口
-        mPushAgent.register(new IUmengRegisterCallback() {
+        PushAgent pushAgent = PushAgent.getInstance(this);
+        pushAgent.register(new IUmengRegisterCallback(){
 
             @Override
-            public void onSuccess(String deviceToken) {
-                //注册成功会返回deviceToken deviceToken是推送消息的唯一标志
-                Log.i("walle","注册成功：deviceToken：-------->  " + deviceToken);
+            public void onSuccess(String s) {
+                Log.i("walle", "--->>> onSuccess, s is " + s);
+
             }
 
             @Override
             public void onFailure(String s, String s1) {
-                Log.e("walle","注册失败：-------->  " + "s:" + s + ",s1:" + s1);
+                Log.i("walle", "--->>> onFailure, s is " + s + ", s1 is " + s1);
             }
         });
+        pushAgent.setPushIntentServiceClass(PushIntentService.class);
+        pushAgent.setDisplayNotificationNumber(3);
 
-
-        /**
-         * 初始化厂商通道
-         */
-        //小米通道
-        MiPushRegistar.register(this, "填写您在小米后台APP对应的xiaomi id", "填写您在小米后台APP对应的xiaomi key");
-        //华为通道，注意华为通道的初始化参数在minifest中配置
-        HuaWeiRegister.register(this);
-        //魅族通道
-        MeizuRegister.register(this, "填写您在魅族后台APP对应的app id", "填写您在魅族后台APP对应的app key");
-        //OPPO通道
-        OppoRegister.register(this, "填写您在OPPO后台APP对应的app key", "填写您在魅族后台APP对应的app secret");
-        //VIVO 通道，注意VIVO通道的初始化参数在minifest中配置
-        VivoRegister.register(this);
-        setMessageHandler();
+//        UMConfigure.init(this, "5f7fbe6c80455950e49e57c9", "Umeng", UMConfigure.DEVICE_TYPE_PHONE, "b89940bde7a0eca09776f62228c05e88");
+//
+//        //获取消息推送代理示例
+//        PushAgent mPushAgent = PushAgent.getInstance(this);
+////        mPushAgent.setNotificationPlaySound(MsgConstant.NOTIFICATION_PLAY_SERVER); //服务端控制声音
+//
+//
+//        //注册推送服务，每次调用register方法都会回调该接口
+//        mPushAgent.register(new IUmengRegisterCallback() {
+//
+//            @Override
+//            public void onSuccess(String deviceToken) {
+//                //注册成功会返回deviceToken deviceToken是推送消息的唯一标志
+//                Log.i("walle","注册成功：deviceToken：-------->  " + deviceToken);
+//            }
+//
+//            @Override
+//            public void onFailure(String s, String s1) {
+//                Log.e("walle","注册失败：-------->  " + "s:" + s + ",s1:" + s1);
+//            }
+//        });
+//
+//
+//        /**
+//         * 初始化厂商通道
+//         */
+//        //小米通道
+//        MiPushRegistar.register(this, "填写您在小米后台APP对应的xiaomi id", "填写您在小米后台APP对应的xiaomi key");
+//        //华为通道，注意华为通道的初始化参数在minifest中配置
+//        HuaWeiRegister.register(this);
+//        //魅族通道
+//        MeizuRegister.register(this, "填写您在魅族后台APP对应的app id", "填写您在魅族后台APP对应的app key");
+//        //OPPO通道
+//        OppoRegister.register(this, "填写您在OPPO后台APP对应的app key", "填写您在魅族后台APP对应的app secret");
+//        //VIVO 通道，注意VIVO通道的初始化参数在minifest中配置
+//        VivoRegister.register(this);
+//        setMessageHandler();
     }
     /**
      * MessageHandler有很多回调方法，根据自己需要选择

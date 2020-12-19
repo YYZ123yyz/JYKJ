@@ -137,40 +137,46 @@ public class FragmentMySelf extends Fragment {
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser) {
-            HashMap<String, Object> hashMap = ParameUtil.buildBaseParam();
-            hashMap.put("userCode",mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
-            String s = RetrofitUtil.encodeParam(hashMap);
-            ApiHelper.getApiService().getUserInfo(s).compose(Transformer.switchSchedulers())
-                    .subscribe(new CommonDataObserver() {
-                        @Override
-                        protected void onSuccessResult(BaseBean baseBean) {
-                            int resCode = baseBean.getResCode();
-                            if (resCode==1) {
-                                ProvideDoctorPatientUserInfo provideDoctorPatientUserInfo =
-                                        GsonUtils.fromJson(baseBean.getResJsonData(),
-                                                ProvideDoctorPatientUserInfo.class);
-                                if (provideDoctorPatientUserInfo!=null) {
-                                    int flagDoctorStatus = provideDoctorPatientUserInfo.getFlagDoctorStatus();
-                                    if (flagDoctorStatus==0) {
-                                        mUserAuthentication.setImageResource(R.mipmap.fragmentmyself_wrz);
-                                    }else{
-                                        mUserAuthentication.setImageResource(R.mipmap.fragmentmyself_yrz);
-                                    }
-
-                                    ImageViewUtil.showImageView(getContext(),
-                                            provideDoctorPatientUserInfo.getUserLogoUrl(), mUserHead);
-                                    mNameText.setText(provideDoctorPatientUserInfo.getUserName());
-                                }
-
-                            }
-                        }
-                    });
+            sendGetUserInfoRequest();
         }
     }
+
+    private void sendGetUserInfoRequest() {
+        HashMap<String, Object> hashMap = ParameUtil.buildBaseParam();
+        hashMap.put("userCode",mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
+        String s = RetrofitUtil.encodeParam(hashMap);
+        ApiHelper.getApiService().getUserInfo(s).compose(Transformer.switchSchedulers())
+                .subscribe(new CommonDataObserver() {
+                    @Override
+                    protected void onSuccessResult(BaseBean baseBean) {
+                        int resCode = baseBean.getResCode();
+                        if (resCode==1) {
+                            ProvideDoctorPatientUserInfo provideDoctorPatientUserInfo =
+                                    GsonUtils.fromJson(baseBean.getResJsonData(),
+                                            ProvideDoctorPatientUserInfo.class);
+                            if (provideDoctorPatientUserInfo!=null) {
+                                int flagDoctorStatus = provideDoctorPatientUserInfo.getFlagDoctorStatus();
+                                if (flagDoctorStatus==0) {
+                                    mUserAuthentication.setImageResource(R.mipmap.fragmentmyself_wrz);
+                                }else{
+                                    mUserAuthentication.setImageResource(R.mipmap.fragmentmyself_yrz);
+                                }
+
+                                ImageViewUtil.showImageView(getContext(),
+                                        provideDoctorPatientUserInfo.getUserLogoUrl(), mUserHead);
+                                mNameText.setText(provideDoctorPatientUserInfo.getUserName());
+                            }
+
+                        }
+                    }
+                });
+    }
+
 
     @Override
     public void onResume() {
         super.onResume();
+        sendGetUserInfoRequest();
 //        if (mApp.mViewSysUserDoctorInfoAndHospital.getFlagDoctorStatus() == 1)
 //            mUserAuthentication.setImageResource(R.mipmap.fragmentmyself_yrz);
 //        else

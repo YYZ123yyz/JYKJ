@@ -20,16 +20,24 @@ import android.widget.Toast;
 import com.alibaba.fastjson.JSON;
 import com.google.gson.Gson;
 import com.hyphenate.easeui.R;
+import com.hyphenate.easeui.entity.ViewSysUserDoctorInfoAndHospital;
 import com.hyphenate.easeui.hyhd.model.Constant;
 import com.hyphenate.easeui.jykj.bean.CancelContractOrderBean;
+import com.hyphenate.easeui.jykj.bean.GetdetailsBean;
+import com.hyphenate.easeui.jykj.bean.OrderMessage;
 import com.hyphenate.easeui.jykj.bean.Restcommit;
 import com.hyphenate.easeui.jykj.bean.SignPatientDoctorOrderBean;
 import com.hyphenate.easeui.jykj.utils.DateUtils;
 import com.hyphenate.easeui.netService.HttpNetService;
 import com.hyphenate.easeui.netService.entity.NetRetEntity;
+import com.hyphenate.easeui.utils.SharedPreferences_DataSave;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import www.jykj.com.jykj_zxyl.app_base.base_utils.ActivityUtils;
 import www.jykj.com.jykj_zxyl.app_base.base_utils.StringUtils;
@@ -50,6 +58,7 @@ public class CancellationActivity extends AppCompatActivity implements View.OnCl
     private TextView cancellationTimes;
     private TextView cancellationDuration;
     private TextView cancellationPrice;
+    private LinearLayout llBottomRoot;
     private Button btnRefuse;
     private Button btnAgree;
     private SharedPreferences sharedPreferences;
@@ -72,7 +81,9 @@ public class CancellationActivity extends AppCompatActivity implements View.OnCl
     private String from;
     private TextView name1;
     private String orderType;
-
+    private ViewSysUserDoctorInfoAndHospital mViewSysUserDoctorInfoAndHospital;
+    private List<CancelContractOrderBean.OrderDetailListBean> DetectitemBeans = new ArrayList<>();
+    private List<CancelContractOrderBean.OrderDetailListBean> CoachingitemBeans = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,6 +92,14 @@ public class CancellationActivity extends AppCompatActivity implements View.OnCl
         sharedPreferences = getSharedPreferences("sp", Activity.MODE_PRIVATE);
         name = sharedPreferences.getString("name", "");
         code = sharedPreferences.getString("code", "");
+
+        SharedPreferences_DataSave m_persist = new SharedPreferences_DataSave(
+                CancellationActivity.this,
+                "JYKJDOCTER");
+        String userInfoSuLogin = m_persist.getString("viewSysUserDoctorInfoAndHospital", "");
+        mViewSysUserDoctorInfoAndHospital
+                = new Gson().fromJson(userInfoSuLogin, ViewSysUserDoctorInfoAndHospital.class);
+
         Bundle extras = this.getIntent().getExtras();
         if (extras != null) {
             orderId = extras.getString("orderCode");
@@ -138,6 +157,19 @@ public class CancellationActivity extends AppCompatActivity implements View.OnCl
                         netRetEntity = new Gson().fromJson(mNetRetStr, NetRetEntity.class);
                         if (netRetEntity.getResCode() == 1) {
                             signPatientDoctorOrderBean = JSON.parseObject(netRetEntity.getResJsonData(), CancelContractOrderBean.class);
+
+                            //List<CancelContractOrderBean.OrderDetailListBean> orderDetailList1 = signPatientDoctorOrderBean.getOrderDetailList();
+                            List<CancelContractOrderBean.OrderDetailListBean> orderDetailList = signPatientDoctorOrderBean.getOrderDetailList();
+                            //List<GetdetailsBean.OrderDetailListBean> orderDetailList = signPatientDoctorOrderBean.getOrderDetailList();
+
+                            for (CancelContractOrderBean.OrderDetailListBean orderDetailListBean : orderDetailList) {
+                                String configDetailTypeCode = orderDetailListBean.getConfigDetailTypeCode();
+                                if (configDetailTypeCode.equals("10")) {
+                                    DetectitemBeans.add(orderDetailListBean);
+                                } else if (configDetailTypeCode.equals("20")) {
+                                    CoachingitemBeans.add(orderDetailListBean);
+                                }
+                            }
                             setShow();
                         } else {
                             details_rl.setVisibility(View.GONE);
@@ -147,7 +179,13 @@ public class CancellationActivity extends AppCompatActivity implements View.OnCl
                     case 2:
                         netRetEntity = new Gson().fromJson(mNetRetStr, NetRetEntity.class);
                         if (netRetEntity.getResCode() == 1) {
-                            Toast.makeText(CancellationActivity.this, "" + netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
+                        //    Toast.makeText(CancellationActivity.this, "" + netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
+//                            EventBus.getDefault().post(new OrderMessage(nickName,imageUrl,orderId,signCode,
+//                                    monitoringType,coach,signUpTime,price,singNO,"1",messageType,patientCode));
+
+                            OrderMessage orderMessage =getOrderMessage();
+                            EventBus.getDefault().post(orderMessage);
+                            CancellationActivity.this.finish();
                         } else {
                             Toast.makeText(CancellationActivity.this, "" + netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
                         }
@@ -155,6 +193,16 @@ public class CancellationActivity extends AppCompatActivity implements View.OnCl
                 }
             }
         };
+    }
+
+    private OrderMessage getOrderMessage() {
+        OrderMessage orderMessage1 = new OrderMessage(
+                mViewSysUserDoctorInfoAndHospital.getUserName(), mViewSysUserDoctorInfoAndHospital.getUserLogoUrl()
+                , orderId, signCode, cancellationClass.getText().toString()
+                , cancellationTimes.getText().toString(), cancellationDuration.getText().toString(),
+                cancellationPrice.getText().toString(), singNO, "",
+                "terminationOrder", patientCode);
+        return orderMessage1;
     }
 
     //布局显示
@@ -301,6 +349,8 @@ public class CancellationActivity extends AppCompatActivity implements View.OnCl
         details =  findViewById(R.id.details);
         details_rl = findViewById(R.id.details_lin);
         llBack =findViewById(R.id.ll_back);
+        btnRefuse=findViewById(R.id.btn_Refuse);
+        btnAgree=findViewById(R.id.btn_agree);
         llBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -320,6 +370,14 @@ public class CancellationActivity extends AppCompatActivity implements View.OnCl
         mLlRefuseRoot=findViewById(R.id.ll_refuse_root);
         mTvRefuseReason=findViewById(R.id.tv_refuse_reason);
         mTvRefuseContent=findViewById(R.id.tv_refuse_content);
+        llBottomRoot=findViewById(R.id.ll_bottom_root);
+        if (StringUtils.isNotEmpty(from)) {
+            if (from.equals("1")) {
+                llBottomRoot.setVisibility(View.GONE);
+            }else if(from.equals("2")){
+                llBottomRoot.setVisibility(View.VISIBLE);
+            }
+        }
 //        if(from.equals("1")){
 //            details.setVisibility(View.GONE);
 //            name1.setVisibility(View.GONE);
@@ -330,7 +388,28 @@ public class CancellationActivity extends AppCompatActivity implements View.OnCl
 
         details.setVisibility(View.VISIBLE);
         name1.setVisibility(View.VISIBLE);
+        btnRefuse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+
+                //处理拒绝解约逻辑  跳转页面
+                Bundle bundle = new Bundle();
+                bundle.putString("singCode", signCode);
+                bundle.putString("signNo", singNO);
+                bundle.putString("patientName", nickName);
+                bundle.putString("patientCode",patientCode);
+                bundle.putSerializable("orderMsg",getOrderMessage());
+                startActivity(TerminationActivity2.class, bundle);
+
+            }
+        });
+        btnAgree.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                agree();
+            }
+        });
     }
 
     //同意

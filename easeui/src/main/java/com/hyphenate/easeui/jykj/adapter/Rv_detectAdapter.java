@@ -110,12 +110,11 @@ public class Rv_detectAdapter extends RecyclerView.Adapter<Rv_detectAdapter.View
             public void afterTextChanged(Editable s) {
                 if (mOnItemClickListener!=null) {
                     mOnItemClickListener.onTextChanged(pos,s.toString());
-                    String value = s.toString();
-                    if (!TextUtils.isEmpty(value)) {
-                        double price = Double.parseDouble(value);
-                        datas.get(pos).setPrice(price);
-                    }
-
+                }
+                String value = s.toString();
+                if (!TextUtils.isEmpty(value)) {
+                    double price = Double.parseDouble(value);
+                    datas.get(pos).setPrice(price);
                 }
             }
         });
