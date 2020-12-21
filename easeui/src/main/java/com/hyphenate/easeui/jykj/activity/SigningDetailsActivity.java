@@ -314,7 +314,7 @@ public class SigningDetailsActivity extends BaseActivity implements View.OnClick
             }
         });
         wzxxSc = (NestedScrollView) findViewById(R.id.wzxx_sc);
-
+        initKeyBoardListener(wzxxSc);
         //检测类型
         LinearLayoutManager layoutManager = new LinearLayoutManager(this){
             @Override
@@ -1027,7 +1027,7 @@ public class SigningDetailsActivity extends BaseActivity implements View.OnClick
         startTime = DateUtils.stampToDate(getdetailsBeans.getSignStartTime());
         patientName.setText(patientName1);
         day_tv.setText(getdetailsBeans.getOrderDetailList().get(0).getRate() + getdetailsBeans.getOrderDetailList().get(0).getRateUnitName());
-        wzxxSc = (NestedScrollView) findViewById(R.id.wzxx_sc);
+       // wzxxSc = (NestedScrollView) findViewById(R.id.wzxx_sc);
         //initKeyBoardListener(wzxxSc);
         //名称
         patientName.setText(getdetailsBeans.getMainUserName());
@@ -1319,8 +1319,8 @@ public class SigningDetailsActivity extends BaseActivity implements View.OnClick
                 linTime.setVisibility(View.VISIBLE);
                 rv_detectAdapter.setDate(mDetectBeans);
                 rv_detectAdapter.notifyDataSetChanged();
-                java.util.List<EditText> editTextList = rv_detectAdapter.getEditTextList();
-                setEditTextList(editTextList,wzxxSc);
+//                java.util.List<EditText> editTextList = rv_detectAdapter.getEditTextList();
+//                setEditTextList(editTextList,wzxxSc);
             }
 
         }
@@ -1333,8 +1333,8 @@ public class SigningDetailsActivity extends BaseActivity implements View.OnClick
             if (mCoachingBean != null) {
                 rvCoachingAdapter.setDate(mCoachingBean);
                 rvCoachingAdapter.notifyDataSetChanged();
-                java.util.List<EditText> editTextList = rvCoachingAdapter.getEditTextList();
-                setEditTextList(editTextList,wzxxSc);
+//                java.util.List<EditText> editTextList = rvCoachingAdapter.getEditTextList();
+//                setEditTextList(editTextList,wzxxSc);
             }
         }
 
