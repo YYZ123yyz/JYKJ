@@ -652,7 +652,7 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnL
                 int x = location[0];
                 int y = location[1];
                 int height = currentFocusEt.getHeight();
-                y = y + height;
+                y = y + height+SizeUtils.dp2px(90);
                 if (y > bottom && mainScrollView != null) {
                     final int finalY = y;
                     if (normalCanScroll) {

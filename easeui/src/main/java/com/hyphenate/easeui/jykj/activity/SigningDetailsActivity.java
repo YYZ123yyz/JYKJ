@@ -13,7 +13,9 @@ import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.JsonReader;
 import android.util.Log;
 import android.view.View;
@@ -116,6 +118,7 @@ public class SigningDetailsActivity extends BaseActivity implements View.OnClick
     private LinearLayout linClass;
     private TextView tvStartTime;
     private LinearLayout linStartTime;
+    private LinearLayout llCoachRoot;
     private TextView tvDuration;
     private LinearLayout linDuration;
     private Button btActivityMySelfSettingExitButton;
@@ -238,6 +241,7 @@ public class SigningDetailsActivity extends BaseActivity implements View.OnClick
     protected void initView() {
         super.initView();
         ActivityUtils.setStatusBarMain(this);
+        llCoachRoot=findViewById(R.id.ll_coach_root);
         protocol_lin = (LinearLayout) findViewById(R.id.protocol_lin);
         day_tv = (TextView) findViewById(R.id.day_tv);
         //图标
@@ -401,16 +405,16 @@ public class SigningDetailsActivity extends BaseActivity implements View.OnClick
 
             @Override
             public void onTextChanged(int pos, String value) {
-                if (!CollectionUtils.isEmpty(mCoachingBean)
-                        && pos < mCoachingBean.size()) {
-                    if (!TextUtils.isEmpty(value)) {
-                        mCoachingBean.get(pos).setPrice(Double.valueOf(value));
-                    } else {
-                        mCoachingBean.get(pos).setPrice(0);
-                    }
-
-                    setTotalprice(mDetectBeans, mCoachingBean);
-                }
+//                if (!CollectionUtils.isEmpty(mCoachingBean)
+//                        && pos < mCoachingBean.size()) {
+//                    if (!TextUtils.isEmpty(value)) {
+//                        mCoachingBean.get(pos).setPrice(Double.valueOf(value));
+//                    } else {
+//                        mCoachingBean.get(pos).setPrice(0);
+//                    }
+//
+//                    setTotalprice(mDetectBeans, mCoachingBean);
+//                }
             }
         });
         initHandler();
@@ -446,6 +450,8 @@ public class SigningDetailsActivity extends BaseActivity implements View.OnClick
         }else{
             mLoadingLayoutManager.showContent();
         }
+
+
     }
 
     @Override
@@ -595,6 +601,7 @@ public class SigningDetailsActivity extends BaseActivity implements View.OnClick
                 mCoachingBean.get(pos).setFrequency(videosecondaryListattrCode);
                 mCoachingBean.get(pos).setMonths(videomonthListattrCode);
                 rvCoachingAdapter.notifyDataSetChanged();
+                initCoachData(mCoachingBean,isUpdate());
                 setTotalprice(mDetectBeans, mCoachingBean);
             }
         })
@@ -1066,6 +1073,7 @@ public class SigningDetailsActivity extends BaseActivity implements View.OnClick
         mCoachingBean = convertData(CoachingitemBeans);
         rvCoachingAdapter.setDate(mCoachingBean);
         rvCoachingAdapter.notifyDataSetChanged();
+        initCoachData(mCoachingBean,isUpdate());
 
         //开始时间
         tvStartTime.setText(DateUtils.stampToDate(getdetailsBeans.getSignStartTime()));
@@ -1333,6 +1341,7 @@ public class SigningDetailsActivity extends BaseActivity implements View.OnClick
             if (mCoachingBean != null) {
                 rvCoachingAdapter.setDate(mCoachingBean);
                 rvCoachingAdapter.notifyDataSetChanged();
+                initCoachData(mCoachingBean,isUpdate());
 //                java.util.List<EditText> editTextList = rvCoachingAdapter.getEditTextList();
 //                setEditTextList(editTextList,wzxxSc);
             }
@@ -1449,5 +1458,110 @@ public class SigningDetailsActivity extends BaseActivity implements View.OnClick
             mDialogProgress.dismiss();
         }
     }
+
+
+    /**
+     * 初始化辅导类数据
+     *
+     * @param detectBeans 辅导类数据列表
+     * @param isEdit      是否可编辑true or false
+     */
+    private void initCoachData(List<DetectBean> detectBeans, boolean isEdit) {
+        llCoachRoot.removeAllViews();
+        for (int i = 0; i < detectBeans.size(); i++) {
+            llCoachRoot.addView(getCoachView(detectBeans.get(i),i, isEdit));
+        }
+        initKeyBoardListener(wzxxSc);
+    }
+
+    /**
+     * 获取辅导类CoachView
+     * @param detectBean 辅导类实体
+     * @param pos 位置
+     * @param isEdit 是否可以编辑
+     * @return true or false
+     */
+    @SuppressLint("DefaultLocale")
+    private View getCoachView(DetectBean detectBean,int pos, boolean isEdit) {
+        View itemView = View.inflate(context, R.layout.item_coaching, null);
+        LinearLayout lin_frequency = itemView.findViewById(R.id.lin_frequency);
+        TextView tv_name = itemView.findViewById(R.id.tv_name);
+        EditText ed_price = itemView.findViewById(R.id.ed_price);
+        TextView time =  itemView.findViewById(R.id.time);
+        TextView tvFrequency =  itemView.findViewById(R.id.frequency);
+        if (isEdit) {
+            ed_price.setCursorVisible(true);
+        }else{
+            ed_price.setCursorVisible(false);
+        }
+        if(TextUtils.isEmpty(orderCode)){
+            ed_price.setCursorVisible(true);
+        }
+        int minute = detectBean.getMinute();
+        if (minute!=0) {
+            time.setText(String.format("%d分钟，", minute));
+        }else{
+            time.setText("");
+        }
+        int frequencyNum = detectBean.getFrequency();
+        int months = detectBean.getMonths();
+        if (frequencyNum!=0&&months!=0) {
+            tvFrequency.setText(String.format("%d次/%d月", frequencyNum, months));
+        }else{
+            tvFrequency.setText("频次");
+        }
+        if(detectBean.getConfigDetailName().equals("图文")){
+            time.setVisibility(View.GONE);
+
+        }else{
+            time.setVisibility(View.VISIBLE);
+        }
+        //频次
+        lin_frequency.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (detectBean.getConfigDetailName().equals("图文")) {
+                    if (TextUtils.isEmpty(orderCode)||isUpdate()) {
+                        time(pos);
+                    }
+                }else{
+                    if (TextUtils.isEmpty(orderCode)||isUpdate()) {
+                        Videofrequency(pos);
+                    }
+                }
+
+            }
+        });
+        tv_name.setText(detectBean.getConfigDetailName());
+        ed_price.setText(String.format("%s0", detectBean.getPrice()));
+        ed_price.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String value = s.toString();
+                if (!CollectionUtils.isEmpty(mCoachingBean)
+                        && pos < mCoachingBean.size()) {
+                    if (!TextUtils.isEmpty(value)) {
+                        mCoachingBean.get(pos).setPrice(Double.valueOf(value));
+                    } else {
+                        mCoachingBean.get(pos).setPrice(0);
+                    }
+
+                    setTotalprice(mDetectBeans, mCoachingBean);
+                }
+            }
+        });
+        return itemView;
+    }
+
 
 }

@@ -89,6 +89,7 @@ public class CancellationActivity extends AppCompatActivity implements View.OnCl
     private List<CancelContractOrderBean.OrderDetailListBean> CoachingitemBeans = new ArrayList<>();
     private LoadingLayoutManager mLoadingLayoutManager;//重新加载布局
     private boolean isValid;
+    private boolean isVisibleButtomRoot;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -117,6 +118,7 @@ public class CancellationActivity extends AppCompatActivity implements View.OnCl
             from = extras.getString("from");
             orderType=extras.getString("orderType");
             isValid=extras.getBoolean("isValid");
+            isVisibleButtomRoot=extras.getBoolean("isVisibleButtomRoot");
         }
         initView();
         getdata();
@@ -406,18 +408,23 @@ public class CancellationActivity extends AppCompatActivity implements View.OnCl
         mTvRefuseReason=findViewById(R.id.tv_refuse_reason);
         mTvRefuseContent=findViewById(R.id.tv_refuse_content);
         llBottomRoot=findViewById(R.id.ll_bottom_root);
-        if (StringUtils.isNotEmpty(orderType)&&orderType.equals("3")) {
-            llBottomRoot.setVisibility(View.GONE);
-        }else{
-            if (StringUtils.isNotEmpty(from)) {
-                if (from.equals("1")) {
-                    llBottomRoot.setVisibility(View.GONE);
-                }else if(from.equals("2")){
-                    llBottomRoot.setVisibility(View.VISIBLE);
-                }
-            }
-        }
+//        if (StringUtils.isNotEmpty(orderType)&&orderType.equals("3")) {
+//            llBottomRoot.setVisibility(View.GONE);
+//        }else{
+//            if (StringUtils.isNotEmpty(from)) {
+//                if (from.equals("1")) {
+//                    llBottomRoot.setVisibility(View.GONE);
+//                }else if(from.equals("2")){
+//                    llBottomRoot.setVisibility(View.VISIBLE);
+//                }
+//            }
+//        }
 
+        if (isVisibleButtomRoot) {
+            llBottomRoot.setVisibility(View.VISIBLE);
+        }else{
+            llBottomRoot.setVisibility(View.GONE);
+        }
 //        if(from.equals("1")){
 //            details.setVisibility(View.GONE);
 //            name1.setVisibility(View.GONE);
