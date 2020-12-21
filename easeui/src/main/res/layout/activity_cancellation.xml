@@ -40,6 +40,7 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/rl_title_bar"
         android:id="@+id/rl_root_content"
+        android:visibility="gone"
         >
 
     <LinearLayout

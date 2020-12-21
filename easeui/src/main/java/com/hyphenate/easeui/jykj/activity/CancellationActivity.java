@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
@@ -87,6 +88,7 @@ public class CancellationActivity extends AppCompatActivity implements View.OnCl
     private List<CancelContractOrderBean.OrderDetailListBean> DetectitemBeans = new ArrayList<>();
     private List<CancelContractOrderBean.OrderDetailListBean> CoachingitemBeans = new ArrayList<>();
     private LoadingLayoutManager mLoadingLayoutManager;//重新加载布局
+    private boolean isValid;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,6 +116,7 @@ public class CancellationActivity extends AppCompatActivity implements View.OnCl
             signCode=extras.getString("signCode");
             from = extras.getString("from");
             orderType=extras.getString("orderType");
+            isValid=extras.getBoolean("isValid");
         }
         initView();
         getdata();
@@ -225,6 +228,7 @@ public class CancellationActivity extends AppCompatActivity implements View.OnCl
 
     //布局显示
     private void setShow() {
+        mRlRootContent.setVisibility(View.VISIBLE);
         mLoadingLayoutManager.showContent();
         if (TextUtils.isEmpty(orderType)) {
             mLlCancelContractRoot.setVisibility(View.VISIBLE);
@@ -359,6 +363,18 @@ public class CancellationActivity extends AppCompatActivity implements View.OnCl
                 startActivity(SigningDetailsActivity.class,bundle);
             }
         });
+        if (isValid) {
+            btnRefuse.setBackgroundResource(R.drawable.button_shape);
+            btnAgree.setBackgroundResource(R.drawable.button_shape);
+            btnRefuse.setTextColor(ContextCompat.getColor(this,R.color.color_white));
+            btnAgree.setTextColor(ContextCompat.getColor(this,R.color.color_white));
+        }else {
+            btnRefuse.setBackgroundResource(R.drawable.bg_round_999999_15);
+            btnAgree.setBackgroundResource(R.drawable.bg_round_999999_15);
+            btnRefuse.setTextColor(ContextCompat.getColor(this,R.color.color_white));
+            btnAgree.setTextColor(ContextCompat.getColor(this,R.color.color_white));
+
+        }
 
     }
 
@@ -415,23 +431,26 @@ public class CancellationActivity extends AppCompatActivity implements View.OnCl
         btnRefuse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                CancellationActivity.this.finish();
-                //处理拒绝解约逻辑  跳转页面
-                Bundle bundle = new Bundle();
-                bundle.putString("singCode", signCode);
-                bundle.putString("signNo", singNO);
-                bundle.putString("patientName", nickName);
-                bundle.putString("patientCode",patientCode);
-                bundle.putSerializable("orderMsg",getOrderMessage());
-                startActivity(TerminationActivity2.class, bundle);
+                if (isValid) {
+                    CancellationActivity.this.finish();
+                    //处理拒绝解约逻辑  跳转页面
+                    Bundle bundle = new Bundle();
+                    bundle.putString("singCode", signCode);
+                    bundle.putString("signNo", singNO);
+                    bundle.putString("patientName", nickName);
+                    bundle.putString("patientCode",patientCode);
+                    bundle.putSerializable("orderMsg",getOrderMessage());
+                    startActivity(TerminationActivity2.class, bundle);
+                }
 
             }
         });
         btnAgree.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                agree();
+                if (isValid) {
+                    agree();
+                }
             }
         });
     }
