@@ -35,11 +35,17 @@
 
     </RelativeLayout>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/rl_title_bar"
+        android:id="@+id/rl_root_content"
+        >
+
     <LinearLayout
         android:id="@+id/details_lin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/rl_title_bar"
         android:background="@color/white"
         android:orientation="vertical">
 
@@ -347,5 +353,5 @@
             android:textColor="@color/writeColor"
             android:textSize="8pt" />
     </LinearLayout>
-
+    </RelativeLayout>
 </RelativeLayout>

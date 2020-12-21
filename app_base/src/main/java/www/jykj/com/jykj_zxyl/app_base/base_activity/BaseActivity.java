@@ -606,6 +606,13 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnL
         setFoucesListener();
     }
 
+    protected void setEditTextList(List<EditText> list,NestedScrollView scrollView){
+        this.mainScrollView=scrollView;
+        this.editTexts = new ArrayList<>();
+        editTexts.addAll(list);
+        setFoucesListener();
+    }
+
     protected void x(NestedScrollView scrollView, int offset) {
         this.mainScrollView = scrollView;
         this.editTexts = new ArrayList<>();

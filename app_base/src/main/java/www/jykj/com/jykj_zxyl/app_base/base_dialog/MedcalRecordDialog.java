@@ -154,14 +154,18 @@ public class MedcalRecordDialog extends Dialog {
         tvDialogContent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CopyButtonLibrary copyButtonLibrary = new CopyButtonLibrary(mContext,tvDialogContent);
-                copyButtonLibrary.init();
+//                CopyButtonLibrary copyButtonLibrary = new CopyButtonLibrary(mContext,tvDialogContent);
+//                copyButtonLibrary.init();
             }
         });
         rlDownArrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new CopyButtonLibrary(mContext,tvDialogContent).init();
+                String s = tvDialogContent.getText().toString();
+                if (!s.equals("未填写")) {
+                    edInputContent.setText(s);
+                }
+                //new CopyButtonLibrary(mContext,tvDialogContent).init();
             }
         });
     }

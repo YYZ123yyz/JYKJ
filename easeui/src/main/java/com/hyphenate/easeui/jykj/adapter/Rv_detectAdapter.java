@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,12 +30,13 @@ public class Rv_detectAdapter extends RecyclerView.Adapter<Rv_detectAdapter.View
     private SigningDetailsActivity mActivity;
     private OnItemClickListener mOnItemClickListener;
     private Context mContext;
-
+    private SparseArray hashMaps;
     private boolean isEdit;
     public Rv_detectAdapter(List<DetectBean> list, Context context, SigningDetailsActivity mainActivity) {
         mContext = context;
         datas = list;
         mActivity = mainActivity;
+        hashMaps=new SparseArray();
     }
 
     //重新设置数据
@@ -90,6 +92,7 @@ public class Rv_detectAdapter extends RecyclerView.Adapter<Rv_detectAdapter.View
 //                }
 //            });
 //        }
+        hashMaps.put(position,viewHolder.ed_price);
         addListener(viewHolder.ed_price,position);
 
     }
@@ -152,5 +155,13 @@ public class Rv_detectAdapter extends RecyclerView.Adapter<Rv_detectAdapter.View
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
         this.mOnItemClickListener = onItemClickListener;
+    }
+
+    public List<EditText> getEditTextList(){
+        List<EditText> editTexts=new ArrayList<>();
+        for (int i = 0; i < hashMaps.size(); i++) {
+            editTexts.add((EditText) hashMaps.valueAt(i));
+        }
+        return editTexts;
     }
 }

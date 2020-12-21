@@ -18,6 +18,7 @@ import android.util.JsonReader;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -82,9 +83,11 @@ import www.jykj.com.jykj_zxyl.app_base.base_bean.BaseBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.ViewSysUserDoctorInfoAndHospital;
 import www.jykj.com.jykj_zxyl.app_base.base_dialog.CommonConfirmDialog;
 import www.jykj.com.jykj_zxyl.app_base.base_utils.ActivityStackManager;
+import www.jykj.com.jykj_zxyl.app_base.base_utils.ActivityUtils;
 import www.jykj.com.jykj_zxyl.app_base.base_utils.GsonUtils;
 import www.jykj.com.jykj_zxyl.app_base.base_utils.SharedPreferences_DataSave;
 import www.jykj.com.jykj_zxyl.app_base.base_utils.StringUtils;
+import www.jykj.com.jykj_zxyl.app_base.base_view.LoadingLayoutManager;
 import www.jykj.com.jykj_zxyl.app_base.http.ApiHelper;
 import www.jykj.com.jykj_zxyl.app_base.http.CommonDataObserver;
 import www.jykj.com.jykj_zxyl.app_base.http.ParameUtil;
@@ -174,10 +177,11 @@ public class SigningDetailsActivity extends BaseActivity implements View.OnClick
     private String singNO;
     private CommonConfirmDialog commonConfirmDialog;
     private ViewSysUserDoctorInfoAndHospital mProvideViewSysUserPatientInfoAndRegion;
-
+    private LoadingLayoutManager mLoadingLayoutManager;//重新加载布局
     @Override
     protected void onBeforeSetContentLayout() {
         super.onBeforeSetContentLayout();
+
         mContext = this;
         mActivity = this;
         commonConfirmDialog=new CommonConfirmDialog(this);
@@ -220,6 +224,12 @@ public class SigningDetailsActivity extends BaseActivity implements View.OnClick
     }
 
     @Override
+    protected boolean isImmersionBarEnabled() {
+        return false;
+    }
+
+
+    @Override
     protected int setLayoutId() {
         return R.layout.activity_signing_details;
     }
@@ -227,7 +237,7 @@ public class SigningDetailsActivity extends BaseActivity implements View.OnClick
     @Override
     protected void initView() {
         super.initView();
-
+        ActivityUtils.setStatusBarMain(this);
         protocol_lin = (LinearLayout) findViewById(R.id.protocol_lin);
         day_tv = (TextView) findViewById(R.id.day_tv);
         //图标
@@ -408,6 +418,21 @@ public class SigningDetailsActivity extends BaseActivity implements View.OnClick
         //订单详情的标识
         //initView();
         addListener();
+
+        initLoadingAndRetryManager();
+    }
+
+    /**
+     * 初始化loading页面
+     */
+    private void initLoadingAndRetryManager() {
+        mLoadingLayoutManager = LoadingLayoutManager.wrap(wzxxSc);
+        mLoadingLayoutManager.setRetryListener(v -> {
+            mLoadingLayoutManager.showLoading();
+
+        });
+        mLoadingLayoutManager.showLoading();
+
     }
 
     @Override
@@ -418,6 +443,8 @@ public class SigningDetailsActivity extends BaseActivity implements View.OnClick
         sendGetUserInfoRequest(code);
         if (!TextUtils.isEmpty(orderCode)){
             Getdetails();
+        }else{
+            mLoadingLayoutManager.showContent();
         }
     }
 
@@ -987,6 +1014,7 @@ public class SigningDetailsActivity extends BaseActivity implements View.OnClick
     //订单详情设置布局显示
     @SuppressLint("SetTextI18n")
     private void setLayoutData() {
+        mLoadingLayoutManager.showContent();
         if(status.equals("1")){
             protocol_lin.setVisibility(View.GONE);
             btActivityMySelfSettingExitButton.setVisibility(View.GONE);
@@ -1000,7 +1028,7 @@ public class SigningDetailsActivity extends BaseActivity implements View.OnClick
         patientName.setText(patientName1);
         day_tv.setText(getdetailsBeans.getOrderDetailList().get(0).getRate() + getdetailsBeans.getOrderDetailList().get(0).getRateUnitName());
         wzxxSc = (NestedScrollView) findViewById(R.id.wzxx_sc);
-        initKeyBoardListener(wzxxSc);
+        //initKeyBoardListener(wzxxSc);
         //名称
         patientName.setText(getdetailsBeans.getMainUserName());
         //性别
@@ -1291,6 +1319,8 @@ public class SigningDetailsActivity extends BaseActivity implements View.OnClick
                 linTime.setVisibility(View.VISIBLE);
                 rv_detectAdapter.setDate(mDetectBeans);
                 rv_detectAdapter.notifyDataSetChanged();
+                java.util.List<EditText> editTextList = rv_detectAdapter.getEditTextList();
+                setEditTextList(editTextList,wzxxSc);
             }
 
         }
@@ -1303,6 +1333,8 @@ public class SigningDetailsActivity extends BaseActivity implements View.OnClick
             if (mCoachingBean != null) {
                 rvCoachingAdapter.setDate(mCoachingBean);
                 rvCoachingAdapter.notifyDataSetChanged();
+                java.util.List<EditText> editTextList = rvCoachingAdapter.getEditTextList();
+                setEditTextList(editTextList,wzxxSc);
             }
         }
 

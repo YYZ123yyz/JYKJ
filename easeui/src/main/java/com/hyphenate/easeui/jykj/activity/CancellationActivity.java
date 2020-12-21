@@ -41,6 +41,7 @@ import java.util.List;
 
 import www.jykj.com.jykj_zxyl.app_base.base_utils.ActivityUtils;
 import www.jykj.com.jykj_zxyl.app_base.base_utils.StringUtils;
+import www.jykj.com.jykj_zxyl.app_base.base_view.LoadingLayoutManager;
 
 public class CancellationActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -80,10 +81,12 @@ public class CancellationActivity extends AppCompatActivity implements View.OnCl
     private TextView mTvRefuseContent;
     private String from;
     private TextView name1;
+    private RelativeLayout mRlRootContent;
     private String orderType;
     private ViewSysUserDoctorInfoAndHospital mViewSysUserDoctorInfoAndHospital;
     private List<CancelContractOrderBean.OrderDetailListBean> DetectitemBeans = new ArrayList<>();
     private List<CancelContractOrderBean.OrderDetailListBean> CoachingitemBeans = new ArrayList<>();
+    private LoadingLayoutManager mLoadingLayoutManager;//重新加载布局
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -115,6 +118,20 @@ public class CancellationActivity extends AppCompatActivity implements View.OnCl
         initView();
         getdata();
         initHandler();
+        initLoadingAndRetryManager();
+    }
+
+    /**
+     * 初始化loading页面
+     */
+    private void initLoadingAndRetryManager() {
+        mLoadingLayoutManager = LoadingLayoutManager.wrap(mRlRootContent);
+        mLoadingLayoutManager.setRetryListener(v -> {
+            mLoadingLayoutManager.showLoading();
+
+        });
+        mLoadingLayoutManager.showLoading();
+
     }
 
     //获取解约订单详情
@@ -196,18 +213,19 @@ public class CancellationActivity extends AppCompatActivity implements View.OnCl
     }
 
     private OrderMessage getOrderMessage() {
+        double signPrice = signPatientDoctorOrderBean.getSignPrice();
         OrderMessage orderMessage1 = new OrderMessage(
                 mViewSysUserDoctorInfoAndHospital.getUserName(), mViewSysUserDoctorInfoAndHospital.getUserLogoUrl()
                 , orderId, signCode, cancellationClass.getText().toString()
                 , cancellationTimes.getText().toString(), cancellationDuration.getText().toString(),
-                cancellationPrice.getText().toString(), singNO, "",
+                signPrice+"0", singNO, "1",
                 "terminationOrder", patientCode);
         return orderMessage1;
     }
 
     //布局显示
     private void setShow() {
-
+        mLoadingLayoutManager.showContent();
         if (TextUtils.isEmpty(orderType)) {
             mLlCancelContractRoot.setVisibility(View.VISIBLE);
             mLlRefuseRoot.setVisibility(View.GONE);
@@ -329,7 +347,7 @@ public class CancellationActivity extends AppCompatActivity implements View.OnCl
         cancellationTimes.setText("1次/" + signPatientDoctorOrderBean.getDetectRate() + signPatientDoctorOrderBean.getDetectRateUnitName());
         //签约价格
         double signPrice = signPatientDoctorOrderBean.getSignPrice();
-        cancellationPrice.setText("￥"+signPrice + "");
+        cancellationPrice.setText("¥ "+signPrice+"0" );
         details.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -357,6 +375,7 @@ public class CancellationActivity extends AppCompatActivity implements View.OnCl
                 finish();
             }
         });
+        mRlRootContent=findViewById(R.id.rl_root_content);
         rl = findViewById(R.id.rl);
         tvName = findViewById(R.id.tv_name);
         linDetect = findViewById(R.id.lin_Detect);
@@ -371,13 +390,18 @@ public class CancellationActivity extends AppCompatActivity implements View.OnCl
         mTvRefuseReason=findViewById(R.id.tv_refuse_reason);
         mTvRefuseContent=findViewById(R.id.tv_refuse_content);
         llBottomRoot=findViewById(R.id.ll_bottom_root);
-        if (StringUtils.isNotEmpty(from)) {
-            if (from.equals("1")) {
-                llBottomRoot.setVisibility(View.GONE);
-            }else if(from.equals("2")){
-                llBottomRoot.setVisibility(View.VISIBLE);
+        if (StringUtils.isNotEmpty(orderType)&&orderType.equals("3")) {
+            llBottomRoot.setVisibility(View.GONE);
+        }else{
+            if (StringUtils.isNotEmpty(from)) {
+                if (from.equals("1")) {
+                    llBottomRoot.setVisibility(View.GONE);
+                }else if(from.equals("2")){
+                    llBottomRoot.setVisibility(View.VISIBLE);
+                }
             }
         }
+
 //        if(from.equals("1")){
 //            details.setVisibility(View.GONE);
 //            name1.setVisibility(View.GONE);
@@ -392,7 +416,7 @@ public class CancellationActivity extends AppCompatActivity implements View.OnCl
             @Override
             public void onClick(View v) {
 
-
+                CancellationActivity.this.finish();
                 //处理拒绝解约逻辑  跳转页面
                 Bundle bundle = new Bundle();
                 bundle.putString("singCode", signCode);

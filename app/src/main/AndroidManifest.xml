@@ -552,6 +552,7 @@
 
         <activity android:name=".live.LiveProgromListActivity"
             android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
             >
 
 
@@ -576,7 +577,7 @@
         <activity android:name=".personal.activity.WarningActivity" />
         <activity android:name=".personal.activity.ReferenceMapActivity" />
         <activity android:name=".personal.activity.StateDetActivity" />
-
+        <activity android:name=".activity.fund.BalanceActivity"/>
         <meta-data
             android:name="EASEMOB_APPKEY"
             android:value="1114191231107514#jiuyiteck-htn" /> <!-- 声明SDK所需的service SDK核心功能 -->

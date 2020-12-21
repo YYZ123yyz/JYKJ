@@ -58,9 +58,9 @@ public class EaseChatRowImage extends EaseChatRowFile{
             }
 
         }else{
-            if (llUserInfoRoot!=null) {
-                llUserInfoRoot.setVisibility(View.VISIBLE);
-            }
+//            if (llUserInfoRoot!=null) {
+//                llUserInfoRoot.setVisibility(View.VISIBLE);
+//            }
         }
 
         boolean showChatRoom = itemStyle.isShowChatRoom();
@@ -88,7 +88,7 @@ public class EaseChatRowImage extends EaseChatRowFile{
                 tvUserIdNew.setVisibility(View.GONE);
             }
             if (usernickView!=null) {
-                usernickView.setVisibility(View.VISIBLE);
+               // usernickView.setVisibility(View.VISIBLE);
             }
 
         }

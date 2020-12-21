@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,12 +14,14 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.baidu.platform.comapi.map.A;
 import com.hyphenate.easeui.R;
 import com.hyphenate.easeui.jykj.activity.SigningDetailsActivity;
 import com.hyphenate.easeui.jykj.bean.CoachingBean;
 import com.hyphenate.easeui.jykj.bean.DetectBean;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -32,13 +35,14 @@ public class Rv_CoachingAdapter extends RecyclerView.Adapter<Rv_CoachingAdapter.
     private OnItemClickListener mOnItemClickListener;
     private Context mContext;
     private boolean isEdit;
-
+    private SparseArray hashMaps;
     private OnItemCoachingClickListener OnItemCoachingClickListener;
     private OnItemCoachingLinClickListener OnItemCoachingLinClickListener;
     public Rv_CoachingAdapter(List<DetectBean> list, Context context, SigningDetailsActivity mainActivity) {
         mContext = context;
         datas = list;
         mActivity = mainActivity;
+        hashMaps=new SparseArray();
     }
 
 
@@ -140,6 +144,7 @@ public class Rv_CoachingAdapter extends RecyclerView.Adapter<Rv_CoachingAdapter.
                 }
             });
         }
+        hashMaps.put(position,viewHolder.ed_price);
         addListener(viewHolder.ed_price,position);
 
 
@@ -185,8 +190,8 @@ public class Rv_CoachingAdapter extends RecyclerView.Adapter<Rv_CoachingAdapter.
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (mOnItemClickListener!=null) {
-                    mOnItemClickListener.onTextChanged(pos,s.toString());
+                if (OnItemCoachingLinClickListener!=null) {
+                    OnItemCoachingLinClickListener.onTextChanged(pos,s.toString());
                 }
                 String value = s.toString();
                 if (!TextUtils.isEmpty(value)) {
@@ -229,5 +234,14 @@ public class Rv_CoachingAdapter extends RecyclerView.Adapter<Rv_CoachingAdapter.
 
     public void setOnItemCoachingLinClickListener(OnItemCoachingLinClickListener onItemCoachingLinClickListener) {
         this.OnItemCoachingLinClickListener = onItemCoachingLinClickListener;
+    }
+
+
+    public List<EditText> getEditTextList(){
+        List<EditText> editTexts=new ArrayList<>();
+        for (int i = 0; i < hashMaps.size(); i++) {
+            editTexts.add((EditText) hashMaps.valueAt(i));
+        }
+        return editTexts;
     }
 }
