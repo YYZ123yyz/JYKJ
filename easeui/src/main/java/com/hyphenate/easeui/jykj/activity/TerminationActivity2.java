@@ -34,6 +34,9 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.util.HashMap;
 
+import www.jykj.com.jykj_zxyl.app_base.base_utils.ActivityStackManager;
+import www.jykj.com.jykj_zxyl.app_base.base_utils.ActivityUtils;
+
 public class TerminationActivity2 extends AppCompatActivity implements View.OnClickListener {
     public ProgressDialog mDialogProgress = null;
     private TerminationActivity2 mTerminationActivity;
@@ -66,6 +69,7 @@ public class TerminationActivity2 extends AppCompatActivity implements View.OnCl
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_termination);
+        ActivityUtils.setStatusBarMain(this);
         mTerminationActivity = this;
         cancelContractDialog = new CancelContractDialog(TerminationActivity2.this);
         sharedPreferences = getSharedPreferences("sp", Activity.MODE_PRIVATE);
@@ -100,8 +104,12 @@ public class TerminationActivity2 extends AppCompatActivity implements View.OnCl
                         cacerProgress();
                         NetRetEntity netRetEntity = new Gson().fromJson(mNetRetStr, NetRetEntity.class);
                         if (netRetEntity.getResCode() == 1) {
+                            if (orderMessage!=null) {
+                                orderMessage.setOrderType("2");
+                            }
                             EventBus.getDefault().post(orderMessage);
                             Toast.makeText(mTerminationActivity, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();
+                            ActivityStackManager.getInstance().finish(CancellationActivity.class);
                             TerminationActivity2.this.finish();
                         } else {
                             Toast.makeText(mTerminationActivity, netRetEntity.getResMsg(), Toast.LENGTH_SHORT).show();

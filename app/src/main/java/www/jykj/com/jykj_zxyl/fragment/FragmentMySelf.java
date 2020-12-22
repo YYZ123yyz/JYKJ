@@ -162,6 +162,7 @@ public class FragmentMySelf extends Fragment {
                                             ProvideDoctorPatientUserInfo.class);
                             if (provideDoctorPatientUserInfo!=null) {
                                 int flagDoctorStatus = provideDoctorPatientUserInfo.getFlagDoctorStatus();
+                                mApp.mViewSysUserDoctorInfoAndHospital.setFlagDoctorStatus(flagDoctorStatus);
                                 if (flagDoctorStatus==0) {
                                     mUserAuthentication.setImageResource(R.mipmap.fragmentmyself_wrz);
                                 }else{

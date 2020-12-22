@@ -485,6 +485,7 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                             ivStampIcon.setImageResource(R.mipmap.bg_agree_stamp);
                             mTvOperMsg.setVisibility(View.VISIBLE);
                             mTvOperMsg.setText("对方已同意");
+                            //EventBus.getDefault().post(new OrderMessage());
                             break;
                         case "2":
                             ivStampIcon.setVisibility(View.GONE);
@@ -498,7 +499,7 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                             mTvOperMsg.setText("对方已拒绝");
                             tvOrderReceivedUpdateBtn.setVisibility(View.GONE);
                             mTvOperMsg.setVisibility(View.VISIBLE);
-                            EventBus.getDefault().post(new OrderMessage());
+
                             break;
                         default:
                     }
@@ -513,6 +514,7 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                                 ivStampIcon.setImageResource(R.mipmap.bg_agree_stamp);
                                 mTvOperMsg.setVisibility(View.VISIBLE);
                                 mTvOperMsg.setText("对方已同意");
+                               // EventBus.getDefault().post(new OrderMessage());
                                 break;
                             case "2":
                                 ivStampIcon.setVisibility(View.VISIBLE);
@@ -521,7 +523,7 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                                 mTvOperMsg.setText("对方已拒绝");
                                 tvOrderReceivedUpdateBtn.setVisibility(View.GONE);
                                 mRlCancelContractOrderRoot.setVisibility(View.GONE);
-                                EventBus.getDefault().post(new OrderMessage());
+
                                 break;
                             case "3":
                                 ivStampIcon.setVisibility(View.GONE);
@@ -871,6 +873,7 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                             } else if (direct == EMMessage.Direct.SEND) {
                                 from = "1";
                             }
+                            boolean isValid = message.getBooleanAttribute("isValid", false);
                             Bundle bundle = new Bundle();
                             bundle.putString("orderCode", orderCode);
                             bundle.putString("singNo", singNO);
@@ -879,6 +882,17 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                             bundle.putString("patientName", nickName);
                             bundle.putString("patientCode", patientCode);
                             bundle.putString("signCode",signCode);
+                            bundle.putBoolean("isValid",isValid);
+                            boolean isVisible=false;
+                            if (mRlCancelContractOrderRoot!=null) {
+                                if (mRlCancelContractOrderRoot.getVisibility()== View.VISIBLE) {
+                                    isVisible=true;
+                                }else{
+                                    isVisible=false;
+                                }
+                            }
+
+                            bundle.putBoolean("isVisibleButtomRoot",isVisible);
                             bundle.putString("DoctorName", mViewSysUserDoctorInfoAndHospital.getUserName());
                             bundle.putString("DoctoCode", mViewSysUserDoctorInfoAndHospital.getDoctorCode());
                             startActivity(CancellationActivity.class, bundle);
@@ -887,16 +901,27 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                         break;
                     case "card": {
                         if (orderType.equals("3")) {
+                            boolean isValid = message.getBooleanAttribute("isValid", false);
                             Bundle bundle = new Bundle();
                             bundle.putString("orderCode", orderCode);
                             bundle.putString("singNo", singNO);
                             bundle.putString("signCode",signCode);
                             bundle.putString("from", "2");
+                            bundle.putBoolean("isValid",isValid);
                             bundle.putString("orderType",orderType);
                             bundle.putString("patientName", nickName);
                             bundle.putString("patientCode", patientCode);
                             bundle.putString("DoctorName", mViewSysUserDoctorInfoAndHospital.getUserName());
                             bundle.putString("DoctoCode", mViewSysUserDoctorInfoAndHospital.getDoctorCode());
+                            boolean isVisible=false;
+                            if (mRlCancelContractOrderRoot!=null) {
+                                if (mRlCancelContractOrderRoot.getVisibility()== View.VISIBLE) {
+                                    isVisible=true;
+                                }else{
+                                    isVisible=false;
+                                }
+                            }
+                            bundle.putBoolean("isVisibleButtomRoot",isVisible);
                             startActivity(CancellationActivity.class, bundle);
                         } else {
                             //签约订单详情

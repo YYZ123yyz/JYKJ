@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <include
+        android:id="@+id/title_bar"
+        layout="@layout/item_toolbar" />
+
+
+    <RelativeLayout
+        android:id="@+id/rl_top_root"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@+id/title_bar"
+        android:background="@color/color_eeeeee">
+
+        <TextView
+            android:id="@+id/tv_filter_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="10dp"
+            android:background="@drawable/bg_round_ffffff_11"
+            android:drawableEnd="@mipmap/bg_arrow_down"
+            android:drawablePadding="5dp"
+            android:gravity="center"
+            android:paddingStart="8.5dp"
+            android:paddingTop="4dp"
+            android:paddingEnd="8.5dp"
+            android:paddingBottom="4dp"
+            android:text="本月"
+            android:textColor="@color/color_000000"
+            android:textSize="15sp">
+
+
+        </TextView>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="10dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_pay_amount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="支出¥1200.00"
+                android:textColor="@color/color_999999"
+                android:textSize="15sp">
+
+
+            </TextView>
+
+            <TextView
+                android:id="@+id/tv_income_amount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="收入¥1200.00"
+                android:textColor="@color/color_999999"
+                android:textSize="15sp">
+
+
+            </TextView>
+        </LinearLayout>
+    </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/rl_bottom_root"
+        android:layout_below="@+id/rl_top_root"/>
+
+    <RelativeLayout
+        android:id="@+id/rl_bottom_root"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="5dp"
+
+        >
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="60dp"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/bg_bill_btn">
+
+
+            </ImageButton>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dp"
+                android:text="账单"
+                android:textColor="@color/color_799dfe"
+                android:textSize="10sp"
+
+                >
+
+
+            </TextView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="60dp"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/bg_statistic_btn">
+
+
+            </ImageButton>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dp"
+                android:text="账单"
+                android:textColor="@color/color_799dfe"
+                android:textSize="10sp"
+
+                >
+
+
+            </TextView>
+
+        </LinearLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

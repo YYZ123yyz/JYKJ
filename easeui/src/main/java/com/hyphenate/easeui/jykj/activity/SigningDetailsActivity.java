@@ -13,11 +13,14 @@ import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.JsonReader;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -82,9 +85,11 @@ import www.jykj.com.jykj_zxyl.app_base.base_bean.BaseBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.ViewSysUserDoctorInfoAndHospital;
 import www.jykj.com.jykj_zxyl.app_base.base_dialog.CommonConfirmDialog;
 import www.jykj.com.jykj_zxyl.app_base.base_utils.ActivityStackManager;
+import www.jykj.com.jykj_zxyl.app_base.base_utils.ActivityUtils;
 import www.jykj.com.jykj_zxyl.app_base.base_utils.GsonUtils;
 import www.jykj.com.jykj_zxyl.app_base.base_utils.SharedPreferences_DataSave;
 import www.jykj.com.jykj_zxyl.app_base.base_utils.StringUtils;
+import www.jykj.com.jykj_zxyl.app_base.base_view.LoadingLayoutManager;
 import www.jykj.com.jykj_zxyl.app_base.http.ApiHelper;
 import www.jykj.com.jykj_zxyl.app_base.http.CommonDataObserver;
 import www.jykj.com.jykj_zxyl.app_base.http.ParameUtil;
@@ -113,6 +118,7 @@ public class SigningDetailsActivity extends BaseActivity implements View.OnClick
     private LinearLayout linClass;
     private TextView tvStartTime;
     private LinearLayout linStartTime;
+    private LinearLayout llCoachRoot;
     private TextView tvDuration;
     private LinearLayout linDuration;
     private Button btActivityMySelfSettingExitButton;
@@ -174,10 +180,11 @@ public class SigningDetailsActivity extends BaseActivity implements View.OnClick
     private String singNO;
     private CommonConfirmDialog commonConfirmDialog;
     private ViewSysUserDoctorInfoAndHospital mProvideViewSysUserPatientInfoAndRegion;
-
+    private LoadingLayoutManager mLoadingLayoutManager;//重新加载布局
     @Override
     protected void onBeforeSetContentLayout() {
         super.onBeforeSetContentLayout();
+
         mContext = this;
         mActivity = this;
         commonConfirmDialog=new CommonConfirmDialog(this);
@@ -220,6 +227,12 @@ public class SigningDetailsActivity extends BaseActivity implements View.OnClick
     }
 
     @Override
+    protected boolean isImmersionBarEnabled() {
+        return false;
+    }
+
+
+    @Override
     protected int setLayoutId() {
         return R.layout.activity_signing_details;
     }
@@ -227,7 +240,8 @@ public class SigningDetailsActivity extends BaseActivity implements View.OnClick
     @Override
     protected void initView() {
         super.initView();
-
+        ActivityUtils.setStatusBarMain(this);
+        llCoachRoot=findViewById(R.id.ll_coach_root);
         protocol_lin = (LinearLayout) findViewById(R.id.protocol_lin);
         day_tv = (TextView) findViewById(R.id.day_tv);
         //图标
@@ -304,7 +318,7 @@ public class SigningDetailsActivity extends BaseActivity implements View.OnClick
             }
         });
         wzxxSc = (NestedScrollView) findViewById(R.id.wzxx_sc);
-
+        initKeyBoardListener(wzxxSc);
         //检测类型
         LinearLayoutManager layoutManager = new LinearLayoutManager(this){
             @Override
@@ -391,16 +405,16 @@ public class SigningDetailsActivity extends BaseActivity implements View.OnClick
 
             @Override
             public void onTextChanged(int pos, String value) {
-                if (!CollectionUtils.isEmpty(mCoachingBean)
-                        && pos < mCoachingBean.size()) {
-                    if (!TextUtils.isEmpty(value)) {
-                        mCoachingBean.get(pos).setPrice(Double.valueOf(value));
-                    } else {
-                        mCoachingBean.get(pos).setPrice(0);
-                    }
-
-                    setTotalprice(mDetectBeans, mCoachingBean);
-                }
+//                if (!CollectionUtils.isEmpty(mCoachingBean)
+//                        && pos < mCoachingBean.size()) {
+//                    if (!TextUtils.isEmpty(value)) {
+//                        mCoachingBean.get(pos).setPrice(Double.valueOf(value));
+//                    } else {
+//                        mCoachingBean.get(pos).setPrice(0);
+//                    }
+//
+//                    setTotalprice(mDetectBeans, mCoachingBean);
+//                }
             }
         });
         initHandler();
@@ -408,6 +422,21 @@ public class SigningDetailsActivity extends BaseActivity implements View.OnClick
         //订单详情的标识
         //initView();
         addListener();
+
+        initLoadingAndRetryManager();
+    }
+
+    /**
+     * 初始化loading页面
+     */
+    private void initLoadingAndRetryManager() {
+        mLoadingLayoutManager = LoadingLayoutManager.wrap(wzxxSc);
+        mLoadingLayoutManager.setRetryListener(v -> {
+            mLoadingLayoutManager.showLoading();
+
+        });
+        mLoadingLayoutManager.showLoading();
+
     }
 
     @Override
@@ -418,7 +447,11 @@ public class SigningDetailsActivity extends BaseActivity implements View.OnClick
         sendGetUserInfoRequest(code);
         if (!TextUtils.isEmpty(orderCode)){
             Getdetails();
+        }else{
+            mLoadingLayoutManager.showContent();
         }
+
+
     }
 
     @Override
@@ -568,6 +601,7 @@ public class SigningDetailsActivity extends BaseActivity implements View.OnClick
                 mCoachingBean.get(pos).setFrequency(videosecondaryListattrCode);
                 mCoachingBean.get(pos).setMonths(videomonthListattrCode);
                 rvCoachingAdapter.notifyDataSetChanged();
+                initCoachData(mCoachingBean,isUpdate());
                 setTotalprice(mDetectBeans, mCoachingBean);
             }
         })
@@ -987,6 +1021,7 @@ public class SigningDetailsActivity extends BaseActivity implements View.OnClick
     //订单详情设置布局显示
     @SuppressLint("SetTextI18n")
     private void setLayoutData() {
+        mLoadingLayoutManager.showContent();
         if(status.equals("1")){
             protocol_lin.setVisibility(View.GONE);
             btActivityMySelfSettingExitButton.setVisibility(View.GONE);
@@ -999,8 +1034,8 @@ public class SigningDetailsActivity extends BaseActivity implements View.OnClick
         startTime = DateUtils.stampToDate(getdetailsBeans.getSignStartTime());
         patientName.setText(patientName1);
         day_tv.setText(getdetailsBeans.getOrderDetailList().get(0).getRate() + getdetailsBeans.getOrderDetailList().get(0).getRateUnitName());
-        wzxxSc = (NestedScrollView) findViewById(R.id.wzxx_sc);
-        initKeyBoardListener(wzxxSc);
+       // wzxxSc = (NestedScrollView) findViewById(R.id.wzxx_sc);
+        //initKeyBoardListener(wzxxSc);
         //名称
         patientName.setText(getdetailsBeans.getMainUserName());
         //性别
@@ -1038,6 +1073,7 @@ public class SigningDetailsActivity extends BaseActivity implements View.OnClick
         mCoachingBean = convertData(CoachingitemBeans);
         rvCoachingAdapter.setDate(mCoachingBean);
         rvCoachingAdapter.notifyDataSetChanged();
+        initCoachData(mCoachingBean,isUpdate());
 
         //开始时间
         tvStartTime.setText(DateUtils.stampToDate(getdetailsBeans.getSignStartTime()));
@@ -1291,6 +1327,8 @@ public class SigningDetailsActivity extends BaseActivity implements View.OnClick
                 linTime.setVisibility(View.VISIBLE);
                 rv_detectAdapter.setDate(mDetectBeans);
                 rv_detectAdapter.notifyDataSetChanged();
+//                java.util.List<EditText> editTextList = rv_detectAdapter.getEditTextList();
+//                setEditTextList(editTextList,wzxxSc);
             }
 
         }
@@ -1303,6 +1341,9 @@ public class SigningDetailsActivity extends BaseActivity implements View.OnClick
             if (mCoachingBean != null) {
                 rvCoachingAdapter.setDate(mCoachingBean);
                 rvCoachingAdapter.notifyDataSetChanged();
+                initCoachData(mCoachingBean,isUpdate());
+//                java.util.List<EditText> editTextList = rvCoachingAdapter.getEditTextList();
+//                setEditTextList(editTextList,wzxxSc);
             }
         }
 
@@ -1417,5 +1458,110 @@ public class SigningDetailsActivity extends BaseActivity implements View.OnClick
             mDialogProgress.dismiss();
         }
     }
+
+
+    /**
+     * 初始化辅导类数据
+     *
+     * @param detectBeans 辅导类数据列表
+     * @param isEdit      是否可编辑true or false
+     */
+    private void initCoachData(List<DetectBean> detectBeans, boolean isEdit) {
+        llCoachRoot.removeAllViews();
+        for (int i = 0; i < detectBeans.size(); i++) {
+            llCoachRoot.addView(getCoachView(detectBeans.get(i),i, isEdit));
+        }
+        initKeyBoardListener(wzxxSc);
+    }
+
+    /**
+     * 获取辅导类CoachView
+     * @param detectBean 辅导类实体
+     * @param pos 位置
+     * @param isEdit 是否可以编辑
+     * @return true or false
+     */
+    @SuppressLint("DefaultLocale")
+    private View getCoachView(DetectBean detectBean,int pos, boolean isEdit) {
+        View itemView = View.inflate(context, R.layout.item_coaching, null);
+        LinearLayout lin_frequency = itemView.findViewById(R.id.lin_frequency);
+        TextView tv_name = itemView.findViewById(R.id.tv_name);
+        EditText ed_price = itemView.findViewById(R.id.ed_price);
+        TextView time =  itemView.findViewById(R.id.time);
+        TextView tvFrequency =  itemView.findViewById(R.id.frequency);
+        if (isEdit) {
+            ed_price.setCursorVisible(true);
+        }else{
+            ed_price.setCursorVisible(false);
+        }
+        if(TextUtils.isEmpty(orderCode)){
+            ed_price.setCursorVisible(true);
+        }
+        int minute = detectBean.getMinute();
+        if (minute!=0) {
+            time.setText(String.format("%d分钟，", minute));
+        }else{
+            time.setText("");
+        }
+        int frequencyNum = detectBean.getFrequency();
+        int months = detectBean.getMonths();
+        if (frequencyNum!=0&&months!=0) {
+            tvFrequency.setText(String.format("%d次/%d月", frequencyNum, months));
+        }else{
+            tvFrequency.setText("频次");
+        }
+        if(detectBean.getConfigDetailName().equals("图文")){
+            time.setVisibility(View.GONE);
+
+        }else{
+            time.setVisibility(View.VISIBLE);
+        }
+        //频次
+        lin_frequency.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (detectBean.getConfigDetailName().equals("图文")) {
+                    if (TextUtils.isEmpty(orderCode)||isUpdate()) {
+                        time(pos);
+                    }
+                }else{
+                    if (TextUtils.isEmpty(orderCode)||isUpdate()) {
+                        Videofrequency(pos);
+                    }
+                }
+
+            }
+        });
+        tv_name.setText(detectBean.getConfigDetailName());
+        ed_price.setText(String.format("%s0", detectBean.getPrice()));
+        ed_price.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String value = s.toString();
+                if (!CollectionUtils.isEmpty(mCoachingBean)
+                        && pos < mCoachingBean.size()) {
+                    if (!TextUtils.isEmpty(value)) {
+                        mCoachingBean.get(pos).setPrice(Double.valueOf(value));
+                    } else {
+                        mCoachingBean.get(pos).setPrice(0);
+                    }
+
+                    setTotalprice(mDetectBeans, mCoachingBean);
+                }
+            }
+        });
+        return itemView;
+    }
+
 
 }

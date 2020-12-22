@@ -704,6 +704,7 @@ public class UserAuthenticationActivity extends BaseActivity {
 //        new Thread() {
 //            public void run() {
                 //提交数据
+        getProgressBar("请稍候", "图片上传中请稍后...");
         try {
             UpLoadImgParment upLoadImgParment = new UpLoadImgParment();
             upLoadImgParment.setLoginDoctorPosition(mApp.loginDoctorPosition);
@@ -736,9 +737,7 @@ public class UserAuthenticationActivity extends BaseActivity {
      */
 
     public void getProgressBar(String title, String progressPrompt) {
-        if (mDialogProgress == null) {
-            mDialogProgress = new ProgressDialog(mContext);
-        }
+        mDialogProgress = new ProgressDialog(mContext);
         mDialogProgress.setTitle(title);
         mDialogProgress.setMessage(progressPrompt);
         mDialogProgress.setCancelable(false);
@@ -1120,10 +1119,10 @@ public class UserAuthenticationActivity extends BaseActivity {
         //医师工作证
         int workCard = provideDoctorQualification.getWorkCard();
         Log.e("TAG", "commit:  bbbbbb "+mPhotoType );
-        if(idNumberPositive==0||idNumberSide==0||practising==0||professional==0||workCard==0){
-            ToastUtils.showShort("[医师资格认证]资质未全部上传,请上传成功后重试");
-            return;
-        }
+//        if(idNumberPositive==0||idNumberSide==0||practising==0||professional==0||workCard==0){
+//            ToastUtils.showShort("[医师资格认证]资质未全部上传,请上传成功后重试");
+//            return;
+//        }
         getProgressBar("请稍候", "正在提交。。。");
         //开始识别
         new Thread() {

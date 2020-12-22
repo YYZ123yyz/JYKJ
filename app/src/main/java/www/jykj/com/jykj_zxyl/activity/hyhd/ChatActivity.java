@@ -966,7 +966,7 @@ public class ChatActivity extends BaseActivity {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMainEventBus(OrderMessage orderMessage) {
         String messageType = orderMessage.getMessageType();
-        if (TextUtils.isEmpty(messageType)) {
+        if (messageType.equals("terminationOrder")) {
             sendGetCheckRequest(userCode,userName);
         }
     }
