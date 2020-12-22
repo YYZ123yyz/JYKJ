@@ -574,7 +574,9 @@
             android:launchMode="singleTop"/>
         <activity android:name="com.maiml.previewphoto.PhotoPreviewActivity"/>
         <activity android:name=".personal.activity.WarningActivity" />
-        <activity android:name=".personal.activity.ReferenceMapActivity" />
+        <activity android:name=".personal.activity.ReferenceMapActivity"
+            android:windowSoftInputMode="adjustPan"
+            />
         <activity android:name=".personal.activity.StateDetActivity" />
         <activity android:name=".personal.activity.PreviewImageAvitity" />
         <activity android:name=".capitalpool.activity.WithdrawActivity" />

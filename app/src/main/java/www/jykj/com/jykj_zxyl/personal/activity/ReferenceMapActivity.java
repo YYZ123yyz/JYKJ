@@ -2,6 +2,7 @@ package www.jykj.com.jykj_zxyl.personal.activity;
 
 
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
@@ -83,23 +84,187 @@ public class ReferenceMapActivity extends AbstractMvpBaseActivity<ReferenceContr
         manAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                LogUtils.e("点击啊啊啊啊    "+position);
+                for (int i = 0; i < womenBeans.size(); i++) {
+                    womenBeans.get(i).setClick(false);
+                }
                 for (int i = 0; i < manBeans.size(); i++) {
                     manBeans.get(i).setClick(i == position);
+                    manBeans.get(i).setClickNum(0);
                 }
+
                 manAdapter.notifyDataSetChanged();
+                womenAdapter.notifyDataSetChanged();
+            }
+        });
+        manAdapter.setOnEditClick(new ReferenceMapAdapter.onEditClick() {
+            @Override
+            public void onHighClick(int posit) {
+                for (int i = 0; i < womenBeans.size(); i++) {
+                    womenBeans.get(i).setClick(false);
+                }
+                for (int i = 0; i < manBeans.size(); i++) {
+                    manBeans.get(i).setClick(i == posit);
+                    manBeans.get(i).setClickNum(1);
+                }
+                new Handler().post(new Runnable() {
+                    @Override
+                    public void run() {
+                        manAdapter.notifyDataSetChanged();
+                        womenAdapter.notifyDataSetChanged();
+                    }
+                });
+            }
+
+            @Override
+            public void onLowClick(int posit) {
+                for (int i = 0; i < womenBeans.size(); i++) {
+                    womenBeans.get(i).setClick(false);
+                }
+                for (int i = 0; i < manBeans.size(); i++) {
+                    manBeans.get(i).setClick(i == posit);
+                    manBeans.get(i).setClickNum(2);
+                }
+                new Handler().post(new Runnable() {
+                    @Override
+                    public void run() {
+                        manAdapter.notifyDataSetChanged();
+                        womenAdapter.notifyDataSetChanged();
+                    }
+                });
+            }
+
+            @Override
+            public void onThreClick(int posit) {
+                for (int i = 0; i < womenBeans.size(); i++) {
+                    womenBeans.get(i).setClick(false);
+                }
+                for (int i = 0; i < manBeans.size(); i++) {
+                    manBeans.get(i).setClick(i == posit);
+                    manBeans.get(i).setClickNum(3);
+                }
+                new Handler().post(new Runnable() {
+                    @Override
+                    public void run() {
+                        manAdapter.notifyDataSetChanged();
+                        womenAdapter.notifyDataSetChanged();
+                    }
+                });
+            }
+
+            @Override
+            public void onHighInput(int pos,String high) {
+                manBeans.get(pos).setHighNum(Double.parseDouble(high));
+            }
+
+            @Override
+            public void onLowInput(int pos,String low) {
+                manBeans.get(pos).setLowNum(Double.parseDouble(low));
+            }
+
+            @Override
+            public void onThreInput(int pos,String thre) {
+                manBeans.get(pos).setGradeFloatingValue(Double.parseDouble(thre));
             }
         });
 
+
+
+
         womenAdapter = new ReferenceMapAdapter(R.layout.item_referencemap, womenBeans, this);
         womenRecyeleview.setAdapter(womenAdapter);
+
+        womenAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                for (int i = 0; i < manBeans.size(); i++) {
+                    manBeans.get(i).setClick(false);
+                }
+
+                for (int i = 0; i < womenBeans.size(); i++) {
+                    womenBeans.get(i).setClick(i == position);
+                    womenBeans.get(i).setClickNum(0);
+                }
+                manAdapter.notifyDataSetChanged();
+                womenAdapter.notifyDataSetChanged();
+            }
+        });
+        womenAdapter.setOnEditClick(new ReferenceMapAdapter.onEditClick() {
+            @Override
+            public void onHighClick(int posit) {
+                for (int i = 0; i < manBeans.size(); i++) {
+                    manBeans.get(i).setClick(false);
+                }
+                for (int i = 0; i < womenBeans.size(); i++) {
+                    womenBeans.get(i).setClick(i == posit);
+                    womenBeans.get(i).setClickNum(1);
+                }
+                new Handler().post(new Runnable() {
+                    @Override
+                    public void run() {
+                        manAdapter.notifyDataSetChanged();
+                        womenAdapter.notifyDataSetChanged();
+                    }
+                });
+            }
+
+            @Override
+            public void onLowClick(int posit) {
+                for (int i = 0; i < manBeans.size(); i++) {
+                    manBeans.get(i).setClick(false);
+                }
+                for (int i = 0; i < womenBeans.size(); i++) {
+                    womenBeans.get(i).setClick(i == posit);
+                    womenBeans.get(i).setClickNum(2);
+                }
+                new Handler().post(new Runnable() {
+                    @Override
+                    public void run() {
+                        manAdapter.notifyDataSetChanged();
+                        womenAdapter.notifyDataSetChanged();
+                    }
+                });
+            }
+
+            @Override
+            public void onThreClick(int posit) {
+                for (int i = 0; i < manBeans.size(); i++) {
+                    manBeans.get(i).setClick(false);
+                }
+                for (int i = 0; i < womenBeans.size(); i++) {
+                    womenBeans.get(i).setClick(i == posit);
+                    womenBeans.get(i).setClickNum(3);
+                }
+                new Handler().post(new Runnable() {
+                    @Override
+                    public void run() {
+                        manAdapter.notifyDataSetChanged();
+                        womenAdapter.notifyDataSetChanged();
+                    }
+                });
+            }
+
+            @Override
+            public void onHighInput(int pos, String high) {
+                womenBeans.get(pos).setHighNum(Double.parseDouble(high));
+            }
+
+            @Override
+            public void onLowInput(int pos, String low) {
+                womenBeans.get(pos).setLowNum(Double.parseDouble(low));
+            }
+
+            @Override
+            public void onThreInput(int pos, String thre) {
+                womenBeans.get(pos).setGradeFloatingValue(Double.parseDouble(thre));
+            }
+        });
     }
 
-    @OnClick({R.id.submit,R.id.set_signtv})
+    @OnClick({R.id.submit, R.id.set_signtv})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.set_signtv:
-                startActivity(new Intent(ReferenceMapActivity.this,WarningActivity.class));
+                startActivity(new Intent(ReferenceMapActivity.this, WarningActivity.class));
                 break;
             case R.id.submit:
 
@@ -116,21 +281,17 @@ public class ReferenceMapActivity extends AbstractMvpBaseActivity<ReferenceContr
         } else {
 
         }
-
-
         return RetrofitUtil.encodeParam(map);
     }
 
     @Override
     public void getManDataSucess(ArrayList<RefrecenmapBean> manBean) {
-        LogUtils.e("xxxxx"+manBean.size());
         manBeans.addAll(manBean);
         manAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void getWomenDataSucess(ArrayList<RefrecenmapBean> womenBean) {
-        LogUtils.e("xxxxx"+womenBean.size());
         womenBeans.addAll(womenBean);
         womenAdapter.notifyDataSetChanged();
     }
