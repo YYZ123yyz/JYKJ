@@ -15,6 +15,15 @@ public class RefrecenmapBean {
     private double highNum;
     private double lowNum;
     private boolean isClick;
+    private int clickNum; //0全,1高,2低,3阀
+
+    public int getClickNum() {
+        return clickNum;
+    }
+
+    public void setClickNum(int clickNum) {
+        this.clickNum = clickNum;
+    }
 
     public boolean isClick() {
         return isClick;
