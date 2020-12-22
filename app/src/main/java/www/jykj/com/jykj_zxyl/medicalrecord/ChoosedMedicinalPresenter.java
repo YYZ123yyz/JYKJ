@@ -189,6 +189,9 @@ public class ChoosedMedicinalPresenter
             @Override
             protected void onError(String s) {
                 super.onError(s);
+                if (mView!=null) {
+                    mView.showEmpty();
+                }
             }
 
             @Override

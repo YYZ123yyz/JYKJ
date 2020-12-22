@@ -295,6 +295,55 @@ public class CancellationActivity extends AppCompatActivity implements View.OnCl
                     break;
             }
         }
+
+        String relieveReasonClassCode = signPatientDoctorOrderBean.getRelieveReasonClassCode();
+        String relieveReasonClassCodeD = signPatientDoctorOrderBean.getRelieveReasonClassCodeD();
+        String rejectReasonClassCode = signPatientDoctorOrderBean.getRejectReasonClassCode();
+        String rejectReasonClassCodeJ = signPatientDoctorOrderBean.getRejectReasonClassCodeJ();
+        if (StringUtils.isNotEmpty(relieveReasonClassCode)
+                ||StringUtils.isNotEmpty(relieveReasonClassCodeD)) {
+            mLlCancelContractRoot.setVisibility(View.VISIBLE);
+            if (StringUtils.isNotEmpty(relieveReasonClassCode)) {
+                String relieveReasonClassName = signPatientDoctorOrderBean.getRelieveReasonClassName();
+                tvName.setText(relieveReasonClassName);
+                String relieveRemark = signPatientDoctorOrderBean.getRelieveRemark();
+                tvTermination.setText(StringUtils.isNotEmpty(relieveRemark) ? relieveRemark : "暂无");
+            }
+            if(StringUtils.isNotEmpty(relieveReasonClassCodeD)){
+                String relieveReasonClassNameD = signPatientDoctorOrderBean.getRelieveReasonClassNameD();
+                tvName.setText(relieveReasonClassNameD);
+                String relieveRemarkD = signPatientDoctorOrderBean.getRelieveRemarkD();
+                tvTermination.setText(StringUtils.isNotEmpty(relieveRemarkD) ? relieveRemarkD : "暂无");
+            }
+
+
+        }else{
+            mLlCancelContractRoot.setVisibility(View.GONE);
+        }
+        if(StringUtils.isNotEmpty(rejectReasonClassCode)
+                ||StringUtils.isNotEmpty(rejectReasonClassCodeJ)){
+            mLlRefuseRoot.setVisibility(View.VISIBLE);
+
+            if (StringUtils.isNotEmpty(rejectReasonClassCode)) {
+                mTvRefuseReason.setText(signPatientDoctorOrderBean.getRejectReasonClassName());
+                String rejectRemark = signPatientDoctorOrderBean.getRejectRemark();
+                mTvRefuseContent.setText(StringUtils.isNotEmpty(rejectRemark)?rejectRemark:"暂无");
+            }
+            if (StringUtils.isNotEmpty(rejectReasonClassCodeJ)) {
+                mTvRefuseReason.setText(signPatientDoctorOrderBean.getRejectReasonClassNameJ());
+                String rejectRemarkJ = signPatientDoctorOrderBean.getRejectRemarkJ();
+                mTvRefuseContent.setText(StringUtils.isNotEmpty(rejectRemarkJ)?rejectRemarkJ:"暂无");
+            }
+
+        }else{
+            mLlRefuseRoot.setVisibility(View.GONE);
+        }
+
+        if (isVisibleButtomRoot) {
+            mLlRefuseRoot.setVisibility(View.GONE);
+        }
+
+//        String relieveReasonClassNameD = signPatientDoctorOrderBean.getRelieveReasonClassNameD();
 //
 //        if (TextUtils.isEmpty(relieveReasonClassNameD)&&TextUtils.isEmpty(relieveReasonClassName)) {
 //            mLlCancelContractRoot.setVisibility(View.GONE);
