@@ -1,4 +1,4 @@
-package www.jykj.com.jykj_zxyl.activity.fund;
+package www.jykj.com.jykj_zxyl.capitalpool.activity;
 
 import android.widget.TextView;
 

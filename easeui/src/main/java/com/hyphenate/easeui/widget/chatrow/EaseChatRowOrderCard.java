@@ -955,6 +955,7 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                         bundle.putString("orderCode", orderCode);
                         bundle.putString("patientCode", message.getTo());
                         bundle.putString("patientName", patientName);
+                        bundle.putBoolean("isEdit",true);
                         Intent intent = new Intent();
                         intent.setAction("www.jykj.com.jykj_zxyl." +
                                 "medicalrecord.activity.PatientRecordActivity");

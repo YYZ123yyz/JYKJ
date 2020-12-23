@@ -101,6 +101,7 @@ public class MedcalRecordDialog extends Dialog {
         edInputContent=view.findViewById(R.id.ed_input_content);
         tvSaveBtn=view.findViewById(R.id.tv_save);
         rlDownArrow=view.findViewById(R.id.rl_down_arrow);
+
     }
 
 
@@ -123,6 +124,11 @@ public class MedcalRecordDialog extends Dialog {
                 tvDialogContent.setVisibility(View.GONE);
             }else{
                 tvDialogContent.setVisibility(View.VISIBLE);
+            }
+            if (inputType==MEDICAL_EXAMINATION_TYPE||inputType==TREATMENTPROPOSAL_TYPE) {
+                rlDownArrow.setVisibility(View.GONE);
+            }else{
+                rlDownArrow.setVisibility(View.VISIBLE);
             }
         }
     }

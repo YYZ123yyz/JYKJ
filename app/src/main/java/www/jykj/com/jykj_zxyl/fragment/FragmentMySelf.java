@@ -44,6 +44,7 @@ import www.jykj.com.jykj_zxyl.app_base.http.RetrofitUtil;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.appointment.activity.MyOnlineScheduActivity;
 import www.jykj.com.jykj_zxyl.capitalpool.activity.RechargeActivity;
+import www.jykj.com.jykj_zxyl.capitalpool.activity.StatisticChartActivity;
 import www.jykj.com.jykj_zxyl.personal.activity.MyServiceHistoryActivity;
 import www.jykj.com.jykj_zxyl.util.GsonUtils;
 import www.jykj.com.jykj_zxyl.personal.activity.ReferenceMapActivity;
@@ -77,7 +78,9 @@ public class FragmentMySelf extends Fragment {
     private LinearLayout lin_lecture;
     private LinearLayout lin_invite;
     private LinearLayout lin_warning;
-
+    private LinearLayout mLlWalletRoot;
+    private LinearLayout mLlCouponRoot;
+    private LinearLayout mLlIntegralRoot;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -99,6 +102,9 @@ public class FragmentMySelf extends Fragment {
                 startActivity(intent);
             }
         });
+        mLlWalletRoot=v.findViewById(R.id.ll_wallet_root);
+        mLlCouponRoot=v.findViewById(R.id.ll_coupon_root);
+        mLlIntegralRoot=v.findViewById(R.id.ll_integral_root);
         mMyAccountLinearLayout = (LinearLayout) v.findViewById(R.id.li_fragmentMySelf_MyAccount);
         mPBLinearLayout = (LinearLayout) v.findViewById(R.id.li_fragmentMySelf_PB);
         mShareDataSetLinearLayout = (LinearLayout) v.findViewById(R.id.li_fragmentMySelf_shareDataSet);
@@ -136,7 +142,9 @@ public class FragmentMySelf extends Fragment {
 
         lin_warning = v.findViewById(R.id.lin_warning);
         lin_warning.setOnClickListener(new ButtonClick());
-
+        mLlWalletRoot.setOnClickListener(new ButtonClick());
+        mLlCouponRoot.setOnClickListener(new ButtonClick());
+        mLlIntegralRoot.setOnClickListener(new ButtonClick());
     }
 
     @Override
@@ -291,6 +299,18 @@ public class FragmentMySelf extends Fragment {
                     Intent intent5 = new Intent(getActivity(), RechargeActivity.class);//WarningActivity.class   ReferenceMapActivity   RechargeActivity
                     startActivity(intent5);
                     break;
+                case R.id.ll_wallet_root:
+                    Intent intent6=new Intent(getActivity(), StatisticChartActivity.class);
+                    startActivity(intent6);
+                    break;
+
+                case R.id.ll_coupon_root:
+
+                    break;
+                case R.id.ll_integral_root:
+
+                    break;
+                    default:
             }
         }
 

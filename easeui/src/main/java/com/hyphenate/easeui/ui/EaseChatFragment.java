@@ -177,13 +177,13 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
     static final int ITEM_CALL = 3;        //语音通话
     static final int ITEM_VIDEO = 4;        //视频
     static final int ITEM_WJ = 5;        //文件
-
+    static final int ITEM_VOICE_INPUT = 6;//语音录入
 
     protected int[] itemStrings = {R.string.attach_take_pic, R.string.attach_picture,
             R.string.attach_voice_call, R.string.attach_video, R.string.attach_file};
     protected int[] itemdrawables = {R.mipmap.bg_chat_picture, R.mipmap.bg_chat_take_picture,
-            R.mipmap.bg_chat_video, R.mipmap.bg_chat_call_phone, R.mipmap.bg_chat_sign_up};
-    protected int[] itemIds = {ITEM_TAKE_PICTURE, ITEM_PICTURE, ITEM_CALL, ITEM_VIDEO, ITEM_WJ};
+            R.mipmap.bg_chat_video, R.mipmap.bg_chat_call_phone, R.mipmap.bg_chat_sign_up,R.mipmap.iv_im_voice_input};
+    protected int[] itemIds = {ITEM_TAKE_PICTURE, ITEM_PICTURE, ITEM_CALL, ITEM_VIDEO, ITEM_WJ,ITEM_VOICE_INPUT};
     private boolean isMessageListInited;
     protected MyItemClickListener extendMenuItemClickListener;
     protected boolean isRoaming = false;
@@ -514,16 +514,17 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
         if (isAdded()) {
             if (isVisible) {
                 itemStrings = new int[]{R.string.attach_picture, R.string.attach_take_pic,
-                        R.string.attach_video_call, R.string.attach_voice_call, R.string.attach_sign_up};
+                        R.string.attach_video_call, R.string.attach_voice_call, R.string.attach_sign_up,R.string.voice_input};
                 itemdrawables = new int[]{R.mipmap.bg_chat_picture, R.mipmap.bg_chat_take_picture,
-                        R.mipmap.bg_chat_video, R.mipmap.bg_chat_call_phone, R.mipmap.bg_chat_sign_up};
-                itemIds = new int[]{ITEM_PICTURE, ITEM_TAKE_PICTURE, ITEM_VIDEO, ITEM_CALL, ITEM_WJ};
+                        R.mipmap.bg_chat_video, R.mipmap.bg_chat_call_phone, R.mipmap.bg_chat_sign_up
+                        ,R.mipmap.iv_im_voice_input};
+                itemIds = new int[]{ITEM_PICTURE, ITEM_TAKE_PICTURE, ITEM_VIDEO, ITEM_CALL, ITEM_WJ,ITEM_VOICE_INPUT};
             }else{
                 itemStrings = new int[]{R.string.attach_picture, R.string.attach_take_pic,
-                        R.string.attach_video_call, R.string.attach_voice_call};
+                        R.string.attach_video_call, R.string.attach_voice_call,R.string.voice_input};
                 itemdrawables = new int[]{R.mipmap.bg_chat_picture, R.mipmap.bg_chat_take_picture,
-                        R.mipmap.bg_chat_video, R.mipmap.bg_chat_call_phone};
-                itemIds = new int[]{ITEM_PICTURE, ITEM_TAKE_PICTURE, ITEM_VIDEO, ITEM_CALL};
+                        R.mipmap.bg_chat_video, R.mipmap.bg_chat_call_phone,R.mipmap.iv_im_voice_input};
+                itemIds = new int[]{ITEM_PICTURE, ITEM_TAKE_PICTURE, ITEM_VIDEO, ITEM_CALL,ITEM_VOICE_INPUT};
             }
         }
        registerExtendMenuItem();

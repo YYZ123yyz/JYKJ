@@ -397,6 +397,10 @@ public interface ApiService {
     @POST("/doctorPatientCommonDataController/getUserInfo")
     Observable<String> getUserInfo(@Query(value = "jsonDataInfo", encoded = true)
                                            String queryJson);
+    //医生资格认证提交
+    @POST("/doctorPersonalSetControlle/operSubmitDoctorQualification_20201126")
+    Observable<String> operSubmitDoctorQualification_20201126(@Query(value = "jsonDataInfo", encoded = true)
+                                                                      String queryJson);
 
     //医生账户余额
     @POST("/doctorAccountControlle/searchAccountDoctorAssetsInfo")

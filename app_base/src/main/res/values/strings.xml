@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">app_base</string>
+    <string name="voice_input">语音录入</string>
 </resources>

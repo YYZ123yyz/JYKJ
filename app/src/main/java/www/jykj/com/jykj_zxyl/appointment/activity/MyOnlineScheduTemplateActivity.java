@@ -400,8 +400,8 @@ public class MyOnlineScheduTemplateActivity extends AbstractMvpBaseActivity<
         WheelItem[] wheelItems1 = DataUtil.convertStrToWheelArry(endTimes);
         columnWheelDialog.setItems(wheelItems,wheelItems1,null,null,null);
         String currentTime = com.hyphenate.easeui.jykj.utils.DateUtils.getCurrentTime();
-        columnWheelDialog.setSelected(getCurrentTimePos(startTimes,currentTime)
-                ,getCurrentTimePos(startTimes,currentTime),0,0,0);
+//        columnWheelDialog.setSelected(getCurrentTimePos(startTimes,currentTime)
+//                ,getCurrentTimePos(startTimes,currentTime),0,0,0);
     }
 
 

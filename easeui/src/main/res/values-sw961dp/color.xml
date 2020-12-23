@@ -63,4 +63,5 @@
         </attr>
     </declare-styleable>
     <color name="textColor_vt">#999999</color>
+    <color name="div_color">#F2F2F2</color>
 </resources>

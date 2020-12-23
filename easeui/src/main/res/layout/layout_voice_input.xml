@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="240dp"
+    android:background="@color/writeColor"
+    android:id="@+id/layout_part_1"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/part_0"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        android:visibility="visible"
+        >
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:layout_marginLeft="10dp"
+            >
+
+            <ImageView
+                android:id="@+id/iv_back"
+                android:layout_width="wrap_content"
+                android:layout_height="15dp"
+
+
+                android:src="@mipmap/iv_voice_back" />
+
+
+        </RelativeLayout>
+
+
+
+        <TextView
+            android:id="@+id/choose_lang"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:drawableRight="@mipmap/iv_down_arrow"
+            android:drawablePadding="4dp"
+            android:text="普通话"
+            android:textColor="#000"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/voice_text"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:hint="请开始说话..."
+        android:textSize="15sp"
+        android:textColor="@color/color_666666"
+        android:background="@null"
+        android:layout_marginTop="14dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_above="@+id/layout_voice_input"
+        android:visibility="gone"
+        />
+
+
+    <LinearLayout
+        android:id="@+id/layout_voice_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="40dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="按住说话"
+            android:textColor="@color/color_999999"
+            android:textSize="15sp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            >
+
+            <ImageView
+                android:id="@+id/input_press"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="15dp"
+                android:src="@mipmap/iv_voice_sorce"
+
+                />
+
+            <TextView
+                android:id="@+id/tv_clear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="清空"
+                android:textSize="15sp"
+                android:textColor="@color/color_666666"
+                android:layout_toLeftOf="@+id/input_press"
+                android:layout_marginRight="60dp"
+                android:layout_centerVertical="true"
+                android:visibility="gone"
+                />
+            <TextView
+                android:id="@+id/tv_send"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="发送"
+                android:textSize="15sp"
+                android:textColor="@color/color_6494F7"
+                android:layout_toRightOf="@+id/input_press"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="60dp"
+                android:visibility="gone"
+                />
+
+        </RelativeLayout>
+
+
+
+    </LinearLayout>
+
+
+</RelativeLayout>

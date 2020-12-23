@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/pBackColor"
+    android:background="@color/white"
     android:orientation="vertical">
 
 
@@ -55,11 +55,138 @@
                 </LinearLayout>
             </RelativeLayout>
 
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@color/white"
+                android:layout_marginTop="22dp"
+                android:layout_marginBottom="22dp"
+                >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="1"
+                    android:id="@+id/ll_wallet_root"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableTop="@mipmap/bg_wallet"
+                        android:textColor="@color/color_999999"
+                        android:textSize="12sp"
+                        android:text="钱包"
+                        android:layout_gravity="center_horizontal"
+                        >
+
+
+                    </TextView>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:layout_marginTop="11dp"
+                        android:layout_gravity="center_horizontal"
+                        android:textColor="@color/color_333333"
+                        android:text="查看余额"
+                        >
+
+
+                    </TextView>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="0.5dp"
+                    android:layout_height="58dp"
+                    android:background="@color/color_ebebeb"
+                    >
+
+
+                </View>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="1"
+                    android:id="@+id/ll_coupon_root"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableTop="@mipmap/bg_wallet"
+                        android:textColor="@color/color_999999"
+                        android:textSize="12sp"
+                        android:text="优惠卷"
+                        android:layout_gravity="center_horizontal"
+                        >
+
+
+                    </TextView>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:layout_marginTop="11dp"
+                        android:textColor="@color/color_333333"
+                        android:text="无"
+                        android:layout_gravity="center_horizontal"
+                        >
+
+
+                    </TextView>
+                </LinearLayout>
+                <View
+                    android:layout_width="0.5dp"
+                    android:layout_height="58dp"
+                    android:background="@color/color_ebebeb"
+                    >
+
+
+                </View>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="1"
+                    android:id="@+id/ll_integral_root"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableTop="@mipmap/bg_wallet"
+                        android:textColor="@color/color_999999"
+                        android:textSize="12sp"
+                        android:text="积分"
+                        android:layout_gravity="center_horizontal"
+                        >
+
+
+                    </TextView>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:layout_marginTop="11dp"
+                        android:textColor="@color/color_333333"
+                        android:text="0"
+                        android:layout_gravity="center_horizontal"
+                        >
+
+
+                    </TextView>
+                </LinearLayout>
+
+            </LinearLayout>
             <LinearLayout
                 android:id="@+id/li_fragmentMySelf_MyAccount"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_marginTop="15dp"
                 android:background="@color/writeColor"
                 android:orientation="horizontal">
 
