@@ -69,11 +69,28 @@
         </LinearLayout>
     </RelativeLayout>
 
-    <android.support.v7.widget.RecyclerView
+    <com.scwang.smart.refresh.layout.SmartRefreshLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:id="@+id/refreshLayout"
         android:layout_above="@+id/rl_bottom_root"
-        android:layout_below="@+id/rl_top_root"/>
+        android:layout_below="@+id/rl_top_root"
+        >
+        <com.scwang.smart.refresh.header.ClassicsHeader
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </android.support.v7.widget.RecyclerView>
+
+        <com.scwang.smart.refresh.footer.ClassicsFooter
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.scwang.smart.refresh.layout.SmartRefreshLayout>
 
     <RelativeLayout
         android:id="@+id/rl_bottom_root"
@@ -89,16 +106,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="60dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:id="@+id/ll_bill_root"
+            >
 
-            <ImageButton
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:background="@drawable/bg_bill_btn">
 
 
-            </ImageButton>
+            </ImageView>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -121,23 +140,25 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="60dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:id="@+id/ll_stistic_root"
+            >
 
-            <ImageButton
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:background="@drawable/bg_statistic_btn">
 
 
-            </ImageButton>
+            </ImageView>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="5dp"
-                android:text="账单"
+                android:text="统计"
                 android:textColor="@color/color_799dfe"
                 android:textSize="10sp"
 

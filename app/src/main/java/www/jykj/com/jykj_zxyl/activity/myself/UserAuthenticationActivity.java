@@ -1163,38 +1163,39 @@ public class UserAuthenticationActivity extends BaseActivity {
 
         HashMap<String, Object> hashMap = ParameUtil.buildBaseDoctorParam(this);
         String s = photoUrl.toString();
-        //hashMap.put("imgIdArray", "");
+        hashMap.put("imgIdArray", "");
         if (StringUtils.isNotEmpty(s)) {
             hashMap.put("imgBase64Array", (URLEncoder.encode(s)));
         } else {
-            //hashMap.put("imgBase64Array", "");
-            String s1 = RetrofitUtil.encodeParam(hashMap);
-            ApiHelper.getApiService().operSubmitDoctorQualification_20201126(s1)
-                    .compose(Transformer.switchSchedulers(new ILoadingView() {
-                        @Override
-                        public void showLoadingView() {
-                            getProgressBar("请稍候", "正在提交。。。");
-                        }
-
-                        @Override
-                        public void hideLoadingView() {
-                            cacerProgress();
-                        }
-                    })).subscribe(new CommonDataObserver() {
-                @Override
-                protected void onSuccessResult(BaseBean baseBean) {
-                    int resCode = baseBean.getResCode();
-                    if (resCode == 1) {
-                        ToastUtils.showShort(baseBean.getResMsg());
-                        UserAuthenticationActivity.this.finish();
+            hashMap.put("imgBase64Array", "");
+        }
+        String s1 = RetrofitUtil.encodeParam(hashMap);
+        ApiHelper.getApiService().operSubmitDoctorQualification_20201126(s1)
+                .compose(Transformer.switchSchedulers(new ILoadingView() {
+                    @Override
+                    public void showLoadingView() {
+                        getProgressBar("请稍候", "正在提交。。。");
                     }
-                }
 
-                @Override
-                protected String setTag() {
-                    return super.setTag();
+                    @Override
+                    public void hideLoadingView() {
+                        cacerProgress();
+                    }
+                })).subscribe(new CommonDataObserver() {
+            @Override
+            protected void onSuccessResult(BaseBean baseBean) {
+                int resCode = baseBean.getResCode();
+                if (resCode == 1) {
+                    ToastUtils.showShort(baseBean.getResMsg());
+                    UserAuthenticationActivity.this.finish();
                 }
-            });
+            }
+
+            @Override
+            protected String setTag() {
+                return super.setTag();
+            }
+        });
 
 //        //开始识别
 //        new Thread() {
@@ -1259,7 +1260,7 @@ public class UserAuthenticationActivity extends BaseActivity {
 //            }
 //        }.start();
 
-        }
+
     }
 
 }

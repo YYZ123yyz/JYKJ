@@ -6,126 +6,135 @@
     <include layout="@layout/item_toolbar"
         android:id="@+id/title_bar"
         />
-    <LinearLayout
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginTop="50dp"
+        android:layout_height="match_parent"
         android:layout_below="@+id/title_bar"
+        android:id="@+id/rl_content_root"
         >
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/bg_wallet"
-            android:layout_gravity="center_horizontal"
-            >
-
-
-        </ImageView>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/color_000000"
-            android:textSize="15sp"
-            android:text="我的余额"
-            android:layout_marginTop="26dp"
-            android:layout_gravity="center_horizontal"
-            >
-
-
-        </TextView>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/color_000000"
-            android:textSize="35sp"
-            android:text="¥ 0.00"
-            android:id="@+id/tv_amount_money"
-            android:layout_marginTop="12dp"
-            android:layout_gravity="center_horizontal"
-            >
-
-        </TextView>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_alignParentBottom="true"
-
-        >
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="充值"
-            android:layout_gravity="center_horizontal"
-            android:textColor="@color/white"
-            android:paddingStart="60dp"
-            android:paddingEnd="60dp"
-            android:paddingTop="7dp"
-            android:paddingBottom="7dp"
-            android:id="@+id/tv_recharge_btn"
-            android:background="@drawable/bg_round_799dfe_4"
-            >
-
-
-        </TextView>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="11dp"
-            android:layout_gravity="center_horizontal"
-            android:text="提现"
-            android:textColor="@color/color_799dfe"
-            android:paddingStart="60dp"
-            android:paddingEnd="60dp"
-            android:paddingTop="7dp"
-            android:paddingBottom="7dp"
-            android:background="@drawable/bg_round_d7d7d7_5"
-            >
-
-
-        </TextView>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="61dp"
-            android:layout_marginBottom="37dp"
-            android:layout_gravity="center_horizontal"
+            android:orientation="vertical"
+            android:layout_marginTop="50dp"
             >
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/bg_wallet"
+                android:layout_gravity="center_horizontal"
+                >
+
+
+            </ImageView>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/color_999999"
+                android:textColor="@color/color_000000"
                 android:textSize="15sp"
-                android:text="忘记密码"
-                android:layout_marginEnd="34dp"
+                android:text="我的余额"
+                android:layout_marginTop="26dp"
+                android:layout_gravity="center_horizontal"
                 >
 
 
             </TextView>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/color_999999"
-                android:textSize="15sp"
-                android:text="修改密码"
+                android:textColor="@color/color_000000"
+                android:textSize="35sp"
+                android:text="¥ 0.00"
+                android:id="@+id/tv_amount_money"
+                android:layout_marginTop="12dp"
+                android:layout_gravity="center_horizontal"
                 >
-
 
             </TextView>
 
         </LinearLayout>
 
-    </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_alignParentBottom="true"
+
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="充值"
+                android:layout_gravity="center_horizontal"
+                android:textColor="@color/white"
+                android:paddingStart="60dp"
+                android:paddingEnd="60dp"
+                android:paddingTop="7dp"
+                android:paddingBottom="7dp"
+                android:id="@+id/tv_recharge_btn"
+                android:background="@drawable/bg_round_799dfe_4"
+                >
+
+
+            </TextView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="11dp"
+                android:layout_gravity="center_horizontal"
+                android:text="提现"
+                android:textColor="@color/color_799dfe"
+                android:paddingStart="60dp"
+                android:paddingEnd="60dp"
+                android:paddingTop="7dp"
+                android:paddingBottom="7dp"
+                android:background="@drawable/bg_round_d7d7d7_5"
+                >
+
+
+            </TextView>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="61dp"
+                android:layout_marginBottom="37dp"
+                android:layout_gravity="center_horizontal"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/color_999999"
+                    android:textSize="15sp"
+                    android:text="忘记密码"
+                    android:layout_marginEnd="34dp"
+                    >
+
+
+                </TextView>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/color_999999"
+                    android:textSize="15sp"
+                    android:text="修改密码"
+                    >
+
+
+                </TextView>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </RelativeLayout>
+
 
 
 </RelativeLayout>

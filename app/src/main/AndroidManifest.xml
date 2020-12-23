@@ -591,6 +591,7 @@
         <activity android:name=".capitalpool.activity.ModifyIinforActivity" />
         <activity android:name=".capitalpool.activity.ModifyIinforAgainActivity" />
         <activity android:name=".capitalpool.activity.StatisticChartActivity"/>
+        <activity android:name=".capitalpool.activity.SmallChangeActivity"/>
 
         <meta-data
             android:name="EASEMOB_APPKEY"
