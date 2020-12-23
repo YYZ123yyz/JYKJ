@@ -496,8 +496,10 @@ public interface ApiService {
                                                String queryJson);
 
     //绑定微信支付宝
+    @Multipart
     @POST("/doctorAccountControlle/setWithdrawalQrCode")
-    Observable<String> bindWeichatOrAili( @Body RequestBody body);
+    Observable<String> bindWeichatOrAili( @Query(value = "jsonDataInfo", encoded = true)
+                                                  String queryJson,@Part MultipartBody.Part img);
 
     //费率计算
     @POST("/doctorAccountControlle/searchAccountDoctorWithdrawalCostListResult")

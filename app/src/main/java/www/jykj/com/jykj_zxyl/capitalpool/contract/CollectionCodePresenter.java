@@ -4,6 +4,7 @@ import com.allen.library.interceptor.Transformer;
 import com.allen.library.interfaces.ILoadingView;
 import com.blankj.utilcode.util.LogUtils;
 
+import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.BaseBean;
 import www.jykj.com.jykj_zxyl.app_base.http.ApiHelper;
@@ -20,8 +21,8 @@ public class CollectionCodePresenter extends BasePresenterImpl<CollectionCodeCon
 
 
     @Override
-    public void bindCode(String params, RequestBody body) {
-        ApiHelper.getCapitalPoolApi().bindWeichatOrAili( body).compose(Transformer.switchSchedulers(new ILoadingView() {
+    public void bindCode(String params,MultipartBody.Part file) {
+        ApiHelper.getCapitalPoolApi().bindWeichatOrAili(params,file).compose(Transformer.switchSchedulers(new ILoadingView() {
             @Override
             public void showLoadingView() {
                 if (mView != null) {
