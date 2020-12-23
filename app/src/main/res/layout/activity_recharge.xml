@@ -41,7 +41,8 @@
             android:layout_marginLeft="25dp"
             android:background="@null"
             android:hint="请输入充值金额"
-            android:inputType="number"
+            android:inputType="numberDecimal"
+            android:id="@+id/ed_input_content"
             android:textColor="@color/color_999999"
             android:textSize="17sp" />
 
