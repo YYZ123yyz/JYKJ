@@ -33,6 +33,7 @@
             android:layout_height="wrap_content"
             android:text="@string/msg_def"
             android:textColor="@color/color_333333"
+            android:layout_centerVertical="true"
             android:textSize="15sp"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@+id/iv_card"
