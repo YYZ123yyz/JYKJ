@@ -31,7 +31,7 @@ public class RxUtils {
             for (String key : paramsMap.keySet()) {
 
                 Object o = paramsMap.get(key);
-                if(o!=null){
+                if (o != null) {
                     builder.addFormDataPart(key, o.toString());
                 }
 
@@ -44,8 +44,8 @@ public class RxUtils {
             //"fileName"+i 后台接收图片流的参数名
             builder.addFormDataPart(fileName, file.getName(), imageBody);
         }
-        if(CollectionUtils.isEmpty(filePaths)){
-            builder.addFormDataPart("","");
+        if (CollectionUtils.isEmpty(filePaths)) {
+            builder.addFormDataPart("", "");
         }
         List<MultipartBody.Part> parts = builder.build().parts();
         return parts;

@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.allen.library.RxHttpUtils;
 import com.blankj.utilcode.util.ImageUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.SPStaticUtils;
@@ -29,6 +30,8 @@ import top.zibin.luban.CompressionPredicate;
 import top.zibin.luban.Luban;
 import top.zibin.luban.OnCompressListener;
 import www.jykj.com.jykj_zxyl.R;
+import www.jykj.com.jykj_zxyl.app_base.base_utils.RxUtils;
+import www.jykj.com.jykj_zxyl.app_base.http.ApiService;
 import www.jykj.com.jykj_zxyl.app_base.http.ParameUtil;
 import www.jykj.com.jykj_zxyl.app_base.http.RetrofitUtil;
 import www.jykj.com.jykj_zxyl.app_base.mvp.AbstractMvpBaseActivity;
@@ -112,19 +115,10 @@ public class CollectionCodeActivity extends AbstractMvpBaseActivity<CollectionCo
             ToastUtils.showShort("请选择二维码");
             return;
         }
+        RequestBody requestBody = RequestBody.create(MediaType.parse("image/jpg"), bitmapFile);
+        MultipartBody.Part body = MultipartBody.Part.createFormData("img", bitmapFile.getName(), requestBody);
 
-        MultipartBody.Builder builder = new MultipartBody.Builder()
-                .setType(MultipartBody.FORM);
-
-        builder.addFormDataPart("jsonDataInfo", getParams());
-
-        RequestBody requestBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
-                .addFormDataPart("img", bitmapFile.getName(), RequestBody.create(MediaType.parse("multipart/form-data"), bitmapFile))
-                .build();
-
-        mPresenter.bindCode(getParams(),requestBody);
-
-
+        mPresenter.bindCode(getParams(),body);
     }
 
     private String getParams() {
