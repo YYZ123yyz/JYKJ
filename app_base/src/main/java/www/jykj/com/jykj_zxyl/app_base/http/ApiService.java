@@ -466,7 +466,7 @@ public interface ApiService {
                                            String queryJson);
 
     //绑定银行卡
-    @POST("/doctorAccountControlle/operAccountDoctorBankcardInfo")
+    @POST("/doctorAccountControlle/setBankCard")
     Observable<String> bindBankCard(@Query(value = "jsonDataInfo", encoded = true)
                                                String queryJson);
 
@@ -510,5 +510,8 @@ public interface ApiService {
     @POST("/doctorAccountControlle/sendIdentitySms")
     Observable<String> getIdentitySms(@Query(value = "jsonDataInfo", encoded = true)
                                                String queryJson);
+
+
+
 }
 

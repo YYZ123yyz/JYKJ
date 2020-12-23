@@ -30,6 +30,7 @@
 
 
     <LinearLayout
+        android:id="@+id/addbank_card_layout"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:background="@drawable/bg_round_ffffff_4"
