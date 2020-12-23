@@ -8,6 +8,7 @@ import www.jykj.com.jykj_zxyl.app_base.mvp.AbstractMvpBaseActivity;
 
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.capitalpool.adapter.UserAccountAdapter;
+import www.jykj.com.jykj_zxyl.capitalpool.bean.WithdrawTypelListBean;
 import www.jykj.com.jykj_zxyl.capitalpool.contract.UserAccountContract;
 import www.jykj.com.jykj_zxyl.capitalpool.contract.UserAccountPresenter;
 
@@ -19,9 +20,11 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.blankj.utilcode.util.SPUtils;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class UserAccountActivity extends AbstractMvpBaseActivity<UserAccountContract.View
         , UserAccountPresenter> implements UserAccountContract.View {
@@ -33,6 +36,8 @@ public class UserAccountActivity extends AbstractMvpBaseActivity<UserAccountCont
     @BindView(R.id.weicha_iv_msg)
     ImageView weicatMsgIv;
     private JYKJApplication mApp;
+    private ArrayList<WithdrawTypelListBean> dataList;
+    private UserAccountAdapter userAccountAdapter;
 
     @Override
     protected int setLayoutId() {
@@ -49,13 +54,19 @@ public class UserAccountActivity extends AbstractMvpBaseActivity<UserAccountCont
         super.initView();
         myRecyleview.setLayoutManager(new LinearLayoutManager(this));
 
-        ArrayList<String> strings = new ArrayList<>();
+        dataList = new ArrayList<>();
 
-        for (int i = 0; i < 3; i++) {
-            strings.add("sss");
 
-        }
-        UserAccountAdapter userAccountAdapter = new UserAccountAdapter(R.layout.item_account, strings);
+        userAccountAdapter = new UserAccountAdapter(R.layout.item_account, dataList);
+        userAccountAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                for (int i = 0; i < dataList.size(); i++) {
+                    dataList.get(i).setClick(i == position);
+                }
+
+            }
+        });
         myRecyleview.setAdapter(userAccountAdapter);
     }
 
@@ -77,7 +88,7 @@ public class UserAccountActivity extends AbstractMvpBaseActivity<UserAccountCont
     }
 
 
-    @OnClick({R.id.weichat_rela, R.id.ali_layout,R.id.addbank_card_layout})
+    @OnClick({R.id.weichat_rela, R.id.ali_layout, R.id.addbank_card_layout})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.weichat_rela:
@@ -91,7 +102,7 @@ public class UserAccountActivity extends AbstractMvpBaseActivity<UserAccountCont
                 startActivity(intent1);
                 break;
             case R.id.addbank_card_layout:
-                startActivity(new Intent(UserAccountActivity.this,AddBankcardActivity.class));
+                startActivity(new Intent(UserAccountActivity.this, AddBankcardActivity.class));
                 break;
 
         }
@@ -103,6 +114,18 @@ public class UserAccountActivity extends AbstractMvpBaseActivity<UserAccountCont
         myRecyleview.setVisibility(View.GONE);
         aliMsgIv.setVisibility(View.GONE);
         weicatMsgIv.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void getDataSucess(List<WithdrawTypelListBean> data) {
+        if (dataList != null && dataList.size() > 0) {
+            dataList.clear();
+        }
+        if (data != null) {
+            dataList.addAll(data);
+            userAccountAdapter.notifyDataSetChanged();
+        }
+
     }
 }
 

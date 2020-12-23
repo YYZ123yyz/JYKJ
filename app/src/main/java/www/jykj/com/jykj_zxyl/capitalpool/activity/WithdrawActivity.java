@@ -56,6 +56,19 @@ public class WithdrawActivity extends AbstractMvpBaseActivity<WithdrawContract.V
     protected void initView() {
         super.initView();
         withdrawTypePop = new WithdrawTypePop(this);
+        withdrawTypePop.setOnDevChoose(new WithdrawTypePop.onDevChoose() {
+            @Override
+            public void onDevChoose() {
+                Intent intent = new Intent(WithdrawActivity.this, UserAccountActivity.class);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onChoose(WithdrawTypelListBean withdrawTypelListBean) {
+                cardTv.setText(withdrawTypelListBean.getBankName());
+                bankId = withdrawTypelListBean.getIdNumber();
+            }
+        });
     }
 
     @Override

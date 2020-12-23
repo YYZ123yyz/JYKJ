@@ -4,10 +4,14 @@ import com.allen.library.interceptor.Transformer;
 import com.allen.library.interfaces.ILoadingView;
 import com.blankj.utilcode.util.LogUtils;
 
+import java.util.List;
+
 import www.jykj.com.jykj_zxyl.app_base.base_bean.BaseBean;
 import www.jykj.com.jykj_zxyl.app_base.http.ApiHelper;
 import www.jykj.com.jykj_zxyl.app_base.http.CommonDataObserver;
 import www.jykj.com.jykj_zxyl.app_base.mvp.BasePresenterImpl;
+import www.jykj.com.jykj_zxyl.capitalpool.bean.WithdrawTypelListBean;
+import www.jykj.com.jykj_zxyl.util.GsonUtils;
 
 public class UserAccountPresenter extends BasePresenterImpl<UserAccountContract.View>
         implements UserAccountContract.Presenter {
@@ -44,10 +48,10 @@ public class UserAccountPresenter extends BasePresenterImpl<UserAccountContract.
                     String resJsonData = baseBean.getResJsonData();
                     if (resCode==1) {
                         LogUtils.e("医生账户  账户信息  "+resJsonData);
-                        /*List<TakeMedicinalRateBean>
+                        List<WithdrawTypelListBean>
                                 takeMedicinalRateBeans = GsonUtils.jsonToList(resJsonData,
-                                TakeMedicinalRateBean.class);
-                        mView.getTakeMedicinalRateResult(takeMedicinalRateBeans);*/
+                                WithdrawTypelListBean.class);
+                        mView.getDataSucess(takeMedicinalRateBeans);
                     }else {
                         mView.getNodata();
                     }
