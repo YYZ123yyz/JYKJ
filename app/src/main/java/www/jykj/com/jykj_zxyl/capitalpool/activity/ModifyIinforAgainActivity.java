@@ -18,6 +18,9 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import www.jykj.com.jykj_zxyl.R;
 
+import www.jykj.com.jykj_zxyl.app_base.base_enumtype.JumpTypeEnum;
+import www.jykj.com.jykj_zxyl.app_base.base_utils.ActivityStackManager;
+import www.jykj.com.jykj_zxyl.app_base.base_utils.StringUtils;
 import www.jykj.com.jykj_zxyl.app_base.http.RetrofitUtil;
 import www.jykj.com.jykj_zxyl.app_base.mvp.AbstractMvpBaseActivity;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
@@ -31,13 +34,11 @@ public class ModifyIinforAgainActivity extends AbstractMvpBaseActivity<ModifyIin
 
     private JYKJApplication mApp;
     private String password;
-
-
     @BindView(R.id.password_et)
     PasswordEditText myEdittext;
     @BindView(R.id.bind_tv)
     TextView bindTv;
-
+    private String targetActivity;
     @Override
     protected int setLayoutId() {
         return R.layout.activity_modifyinfor_again;
@@ -51,24 +52,18 @@ public class ModifyIinforAgainActivity extends AbstractMvpBaseActivity<ModifyIin
     @Override
     protected void initView() {
         super.initView();
-        myEdittext.setOnCompleteListener(new PasswordEditText.OnPasswordCompleteListener() {
-            @Override
-            public void onComplete(String password) {
-                bindTv.setTextColor(getResources().getColor(R.color.writeColor));
-                bindTv.setClickable(true);
-                bindTv.setBackgroundResource(R.drawable.bg_round_7a9eff_15);
-            }
+        myEdittext.setOnCompleteListener(password -> {
+            bindTv.setTextColor(getResources().getColor(R.color.writeColor));
+            bindTv.setClickable(true);
+            bindTv.setBackgroundResource(R.drawable.bg_round_7a9eff_15);
         });
-        myEdittext.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (keyCode == KeyEvent.KEYCODE_DEL) {
-                    bindTv.setClickable(false);
-                    bindTv.setTextColor(getResources().getColor(R.color.color_999999));
-                    bindTv.setBackgroundResource(R.drawable.bg_round_eeeeee_5);
-                }
-                return false;
+        myEdittext.setOnKeyListener((v, keyCode, event) -> {
+            if (keyCode == KeyEvent.KEYCODE_DEL) {
+                bindTv.setClickable(false);
+                bindTv.setTextColor(getResources().getColor(R.color.color_999999));
+                bindTv.setBackgroundResource(R.drawable.bg_round_eeeeee_5);
             }
+            return false;
         });
     }
 
@@ -77,6 +72,7 @@ public class ModifyIinforAgainActivity extends AbstractMvpBaseActivity<ModifyIin
         super.initData();
         mApp = (JYKJApplication) getApplication();
         password = getIntent().getStringExtra("password");
+        targetActivity=getIntent().getStringExtra("targetActivity");
     }
 
     @OnClick({R.id.bind_tv})
@@ -116,7 +112,19 @@ public class ModifyIinforAgainActivity extends AbstractMvpBaseActivity<ModifyIin
     @Override
     public void setPasswordSucess(String msg) {
         ToastUtils.showShort(msg);
+        if (StringUtils.isNotEmpty(targetActivity)) {
+            switch (targetActivity) {
+                case JumpTypeEnum
+                        .JUMP_BALANCE_ACTIVITY://跳转余额页面
+                    startActivity(BalanceActivity.class,null);
+                    break;
+
+                    default:
+            }
+
+        }
         finish();
+        ActivityStackManager.getInstance().finish(ModifyIinforActivity.class);
     }
 
     @Override

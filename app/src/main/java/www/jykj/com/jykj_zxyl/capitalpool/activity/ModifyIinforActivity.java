@@ -33,6 +33,7 @@ public class ModifyIinforActivity extends AbstractMvpBaseActivity<ModifyIinforCo
     TextView setTv;
     @BindView(R.id.msg_tv)
     TextView msgTv;
+    private String targetActivity;//来源
     private int mType;
     private JYKJApplication mApp;
     @Override
@@ -50,7 +51,9 @@ public class ModifyIinforActivity extends AbstractMvpBaseActivity<ModifyIinforCo
         super.initView();
         myEdittext.setOnCompleteListener(password -> {
             if (mType== 0 ){
-                Intent intent = new Intent(ModifyIinforActivity.this, ModifyIinforAgainActivity.class);
+                Intent intent = new Intent(ModifyIinforActivity.this,
+                        ModifyIinforAgainActivity.class);
+                intent.putExtra("targetActivity",targetActivity);
                 intent.putExtra("password",myEdittext.getText().toString());
                 startActivity(intent);
             }else if (mType ==1){
@@ -65,6 +68,7 @@ public class ModifyIinforActivity extends AbstractMvpBaseActivity<ModifyIinforCo
         super.initData();
         mApp = (JYKJApplication) getApplication();
         mType = getIntent().getIntExtra("type", 0);
+        targetActivity=getIntent().getStringExtra("targetActivity");
         showOrHide();
 
     }

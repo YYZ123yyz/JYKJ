@@ -93,6 +93,7 @@
                 android:paddingEnd="60dp"
                 android:paddingTop="7dp"
                 android:paddingBottom="7dp"
+                android:id="@+id/tv_withdrawal_btn"
                 android:background="@drawable/bg_round_d7d7d7_5"
                 >
 
@@ -114,6 +115,7 @@
                     android:textColor="@color/color_999999"
                     android:textSize="15sp"
                     android:text="忘记密码"
+                    android:id="@+id/tv_forget_pwd_btn"
                     android:layout_marginEnd="34dp"
                     >
 
@@ -125,6 +127,7 @@
                     android:textColor="@color/color_999999"
                     android:textSize="15sp"
                     android:text="修改密码"
+                    android:id="@+id/tv_modify_pwd_btn"
                     >
 
 
