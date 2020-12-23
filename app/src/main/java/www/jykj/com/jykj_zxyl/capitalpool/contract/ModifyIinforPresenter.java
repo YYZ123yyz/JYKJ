@@ -20,7 +20,7 @@ public class ModifyIinforPresenter extends BasePresenterImpl<ModifyIinforContrac
 
     @Override
     public void checkPassword(String params) {
-        ApiHelper.getCapitalPoolApi().getmodify(params).compose(Transformer.switchSchedulers(new ILoadingView() {
+        ApiHelper.getCapitalPoolApi().checkPassword(params).compose(Transformer.switchSchedulers(new ILoadingView() {
             @Override
             public void showLoadingView() {
                 if (mView != null) {

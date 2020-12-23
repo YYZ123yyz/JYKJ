@@ -96,10 +96,11 @@ public class WithdrawTypePop extends PopupWindow implements View.OnClickListener
 
     @Override
     public void dismiss() {
-        super.dismiss();
+
         WindowManager.LayoutParams lp = mContext.getWindow().getAttributes();
         lp.alpha = 1f;
         mContext.getWindow().setAttributes(lp);
+        super.dismiss();
     }
 
     /**
