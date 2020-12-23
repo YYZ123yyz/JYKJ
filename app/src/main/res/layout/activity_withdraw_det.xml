@@ -15,6 +15,7 @@
         android:layout_height="45dp">
 
         <TextView
+            android:id="@+id/withdrawState_tv"
             android:layout_width="wrap_content"
             android:layout_height="45dp"
             android:text="全部交易状态"
@@ -48,9 +49,10 @@
         android:layout_height="60dp">
 
         <TextView
+            android:id="@+id/tv_date"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="2020-12-12"
+            android:text="@string/msg_def"
             android:textSize="15sp"
             android:textColor="@color/black"
             android:layout_gravity="center_horizontal"

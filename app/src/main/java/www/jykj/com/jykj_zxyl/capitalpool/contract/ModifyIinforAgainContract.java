@@ -2,20 +2,18 @@ package www.jykj.com.jykj_zxyl.capitalpool.contract;
 
 import www.jykj.com.jykj_zxyl.app_base.mvp.BasePresenter;
 import www.jykj.com.jykj_zxyl.app_base.mvp.BaseView;
-import www.jykj.com.jykj_zxyl.personal.StateDetContract;
 
-public class RechargeContract {
+public class ModifyIinforAgainContract {
 
     public interface View extends BaseView {
 
+        void setPasswordSucess(String msg);
 
+        void showMsg(String msg);
     }
 
     public interface Presenter extends BasePresenter<View> {
 
-        void getDocdorAsset(String params);
-
-        void getCardList(String params);
-
+        void setPassword(String params);
     }
 }

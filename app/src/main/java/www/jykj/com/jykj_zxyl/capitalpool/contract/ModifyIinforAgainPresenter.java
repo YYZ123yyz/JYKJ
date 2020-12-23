@@ -8,9 +8,11 @@ import www.jykj.com.jykj_zxyl.app_base.base_bean.BaseBean;
 import www.jykj.com.jykj_zxyl.app_base.http.ApiHelper;
 import www.jykj.com.jykj_zxyl.app_base.http.CommonDataObserver;
 import www.jykj.com.jykj_zxyl.app_base.mvp.BasePresenterImpl;
+import www.jykj.com.jykj_zxyl.capitalpool.bean.EasyBean;
+import yyz_exploit.Utils.GsonUtil;
 
-public class AddBankcardPresenter extends BasePresenterImpl<AddBankcardContract.View>
-        implements AddBankcardContract.Presenter {
+public class ModifyIinforAgainPresenter extends BasePresenterImpl<ModifyIinforAgainContract.View>
+        implements ModifyIinforAgainContract.Presenter {
 
     @Override
     protected Object[] getRequestTags() {
@@ -19,8 +21,8 @@ public class AddBankcardPresenter extends BasePresenterImpl<AddBankcardContract.
 
 
     @Override
-    public void bindBankCard(String params) {
-        ApiHelper.getCapitalPoolApi().bindBankCard(params).compose(Transformer.switchSchedulers(new ILoadingView() {
+    public void setPassword(String params) {
+        ApiHelper.getCapitalPoolApi().setAccountPassword(params).compose(Transformer.switchSchedulers(new ILoadingView() {
             @Override
             public void showLoadingView() {
                 if (mView != null) {
@@ -39,17 +41,16 @@ public class AddBankcardPresenter extends BasePresenterImpl<AddBankcardContract.
             @Override
             protected void onSuccessResult(BaseBean baseBean) {
                 if (mView != null) {
-                    LogUtils.e("xxxxxx   " + baseBean.toString());
+
                     int resCode = baseBean.getResCode();
                     String resJsonData = baseBean.getResJsonData();
                     if (resCode == 1) {
-                        LogUtils.e("医生账户    " + resJsonData);
-                        /*List<TakeMedicinalRateBean>
-                                takeMedicinalRateBeans = GsonUtils.jsonToList(resJsonData,
-                                TakeMedicinalRateBean.class);
-                        mView.getTakeMedicinalRateResult(takeMedicinalRateBeans);*/
+
+                        EasyBean easyBean = GsonUtil.parseJsonToBean(resJsonData, EasyBean.class);
+                        mView.setPasswordSucess(easyBean.getResMsg());
                     } else {
-                        LogUtils.e("医生账户    " + resJsonData);
+
+                        mView.showMsg(baseBean.getResMsg());
                     }
 
                 }

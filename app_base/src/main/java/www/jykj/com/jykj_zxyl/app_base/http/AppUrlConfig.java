@@ -60,7 +60,15 @@ public class AppUrlConfig {
      */
     static String SERVICE_API_LOCAL_URL = "https://192.168.0.119:28081/";
 
+    /**
+     * 资金池 key
+     */
+    static String SERVICE_CAPITALPOOL_KEY="service_capitalpool_api_key";
 
+    /**
+     * 资金池Api url
+     */
+    static String SERVICE_CAPITALPOOL_URL = "https://www.jiuyihtn.com:41051/";
 
     /**
      * 本地Api key

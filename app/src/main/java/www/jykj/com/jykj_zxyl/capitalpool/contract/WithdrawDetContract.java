@@ -12,6 +12,7 @@ public class WithdrawDetContract {
 
     public interface Presenter extends BasePresenter<View> {
 
+        void getWithdrawDet(String params);
 
     }
 }

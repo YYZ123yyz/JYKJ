@@ -11,7 +11,7 @@ public class ModifyIinforContract {
     }
 
     public interface Presenter extends BasePresenter<View> {
-
+        void checkPassword(String params);
 
     }
 }

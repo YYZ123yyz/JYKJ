@@ -398,6 +398,45 @@ public interface ApiService {
     Observable<String> getUserInfo(@Query(value = "jsonDataInfo", encoded = true)
                                            String queryJson);
 
+    //医生账户余额
+    @POST("/doctorAccountControlle/searchAccountDoctorAssetsInfo")
+    Observable<String> getDoctorAssets(@Query(value = "jsonDataInfo", encoded = true)
+                                           String queryJson);
+
+    //绑定银行卡
+    @POST("/doctorAccountControlle/operAccountDoctorBankcardInfo")
+    Observable<String> bindBankCard(@Query(value = "jsonDataInfo", encoded = true)
+                                               String queryJson);
+
+    //查询余额
+    @POST("/doctorAccountControlle/searchAccountDoctorWithdrawalListResult")
+    Observable<String> getWithdrawDet(@Query(value = "jsonDataInfo", encoded = true)
+                                            String queryJson);
+
+    //设置密码
+    @POST("/doctorAccountControlle/setWithdrawalPwd")
+    Observable<String> setAccountPassword(@Query(value = "jsonDataInfo", encoded = true)
+                                              String queryJson);
+
+    //校验密码
+    @POST("/doctorAccountControlle/checkWithdrawalPwd")
+    Observable<String> checkPassword(@Query(value = "jsonDataInfo", encoded = true)
+                                                  String queryJson);
+
+
+    //提现方式
+    @POST("/doctorAccountControlle/searchAccountDoctorBankcardList")
+    Observable<String> getBankcardList(@Query(value = "jsonDataInfo", encoded = true)
+                                             String queryJson);
+    //提现
+    @POST("/doctorAccountControlle/operInsAccountDoctorWithdrawal")
+    Observable<String> go2Withdraw(@Query(value = "jsonDataInfo", encoded = true)
+                                               String queryJson);
+
+    //绑定微信支付宝
+    @POST("/doctorAccountControlle/setWithdrawalQrCode")
+    Observable<String> bindWeichatOrAili(@Query(value = "jsonDataInfo", encoded = true)String queryJson , @Part List<MultipartBody.Part> imagefiles);
+
 
 }
 
