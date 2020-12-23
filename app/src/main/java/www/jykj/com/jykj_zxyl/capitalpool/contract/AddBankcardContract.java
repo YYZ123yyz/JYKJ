@@ -7,6 +7,7 @@ public class AddBankcardContract {
 
     public interface View extends BaseView {
 
+        void bindSucess();
 
     }
 

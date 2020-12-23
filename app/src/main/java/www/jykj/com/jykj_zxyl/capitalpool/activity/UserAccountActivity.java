@@ -77,7 +77,7 @@ public class UserAccountActivity extends AbstractMvpBaseActivity<UserAccountCont
     }
 
 
-    @OnClick({R.id.weichat_rela, R.id.ali_layout})
+    @OnClick({R.id.weichat_rela, R.id.ali_layout,R.id.addbank_card_layout})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.weichat_rela:
@@ -89,6 +89,9 @@ public class UserAccountActivity extends AbstractMvpBaseActivity<UserAccountCont
                 Intent intent1 = new Intent(UserAccountActivity.this, CollectionCodeActivity.class);
                 intent1.putExtra("type", 2);
                 startActivity(intent1);
+                break;
+            case R.id.addbank_card_layout:
+                startActivity(new Intent(UserAccountActivity.this,AddBankcardActivity.class));
                 break;
 
         }

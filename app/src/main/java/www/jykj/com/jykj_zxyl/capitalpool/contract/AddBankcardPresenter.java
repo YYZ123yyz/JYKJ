@@ -44,6 +44,7 @@ public class AddBankcardPresenter extends BasePresenterImpl<AddBankcardContract.
                     String resJsonData = baseBean.getResJsonData();
                     if (resCode == 1) {
                         LogUtils.e("医生账户    " + resJsonData);
+                        mView.bindSucess();
                         /*List<TakeMedicinalRateBean>
                                 takeMedicinalRateBeans = GsonUtils.jsonToList(resJsonData,
                                 TakeMedicinalRateBean.class);

@@ -69,7 +69,7 @@ public class AddBankcardActivity extends AbstractMvpBaseActivity<AddBankcardCont
     }
 
     private void checkInput() {
-        if (TextUtils.isEmpty(etName.getText().toString().trim())) {
+        /*if (TextUtils.isEmpty(etName.getText().toString().trim())) {
             ToastUtils.showShort("请填写姓名");
             return;
         }
@@ -92,7 +92,7 @@ public class AddBankcardActivity extends AbstractMvpBaseActivity<AddBankcardCont
         if (RegexUtils.isIDCard18(etCardNum.getText().toString().trim())) {
             ToastUtils.showShort("请填写正确的身份证号");
             return;
-        }
+        }*/
 
         mPresenter.bindBankCard(getParams());
     }
@@ -101,7 +101,7 @@ public class AddBankcardActivity extends AbstractMvpBaseActivity<AddBankcardCont
         HashMap<String, Object> stringStringHashMap = new HashMap<>();
         stringStringHashMap.put("operDoctorCode", mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
         stringStringHashMap.put("operDoctorName", mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
-        stringStringHashMap.put("assetsCode", SPUtils.getInstance().getString("assetsCode") == null ? "" : SPUtils.getInstance().getString("assetsCode"));
+        stringStringHashMap.put("assetsCode", "c877fc2a03bf4552ad070fb112794246");//SPUtils.getInstance().getString("assetsCode") == null ? "c877fc2a03bf4552ad070fb112794246" : SPUtils.getInstance().getString("assetsCode"))
         stringStringHashMap.put("cardUserName", etName.getText().toString().trim());
         stringStringHashMap.put("idNumber", etCardNum.getText().toString().trim());
         stringStringHashMap.put("cardAccount", etBankId.getText().toString().trim());
@@ -111,5 +111,10 @@ public class AddBankcardActivity extends AbstractMvpBaseActivity<AddBankcardCont
     }
 
 
+    @Override
+    public void bindSucess() {
+        ToastUtils.showShort("操作成功");
+        finish();
+    }
 }
 

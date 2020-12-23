@@ -340,7 +340,7 @@ public class FragmentMySelf extends Fragment {
                     Intent intent7 = new Intent(getActivity(), ModifyIinforActivity.class);
                     Bundle bundle=new Bundle();
 
-                    if(setStatus.equals("0")){
+                    if(setStatus == null || setStatus.equals("0")){
                         bundle.putInt("type",0);
                     }else if(setStatus.equals("1")){
                         bundle.putInt("type",1);

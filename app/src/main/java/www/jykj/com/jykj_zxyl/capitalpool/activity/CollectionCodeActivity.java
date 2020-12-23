@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.allen.library.RxHttpUtils;
@@ -53,6 +54,7 @@ public class CollectionCodeActivity extends AbstractMvpBaseActivity<CollectionCo
     EditText inputEt;
     @BindView(R.id.add_iv)
     ImageView addIv;
+
     private int mType;
     private Bitmap cordBitmap;
     private JYKJApplication mApp;
