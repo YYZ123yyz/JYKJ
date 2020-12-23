@@ -43,13 +43,14 @@ public class WithdrawDetPresenter extends BasePresenterImpl<WithdrawDetContract.
                     int resCode = baseBean.getResCode();
                     String resJsonData = baseBean.getResJsonData();
                     if (resCode==1) {
-                        LogUtils.e("医生账户    "+resJsonData);
+                        LogUtils.e("医生账户  成功  "+resJsonData);
                         /*List<TakeMedicinalRateBean>
                                 takeMedicinalRateBeans = GsonUtils.jsonToList(resJsonData,
                                 TakeMedicinalRateBean.class);
                         mView.getTakeMedicinalRateResult(takeMedicinalRateBeans);*/
                     }else {
-                        LogUtils.e("医生账户    "+resJsonData);
+                        LogUtils.e("医生账户  失败  "+resJsonData);
+                        mView.showRetry();
                     }
 
                 }

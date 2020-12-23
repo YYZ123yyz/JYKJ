@@ -468,7 +468,7 @@ public interface ApiService {
     Observable<String> bindBankCard(@Query(value = "jsonDataInfo", encoded = true)
                                                String queryJson);
 
-    //查询余额
+    //医生提现明细列表
     @POST("/doctorAccountControlle/searchAccountDoctorWithdrawalListResult")
     Observable<String> getWithdrawDet(@Query(value = "jsonDataInfo", encoded = true)
                                             String queryJson);

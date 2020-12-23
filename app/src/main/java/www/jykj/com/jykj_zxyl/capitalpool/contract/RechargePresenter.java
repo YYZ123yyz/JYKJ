@@ -97,11 +97,9 @@ public class RechargePresenter extends BasePresenterImpl<RechargeContract.View>
             @Override
             protected void onSuccessResult(BaseBean baseBean) {
                 if (mView!=null) {
-                    LogUtils.e("xxxxxx   "+baseBean.toString());
                     int resCode = baseBean.getResCode();
                     String resJsonData = baseBean.getResJsonData();
                     if (resCode==1) {
-                        LogUtils.e("医生账户  账户列表  "+resJsonData);
                         /*List<TakeMedicinalRateBean>
                                 takeMedicinalRateBeans = GsonUtils.jsonToList(resJsonData,
                                 TakeMedicinalRateBean.class);
