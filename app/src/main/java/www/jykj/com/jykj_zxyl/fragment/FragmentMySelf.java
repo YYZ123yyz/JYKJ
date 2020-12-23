@@ -38,6 +38,7 @@ import www.jykj.com.jykj_zxyl.activity.myself.UserAuthenticationActivity;
 import www.jykj.com.jykj_zxyl.activity.myself.UserCenterActivity;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.BaseBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.CheckWithdrawalPwdSetStatusBean;
+import www.jykj.com.jykj_zxyl.app_base.base_enumtype.JumpTypeEnum;
 import www.jykj.com.jykj_zxyl.app_base.http.ApiHelper;
 import www.jykj.com.jykj_zxyl.app_base.http.CommonDataObserver;
 import www.jykj.com.jykj_zxyl.app_base.http.ParameUtil;
@@ -45,8 +46,10 @@ import www.jykj.com.jykj_zxyl.app_base.http.RetrofitUtil;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.appointment.activity.MyOnlineScheduActivity;
 import www.jykj.com.jykj_zxyl.capitalpool.activity.BalanceActivity;
+import www.jykj.com.jykj_zxyl.capitalpool.activity.ModifyIinforActivity;
 import www.jykj.com.jykj_zxyl.capitalpool.activity.RechargeActivity;
 import www.jykj.com.jykj_zxyl.capitalpool.activity.StatisticChartActivity;
+import www.jykj.com.jykj_zxyl.capitalpool.activity.UserAccountActivity;
 import www.jykj.com.jykj_zxyl.personal.activity.MyServiceHistoryActivity;
 import www.jykj.com.jykj_zxyl.util.GsonUtils;
 import www.jykj.com.jykj_zxyl.personal.activity.ReferenceMapActivity;
@@ -334,10 +337,18 @@ public class FragmentMySelf extends Fragment {
                     startActivity(intent5);
                     break;
                 case R.id.ll_wallet_root:
-                    Intent intent6=new Intent(getActivity(), BalanceActivity.class);
-                    startActivity(intent6);
-                    break;
+                    Intent intent7 = new Intent(getActivity(), ModifyIinforActivity.class);
+                    Bundle bundle=new Bundle();
 
+                    if(setStatus.equals("0")){
+                        bundle.putInt("type",0);
+                    }else if(setStatus.equals("1")){
+                        bundle.putInt("type",1);
+                    }
+                    bundle.putString("targetActivity", JumpTypeEnum.JUMP_BALANCE_ACTIVITY);
+                    intent7.putExtras(bundle);
+                    startActivity(intent7);
+                    break;
                 case R.id.ll_coupon_root:
 
                     break;

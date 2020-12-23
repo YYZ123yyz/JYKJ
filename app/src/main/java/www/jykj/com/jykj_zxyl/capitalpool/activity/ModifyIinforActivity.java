@@ -5,11 +5,15 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.ToastUtils;
+
 import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import www.jykj.com.jykj_zxyl.R;
+import www.jykj.com.jykj_zxyl.app_base.base_enumtype.JumpTypeEnum;
+import www.jykj.com.jykj_zxyl.app_base.base_utils.StringUtils;
 import www.jykj.com.jykj_zxyl.app_base.http.RetrofitUtil;
 import www.jykj.com.jykj_zxyl.app_base.mvp.AbstractMvpBaseActivity;
 
@@ -33,6 +37,7 @@ public class ModifyIinforActivity extends AbstractMvpBaseActivity<ModifyIinforCo
     TextView setTv;
     @BindView(R.id.msg_tv)
     TextView msgTv;
+    private String targetActivity;//来源
     private int mType;
     private JYKJApplication mApp;
     @Override
@@ -50,7 +55,9 @@ public class ModifyIinforActivity extends AbstractMvpBaseActivity<ModifyIinforCo
         super.initView();
         myEdittext.setOnCompleteListener(password -> {
             if (mType== 0 ){
-                Intent intent = new Intent(ModifyIinforActivity.this, ModifyIinforAgainActivity.class);
+                Intent intent = new Intent(ModifyIinforActivity.this,
+                        ModifyIinforAgainActivity.class);
+                intent.putExtra("targetActivity",targetActivity);
                 intent.putExtra("password",myEdittext.getText().toString());
                 startActivity(intent);
             }else if (mType ==1){
@@ -65,6 +72,7 @@ public class ModifyIinforActivity extends AbstractMvpBaseActivity<ModifyIinforCo
         super.initData();
         mApp = (JYKJApplication) getApplication();
         mType = getIntent().getIntExtra("type", 0);
+        targetActivity=getIntent().getStringExtra("targetActivity");
         showOrHide();
 
     }
@@ -117,6 +125,27 @@ public class ModifyIinforActivity extends AbstractMvpBaseActivity<ModifyIinforCo
         stringStringHashMap.put("operDoctorCode", mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
         stringStringHashMap.put("pwd", myEdittext.getText().toString());
         return RetrofitUtil.encodeParam(stringStringHashMap);
+    }
+
+
+
+    @Override
+    public void checkPasswordResult(boolean isSucess, String msg) {
+        if (isSucess) {
+            if (StringUtils.isNotEmpty(targetActivity)) {
+                switch (targetActivity) {
+                    case JumpTypeEnum
+                            .JUMP_BALANCE_ACTIVITY://跳转余额页面
+                        startActivity(BalanceActivity.class,null);
+                        break;
+
+                    default:
+                }
+            }
+            this.finish();
+        }else{
+            ToastUtils.showShort(msg);
+        }
     }
 }
 
