@@ -55,6 +55,7 @@
             android:layout_marginTop="7dp"
             android:text="2020-05-14  18:00"
             android:textColor="@color/color_999999"
+            android:id="@+id/tv_date_time"
 
             >
 

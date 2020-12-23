@@ -37,12 +37,14 @@ import www.jykj.com.jykj_zxyl.activity.myself.ShareDataSetActivity;
 import www.jykj.com.jykj_zxyl.activity.myself.UserAuthenticationActivity;
 import www.jykj.com.jykj_zxyl.activity.myself.UserCenterActivity;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.BaseBean;
+import www.jykj.com.jykj_zxyl.app_base.base_bean.CheckWithdrawalPwdSetStatusBean;
 import www.jykj.com.jykj_zxyl.app_base.http.ApiHelper;
 import www.jykj.com.jykj_zxyl.app_base.http.CommonDataObserver;
 import www.jykj.com.jykj_zxyl.app_base.http.ParameUtil;
 import www.jykj.com.jykj_zxyl.app_base.http.RetrofitUtil;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.appointment.activity.MyOnlineScheduActivity;
+import www.jykj.com.jykj_zxyl.capitalpool.activity.BalanceActivity;
 import www.jykj.com.jykj_zxyl.capitalpool.activity.RechargeActivity;
 import www.jykj.com.jykj_zxyl.capitalpool.activity.StatisticChartActivity;
 import www.jykj.com.jykj_zxyl.personal.activity.MyServiceHistoryActivity;
@@ -81,7 +83,7 @@ public class FragmentMySelf extends Fragment {
     private LinearLayout mLlWalletRoot;
     private LinearLayout mLlCouponRoot;
     private LinearLayout mLlIntegralRoot;
-
+    private String setStatus;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_activitymain_myselffragment, container, false);
@@ -152,6 +154,7 @@ public class FragmentMySelf extends Fragment {
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser) {
             sendGetUserInfoRequest();
+            sendCheckWithdrawalPwdSetStatusRequest();
         }
     }
 
@@ -188,10 +191,41 @@ public class FragmentMySelf extends Fragment {
     }
 
 
+    /**
+     * 检查医生支付/提现密码设置状态请求
+     */
+    private void sendCheckWithdrawalPwdSetStatusRequest(){
+        HashMap<String, Object> hashMap = ParameUtil.buildBaseDoctorParam(this.getActivity());
+        String s = RetrofitUtil.encodeParam(hashMap);
+        ApiHelper.getFundPoolApi().checkWithdrawalPwdSetStatus(s).compose(
+                Transformer.switchSchedulers()).subscribe(new CommonDataObserver() {
+            @Override
+            protected void onSuccessResult(BaseBean baseBean) {
+                int resCode = baseBean.getResCode();
+                if (resCode==1) {
+                    String resJsonData = baseBean.getResJsonData();
+                    CheckWithdrawalPwdSetStatusBean checkWithdrawalPwdSetStatusBean
+                            = GsonUtils.fromJson(resJsonData, CheckWithdrawalPwdSetStatusBean.class);
+                    if (checkWithdrawalPwdSetStatusBean!=null) {
+                         setStatus = checkWithdrawalPwdSetStatusBean.getSetStatus();
+                    }
+
+                }
+            }
+
+            @Override
+            protected void onError(String s) {
+                super.onError(s);
+
+            }
+        });
+    }
+
     @Override
     public void onResume() {
         super.onResume();
         sendGetUserInfoRequest();
+        sendCheckWithdrawalPwdSetStatusRequest();
 //        if (mApp.mViewSysUserDoctorInfoAndHospital.getFlagDoctorStatus() == 1)
 //            mUserAuthentication.setImageResource(R.mipmap.fragmentmyself_yrz);
 //        else
@@ -300,7 +334,7 @@ public class FragmentMySelf extends Fragment {
                     startActivity(intent5);
                     break;
                 case R.id.ll_wallet_root:
-                    Intent intent6=new Intent(getActivity(), StatisticChartActivity.class);
+                    Intent intent6=new Intent(getActivity(), BalanceActivity.class);
                     startActivity(intent6);
                     break;
 

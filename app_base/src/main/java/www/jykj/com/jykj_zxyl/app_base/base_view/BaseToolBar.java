@@ -107,6 +107,13 @@ public class BaseToolBar extends Toolbar {
         Drawable dwRight = ContextCompat.getDrawable(getContext(), res);
         mTextRightSearch.setImageDrawable(dwRight);
     }
+    public void setRightTitleSearchBtnVisible(boolean isVisible){
+        if (isVisible) {
+            mTextRightSearch.setVisibility(View.VISIBLE);
+        }else{
+            mTextRightSearch.setVisibility(View.GONE);
+        }
+    }
 
     //设置title左边点击事件
     public void setLeftTitleClickListener(OnClickListener onClickListener){

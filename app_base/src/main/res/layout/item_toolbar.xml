@@ -68,6 +68,10 @@
                     android:layout_alignParentEnd="true"
                     android:layout_gravity="right"
                     android:gravity="center"
+                    android:textSize="15sp"
+                    android:layout_marginEnd="10dp"
+                    android:textColor="@color/white"
+                    android:layout_centerVertical="true"
                     />
 
                 <LinearLayout

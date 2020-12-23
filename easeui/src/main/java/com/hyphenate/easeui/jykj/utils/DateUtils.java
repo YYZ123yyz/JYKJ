@@ -81,6 +81,13 @@ public class DateUtils {
         return string;
     }
 
+    public static String getDateYYYMM(Date data) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(
+                "yyyy-MM");
+        String string = simpleDateFormat.format(data);
+        return string;
+    }
+
     public static String getDates(Date data) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(
                 "yyyy-MM-dd HH:mm:ss");
@@ -313,6 +320,7 @@ public class DateUtils {
         return date;
     }
 
+
     /**
      * 当前的时间(设备)
      *
@@ -345,6 +353,7 @@ public class DateUtils {
         }
         return date;
     }
+
 
     /**
      * 当前的时间(年月)

@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -45,7 +46,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
     //创建新View，被LayoutManager所调用
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_recycleview_imageview, viewGroup, false);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_identification_imageview, viewGroup, false);
         ViewHolder vh = new ViewHolder(view);
         return vh;
     }
@@ -83,14 +84,13 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
                         .apply(RequestOptions.placeholderOf(R.color.color_ffffff)
                                 .diskCacheStrategy(DiskCacheStrategy.ALL))
                         .into(viewHolder.mImageView);
-                ViewGroup.LayoutParams layoutParams = viewHolder.mImageView.getLayoutParams();
-                layoutParams.height=width/3;
-                viewHolder.mImageView.setLayoutParams(layoutParams);
+
             }
         }
-
-
-
+        ViewGroup.LayoutParams layoutParams = viewHolder.mImageView.getLayoutParams();
+        layoutParams.height=width/3;
+        layoutParams.width=width/3;
+        viewHolder.mImageView.setLayoutParams(layoutParams);
         if (mOnItemClickListener != null) {
             viewHolder.delete_img.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -151,11 +151,12 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public ImageView mImageView,delete_img,img_view;            //
-
+        public RelativeLayout mRlContentRoot;
         public ViewHolder(View view) {
             super(view);
             mImageView = (ImageView) view.findViewById(R.id.iv_itempublishActivity_addPicture);
             delete_img = (ImageView) view.findViewById(R.id.iv_delete_btn);
+            mRlContentRoot=view.findViewById(R.id.rl_content_root);
          //   img_view = (ImageView) view.findViewById(R.id.img_view);
 
         }
