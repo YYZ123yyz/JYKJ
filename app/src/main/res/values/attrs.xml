@@ -13,4 +13,16 @@
         <attr name="bigSize" format="integer" />
         <attr name="defaultPosition" format="integer" />
     </declare-styleable>
+
+    <declare-styleable name="PasswordEditText">
+        <attr name="maxCount" format="integer" />
+        <attr name="pwdcircleColor" format="color" />
+        <attr name="pwdCircleRadius" format="dimension" />
+        <attr name="strokeColor" format="color" />
+        <attr name="devideLineColor" format="color" />
+
+        <attr name="divideLineWidth" format="dimension" />
+        <attr name="divideLineColor" format="color" />
+        <attr name="rectAngle" format="dimension" />
+    </declare-styleable>
 </resources>

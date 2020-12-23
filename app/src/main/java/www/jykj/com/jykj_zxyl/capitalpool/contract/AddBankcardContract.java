@@ -12,6 +12,6 @@ public class AddBankcardContract {
 
     public interface Presenter extends BasePresenter<View> {
 
-
+        void bindBankCard(String params);
     }
 }

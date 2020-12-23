@@ -2,18 +2,39 @@ package www.jykj.com.jykj_zxyl.capitalpool.activity;
 
 import android.content.Intent;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import java.util.HashMap;
+
+import butterknife.BindView;
 import butterknife.OnClick;
 import www.jykj.com.jykj_zxyl.R;
+import www.jykj.com.jykj_zxyl.app_base.http.RetrofitUtil;
 import www.jykj.com.jykj_zxyl.app_base.mvp.AbstractMvpBaseActivity;
 
+import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.capitalpool.contract.ModifyIinforContract;
 import www.jykj.com.jykj_zxyl.capitalpool.contract.ModifyIinforPresenter;
+import www.jykj.com.jykj_zxyl.capitalpool.weiget.PasswordEditText;
 
 public class ModifyIinforActivity extends AbstractMvpBaseActivity<ModifyIinforContract.View
         , ModifyIinforPresenter> implements ModifyIinforContract.View {
 
-
+    @BindView(R.id.password_et)
+    PasswordEditText myEdittext;
+    @BindView(R.id.operating_layout)
+    LinearLayout operatingLayout;
+    @BindView(R.id.forget_password)
+    TextView forgetPassword;
+    @BindView(R.id.modify_password)
+    TextView modifyPassword;
+    @BindView(R.id.set_tv)
+    TextView setTv;
+    @BindView(R.id.msg_tv)
+    TextView msgTv;
+    private int mType;
+    private JYKJApplication mApp;
     @Override
     protected int setLayoutId() {
         return R.layout.activity_modifyinfor;
@@ -27,18 +48,75 @@ public class ModifyIinforActivity extends AbstractMvpBaseActivity<ModifyIinforCo
     @Override
     protected void initView() {
         super.initView();
+        myEdittext.setOnCompleteListener(password -> {
+            if (mType== 0 ){
+                Intent intent = new Intent(ModifyIinforActivity.this, ModifyIinforAgainActivity.class);
+                intent.putExtra("password",myEdittext.getText().toString());
+                startActivity(intent);
+            }else if (mType ==1){
+                mPresenter.checkPassword(getParams());
+            }
+
+        });
+    }
+
+    @Override
+    protected void initData() {
+        super.initData();
+        mApp = (JYKJApplication) getApplication();
+        mType = getIntent().getIntExtra("type", 0);
+        showOrHide();
 
     }
 
-
-    @OnClick({R.id.bind_tv})
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.bind_tv:
-//                startActivity(new Intent(CollectionCodeActivity.this, VerificationActivity.class));
+    private void showOrHide() {
+        switch (mType) {
+            case 0://设置密码
+                setTv.setText("设置支付密码");
+                msgTv.setText("请设置支付密码，用于支付验证");
+                operatingLayout.setVisibility(View.GONE);
+                break;
+            case 1://检验密码
+                setTv.setText("校验密码");
+                msgTv.setText("请输入支付密码，以验证身份");
+                operatingLayout.setVisibility(View.VISIBLE);
+                break;
+            case 2://修改密码
+                setTv.setText("修改密码");
+                msgTv.setText("请输入支付密码，以验证身份");
+                operatingLayout.setVisibility(View.GONE);
+                break;
+            case 3://解绑银行卡
+                setTv.setText("解绑银行卡");
+                msgTv.setText("请输入支付密码，以验证身份");
+                operatingLayout.setVisibility(View.GONE);
                 break;
         }
 
+    }
+
+    @OnClick({R.id.bind_tv,R.id.forget_password,R.id.modify_password})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.bind_tv:
+
+                break;
+            case R.id.forget_password:
+                Intent intent = new Intent(ModifyIinforActivity.this, VerificationActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.modify_password:
+
+                break;
+        }
+
+    }
+
+    private String getParams() {
+        HashMap<String, Object> stringStringHashMap = new HashMap<>();
+        stringStringHashMap.put("operDoctorCode", mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
+        stringStringHashMap.put("pwd", myEdittext.getText().toString());
+        return RetrofitUtil.encodeParam(stringStringHashMap);
     }
 }
 

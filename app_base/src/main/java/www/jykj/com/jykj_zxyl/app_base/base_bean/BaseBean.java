@@ -50,6 +50,17 @@ public class BaseBean {
         return resData;
     }
 
+    @Override
+    public String toString() {
+        return "BaseBean{" +
+                "resCode=" + resCode +
+                ", resMsg='" + resMsg + '\'' +
+                ", resJsonData='" + resJsonData + '\'' +
+                ", resTokenData='" + resTokenData + '\'' +
+                ", resData='" + resData + '\'' +
+                '}';
+    }
+
     public void setResData(String resData) {
         this.resData = resData;
     }

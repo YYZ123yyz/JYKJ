@@ -589,6 +589,7 @@
         <activity android:name=".capitalpool.activity.CollectionCodeActivity" />
         <activity android:name=".capitalpool.activity.VerificationActivity" />
         <activity android:name=".capitalpool.activity.ModifyIinforActivity" />
+        <activity android:name=".capitalpool.activity.ModifyIinforAgainActivity" />
         <activity android:name=".capitalpool.activity.StatisticChartActivity"/>
         <activity android:name=".capitalpool.activity.SmallChangeActivity"/>
 

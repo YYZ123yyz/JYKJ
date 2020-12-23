@@ -68,6 +68,14 @@ public class ApiHelper {
     }
 
     /**
+     * 资金池Api
+     * @return ApiService
+     */
+    public static ApiService getCapitalPoolApi(){
+        return RxHttpUtils.createApi(AppUrlConfig.SERVICE_CAPITALPOOL_KEY,
+                AppUrlConfig.SERVICE_CAPITALPOOL_URL, ApiService.class);
+    }
+    /**
      * 获取资金池Api
      * @return ApiService
      */

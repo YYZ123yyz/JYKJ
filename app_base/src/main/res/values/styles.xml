@@ -60,7 +60,7 @@
     </style>
 
     <!-- 分割线 -->
-    <style name="div_h">
+    <style name="div_ho">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">1dp</item>
         <item name="android:background">@color/color_F2F2F2</item>

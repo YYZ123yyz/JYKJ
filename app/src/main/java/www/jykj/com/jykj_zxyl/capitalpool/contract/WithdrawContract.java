@@ -12,6 +12,6 @@ public class WithdrawContract {
 
     public interface Presenter extends BasePresenter<View> {
 
-
+        void go2Withdraw(String params);
     }
 }

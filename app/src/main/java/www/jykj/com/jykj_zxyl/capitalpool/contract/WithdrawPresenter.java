@@ -11,4 +11,8 @@ public class WithdrawPresenter extends BasePresenterImpl<WithdrawContract.View>
     }
 
 
+    @Override
+    public void go2Withdraw(String params) {
+
+    }
 }
