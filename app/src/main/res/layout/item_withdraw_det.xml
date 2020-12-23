@@ -11,6 +11,7 @@
 
 
     <TextView
+        android:id="@+id/status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="已提交"
@@ -38,14 +39,14 @@
             />
 
         <TextView
+            android:id="@+id/rate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="1.00% (最低10元)"
             android:layout_alignParentRight="true"
-            android:textSize="15sp"
-            android:textColor="@color/color_666666"
             android:layout_marginTop="13dp"
-            />
+            android:text="1.00% (最低10元)"
+            android:textColor="@color/color_666666"
+            android:textSize="15sp" />
 
     </RelativeLayout>
     <RelativeLayout
@@ -62,6 +63,7 @@
             />
 
         <TextView
+            android:id="@+id/service"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="1.00% (最低10元)"
@@ -86,6 +88,7 @@
             />
 
         <TextView
+            android:id="@+id/pay_rate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="1.00% (最低10元)"
@@ -110,14 +113,14 @@
             />
 
         <TextView
+            android:id="@+id/pay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="1.00% (最低10元)"
             android:layout_alignParentRight="true"
-            android:textSize="15sp"
-            android:textColor="@color/color_666666"
             android:layout_marginTop="13dp"
-            />
+            android:text="1.00% (最低10元)"
+            android:textColor="@color/color_666666"
+            android:textSize="15sp" />
 
     </RelativeLayout>
     <RelativeLayout
@@ -134,14 +137,14 @@
             />
 
         <TextView
+            android:id="@+id/Initiate_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="1.00% (最低10元)"
             android:layout_alignParentRight="true"
-            android:textSize="15sp"
-            android:textColor="@color/color_666666"
             android:layout_marginTop="13dp"
-            />
+            android:text="1.00% (最低10元)"
+            android:textColor="@color/color_666666"
+            android:textSize="15sp" />
 
     </RelativeLayout>
     <RelativeLayout
@@ -158,14 +161,14 @@
             />
 
         <TextView
+            android:id="@+id/carryout_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="1.00% (最低10元)"
             android:layout_alignParentRight="true"
-            android:textSize="15sp"
-            android:textColor="@color/color_666666"
             android:layout_marginTop="13dp"
-            />
+            android:text="1.00% (最低10元)"
+            android:textColor="@color/color_666666"
+            android:textSize="15sp" />
 
     </RelativeLayout>
     <RelativeLayout
@@ -184,6 +187,7 @@
             />
 
         <TextView
+            android:id="@+id/price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="1.00% (最低10元)"

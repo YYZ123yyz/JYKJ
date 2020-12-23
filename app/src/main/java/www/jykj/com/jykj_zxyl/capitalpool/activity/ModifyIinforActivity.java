@@ -22,6 +22,9 @@ import www.jykj.com.jykj_zxyl.capitalpool.contract.ModifyIinforContract;
 import www.jykj.com.jykj_zxyl.capitalpool.contract.ModifyIinforPresenter;
 import www.jykj.com.jykj_zxyl.capitalpool.weiget.PasswordEditText;
 
+/**
+ * 医生解绑银行卡/微信/支付宝信息
+ */
 public class ModifyIinforActivity extends AbstractMvpBaseActivity<ModifyIinforContract.View
         , ModifyIinforPresenter> implements ModifyIinforContract.View {
 
@@ -123,6 +126,7 @@ public class ModifyIinforActivity extends AbstractMvpBaseActivity<ModifyIinforCo
     private String getParams() {
         HashMap<String, Object> stringStringHashMap = new HashMap<>();
         stringStringHashMap.put("operDoctorCode", mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
+        stringStringHashMap.put("bankcardCode", "14b9aaf578cb4630bfded254c6ffa70f");
         stringStringHashMap.put("pwd", myEdittext.getText().toString());
         return RetrofitUtil.encodeParam(stringStringHashMap);
     }
