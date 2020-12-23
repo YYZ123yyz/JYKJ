@@ -104,7 +104,7 @@ public class BalanceActivity extends AbstractMvpBaseActivity<BalanceContract.Vie
                 if (accountBalanceBean!=null) {
                     String isbinding = accountBalanceBean.getIsbinding();
                     if (isbinding.equals("1")) {
-                        startActivity(WithdrawActivity.class,null,1000);
+                        startActivity(WithdrawDetActivity.class,null,1000);
                     }else{
                         startActivity(UserAccountActivity.class,null,1001);
                     }
