@@ -3,10 +3,14 @@ package www.jykj.com.jykj_zxyl.capitalpool.activity;
 import android.annotation.SuppressLint;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.content.ContextCompat;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.alipay.sdk.app.PayTask;
 import com.blankj.utilcode.util.ToastUtils;
@@ -38,6 +42,8 @@ public class RechargeActivity extends AbstractMvpBaseActivity<RechargeContract.V
     ImageView aliIv;
     @BindView(R.id.ed_input_content)
     EditText edInputContent;
+    @BindView(R.id.go2pay_tv)
+    TextView tvGo2PayBtn;
     private String payType="1";//支付方式
     private JYKJApplication mApp;
     public IWXAPI msgApi;
@@ -98,6 +104,37 @@ public class RechargeActivity extends AbstractMvpBaseActivity<RechargeContract.V
         mPresenter.getCardList(getParams());
         weichatIv.setSelected(true);
         aliIv.setSelected(false);
+        addListener();
+    }
+
+    /**
+     * 添加监听
+     */
+    private void addListener(){
+        edInputContent.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String value = s.toString();
+                boolean number = VerificationUtils.isNumber(value);
+                if(number){
+                    tvGo2PayBtn.setTextColor(ContextCompat.getColor(RechargeActivity.this,R.color.color_white));
+                    tvGo2PayBtn.setBackgroundResource(R.drawable.bg_round_7a9eff_15);
+                }else{
+                    tvGo2PayBtn.setTextColor(ContextCompat.getColor(RechargeActivity.this,R.color.color_666666));
+                    tvGo2PayBtn.setBackgroundResource(R.drawable.bg_round_eeeeee_15);
+                }
+            }
+        });
     }
 
     @OnClick({R.id.go2pay_tv, R.id.ali_layout, R.id.weichat_layout})
@@ -132,6 +169,8 @@ public class RechargeActivity extends AbstractMvpBaseActivity<RechargeContract.V
         }
 
     }
+
+
 
     @Override
     public void showLoading(int code) {
