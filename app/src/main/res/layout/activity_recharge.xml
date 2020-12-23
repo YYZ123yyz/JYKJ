@@ -48,9 +48,11 @@
     </LinearLayout>
 
     <TextView
-        style="@style/div_h"
         android:layout_marginLeft="58dp"
-        android:layout_marginTop="25dp" />
+        android:layout_marginTop="25dp"
+        style="@style/div_ho"
+        />
+
 
 
     <RelativeLayout
