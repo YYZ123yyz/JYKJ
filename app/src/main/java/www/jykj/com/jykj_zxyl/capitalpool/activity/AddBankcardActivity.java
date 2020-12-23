@@ -62,8 +62,7 @@ public class AddBankcardActivity extends AbstractMvpBaseActivity<AddBankcardCont
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.bind_tv:
-//                checkInput();
-                startActivity(new Intent(AddBankcardActivity.this, WithdrawDetActivity.class));
+                checkInput();
                 break;
         }
 

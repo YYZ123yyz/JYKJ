@@ -111,7 +111,7 @@ public class ModifyIinforAgainActivity extends AbstractMvpBaseActivity<ModifyIin
 
     @Override
     public void setPasswordSucess(String msg) {
-        ToastUtils.showShort(msg);
+        //ToastUtils.showShort(msg);
         if (StringUtils.isNotEmpty(targetActivity)) {
             switch (targetActivity) {
                 case JumpTypeEnum

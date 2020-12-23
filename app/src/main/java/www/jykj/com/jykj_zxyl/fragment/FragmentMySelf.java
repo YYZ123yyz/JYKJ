@@ -337,17 +337,17 @@ public class FragmentMySelf extends Fragment {
                     startActivity(intent5);
                     break;
                 case R.id.ll_wallet_root:
-                    if (setStatus.equals("0")) {
-                        Intent intent7 = new Intent(getActivity(), ModifyIinforActivity.class);
-                        Bundle bundle=new Bundle();
+                    Intent intent7 = new Intent(getActivity(), ModifyIinforActivity.class);
+                    Bundle bundle=new Bundle();
+
+                    if(setStatus.equals("0")){
                         bundle.putInt("type",0);
-                        bundle.putString("targetActivity", JumpTypeEnum.JUMP_BALANCE_ACTIVITY);
-                        intent7.putExtras(bundle);
-                        startActivity(intent7);
-                    } else if (setStatus.equals("1")) {
-                        Intent intent6 = new Intent(getActivity(), BalanceActivity.class);
-                        startActivity(intent6);
+                    }else if(setStatus.equals("1")){
+                        bundle.putInt("type",1);
                     }
+                    bundle.putString("targetActivity", JumpTypeEnum.JUMP_BALANCE_ACTIVITY);
+                    intent7.putExtras(bundle);
+                    startActivity(intent7);
                     break;
                 case R.id.ll_coupon_root:
 

@@ -5,11 +5,15 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.ToastUtils;
+
 import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import www.jykj.com.jykj_zxyl.R;
+import www.jykj.com.jykj_zxyl.app_base.base_enumtype.JumpTypeEnum;
+import www.jykj.com.jykj_zxyl.app_base.base_utils.StringUtils;
 import www.jykj.com.jykj_zxyl.app_base.http.RetrofitUtil;
 import www.jykj.com.jykj_zxyl.app_base.mvp.AbstractMvpBaseActivity;
 
@@ -121,6 +125,27 @@ public class ModifyIinforActivity extends AbstractMvpBaseActivity<ModifyIinforCo
         stringStringHashMap.put("operDoctorCode", mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
         stringStringHashMap.put("pwd", myEdittext.getText().toString());
         return RetrofitUtil.encodeParam(stringStringHashMap);
+    }
+
+
+
+    @Override
+    public void checkPasswordResult(boolean isSucess, String msg) {
+        if (isSucess) {
+            if (StringUtils.isNotEmpty(targetActivity)) {
+                switch (targetActivity) {
+                    case JumpTypeEnum
+                            .JUMP_BALANCE_ACTIVITY://跳转余额页面
+                        startActivity(BalanceActivity.class,null);
+                        break;
+
+                    default:
+                }
+            }
+            this.finish();
+        }else{
+            ToastUtils.showShort(msg);
+        }
     }
 }
 
