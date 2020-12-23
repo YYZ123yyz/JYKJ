@@ -5,6 +5,8 @@ import java.util.List;
 
 import io.reactivex.Observable;
 import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import retrofit2.http.Body;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
@@ -495,8 +497,16 @@ public interface ApiService {
 
     //绑定微信支付宝
     @POST("/doctorAccountControlle/setWithdrawalQrCode")
-    Observable<String> bindWeichatOrAili(@Query(value = "jsonDataInfo", encoded = true)String queryJson , @Part List<MultipartBody.Part> imagefiles);
+    Observable<String> bindWeichatOrAili( @Body RequestBody body);
 
+    //费率计算
+    @POST("/doctorAccountControlle/searchAccountDoctorWithdrawalCostListResult")
+    Observable<String> rateCalculation(@Query(value = "jsonDataInfo", encoded = true)
+                                               String queryJson);
 
+    //短信验证
+    @POST("/doctorAccountControlle/sendIdentitySms")
+    Observable<String> getIdentitySms(@Query(value = "jsonDataInfo", encoded = true)
+                                               String queryJson);
 }
 

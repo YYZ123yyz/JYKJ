@@ -12,6 +12,6 @@ public class VerificationContract {
 
     public interface Presenter extends BasePresenter<View> {
 
-
+        void sendMs(String params);
     }
 }

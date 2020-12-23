@@ -68,11 +68,21 @@ public class AccountStatisticPresenter extends BasePresenterImpl<AccountStatisti
                                 GsonUtils.fromJson(resJsonData
                                 , AccountStisticInfoBean.class);
                         mView.getSearchAccountDoctorIncomOutInfoResult(accountStisticInfoBean);
+                    }else{
+                        mView.showEmpty();
                     }
 
                 }
 
 
+            }
+
+            @Override
+            protected void onError(String s) {
+                super.onError(s);
+                if (mView!=null) {
+                    mView.showRetry();
+                }
             }
 
             @Override

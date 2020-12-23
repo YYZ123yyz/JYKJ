@@ -43,13 +43,9 @@ public class ModifyIinforPresenter extends BasePresenterImpl<ModifyIinforContrac
                     int resCode = baseBean.getResCode();
                     String resJsonData = baseBean.getResJsonData();
                     if (resCode == 1) {
-                        LogUtils.e("医生账户    " + resJsonData);
-                        /*List<TakeMedicinalRateBean>
-                                takeMedicinalRateBeans = GsonUtils.jsonToList(resJsonData,
-                                TakeMedicinalRateBean.class);
-                        mView.getTakeMedicinalRateResult(takeMedicinalRateBeans);*/
+                       mView.checkPasswordResult(true,baseBean.getResMsg());
                     } else {
-                        LogUtils.e("医生账户    " + resJsonData);
+                       mView.checkPasswordResult(false,baseBean.getResMsg());
                     }
 
                 }
