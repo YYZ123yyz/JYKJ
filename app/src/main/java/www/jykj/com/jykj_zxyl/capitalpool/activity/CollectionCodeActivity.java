@@ -118,8 +118,6 @@ public class CollectionCodeActivity extends AbstractMvpBaseActivity<CollectionCo
 
         builder.addFormDataPart("jsonDataInfo", getParams());
 
-
-
         RequestBody requestBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
                 .addFormDataPart("img", bitmapFile.getName(), RequestBody.create(MediaType.parse("multipart/form-data"), bitmapFile))
                 .build();
@@ -133,12 +131,12 @@ public class CollectionCodeActivity extends AbstractMvpBaseActivity<CollectionCo
         HashMap<String, Object> stringStringHashMap = new HashMap<>();
 
         stringStringHashMap.put("loginUserPosition", ParameUtil.loginDoctorPosition);
-        stringStringHashMap.put("operDoctorCode", mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
-        stringStringHashMap.put("operDoctorName", mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
+        stringStringHashMap.put("operDoctorCode", "938d735f0e434d7fb3e64c5a30401da2");//mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode()
+        stringStringHashMap.put("operDoctorName","齐研医生");// mApp.mViewSysUserDoctorInfoAndHospital.getUserName()
         stringStringHashMap.put("requestClientType", "1");
-        stringStringHashMap.put("assetsCode", SPUtils.getInstance().getString("assetsCode")==null ? "":SPUtils.getInstance().getString("assetsCode"));
-        stringStringHashMap.put("account", inputEt.getText().toString().trim());
-        stringStringHashMap.put("withdrawalType", mType);
+        stringStringHashMap.put("assetsCode", "c877fc2a03bf4552ad070fb112794246");//SPUtils.getInstance().getString("assetsCode")==null ? "":SPUtils.getInstance().getString("assetsCode")
+        stringStringHashMap.put("account","15191681021");// inputEt.getText().toString().trim()
+        stringStringHashMap.put("withdrawalType", "1");//mType
 
 
         return RetrofitUtil.encodeParam(stringStringHashMap);

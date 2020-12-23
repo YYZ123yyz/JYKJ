@@ -54,6 +54,8 @@ public class RechargeActivity extends AbstractMvpBaseActivity<RechargeContract.V
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.go2pay_tv:
+
+
                 startActivity(new Intent(RechargeActivity.this, WithdrawActivity.class));
                 break;
             case R.id.ali_layout:

@@ -499,6 +499,14 @@ public interface ApiService {
     @POST("/doctorAccountControlle/setWithdrawalQrCode")
     Observable<String> bindWeichatOrAili( @Body RequestBody body);
 
+    //费率计算
+    @POST("/doctorAccountControlle/searchAccountDoctorWithdrawalCostListResult")
+    Observable<String> rateCalculation(@Query(value = "jsonDataInfo", encoded = true)
+                                               String queryJson);
 
+    //短信验证
+    @POST("/doctorAccountControlle/sendIdentitySms")
+    Observable<String> getIdentitySms(@Query(value = "jsonDataInfo", encoded = true)
+                                               String queryJson);
 }
 
