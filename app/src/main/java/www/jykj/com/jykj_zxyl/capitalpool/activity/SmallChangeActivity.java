@@ -1,13 +1,23 @@
 package www.jykj.com.jykj_zxyl.capitalpool.activity;
 
+import android.graphics.Color;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.bigkoo.pickerview.builder.TimePickerBuilder;
 import com.bigkoo.pickerview.view.TimePickerView;
+import com.github.mikephil.charting.animation.Easing;
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.hyphenate.easeui.jykj.utils.DateUtils;
 import com.scwang.smart.refresh.header.ClassicsHeader;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
@@ -16,6 +26,7 @@ import java.util.List;
 import butterknife.BindView;
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.AccountBalanceListInfoBean;
+import www.jykj.com.jykj_zxyl.app_base.base_bean.AccountStisticInfoBean;
 import www.jykj.com.jykj_zxyl.app_base.base_utils.CollectionUtils;
 import www.jykj.com.jykj_zxyl.app_base.base_view.BaseToolBar;
 import www.jykj.com.jykj_zxyl.app_base.base_view.LoadingLayoutManager;
@@ -52,12 +63,46 @@ public class SmallChangeActivity extends AbstractMvpBaseActivity<AccountBalanceL
     LinearLayout llBillRoot;
     @BindView(R.id.ll_stistic_root)
     LinearLayout llStisticRoot;
+    @BindView(R.id.ll_pay_root)
+    LinearLayout llPayRoot;
+    @BindView(R.id.ll_income_root)
+    LinearLayout llIncomeRoot;
+    @BindView(R.id.chart)
+    PieChart chart;
+    @BindView(R.id.tv_statistic_filter_btn)
+    TextView tvStatisticFilterBtn;
+    @BindView(R.id.tv_pay_text)
+    TextView tvPayText;
+    @BindView(R.id.tv_statistic_pay_amount)
+    TextView tvStatisticPayAmount;
+    @BindView(R.id.tv_income_text)
+    TextView tvIncomeText;
+    @BindView(R.id.tv_statistic_income_amount)
+    TextView tvStatisticIncomeAmount;
+    @BindView(R.id.ll_income_diagram_root)
+    LinearLayout llIncomDiagramRoot;
+    @BindView(R.id.ll_pay_diagram_root)
+    LinearLayout llPayDiagramRoot;
+    @BindView(R.id.ll_statistic_content_root)
+    LinearLayout llStatisticContentRoot;
+    @BindView(R.id.ll_bill_content_root)
+    LinearLayout llBillContentRoot;
+    @BindView(R.id.iv_bill_btn)
+    ImageView ivBillBtn;
+    @BindView(R.id.iv_stistic_btn)
+    ImageView ivStisticBtn;
+    @BindView(R.id.tv_bill_text)
+    TextView tvBillText;
+    @BindView(R.id.tv_stistic_text)
+    TextView tvStisticText;
+    private String changeType="1";
     private LoadingLayoutManager mLoadingLayout;//重新加载空页面管理
     private AccountBalanceInfoListAdapter accountBalanceInfoListAdapter;
     private List<AccountBalanceListInfoBean.AccountDoctorBalanceInfoListBean> listBeans;
     private TimePickerView timePickerView;
     private String currentDate="";
     private boolean isShowloading=true;
+    private String sourceType="1";
     @Override
     protected int setLayoutId() {
         return R.layout.activity_small_change;
@@ -71,6 +116,7 @@ public class SmallChangeActivity extends AbstractMvpBaseActivity<AccountBalanceL
         initLoadingAndRetryManager();
         initRecyclerView();
         addListener();
+        //initChartData();
     }
 
     @Override
@@ -79,6 +125,7 @@ public class SmallChangeActivity extends AbstractMvpBaseActivity<AccountBalanceL
         currentDate=DateUtils.getDeviceTimeOfYM();
         mPresenter.sendSearchAccountDoctorBalanceInfoListRequest(currentDate,
                 pageSize,pageIndex,this);
+        tvStatisticFilterBtn.setText(currentDate);
     }
 
     /**
@@ -122,15 +169,55 @@ public class SmallChangeActivity extends AbstractMvpBaseActivity<AccountBalanceL
         llBillRoot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                sourceType="1";
+                setContentHideOrVisible();
+                mPresenter.sendSearchAccountDoctorBalanceInfoListRequest(currentDate,
+                        pageSize,pageIndex,SmallChangeActivity.this);
             }
         });
         llStisticRoot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(StatisticChartActivity.class,null);
+                sourceType="2";
+                setContentHideOrVisible();
+                mPresenter.sendSearchAccountDoctorIncomeOutInfoRequest(currentDate,changeType,
+                        SmallChangeActivity.this);
             }
         });
+
+        llPayRoot.setOnClickListener(v -> {
+            changeType="2";
+            mPresenter.sendSearchAccountDoctorIncomeOutInfoRequest(currentDate,changeType,
+                    SmallChangeActivity.this);
+            isShowloading=true;
+            setPayModeStatus();
+
+        });
+        llIncomeRoot.setOnClickListener(v -> {
+            changeType="1";
+            mPresenter.sendSearchAccountDoctorIncomeOutInfoRequest(currentDate,changeType,
+                    SmallChangeActivity.this);
+            isShowloading=true;
+            setPayModeStatus();
+        });
+    }
+
+    private void setContentHideOrVisible(){
+        if (sourceType.equals("1")) {
+            llBillContentRoot.setVisibility(View.VISIBLE);
+            llStatisticContentRoot.setVisibility(View.GONE);
+            ivBillBtn.setImageResource(R.mipmap.bg_bill_normal);
+            tvBillText.setTextColor(ContextCompat.getColor(this,R.color.color_799dfe));
+            ivStisticBtn.setImageResource(R.mipmap.bg_statistic_press);
+            tvStisticText.setTextColor(ContextCompat.getColor(this,R.color.color_666666));
+        }else if(sourceType.equals("2")){
+            llBillContentRoot.setVisibility(View.GONE);
+            llStatisticContentRoot.setVisibility(View.VISIBLE);
+            ivBillBtn.setImageResource(R.mipmap.bg_bill_press);
+            tvBillText.setTextColor(ContextCompat.getColor(this,R.color.color_666666));
+            ivStisticBtn.setImageResource(R.mipmap.bg_statistic_normal);
+            tvStisticText.setTextColor(ContextCompat.getColor(this,R.color.color_799dfe));
+        }
     }
 
     /**
@@ -142,6 +229,73 @@ public class SmallChangeActivity extends AbstractMvpBaseActivity<AccountBalanceL
         toolbar.setLeftTitleClickListener(view -> finish());
         toolbar.setRightTitleSearchBtnVisible(false);
 
+    }
+
+    private void initChartData(){
+        chart.setUsePercentValues(true);
+        chart.getDescription().setEnabled(false);
+        chart.setExtraOffsets(5, 10, 5, 5);
+
+        chart.setDragDecelerationFrictionCoef(0.95f);
+
+        //chart.setCenterTextTypeface(Typeface.createFromAsset(getAssets(), "OpenSans-Light.ttf"));
+
+        chart.setExtraOffsets(20.f, 0.f, 20.f, 0.f);
+
+        chart.setDrawHoleEnabled(false);
+        chart.setHoleColor(Color.WHITE);
+
+        chart.setTransparentCircleColor(Color.WHITE);
+        chart.setTransparentCircleAlpha(110);
+
+        chart.setHoleRadius(58f);
+        chart.setTransparentCircleRadius(61f);
+
+        chart.setDrawCenterText(true);
+
+        chart.setRotationAngle(0);
+        // enable rotation of the chart by touch
+        chart.setRotationEnabled(true);
+        chart.setHighlightPerTapEnabled(true);
+
+        // chart.setUnit(" €");
+        // chart.setDrawUnitsInChart(true);
+
+        // add a selection listener
+        //chart.setOnChartValueSelectedListener(this);
+
+        chart.animateY(1400, Easing.EaseInOutQuad);
+        // chart.spin(2000, 0, 360);
+
+        Legend l = chart.getLegend();
+        l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
+        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
+        l.setOrientation(Legend.LegendOrientation.VERTICAL);
+        l.setDrawInside(false);
+        l.setEnabled(false);
+
+
+    }
+
+    /**
+     * 设置支付方式按钮状态
+     */
+    private void setPayModeStatus(){
+        if (changeType.equals("1")) {
+            tvPayText.setTextColor(ContextCompat.getColor(this,R.color.color_999999));
+            tvPayAmount.setTextColor(ContextCompat.getColor(this,R.color.color_999999));
+            tvIncomeText.setTextColor(ContextCompat.getColor(this,R.color.color_000000));
+            tvIncomeAmount.setTextColor(ContextCompat.getColor(this,R.color.color_000000));
+            llIncomDiagramRoot.setVisibility(View.VISIBLE);
+            llPayDiagramRoot.setVisibility(View.GONE);
+        }else if(changeType.equals("2")){
+            tvPayText.setTextColor(ContextCompat.getColor(this,R.color.color_000000));
+            tvPayAmount.setTextColor(ContextCompat.getColor(this,R.color.color_000000));
+            tvIncomeText.setTextColor(ContextCompat.getColor(this,R.color.color_999999));
+            tvIncomeAmount.setTextColor(ContextCompat.getColor(this,R.color.color_999999));
+            llIncomDiagramRoot.setVisibility(View.GONE);
+            llPayDiagramRoot.setVisibility(View.VISIBLE);
+        }
     }
 
 
@@ -172,6 +326,103 @@ public class SmallChangeActivity extends AbstractMvpBaseActivity<AccountBalanceL
         timePickerView.show();
     }
 
+
+    /**
+     * 刷新数据
+     * @param accountStisticInfoBean 统计数据
+     */
+    private void refreshData( AccountStisticInfoBean accountStisticInfoBean) {
+        tvStatisticPayAmount.setText(String.format("¥ %s", accountStisticInfoBean.getTotalOut()));
+        tvStatisticIncomeAmount.setText(String.format("¥ %s", accountStisticInfoBean.getTotalIncome()));
+        ArrayList<PieEntry> entries = new ArrayList<>();
+        ArrayList<Integer> colors = new ArrayList<>();
+        if(changeType.equals("1")){
+            float incomeFigureText = accountStisticInfoBean.getIncomeFigureText();
+            if(incomeFigureText>0){
+                colors.add(Color.parseColor("#E24A47"));
+                entries.add(new PieEntry(incomeFigureText,""));
+            }
+            float incomeVideo = accountStisticInfoBean.getIncomeVideo();
+            if (incomeVideo>0) {
+                colors.add(Color.parseColor("#EA883B"));
+                entries.add(new PieEntry(incomeVideo,""));
+            }
+            float incomeAudio = accountStisticInfoBean.getIncomeAudio();
+            if (incomeAudio>0) {
+                colors.add(Color.parseColor("#A763A5"));
+                entries.add(new PieEntry(incomeAudio,""));
+            }
+
+            float incomeCall = accountStisticInfoBean.getIncomeCall();
+            if (incomeCall>0) {
+                colors.add(Color.parseColor("#52B394"));
+                entries.add(new PieEntry(incomeCall,""));
+            }
+
+            float incomeLiveBroadcast = accountStisticInfoBean.getIncomeLiveBroadcast();
+            if (incomeLiveBroadcast>0) {
+                colors.add(Color.parseColor("#3688A1"));
+                entries.add(new PieEntry(incomeLiveBroadcast,""));
+            }
+
+            float incomeSign = accountStisticInfoBean.getIncomeSign();
+            if (incomeSign>0) {
+                colors.add(Color.parseColor("#17B939"));
+                entries.add(new PieEntry(incomeSign,""));
+            }
+
+            float incomeConsultation = accountStisticInfoBean.getIncomeConsultation();
+            if (incomeConsultation>0) {
+                colors.add(Color.parseColor("#EFE343"));
+                entries.add(new PieEntry(incomeConsultation,""));
+            }
+
+
+        }else{
+            float expendConsultation = accountStisticInfoBean.getExpendConsultation();
+            if (expendConsultation>0) {
+                colors.add(Color.parseColor("#E24A47"));
+                entries.add(new PieEntry(expendConsultation,""));
+            }
+
+            float expendLiveBroadcast = accountStisticInfoBean.getExpendLiveBroadcast();
+            if (expendLiveBroadcast>0) {
+                colors.add(Color.parseColor("#52B394"));
+                entries.add(new PieEntry(expendLiveBroadcast,""));
+            }
+
+        }
+
+
+        PieDataSet dataSet = new PieDataSet(entries, "Election Results");
+        dataSet.setSliceSpace(3f);
+        dataSet.setSelectionShift(5f);
+
+
+
+
+        dataSet.setColors(colors);
+        //dataSet.setSelectionShift(0f);
+
+
+        dataSet.setValueLinePart1OffsetPercentage(80.f);
+        dataSet.setValueLinePart1Length(0.2f);
+        dataSet.setValueLinePart2Length(0.4f);
+
+        //dataSet.setXValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
+        dataSet.setYValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
+
+        PieData data = new PieData(dataSet);
+        data.setValueFormatter(new PercentFormatter());
+        data.setValueTextSize(11f);
+        data.setValueTextColor(Color.BLACK);
+        chart.setData(data);
+
+        // undo all highlights
+        chart.highlightValues(null);
+
+        chart.invalidate();
+    }
 
     @Override
     public void showLoading(int code) {
@@ -211,6 +462,12 @@ public class SmallChangeActivity extends AbstractMvpBaseActivity<AccountBalanceL
             }
         }
         mLoadingLayout.showContent();
+    }
+
+    @Override
+    public void getSearchAccountDoctorIncomOutInfoResult(AccountStisticInfoBean accountStisticInfoBean) {
+        initChartData();
+        refreshData(accountStisticInfoBean);
     }
 
     @Override
