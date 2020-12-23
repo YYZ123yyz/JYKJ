@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
@@ -19,21 +20,28 @@ import java.util.List;
 
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.capitalpool.adapter.WithdrawTypeAdapter;
+import www.jykj.com.jykj_zxyl.capitalpool.bean.WithdrawCostBean;
 import www.jykj.com.jykj_zxyl.capitalpool.bean.WithdrawTypelListBean;
 
-public class WithdrawTypePop extends PopupWindow implements View.OnClickListener {
+public class MoneyPop extends PopupWindow implements View.OnClickListener {
 
 
     private final Activity mContext;
     private View mPopView;
-
+    private WithdrawCostBean mData;
 
     private RecyclerView mRecycleView;
     private WithdrawTypeAdapter typeAdapter;
     private ArrayList<WithdrawTypelListBean> mDatas;
+    private TextView platformService;
+    private TextView platformServiceCost;
+    private TextView platformPersonTax;
+    private TextView platformPersonTaxCost;
+    private PasswordEditText passwordEditText;
+    private TextView moneyTv;
 
 
-    public WithdrawTypePop(Activity context) {
+    public MoneyPop(Activity context) {
         super(context);
         mContext = context;
         init(context);
@@ -42,21 +50,23 @@ public class WithdrawTypePop extends PopupWindow implements View.OnClickListener
 
     private void init(Activity context) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        mPopView = inflater.inflate(R.layout.popup_withdraw_type, null);
+        mPopView = inflater.inflate(R.layout.popup_money, null);
         initView();
 
     }
 
     private void initData() {
-
+        if (mData !=null){
+            platformService.setText(mData.getPlatformService());
+            platformServiceCost.setText(mData.getPlatformServeCost());
+            platformPersonTax.setText(mData.getPlatformPersonTax());
+            platformPersonTaxCost.setText(mData.getPlatformPersonTaxCost());
+            moneyTv.setText(mData.getMoney());
+        }
     }
 
     private void initView() {
-        mDatas = new ArrayList<>();
 
-
-        typeAdapter = new WithdrawTypeAdapter(R.layout.item_withdraw_type, mDatas);
-        mRecycleView = mPopView.findViewById(R.id.type_recycleview);
         mPopView.findViewById(R.id.iv_close).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,20 +76,18 @@ public class WithdrawTypePop extends PopupWindow implements View.OnClickListener
                 dismiss();
             }
         });
-        mRecycleView.setLayoutManager(new LinearLayoutManager(mContext));
-        mRecycleView.setAdapter(typeAdapter);
-
-        typeAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+        moneyTv = mPopView.findViewById(R.id.money_tv);
+        platformService = mPopView.findViewById(R.id.platformService);
+        platformServiceCost = mPopView.findViewById(R.id.platformServiceCost);
+        platformPersonTax = mPopView.findViewById(R.id.platformPersonTax);
+        platformPersonTaxCost = mPopView.findViewById(R.id.platformPersonTaxCost);
+        passwordEditText = mPopView.findViewById(R.id.password_et);
+        passwordEditText.setOnCompleteListener(new PasswordEditText.OnPasswordCompleteListener() {
             @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-
+            public void onComplete(String password) {
+                myDevChoose.onDevChoose(password);
             }
         });
-
-
-        LinearLayout addLayout = mPopView.findViewById(R.id.add_withdraw);
-        addLayout.setOnClickListener(this);
-
     }
 
 
@@ -101,7 +109,7 @@ public class WithdrawTypePop extends PopupWindow implements View.OnClickListener
         WindowManager.LayoutParams lp = mContext.getWindow().getAttributes();
         lp.alpha = 0.5f;
         mContext.getWindow().setAttributes(lp);
-        this.showAtLocation(view, Gravity.BOTTOM, 0, 0);
+        this.showAtLocation(view, Gravity.CENTER, 0, 0);
     }
 
     @Override
@@ -111,8 +119,8 @@ public class WithdrawTypePop extends PopupWindow implements View.OnClickListener
         }
 
     }
-    public void setData(List<WithdrawTypelListBean> datas) {
-        this.mDatas.addAll(datas) ;
+    public void setData(WithdrawCostBean data) {
+        mData = data;
 //        typeAdapter.addData(datas);
     }
 
@@ -124,7 +132,7 @@ public class WithdrawTypePop extends PopupWindow implements View.OnClickListener
     }
 
     public interface onDevChoose {
-        void onDevChoose(String mac, String name);
+        void onDevChoose(String password);
     }
 
 }

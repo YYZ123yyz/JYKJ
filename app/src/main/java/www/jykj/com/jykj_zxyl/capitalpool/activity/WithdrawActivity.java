@@ -8,6 +8,7 @@ import android.widget.TextView;
 import com.blankj.utilcode.util.ToastUtils;
 
 import java.util.HashMap;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -17,8 +18,12 @@ import www.jykj.com.jykj_zxyl.app_base.http.RetrofitUtil;
 import www.jykj.com.jykj_zxyl.app_base.mvp.AbstractMvpBaseActivity;
 
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
+import www.jykj.com.jykj_zxyl.capitalpool.bean.WithdrawCostBean;
+import www.jykj.com.jykj_zxyl.capitalpool.bean.WithdrawTypelListBean;
 import www.jykj.com.jykj_zxyl.capitalpool.contract.WithdrawContract;
 import www.jykj.com.jykj_zxyl.capitalpool.contract.WithdrawPresenter;
+import www.jykj.com.jykj_zxyl.capitalpool.weiget.MoneyDialog;
+import www.jykj.com.jykj_zxyl.capitalpool.weiget.MoneyPop;
 import www.jykj.com.jykj_zxyl.capitalpool.weiget.WithdrawTypePop;
 
 public class WithdrawActivity extends AbstractMvpBaseActivity<WithdrawContract.View
@@ -32,6 +37,10 @@ public class WithdrawActivity extends AbstractMvpBaseActivity<WithdrawContract.V
     TextView cardTv;
     private WithdrawTypePop withdrawTypePop;
     private JYKJApplication mApp;
+    private List<WithdrawTypelListBean> mTypeData;
+    private MoneyDialog moneyPop;
+    private String mPassword = "";
+    private String bankId;
 
     @Override
     protected int setLayoutId() {
@@ -53,13 +62,14 @@ public class WithdrawActivity extends AbstractMvpBaseActivity<WithdrawContract.V
     protected void initData() {
         super.initData();
         mApp = (JYKJApplication) getApplication();
+        mPresenter.getWithdrawType(getParams());
     }
 
     @OnClick({R.id.go2pay_tv, R.id.withdraw_type})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.go2pay_tv:
-                startActivity(new Intent(WithdrawActivity.this, AddBankcardActivity.class));
+//                startActivity(new Intent(WithdrawActivity.this, AddBankcardActivity.class));
                 checkInput();
 
                 break;
@@ -67,9 +77,16 @@ public class WithdrawActivity extends AbstractMvpBaseActivity<WithdrawContract.V
                 if (withdrawTypePop == null) {
                     withdrawTypePop = new WithdrawTypePop(this);
                 }
+                if (mTypeData != null) {
+                    withdrawTypePop.setData(mTypeData);
+                }
                 withdrawTypePop.showPop(go2Pay);
                 break;
         }
+
+    }
+
+    private void showPop() {
 
     }
 
@@ -86,7 +103,8 @@ public class WithdrawActivity extends AbstractMvpBaseActivity<WithdrawContract.V
             ToastUtils.showShort("请填写提现金额");
             return;
         }
-        mPresenter.go2Withdraw(getParams());
+//        mPresenter.go2Withdraw(getParams());
+        mPresenter.getWithdrawCost(getParams());
     }
 
     private String getParams() {
@@ -94,9 +112,47 @@ public class WithdrawActivity extends AbstractMvpBaseActivity<WithdrawContract.V
         stringStringHashMap.put("loginDoctorPosition", ParameUtil.loginDoctorPosition);
         stringStringHashMap.put("operDoctorCode", mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
         stringStringHashMap.put("operDoctorName", mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
-        stringStringHashMap.put("bankcardCode", cardTv.getText().toString());
+        stringStringHashMap.put("bankcardCode", bankId);
         stringStringHashMap.put("cashMoney", etWithdraw.getText().toString());
+        stringStringHashMap.put("oldPwd", mPassword);
         return RetrofitUtil.encodeParam(stringStringHashMap);
+    }
+
+    @Override
+    public void getTypeSucess(List<WithdrawTypelListBean> data) {
+        mTypeData = data;
+        WithdrawTypelListBean withdrawTypelListBean = data.get(0);
+        cardTv.setText(withdrawTypelListBean.getBankName());
+        bankId = withdrawTypelListBean.getIdNumber();
+    }
+
+    @Override
+    public void getWithdrawCost(WithdrawCostBean bean) {
+        if (moneyPop == null) {
+            moneyPop = new MoneyDialog(this);
+        }
+        moneyPop.show();
+        bean.setMoney(etWithdraw.getText().toString().trim());
+        moneyPop.setData(bean);
+        moneyPop.setOnDevChoose(new MoneyDialog.onDevChoose() {
+            @Override
+            public void onDevChoose(String password) {
+                mPassword = password;
+                mPresenter.go2Withdraw(getParams());
+            }
+        });
+
+    }
+
+    @Override
+    public void checkSucess() {
+
+    }
+
+    @Override
+    public void withDrawSucess() {
+        ToastUtils.showShort("提现申请成功");
+        finish();
     }
 }
 
