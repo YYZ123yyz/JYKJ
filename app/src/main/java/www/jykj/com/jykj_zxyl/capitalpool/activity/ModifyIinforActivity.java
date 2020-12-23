@@ -126,6 +126,7 @@ public class ModifyIinforActivity extends AbstractMvpBaseActivity<ModifyIinforCo
     private String getParams() {
         HashMap<String, Object> stringStringHashMap = new HashMap<>();
         stringStringHashMap.put("operDoctorCode", mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
+        stringStringHashMap.put("bankcardCode", "14b9aaf578cb4630bfded254c6ffa70f");
         stringStringHashMap.put("pwd", myEdittext.getText().toString());
         return RetrofitUtil.encodeParam(stringStringHashMap);
     }
