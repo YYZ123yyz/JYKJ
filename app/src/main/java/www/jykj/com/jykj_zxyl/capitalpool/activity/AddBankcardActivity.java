@@ -93,8 +93,9 @@ public class AddBankcardActivity extends AbstractMvpBaseActivity<AddBankcardCont
             ToastUtils.showShort("请填写正确的身份证号");
             return;
         }*/
-
-        mPresenter.bindBankCard(getParams());
+      /*  Intent intent = new Intent(this, WithdrawDetActivity.class);
+        startActivity(intent);*/
+           mPresenter.bindBankCard(getParams());
     }
 
     private String getParams() {

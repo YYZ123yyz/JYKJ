@@ -22,6 +22,9 @@ import www.jykj.com.jykj_zxyl.capitalpool.contract.ModifyIinforContract;
 import www.jykj.com.jykj_zxyl.capitalpool.contract.ModifyIinforPresenter;
 import www.jykj.com.jykj_zxyl.capitalpool.weiget.PasswordEditText;
 
+/**
+ * 医生解绑银行卡/微信/支付宝信息
+ */
 public class ModifyIinforActivity extends AbstractMvpBaseActivity<ModifyIinforContract.View
         , ModifyIinforPresenter> implements ModifyIinforContract.View {
 

@@ -61,7 +61,7 @@ public class WithdrawDetActivity extends AbstractMvpBaseActivity<WithdrawDetCont
     private JYKJApplication mApp;
     private String countPeriod = "";
     private String withdrawalState = "";
-    private int pageNum = 0;
+    private int pageNum = 1;
     private int rowNum = 10;
     private List<String> drugDosageNameList;
     private LoadingLayoutManager mLoadingLayout;
@@ -100,33 +100,14 @@ public class WithdrawDetActivity extends AbstractMvpBaseActivity<WithdrawDetCont
         mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
-                pageNum = 1;
-                HashMap<String, Object> stringStringHashMap = new HashMap<>();
-                stringStringHashMap.put("loginDoctorPosition", ParameUtil.loginDoctorPosition);
-                stringStringHashMap.put("operDoctorCode", mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
-                stringStringHashMap.put("operDoctorName", mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
-                stringStringHashMap.put("withdrawalState", withdrawalState);
-                stringStringHashMap.put("countPeriod", countPeriod);
-                stringStringHashMap.put("rowNum", String.valueOf(rowNum));
-                stringStringHashMap.put("pageNum", String.valueOf(pageNum));
-                String s = RetrofitUtil.encodeParam(stringStringHashMap);
-                mPresenter.getWithdrawDet(s);
+                mPresenter.getWithdrawDet(getParams());
             }
         });
         mRefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore(RefreshLayout refreshlayout) {
                 pageNum++;
-                HashMap<String, Object> stringStringHashMap = new HashMap<>();
-                stringStringHashMap.put("loginDoctorPosition", ParameUtil.loginDoctorPosition);
-                stringStringHashMap.put("operDoctorCode", mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
-                stringStringHashMap.put("operDoctorName", mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
-                stringStringHashMap.put("withdrawalState", withdrawalState);
-                stringStringHashMap.put("countPeriod", countPeriod);
-                stringStringHashMap.put("rowNum", String.valueOf(rowNum));
-                stringStringHashMap.put("pageNum", String.valueOf(pageNum));
-                String s = RetrofitUtil.encodeParam(stringStringHashMap);
-                mPresenter.getWithdrawDet(s);
+                mPresenter.getWithdrawDet(getParams());
             }
 
         });
@@ -136,16 +117,7 @@ public class WithdrawDetActivity extends AbstractMvpBaseActivity<WithdrawDetCont
         mLoadingLayout = LoadingLayoutManager.wrap(mRefreshLayout);
         mLoadingLayout.setRetryListener(v -> {
             mLoadingLayout.showLoading();
-            HashMap<String, Object> stringStringHashMap = new HashMap<>();
-            stringStringHashMap.put("loginDoctorPosition", ParameUtil.loginDoctorPosition);
-            stringStringHashMap.put("operDoctorCode", mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
-            stringStringHashMap.put("operDoctorName", mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
-            stringStringHashMap.put("withdrawalState", withdrawalState);
-            stringStringHashMap.put("countPeriod", countPeriod);
-            stringStringHashMap.put("rowNum", String.valueOf(rowNum));
-            stringStringHashMap.put("pageNum", String.valueOf(pageNum));
-            String s = RetrofitUtil.encodeParam(stringStringHashMap);
-            mPresenter.getWithdrawDet(s);
+            mPresenter.getWithdrawDet(getParams());
         });
         mLoadingLayout.showLoading();
     }
@@ -169,10 +141,11 @@ public class WithdrawDetActivity extends AbstractMvpBaseActivity<WithdrawDetCont
         stringStringHashMap.put("loginDoctorPosition", ParameUtil.loginDoctorPosition);
         stringStringHashMap.put("operDoctorCode", mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
         stringStringHashMap.put("operDoctorName", mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
-        stringStringHashMap.put("withdrawalState", withdrawalState);
+        stringStringHashMap.put("withdrawalState", "2");
         stringStringHashMap.put("countPeriod", countPeriod);
         stringStringHashMap.put("rowNum", String.valueOf(rowNum));
         stringStringHashMap.put("pageNum", String.valueOf(pageNum));
+        Log.e("TAG", "getParams: "+stringStringHashMap.toString() );
         return RetrofitUtil.encodeParam(stringStringHashMap);
     }
 
