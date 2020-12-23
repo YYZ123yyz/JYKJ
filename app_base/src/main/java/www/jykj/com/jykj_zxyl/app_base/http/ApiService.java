@@ -156,6 +156,7 @@ public interface ApiService {
     @POST("/doctorInteractDataControlle/operUpdDrugInfo")
     Observable<String> operUpdDrugInfo(@Query(value = "jsonDataInfo"
             , encoded = true) String queryJson);
+
     //处方 保存/变更
     @POST("/doctorInteractDataControlle/operUpdMyClinicDetailByPrescribe_200915")
     Observable<String> operUpdMyClinicDetailByPrescribe_200915(@Query(value = "jsonDataInfo"
@@ -165,22 +166,27 @@ public interface ApiService {
     @POST("/patientDataControlle/searchDoctorManagePatientConditionHealthyResBasics")
     Observable<String> searchBasichealthinformation(@Query(value = "jsonDataInfo"
             , encoded = true) String queryJson);
+
     //症状信息
     @POST("/patientDataControlle/searchDoctorManagePatientConditionHealthyResSymptom")
     Observable<String> searchsymptomformation(@Query(value = "jsonDataInfo"
             , encoded = true) String queryJson);
+
     //标签记录
     @POST("/patientDataControlle/searchDoctorManagePatientConditionLabel")
     Observable<String> searchLabelformation(@Query(value = "jsonDataInfo"
             , encoded = true) String queryJson);
+
     //既往病史
     @POST("/patientDataControlle/searchDoctorManagePatientConditionDiseaseRecordList")
     Observable<String> searchHistoryformation(@Query(value = "jsonDataInfo"
             , encoded = true) String queryJson);
+
     //处方笺列表
     @POST("doctorInteractDataControlle/searchMyClinicDetailResPrescribe_200915")
     Observable<String> searchMyClinicDetailResPrescribe_200915(@Query(value = "jsonDataInfo"
             , encoded = true) String queryJson);
+
     //处方删除[按处方编码
     @POST("/doctorInteractDataControlle/operDelMyClinicDetailByPrescribe_200915")
     Observable<String> operDelMyClinicDetailByPrescribe_200915(@Query(value = "jsonDataInfo"
@@ -190,14 +196,17 @@ public interface ApiService {
     @POST("/medicalRecordControlle/getMyClinicDetailResPatientMedicalRecord")
     Observable<String> getMyClinicDetailResPatientMedicalRecord(@Query(value = "jsonDataInfo"
             , encoded = true) String queryJson);
+
     //处方删除[按处方凭证]
     @POST("/doctorInteractDataControlle/operDelInteractOrderPrescribeByprescribeVoucher_200915")
     Observable<String> operDelInteractOrderPrescribeByprescribeVoucher_200915(@Query(value = "jsonDataInfo"
             , encoded = true) String queryJson);
+
     //获取病历详情
     @POST("medicalRecordControlle/getMyClinicDetailResPatientMedicalRecord")
     Observable<String> getPatientMedicalRecord(@Query(value = "jsonDataInfo"
             , encoded = true) String queryJson);
+
     //[获取]问诊详情数据
     @POST("/medicalRecordControlle/searchMyClinicDetailResPatientInterrogation")
     Observable<String> searchMyClinicDetailResPatientInterrogation(@Query(value = "jsonDataInfo"
@@ -212,10 +221,12 @@ public interface ApiService {
     @POST("/medicalRecordControlle/operMyClinicDetailPatientMedicalRecordByAll")
     Observable<String> savePatientMedicalRecord(@Query(value = "jsonDataInfo"
             , encoded = true) String queryJson);
+
     //[获取]既往病史[医生填写详情]
     @POST("/patientDataControlle/searchDoctorManagePatientConditionDiseaseRecordResDoctorData")
     Observable<String> getFillindetails(@Query(value = "jsonDataInfo"
             , encoded = true) String queryJson);
+
     //获取处方详细信息[按处方凭证]
     @POST("/doctorInteractDataControlle/searchInteractOrderPrescribeList")
     Observable<String> searchInteractOrderPrescribeList(@Query(value = "jsonDataInfo"
@@ -225,6 +236,7 @@ public interface ApiService {
     @POST("/imDataControlle/IMTesting")
     Observable<String> iMTesting(@Query(value = "jsonDataInfo"
             , encoded = true) String queryJson);
+
     //我的患者】获取医生管理的患者信息(签约患者)
     @POST("/bindingDoctorPatientControlle/searchDoctorManagePatientDataByParam")
     Observable<String> searchDoctorManagePatientDataByParam(@Query(value = "jsonDataInfo"
@@ -234,30 +246,37 @@ public interface ApiService {
     @POST("/doctorReserveControlle/searchReserveInfoMyHistory")
     Observable<String> searchReserveInfoMyHistory(@Query(value = "jsonDataInfo"
             , encoded = true) String queryJson);
+
     //首页】首页banner+医院信息
     @POST("/basicDataController/getBannerAndHospitalInfo")
     Observable<String> getBannerAndHospitalInfo(@Query(value = "jsonDataInfo"
             , encoded = true) String queryJson);
+
     //获取消息列表数据
     @POST("/doctorPatientCommonDataController/getUserInfoList")
     Observable<String> getUserInfoList(@Query(value = "jsonDataInfo"
             , encoded = true) String queryJson);
+
     //获取全部资料患者列表
     @POST("/doctorManagePatient/interactPatientAllList")
     Observable<String> interactPatientAllList(@Query(value = "jsonDataInfo"
             , encoded = true) String queryJson);
+
     //获取签约患者列表
     @POST("/doctorManagePatient/interactPatientSigningList")
     Observable<String> interactPatientSigningList(@Query(value = "jsonDataInfo"
             , encoded = true) String queryJson);
+
     //获取医生好友列表
     @POST("/doctorManagePatient/interactDoctorUnionAllList")
     Observable<String> interactDoctorUnionAllList(@Query(value = "jsonDataInfo"
             , encoded = true) String queryJson);
+
     //获取健康咨询列表
     @POST("/doctorDataControlle/searchIndexHealthEducation")
     Observable<String> searchIndexHealthEducation(@Query(value = "jsonDataInfo"
             , encoded = true) String queryJson);
+
     //课件
     @POST("/liveRoomController/listGetIndexHealthEducation")
     Observable<String> getHomeChapterDataList(@Query(value = "jsonDataInfo"
@@ -297,30 +316,37 @@ public interface ApiService {
     @POST("/doctorInteractDataControlle/operUpdMyClinicDetailByOrderPatientMessage_20201012")
     Observable<String> operUpdMyClinicDetailByOrderPatientMessage_20201012(@Query(value = "jsonDataInfo"
             , encoded = true) String queryJson);
+
     //健康档案-既往病史-个人填写详情
     @POST("/patientDataControlle/searchDoctorManagePatientConditionDiseaseRecordResData")
     Observable<String> searchmyself_detail(@Query(value = "jsonDataInfo"
             , encoded = true) String queryJson);
+
     //健康教育-图文资讯详情
     @POST("/doctorDataControlle/searchPatientIndexHealthEducationByImageTextDetail")
     Observable<String> searchPatientIndexHealthEducationByImageTextDetail(@Query(value = "jsonDataInfo"
             , encoded = true) String queryJson);
+
     //新增直播大纲
     @POST("/broadcastSyllabusController/addBroadcastSyllabus")
     Observable<String> addBroadcastSyllabus(@Query(value = "jsonDataInfo"
             , encoded = true) String queryJson);
+
     //查询直播大纲
     @POST("/broadcastLiveDataControlle/getBroadcastDetailInfo")
     Observable<String> getBroadcastDetailInfo(@Query(value = "jsonDataInfo"
             , encoded = true) String queryJson);
+
     //修改直播大纲
     @POST("/broadcastSyllabusController/updateBroadcastSyllabus")
     Observable<String> updateBroadcastSyllabus(@Query(value = "jsonDataInfo"
             , encoded = true) String queryJson);
+
     //新增直播间图片
     @POST("/broadcastImageController/addBroadcastImage")
     Observable<String> addBroadcastImage(@Query(value = "jsonDataInfo"
             , encoded = true) String queryJson);
+
     //新增直播间图片new
     @Multipart
     @POST
@@ -344,10 +370,12 @@ public interface ApiService {
     @POST("/broadcastLiveDataControlle/operLiveRoomDetails")
     Observable<String> operLiveRoomDetails(@Query(value = "jsonDataInfo"
             , encoded = true) String queryJson);
+
     //关闭直播
     @POST("/broadcastLiveDataControlle/operLiveRoomDetailsNoticeResCloseBroadcasting")
     Observable<String> operLiveRoomDetailsNoticeResCloseBroadcasting(
             @Query(value = "jsonDataInfo", encoded = true) String queryJson);
+
     //Im查询追加次数
     @POST("/imDataControlle/searchReserveIMInfo")
     Observable<String> searchReserveIMInfo(@Query(value = "jsonDataInfo", encoded = true)
@@ -357,10 +385,12 @@ public interface ApiService {
     @POST("/imDataControlle/operReserveIMInfo")
     Observable<String> operReserveIMInfo(@Query(value = "jsonDataInfo", encoded = true)
                                                  String queryJson);
+
     //查询首页健康教育整合数据列表
     @POST("/liveRoomController/listGetIndexHealthEducation")
     Observable<String> listGetIndexHealthEducation(@Query(value = "jsonDataInfo", encoded = true)
                                                            String queryJson);
+
     //开启直播
     @POST("/broadcastLiveDataControlle/operLiveRoomDetailsNoticeResStartBroadcasting")
     Observable<String> operLiveRoomDetailsNoticeResStartBroadcasting(@Query(value = "jsonDataInfo"
@@ -386,34 +416,42 @@ public interface ApiService {
     @POST("/liveRoomController/getCourseWareDetail")
     Observable<String> getCourseWareDetail(@Query(value = "jsonDataInfo", encoded = true)
                                                    String queryJson);
+
     //药品信息
     @POST("/doctorInteractDataControlle/searchMyClinicDetailResPrescribeDrugInfo_201116")
     Observable<String> searchMyClinicDetailResPrescribeDrugInfo_201116(@Query(value = "jsonDataInfo", encoded = true)
                                                                                String queryJson);
+
     //药品信息增加
     @POST("/doctorInteractDataControlle/operUpdDrugInfo_201116")
     Observable<String> operUpdDrugInfo_201116(@Query(value = "jsonDataInfo", encoded = true)
                                                       String queryJson);
+
     //药品信息增加
     @POST("/doctorInteractDataControlle/operUpdDrugInfo_201208")
     Observable<String> operUpdDrugInfo_201208(@Query(value = "jsonDataInfo", encoded = true)
                                                       String queryJson);
+
     //获取药品分类数据
     @POST("/doctorInteractDataControlle/getDrugTypeMedicine")
     Observable<String> getDrugTypeMedicine(@Query(value = "jsonDataInfo", encoded = true)
                                                    String queryJson);
+
     //点赞取
     @POST("/broadcastLiveDataControlle/extendBroadcastFollowNum")
     Observable<String> extendBroadcastFollowNum(@Query(value = "jsonDataInfo", encoded = true)
                                                         String queryJson);
+
     //取消点赞
     @POST("/broadcastLiveDataControlle/Numberofprecastviewerscancelled")
     Observable<String> Numberofprecastviewerscancelled(@Query(value = "jsonDataInfo", encoded = true)
                                                                String queryJson);
+
     //药品剂型信息获取
     @POST("/doctorInteractDataControlle/searchDrugTypeDosage")
     Observable<String> searchDrugTypeDosage(@Query(value = "jsonDataInfo", encoded = true)
                                                     String queryJson);
+
     //获取直播间状态
     @POST("/liveRoomController/getDetailsState")
     Observable<String> getDetailsState(@Query(value = "jsonDataInfo", encoded = true)
@@ -444,16 +482,19 @@ public interface ApiService {
     Observable<String> searchAccountDoctorAssetsInfo(@Query(value = "jsonDataInfo", encoded = true)
 
                                                              String queryJson);
+
     //检查医生支付/提现密码设置状态
     @POST("/doctorAccountControlle/checkWithdrawalPwdSetStatus")
     Observable<String> checkWithdrawalPwdSetStatus(@Query(value = "jsonDataInfo", encoded = true)
 
                                                            String queryJson);
+
     //医生账户流水(余额)明细表
     @POST("/doctorAccountControlle/searchAccountDoctorBalanceInfoList")
     Observable<String> searchAccountDoctorBalanceInfoList(@Query(value = "jsonDataInfo", encoded = true)
 
                                                                   String queryJson);
+
     //医生个人收支账户详情表
     @POST("/doctorAccountControlle/searchAccountDoctorIncomeOutInfo")
     Observable<String> searchAccountDoctorIncomeOutInfo(@Query(value = "jsonDataInfo", encoded = true)
@@ -463,43 +504,44 @@ public interface ApiService {
     //医生账户余额
     @POST("/doctorAccountControlle/searchAccountDoctorAssetsInfo")
     Observable<String> getDoctorAssets(@Query(value = "jsonDataInfo", encoded = true)
-                                           String queryJson);
+                                               String queryJson);
 
     //绑定银行卡
     @POST("/doctorAccountControlle/setBankCard")
     Observable<String> bindBankCard(@Query(value = "jsonDataInfo", encoded = true)
-                                               String queryJson);
+                                            String queryJson);
 
-    //查询余额
+    //医生提现明细列表
     @POST("/doctorAccountControlle/searchAccountDoctorWithdrawalListResult")
     Observable<String> getWithdrawDet(@Query(value = "jsonDataInfo", encoded = true)
-                                            String queryJson);
+                                              String queryJson);
 
     //设置密码
     @POST("/doctorAccountControlle/setWithdrawalPwd")
     Observable<String> setAccountPassword(@Query(value = "jsonDataInfo", encoded = true)
-                                              String queryJson);
+                                                  String queryJson);
 
     //校验密码
     @POST("/doctorAccountControlle/checkWithdrawalPwd")
     Observable<String> checkPassword(@Query(value = "jsonDataInfo", encoded = true)
-                                                  String queryJson);
+                                             String queryJson);
 
 
     //提现方式
     @POST("/doctorAccountControlle/searchAccountDoctorBankcardList")
     Observable<String> getBankcardList(@Query(value = "jsonDataInfo", encoded = true)
-                                             String queryJson);
+                                               String queryJson);
+
     //提现
     @POST("/doctorAccountControlle/operInsAccountDoctorWithdrawal")
     Observable<String> go2Withdraw(@Query(value = "jsonDataInfo", encoded = true)
-                                               String queryJson);
+                                           String queryJson);
 
     //绑定微信支付宝
     @Multipart
     @POST("/doctorAccountControlle/setWithdrawalQrCode")
-    Observable<String> bindWeichatOrAili( @Query(value = "jsonDataInfo", encoded = true)
-                                                  String queryJson,@Part MultipartBody.Part img);
+    Observable<String> bindWeichatOrAili(@Query(value = "jsonDataInfo", encoded = true)
+                                                 String queryJson, @Part MultipartBody.Part img);
 
     //费率计算
     @POST("/doctorAccountControlle/searchAccountDoctorWithdrawalCostListResult")
@@ -509,6 +551,12 @@ public interface ApiService {
     //短信验证
     @POST("/doctorAccountControlle/sendIdentitySms")
     Observable<String> getIdentitySms(@Query(value = "jsonDataInfo", encoded = true)
+                                              String queryJson);
+
+    //医生解绑银行卡/微信/支付宝信息
+    @POST("/doctorAccountControlle/relieveWithdrawalCardAndQrCode")
+    Observable<String> getmodify(@Query(value = "jsonDataInfo", encoded = true)
+                                              String queryJson);
                                                String queryJson);
     //充值接口
     @POST("doctorAccountControlle/openAccountDoctorBalanceInfoPay")

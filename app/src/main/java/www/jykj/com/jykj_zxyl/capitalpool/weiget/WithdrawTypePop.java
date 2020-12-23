@@ -72,16 +72,35 @@ public class WithdrawTypePop extends PopupWindow implements View.OnClickListener
         typeAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-
+                for (int i = 0; i < mDatas.size(); i++) {
+                    mDatas.get(i).setClick(i == position);
+                }
+                WithdrawTypelListBean withdrawTypelListBean = mDatas.get(position);
+                myDevChoose.onChoose(withdrawTypelListBean);
+                dismiss();
             }
         });
 
 
+
+
         LinearLayout addLayout = mPopView.findViewById(R.id.add_withdraw);
-        addLayout.setOnClickListener(this);
+        addLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                myDevChoose.onDevChoose();
+            }
+        });
 
     }
 
+    @Override
+    public void dismiss() {
+        super.dismiss();
+        WindowManager.LayoutParams lp = mContext.getWindow().getAttributes();
+        lp.alpha = 1f;
+        mContext.getWindow().setAttributes(lp);
+    }
 
     /**
      * 设置窗口的相关属性
@@ -112,9 +131,13 @@ public class WithdrawTypePop extends PopupWindow implements View.OnClickListener
 
     }
     public void setData(List<WithdrawTypelListBean> datas) {
+        if (mDatas.size() >0){
+            mDatas.clear();
+        }
         this.mDatas.addAll(datas) ;
 //        typeAdapter.addData(datas);
     }
+
 
 
     private onDevChoose myDevChoose;
@@ -124,7 +147,9 @@ public class WithdrawTypePop extends PopupWindow implements View.OnClickListener
     }
 
     public interface onDevChoose {
-        void onDevChoose(String mac, String name);
+        void onDevChoose();
+
+        void onChoose(WithdrawTypelListBean withdrawTypelListBean);
     }
 
 }

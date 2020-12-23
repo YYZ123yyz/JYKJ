@@ -24,6 +24,7 @@
             android:layout_centerVertical="true"
             />
         <TextView
+            android:id="@+id/bank_card_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="交通银行 储蓄卡 (7035)"

@@ -17,9 +17,16 @@ public class WithdrawTypeAdapter extends BaseQuickAdapter<WithdrawTypelListBean,
 
     @Override
     protected void convert(BaseViewHolder helper, WithdrawTypelListBean item) {
-        String idNumber = item.getIdNumber();
-        String substring = idNumber.substring(idNumber.length() - 4, idNumber.length());
+        String showMsg = "";
+        if (item.getIdNumber() != null && item.getBankName() != null) {
+            String idNumber = item.getIdNumber();
+            String substring = idNumber.substring(idNumber.length() - 4, idNumber.length());
+            showMsg = item.getBankName() + substring;
+        } else {
+            showMsg = "银行卡";
+        }
 
-        helper.setText(R.id.bank_card_id,item.getBankName()+substring);
+        helper.setText(R.id.bank_card_id, showMsg);
+        helper.setGone(R.id.iv_choose,item.isClick());
     }
 }

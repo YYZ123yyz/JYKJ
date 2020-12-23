@@ -35,6 +35,15 @@ public class WithdrawTypelListBean {
     private String mainUserCode;
     private String mainUserName;
     private int withdrawalType;
+    private boolean isClick;
+
+    public boolean isClick() {
+        return isClick;
+    }
+
+    public void setClick(boolean click) {
+        isClick = click;
+    }
 
     public int getAccountType() {
         return accountType;
