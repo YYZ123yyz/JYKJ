@@ -8,6 +8,8 @@ public class WithdrawContract {
     public interface View extends BaseView {
 
 
+
+
     }
 
     public interface Presenter extends BasePresenter<View> {
