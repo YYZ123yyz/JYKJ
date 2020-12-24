@@ -3,6 +3,7 @@ package www.jykj.com.jykj_zxyl.capitalpool.activity;
 import butterknife.BindView;
 import butterknife.OnClick;
 import www.jykj.com.jykj_zxyl.R;
+import www.jykj.com.jykj_zxyl.app_base.base_view.BaseToolBar;
 import www.jykj.com.jykj_zxyl.app_base.http.RetrofitUtil;
 import www.jykj.com.jykj_zxyl.app_base.mvp.AbstractMvpBaseActivity;
 
@@ -11,12 +12,15 @@ import www.jykj.com.jykj_zxyl.capitalpool.adapter.UserAccountAdapter;
 import www.jykj.com.jykj_zxyl.capitalpool.bean.WithdrawTypelListBean;
 import www.jykj.com.jykj_zxyl.capitalpool.contract.UserAccountContract;
 import www.jykj.com.jykj_zxyl.capitalpool.contract.UserAccountPresenter;
+import www.jykj.com.jykj_zxyl.custom.MoreFeaturesPopupWindow;
 
 
 import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -45,6 +49,8 @@ public class UserAccountActivity extends AbstractMvpBaseActivity<UserAccountCont
     private UserAccountAdapter userAccountAdapter;
     private String weichatId;
     private String aliId;
+    private BaseToolBar toolbar;
+    private ImageButton imageButtonE;
 
     @Override
     protected int setLayoutId() {
@@ -88,6 +94,25 @@ public class UserAccountActivity extends AbstractMvpBaseActivity<UserAccountCont
             }
         });
         myRecyleview.setAdapter(userAccountAdapter);
+        imageButtonE = findViewById(R.id.right_image_search);
+        toolbar = findViewById(R.id.top);
+        setToolBar();
+    }
+
+    private void setToolBar() {
+        toolbar.setMainTitle("账户");
+        //返回键
+        toolbar.setLeftTitleClickListener(view -> finish());
+        //add
+        toolbar.setRightTitleClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MoreFeaturesPopupWindow mPopupWindow = new MoreFeaturesPopupWindow(UserAccountActivity.this);
+                if (mPopupWindow != null && !mPopupWindow.isShowing()) {
+                    mPopupWindow.showAsDropDown(imageButtonE, 0, 0, Gravity.TOP + Gravity.RIGHT);
+                }
+            }
+        });
     }
 
 

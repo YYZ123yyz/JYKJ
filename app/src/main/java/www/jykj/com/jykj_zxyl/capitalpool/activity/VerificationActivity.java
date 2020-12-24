@@ -7,8 +7,10 @@ import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +28,7 @@ import entity.service.ViewSysUserDoctorInfoAndHospital;
 import entity.user.UserInfo;
 import netService.entity.NetRetEntity;
 import www.jykj.com.jykj_zxyl.R;
+import www.jykj.com.jykj_zxyl.app_base.base_view.BaseToolBar;
 import www.jykj.com.jykj_zxyl.app_base.http.ParameUtil;
 import www.jykj.com.jykj_zxyl.app_base.http.RetrofitUtil;
 import www.jykj.com.jykj_zxyl.app_base.mvp.AbstractMvpBaseActivity;
@@ -34,6 +37,7 @@ import www.jykj.com.jykj_zxyl.capitalpool.contract.VerificationContract;
 import www.jykj.com.jykj_zxyl.capitalpool.contract.VerificationPresenter;
 import www.jykj.com.jykj_zxyl.capitalpool.contract.WithdrawContract;
 import www.jykj.com.jykj_zxyl.capitalpool.contract.WithdrawPresenter;
+import www.jykj.com.jykj_zxyl.custom.MoreFeaturesPopupWindow;
 
 public class VerificationActivity extends AbstractMvpBaseActivity<VerificationContract.View
         , VerificationPresenter> implements VerificationContract.View {
@@ -49,6 +53,8 @@ public class VerificationActivity extends AbstractMvpBaseActivity<VerificationCo
     private Timer mTimer;
     private TimerTask mTask;
     private int mInitVCodeTime = 60;
+    private BaseToolBar toolbar;
+    private ImageButton imageButtonE;
     private Handler mHandler =  new Handler() {
         @SuppressLint("HandlerLeak")
         @Override
@@ -83,7 +89,25 @@ public class VerificationActivity extends AbstractMvpBaseActivity<VerificationCo
     @Override
     protected void initView() {
         super.initView();
+        imageButtonE = findViewById(R.id.right_image_search);
+        toolbar = findViewById(R.id.top);
+        setToolBar();
+    }
 
+    private void setToolBar() {
+        toolbar.setMainTitle("");
+        //返回键
+        toolbar.setLeftTitleClickListener(view -> finish());
+        //add
+        toolbar.setRightTitleClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MoreFeaturesPopupWindow mPopupWindow = new MoreFeaturesPopupWindow(VerificationActivity.this);
+                if (mPopupWindow != null && !mPopupWindow.isShowing()) {
+                    mPopupWindow.showAsDropDown(imageButtonE, 0, 0, Gravity.TOP + Gravity.RIGHT);
+                }
+            }
+        });
     }
 
     @Override

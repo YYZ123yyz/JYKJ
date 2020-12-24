@@ -5,7 +5,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
@@ -42,6 +44,7 @@ import www.jykj.com.jykj_zxyl.capitalpool.adapter.WithdrawDetAdapter;
 import www.jykj.com.jykj_zxyl.capitalpool.bean.WithdrawDetBean;
 import www.jykj.com.jykj_zxyl.capitalpool.contract.WithdrawDetContract;
 import www.jykj.com.jykj_zxyl.capitalpool.contract.WithdrawDetPresenter;
+import www.jykj.com.jykj_zxyl.custom.MoreFeaturesPopupWindow;
 import www.jykj.com.jykj_zxyl.util.Util;
 
 /**
@@ -65,7 +68,7 @@ public class WithdrawDetActivity extends AbstractMvpBaseActivity<WithdrawDetCont
     private int rowNum = 10;
     private List<String> drugDosageNameList;
     private LoadingLayoutManager mLoadingLayout;
-
+    private ImageButton imageButtonE;
     @Override
     protected int setLayoutId() {
         return R.layout.activity_withdraw_det;
@@ -79,6 +82,7 @@ public class WithdrawDetActivity extends AbstractMvpBaseActivity<WithdrawDetCont
     @Override
     protected void initView() {
         super.initView();
+        imageButtonE = findViewById(R.id.right_image_search);
         mRefreshLayout = findViewById(R.id.refreshLayout);
         dateTv.setText(DateUtils.getDeviceTimeOfYM());
         countPeriod = DateUtils.getDeviceTimeOfYM();
@@ -126,6 +130,16 @@ public class WithdrawDetActivity extends AbstractMvpBaseActivity<WithdrawDetCont
         mToolBar.setMainTitle("提现明细");
         //返回键
         mToolBar.setLeftTitleClickListener(view -> finish());
+        //add
+        mToolBar.setRightTitleClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MoreFeaturesPopupWindow mPopupWindow = new MoreFeaturesPopupWindow(WithdrawDetActivity.this);
+                if (mPopupWindow != null && !mPopupWindow.isShowing()) {
+                    mPopupWindow.showAsDropDown(imageButtonE, 0, 0, Gravity.TOP + Gravity.RIGHT);
+                }
+            }
+        });
     }
 
     @Override

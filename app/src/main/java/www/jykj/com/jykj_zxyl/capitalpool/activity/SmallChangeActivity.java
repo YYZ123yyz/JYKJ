@@ -4,7 +4,9 @@ import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -34,6 +36,7 @@ import www.jykj.com.jykj_zxyl.app_base.mvp.AbstractMvpBaseActivity;
 import www.jykj.com.jykj_zxyl.capitalpool.adapter.AccountBalanceInfoListAdapter;
 import www.jykj.com.jykj_zxyl.capitalpool.contract.AccountBalanceListContract;
 import www.jykj.com.jykj_zxyl.capitalpool.contract.AccountBalanceListPresenter;
+import www.jykj.com.jykj_zxyl.custom.MoreFeaturesPopupWindow;
 
 /**
  * Description:零钱明细
@@ -103,6 +106,7 @@ public class SmallChangeActivity extends AbstractMvpBaseActivity<AccountBalanceL
     private String currentDate="";
     private boolean isShowloading=true;
     private String sourceType="1";
+    private ImageButton imageButtonE;
     @Override
     protected int setLayoutId() {
         return R.layout.activity_small_change;
@@ -111,6 +115,7 @@ public class SmallChangeActivity extends AbstractMvpBaseActivity<AccountBalanceL
     @Override
     protected void initView() {
         super.initView();
+        imageButtonE = findViewById(R.id.right_image_search);
         setToolBar();
         listBeans=new ArrayList<>();
         initLoadingAndRetryManager();
@@ -227,8 +232,15 @@ public class SmallChangeActivity extends AbstractMvpBaseActivity<AccountBalanceL
         toolbar.setMainTitle("零钱明细");
         //返回键
         toolbar.setLeftTitleClickListener(view -> finish());
-        toolbar.setRightTitleSearchBtnVisible(false);
-
+        toolbar.setRightTitleClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MoreFeaturesPopupWindow mPopupWindow = new MoreFeaturesPopupWindow(SmallChangeActivity.this);
+                if (mPopupWindow != null && !mPopupWindow.isShowing()) {
+                    mPopupWindow.showAsDropDown(imageButtonE, 0, 0, Gravity.TOP + Gravity.RIGHT);
+                }
+            }
+        });
     }
 
     private void initChartData(){

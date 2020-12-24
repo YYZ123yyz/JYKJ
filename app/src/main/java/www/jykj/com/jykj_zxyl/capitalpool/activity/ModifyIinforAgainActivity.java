@@ -3,8 +3,10 @@ package www.jykj.com.jykj_zxyl.capitalpool.activity;
 
 import android.text.TextUtils;
 
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 
@@ -21,12 +23,14 @@ import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.app_base.base_enumtype.JumpTypeEnum;
 import www.jykj.com.jykj_zxyl.app_base.base_utils.ActivityStackManager;
 import www.jykj.com.jykj_zxyl.app_base.base_utils.StringUtils;
+import www.jykj.com.jykj_zxyl.app_base.base_view.BaseToolBar;
 import www.jykj.com.jykj_zxyl.app_base.http.RetrofitUtil;
 import www.jykj.com.jykj_zxyl.app_base.mvp.AbstractMvpBaseActivity;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.capitalpool.contract.ModifyIinforAgainContract;
 import www.jykj.com.jykj_zxyl.capitalpool.contract.ModifyIinforAgainPresenter;
 import www.jykj.com.jykj_zxyl.capitalpool.weiget.PasswordEditText;
+import www.jykj.com.jykj_zxyl.custom.MoreFeaturesPopupWindow;
 
 
 public class ModifyIinforAgainActivity extends AbstractMvpBaseActivity<ModifyIinforAgainContract.View
@@ -39,6 +43,9 @@ public class ModifyIinforAgainActivity extends AbstractMvpBaseActivity<ModifyIin
     @BindView(R.id.bind_tv)
     TextView bindTv;
     private String targetActivity;
+    private BaseToolBar toolbar;
+    private ImageButton imageButtonE;
+
     @Override
     protected int setLayoutId() {
         return R.layout.activity_modifyinfor_again;
@@ -64,6 +71,25 @@ public class ModifyIinforAgainActivity extends AbstractMvpBaseActivity<ModifyIin
                 bindTv.setBackgroundResource(R.drawable.bg_round_eeeeee_5);
             }
             return false;
+        });
+        imageButtonE = findViewById(R.id.right_image_search);
+        toolbar = findViewById(R.id.top);
+        setToolBar();
+    }
+
+    private void setToolBar() {
+        toolbar.setMainTitle("");
+        //返回键
+        toolbar.setLeftTitleClickListener(view -> finish());
+        //add
+        toolbar.setRightTitleClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MoreFeaturesPopupWindow mPopupWindow = new MoreFeaturesPopupWindow(ModifyIinforAgainActivity.this);
+                if (mPopupWindow != null && !mPopupWindow.isShowing()) {
+                    mPopupWindow.showAsDropDown(imageButtonE, 0, 0, Gravity.TOP + Gravity.RIGHT);
+                }
+            }
         });
     }
 
