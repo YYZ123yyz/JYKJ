@@ -125,7 +125,7 @@ public class ModifyIinforActivity extends AbstractMvpBaseActivity<ModifyIinforCo
                 startActivity(intent);
                 break;
             case R.id.modify_password:
-
+                startActivity(new Intent(ModifyIinforActivity.this,ModifyActivity.class));
                 break;
         }
 
