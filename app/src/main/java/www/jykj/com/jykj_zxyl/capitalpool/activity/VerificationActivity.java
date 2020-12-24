@@ -13,8 +13,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.blankj.utilcode.util.RegexUtils;
+import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.google.gson.Gson;
+
+import org.w3c.dom.Text;
 
 import java.util.HashMap;
 import java.util.Timer;
@@ -42,7 +45,7 @@ public class VerificationActivity extends AbstractMvpBaseActivity<VerificationCo
     @BindView(R.id.et_name)
     EditText etName;
     @BindView(R.id.phone_et)
-    EditText etPhone;
+    TextView etPhone;
     @BindView(R.id.send_ms_tv)
     TextView sendMsTv;
     @BindView(R.id.id_num_tv)
@@ -87,7 +90,7 @@ public class VerificationActivity extends AbstractMvpBaseActivity<VerificationCo
     @Override
     protected void initView() {
         super.initView();
-
+        etPhone.setText(SPUtils.getInstance().getString("usephone"));
     }
 
     @Override
@@ -105,13 +108,10 @@ public class VerificationActivity extends AbstractMvpBaseActivity<VerificationCo
                 break;
             case R.id.send_ms_tv:
                 if (TextUtils.isEmpty(etPhone.getText().toString().trim())){
-                    ToastUtils.showShort("听填写手机号");
+                    ToastUtils.showShort("请先完善个人信息");
                     return;
                 }
-                if (!RegexUtils.isMobileSimple(etPhone.getText().toString().trim())){
-                    ToastUtils.showShort("听填写正确手机号");
-                    return;
-                }
+
 
                 startTask();
                 mPresenter.sendMs(getParams());
