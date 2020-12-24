@@ -56,7 +56,7 @@ public class VerificationActivity extends AbstractMvpBaseActivity<VerificationCo
     private Timer mTimer;
     private TimerTask mTask;
     private int mInitVCodeTime = 60;
-    private Handler mHandler =  new Handler() {
+    private Handler mHandler = new Handler() {
         @SuppressLint("HandlerLeak")
         @Override
         public void handleMessage(Message msg) {
@@ -77,6 +77,7 @@ public class VerificationActivity extends AbstractMvpBaseActivity<VerificationCo
             }
         }
     };
+
     @Override
     protected int setLayoutId() {
         return R.layout.activity_verification;
@@ -90,7 +91,9 @@ public class VerificationActivity extends AbstractMvpBaseActivity<VerificationCo
     @Override
     protected void initView() {
         super.initView();
-        etPhone.setText(SPUtils.getInstance().getString("usephone"));
+        String usephone = SPUtils.getInstance().getString("usephone");
+        String phonenum = usephone.substring(0, 3) + "****" + usephone.substring(7, 11);
+        etPhone.setText(phonenum);
     }
 
     @Override
@@ -99,15 +102,15 @@ public class VerificationActivity extends AbstractMvpBaseActivity<VerificationCo
         mApp = (JYKJApplication) getApplication();
     }
 
-    @OnClick({R.id.next_tv,R.id.send_ms_tv})
-    public void onClick(View view){
+    @OnClick({R.id.next_tv, R.id.send_ms_tv})
+    public void onClick(View view) {
         switch (view.getId()) {
             case R.id.next_tv:
                 checkInfo();
 
                 break;
             case R.id.send_ms_tv:
-                if (TextUtils.isEmpty(etPhone.getText().toString().trim())){
+                if (TextUtils.isEmpty(etPhone.getText().toString().trim())) {
                     ToastUtils.showShort("请先完善个人信息");
                     return;
                 }
@@ -123,15 +126,15 @@ public class VerificationActivity extends AbstractMvpBaseActivity<VerificationCo
 
     private void checkInfo() {
 
-        if (TextUtils.isEmpty(etName.getText().toString().trim())){
+        if (TextUtils.isEmpty(etName.getText().toString().trim())) {
             ToastUtils.showShort("请输入名字");
             return;
         }
-        if (TextUtils.isEmpty(etIdNum.getText().toString())){
+        if (TextUtils.isEmpty(etIdNum.getText().toString())) {
             ToastUtils.showShort("请输入身份证");
             return;
         }
-        if (TextUtils.isEmpty(etVerCode.getText().toString())){
+        if (TextUtils.isEmpty(etVerCode.getText().toString())) {
             ToastUtils.showShort("请填写验证码");
             return;
         }
@@ -175,7 +178,7 @@ public class VerificationActivity extends AbstractMvpBaseActivity<VerificationCo
     @Override
     public void checkSucess() {
         ToastUtils.showShort("验证成功");
-        startActivity(new Intent(VerificationActivity.this,ModifyIinforActivity.class));
+        startActivity(new Intent(VerificationActivity.this, ModifyIinforActivity.class));
         finish();
     }
 }
