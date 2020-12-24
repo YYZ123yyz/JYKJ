@@ -566,5 +566,9 @@ public interface ApiService {
     Observable<String> getOrderStatus(@Query(value = "jsonDataInfo", encoded = true)
                                               String queryJson);
 
+    //检查医生身份
+    @POST("/doctorAccountControlle/checkIdentity")
+    Observable<String> checkIdentity(@Query(value = "jsonDataInfo", encoded = true)
+                                              String queryJson);
 }
 

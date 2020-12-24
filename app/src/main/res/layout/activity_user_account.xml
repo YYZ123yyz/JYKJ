@@ -95,6 +95,7 @@
             android:layout_centerVertical="true"
             />
         <TextView
+            android:id="@+id/weichat_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="请绑定"
@@ -150,6 +151,7 @@
             android:layout_centerVertical="true"
             />
         <TextView
+            android:id="@+id/ali_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="请绑定"

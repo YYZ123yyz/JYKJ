@@ -12,6 +12,12 @@ public class UserAccountContract {
         void getNodata();
 
         void getDataSucess(List<WithdrawTypelListBean> data);
+
+        void getWeiChat( WithdrawTypelListBean weichatBean);
+
+        void getAli(WithdrawTypelListBean  aliBean);
+
+        void getEmpeyData(int type);
     }
 
     public interface Presenter extends BasePresenter<View> {

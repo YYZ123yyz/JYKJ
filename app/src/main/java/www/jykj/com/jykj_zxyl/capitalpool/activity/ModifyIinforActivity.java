@@ -43,6 +43,8 @@ public class ModifyIinforActivity extends AbstractMvpBaseActivity<ModifyIinforCo
     private String targetActivity;//来源
     private int mType;
     private JYKJApplication mApp;
+    private String bankcardCode ="";
+
     @Override
     protected int setLayoutId() {
         return R.layout.activity_modifyinfor;
@@ -67,7 +69,7 @@ public class ModifyIinforActivity extends AbstractMvpBaseActivity<ModifyIinforCo
                 mPresenter.checkPassword(getParams());
             }else if (mType ==3){
                 //解绑
-
+                mPresenter.unBindCard(getParams());
             }
 
         });
@@ -78,6 +80,9 @@ public class ModifyIinforActivity extends AbstractMvpBaseActivity<ModifyIinforCo
         super.initData();
         mApp = (JYKJApplication) getApplication();
         mType = getIntent().getIntExtra("type", 0);
+        if (getIntent().hasExtra("bankcardCode")){
+            bankcardCode = getIntent().getStringExtra("bankcardCode");
+        }
         targetActivity=getIntent().getStringExtra("targetActivity");
         showOrHide();
 
@@ -120,7 +125,7 @@ public class ModifyIinforActivity extends AbstractMvpBaseActivity<ModifyIinforCo
                 startActivity(intent);
                 break;
             case R.id.modify_password:
-
+                startActivity(new Intent(ModifyIinforActivity.this,ModifyActivity.class));
                 break;
         }
 
@@ -129,12 +134,10 @@ public class ModifyIinforActivity extends AbstractMvpBaseActivity<ModifyIinforCo
     private String getParams() {
         HashMap<String, Object> stringStringHashMap = new HashMap<>();
         stringStringHashMap.put("operDoctorCode", mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
-        stringStringHashMap.put("bankcardCode", "14b9aaf578cb4630bfded254c6ffa70f");
+        stringStringHashMap.put("bankcardCode", bankcardCode);
         stringStringHashMap.put("pwd", myEdittext.getText().toString());
         return RetrofitUtil.encodeParam(stringStringHashMap);
     }
-
-
 
     @Override
     public void checkPasswordResult(boolean isSucess, String msg) {
@@ -153,6 +156,17 @@ public class ModifyIinforActivity extends AbstractMvpBaseActivity<ModifyIinforCo
         }else{
             ToastUtils.showShort(msg);
         }
+    }
+
+    @Override
+    public void unBindSucess() {
+        ToastUtils.showShort("解绑成功");
+        finish();
+    }
+
+    @Override
+    public void showMsg(String msg) {
+        ToastUtils.showShort(msg);
     }
 }
 

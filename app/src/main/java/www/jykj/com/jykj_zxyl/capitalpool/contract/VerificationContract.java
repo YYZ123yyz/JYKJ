@@ -7,11 +7,15 @@ public class VerificationContract {
 
     public interface View extends BaseView {
 
+        void showMsg(String msg);
 
+        void checkSucess();
     }
 
     public interface Presenter extends BasePresenter<View> {
 
         void sendMs(String params);
+
+        void checkAccount (String params);
     }
 }

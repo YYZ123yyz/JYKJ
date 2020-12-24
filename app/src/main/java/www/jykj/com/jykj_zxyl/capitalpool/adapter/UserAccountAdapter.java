@@ -21,12 +21,13 @@ public class UserAccountAdapter extends BaseQuickAdapter<WithdrawTypelListBean, 
         if (item.getIdNumber() != null && item.getBankName() != null) {
             String idNumber = item.getIdNumber();
             String substring = idNumber.substring(idNumber.length() - 4, idNumber.length());
-            showMsg = item.getBankName() + substring;
+            showMsg = item.getBankName() + "(" + substring + ")";
         } else {
             showMsg = "银行卡";
         }
 
 
         helper.setText(R.id.bank_card_id, showMsg);
+        helper.addOnClickListener(R.id.iv_unbind);
     }
 }
