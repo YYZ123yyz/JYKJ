@@ -139,8 +139,6 @@ public class ModifyIinforActivity extends AbstractMvpBaseActivity<ModifyIinforCo
         return RetrofitUtil.encodeParam(stringStringHashMap);
     }
 
-
-
     @Override
     public void checkPasswordResult(boolean isSucess, String msg) {
         if (isSucess) {

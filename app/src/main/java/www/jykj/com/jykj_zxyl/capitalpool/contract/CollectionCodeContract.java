@@ -9,7 +9,9 @@ public class CollectionCodeContract {
 
     public interface View extends BaseView {
 
+        void bindSucess();
 
+        void showMsg(String msg);
     }
 
     public interface Presenter extends BasePresenter<View> {
