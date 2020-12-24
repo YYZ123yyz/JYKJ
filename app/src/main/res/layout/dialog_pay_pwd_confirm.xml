@@ -2,8 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_80000000"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/color_80000000">
 
 
 
@@ -30,6 +30,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@mipmap/bg_close_icon"
+                android:padding="8dp"
+                android:id="@+id/iv_close_btn"
                 >
 
 
@@ -69,6 +71,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:layout_marginTop="16dp"
+            android:layout_gravity="center_horizontal"
             >
             <TextView
                 android:layout_width="wrap_content"
@@ -80,9 +84,30 @@
 
 
             </TextView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_000000"
+                android:textSize="20sp"
+                android:text="80.00"
+                android:id="@+id/tv_pay_mount"
+                >
+
+
+            </TextView>
 
         </LinearLayout>
-
+        <www.jykj.com.jykj_zxyl.capitalpool.weiget.PasswordEditText
+            android:id="@+id/password_et"
+            android:layout_width="267dp"
+            android:layout_height="45dp"
+            android:layout_marginBottom="23dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="50dp"
+            android:background="@null"
+            android:inputType="number"
+            app:maxCount="6"
+            app:strokeColor="@color/color_333333" />
 
 
     </LinearLayout>

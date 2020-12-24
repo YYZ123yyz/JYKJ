@@ -11,28 +11,31 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.alipay.sdk.app.PayTask;
 import com.blankj.utilcode.util.ToastUtils;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
-
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import java.util.HashMap;
 import java.util.Map;
-
 import butterknife.BindView;
 import butterknife.OnClick;
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.activity.chapter.bean.ChapterPayBean;
 import www.jykj.com.jykj_zxyl.activity.chapter.bean.PayResult;
 import www.jykj.com.jykj_zxyl.app_base.base_utils.VerificationUtils;
-import www.jykj.com.jykj_zxyl.app_base.http.ParameUtil;
 import www.jykj.com.jykj_zxyl.app_base.http.RetrofitUtil;
 import www.jykj.com.jykj_zxyl.app_base.mvp.AbstractMvpBaseActivity;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.capitalpool.contract.RechargeContract;
 import www.jykj.com.jykj_zxyl.capitalpool.contract.RechargePresenter;
+import www.jykj.com.jykj_zxyl.capitalpool.weiget.CommonPayConfirmDialog;
+import www.jykj.com.jykj_zxyl.capitalpool.weiget.CommonPayPwdCheckDialog;
+import www.jykj.com.jykj_zxyl.wxapi.PayInfoBean;
+
 public class RechargeActivity extends AbstractMvpBaseActivity<RechargeContract.View
         , RechargePresenter> implements RechargeContract.View {
 
@@ -49,6 +52,8 @@ public class RechargeActivity extends AbstractMvpBaseActivity<RechargeContract.V
     public IWXAPI msgApi;
     private Handler mHandler;
     private static final int SDK_PAY_FLAG = 3;
+    private CommonPayPwdCheckDialog commonPayPwdCheckDialog;
+    private CommonPayConfirmDialog commonPayConfirmDialog;
     @Override
     protected int setLayoutId() {
         return R.layout.activity_recharge;
@@ -62,19 +67,18 @@ public class RechargeActivity extends AbstractMvpBaseActivity<RechargeContract.V
                 switch (msg.what) {
                     case SDK_PAY_FLAG:
                         PayResult payResult = new PayResult((Map<String, String>) msg.obj);
-                        /**
-                         * 对于支付结果，请商户依赖服务端的异步通知结果。同步通知结果，仅作为支付结束的通知。
-                         */
-                        String resultInfo = payResult.getResult();
                         String resultStatus = payResult.getResultStatus();
 
                         if (TextUtils.equals(resultStatus, "9000")) {
                             // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
                             //mPresenter.getVideoChapterList(getParams(0));
-                            ToastUtils.showShort("支付成功");
+                            //ToastUtils.showShort("支付成功");
+                            commonPayConfirmDialog.show();
+                            String value = edInputContent.getText().toString();
+                            commonPayConfirmDialog.setData(value);
                         } else if (TextUtils.equals(resultStatus, "6001")) {
 //                         用户取消
-                            ToastUtils.showShort("支付失败");
+                            //ToastUtils.showShort("支付失败");
                         } else {
 
                         }
@@ -92,7 +96,9 @@ public class RechargeActivity extends AbstractMvpBaseActivity<RechargeContract.V
     @Override
     protected void initView() {
         super.initView();
-
+        EventBus.getDefault().register(this);
+        commonPayPwdCheckDialog=new CommonPayPwdCheckDialog(this);
+        commonPayConfirmDialog=new CommonPayConfirmDialog(this);
     }
 
     @Override
@@ -100,8 +106,6 @@ public class RechargeActivity extends AbstractMvpBaseActivity<RechargeContract.V
         super.initData();
         initHandler();
         mApp = (JYKJApplication) getApplication();
-        mPresenter.getDocdorAsset(getParams());
-        mPresenter.getCardList(getParams());
         weichatIv.setSelected(true);
         aliIv.setSelected(false);
         addListener();
@@ -135,6 +139,21 @@ public class RechargeActivity extends AbstractMvpBaseActivity<RechargeContract.V
                 }
             }
         });
+        commonPayPwdCheckDialog.setOnCompleteListener(pwd -> {
+           mPresenter.checkPassword(getParams(pwd));
+            commonPayPwdCheckDialog.dismiss();
+        });
+        commonPayConfirmDialog.setOnClickListener(new CommonPayConfirmDialog.OnClickListener() {
+            @Override
+            public void onClickNotPay() {
+                commonPayConfirmDialog.dismiss();
+            }
+
+            @Override
+            public void onClickPaid() {
+                mPresenter.sendGetOrderStatusRequest(payType,RechargeActivity.this);
+            }
+        });
     }
 
     @OnClick({R.id.go2pay_tv, R.id.ali_layout, R.id.weichat_layout})
@@ -151,8 +170,9 @@ public class RechargeActivity extends AbstractMvpBaseActivity<RechargeContract.V
                     ToastUtils.showShort("请输入正确的金额");
                     return;
                 }
-                mPresenter.sendAccountDoctorBalanceInfoPayRequest(payType,value,
-                        RechargeActivity.this);
+                commonPayPwdCheckDialog.show();
+                commonPayPwdCheckDialog.setData(value);
+
 
                 break;
             case R.id.ali_layout:
@@ -174,7 +194,7 @@ public class RechargeActivity extends AbstractMvpBaseActivity<RechargeContract.V
 
     @Override
     public void showLoading(int code) {
-        if (code==102) {
+        if (code==102||code==100) {
             showLoading("",null);
         }
     }
@@ -184,14 +204,14 @@ public class RechargeActivity extends AbstractMvpBaseActivity<RechargeContract.V
         dismissLoading();
     }
 
-    private String getParams() {
+
+
+    private String getParams(String pwd) {
         HashMap<String, Object> stringStringHashMap = new HashMap<>();
-        stringStringHashMap.put("loginDoctorPosition", ParameUtil.loginDoctorPosition);
         stringStringHashMap.put("operDoctorCode", mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
-        stringStringHashMap.put("operDoctorName", mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
+        stringStringHashMap.put("pwd", pwd);
         return RetrofitUtil.encodeParam(stringStringHashMap);
     }
-
 
 
     @Override
@@ -234,6 +254,39 @@ public class RechargeActivity extends AbstractMvpBaseActivity<RechargeContract.V
     @Override
     public void getAccountDoctorBalanceInfoPayError(String msg) {
         ToastUtils.showShort(msg);
+    }
+
+    @Override
+    public void checkPasswordResult(boolean isSucess, String msg) {
+        if (isSucess) {
+            String value = edInputContent.getText().toString();
+            mPresenter.sendAccountDoctorBalanceInfoPayRequest(payType,value,this);
+        }else{
+            ToastUtils.showShort(msg);
+        }
+    }
+
+    @Override
+    public void getOrderStatusResult(boolean isSucess, String msg) {
+        if(isSucess){
+            this.finish();
+        }else{
+            ToastUtils.showShort(msg);
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMainEventBus(PayInfoBean msg) {
+        commonPayConfirmDialog.show();
+        String value = edInputContent.getText().toString();
+        commonPayConfirmDialog.setData(value);
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }
 
