@@ -77,40 +77,27 @@ public class BalanceActivity extends AbstractMvpBaseActivity<BalanceContract.Vie
         toolbar.setLeftTitleClickListener(view -> finish());
         toolbar.setRightTitleText("零钱明细");
         toolbar.setRightTitleSearchBtnVisible(false);
-        toolbar.setRightTitleClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            startActivity(SmallChangeActivity.class,null);
-
-            }
-        });
-        tvRechargeBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (accountBalanceBean!=null) {
-                    String isbinding = accountBalanceBean.getIsbinding();
-                    if (isbinding.equals("1")) {
-                        startActivity(RechargeActivity.class,null,1000);
-                    }else{
-                        startActivity(UserAccountActivity.class,null,1001);
-                    }
+        toolbar.setRightTitleClickListener(v -> startActivity(SmallChangeActivity.class,null));
+        tvRechargeBtn.setOnClickListener(v -> {
+            if (accountBalanceBean!=null) {
+                String isbinding = accountBalanceBean.getIsbinding();
+                if (isbinding.equals("1")) {
+                    startActivity(RechargeActivity.class,null,1000);
+                }else{
+                    startActivity(UserAccountActivity.class,null,1001);
                 }
             }
         });
-        tvWithDrawalBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (accountBalanceBean!=null) {
-                    String isbinding = accountBalanceBean.getIsbinding();
-                    if (isbinding.equals("1")) {
-                        startActivity(WithdrawDetActivity.class,null,1000);
-                    }else{
-                        startActivity(UserAccountActivity.class,null,1001);
-                    }
+        tvWithDrawalBtn.setOnClickListener(v -> {
+            if (accountBalanceBean!=null) {
+                String isbinding = accountBalanceBean.getIsbinding();
+                if (isbinding.equals("1")) {
+                    startActivity(WithdrawDetActivity.class,null,1000);
+                }else{
+                    startActivity(UserAccountActivity.class,null,1001);
                 }
-
             }
+
         });
 
         tvForgetPwdBtn.setOnClickListener(new View.OnClickListener() {

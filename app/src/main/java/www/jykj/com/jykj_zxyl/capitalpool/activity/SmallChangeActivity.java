@@ -2,6 +2,7 @@ package www.jykj.com.jykj_zxyl.capitalpool.activity;
 
 import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.bigkoo.pickerview.builder.TimePickerBuilder;
 import com.bigkoo.pickerview.view.TimePickerView;
 import com.github.mikephil.charting.animation.Easing;
@@ -29,9 +31,12 @@ import www.jykj.com.jykj_zxyl.app_base.base_bean.AccountBalanceListInfoBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.AccountStisticInfoBean;
 import www.jykj.com.jykj_zxyl.app_base.base_utils.CollectionUtils;
 import www.jykj.com.jykj_zxyl.app_base.base_view.BaseToolBar;
+import www.jykj.com.jykj_zxyl.app_base.base_view.GridDividerItemDecoration;
 import www.jykj.com.jykj_zxyl.app_base.base_view.LoadingLayoutManager;
 import www.jykj.com.jykj_zxyl.app_base.mvp.AbstractMvpBaseActivity;
 import www.jykj.com.jykj_zxyl.capitalpool.adapter.AccountBalanceInfoListAdapter;
+import www.jykj.com.jykj_zxyl.capitalpool.adapter.ChartSketchListAdapter;
+import www.jykj.com.jykj_zxyl.capitalpool.bean.ChartSketchBean;
 import www.jykj.com.jykj_zxyl.capitalpool.contract.AccountBalanceListContract;
 import www.jykj.com.jykj_zxyl.capitalpool.contract.AccountBalanceListPresenter;
 
@@ -79,10 +84,6 @@ public class SmallChangeActivity extends AbstractMvpBaseActivity<AccountBalanceL
     TextView tvIncomeText;
     @BindView(R.id.tv_statistic_income_amount)
     TextView tvStatisticIncomeAmount;
-    @BindView(R.id.ll_income_diagram_root)
-    LinearLayout llIncomDiagramRoot;
-    @BindView(R.id.ll_pay_diagram_root)
-    LinearLayout llPayDiagramRoot;
     @BindView(R.id.ll_statistic_content_root)
     LinearLayout llStatisticContentRoot;
     @BindView(R.id.ll_bill_content_root)
@@ -95,13 +96,17 @@ public class SmallChangeActivity extends AbstractMvpBaseActivity<AccountBalanceL
     TextView tvBillText;
     @BindView(R.id.tv_stistic_text)
     TextView tvStisticText;
+    @BindView(R.id.rv_list_sketch)
+    RecyclerView rvListSketch;
     private String changeType="1";
     private LoadingLayoutManager mLoadingLayout;//重新加载空页面管理
     private AccountBalanceInfoListAdapter accountBalanceInfoListAdapter;
     private List<AccountBalanceListInfoBean.AccountDoctorBalanceInfoListBean> listBeans;
+    private ChartSketchListAdapter sketchListAdapter;
+    private List<ChartSketchBean> listSketch;
     private TimePickerView timePickerView;
     private String currentDate="";
-    private boolean isShowloading=true;
+    private boolean isShowloading;
     private String sourceType="1";
     @Override
     protected int setLayoutId() {
@@ -113,10 +118,11 @@ public class SmallChangeActivity extends AbstractMvpBaseActivity<AccountBalanceL
         super.initView();
         setToolBar();
         listBeans=new ArrayList<>();
+        listSketch=new ArrayList<>();
         initLoadingAndRetryManager();
         initRecyclerView();
+        initSketchRecyclerView();
         addListener();
-        //initChartData();
     }
 
     @Override
@@ -150,6 +156,25 @@ public class SmallChangeActivity extends AbstractMvpBaseActivity<AccountBalanceL
     }
 
     /**
+     * 初始化示意图RecyclerView
+     */
+    private void initSketchRecyclerView(){
+        GridLayoutManager mGridLayoutManager = new GridLayoutManager(this,2){
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        };
+        sketchListAdapter=new ChartSketchListAdapter(R.layout.item_chart_sketch,listSketch);
+        mGridLayoutManager.setOrientation(LinearLayout.VERTICAL);
+        GridDividerItemDecoration  gridDividerItemDecoration=new GridDividerItemDecoration(1
+                , Color.parseColor("#D4D4D4"));
+        rvListSketch.addItemDecoration(gridDividerItemDecoration);
+        rvListSketch.setLayoutManager(mGridLayoutManager);
+        rvListSketch.setAdapter(sketchListAdapter);
+    }
+
+    /**
      * 添加监听
      */
     private void addListener(){
@@ -166,23 +191,17 @@ public class SmallChangeActivity extends AbstractMvpBaseActivity<AccountBalanceL
                     pageSize,pageIndex,SmallChangeActivity.this);
         });
         tvFilterBtn.setOnClickListener(v -> showChoosedTimeDialog());
-        llBillRoot.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                sourceType="1";
-                setContentHideOrVisible();
-                mPresenter.sendSearchAccountDoctorBalanceInfoListRequest(currentDate,
-                        pageSize,pageIndex,SmallChangeActivity.this);
-            }
+        llBillRoot.setOnClickListener(v -> {
+            sourceType="1";
+            setContentHideOrVisible();
+            mPresenter.sendSearchAccountDoctorBalanceInfoListRequest(currentDate,
+                    pageSize,pageIndex,SmallChangeActivity.this);
         });
-        llStisticRoot.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                sourceType="2";
-                setContentHideOrVisible();
-                mPresenter.sendSearchAccountDoctorIncomeOutInfoRequest(currentDate,changeType,
-                        SmallChangeActivity.this);
-            }
+        llStisticRoot.setOnClickListener(v -> {
+            sourceType="2";
+            setContentHideOrVisible();
+            mPresenter.sendSearchAccountDoctorIncomeOutInfoRequest(currentDate,changeType,
+                    SmallChangeActivity.this);
         });
 
         llPayRoot.setOnClickListener(v -> {
@@ -232,41 +251,23 @@ public class SmallChangeActivity extends AbstractMvpBaseActivity<AccountBalanceL
     }
 
     private void initChartData(){
+        chart.setVisibility(View.VISIBLE);
         chart.setUsePercentValues(true);
         chart.getDescription().setEnabled(false);
         chart.setExtraOffsets(5, 10, 5, 5);
-
         chart.setDragDecelerationFrictionCoef(0.95f);
-
-        //chart.setCenterTextTypeface(Typeface.createFromAsset(getAssets(), "OpenSans-Light.ttf"));
-
         chart.setExtraOffsets(20.f, 0.f, 20.f, 0.f);
-
         chart.setDrawHoleEnabled(false);
         chart.setHoleColor(Color.WHITE);
-
         chart.setTransparentCircleColor(Color.WHITE);
         chart.setTransparentCircleAlpha(110);
-
         chart.setHoleRadius(58f);
         chart.setTransparentCircleRadius(61f);
-
         chart.setDrawCenterText(true);
-
         chart.setRotationAngle(0);
-        // enable rotation of the chart by touch
         chart.setRotationEnabled(true);
         chart.setHighlightPerTapEnabled(true);
-
-        // chart.setUnit(" €");
-        // chart.setDrawUnitsInChart(true);
-
-        // add a selection listener
-        //chart.setOnChartValueSelectedListener(this);
-
         chart.animateY(1400, Easing.EaseInOutQuad);
-        // chart.spin(2000, 0, 360);
-
         Legend l = chart.getLegend();
         l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
         l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
@@ -283,18 +284,14 @@ public class SmallChangeActivity extends AbstractMvpBaseActivity<AccountBalanceL
     private void setPayModeStatus(){
         if (changeType.equals("1")) {
             tvPayText.setTextColor(ContextCompat.getColor(this,R.color.color_999999));
-            tvPayAmount.setTextColor(ContextCompat.getColor(this,R.color.color_999999));
+            tvStatisticPayAmount.setTextColor(ContextCompat.getColor(this,R.color.color_999999));
             tvIncomeText.setTextColor(ContextCompat.getColor(this,R.color.color_000000));
-            tvIncomeAmount.setTextColor(ContextCompat.getColor(this,R.color.color_000000));
-            llIncomDiagramRoot.setVisibility(View.VISIBLE);
-            llPayDiagramRoot.setVisibility(View.GONE);
+            tvStatisticIncomeAmount.setTextColor(ContextCompat.getColor(this,R.color.color_000000));
         }else if(changeType.equals("2")){
             tvPayText.setTextColor(ContextCompat.getColor(this,R.color.color_000000));
-            tvPayAmount.setTextColor(ContextCompat.getColor(this,R.color.color_000000));
+            tvStatisticPayAmount.setTextColor(ContextCompat.getColor(this,R.color.color_000000));
             tvIncomeText.setTextColor(ContextCompat.getColor(this,R.color.color_999999));
-            tvIncomeAmount.setTextColor(ContextCompat.getColor(this,R.color.color_999999));
-            llIncomDiagramRoot.setVisibility(View.GONE);
-            llPayDiagramRoot.setVisibility(View.VISIBLE);
+            tvStatisticIncomeAmount.setTextColor(ContextCompat.getColor(this,R.color.color_999999));
         }
     }
 
@@ -336,59 +333,107 @@ public class SmallChangeActivity extends AbstractMvpBaseActivity<AccountBalanceL
         tvStatisticIncomeAmount.setText(String.format("¥ %s", accountStisticInfoBean.getTotalIncome()));
         ArrayList<PieEntry> entries = new ArrayList<>();
         ArrayList<Integer> colors = new ArrayList<>();
+
         if(changeType.equals("1")){
+            listSketch.clear();
             float incomeFigureText = accountStisticInfoBean.getIncomeFigureText();
             if(incomeFigureText>0){
-                colors.add(Color.parseColor("#E24A47"));
+                int color = Color.parseColor("#E24A47");
+                colors.add(color);
                 entries.add(new PieEntry(incomeFigureText,""));
+                ChartSketchBean chartSketchBean=new ChartSketchBean();
+                chartSketchBean.setColorSketch(color);
+                chartSketchBean.setSketchName("图文就诊");
+                listSketch.add(chartSketchBean);
             }
             float incomeVideo = accountStisticInfoBean.getIncomeVideo();
             if (incomeVideo>0) {
-                colors.add(Color.parseColor("#EA883B"));
+                int color = Color.parseColor("#EA883B");
+                colors.add(color);
                 entries.add(new PieEntry(incomeVideo,""));
+                ChartSketchBean chartSketchBean=new ChartSketchBean();
+                chartSketchBean.setColorSketch(color);
+                chartSketchBean.setSketchName("视频就诊");
+                listSketch.add(chartSketchBean);
             }
             float incomeAudio = accountStisticInfoBean.getIncomeAudio();
             if (incomeAudio>0) {
-                colors.add(Color.parseColor("#A763A5"));
+                int color = Color.parseColor("#A763A5");
+                colors.add(color);
                 entries.add(new PieEntry(incomeAudio,""));
+                ChartSketchBean chartSketchBean=new ChartSketchBean();
+                chartSketchBean.setColorSketch(color);
+                chartSketchBean.setSketchName("音频就诊");
+                listSketch.add(chartSketchBean);
             }
 
             float incomeCall = accountStisticInfoBean.getIncomeCall();
             if (incomeCall>0) {
-                colors.add(Color.parseColor("#52B394"));
+                int color = Color.parseColor("#52B394");
+                colors.add(color);
                 entries.add(new PieEntry(incomeCall,""));
+                ChartSketchBean chartSketchBean=new ChartSketchBean();
+                chartSketchBean.setColorSketch(color);
+                chartSketchBean.setSketchName("电话就诊");
+                listSketch.add(chartSketchBean);
             }
 
             float incomeLiveBroadcast = accountStisticInfoBean.getIncomeLiveBroadcast();
             if (incomeLiveBroadcast>0) {
-                colors.add(Color.parseColor("#3688A1"));
+                int color = Color.parseColor("#3688A1");
+                colors.add(color);
                 entries.add(new PieEntry(incomeLiveBroadcast,""));
+                ChartSketchBean chartSketchBean=new ChartSketchBean();
+                chartSketchBean.setColorSketch(color);
+                chartSketchBean.setSketchName("观看直播");
+                listSketch.add(chartSketchBean);
             }
 
             float incomeSign = accountStisticInfoBean.getIncomeSign();
             if (incomeSign>0) {
-                colors.add(Color.parseColor("#17B939"));
+                int color = Color.parseColor("#17B939");
+                colors.add(color);
                 entries.add(new PieEntry(incomeSign,""));
+                ChartSketchBean chartSketchBean=new ChartSketchBean();
+                chartSketchBean.setColorSketch(color);
+                chartSketchBean.setSketchName("签约服务");
+                listSketch.add(chartSketchBean);
             }
 
             float incomeConsultation = accountStisticInfoBean.getIncomeConsultation();
             if (incomeConsultation>0) {
-                colors.add(Color.parseColor("#EFE343"));
+                int color = Color.parseColor("#EFE343");
+                colors.add(color);
                 entries.add(new PieEntry(incomeConsultation,""));
+                ChartSketchBean chartSketchBean=new ChartSketchBean();
+                chartSketchBean.setColorSketch(color);
+                chartSketchBean.setSketchName("会诊收入");
+                listSketch.add(chartSketchBean);
             }
 
 
         }else{
+            listSketch.clear();
             float expendConsultation = accountStisticInfoBean.getExpendConsultation();
             if (expendConsultation>0) {
-                colors.add(Color.parseColor("#E24A47"));
+                int color = Color.parseColor("#E24A47");
+                colors.add(color);
                 entries.add(new PieEntry(expendConsultation,""));
+                ChartSketchBean chartSketchBean=new ChartSketchBean();
+                chartSketchBean.setColorSketch(color);
+                chartSketchBean.setSketchName("会诊支出");
+                listSketch.add(chartSketchBean);
             }
 
             float expendLiveBroadcast = accountStisticInfoBean.getExpendLiveBroadcast();
             if (expendLiveBroadcast>0) {
-                colors.add(Color.parseColor("#52B394"));
+                int color = Color.parseColor("#52B394");
+                colors.add(color);
                 entries.add(new PieEntry(expendLiveBroadcast,""));
+                ChartSketchBean chartSketchBean=new ChartSketchBean();
+                chartSketchBean.setColorSketch(color);
+                chartSketchBean.setSketchName("直播支出");
+                listSketch.add(chartSketchBean);
             }
 
         }
@@ -397,14 +442,7 @@ public class SmallChangeActivity extends AbstractMvpBaseActivity<AccountBalanceL
         PieDataSet dataSet = new PieDataSet(entries, "Election Results");
         dataSet.setSliceSpace(3f);
         dataSet.setSelectionShift(5f);
-
-
-
-
         dataSet.setColors(colors);
-        //dataSet.setSelectionShift(0f);
-
-
         dataSet.setValueLinePart1OffsetPercentage(80.f);
         dataSet.setValueLinePart1Length(0.2f);
         dataSet.setValueLinePart2Length(0.4f);
@@ -422,6 +460,8 @@ public class SmallChangeActivity extends AbstractMvpBaseActivity<AccountBalanceL
         chart.highlightValues(null);
 
         chart.invalidate();
+
+        sketchListAdapter.notifyDataSetChanged();
     }
 
     @Override
