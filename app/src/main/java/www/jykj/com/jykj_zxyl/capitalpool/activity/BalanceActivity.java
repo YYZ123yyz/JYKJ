@@ -7,6 +7,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.allen.library.interceptor.Transformer;
+import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 
 import java.util.HashMap;
@@ -167,6 +168,9 @@ public class BalanceActivity extends AbstractMvpBaseActivity<BalanceContract.Vie
      */
     private void setData(AccountBalanceBean accountBalanceBean){
         tvAmountMoney.setText(String.format("¥ %s", accountBalanceBean.getBalanceMoney()));
+        SPUtils.getInstance().put("balance",String.valueOf(accountBalanceBean.getBalanceMoney()));
+        SPUtils.getInstance().put("assetsCode",accountBalanceBean.getAssetsCode());
+
     }
 
     @Override

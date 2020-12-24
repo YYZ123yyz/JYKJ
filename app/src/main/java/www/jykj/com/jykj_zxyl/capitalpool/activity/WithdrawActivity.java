@@ -3,8 +3,10 @@ package www.jykj.com.jykj_zxyl.capitalpool.activity;
 import android.content.Intent;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 
 import java.util.HashMap;
@@ -35,12 +37,19 @@ public class WithdrawActivity extends AbstractMvpBaseActivity<WithdrawContract.V
     TextView etWithdraw;
     @BindView(R.id.card_tv)
     TextView cardTv;
+    @BindView(R.id.iv_card)
+    ImageView ivCard;
+    @BindView(R.id.card_num)
+    TextView cardNum;
+    @BindView(R.id.all_money_tv)
+    TextView allTv;
     private WithdrawTypePop withdrawTypePop;
     private JYKJApplication mApp;
     private List<WithdrawTypelListBean> mTypeData;
     private MoneyDialog moneyPop;
     private String mPassword = "";
     private String bankId;
+    private double mBalance = 0;
 
     @Override
     protected int setLayoutId() {
@@ -65,8 +74,22 @@ public class WithdrawActivity extends AbstractMvpBaseActivity<WithdrawContract.V
 
             @Override
             public void onChoose(WithdrawTypelListBean withdrawTypelListBean) {
-                cardTv.setText(withdrawTypelListBean.getBankName());
-                bankId = withdrawTypelListBean.getIdNumber();
+                if (withdrawTypelListBean.getWithdrawalType() == 1) {
+                    cardTv.setText(withdrawTypelListBean.getWeChatCollectionFileCode());
+                    ivCard.setImageDrawable(getResources().getDrawable(R.mipmap.iv_charge_weichat));
+                    cardNum.setText("");
+                } else if (withdrawTypelListBean.getWithdrawalType() == 2) {
+                    cardTv.setText(withdrawTypelListBean.getAlipayCollectionFileCode());
+                    ivCard.setImageDrawable(getResources().getDrawable(R.mipmap.iv_charge_ali));
+                    cardNum.setText("");
+                } else {
+                    cardTv.setText(withdrawTypelListBean.getBankName());
+                    ivCard.setImageDrawable(getResources().getDrawable(R.mipmap.iv_withdraw_card));
+                    String idNumber = withdrawTypelListBean.getIdNumber();
+                    String substring = idNumber.substring(idNumber.length() - 4, idNumber.length());
+                    cardNum.setText(substring);
+                }
+                bankId = withdrawTypelListBean.getBankcardCode();
             }
         });
     }
@@ -78,7 +101,7 @@ public class WithdrawActivity extends AbstractMvpBaseActivity<WithdrawContract.V
         mPresenter.getWithdrawType(getParams());
     }
 
-    @OnClick({R.id.go2pay_tv, R.id.withdraw_type})
+    @OnClick({R.id.go2pay_tv, R.id.withdraw_type, R.id.all_money_tv})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.go2pay_tv:
@@ -94,6 +117,17 @@ public class WithdrawActivity extends AbstractMvpBaseActivity<WithdrawContract.V
                     withdrawTypePop.setData(mTypeData);
                 }
                 withdrawTypePop.showPop(go2Pay);
+                break;
+            case R.id.all_money_tv:
+                if (SPUtils.getInstance().getString("balance") != null) {
+                    String balance = SPUtils.getInstance().getString("balance");
+                    if (TextUtils.isEmpty(balance)) {
+                        mBalance = 0;
+                    } else {
+                        mBalance = Double.parseDouble(balance);
+                    }
+                    etWithdraw.setText(String.valueOf(mBalance));
+                }
                 break;
         }
 
@@ -114,6 +148,11 @@ public class WithdrawActivity extends AbstractMvpBaseActivity<WithdrawContract.V
         }
         if (TextUtils.isEmpty(etWithdraw.getText().toString().trim())) {
             ToastUtils.showShort("请填写提现金额");
+            return;
+        }
+
+        if (Double.parseDouble(etWithdraw.getText().toString().trim()) > mBalance) {
+            ToastUtils.showShort("余额不足");
             return;
         }
 //        mPresenter.go2Withdraw(getParams());

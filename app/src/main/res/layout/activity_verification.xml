@@ -76,7 +76,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="居民身份证"
+                android:text="居民身份证"
                 android:textColor="@color/black"
                 android:textSize="16sp"
 
@@ -102,6 +102,7 @@
                 android:textSize="16sp" />
 
             <EditText
+                android:id="@+id/id_num_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@null"
@@ -171,6 +172,7 @@
                 android:textSize="16sp" />
 
             <EditText
+                android:id="@+id/ver_code"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@null"
@@ -179,6 +181,10 @@
                 android:textSize="16sp" />
         </LinearLayout>
 
+
+        <TextView
+            style="@style/div_h"
+            android:layout_marginTop="4dp" />
     </LinearLayout>
 
 

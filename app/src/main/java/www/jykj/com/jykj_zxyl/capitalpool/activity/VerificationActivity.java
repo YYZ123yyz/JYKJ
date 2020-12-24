@@ -45,6 +45,10 @@ public class VerificationActivity extends AbstractMvpBaseActivity<VerificationCo
     EditText etPhone;
     @BindView(R.id.send_ms_tv)
     TextView sendMsTv;
+    @BindView(R.id.id_num_tv)
+    EditText etIdNum;
+    @BindView(R.id.ver_code)
+    EditText etVerCode;
     private JYKJApplication mApp;
     private Timer mTimer;
     private TimerTask mTask;
@@ -97,7 +101,7 @@ public class VerificationActivity extends AbstractMvpBaseActivity<VerificationCo
         switch (view.getId()) {
             case R.id.next_tv:
                 checkInfo();
-                startActivity(new Intent(VerificationActivity.this,ModifyIinforActivity.class));
+
                 break;
             case R.id.send_ms_tv:
                 if (TextUtils.isEmpty(etPhone.getText().toString().trim())){
@@ -108,6 +112,7 @@ public class VerificationActivity extends AbstractMvpBaseActivity<VerificationCo
                     ToastUtils.showShort("听填写正确手机号");
                     return;
                 }
+
                 startTask();
                 mPresenter.sendMs(getParams());
 
@@ -117,16 +122,31 @@ public class VerificationActivity extends AbstractMvpBaseActivity<VerificationCo
     }
 
     private void checkInfo() {
+
         if (TextUtils.isEmpty(etName.getText().toString().trim())){
             ToastUtils.showShort("请输入名字");
             return;
         }
+        if (TextUtils.isEmpty(etIdNum.getText().toString())){
+            ToastUtils.showShort("请输入身份证");
+            return;
+        }
+        if (TextUtils.isEmpty(etVerCode.getText().toString())){
+            ToastUtils.showShort("请填写验证码");
+            return;
+        }
+        mPresenter.checkAccount(getParams());
     }
 
     private String getParams() {
         HashMap<String, Object> stringStringHashMap = new HashMap<>();
         stringStringHashMap.put("operDoctorCode", mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());//mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode()
+        stringStringHashMap.put("operDoctorName", mApp.mViewSysUserDoctorInfoAndHospital.getUserName());//mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode()
         stringStringHashMap.put("phone", etPhone.getText().toString().trim());//mType
+        stringStringHashMap.put("idNumber", etPhone.getText().toString().trim());//mType
+        stringStringHashMap.put("captcha", etPhone.getText().toString().trim());//mType
+
+
         return RetrofitUtil.encodeParam(stringStringHashMap);
     }
 
@@ -147,6 +167,17 @@ public class VerificationActivity extends AbstractMvpBaseActivity<VerificationCo
         mTimer.schedule(mTask, 0, 1000);
     }
 
+    @Override
+    public void showMsg(String msg) {
+        ToastUtils.showShort(msg);
+    }
+
+    @Override
+    public void checkSucess() {
+        ToastUtils.showShort("验证成功");
+        startActivity(new Intent(VerificationActivity.this,ModifyIinforActivity.class));
+        finish();
+    }
 }
 
 
