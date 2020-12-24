@@ -65,6 +65,9 @@ public class ModifyIinforActivity extends AbstractMvpBaseActivity<ModifyIinforCo
                 startActivity(intent);
             }else if (mType ==1){
                 mPresenter.checkPassword(getParams());
+            }else if (mType ==3){
+                //解绑
+
             }
 
         });

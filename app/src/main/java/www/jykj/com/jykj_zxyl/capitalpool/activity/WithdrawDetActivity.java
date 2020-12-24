@@ -153,7 +153,7 @@ public class WithdrawDetActivity extends AbstractMvpBaseActivity<WithdrawDetCont
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.withdraw_tv:
-                startActivity(new Intent(WithdrawDetActivity.this, UserAccountActivity.class));
+                startActivity(new Intent(WithdrawDetActivity.this, WithdrawActivity.class));
                 break;
             case R.id.tv_date:
                 showCalendarDialog();
