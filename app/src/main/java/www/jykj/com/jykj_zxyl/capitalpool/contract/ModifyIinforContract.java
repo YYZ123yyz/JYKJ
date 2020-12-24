@@ -14,11 +14,16 @@ public class ModifyIinforContract {
          */
         void checkPasswordResult(boolean isSucess,String msg);
 
+        void unBindSucess();
+
+        void showMsg(String msg);
+
     }
 
     public interface Presenter extends BasePresenter<View> {
 
         void checkPassword(String params);
 
+        void unBindCard(String params);
     }
 }

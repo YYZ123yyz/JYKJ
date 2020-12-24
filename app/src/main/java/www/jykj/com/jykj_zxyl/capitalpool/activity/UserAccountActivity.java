@@ -18,6 +18,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.blankj.utilcode.util.SPUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -35,9 +36,15 @@ public class UserAccountActivity extends AbstractMvpBaseActivity<UserAccountCont
     ImageView aliMsgIv;
     @BindView(R.id.weicha_iv_msg)
     ImageView weicatMsgIv;
+    @BindView(R.id.weichat_tv)
+    TextView weichatTv;
+    @BindView(R.id.ali_tv)
+    TextView aliTv;
     private JYKJApplication mApp;
     private ArrayList<WithdrawTypelListBean> dataList;
     private UserAccountAdapter userAccountAdapter;
+    private String weichatId;
+    private String aliId;
 
     @Override
     protected int setLayoutId() {
@@ -67,6 +74,19 @@ public class UserAccountActivity extends AbstractMvpBaseActivity<UserAccountCont
 
             }
         });
+        userAccountAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                switch (view.getId()) {
+                    case R.id.iv_unbind:
+                        Intent intent = new Intent(UserAccountActivity.this, ModifyIinforActivity.class);
+                        intent.putExtra("bankcardCode",dataList.get(position).getIdNumber());
+                        intent.putExtra("type",3);
+                        startActivity(intent);
+                        break;
+                }
+            }
+        });
         myRecyleview.setAdapter(userAccountAdapter);
     }
 
@@ -88,7 +108,7 @@ public class UserAccountActivity extends AbstractMvpBaseActivity<UserAccountCont
     }
 
 
-    @OnClick({R.id.weichat_rela, R.id.ali_layout, R.id.addbank_card_layout})
+    @OnClick({R.id.weichat_rela, R.id.ali_layout, R.id.addbank_card_layout,R.id.weicha_iv_msg,R.id.ali_iv_msg})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.weichat_rela:
@@ -104,7 +124,18 @@ public class UserAccountActivity extends AbstractMvpBaseActivity<UserAccountCont
             case R.id.addbank_card_layout:
                 startActivity(new Intent(UserAccountActivity.this, AddBankcardActivity.class));
                 break;
-
+            case R.id.weicha_iv_msg://解绑微信
+                Intent intent0 = new Intent(UserAccountActivity.this, ModifyIinforActivity.class);
+                intent0.putExtra("bankcardCode",weichatId);
+                intent0.putExtra("type",3);
+                startActivity(intent0);
+                break;
+            case R.id.ali_iv_msg://解绑支付宝
+                Intent intent2 = new Intent(UserAccountActivity.this, ModifyIinforActivity.class);
+                intent2.putExtra("bankcardCode",aliId);
+                intent2.putExtra("type",3);
+                startActivity(intent2);
+                break;
         }
 
     }
@@ -126,6 +157,31 @@ public class UserAccountActivity extends AbstractMvpBaseActivity<UserAccountCont
             userAccountAdapter.notifyDataSetChanged();
         }
 
+    }
+
+    @Override
+    public void getWeiChat(WithdrawTypelListBean weichatBean) {
+        weichatId = weichatBean.getIdNumber();
+        weichatTv.setText("微信收款码");
+        weicatMsgIv.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void getAli(WithdrawTypelListBean aliBean) {
+        aliId = aliBean.getIdNumber();
+        aliTv.setText("支付宝收款码");
+        aliMsgIv.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void getEmpeyData(int type) {
+        if (type==1){//微信
+            weichatTv.setText("请绑定");
+            weicatMsgIv.setVisibility(View.GONE);
+        }else {//支付宝
+            aliTv.setText("请绑定");
+            aliMsgIv.setVisibility(View.GONE);
+        }
     }
 }
 
