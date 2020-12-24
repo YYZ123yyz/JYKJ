@@ -557,5 +557,14 @@ public interface ApiService {
     @POST("/doctorAccountControlle/relieveWithdrawalCardAndQrCode")
     Observable<String> getmodify(@Query(value = "jsonDataInfo", encoded = true)
                                               String queryJson);
+    //充值接口
+    @POST("doctorAccountControlle/openAccountDoctorBalanceInfoPay")
+    Observable<String> openAccountDoctorBalanceInfoPay(@Query(value = "jsonDataInfo", encoded = true)
+                                                               String queryJson);
+    //查询支付状态
+    @POST("/doctorAccountControlle/getOrderStatus")
+    Observable<String> getOrderStatus(@Query(value = "jsonDataInfo", encoded = true)
+                                              String queryJson);
+
 }
 
