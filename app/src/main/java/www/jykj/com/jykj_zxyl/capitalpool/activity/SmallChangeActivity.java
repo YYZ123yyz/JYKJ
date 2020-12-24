@@ -20,6 +20,7 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.PercentFormatter;
+import com.github.mikephil.charting.utils.ColorTemplate;
 import com.hyphenate.easeui.jykj.utils.DateUtils;
 import com.scwang.smart.refresh.header.ClassicsHeader;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
@@ -357,7 +358,6 @@ public class SmallChangeActivity extends AbstractMvpBaseActivity<AccountBalanceL
         tvStatisticIncomeAmount.setText(String.format("¥ %s", accountStisticInfoBean.getTotalIncome()));
         ArrayList<PieEntry> entries = new ArrayList<>();
         ArrayList<Integer> colors = new ArrayList<>();
-
         if(changeType.equals("1")){
             listSketch.clear();
             float incomeFigureText = accountStisticInfoBean.getIncomeFigureText();
@@ -505,6 +505,23 @@ public class SmallChangeActivity extends AbstractMvpBaseActivity<AccountBalanceL
 
 
         }
+
+        for (int c : ColorTemplate.VORDIPLOM_COLORS)
+            colors.add(c);
+
+        for (int c : ColorTemplate.JOYFUL_COLORS)
+            colors.add(c);
+
+        for (int c : ColorTemplate.COLORFUL_COLORS)
+            colors.add(c);
+
+        for (int c : ColorTemplate.LIBERTY_COLORS)
+            colors.add(c);
+
+        for (int c : ColorTemplate.PASTEL_COLORS)
+            colors.add(c);
+
+        colors.add(ColorTemplate.getHoloBlue());
 
 
         PieDataSet dataSet = new PieDataSet(entries, "Election Results");
