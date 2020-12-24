@@ -26,6 +26,12 @@
 
          </activity>
 
+         <activity
+             android:name=".ui.EditVoiceActivity"
+             android:screenOrientation="portrait"
+             android:windowSoftInputMode="stateAlwaysHidden|stateHidden|adjustResize"
+             >
+         </activity>
          <!--Android-autoSize 设计稿目标宽高-->
          <meta-data
              android:name="design_width_in_dp"

@@ -173,5 +173,15 @@ public class EaseEmojiconMenu extends EaseEmojiconMenuBase{
         }
 	    
 	}
+
+    public interface EmojiciconClick{
+        void onExpressionClicked(EaseEmojicon emojicon);
+        void onDeleteImageClicked();
+    }
+
+    private EmojiciconClick myListen;
+    public void setEmojiciconClickListen(EmojiciconClick listen){
+        this.myListen =listen;
+    }
 	
 }
