@@ -56,8 +56,10 @@ public class SmallChangeActivity extends AbstractMvpBaseActivity<AccountBalanceL
     TextView tvPayAmount;
     @BindView(R.id.tv_income_amount)
     TextView tvIncomeAmount;
-    @BindView(R.id.rl_top_root)
-    RelativeLayout rlTopRoot;
+    @BindView(R.id.rl_list_top_root)
+    RelativeLayout rlListTopRoot;
+    @BindView(R.id.rl_statistic_top_root)
+    RelativeLayout rlStatisticTopRoot;
     @BindView(R.id.rl_bottom_root)
     RelativeLayout rlBottomRoot;
     @BindView(R.id.rv_list)
@@ -98,13 +100,14 @@ public class SmallChangeActivity extends AbstractMvpBaseActivity<AccountBalanceL
     TextView tvStisticText;
     @BindView(R.id.rv_list_sketch)
     RecyclerView rvListSketch;
+    @BindView(R.id.rl_content_root)
+    RelativeLayout rlContentRoot;
     private String changeType="1";
     private LoadingLayoutManager mLoadingLayout;//重新加载空页面管理
     private AccountBalanceInfoListAdapter accountBalanceInfoListAdapter;
     private List<AccountBalanceListInfoBean.AccountDoctorBalanceInfoListBean> listBeans;
     private ChartSketchListAdapter sketchListAdapter;
     private List<ChartSketchBean> listSketch;
-    private TimePickerView timePickerView;
     private String currentDate="";
     private boolean isShowloading;
     private String sourceType="1";
@@ -123,6 +126,7 @@ public class SmallChangeActivity extends AbstractMvpBaseActivity<AccountBalanceL
         initRecyclerView();
         initSketchRecyclerView();
         addListener();
+        setContentHideOrVisible();
     }
 
     @Override
@@ -138,9 +142,18 @@ public class SmallChangeActivity extends AbstractMvpBaseActivity<AccountBalanceL
      * 初始化loading页面
      */
     private void initLoadingAndRetryManager() {
-        mLoadingLayout = LoadingLayoutManager.wrap(mRefreshLayout);
+        mLoadingLayout = LoadingLayoutManager.wrap(rlContentRoot);
         mLoadingLayout.setRetryListener(v -> {
             mLoadingLayout.showLoading();
+            if (sourceType.equals("1")) {
+                mPresenter.sendSearchAccountDoctorBalanceInfoListRequest(currentDate,
+                        pageSize,pageIndex,this);
+            }else if(sourceType.equals("2")){
+                mPresenter.sendSearchAccountDoctorIncomeOutInfoRequest(currentDate,changeType,
+                        SmallChangeActivity.this);
+            }
+
+
         });
         mLoadingLayout.showLoading();
     }
@@ -219,10 +232,19 @@ public class SmallChangeActivity extends AbstractMvpBaseActivity<AccountBalanceL
             isShowloading=true;
             setPayModeStatus();
         });
+
+        tvStatisticFilterBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showChoosedTimeDialog();
+            }
+        });
     }
 
     private void setContentHideOrVisible(){
         if (sourceType.equals("1")) {
+            rlListTopRoot.setVisibility(View.VISIBLE);
+            rlStatisticTopRoot.setVisibility(View.GONE);
             llBillContentRoot.setVisibility(View.VISIBLE);
             llStatisticContentRoot.setVisibility(View.GONE);
             ivBillBtn.setImageResource(R.mipmap.bg_bill_normal);
@@ -230,6 +252,8 @@ public class SmallChangeActivity extends AbstractMvpBaseActivity<AccountBalanceL
             ivStisticBtn.setImageResource(R.mipmap.bg_statistic_press);
             tvStisticText.setTextColor(ContextCompat.getColor(this,R.color.color_666666));
         }else if(sourceType.equals("2")){
+            rlListTopRoot.setVisibility(View.GONE);
+            rlStatisticTopRoot.setVisibility(View.VISIBLE);
             llBillContentRoot.setVisibility(View.GONE);
             llStatisticContentRoot.setVisibility(View.VISIBLE);
             ivBillBtn.setImageResource(R.mipmap.bg_bill_press);
@@ -309,10 +333,10 @@ public class SmallChangeActivity extends AbstractMvpBaseActivity<AccountBalanceL
      * 预约选择时间弹框
      */
     private void showChoosedTimeDialog() {
-        timePickerView = new TimePickerBuilder(this, (date, v) -> {
+        TimePickerView timePickerView = new TimePickerBuilder(this, (date, v) -> {
             isShowloading=true;
             currentDate = DateUtils.getDateYYYMM(date);
-
+            tvStatisticFilterBtn.setText(currentDate);
             mPresenter.sendSearchAccountDoctorBalanceInfoListRequest(currentDate,
                     pageSize,pageIndex,this);
             pageIndex=1;
@@ -410,6 +434,28 @@ public class SmallChangeActivity extends AbstractMvpBaseActivity<AccountBalanceL
                 chartSketchBean.setSketchName("会诊收入");
                 listSketch.add(chartSketchBean);
             }
+            float incomeRecharge = accountStisticInfoBean.getIncomeRecharge();
+            if(incomeRecharge>0){
+                int color = Color.parseColor("#B28850");
+                colors.add(color);
+                entries.add(new PieEntry(incomeRecharge,""));
+                ChartSketchBean chartSketchBean=new ChartSketchBean();
+                chartSketchBean.setColorSketch(color);
+                chartSketchBean.setSketchName("用户充值");
+                listSketch.add(chartSketchBean);
+            }
+
+            float incomeCourseware = accountStisticInfoBean.getIncomeCourseware();
+            if (incomeCourseware>0){
+                int color = Color.parseColor("#ACD598");
+                colors.add(color);
+                entries.add(new PieEntry(incomeCourseware,""));
+                ChartSketchBean chartSketchBean=new ChartSketchBean();
+                chartSketchBean.setColorSketch(color);
+                chartSketchBean.setSketchName("课件收入");
+                listSketch.add(chartSketchBean);
+            }
+
 
 
         }else{
@@ -435,6 +481,28 @@ public class SmallChangeActivity extends AbstractMvpBaseActivity<AccountBalanceL
                 chartSketchBean.setSketchName("直播支出");
                 listSketch.add(chartSketchBean);
             }
+            float expendCourseware = accountStisticInfoBean.getExpendCourseware();
+            if (expendCourseware>0) {
+                int color = Color.parseColor("#8C97CB");
+                colors.add(color);
+                entries.add(new PieEntry(expendCourseware,""));
+                ChartSketchBean chartSketchBean=new ChartSketchBean();
+                chartSketchBean.setColorSketch(color);
+                chartSketchBean.setSketchName("课件支出");
+                listSketch.add(chartSketchBean);
+            }
+
+            float expendWithdrawal = accountStisticInfoBean.getExpendWithdrawal();
+            if (expendWithdrawal>0) {
+                int color = Color.parseColor("#CCE198");
+                colors.add(color);
+                entries.add(new PieEntry(expendWithdrawal,""));
+                ChartSketchBean chartSketchBean=new ChartSketchBean();
+                chartSketchBean.setColorSketch(color);
+                chartSketchBean.setSketchName("提现支出");
+                listSketch.add(chartSketchBean);
+            }
+
 
         }
 
