@@ -175,6 +175,11 @@ public class WithdrawActivity extends AbstractMvpBaseActivity<WithdrawContract.V
         mTypeData = data;
         WithdrawTypelListBean withdrawTypelListBean = data.get(0);
         cardTv.setText(withdrawTypelListBean.getBankName());
+
+        String idNumber = withdrawTypelListBean.getIdNumber();
+        String substring = idNumber.substring(idNumber.length() - 4, idNumber.length());
+        cardNum.setText(substring);
+
         bankId = withdrawTypelListBean.getIdNumber();
     }
 
