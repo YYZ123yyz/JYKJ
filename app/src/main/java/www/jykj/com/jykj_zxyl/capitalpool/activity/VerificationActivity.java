@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.RegexUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
@@ -77,6 +78,7 @@ public class VerificationActivity extends AbstractMvpBaseActivity<VerificationCo
             }
         }
     };
+    private String usephone;
 
     @Override
     protected int setLayoutId() {
@@ -91,7 +93,7 @@ public class VerificationActivity extends AbstractMvpBaseActivity<VerificationCo
     @Override
     protected void initView() {
         super.initView();
-        String usephone = SPUtils.getInstance().getString("usephone");
+        usephone = SPUtils.getInstance().getString("usephone");
         String phonenum = usephone.substring(0, 3) + "****" + usephone.substring(7, 11);
         etPhone.setText(phonenum);
     }
@@ -114,8 +116,6 @@ public class VerificationActivity extends AbstractMvpBaseActivity<VerificationCo
                     ToastUtils.showShort("请先完善个人信息");
                     return;
                 }
-
-
                 startTask();
                 mPresenter.sendMs(getParams());
 
@@ -145,9 +145,10 @@ public class VerificationActivity extends AbstractMvpBaseActivity<VerificationCo
         HashMap<String, Object> stringStringHashMap = new HashMap<>();
         stringStringHashMap.put("operDoctorCode", mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());//mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode()
         stringStringHashMap.put("operDoctorName", mApp.mViewSysUserDoctorInfoAndHospital.getUserName());//mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode()
-        stringStringHashMap.put("phone", etPhone.getText().toString().trim());//mType
-        stringStringHashMap.put("idNumber", etPhone.getText().toString().trim());//mType
-        stringStringHashMap.put("captcha", etPhone.getText().toString().trim());//mType
+        stringStringHashMap.put("phone", usephone);//mType
+        stringStringHashMap.put("idNumber", etIdNum.getText().toString().trim());//mType
+        stringStringHashMap.put("captcha", etVerCode.getText().toString().trim());//mType
+
 
 
         return RetrofitUtil.encodeParam(stringStringHashMap);
