@@ -2,7 +2,9 @@ package www.jykj.com.jykj_zxyl.capitalpool.activity;
 
 import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
+import android.view.Gravity;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -25,6 +27,7 @@ import www.jykj.com.jykj_zxyl.app_base.base_view.LoadingLayoutManager;
 import www.jykj.com.jykj_zxyl.app_base.mvp.AbstractMvpBaseActivity;
 import www.jykj.com.jykj_zxyl.capitalpool.contract.AccountStatisticContract;
 import www.jykj.com.jykj_zxyl.capitalpool.contract.AccountStatisticPresenter;
+import www.jykj.com.jykj_zxyl.custom.MoreFeaturesPopupWindow;
 
 /**
  * Description:统计图
@@ -61,6 +64,7 @@ public class StatisticChartActivity extends AbstractMvpBaseActivity<AccountStati
     private String currentDate="";
     private String changeType="1";
     private boolean isShowLoading;
+    private ImageButton imageButtonE;
     private LoadingLayoutManager mLoadingLayout;//重新加载空页面管理
     @Override
     protected int setLayoutId() {
@@ -71,6 +75,7 @@ public class StatisticChartActivity extends AbstractMvpBaseActivity<AccountStati
     @Override
     protected void initView() {
         super.initView();
+        imageButtonE = findViewById(R.id.right_image_search);
         setToolBar();
         initLoadingAndRetryManager();
         addListener();
@@ -107,7 +112,15 @@ public class StatisticChartActivity extends AbstractMvpBaseActivity<AccountStati
         toolbar.setMainTitle("统计");
         //返回键
         toolbar.setLeftTitleClickListener(view -> finish());
-        toolbar.setRightTitleSearchBtnVisible(false);
+        toolbar.setRightTitleClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MoreFeaturesPopupWindow mPopupWindow = new MoreFeaturesPopupWindow(StatisticChartActivity.this);
+                if (mPopupWindow != null && !mPopupWindow.isShowing()) {
+                    mPopupWindow.showAsDropDown(imageButtonE, 0, 0, Gravity.TOP + Gravity.RIGHT);
+                }
+            }
+        });
 
     }
 

@@ -5,8 +5,10 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -33,6 +35,7 @@ import top.zibin.luban.Luban;
 import top.zibin.luban.OnCompressListener;
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.app_base.base_utils.RxUtils;
+import www.jykj.com.jykj_zxyl.app_base.base_view.BaseToolBar;
 import www.jykj.com.jykj_zxyl.app_base.http.ApiService;
 import www.jykj.com.jykj_zxyl.app_base.http.ParameUtil;
 import www.jykj.com.jykj_zxyl.app_base.http.RetrofitUtil;
@@ -43,6 +46,7 @@ import www.jykj.com.jykj_zxyl.capitalpool.contract.AddBankcardContract;
 import www.jykj.com.jykj_zxyl.capitalpool.contract.AddBankcardPresenter;
 import www.jykj.com.jykj_zxyl.capitalpool.contract.CollectionCodeContract;
 import www.jykj.com.jykj_zxyl.capitalpool.contract.CollectionCodePresenter;
+import www.jykj.com.jykj_zxyl.custom.MoreFeaturesPopupWindow;
 import www.jykj.com.jykj_zxyl.util.BitmapUtil;
 
 public class CollectionCodeActivity extends AbstractMvpBaseActivity<CollectionCodeContract.View
@@ -64,6 +68,8 @@ public class CollectionCodeActivity extends AbstractMvpBaseActivity<CollectionCo
     private String imgUrl;
     private boolean isShow =false;
     private String id;
+    private BaseToolBar toolbar;
+    private ImageButton imageButtonE;
 
     @Override
     protected int setLayoutId() {
@@ -79,6 +85,24 @@ public class CollectionCodeActivity extends AbstractMvpBaseActivity<CollectionCo
     protected void initView() {
         super.initView();
 
+        imageButtonE = findViewById(R.id.right_image_search);
+        toolbar = findViewById(R.id.toolbar);
+        setToolBar();
+    }
+
+    private void setToolBar() {
+        //返回键
+        toolbar.setLeftTitleClickListener(view -> finish());
+        //add
+        toolbar.setRightTitleClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MoreFeaturesPopupWindow mPopupWindow = new MoreFeaturesPopupWindow(CollectionCodeActivity.this);
+                if (mPopupWindow != null && !mPopupWindow.isShowing()) {
+                    mPopupWindow.showAsDropDown(imageButtonE, 0, 0, Gravity.TOP + Gravity.RIGHT);
+                }
+            }
+        });
     }
 
     @Override
@@ -97,8 +121,10 @@ public class CollectionCodeActivity extends AbstractMvpBaseActivity<CollectionCo
     private void setDeftInfo() {
         if (mType == 1) {
             bindTypeTv.setText("微信账号");
+            toolbar.setMainTitle("微信收款码");
         } else {
             bindTypeTv.setText("支付宝账号");
+            toolbar.setMainTitle("支付宝收款码");
         }
         if (isShow){
             bindTv.setVisibility(View.GONE);

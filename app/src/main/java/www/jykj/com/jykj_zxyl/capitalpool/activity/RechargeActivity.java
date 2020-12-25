@@ -7,8 +7,10 @@ import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.alipay.sdk.app.PayTask;
@@ -27,6 +29,7 @@ import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.activity.chapter.bean.ChapterPayBean;
 import www.jykj.com.jykj_zxyl.activity.chapter.bean.PayResult;
 import www.jykj.com.jykj_zxyl.app_base.base_utils.VerificationUtils;
+import www.jykj.com.jykj_zxyl.app_base.base_view.BaseToolBar;
 import www.jykj.com.jykj_zxyl.app_base.http.RetrofitUtil;
 import www.jykj.com.jykj_zxyl.app_base.mvp.AbstractMvpBaseActivity;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
@@ -34,6 +37,7 @@ import www.jykj.com.jykj_zxyl.capitalpool.contract.RechargeContract;
 import www.jykj.com.jykj_zxyl.capitalpool.contract.RechargePresenter;
 import www.jykj.com.jykj_zxyl.capitalpool.weiget.CommonPayConfirmDialog;
 import www.jykj.com.jykj_zxyl.capitalpool.weiget.CommonPayPwdCheckDialog;
+import www.jykj.com.jykj_zxyl.custom.MoreFeaturesPopupWindow;
 import www.jykj.com.jykj_zxyl.wxapi.PayInfoBean;
 
 public class RechargeActivity extends AbstractMvpBaseActivity<RechargeContract.View
@@ -54,6 +58,9 @@ public class RechargeActivity extends AbstractMvpBaseActivity<RechargeContract.V
     private static final int SDK_PAY_FLAG = 3;
     private CommonPayPwdCheckDialog commonPayPwdCheckDialog;
     private CommonPayConfirmDialog commonPayConfirmDialog;
+    private BaseToolBar toolbar;
+    private ImageButton imageButtonE;
+
     @Override
     protected int setLayoutId() {
         return R.layout.activity_recharge;
@@ -99,6 +106,27 @@ public class RechargeActivity extends AbstractMvpBaseActivity<RechargeContract.V
         EventBus.getDefault().register(this);
         commonPayPwdCheckDialog=new CommonPayPwdCheckDialog(this);
         commonPayConfirmDialog=new CommonPayConfirmDialog(this);
+        imageButtonE = findViewById(R.id.right_image_search);
+        toolbar = findViewById(R.id.toolbar);
+        setToolBar();
+
+
+    }
+
+    private void setToolBar() {
+        toolbar.setMainTitle("充值");
+        //返回键
+        toolbar.setLeftTitleClickListener(view -> finish());
+        //add
+        toolbar.setRightTitleClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MoreFeaturesPopupWindow mPopupWindow = new MoreFeaturesPopupWindow(RechargeActivity.this);
+                if (mPopupWindow != null && !mPopupWindow.isShowing()) {
+                    mPopupWindow.showAsDropDown(imageButtonE, 0, 0, Gravity.TOP + Gravity.RIGHT);
+                }
+            }
+        });
     }
 
     @Override

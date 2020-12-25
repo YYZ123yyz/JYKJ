@@ -14,6 +14,7 @@ import butterknife.OnClick;
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.app_base.base_enumtype.JumpTypeEnum;
 import www.jykj.com.jykj_zxyl.app_base.base_utils.StringUtils;
+import www.jykj.com.jykj_zxyl.app_base.base_view.BaseToolBar;
 import www.jykj.com.jykj_zxyl.app_base.http.RetrofitUtil;
 import www.jykj.com.jykj_zxyl.app_base.mvp.AbstractMvpBaseActivity;
 
@@ -44,6 +45,7 @@ public class ModifyIinforActivity extends AbstractMvpBaseActivity<ModifyIinforCo
     private int mType;
     private JYKJApplication mApp;
     private String bankcardCode ="";
+    private BaseToolBar toolbar;
 
     @Override
     protected int setLayoutId() {
@@ -58,6 +60,8 @@ public class ModifyIinforActivity extends AbstractMvpBaseActivity<ModifyIinforCo
     @Override
     protected void initView() {
         super.initView();
+        toolbar = findViewById(R.id.toolbar);
+        setToolBar();
         myEdittext.setOnCompleteListener(password -> {
             if (mType== 0 ){
                 Intent intent = new Intent(ModifyIinforActivity.this,
@@ -73,6 +77,12 @@ public class ModifyIinforActivity extends AbstractMvpBaseActivity<ModifyIinforCo
             }
 
         });
+    }
+
+    private void setToolBar() {
+        toolbar.setMainTitle("");
+        //返回键
+        toolbar.setLeftTitleClickListener(view -> finish());
     }
 
     @Override
