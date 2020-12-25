@@ -66,6 +66,8 @@ public class AccountStisticInfoBean {
     private int userUseType;
     private float expendLiveBroadcast ; //直播总支出
     private float expendConsultation ; //会诊总支出
+    private float expendCourseware; //课件总支出
+    private float expendWithdrawal; //提现总支出
     public String getCountPeriod() {
         return countPeriod;
     }
@@ -288,5 +290,21 @@ public class AccountStisticInfoBean {
 
     public void setExpendConsultation(float expendConsultation) {
         this.expendConsultation = expendConsultation;
+    }
+
+    public float getExpendCourseware() {
+        return expendCourseware;
+    }
+
+    public void setExpendCourseware(float expendCourseware) {
+        this.expendCourseware = expendCourseware;
+    }
+
+    public float getExpendWithdrawal() {
+        return expendWithdrawal;
+    }
+
+    public void setExpendWithdrawal(float expendWithdrawal) {
+        this.expendWithdrawal = expendWithdrawal;
     }
 }

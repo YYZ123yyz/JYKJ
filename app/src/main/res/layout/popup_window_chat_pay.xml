@@ -32,6 +32,7 @@
         android:layout_width="match_parent"
         android:layout_height="30dp"
         android:layout_marginTop="40dp"
+        android:layout_marginBottom="40dp"
         android:gravity="center">
 
         <TextView
@@ -50,6 +51,7 @@
             android:layout_marginLeft="5dp"
             android:layout_toRightOf="@+id/money_type"
             android:text="988"
+            android:textColor="@color/color_000000"
             android:textSize="24sp" />
 
     </RelativeLayout>
@@ -59,7 +61,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:paddingLeft="10dp"
-        android:paddingRight="10dp">
+        android:paddingRight="10dp"
+        android:visibility="gone"
+        >
 
         <TextView
             android:layout_width="wrap_content"
@@ -79,9 +83,9 @@
             android:textSize="15sp" />
     </RelativeLayout>
 
-    <TextView
+   <!-- <TextView
         style="@style/div_h"
-        android:layout_marginTop="15dp" />
+        android:layout_marginTop="15dp" />-->
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -89,7 +93,9 @@
         android:layout_marginTop="15dp"
         android:paddingLeft="10dp"
         android:paddingBottom="10dp"
-        android:paddingRight="10dp">
+        android:paddingRight="10dp"
+        android:visibility="gone"
+        >
 
         <TextView
             android:layout_width="wrap_content"
@@ -136,6 +142,7 @@
             android:layout_marginLeft="20dp"
             android:layout_toRightOf="@+id/iv_money"
             android:text="余额支付"
+            android:id="@+id/tv_balance_money"
             android:textColor="@color/color_333333"
             android:textSize="15sp" />
 
@@ -148,7 +155,7 @@
             android:src="@mipmap/iv_choose_pop" />
     </RelativeLayout>
 
-    <TextView style="@style/div_h" />
+    <TextView style="@style/div_line" />
 
     <RelativeLayout
         android:id="@+id/weichat_layout"
@@ -183,7 +190,9 @@
             android:src="@mipmap/iv_choose_pop" />
     </RelativeLayout>
 
-    <TextView style="@style/div_h" />
+    <TextView style="@style/div_line"
+
+        />
 
     <RelativeLayout
         android:id="@+id/ali_layout"
@@ -218,8 +227,62 @@
             android:src="@mipmap/iv_choose_pop" />
     </RelativeLayout>
 
-    <TextView style="@style/div_h" />
+    <TextView style="@style/div_line" />
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="62dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:visibility="gone"
+        android:id="@+id/rl_money_not_enough"
+        >
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/bg_available_wallet"
+            android:id="@+id/iv_not_enough_icon"
+            android:layout_centerVertical="true"
+            >
+
+
+        </ImageView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginStart="20dp"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/iv_not_enough_icon"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_999999"
+                android:textSize="15sp"
+                android:text="余额支付 (可用：¥20.52)"
+                android:id="@+id/tv_not_enough_balance_money"
+                >
+
+
+            </TextView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_999999"
+                android:textSize="15sp"
+                android:text="金额不足"
+                >
+
+
+            </TextView>
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -262,7 +325,7 @@
         android:layout_width="230dp"
         android:layout_height="35dp"
         android:text="付款"
-        android:background="@drawable/bg_round_799dfe_4"
+        android:background="@drawable/bg_round_799dfe_17"
         android:gravity="center"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="40dp"

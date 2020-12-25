@@ -36,6 +36,42 @@ public class WithdrawTypelListBean {
     private String mainUserName;
     private int withdrawalType;
     private boolean isClick;
+    private String alipayCollectionFilePath;
+    private String weChatCollectionFilePath;
+    private String alipayCollectionFileCode;
+    private String weChatCollectionFileCode;
+
+    public String getAlipayCollectionFileCode() {
+        return alipayCollectionFileCode;
+    }
+
+    public void setAlipayCollectionFileCode(String alipayCollectionFileCode) {
+        this.alipayCollectionFileCode = alipayCollectionFileCode;
+    }
+
+    public String getWeChatCollectionFileCode() {
+        return weChatCollectionFileCode;
+    }
+
+    public void setWeChatCollectionFileCode(String weChatCollectionFileCode) {
+        this.weChatCollectionFileCode = weChatCollectionFileCode;
+    }
+
+    public String getWeChatCollectionFilePath() {
+        return weChatCollectionFilePath;
+    }
+
+    public void setWeChatCollectionFilePath(String weChatCollectionFilePath) {
+        this.weChatCollectionFilePath = weChatCollectionFilePath;
+    }
+
+    public String getAlipayCollectionFilePath() {
+        return alipayCollectionFilePath;
+    }
+
+    public void setAlipayCollectionFilePath(String alipayCollectionFilePath) {
+        this.alipayCollectionFilePath = alipayCollectionFilePath;
+    }
 
     public boolean isClick() {
         return isClick;

@@ -27,6 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.blankj.utilcode.util.KeyboardUtils;
+import com.blankj.utilcode.util.SPUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.hyphenate.EMCallBack;
@@ -161,6 +162,7 @@ public class LoginActivity extends BaseActivity {
                                 userInfo.setUserPhone(mAccountEdit.getText().toString());
                                 userInfo.setUserPwd(mPassWordEdit.getText().toString());
                                 mApp.mLoginUserInfo = userInfo;
+                                SPUtils.getInstance().put("usephone",mAccountEdit.getText().toString());
                                 mApp.mViewSysUserDoctorInfoAndHospital = new Gson().fromJson(netRetEntity.getResJsonData(), ViewSysUserDoctorInfoAndHospital.class);
                                 mApp.saveUserInfo();
                                 //Toast.makeText(mContext, "恭喜，登录成功", Toast.LENGTH_SHORT).show();

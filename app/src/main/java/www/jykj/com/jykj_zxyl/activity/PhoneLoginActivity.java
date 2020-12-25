@@ -23,6 +23,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.blankj.utilcode.util.KeyboardUtils;
+import com.blankj.utilcode.util.SPUtils;
+import com.blankj.utilcode.util.SpanUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.hyphenate.EMCallBack;
@@ -191,6 +193,8 @@ public class PhoneLoginActivity extends BaseActivity {
                                 UserInfo userInfo = new UserInfo();
                                 userInfo.setUserPhone(mPhoneNum.getText().toString());
                                 userInfo.setUserLoginSmsVerify(mVCode.getText().toString());
+
+                                SPUtils.getInstance().put("usephone",mPhoneNum.getText().toString());
 
                                 mApp.mLoginUserInfo = userInfo;
                                 mApp.mViewSysUserDoctorInfoAndHospital = new Gson().fromJson(netRetEntity.getResJsonData(), ViewSysUserDoctorInfoAndHospital.class);

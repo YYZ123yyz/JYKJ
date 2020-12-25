@@ -261,7 +261,7 @@ public class WithdrawDetActivity extends AbstractMvpBaseActivity<WithdrawDetCont
     @Override
     public void showRetry() {
         if (pageNum == 1) {
-            mLoadingLayout.showError();
+            mLoadingLayout.showEmpty();
         }
         mRefreshLayout.finishLoadMore();
         mRefreshLayout.finishRefresh();

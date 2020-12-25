@@ -14,9 +14,13 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.RegexUtils;
+import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.google.gson.Gson;
+
+import org.w3c.dom.Text;
 
 import java.util.HashMap;
 import java.util.Timer;
@@ -46,9 +50,13 @@ public class VerificationActivity extends AbstractMvpBaseActivity<VerificationCo
     @BindView(R.id.et_name)
     EditText etName;
     @BindView(R.id.phone_et)
-    EditText etPhone;
+    TextView etPhone;
     @BindView(R.id.send_ms_tv)
     TextView sendMsTv;
+    @BindView(R.id.id_num_tv)
+    EditText etIdNum;
+    @BindView(R.id.ver_code)
+    EditText etVerCode;
     private JYKJApplication mApp;
     private Timer mTimer;
     private TimerTask mTask;
@@ -76,6 +84,8 @@ public class VerificationActivity extends AbstractMvpBaseActivity<VerificationCo
             }
         }
     };
+    private String usephone;
+
     @Override
     protected int setLayoutId() {
         return R.layout.activity_verification;
@@ -108,6 +118,9 @@ public class VerificationActivity extends AbstractMvpBaseActivity<VerificationCo
                 }
             }
         });
+        usephone = SPUtils.getInstance().getString("usephone");
+        String phonenum = usephone.substring(0, 3) + "****" + usephone.substring(7, 11);
+        etPhone.setText(phonenum);
     }
 
     @Override
@@ -116,20 +129,16 @@ public class VerificationActivity extends AbstractMvpBaseActivity<VerificationCo
         mApp = (JYKJApplication) getApplication();
     }
 
-    @OnClick({R.id.next_tv,R.id.send_ms_tv})
-    public void onClick(View view){
+    @OnClick({R.id.next_tv, R.id.send_ms_tv})
+    public void onClick(View view) {
         switch (view.getId()) {
             case R.id.next_tv:
                 checkInfo();
-                startActivity(new Intent(VerificationActivity.this,ModifyIinforActivity.class));
+
                 break;
             case R.id.send_ms_tv:
-                if (TextUtils.isEmpty(etPhone.getText().toString().trim())){
-                    ToastUtils.showShort("听填写手机号");
-                    return;
-                }
-                if (!RegexUtils.isMobileSimple(etPhone.getText().toString().trim())){
-                    ToastUtils.showShort("听填写正确手机号");
+                if (TextUtils.isEmpty(etPhone.getText().toString().trim())) {
+                    ToastUtils.showShort("请先完善个人信息");
                     return;
                 }
                 startTask();
@@ -141,16 +150,32 @@ public class VerificationActivity extends AbstractMvpBaseActivity<VerificationCo
     }
 
     private void checkInfo() {
-        if (TextUtils.isEmpty(etName.getText().toString().trim())){
+
+        if (TextUtils.isEmpty(etName.getText().toString().trim())) {
             ToastUtils.showShort("请输入名字");
             return;
         }
+        if (TextUtils.isEmpty(etIdNum.getText().toString())) {
+            ToastUtils.showShort("请输入身份证");
+            return;
+        }
+        if (TextUtils.isEmpty(etVerCode.getText().toString())) {
+            ToastUtils.showShort("请填写验证码");
+            return;
+        }
+        mPresenter.checkAccount(getParams());
     }
 
     private String getParams() {
         HashMap<String, Object> stringStringHashMap = new HashMap<>();
         stringStringHashMap.put("operDoctorCode", mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());//mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode()
-        stringStringHashMap.put("phone", etPhone.getText().toString().trim());//mType
+        stringStringHashMap.put("operDoctorName", mApp.mViewSysUserDoctorInfoAndHospital.getUserName());//mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode()
+        stringStringHashMap.put("phone", usephone);//mType
+        stringStringHashMap.put("idNumber", etIdNum.getText().toString().trim());//mType
+        stringStringHashMap.put("captcha", etVerCode.getText().toString().trim());//mType
+
+
+
         return RetrofitUtil.encodeParam(stringStringHashMap);
     }
 
@@ -171,6 +196,17 @@ public class VerificationActivity extends AbstractMvpBaseActivity<VerificationCo
         mTimer.schedule(mTask, 0, 1000);
     }
 
+    @Override
+    public void showMsg(String msg) {
+        ToastUtils.showShort(msg);
+    }
+
+    @Override
+    public void checkSucess() {
+        ToastUtils.showShort("验证成功");
+        startActivity(new Intent(VerificationActivity.this, ModifyIinforActivity.class));
+        finish();
+    }
 }
 
 

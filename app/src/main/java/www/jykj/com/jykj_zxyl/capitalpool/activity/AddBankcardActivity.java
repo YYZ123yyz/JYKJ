@@ -126,7 +126,7 @@ public class AddBankcardActivity extends AbstractMvpBaseActivity<AddBankcardCont
         HashMap<String, Object> stringStringHashMap = new HashMap<>();
         stringStringHashMap.put("operDoctorCode", mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
         stringStringHashMap.put("operDoctorName", mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
-        stringStringHashMap.put("assetsCode", "c877fc2a03bf4552ad070fb112794246");//SPUtils.getInstance().getString("assetsCode") == null ? "c877fc2a03bf4552ad070fb112794246" : SPUtils.getInstance().getString("assetsCode"))
+        stringStringHashMap.put("assetsCode", SPUtils.getInstance().getString("assetsCode") == null ? "" : SPUtils.getInstance().getString("assetsCode"));//SPUtils.getInstance().getString("assetsCode") == null ? "c877fc2a03bf4552ad070fb112794246" : SPUtils.getInstance().getString("assetsCode"))
         stringStringHashMap.put("cardUserName", etName.getText().toString().trim());
         stringStringHashMap.put("idNumber", etCardNum.getText().toString().trim());
         stringStringHashMap.put("cardAccount", etBankId.getText().toString().trim());

@@ -135,7 +135,7 @@ public class ModifyIinforActivity extends AbstractMvpBaseActivity<ModifyIinforCo
                 startActivity(intent);
                 break;
             case R.id.modify_password:
-
+                startActivity(new Intent(ModifyIinforActivity.this,ModifyActivity.class));
                 break;
         }
 
@@ -148,8 +148,6 @@ public class ModifyIinforActivity extends AbstractMvpBaseActivity<ModifyIinforCo
         stringStringHashMap.put("pwd", myEdittext.getText().toString());
         return RetrofitUtil.encodeParam(stringStringHashMap);
     }
-
-
 
     @Override
     public void checkPasswordResult(boolean isSucess, String msg) {

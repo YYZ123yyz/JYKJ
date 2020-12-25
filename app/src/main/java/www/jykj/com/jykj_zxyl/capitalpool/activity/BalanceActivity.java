@@ -7,6 +7,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.allen.library.interceptor.Transformer;
+import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 
 import java.util.HashMap;
@@ -77,40 +78,27 @@ public class BalanceActivity extends AbstractMvpBaseActivity<BalanceContract.Vie
         toolbar.setLeftTitleClickListener(view -> finish());
         toolbar.setRightTitleText("零钱明细");
         toolbar.setRightTitleSearchBtnVisible(false);
-        toolbar.setRightTitleClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            startActivity(SmallChangeActivity.class,null);
-
-            }
-        });
-        tvRechargeBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (accountBalanceBean!=null) {
-                    String isbinding = accountBalanceBean.getIsbinding();
-                    if (isbinding.equals("1")) {
-                        startActivity(RechargeActivity.class,null,1000);
-                    }else{
-                        startActivity(UserAccountActivity.class,null,1001);
-                    }
+        toolbar.setRightTitleClickListener(v -> startActivity(SmallChangeActivity.class,null));
+        tvRechargeBtn.setOnClickListener(v -> {
+            if (accountBalanceBean!=null) {
+                String isbinding = accountBalanceBean.getIsbinding();
+                if (isbinding.equals("1")) {
+                    startActivity(RechargeActivity.class,null,1000);
+                }else{
+                    startActivity(UserAccountActivity.class,null,1001);
                 }
             }
         });
-        tvWithDrawalBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (accountBalanceBean!=null) {
-                    String isbinding = accountBalanceBean.getIsbinding();
-                    if (isbinding.equals("1")) {
-                        startActivity(WithdrawDetActivity.class,null,1000);
-                    }else{
-                        startActivity(UserAccountActivity.class,null,1001);
-                    }
+        tvWithDrawalBtn.setOnClickListener(v -> {
+            if (accountBalanceBean!=null) {
+                String isbinding = accountBalanceBean.getIsbinding();
+                if (isbinding.equals("1")) {
+                    startActivity(WithdrawDetActivity.class,null,1000);
+                }else{
+                    startActivity(UserAccountActivity.class,null,1001);
                 }
-
             }
+
         });
 
         tvForgetPwdBtn.setOnClickListener(new View.OnClickListener() {
@@ -167,6 +155,9 @@ public class BalanceActivity extends AbstractMvpBaseActivity<BalanceContract.Vie
      */
     private void setData(AccountBalanceBean accountBalanceBean){
         tvAmountMoney.setText(String.format("¥ %s", accountBalanceBean.getBalanceMoney()));
+        SPUtils.getInstance().put("balance",String.valueOf(accountBalanceBean.getBalanceMoney()));
+        SPUtils.getInstance().put("assetsCode",accountBalanceBean.getAssetsCode());
+
     }
 
     @Override

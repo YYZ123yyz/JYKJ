@@ -77,6 +77,8 @@ import com.hyphenate.easeui.netService.HttpNetService;
 import com.hyphenate.easeui.netService.entity.NetRetEntity;
 import com.hyphenate.easeui.utils.EaseCommonUtils;
 import com.hyphenate.easeui.utils.EaseUserUtils;
+import com.hyphenate.easeui.utils.MessageBus;
+import com.hyphenate.easeui.utils.VoiceInputDialog;
 import com.hyphenate.easeui.widget.EaseAlertDialog;
 import com.hyphenate.easeui.widget.EaseAlertDialog.AlertDialogUser;
 import com.hyphenate.easeui.widget.EaseChatExtendMenu;
@@ -217,7 +219,7 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
     private long reserveConfigStart;//预约开始时间
     private long reserveConfigEnd;// 预约结束时间
     private int surplusDuration;
-
+    private VoiceInputDialog voiceInputDialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -1136,6 +1138,13 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
                             .putExtra("patientUrl",patientUrl)
                     );
                     break;
+
+                case ITEM_VOICE_INPUT:
+                    if (voiceInputDialog == null) {
+                        voiceInputDialog = new VoiceInputDialog(getActivity());
+                    }
+                    voiceInputDialog.show();
+                    break;
                 default:
                     break;
             }
@@ -1814,6 +1823,12 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
         }
     }
 
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventMain(MessageBus event) {
+        String msg = event.getMessgae();
+        sendTextMessage(msg);
+    }
     /**
      * 发送订单
      *

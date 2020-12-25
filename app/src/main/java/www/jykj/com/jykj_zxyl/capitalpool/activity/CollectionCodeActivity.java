@@ -20,6 +20,7 @@ import com.blankj.utilcode.util.SPStaticUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.blankj.utilcode.util.UriUtils;
+import com.bumptech.glide.Glide;
 
 import java.io.File;
 import java.util.HashMap;
@@ -58,11 +59,15 @@ public class CollectionCodeActivity extends AbstractMvpBaseActivity<CollectionCo
     EditText inputEt;
     @BindView(R.id.add_iv)
     ImageView addIv;
-
+    @BindView(R.id.bind_tv)
+    TextView bindTv;
     private int mType;
     private Bitmap cordBitmap;
     private JYKJApplication mApp;
     private File bitmapFile;
+    private String imgUrl;
+    private boolean isShow =false;
+    private String id;
     private BaseToolBar toolbar;
     private ImageButton imageButtonE;
 
@@ -105,6 +110,11 @@ public class CollectionCodeActivity extends AbstractMvpBaseActivity<CollectionCo
         super.initData();
         mApp = (JYKJApplication) getApplication();
         mType = getIntent().getIntExtra("type", 0);
+        if (getIntent().hasExtra("img")){
+            isShow =true;
+            imgUrl = getIntent().getStringExtra("img");
+            id = getIntent().getStringExtra("id");
+        }
         setDeftInfo();
     }
 
@@ -116,7 +126,14 @@ public class CollectionCodeActivity extends AbstractMvpBaseActivity<CollectionCo
             bindTypeTv.setText("支付宝账号");
             toolbar.setMainTitle("支付宝收款码");
         }
-
+        if (isShow){
+            bindTv.setVisibility(View.GONE);
+            addIv.setClickable(false);
+            Glide.with(this).load(imgUrl).into(addIv);
+            inputEt.setText(id);
+            inputEt.setFocusable(false);
+            inputEt.setClickable(false);
+        }
     }
 
     @OnClick({R.id.bind_tv,R.id.add_iv})
@@ -125,7 +142,7 @@ public class CollectionCodeActivity extends AbstractMvpBaseActivity<CollectionCo
             case R.id.bind_tv:
 
                 checkInfo();
-                startActivity(new Intent(CollectionCodeActivity.this, VerificationActivity.class));
+//                startActivity(new Intent(CollectionCodeActivity.this, VerificationActivity.class));
                 break;
             case R.id.add_iv:
                 BitmapUtil.selectAlbum(CollectionCodeActivity.this);//从相册选择
@@ -153,12 +170,12 @@ public class CollectionCodeActivity extends AbstractMvpBaseActivity<CollectionCo
         HashMap<String, Object> stringStringHashMap = new HashMap<>();
 
         stringStringHashMap.put("loginUserPosition", ParameUtil.loginDoctorPosition);
-        stringStringHashMap.put("operDoctorCode", "938d735f0e434d7fb3e64c5a30401da2");//mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode()
-        stringStringHashMap.put("operDoctorName","齐研医生");// mApp.mViewSysUserDoctorInfoAndHospital.getUserName()
+        stringStringHashMap.put("operDoctorCode", mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());//mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode()
+        stringStringHashMap.put("operDoctorName",mApp.mViewSysUserDoctorInfoAndHospital.getUserName());//
         stringStringHashMap.put("requestClientType", "1");
         stringStringHashMap.put("assetsCode", "c877fc2a03bf4552ad070fb112794246");//SPUtils.getInstance().getString("assetsCode")==null ? "":SPUtils.getInstance().getString("assetsCode")
-        stringStringHashMap.put("account","15191681021");// inputEt.getText().toString().trim()
-        stringStringHashMap.put("withdrawalType", "1");//mType
+        stringStringHashMap.put("account",inputEt.getText().toString().trim());//
+        stringStringHashMap.put("withdrawalType", mType);//mType
 
 
         return RetrofitUtil.encodeParam(stringStringHashMap);
@@ -186,6 +203,17 @@ public class CollectionCodeActivity extends AbstractMvpBaseActivity<CollectionCo
 
         super.onActivityResult(requestCode, resultCode, data);
 
+    }
+
+    @Override
+    public void bindSucess() {
+        ToastUtils.showShort("绑定成功");
+        finish();
+    }
+
+    @Override
+    public void showMsg(String msg) {
+        ToastUtils.showShort(msg);
     }
 }
 

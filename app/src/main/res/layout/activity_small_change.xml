@@ -9,13 +9,108 @@
         layout="@layout/item_toolbar" />
 
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/rl_top_bar"
+        android:layout_below="@+id/title_bar"
+        >
 
+        <RelativeLayout
+            android:id="@+id/rl_list_top_root"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/color_eeeeee">
+
+            <TextView
+                android:id="@+id/tv_filter_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/bg_round_ffffff_11"
+                android:drawableEnd="@mipmap/bg_arrow_down"
+                android:drawablePadding="5dp"
+                android:gravity="center"
+                android:paddingStart="8.5dp"
+                android:paddingTop="4dp"
+                android:paddingEnd="8.5dp"
+                android:paddingBottom="4dp"
+                android:text="本月"
+                android:textColor="@color/color_000000"
+                android:textSize="15sp">
+
+
+            </TextView>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_pay_amount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="支出¥1200.00"
+                    android:textColor="@color/color_999999"
+                    android:textSize="15sp">
+
+
+                </TextView>
+
+                <TextView
+                    android:id="@+id/tv_income_amount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="收入¥1200.00"
+                    android:textColor="@color/color_999999"
+                    android:textSize="15sp">
+
+
+                </TextView>
+            </LinearLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/color_eeeeee"
+            android:id="@+id/rl_statistic_top_root"
+            android:visibility="gone"
+            >
+
+            <TextView
+                android:id="@+id/tv_statistic_filter_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="@drawable/bg_round_ffffff_11"
+                android:drawableEnd="@mipmap/bg_arrow_down"
+                android:paddingStart="22dp"
+                android:drawablePadding="5dp"
+                android:paddingTop="4dp"
+                android:paddingEnd="22dp"
+                android:paddingBottom="4dp"
+                android:text="2020年5月"
+                android:textColor="@color/color_000000"
+                android:textSize="15sp">
+
+
+            </TextView>
+
+        </RelativeLayout>
+    </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/rl_bottom_root"
-        android:layout_below="@+id/title_bar"
+        android:layout_below="@+id/rl_top_bar"
+        android:id="@+id/rl_content_root"
         >
 
         <LinearLayout
@@ -24,64 +119,7 @@
             android:orientation="vertical"
             android:id="@+id/ll_bill_content_root"
             >
-            <RelativeLayout
-                android:id="@+id/rl_top_root"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@color/color_eeeeee">
 
-                <TextView
-                    android:id="@+id/tv_filter_btn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="10dp"
-                    android:background="@drawable/bg_round_ffffff_11"
-                    android:drawableEnd="@mipmap/bg_arrow_down"
-                    android:drawablePadding="5dp"
-                    android:gravity="center"
-                    android:paddingStart="8.5dp"
-                    android:paddingTop="4dp"
-                    android:paddingEnd="8.5dp"
-                    android:paddingBottom="4dp"
-                    android:text="本月"
-                    android:textColor="@color/color_000000"
-                    android:textSize="15sp">
-
-
-                </TextView>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="10dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/tv_pay_amount"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="支出¥1200.00"
-                        android:textColor="@color/color_999999"
-                        android:textSize="15sp">
-
-
-                    </TextView>
-
-                    <TextView
-                        android:id="@+id/tv_income_amount"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="收入¥1200.00"
-                        android:textColor="@color/color_999999"
-                        android:textSize="15sp">
-
-
-                    </TextView>
-                </LinearLayout>
-            </RelativeLayout>
             <com.scwang.smart.refresh.layout.SmartRefreshLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -117,36 +155,16 @@
 
 
 
-            <RelativeLayout
+
+            <android.support.v4.widget.NestedScrollView
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@color/color_eeeeee">
-
-                <TextView
-                    android:id="@+id/tv_statistic_filter_btn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:background="@drawable/bg_round_ffffff_11"
-                    android:drawableEnd="@mipmap/bg_arrow_down"
-                    android:paddingStart="22dp"
-                    android:drawablePadding="5dp"
-                    android:paddingTop="4dp"
-                    android:paddingEnd="22dp"
-                    android:paddingBottom="4dp"
-                    android:text="2020年5月"
-                    android:textColor="@color/color_000000"
-                    android:textSize="15sp">
-
-
-                </TextView>
-
-            </RelativeLayout>
+                android:layout_height="match_parent"
+                android:scrollbars="none"
+                >
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:id="@+id/ll_content_root"
                 >
 
                 <RelativeLayout
@@ -231,512 +249,24 @@
                     android:layout_gravity="center_horizontal" />
 
 
-                <LinearLayout
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/color_D4D4D4">
+
+
+                </View>
+                <android.support.v7.widget.RecyclerView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/ll_income_diagram_root"
-                    android:orientation="vertical">
+                    android:id="@+id/rv_list_sketch"
+                    >
 
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="0.5dp"
-                        android:background="@color/color_D4D4D4">
-
-
-                    </View>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="25dp"
-                        android:orientation="horizontal">
-
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:layout_gravity="center_vertical"
-                            android:orientation="horizontal">
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal"
-                                android:layout_centerInParent="true"
-                                >
-                                <ImageView
-                                    android:layout_width="12dp"
-                                    android:layout_height="12dp"
-                                    android:layout_marginEnd="10dp"
-                                    android:layout_gravity="center_vertical"
-                                    android:background="@color/color_E24A47">
-
-                                </ImageView>
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center_vertical"
-                                    android:text="图文就诊"
-                                    android:textColor="@color/color_333333"
-                                    android:textSize="13sp">
-
-
-                                </TextView>
-
-                            </LinearLayout>
-
-
-                        </RelativeLayout>
-
-                        <View
-                            android:layout_width="0.5dp"
-                            android:layout_height="25dp"
-                            android:background="@color/color_D4D4D4"
-                            />
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:layout_gravity="center_vertical"
-                            android:orientation="horizontal">
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal"
-                                android:layout_centerInParent="true"
-                                >
-                                <ImageView
-                                    android:layout_width="12dp"
-                                    android:layout_height="12dp"
-                                    android:layout_marginEnd="10dp"
-                                    android:layout_gravity="center_vertical"
-                                    android:background="@color/color_52B394">
-
-                                </ImageView>
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center_vertical"
-                                    android:text="电话就诊"
-                                    android:textColor="@color/color_333333"
-                                    android:textSize="13sp">
-
-
-                                </TextView>
-
-                            </LinearLayout>
-
-
-                        </RelativeLayout>
-                    </LinearLayout>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="0.5dp"
-                        android:background="@color/color_D4D4D4">
-
-
-                    </View>
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="25dp"
-                        android:orientation="horizontal">
-
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:layout_gravity="center_vertical"
-                            android:orientation="horizontal">
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal"
-                                android:layout_centerInParent="true"
-                                >
-                                <ImageView
-                                    android:layout_width="12dp"
-                                    android:layout_height="12dp"
-                                    android:layout_marginEnd="10dp"
-                                    android:layout_gravity="center_vertical"
-                                    android:background="@color/color_EA883B">
-
-                                </ImageView>
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center_vertical"
-                                    android:text="视频就诊"
-                                    android:textColor="@color/color_333333"
-                                    android:textSize="13sp">
-
-
-                                </TextView>
-
-                            </LinearLayout>
-
-
-                        </RelativeLayout>
-
-                        <View
-                            android:layout_width="0.5dp"
-                            android:layout_height="25dp"
-                            android:background="@color/color_D4D4D4"
-                            />
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:layout_gravity="center_vertical"
-                            android:orientation="horizontal">
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal"
-                                android:layout_centerInParent="true"
-                                >
-                                <ImageView
-                                    android:layout_width="12dp"
-                                    android:layout_height="12dp"
-                                    android:layout_marginEnd="10dp"
-                                    android:layout_gravity="center_vertical"
-                                    android:background="@color/color_3688A1">
-
-                                </ImageView>
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center_vertical"
-                                    android:text="观看直播"
-                                    android:textColor="@color/color_333333"
-                                    android:textSize="13sp">
-
-
-                                </TextView>
-
-                            </LinearLayout>
-
-
-                        </RelativeLayout>
-                    </LinearLayout>
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="0.5dp"
-                        android:background="@color/color_D4D4D4">
-
-
-                    </View>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="25dp"
-                        android:orientation="horizontal">
-
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:layout_gravity="center_vertical"
-                            android:orientation="horizontal">
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal"
-                                android:layout_centerInParent="true"
-                                >
-                                <ImageView
-                                    android:layout_width="12dp"
-                                    android:layout_height="12dp"
-                                    android:layout_marginEnd="10dp"
-                                    android:layout_gravity="center_vertical"
-                                    android:background="@color/color_A763A5">
-
-                                </ImageView>
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center_vertical"
-                                    android:text="音频就诊"
-                                    android:textColor="@color/color_333333"
-                                    android:textSize="13sp">
-
-
-                                </TextView>
-
-                            </LinearLayout>
-
-
-                        </RelativeLayout>
-
-                        <View
-                            android:layout_width="0.5dp"
-                            android:layout_height="25dp"
-                            android:background="@color/color_D4D4D4"
-                            />
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:layout_gravity="center_vertical"
-                            android:orientation="horizontal">
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal"
-                                android:layout_centerInParent="true"
-                                >
-                                <ImageView
-                                    android:layout_width="12dp"
-                                    android:layout_height="12dp"
-                                    android:layout_marginEnd="10dp"
-                                    android:layout_gravity="center_vertical"
-                                    android:background="@color/color_17B939">
-
-                                </ImageView>
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center_vertical"
-                                    android:text="签约服务"
-                                    android:textColor="@color/color_333333"
-                                    android:textSize="13sp">
-
-
-                                </TextView>
-
-                            </LinearLayout>
-
-
-                        </RelativeLayout>
-                    </LinearLayout>
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="0.5dp"
-                        android:background="@color/color_D4D4D4">
-
-
-                    </View>
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="25dp"
-                        android:orientation="horizontal">
-
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:layout_gravity="center_vertical"
-                            android:orientation="horizontal">
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal"
-                                android:layout_centerInParent="true"
-                                >
-                                <ImageView
-                                    android:layout_width="12dp"
-                                    android:layout_height="12dp"
-                                    android:layout_marginEnd="10dp"
-                                    android:layout_gravity="center_vertical"
-                                    android:background="@color/color_EFE343">
-
-                                </ImageView>
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center_vertical"
-                                    android:text="会诊收入"
-                                    android:textColor="@color/color_333333"
-                                    android:textSize="13sp">
-
-
-                                </TextView>
-
-                            </LinearLayout>
-
-
-                        </RelativeLayout>
-
-                        <View
-                            android:layout_width="0.5dp"
-                            android:layout_height="25dp"
-                            android:background="@color/color_D4D4D4"
-                            />
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:layout_gravity="center_vertical"
-                            android:orientation="horizontal">
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal"
-                                android:visibility="gone"
-                                android:layout_centerInParent="true"
-                                >
-                                <ImageView
-                                    android:layout_width="12dp"
-                                    android:layout_height="12dp"
-                                    android:layout_marginEnd="10dp"
-                                    android:layout_gravity="center_vertical"
-                                    android:background="@color/color_52B394">
-
-                                </ImageView>
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center_vertical"
-                                    android:text="电话就诊"
-                                    android:textColor="@color/color_333333"
-                                    android:textSize="13sp">
-
-
-                                </TextView>
-
-                            </LinearLayout>
-
-
-                        </RelativeLayout>
-
-                    </LinearLayout>
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="0.5dp"
-                        android:background="@color/color_D4D4D4">
-
-
-                    </View>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/ll_pay_diagram_root"
-                    android:orientation="vertical">
-
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="0.5dp"
-                        android:background="@color/color_D4D4D4">
-
-
-                    </View>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="25dp"
-                        android:orientation="horizontal">
-
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:layout_gravity="center_vertical"
-                            android:orientation="horizontal">
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal"
-                                android:layout_centerInParent="true"
-                                >
-                                <ImageView
-                                    android:layout_width="12dp"
-                                    android:layout_height="12dp"
-                                    android:layout_marginEnd="10dp"
-                                    android:layout_gravity="center_vertical"
-                                    android:background="@color/color_E24A47">
-
-                                </ImageView>
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center_vertical"
-                                    android:text="会诊支出"
-                                    android:textColor="@color/color_333333"
-                                    android:textSize="13sp">
-
-
-                                </TextView>
-
-                            </LinearLayout>
-
-
-                        </RelativeLayout>
-
-                        <View
-                            android:layout_width="0.5dp"
-                            android:layout_height="25dp"
-                            android:background="@color/color_D4D4D4"
-                            />
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:layout_gravity="center_vertical"
-                            android:orientation="horizontal">
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal"
-                                android:layout_centerInParent="true"
-                                >
-                                <ImageView
-                                    android:layout_width="12dp"
-                                    android:layout_height="12dp"
-                                    android:layout_marginEnd="10dp"
-                                    android:layout_gravity="center_vertical"
-                                    android:background="@color/color_52B394">
-
-                                </ImageView>
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center_vertical"
-                                    android:text="直播支出"
-                                    android:textColor="@color/color_333333"
-                                    android:textSize="13sp">
-
-
-                                </TextView>
-
-                            </LinearLayout>
-
-
-                        </RelativeLayout>
-                    </LinearLayout>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="0.5dp"
-                        android:background="@color/color_D4D4D4">
-
-
-                    </View>
-
-                </LinearLayout>
+                </android.support.v7.widget.RecyclerView>
             </LinearLayout>
 
-
+            </android.support.v4.widget.NestedScrollView>
         </LinearLayout>
     </RelativeLayout>
 
@@ -747,10 +277,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="5dp"
-
-
         >
-
 
         <LinearLayout
             android:layout_width="wrap_content"

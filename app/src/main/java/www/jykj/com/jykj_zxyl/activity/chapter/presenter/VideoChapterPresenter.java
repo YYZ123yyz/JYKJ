@@ -1,6 +1,7 @@
 package www.jykj.com.jykj_zxyl.activity.chapter.presenter;
 
 
+import android.app.Activity;
 import android.text.TextUtils;
 
 import com.allen.library.interceptor.Transformer;
@@ -15,6 +16,7 @@ import www.jykj.com.jykj_zxyl.activity.chapter.bean.ChapterPayBean;
 import www.jykj.com.jykj_zxyl.activity.chapter.bean.ChapterPriceBean;
 import www.jykj.com.jykj_zxyl.activity.chapter.bean.ChatperSourceBean;
 import www.jykj.com.jykj_zxyl.activity.chapter.contract.VideoChapterContract;
+import www.jykj.com.jykj_zxyl.app_base.base_bean.AccountBalanceBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.BaseBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.CalendarItemBean;
 import www.jykj.com.jykj_zxyl.app_base.http.ApiHelper;
@@ -33,9 +35,13 @@ public class VideoChapterPresenter extends BasePresenterImpl<VideoChapterContrac
 
     private static final String GET_IM_TEST_REQUEST_TAG = "get_video_chapter";
 
+    private static final String GET_ACCOUNT_BALANCE_REQUEST_TAG="get_account_balance_request_tag";
+    private static final String SEND_SEARCH_ACCOUNT_DOCTOR_ASSETS_INFO_CODE=
+            "send_search_account_doctor_assets_info_code";
     @Override
     protected Object[] getRequestTags() {
-        return new Object[]{GET_PATIENT_TAG, GET_IM_TEST_REQUEST_TAG};
+        return new Object[]{GET_PATIENT_TAG, GET_IM_TEST_REQUEST_TAG
+                ,GET_ACCOUNT_BALANCE_REQUEST_TAG,SEND_SEARCH_ACCOUNT_DOCTOR_ASSETS_INFO_CODE};
     }
 
 
@@ -191,7 +197,12 @@ public class VideoChapterPresenter extends BasePresenterImpl<VideoChapterContrac
                                 mView.paySucess("支付成功");
                             }
                         }else{
-                            mView.getDataFail(baseBean.getResMsg());
+                            if(type==3){
+                                mView.paySucess("支付成功");
+                            }else{
+                                mView.getDataFail(baseBean.getResMsg());
+                            }
+
                         }
 
                     }else{
@@ -270,6 +281,56 @@ public class VideoChapterPresenter extends BasePresenterImpl<VideoChapterContrac
             @Override
             protected String setTag() {
                 return GET_PATIENT_TAG;
+            }
+        });
+    }
+
+    @Override
+    public void getAccountBalance(Activity activity) {
+        HashMap<String, Object> hashMap = ParameUtil.buildBaseDoctorParam(activity);
+        String s = RetrofitUtil.encodeParam(hashMap);
+        ApiHelper.getFundPoolApi().searchAccountDoctorAssetsInfo(s)
+                .compose(Transformer.switchSchedulers(new ILoadingView() {
+                    @Override
+                    public void showLoadingView() {
+                        if (mView!=null) {
+                            mView.showLoading(100);
+                        }
+                    }
+
+                    @Override
+                    public void hideLoadingView() {
+                        if (mView!=null) {
+                            mView.hideLoading();
+                        }
+
+                    }
+                })).subscribe(new CommonDataObserver() {
+            @Override
+            protected void onSuccessResult(BaseBean baseBean) {
+                if (mView!=null) {
+                    int resCode = baseBean.getResCode();
+                    if (resCode==1) {
+                        String resJsonData = baseBean.getResJsonData();
+                        AccountBalanceBean accountBalanceBean =
+                                GsonUtils.fromJson(resJsonData, AccountBalanceBean.class);
+                        mView.getAccountBalanceResult(accountBalanceBean);
+                    }
+                }
+
+            }
+
+            @Override
+            protected void onError(String s) {
+                super.onError(s);
+                if (mView!=null) {
+                    mView.showRetry();
+                }
+            }
+
+            @Override
+            protected String setTag() {
+                return SEND_SEARCH_ACCOUNT_DOCTOR_ASSETS_INFO_CODE;
             }
         });
     }
