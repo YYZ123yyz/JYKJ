@@ -51,6 +51,7 @@ import www.jykj.com.jykj_zxyl.activity.chapter.contract.VideoChapterContract;
 import www.jykj.com.jykj_zxyl.activity.chapter.presenter.VideoChapterPresenter;
 import www.jykj.com.jykj_zxyl.activity.hyhd.VideoDetialPlayerActivity;
 import www.jykj.com.jykj_zxyl.adapter.VideoChapterAdapter;
+import www.jykj.com.jykj_zxyl.app_base.base_bean.AccountBalanceBean;
 import www.jykj.com.jykj_zxyl.app_base.http.ParameUtil;
 import www.jykj.com.jykj_zxyl.app_base.http.RetrofitUtil;
 import www.jykj.com.jykj_zxyl.app_base.mvp.AbstractMvpBaseActivity;
@@ -92,6 +93,7 @@ public class VideoChapterActivity extends AbstractMvpBaseActivity<VideoChapterCo
     private static final int SDK_PAY_FLAG = 3;
     private String detCode;
     private String payMoney;
+    private double balanceMoney;
 
     @Override
     protected void onBeforeSetContentLayout() {
@@ -163,6 +165,7 @@ public class VideoChapterActivity extends AbstractMvpBaseActivity<VideoChapterCo
             }
             mPresenter.go2Pay(getParams(3), Double.parseDouble(payMoney) <= 0 ? 3 : mPayType);
         });
+        mPresenter.getAccountBalance(this);
     }
 
 
@@ -256,6 +259,7 @@ public class VideoChapterActivity extends AbstractMvpBaseActivity<VideoChapterCo
                         } else {
                             if (flagUserHasBuy == 0) { //没有买   修改0
                                 chapterPop.setPayMoney(secondList.get(position).getPrice());
+                                chapterPop.setBalanceMoney(balanceMoney+"");
                                 chapterPop.showPop(tittlePart);
                             } else {
                                 mPresenter.getChapterSource(getParams(2));
@@ -329,5 +333,11 @@ public class VideoChapterActivity extends AbstractMvpBaseActivity<VideoChapterCo
     public void paySucess(String msg) {
         ToastUtils.showShort(msg);
         mPresenter.getVideoChapterList(getParams(0));
+        mPresenter.getAccountBalance(this);
+    }
+
+    @Override
+    public void getAccountBalanceResult(AccountBalanceBean accountBalanceBean) {
+        balanceMoney=accountBalanceBean.getBalanceMoney();
     }
 }

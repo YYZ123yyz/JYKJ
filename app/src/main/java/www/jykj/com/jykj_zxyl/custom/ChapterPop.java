@@ -17,6 +17,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import www.jykj.com.jykj_zxyl.R;
+import www.jykj.com.jykj_zxyl.util.StringUtils;
 
 
 public class ChapterPop extends PopupWindow implements View.OnClickListener {
@@ -25,10 +26,14 @@ public class ChapterPop extends PopupWindow implements View.OnClickListener {
     private final Activity mContext;
     private View mPopView;
     private String mMoney;
+    private String balanceMoney;
     private TextView priceTv;
+    private TextView tvBalanceMoney;
+    private TextView tvNotEnoughBalanceMoney;
     private RelativeLayout balanceLayout;
     private RelativeLayout weichatLayout;
     private RelativeLayout aliLayout;
+    private RelativeLayout rlMoneyNotEnough;
     private ImageView balanceIv;
     private ImageView weichatIv;
     private ImageView aliIv;
@@ -53,14 +58,32 @@ public class ChapterPop extends PopupWindow implements View.OnClickListener {
 
     private void initData() {
         priceTv.setText(mMoney);
+        tvBalanceMoney.setText(String.format("余额支付 （可用 :¥%s)", balanceMoney));
+        tvNotEnoughBalanceMoney.setText(String.format("余额支付 （可用 :¥%s)", balanceMoney));
+        if (StringUtils.isNotEmpty(mMoney)
+                &&StringUtils.isNotEmpty(balanceMoney)) {
+            double v = Double.parseDouble(mMoney);
+            double v1 = Double.parseDouble(balanceMoney);
+            if (v<=v1) {
+                balanceLayout.setVisibility(View.VISIBLE);
+                rlMoneyNotEnough.setVisibility(View.GONE);
+            }else{
+                balanceLayout.setVisibility(View.GONE);
+                rlMoneyNotEnough.setVisibility(View.VISIBLE);
+            }
+        }
     }
+
+
 
     private void initView() {
         priceTv = mPopView.findViewById(R.id.price_tv);
-
+        tvBalanceMoney=mPopView.findViewById(R.id.tv_balance_money);
         balanceLayout = mPopView.findViewById(R.id.balace_layout);
         weichatLayout = mPopView.findViewById(R.id.weichat_layout);
+        tvNotEnoughBalanceMoney=mPopView.findViewById(R.id.tv_not_enough_balance_money);
         aliLayout = mPopView.findViewById(R.id.ali_layout);
+        rlMoneyNotEnough=mPopView.findViewById(R.id.rl_money_not_enough);
         balanceLayout.setOnClickListener(this);
         weichatLayout.setOnClickListener(this);
         aliLayout.setOnClickListener(this);
@@ -136,7 +159,13 @@ public class ChapterPop extends PopupWindow implements View.OnClickListener {
             case R.id.go2pay_tv:
                 for (int i = 0; i < imageViews.size(); i++) {
                     if (imageViews.get(i).getVisibility()==View.VISIBLE){
-                        mListen.go2Pay(i,priceTv.getText().toString());
+                        int type;
+                        if(i==0){
+                            type=3;
+                        }else{
+                            type=i;
+                        }
+                        mListen.go2Pay(type,priceTv.getText().toString());
                     }
                 }
                 break;
@@ -157,6 +186,11 @@ public class ChapterPop extends PopupWindow implements View.OnClickListener {
     public void setPayMoney(String money) {
         mMoney = money;
     }
+
+    public void setBalanceMoney(String balanceMoney) {
+        this.balanceMoney = balanceMoney;
+    }
+
     private go2PayListen mListen ;
     public void setGo2PayListen(go2PayListen listen){
         this.mListen = listen;

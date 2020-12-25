@@ -6,6 +6,7 @@ import www.jykj.com.jykj_zxyl.activity.chapter.bean.ChapterListBean;
 import www.jykj.com.jykj_zxyl.activity.chapter.bean.ChapterPayBean;
 import www.jykj.com.jykj_zxyl.activity.chapter.bean.ChapterPriceBean;
 import www.jykj.com.jykj_zxyl.activity.chapter.bean.ChatperSourceBean;
+import www.jykj.com.jykj_zxyl.app_base.base_bean.AccountBalanceBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.CheckImResultBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.PatientRecordDetBean;
 import www.jykj.com.jykj_zxyl.app_base.mvp.BasePresenter;
@@ -28,6 +29,8 @@ public class VideoChapterContract {
         void getAliPayInfoSucess(String bean);
 
         void paySucess(String msg);
+
+        void getAccountBalanceResult(AccountBalanceBean accountBalanceBean);
     }
 
 
@@ -39,6 +42,8 @@ public class VideoChapterContract {
         void go2Pay(String params ,int type);
 
         void getChapterSource(String params);
+
+        void getAccountBalance(Activity activity);
     }
 
 }
