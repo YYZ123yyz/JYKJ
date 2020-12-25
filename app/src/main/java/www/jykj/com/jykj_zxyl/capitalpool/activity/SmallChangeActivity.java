@@ -569,8 +569,10 @@ public class SmallChangeActivity extends AbstractMvpBaseActivity<AccountBalanceL
     public void getSearchAccountDoctorBalanceInfoResult(AccountBalanceListInfoBean
                                                                     accountBalanceListInfoBean) {
         setData(accountBalanceListInfoBean);
-        listBeans.clear();
-        mRefreshLayout.finishRefresh();
+        if(pageIndex==1){
+            listBeans.clear();
+            mRefreshLayout.finishRefresh();
+        }
         mRefreshLayout.finishLoadMore();
         List<AccountBalanceListInfoBean.AccountDoctorBalanceInfoListBean>
                 accountDoctorBalanceInfoList = accountBalanceListInfoBean.getAccountDoctorBalanceInfoList();
