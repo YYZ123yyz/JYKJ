@@ -71,7 +71,7 @@ public class WithdrawActivity extends AbstractMvpBaseActivity<WithdrawContract.V
     protected void initView() {
         super.initView();
         imageButtonE = findViewById(R.id.right_image_search);
-        toolbar = findViewById(R.id.top);
+        toolbar = findViewById(R.id.toolbar);
         setToolBar();
 
         withdrawTypePop = new WithdrawTypePop(this);

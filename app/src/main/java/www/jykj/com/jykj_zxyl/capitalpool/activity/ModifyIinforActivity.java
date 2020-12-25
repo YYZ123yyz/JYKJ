@@ -60,7 +60,7 @@ public class ModifyIinforActivity extends AbstractMvpBaseActivity<ModifyIinforCo
     @Override
     protected void initView() {
         super.initView();
-        toolbar = findViewById(R.id.top);
+        toolbar = findViewById(R.id.toolbar);
         setToolBar();
         myEdittext.setOnCompleteListener(password -> {
             if (mType== 0 ){
