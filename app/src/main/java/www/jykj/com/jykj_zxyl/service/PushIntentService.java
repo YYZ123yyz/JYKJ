@@ -4,9 +4,14 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Build;
+import android.os.Vibrator;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.RemoteViews;
@@ -95,6 +100,27 @@ public class PushIntentService extends UmengMessageService {
         builder.setAutoCancel(true);
 
         manager.notify(id, mNotification);
+        playNotificationRing(this);
+        playNotificationVibrate(this);
     }
 
+
+    /**
+     * 播放通知声音
+     */
+    private  void playNotificationRing(Context context) {
+        Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        Ringtone rt = RingtoneManager.getRingtone(context, uri);
+        rt.play();
+    }
+
+    /**
+     * 手机震动一下
+     */
+    private  void playNotificationVibrate(Context context) {
+        Vibrator vibrator = (Vibrator) context.getSystemService(Service.VIBRATOR_SERVICE);
+        long[] vibrationPattern = new long[]{0, 180, 80, 120};
+        // 第一个参数为开关开关的时间，第二个参数是重复次数，振动需要添加权限
+        vibrator.vibrate(vibrationPattern, -1);
+    }
 }

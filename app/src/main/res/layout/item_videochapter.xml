@@ -5,8 +5,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:orientation="horizontal"
-    android:layout_height="match_parent"
-    android:paddingTop="@dimen/dp_15"
+    android:layout_height="wrap_content"
+    android:paddingTop="7dp"
+    android:paddingBottom="7dp"
     >
 
     <TextView
@@ -36,7 +37,9 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            >
 
             <TextView
                 android:id="@+id/tv_play_num"
@@ -44,6 +47,7 @@
                 android:layout_height="wrap_content"
                 android:text="1.8wan"
                 android:textSize="12sp"
+                android:layout_centerVertical="true"
                 android:textColor="@color/color_999999"
                 android:drawableLeft="@mipmap/iv_play_num"
                 android:drawablePadding="8dp"
@@ -54,6 +58,7 @@
                 android:id="@+id/tv_play_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
                 android:text="1.8wan"
                 android:textSize="12sp"
                 android:textColor="@color/color_999999"
@@ -67,6 +72,7 @@
                 android:id="@+id/tv_price"
                 android:layout_width="85dp"
                 android:layout_height="30dp"
+                android:layout_centerVertical="true"
                 android:text="3434"
                 android:textColor="@color/color_ffffff"
                 android:background="@drawable/bg_round_e6302c"

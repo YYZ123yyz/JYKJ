@@ -47,10 +47,7 @@ public class AddBankcardActivity extends AbstractMvpBaseActivity<AddBankcardCont
         return R.layout.activity_add_bankcard;
     }
 
-    @Override
-    public void showLoading(int code) {
 
-    }
 
     @Override
     protected void initView() {
@@ -93,7 +90,7 @@ public class AddBankcardActivity extends AbstractMvpBaseActivity<AddBankcardCont
     }
 
     private void checkInput() {
-        /*if (TextUtils.isEmpty(etName.getText().toString().trim())) {
+        if (TextUtils.isEmpty(etName.getText().toString().trim())) {
             ToastUtils.showShort("请填写姓名");
             return;
         }
@@ -116,7 +113,7 @@ public class AddBankcardActivity extends AbstractMvpBaseActivity<AddBankcardCont
         if (RegexUtils.isIDCard18(etCardNum.getText().toString().trim())) {
             ToastUtils.showShort("请填写正确的身份证号");
             return;
-        }*/
+        }
       /*  Intent intent = new Intent(this, WithdrawDetActivity.class);
         startActivity(intent);*/
            mPresenter.bindBankCard(getParams());
@@ -135,6 +132,16 @@ public class AddBankcardActivity extends AbstractMvpBaseActivity<AddBankcardCont
         return RetrofitUtil.encodeParam(stringStringHashMap);
     }
 
+
+    @Override
+    public void showLoading(int code) {
+        showLoading("", null);
+    }
+
+    @Override
+    public void hideLoading() {
+        dismissLoading();
+    }
 
     @Override
     public void bindSucess() {

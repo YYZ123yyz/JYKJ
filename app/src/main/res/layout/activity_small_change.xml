@@ -55,7 +55,6 @@
                     android:id="@+id/tv_pay_amount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="支出¥1200.00"
                     android:textColor="@color/color_999999"
                     android:textSize="15sp">
 
@@ -66,7 +65,6 @@
                     android:id="@+id/tv_income_amount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="收入¥1200.00"
                     android:textColor="@color/color_999999"
                     android:textSize="15sp">
 

@@ -187,6 +187,7 @@ public class VideoChapterActivity extends AbstractMvpBaseActivity<VideoChapterCo
     private String getParams(int type) {
         HashMap<String, Object> stringStringHashMap = new HashMap<>();
         stringStringHashMap.put("courseWareCode", type == 0 ? courseWareCode : detCode);//1e18a17de66441c781bfe8a98d6dc1fc
+        stringStringHashMap.put("userType","5");
         switch (type) {
             case 0:  //页面
                 stringStringHashMap.put("operUserCode", mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());

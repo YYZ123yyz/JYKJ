@@ -142,6 +142,7 @@ public class SmallChangeActivity extends AbstractMvpBaseActivity<AccountBalanceL
         mPresenter.sendSearchAccountDoctorBalanceInfoListRequest(currentDate,
                 pageSize,pageIndex,this);
         tvStatisticFilterBtn.setText(currentDate);
+        tvFilterBtn.setText(currentDate);
     }
 
     /**
@@ -350,6 +351,7 @@ public class SmallChangeActivity extends AbstractMvpBaseActivity<AccountBalanceL
             isShowloading=true;
             currentDate = DateUtils.getDateYYYMM(date);
             tvStatisticFilterBtn.setText(currentDate);
+            tvFilterBtn.setText(currentDate);
             mPresenter.sendSearchAccountDoctorBalanceInfoListRequest(currentDate,
                     pageSize,pageIndex,this);
             pageIndex=1;

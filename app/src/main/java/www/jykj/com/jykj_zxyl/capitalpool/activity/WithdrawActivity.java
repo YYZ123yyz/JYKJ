@@ -103,6 +103,15 @@ public class WithdrawActivity extends AbstractMvpBaseActivity<WithdrawContract.V
                 bankId = withdrawTypelListBean.getBankcardCode();
             }
         });
+        if (SPUtils.getInstance().getString("balance") != null) {
+            String balance = SPUtils.getInstance().getString("balance");
+            if (TextUtils.isEmpty(balance)) {
+                mBalance = 0;
+            } else {
+                mBalance = Double.parseDouble(balance);
+            }
+
+        }
     }
 
     private void setToolBar() {
@@ -152,23 +161,14 @@ public class WithdrawActivity extends AbstractMvpBaseActivity<WithdrawContract.V
                 withdrawTypePop.showPop(go2Pay);
                 break;
             case R.id.all_money_tv:
-                if (SPUtils.getInstance().getString("balance") != null) {
-                    String balance = SPUtils.getInstance().getString("balance");
-                    if (TextUtils.isEmpty(balance)) {
-                        mBalance = 0;
-                    } else {
-                        mBalance = Double.parseDouble(balance);
-                    }
-                    etWithdraw.setText(String.valueOf(mBalance));
-                }
+
+                etWithdraw.setText(String.valueOf(mBalance));
                 break;
         }
 
     }
 
-    private void showPop() {
 
-    }
 
     private void checkInput() {
         if (TextUtils.isEmpty(cardTv.getText().toString())) {

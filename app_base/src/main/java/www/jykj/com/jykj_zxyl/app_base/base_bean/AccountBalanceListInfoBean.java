@@ -66,6 +66,7 @@ public class AccountBalanceListInfoBean {
 
         private double balanceNow;
         private int changeChildType;
+        private String changeChildTypeName;
         private int changeType;
         private String changeTypeName;
         private double costTotalMoney;
@@ -73,12 +74,17 @@ public class AccountBalanceListInfoBean {
         private long infoDate;
         private long infoDateTime;
         private String infoDesc;
-        private double infoMoney;
+        private String infoMoney;
+        private String infoMoneyStr;
         private String mainUserCode;
         private String mainUserName;
         private int sourceType;
         private String sourceTypeName;
         private int userUseType;
+        private int orderType;
+        private String orderTypeName;
+        private String sourceUserName;
+
 
         public double getBalanceNow() {
             return balanceNow;
@@ -152,11 +158,11 @@ public class AccountBalanceListInfoBean {
             this.infoDesc = infoDesc;
         }
 
-        public double getInfoMoney() {
+        public String getInfoMoney() {
             return infoMoney;
         }
 
-        public void setInfoMoney(double infoMoney) {
+        public void setInfoMoney(String infoMoney) {
             this.infoMoney = infoMoney;
         }
 
@@ -198,6 +204,46 @@ public class AccountBalanceListInfoBean {
 
         public void setUserUseType(int userUseType) {
             this.userUseType = userUseType;
+        }
+
+        public String getChangeChildTypeName() {
+            return changeChildTypeName;
+        }
+
+        public void setChangeChildTypeName(String changeChildTypeName) {
+            this.changeChildTypeName = changeChildTypeName;
+        }
+
+        public int getOrderType() {
+            return orderType;
+        }
+
+        public void setOrderType(int orderType) {
+            this.orderType = orderType;
+        }
+
+        public String getOrderTypeName() {
+            return orderTypeName;
+        }
+
+        public void setOrderTypeName(String orderTypeName) {
+            this.orderTypeName = orderTypeName;
+        }
+
+        public String getSourceUserName() {
+            return sourceUserName;
+        }
+
+        public void setSourceUserName(String sourceUserName) {
+            this.sourceUserName = sourceUserName;
+        }
+
+        public String getInfoMoneyStr() {
+            return infoMoneyStr;
+        }
+
+        public void setInfoMoneyStr(String infoMoneyStr) {
+            this.infoMoneyStr = infoMoneyStr;
         }
     }
 }
