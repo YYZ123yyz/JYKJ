@@ -570,5 +570,16 @@ public interface ApiService {
     @POST("/doctorAccountControlle/checkIdentity")
     Observable<String> checkIdentity(@Query(value = "jsonDataInfo", encoded = true)
                                               String queryJson);
+
+
+    //预警列表
+    @POST("/bindingDoctorPatientControlle/searchDoctorManagePatientData")
+    Observable<String> getWrningList(@Query(value = "jsonDataInfo", encoded = true)
+                                             String queryJson);
+
+    //数量统计
+    @POST("/bindingDoctorPatientControlle/searchDoctorManagePatientDataByTotal")
+    Observable<String> getDataByTotal(@Query(value = "jsonDataInfo", encoded = true)
+                                             String queryJson);
 }
 

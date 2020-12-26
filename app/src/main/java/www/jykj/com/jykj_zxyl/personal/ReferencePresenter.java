@@ -115,12 +115,15 @@ public class ReferencePresenter extends BasePresenterImpl<ReferenceContract.View
                 if (mView != null) {
                     int resCode = baseBean.getResCode();
                     if (resCode == 1) {
-                        LogUtils.e("修改   结果" + baseBean.getResData());
+                        LogUtils.e("修改   结果" + baseBean.getResJsonData());
+                        mView.updataSucess();
                         /*mView.getOperUpdMyClinicDetailByOrderPatientMessageResult(true
                                 ,baseBean.getResMsg());*/
                     } else {
                        /* mView.getOperUpdMyClinicDetailByOrderPatientMessageResult(false
                                 ,baseBean.getResMsg());*/
+                        LogUtils.e("修改   结果" + baseBean.getResMsg());
+                        mView.showMsg(baseBean.getResMsg());
                     }
                 }
             }
@@ -129,7 +132,7 @@ public class ReferencePresenter extends BasePresenterImpl<ReferenceContract.View
             protected void onError(String s) {
                 super.onError(s);
 
-
+                LogUtils.e("修改   错误" + s);
             }
 
             @Override

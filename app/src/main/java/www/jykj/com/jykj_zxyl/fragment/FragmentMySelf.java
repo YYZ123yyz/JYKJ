@@ -333,7 +333,7 @@ public class FragmentMySelf extends Fragment {
                     startActivity(intent1);
                     break;
                 case R.id.lin_warning:
-                    Intent intent5 = new Intent(getActivity(), WarningActivity.class);//WarningActivity.class   ReferenceMapActivity   RechargeActivity
+                    Intent intent5 = new Intent(getActivity(), ReferenceMapActivity.class);//WarningActivity.class   ReferenceMapActivity   RechargeActivity
                     startActivity(intent5);
                     break;
                 case R.id.ll_wallet_root:

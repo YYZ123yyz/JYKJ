@@ -80,6 +80,7 @@ public class WithdrawActivity extends AbstractMvpBaseActivity<WithdrawContract.V
             public void onDevChoose() {
                 Intent intent = new Intent(WithdrawActivity.this, UserAccountActivity.class);
                 startActivity(intent);
+                withdrawTypePop.dismiss();
             }
 
             @Override
@@ -133,6 +134,12 @@ public class WithdrawActivity extends AbstractMvpBaseActivity<WithdrawContract.V
     protected void initData() {
         super.initData();
         mApp = (JYKJApplication) getApplication();
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         mPresenter.getWithdrawType(getParams());
     }
 
@@ -200,11 +207,28 @@ public class WithdrawActivity extends AbstractMvpBaseActivity<WithdrawContract.V
     public void getTypeSucess(List<WithdrawTypelListBean> data) {
         mTypeData = data;
         WithdrawTypelListBean withdrawTypelListBean = data.get(0);
-        cardTv.setText(withdrawTypelListBean.getBankName());
+        if (withdrawTypelListBean.getWithdrawalType() == 1) {
+            cardTv.setText(withdrawTypelListBean.getWeChatCollectionFileCode());
+            ivCard.setImageDrawable(getResources().getDrawable(R.mipmap.iv_charge_weichat));
+
+        } else if (withdrawTypelListBean.getWithdrawalType() == 2) {
+            cardTv.setText(withdrawTypelListBean.getAlipayCollectionFileCode());
+            ivCard.setImageDrawable(getResources().getDrawable(R.mipmap.iv_charge_ali));
+
+        } else {
+            cardTv.setText(withdrawTypelListBean.getBankName());
+            ivCard.setImageDrawable(getResources().getDrawable(R.mipmap.iv_withdraw_card));
+        }
 
         String idNumber = withdrawTypelListBean.getIdNumber();
-        String substring = idNumber.substring(idNumber.length() - 4, idNumber.length());
-        cardNum.setText(substring);
+        if (idNumber != null){
+            String substring = idNumber.substring(idNumber.length() - 4, idNumber.length()); cardNum.setText(substring);
+            cardNum.setText(substring);
+        }else {
+            cardNum.setText("");
+        }
+
+
 
         bankId = withdrawTypelListBean.getIdNumber();
     }

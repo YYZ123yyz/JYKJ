@@ -159,7 +159,7 @@ public class RechargeActivity extends AbstractMvpBaseActivity<RechargeContract.V
                 String value = s.toString();
                 boolean number = VerificationUtils.isNumber(value);
                 if(number){
-                    tvGo2PayBtn.setTextColor(ContextCompat.getColor(RechargeActivity.this,R.color.color_white));
+                    tvGo2PayBtn.setTextColor(ContextCompat.getColor(RechargeActivity.this,R.color.white));
                     tvGo2PayBtn.setBackgroundResource(R.drawable.bg_round_7a9eff_15);
                 }else{
                     tvGo2PayBtn.setTextColor(ContextCompat.getColor(RechargeActivity.this,R.color.color_666666));

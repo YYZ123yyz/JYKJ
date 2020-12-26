@@ -23,6 +23,7 @@ import com.blankj.utilcode.util.UriUtils;
 import com.bumptech.glide.Glide;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 
 import butterknife.BindView;
@@ -46,6 +47,7 @@ import www.jykj.com.jykj_zxyl.capitalpool.contract.AddBankcardContract;
 import www.jykj.com.jykj_zxyl.capitalpool.contract.AddBankcardPresenter;
 import www.jykj.com.jykj_zxyl.capitalpool.contract.CollectionCodeContract;
 import www.jykj.com.jykj_zxyl.capitalpool.contract.CollectionCodePresenter;
+import www.jykj.com.jykj_zxyl.capitalpool.utils.ImageUtil;
 import www.jykj.com.jykj_zxyl.custom.MoreFeaturesPopupWindow;
 import www.jykj.com.jykj_zxyl.util.BitmapUtil;
 
@@ -160,10 +162,19 @@ public class CollectionCodeActivity extends AbstractMvpBaseActivity<CollectionCo
             ToastUtils.showShort("请选择二维码");
             return;
         }
-        RequestBody requestBody = RequestBody.create(MediaType.parse("image/jpg"), bitmapFile);
-        MultipartBody.Part body = MultipartBody.Part.createFormData("img", bitmapFile.getName(), requestBody);
 
-        mPresenter.bindCode(getParams(),body);
+        try {
+          File  file = ImageUtil.saveFile(cordBitmap, "/doctor");
+            RequestBody requestBody = RequestBody.create(MediaType.parse("image/jpg"), file);
+            MultipartBody.Part body = MultipartBody.Part.createFormData("img", file.getName(), requestBody);
+
+            mPresenter.bindCode(getParams(),body);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+
     }
 
     private String getParams() {
@@ -173,7 +184,7 @@ public class CollectionCodeActivity extends AbstractMvpBaseActivity<CollectionCo
         stringStringHashMap.put("operDoctorCode", mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());//mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode()
         stringStringHashMap.put("operDoctorName",mApp.mViewSysUserDoctorInfoAndHospital.getUserName());//
         stringStringHashMap.put("requestClientType", "1");
-        stringStringHashMap.put("assetsCode", "c877fc2a03bf4552ad070fb112794246");//SPUtils.getInstance().getString("assetsCode")==null ? "":SPUtils.getInstance().getString("assetsCode")
+        stringStringHashMap.put("assetsCode", SPUtils.getInstance().getString("assetsCode")==null ? "":SPUtils.getInstance().getString("assetsCode"));//SPUtils.getInstance().getString("assetsCode")==null ? "":SPUtils.getInstance().getString("assetsCode")
         stringStringHashMap.put("account",inputEt.getText().toString().trim());//
         stringStringHashMap.put("withdrawalType", mType);//mType
 
@@ -195,6 +206,8 @@ public class CollectionCodeActivity extends AbstractMvpBaseActivity<CollectionCo
             bitmapFile = UriUtils.uri2File(uri);
             if (bitmapFile !=null){
                 cordBitmap = ImageUtils.compressBySampleSize(ImageUtils.getBitmap(bitmapFile), 200, 200);
+                LogUtils.e("压缩  xxx"+cordBitmap.getByteCount());
+
                 addIv.setImageBitmap(cordBitmap);
             }
 
