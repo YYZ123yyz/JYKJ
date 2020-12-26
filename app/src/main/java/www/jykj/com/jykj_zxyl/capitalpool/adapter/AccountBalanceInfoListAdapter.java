@@ -39,13 +39,10 @@ public class AccountBalanceInfoListAdapter extends BaseQuickAdapter<AccountBalan
         int changeType = item.getChangeType();
         if (changeType==1) {
             ivMoneySign.setImageResource(R.mipmap.bg_return_money);
-            tvBillTitle.setText(String.format("%s -%s -%s", item.getChangeTypeName(),
-                    item.getOrderTypeName(), item.getSourceUserName()));
-
         }else if(changeType==2){
             ivMoneySign.setImageResource(R.mipmap.bg_pay_money);
-            tvBillTitle.setText(String.format("%s  %s", item.getOrderTypeName(), item.getSourceUserName()));
         }
+        tvBillTitle.setText(item.getOrderTypelines());
         tvBillContent.setText(item.getInfoDesc());
         String infoMoney = item.getInfoMoneyStr();
         tvAmount.setText(infoMoney);
