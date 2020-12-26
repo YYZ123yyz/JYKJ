@@ -84,7 +84,7 @@ public class AccountBalanceListInfoBean {
         private int orderType;
         private String orderTypeName;
         private String sourceUserName;
-
+        private String orderTypelines;
 
         public double getBalanceNow() {
             return balanceNow;
@@ -244,6 +244,14 @@ public class AccountBalanceListInfoBean {
 
         public void setInfoMoneyStr(String infoMoneyStr) {
             this.infoMoneyStr = infoMoneyStr;
+        }
+
+        public String getOrderTypelines() {
+            return orderTypelines;
+        }
+
+        public void setOrderTypelines(String orderTypelines) {
+            this.orderTypelines = orderTypelines;
         }
     }
 }
