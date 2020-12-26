@@ -11,6 +11,7 @@ import android.view.View;
 
 
 import com.blankj.utilcode.util.LogUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
 import java.util.ArrayList;
@@ -42,6 +43,7 @@ public class ReferenceMapActivity extends AbstractMvpBaseActivity<ReferenceContr
     private JYKJApplication mApp;
     private ArrayList<RefrecenmapBean> manBeans;
     private ArrayList<RefrecenmapBean> womenBeans;
+    private ArrayList<RefrecenmapBean> AllBeans;
     private ReferenceMapAdapter manAdapter;
     private ReferenceMapAdapter womenAdapter;
 
@@ -76,7 +78,7 @@ public class ReferenceMapActivity extends AbstractMvpBaseActivity<ReferenceContr
         mPresenter.getReferenceData(getParams(0));
         manBeans = new ArrayList<>();
         womenBeans = new ArrayList<>();
-
+        AllBeans = new ArrayList<>();
 
         manAdapter = new ReferenceMapAdapter(R.layout.item_referencemap, manBeans, this);
         manRecycleview.setAdapter(manAdapter);
@@ -267,7 +269,7 @@ public class ReferenceMapActivity extends AbstractMvpBaseActivity<ReferenceContr
                 startActivity(new Intent(ReferenceMapActivity.this, WarningActivity.class));
                 break;
             case R.id.submit:
-
+                mPresenter.updataReference(getParams(1));
                 break;
         }
 
@@ -279,7 +281,9 @@ public class ReferenceMapActivity extends AbstractMvpBaseActivity<ReferenceContr
         if (type == 0) {
             map.put("doctorCode", mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
         } else {
-
+            AllBeans.addAll(manBeans);
+            AllBeans.addAll(womenBeans);
+            map.put("warningDoctorSetSystemData",AllBeans);
         }
         return RetrofitUtil.encodeParam(map);
     }
@@ -298,7 +302,13 @@ public class ReferenceMapActivity extends AbstractMvpBaseActivity<ReferenceContr
 
     @Override
     public void showMsg(String msg) {
+        ToastUtils.showShort(msg);
+    }
 
+    @Override
+    public void updataSucess() {
+        ToastUtils.showShort("提交成功");
+        finish();
     }
 }
 

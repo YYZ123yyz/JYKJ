@@ -9,7 +9,7 @@
 
     <LinearLayout
         android:layout_width="350dp"
-        android:layout_height="350dp"
+        android:layout_height="300dp"
         android:orientation="vertical"
         android:layout_margin="20dp"
         android:layout_gravity="center"
@@ -33,6 +33,7 @@
             android:layout_marginLeft="25dp"
             android:layout_marginTop="10dp"
             android:layout_marginRight="25dp"
+            android:visibility="gone"
             android:background="@drawable/bg_round_eeeeee_5">
 
             <TextView
