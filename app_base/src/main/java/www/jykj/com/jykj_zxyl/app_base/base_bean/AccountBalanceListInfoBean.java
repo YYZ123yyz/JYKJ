@@ -75,6 +75,7 @@ public class AccountBalanceListInfoBean {
         private long infoDateTime;
         private String infoDesc;
         private String infoMoney;
+        private String infoMoneyStr;
         private String mainUserCode;
         private String mainUserName;
         private int sourceType;
@@ -235,6 +236,14 @@ public class AccountBalanceListInfoBean {
 
         public void setSourceUserName(String sourceUserName) {
             this.sourceUserName = sourceUserName;
+        }
+
+        public String getInfoMoneyStr() {
+            return infoMoneyStr;
+        }
+
+        public void setInfoMoneyStr(String infoMoneyStr) {
+            this.infoMoneyStr = infoMoneyStr;
         }
     }
 }
