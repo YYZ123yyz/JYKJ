@@ -90,5 +90,10 @@ public class RedRiskPresenter extends BasePresenterImpl<RedRiskContract.View>
             }
         });
     }
+
+    @Override
+    public void setPatientWarning(String params) {
+
+    }
 }
 
