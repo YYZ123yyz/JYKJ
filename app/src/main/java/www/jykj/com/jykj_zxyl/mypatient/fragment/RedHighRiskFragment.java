@@ -20,6 +20,10 @@ import com.scwang.smart.refresh.layout.listener.OnMultiListener;
 import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
 import com.scwang.smart.refresh.layout.listener.OnRefreshLoadMoreListener;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -40,6 +44,8 @@ import www.jykj.com.jykj_zxyl.mypatient.bean.WarningListBean;
 import www.jykj.com.jykj_zxyl.mypatient.contract.RedRiskContract;
 import www.jykj.com.jykj_zxyl.mypatient.presenter.RedRiskPresenter;
 import www.jykj.com.jykj_zxyl.personal.activity.StateDetActivity;
+import www.jykj.com.jykj_zxyl.personal.bean.SearchBean;
+import www.jykj.com.jykj_zxyl.wxapi.PayInfoBean;
 
 public class RedHighRiskFragment extends AbstractMvpBaseFragment<RedRiskContract.View,
         RedRiskPresenter> implements RedRiskContract.View {
@@ -68,10 +74,16 @@ public class RedHighRiskFragment extends AbstractMvpBaseFragment<RedRiskContract
     @Override
     protected void initData() {
         super.initData();
+        EventBus.getDefault().register(this);
         mApp = (JYKJApplication) getActivity().getApplication();
         mPresenter.getWarningList(getParams());
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
 
     private String getParams() {
         HashMap<String, Object> map = new HashMap<>();
@@ -148,7 +160,15 @@ public class RedHighRiskFragment extends AbstractMvpBaseFragment<RedRiskContract
       });
     }
 
-
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMainEventBus(SearchBean msg) {
+        LogUtils.e("收到刷新了 ");
+        patientName = msg.getName();
+        ageStart =msg.getAgeStart();
+        ageEnd = msg.getAgeEnd();
+        pageNum =1;
+        mPresenter.getWarningList(getParams());
+    }
 
 
     private void showSetPop(int position ) {

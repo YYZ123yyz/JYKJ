@@ -581,5 +581,10 @@ public interface ApiService {
     @POST("/bindingDoctorPatientControlle/searchDoctorManagePatientDataByTotal")
     Observable<String> getDataByTotal(@Query(value = "jsonDataInfo", encoded = true)
                                              String queryJson);
+
+    //数量统计
+    @POST(" /warningDataControlle/operDoctorSetPatientWarning")
+    Observable<String> setPatientWarning(@Query(value = "jsonDataInfo", encoded = true)
+                                              String queryJson);
 }
 

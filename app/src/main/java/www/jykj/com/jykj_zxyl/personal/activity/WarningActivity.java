@@ -12,7 +12,11 @@ import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
 
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,7 +39,9 @@ import www.jykj.com.jykj_zxyl.personal.WarningContract;
 import www.jykj.com.jykj_zxyl.personal.WarningPresenter;
 import www.jykj.com.jykj_zxyl.personal.adapter.WarningTableViewAdapter;
 import www.jykj.com.jykj_zxyl.personal.bean.AllNumBean;
+import www.jykj.com.jykj_zxyl.personal.bean.SearchBean;
 import www.jykj.com.jykj_zxyl.util.StringUtils;
+import www.jykj.com.jykj_zxyl.wxapi.PayInfoBean;
 import yyz_exploit.dialog.ImageView;
 
 public class WarningActivity extends AbstractMvpBaseActivity<WarningContract.View
@@ -53,6 +59,17 @@ public class WarningActivity extends AbstractMvpBaseActivity<WarningContract.Vie
 
     @BindView(R.id.drawer_layout)
     DrawerLayout drawerLayout;
+    @BindView(R.id.et_name)
+    EditText etName;
+    @BindView(R.id.et_age_1)
+    EditText et_age_1;
+    @BindView(R.id.et_age_2)
+    EditText et_age_2;
+    @BindView(R.id.tv_cz)
+    TextView clearTv;
+    @BindView(R.id.tv_qd)
+    TextView sureTv;
+
     private String patientName = "";
     private String ageStart = "";
     private String ageEnd = "";
@@ -141,11 +158,24 @@ public class WarningActivity extends AbstractMvpBaseActivity<WarningContract.Vie
     }
 
 
-    @OnClick({R.id.iv_right_part})
+    @OnClick({R.id.iv_right_part,R.id.tv_cz,R.id.tv_qd})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_right_part:
                 drawerLayout.openDrawer(Gravity.RIGHT);
+                break;
+            case R.id.tv_cz:
+                etName.setText("");
+                et_age_1.setText("");
+                et_age_2.setText("");
+                break;
+            case R.id.tv_qd:
+                drawerLayout.closeDrawers();
+                SearchBean searchBean = new SearchBean();
+                searchBean.setName(etName.getText().toString().trim());
+                searchBean.setAgeStart(et_age_1.getText().toString().trim());
+                searchBean.setAgeEnd(et_age_2.getText().toString().trim());
+                EventBus.getDefault().post(searchBean);
                 break;
         }
 
