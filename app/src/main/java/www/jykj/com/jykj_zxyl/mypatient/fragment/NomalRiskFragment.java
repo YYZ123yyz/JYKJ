@@ -14,12 +14,7 @@ import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
-import com.scwang.smart.refresh.layout.api.RefreshFooter;
-import com.scwang.smart.refresh.layout.api.RefreshHeader;
 import com.scwang.smart.refresh.layout.api.RefreshLayout;
-import com.scwang.smart.refresh.layout.constant.RefreshState;
-import com.scwang.smart.refresh.layout.listener.OnMultiListener;
-import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
 import com.scwang.smart.refresh.layout.listener.OnRefreshLoadMoreListener;
 
 import org.greenrobot.eventbus.EventBus;
@@ -46,10 +41,10 @@ import www.jykj.com.jykj_zxyl.mypatient.bean.WarningListBean;
 import www.jykj.com.jykj_zxyl.mypatient.contract.RedRiskContract;
 import www.jykj.com.jykj_zxyl.mypatient.presenter.RedRiskPresenter;
 import www.jykj.com.jykj_zxyl.personal.activity.StateDetActivity;
+import www.jykj.com.jykj_zxyl.personal.activity.WarningActivity;
 import www.jykj.com.jykj_zxyl.personal.bean.SearchBean;
-import www.jykj.com.jykj_zxyl.wxapi.PayInfoBean;
 
-public class RedHighRiskFragment extends AbstractMvpBaseFragment<RedRiskContract.View,
+public class NomalRiskFragment extends AbstractMvpBaseFragment<RedRiskContract.View,
         RedRiskPresenter> implements RedRiskContract.View {
 
     @BindView(R.id.all_recy)
@@ -74,18 +69,20 @@ public class RedHighRiskFragment extends AbstractMvpBaseFragment<RedRiskContract
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        EventBus.getDefault().register(this);
-    }
-
-    @Override
     protected void initData() {
         super.initData();
-
+        if (!EventBus.getDefault().isRegistered(this)){
+            EventBus.getDefault().register(this);
+        }
         mApp = (JYKJApplication) getActivity().getApplication();
+        patientName =  ((WarningActivity) (getActivity())).etname;
+        ageStart =  ((WarningActivity) (getActivity())).etAge1;
+        ageEnd =  ((WarningActivity) (getActivity())).etAge2;
+
         mPresenter.getWarningList(getParams());
     }
+
+
 
     @Override
     public void onDestroy() {
@@ -100,7 +97,7 @@ public class RedHighRiskFragment extends AbstractMvpBaseFragment<RedRiskContract
         map.put("searchFlagSigning", "1");
         map.put("rowNum", String.valueOf(rowNum));
         map.put("pageNum", String.valueOf(pageNum));
-        map.put("stateType", 10);//
+        map.put("stateType", 50);//
         map.put("patientName", patientName);
         map.put("ageStart", ageStart);
         map.put("ageEnd", ageEnd);
@@ -153,23 +150,24 @@ public class RedHighRiskFragment extends AbstractMvpBaseFragment<RedRiskContract
         });
 
 
-      refreshLayout.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
-          @Override
-          public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
-              pageNum ++;
-              mPresenter.getWarningList(getParams());
-          }
+        refreshLayout.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
+            @Override
+            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+                pageNum ++;
+                mPresenter.getWarningList(getParams());
+            }
 
-          @Override
-          public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-              pageNum =1;
-              mPresenter.getWarningList(getParams());
-          }
-      });
+            @Override
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                pageNum =1;
+                mPresenter.getWarningList(getParams());
+            }
+        });
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMainEventBus(SearchBean msg) {
+        LogUtils.e("收到刷新了 ");
         patientName = msg.getName();
         ageStart =msg.getAgeStart();
         ageEnd = msg.getAgeEnd();
@@ -255,7 +253,7 @@ public class RedHighRiskFragment extends AbstractMvpBaseFragment<RedRiskContract
     @Override
     public void getListSucess(List<WarningListBean> data) {
         for (int i = 0; i < data.size(); i++) {
-            data.get(i).setColor(Color.parseColor("#FEA32C"));
+            data.get(i).setColor(Color.parseColor("#38CF40"));
         }
         if (refreshLayout.isRefreshing()){
             refreshLayout.finishRefresh();
@@ -287,3 +285,6 @@ public class RedHighRiskFragment extends AbstractMvpBaseFragment<RedRiskContract
 
     }
 }
+
+
+

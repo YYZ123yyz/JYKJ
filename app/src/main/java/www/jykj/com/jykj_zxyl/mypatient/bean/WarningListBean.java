@@ -24,6 +24,24 @@ public class WarningListBean {
     private String setPatientWarningCode;
     private String userLabelSecondName;
     private int color;
+    private String linkPhone;
+    private String stateTypeName;
+
+    public String getLinkPhone() {
+        return linkPhone;
+    }
+
+    public void setLinkPhone(String linkPhone) {
+        this.linkPhone = linkPhone;
+    }
+
+    public String getStateTypeName() {
+        return stateTypeName;
+    }
+
+    public void setStateTypeName(String stateTypeName) {
+        this.stateTypeName = stateTypeName;
+    }
 
     public int getColor() {
         return color;

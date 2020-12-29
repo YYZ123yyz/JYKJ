@@ -586,5 +586,10 @@ public interface ApiService {
     @POST(" /warningDataControlle/operDoctorSetPatientWarning")
     Observable<String> setPatientWarning(@Query(value = "jsonDataInfo", encoded = true)
                                               String queryJson);
+
+    //血压详情
+    @POST("/bindingDoctorPatientControlle/searchDoctorManagePatientResHtnLClassifyLevelStateDetail")
+    Observable<String> getStateDetail(@Query(value = "jsonDataInfo", encoded = true)
+                                                 String queryJson);
 }
 

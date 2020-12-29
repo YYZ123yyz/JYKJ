@@ -71,6 +71,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="姓名"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
                     android:textColor="@color/color_000000"
                     android:textSize="15sp" />
 
@@ -78,8 +80,10 @@
                 <EditText
                     android:id="@+id/et_name"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="30dp"
                     android:layout_marginTop="20dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
                     android:background="@drawable/bg_round_eeeeee_5"
                     android:hint="请输入姓名"
                     android:textColor="@color/color_666666"
@@ -90,37 +94,46 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="年龄段"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginLeft="10dp"
                     android:textColor="@color/color_000000"
                     android:textSize="15sp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="20dp"
+                    android:gravity="center_vertical"
                     android:orientation="horizontal">
 
                     <EditText
                         android:id="@+id/et_age_1"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="10dp"
                         android:layout_weight="1"
                         android:background="@drawable/bg_round_eeeeee_5"
                         android:hint="年龄段"
+                        android:inputType="number"
                         android:textColor="@color/color_666666"
                         android:textSize="15sp" />
 
                     <TextView
                         style="@style/div_h"
-                        android:layout_width="25dp" />
+                        android:layout_width="25dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        />
 
                     <EditText
                         android:id="@+id/et_age_2"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="10dp"
                         android:layout_weight="1"
                         android:background="@drawable/bg_round_eeeeee_5"
                         android:hint="年龄段"
+                        android:inputType="number"
                         android:textColor="@color/color_666666"
                         android:textSize="15sp" />
                 </LinearLayout>
@@ -133,6 +146,7 @@
                 android:layout_height="40dp"
                 android:layout_gravity="right"
                 android:layout_marginRight="10dp"
+                android:layout_marginBottom="35dp"
                 android:background="@mipmap/tjzj_zu">
 
                 <TextView
