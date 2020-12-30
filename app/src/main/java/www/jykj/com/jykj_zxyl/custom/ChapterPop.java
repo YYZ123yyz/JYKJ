@@ -40,6 +40,7 @@ public class ChapterPop extends PopupWindow implements View.OnClickListener {
     private ArrayList<ImageView> imageViews;
     private ImageView ivAccept;
 
+
     public ChapterPop(Activity context) {
         super(context);
         mContext = context;

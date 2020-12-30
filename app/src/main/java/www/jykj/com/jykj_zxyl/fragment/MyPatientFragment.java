@@ -523,29 +523,29 @@ public class MyPatientFragment extends Fragment {
                             netRetEntity = new Gson().fromJson(mNetLoginRetStr, NetRetEntity.class);
                             statusList = JSON.parseObject(netRetEntity.getResJsonData(), Status.class);
                             if (statusList != null) {
-                                if (statusList.getStateType_0().equals("")) {
-
-                                } else {
-                                    tv_all.setText("全部" + "(" + statusList.getStateType_0() + ")");
-                                }
-                                if (statusList.getStateType_3().equals("")) {
-
-                                } else {
-                                    tv_warning.setText("预警" + "(" + statusList.getStateType_3() + ")");
-
-                                }
-                                if (statusList.getStateType_2().equals("")) {
-
-                                } else {
-                                    tv_remind.setText("提醒" + "(" + statusList.getStateType_2() + ")");
-
-                                }
-                                if (statusList.getStateType_1().equals("")) {
-
-                                } else {
-                                    tv_normal.setText("正常" + "(" + statusList.getStateType_1() + ")");
-
-                                }
+//                                if (statusList.getStateType_0().equals("")) {
+//
+//                                } else {
+//                                    tv_all.setText("全部" + "(" + statusList.getStateType_0() + ")");
+//                                }
+//                                if (statusList.getStateType_3().equals("")) {
+//
+//                                } else {
+//                                    tv_warning.setText("预警" + "(" + statusList.getStateType_3() + ")");
+//
+//                                }
+//                                if (statusList.getStateType_2().equals("")) {
+//
+//                                } else {
+//                                    tv_remind.setText("提醒" + "(" + statusList.getStateType_2() + ")");
+//
+//                                }
+//                                if (statusList.getStateType_1().equals("")) {
+//
+//                                } else {
+//                                    tv_normal.setText("正常" + "(" + statusList.getStateType_1() + ")");
+//
+//                                }
                             }
 
                         } else {

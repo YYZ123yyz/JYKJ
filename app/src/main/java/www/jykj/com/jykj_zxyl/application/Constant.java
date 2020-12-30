@@ -53,11 +53,11 @@ public class Constant {
     /**
      * umeng appkey
      */
-    public static final String UMENG_APPKEY="5f7fbe6c80455950e49e57c9";
+    public static final String UMENG_APPKEY="5feb0616066c80422572525e";
     /**
      * umeng appsecret
      */
-    public static final String UMENG_APP_SECRET="b89940bde7a0eca09776f62228c05e88";
+    public static final String UMENG_APP_SECRET="24d325ad92af1b6eba13a1bb4a2a074f";
 
 
     /**

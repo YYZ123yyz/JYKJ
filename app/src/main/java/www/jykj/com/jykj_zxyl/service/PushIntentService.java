@@ -26,7 +26,9 @@ import org.json.JSONObject;
 import java.util.Map;
 import java.util.Random;
 
+import www.jykj.com.jykj_zxyl.activity.SplashActivity;
 import www.jykj.com.jykj_zxyl.app_base.R;
+import www.jykj.com.jykj_zxyl.app_base.base_utils.ApplicationUtil;
 
 
 /**
@@ -46,20 +48,12 @@ public class PushIntentService extends UmengMessageService {
     @Override
     public void onMessage(Context context, Intent intent) {
             String message = intent.getStringExtra(AgooConstants.MESSAGE_BODY);
-//            String str=message.replaceAll("\\\\", "");//将URL中的反斜杠替换为空  加上之后收不到消息
-        UMessage msg = null;
+        UMessage msg;
         try {
             msg = new UMessage(new JSONObject(message));
-//            Log.d(TAG,"message=" + message);    //消息体
-//            Log.d(TAG, "custom=" + msg.custom);    //自定义消息的内容
-//            Log.d(TAG, "title=" + msg.title);    //通知标题
-//            Map<String, String> extra = msg.extra;
- //           String msg_id = extra.get("msg_id");
-//            if (!TextUtils.isEmpty(msg_id)) {
-//                NotificationService.start(context, 10, message);
-//            }
-            //NotificationService.start(context, 10, message);
-            showNotification(context,msg,10);
+            if (ApplicationUtil.isBackground(context)) {
+                showNotification(context,msg,message,10);
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -72,7 +66,7 @@ public class PushIntentService extends UmengMessageService {
      * @param msg 消息对象
      * @param id 通知Id
      */
-    public void showNotification(Context context, UMessage msg, int id) {
+    public void showNotification(Context context, UMessage msg,String msgJson, int id) {
         NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         Notification.Builder builder = new Notification.Builder(context);
         //解决Android8.0收不到消息问题
@@ -91,6 +85,14 @@ public class PushIntentService extends UmengMessageService {
         contentIntent.putExtra(KEY_MSG, msg.text);
         PendingIntent pendingContentIntent = PendingIntent.getBroadcast(context, (new Random(System.nanoTime())).nextInt(), contentIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         builder.setContentIntent(pendingContentIntent);
+
+        //添加通知的事件(点击跳转到指定页面SecondActivity)
+        Intent resultIntent = new Intent(this, SplashActivity.class);
+        //intent可以携带参数到指定页面的，这里省略
+        resultIntent.putExtra("message",msgJson);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this,0,resultIntent,PendingIntent.FLAG_UPDATE_CURRENT);
+        builder.setContentIntent(pendingIntent);
+
         //自定义布局
         RemoteViews contentView = new RemoteViews(getPackageName(), R.layout.notification_view);
         contentView.setImageViewResource(R.id.iv_notification_icon, R.mipmap.logo);

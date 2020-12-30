@@ -2,11 +2,10 @@ package www.jykj.com.jykj_zxyl.util;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-
 import www.jykj.com.jykj_zxyl.activity.home.MyClinicActivity;
-import www.jykj.com.jykj_zxyl.activity.home.NewsActivity;
+import www.jykj.com.jykj_zxyl.activity.home.news.UnionNewsDetailActivity;
 import www.jykj.com.jykj_zxyl.activity.liveroom.LiveroomDetailActivity;
-import www.jykj.com.jykj_zxyl.medicalrecord.activity.PatientRecordActivity;
+import www.jykj.com.jykj_zxyl.appointment.activity.MyClinicDetialActivity;
 import www.jykj.com.jykj_zxyl.mypatient.activity.PatientActivity;
 
 /**
@@ -17,14 +16,15 @@ import www.jykj.com.jykj_zxyl.mypatient.activity.PatientActivity;
  */
 public class UiHelper {
 
-
     /**
      * 跳转系统消息
      *
      * @param context 上下文
      */
-    public static void goToJumpSysMessage(Context context) {
-        startActivity(context, NewsActivity.class, null);
+    public static void goToJumpSysMessage(Context context, String url) {
+        Bundle bundle = new Bundle();
+        bundle.putString("URL", url);
+        startActivity(context, UnionNewsDetailActivity.class, bundle);
     }
 
 
@@ -49,19 +49,6 @@ public class UiHelper {
         startActivity(context, PatientActivity.class, null);
     }
 
-    /**
-     * 跳转我的患者
-     *
-     * @param context 我的病历
-     */
-    public static void goToJumpMedicalRecord(Context context, String orderCode
-            , String patientCode, String patientName) {
-        Bundle bundle = new Bundle();
-        bundle.putString("orderCode", orderCode);
-        bundle.putString("patientCode", patientCode);
-        bundle.putString("patientName", patientName);
-        startActivity(context, PatientRecordActivity.class, bundle);
-    }
 
     /**
      * 跳转我的诊所
@@ -70,6 +57,18 @@ public class UiHelper {
      */
     public static void goToJumpMyClinic(Context context) {
         startActivity(context, MyClinicActivity.class, null);
+    }
+
+    /**
+     * 跳转课件详情
+     * @param context 上下问
+     * @param courseWareCode 课件code
+     */
+    public static void gotoJumpVideoChapterDetial(Context context
+            ,String courseWareCode){
+        Bundle bundle=new Bundle();
+        bundle.putString("courseWareCode",courseWareCode);
+        startActivity(context, MyClinicDetialActivity.class, bundle);
     }
 
 

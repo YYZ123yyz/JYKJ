@@ -48,7 +48,6 @@ import www.jykj.com.jykj_zxyl.appointment.activity.MyOnlineScheduActivity;
 import www.jykj.com.jykj_zxyl.capitalpool.activity.BalanceActivity;
 import www.jykj.com.jykj_zxyl.capitalpool.activity.ModifyIinforActivity;
 import www.jykj.com.jykj_zxyl.capitalpool.activity.RechargeActivity;
-import www.jykj.com.jykj_zxyl.capitalpool.activity.StatisticChartActivity;
 import www.jykj.com.jykj_zxyl.capitalpool.activity.UserAccountActivity;
 import www.jykj.com.jykj_zxyl.personal.activity.MyServiceHistoryActivity;
 import www.jykj.com.jykj_zxyl.util.GsonUtils;

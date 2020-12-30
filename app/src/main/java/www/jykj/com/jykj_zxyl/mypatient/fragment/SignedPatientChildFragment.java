@@ -10,12 +10,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.RequiresApi;
 
 import com.allen.library.utils.ToastUtils;
 import com.google.gson.Gson;
@@ -33,9 +33,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
-import androidx.annotation.RequiresApi;
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import entity.patientInfo.ProvideViewPatientLablePunchClockState;
 import netService.entity.NetRetEntity;
@@ -53,7 +51,13 @@ import www.jykj.com.jykj_zxyl.util.DateUtils;
 import yyz_exploit.activity.activity.RefuseActivity;
 import yyz_exploit.activity.activity.TerminationActivity;
 
-public class NormalFragment extends AbstractMvpBaseFragment<FragmentContract.View,
+/**
+ * Description:
+ *
+ * @author: qiuxinhai
+ * @date: 2020-12-26 15:04
+ */
+public class SignedPatientChildFragment  extends AbstractMvpBaseFragment<FragmentContract.View,
         FragmentPresenter> implements FragmentContract.View {
 
     @BindView(R.id.all_recy)
@@ -69,7 +73,7 @@ public class NormalFragment extends AbstractMvpBaseFragment<FragmentContract.Vie
     private MyPatientRecyclerAdapter myPatientRecyclerAdapter;
     private Handler mHandler;
     private String mNetRetStr;
-
+    private String sourceType;
     @Override
     protected int setLayoutId() {
         return R.layout.item_allfragment;
@@ -86,6 +90,7 @@ public class NormalFragment extends AbstractMvpBaseFragment<FragmentContract.Vie
         mAllRecy.setLayoutManager(mLayoutManager);
         myPatientRecyclerAdapter = new MyPatientRecyclerAdapter(mDatas, getContext());
         mAllRecy.setAdapter(myPatientRecyclerAdapter);
+
         myPatientRecyclerAdapter.setOnClickItemListener(
                 new MyPatientRecyclerAdapter.OnClickItemListener() {
                     @Override
@@ -121,9 +126,9 @@ public class NormalFragment extends AbstractMvpBaseFragment<FragmentContract.Vie
                             startActivity(new Intent(getActivity(), SigningDetailsActivity.class)
                                     .putExtra("patientCode", patientLablePunchClockState.getPatientCode())
                                     .putExtra("patientName", patientLablePunchClockState.getUserName())
-                                    .putExtra("singCode", patientLablePunchClockState.getSignCode())
+                                    .putExtra("singCode", "")
                                     .putExtra("patientUrl",patientLablePunchClockState.getUserLogoUrl())
-                                    .putExtra("doctorUrl",patientLablePunchClockState.getUserLogoUrl())
+                                    .putExtra("doctorUrl", Constant.doctorUrl)
                             );
                         }else{
                             ToastUtils.showToast("已存在未支付签约，不可再次发起");
@@ -195,6 +200,7 @@ public class NormalFragment extends AbstractMvpBaseFragment<FragmentContract.Vie
             public void onLongClick(int position) {
 
             }
+
         });
 
         //血压点击事件
@@ -248,6 +254,11 @@ public class NormalFragment extends AbstractMvpBaseFragment<FragmentContract.Vie
         addListener();
 
         initHandler();
+        Bundle arguments = this.getArguments();
+        if (arguments!=null) {
+            sourceType = arguments.getString("sourceType");
+        }
+
     }
 
     //同意
@@ -288,9 +299,8 @@ public class NormalFragment extends AbstractMvpBaseFragment<FragmentContract.Vie
                             );
                         }
                         Bundle bundle = new Bundle();
-                        bundle.putSerializable("orderMsg", new OrderMessage(mApp.mViewSysUserDoctorInfoAndHospital.getUserName(), mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl(),
-                                mDatas.get(position).getOrderCode(), mDatas.get(position).getSignCode(),
-                                getMonitorTypeSize(mDatas.get(position).getSignOtherServiceCode()) + "项", mDatas.get(position).getDetectRate() + "天/" + mDatas.get(position).getDetectRateUnitCode() + mDatas.get(position).getDetectRateUnitName(), mDatas.get(position).getSignDuration() + "个" + mDatas.get(position).getSignDurationUnit(), mDatas.get(position).getSignPrice() + "", mDatas.get(position).getSignNo(), "1", "terminationOrder", mDatas.get(position).getPatientCode()));
+                        bundle.putSerializable("orderMsg", new OrderMessage(mApp.mViewSysUserDoctorInfoAndHospital.getUserName(), mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl()
+                                ,mDatas.get(position).getOrderCode(), mDatas.get(position).getSignCode(), getMonitorTypeSize(mDatas.get(position).getSignOtherServiceCode()) + "项", mDatas.get(position).getDetectRate() + "天/" + mDatas.get(position).getDetectRateUnitCode() + mDatas.get(position).getDetectRateUnitName(), mDatas.get(position).getSignDuration() + "个" + mDatas.get(position).getSignDurationUnit(), mDatas.get(position).getSignPrice() + "", mDatas.get(position).getSignNo(), "1", "terminationOrder", mDatas.get(position).getPatientCode()));
                         intent.putExtras(bundle);
                         startActivity(intent);
                         Toast.makeText(getContext(), netRetEntity1.getResMsg(), Toast.LENGTH_SHORT).show();
@@ -341,11 +351,8 @@ public class NormalFragment extends AbstractMvpBaseFragment<FragmentContract.Vie
                         intent.putExtra("patientCode", mDatas.get(position).getPatientCode());
                         intent.putExtra("patientSex", mDatas.get(position).getGender());
                         Bundle bundle = new Bundle();
-                        bundle.putSerializable("orderMsg", new OrderMessage(
-                                mApp.mViewSysUserDoctorInfoAndHospital.getUserName(),
-                                mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl(),
-                                mDatas.get(position).getOrderCode(),
-                                mDatas.get(position).getSignCode(), getMonitorTypeSize(mDatas.get(position).getSignOtherServiceCode()) + "项", "1次/" + mDatas.get(position).getDetectRateUnitCode() + mDatas.get(position).getDetectRateUnitName(), mDatas.get(position).getSignDuration() + "个" + mDatas.get(position).getSignDurationUnit(), mDatas.get(position).getSignPrice() + "", mDatas.get(position).getSignNo(), "3", "terminationOrder", mDatas.get(position).getPatientCode()));
+                        bundle.putSerializable("orderMsg", new OrderMessage(mApp.mViewSysUserDoctorInfoAndHospital.getUserName(), mApp.mViewSysUserDoctorInfoAndHospital.getUserLogoUrl(),
+                                mDatas.get(position).getOrderCode(), mDatas.get(position).getSignCode(), getMonitorTypeSize(mDatas.get(position).getSignOtherServiceCode()) + "项", "1次/" + mDatas.get(position).getDetectRateUnitCode() + mDatas.get(position).getDetectRateUnitName(), mDatas.get(position).getSignDuration() + "个" + mDatas.get(position).getSignDurationUnit(), mDatas.get(position).getSignPrice() + "", mDatas.get(position).getSignNo(), "3", "terminationOrder", mDatas.get(position).getPatientCode()));
                         intent.putExtras(bundle);
                         startActivity(intent);
                         myPatientRecyclerAdapter.notifyDataSetChanged();
@@ -395,15 +402,23 @@ public class NormalFragment extends AbstractMvpBaseFragment<FragmentContract.Vie
         refreshLayout.setRefreshFooter(new ClassicsFooter(getContext()));
         refreshLayout.setOnRefreshListener(refreshlayout -> {
             pageIndex = 1;
-            mPresenter.sendSearchPatientListRequest(pageSize + "", pageIndex + "", mApp.loginDoctorPosition, mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(), "1");
+            mPresenter.sendSearchPatientListRequest(pageSize + "", pageIndex + "", mApp.loginDoctorPosition, mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(), "0");
         });
 
         refreshLayout.setOnLoadMoreListener(refreshlayout -> {
             pageIndex++;
-            mPresenter.sendSearchPatientListRequest(pageSize + "", pageIndex + "", mApp.loginDoctorPosition, mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(), "1");
+            mPresenter.sendSearchPatientListRequest(pageSize + "", pageIndex + "", mApp.loginDoctorPosition, mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(), "0");
 
         });
     }
+
+    public static SignedPatientChildFragment newInstance(String type) {
+        SignedPatientChildFragment fragment = new SignedPatientChildFragment();
+        Bundle args = new Bundle();
+        args.putString("sourceType", type);
+        return fragment;
+    }
+
 
     @Override
     protected void initData() {
@@ -414,7 +429,8 @@ public class NormalFragment extends AbstractMvpBaseFragment<FragmentContract.Vie
     @Override
     public void onResume() {
         super.onResume();
-        mPresenter.sendSearchPatientListRequest(pageSize + "", pageIndex + "", mApp.loginDoctorPosition, mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(), "1");
+        mPresenter.sendSearchPatientListRequest(pageSize + "", pageIndex + "",
+                mApp.loginDoctorPosition, mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(), sourceType);
     }
 
     @Override
@@ -432,12 +448,12 @@ public class NormalFragment extends AbstractMvpBaseFragment<FragmentContract.Vie
                 mAllRecy.setAdapter(myPatientRecyclerAdapter);
                 myPatientRecyclerAdapter.notifyDataSetChanged();
                 refreshLayout.finishLoadMore();
-                  tvNoData.setVisibility(View.GONE);
+                tvNoData.setVisibility(View.GONE);
             } else {
                 if (pageIndex == 1) {
                     myPatientRecyclerAdapter.setData(mDatas);
                     myPatientRecyclerAdapter.notifyDataSetChanged();
-                        tvNoData.setVisibility(View.VISIBLE);
+                    tvNoData.setVisibility(View.VISIBLE);
                 } else {
                     refreshLayout.finishLoadMore();
                 }
@@ -451,6 +467,7 @@ public class NormalFragment extends AbstractMvpBaseFragment<FragmentContract.Vie
     public void getOperRevokeResult() {
 
     }
+
 
 
     /**
@@ -467,3 +484,4 @@ public class NormalFragment extends AbstractMvpBaseFragment<FragmentContract.Vie
         return 0;
     }
 }
+

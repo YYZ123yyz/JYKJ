@@ -244,6 +244,7 @@
                     android:id="@+id/chart"
                     android:layout_width="300dp"
                     android:layout_height="300dp"
+                    android:visibility="gone"
                     android:layout_gravity="center_horizontal" />
 
 

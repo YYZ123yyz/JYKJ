@@ -193,11 +193,11 @@ public class VideoChapterPresenter extends BasePresenterImpl<VideoChapterContrac
                                 }else {
                                     mView.getAliPayInfoSucess(resJsonData);
                                 }
-                            }else if (type ==3){//支付金额=0
+                            }else if (type ==4){//支付金额=0
                                 mView.paySucess("支付成功");
                             }
                         }else{
-                            if(type==3){
+                            if(type==4){
                                 mView.paySucess("支付成功");
                             }else{
                                 mView.getDataFail(baseBean.getResMsg());
