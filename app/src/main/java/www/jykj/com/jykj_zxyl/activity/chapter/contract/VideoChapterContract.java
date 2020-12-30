@@ -31,6 +31,14 @@ public class VideoChapterContract {
         void paySucess(String msg);
 
         void getAccountBalanceResult(AccountBalanceBean accountBalanceBean);
+
+        /**
+         * 校验密码是否成功
+         * @param isSucess true or false
+         * @param msg 状态信息
+         */
+        void checkPasswordResult(boolean isSucess,String msg);
+
     }
 
 
@@ -44,6 +52,12 @@ public class VideoChapterContract {
         void getChapterSource(String params);
 
         void getAccountBalance(Activity activity);
+
+        /**
+         * 密码校验
+         * @param params 校验参数
+         */
+        void checkPassword(String params);
     }
 
 }

@@ -52,10 +52,12 @@ import www.jykj.com.jykj_zxyl.activity.chapter.presenter.VideoChapterPresenter;
 import www.jykj.com.jykj_zxyl.activity.hyhd.VideoDetialPlayerActivity;
 import www.jykj.com.jykj_zxyl.adapter.VideoChapterAdapter;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.AccountBalanceBean;
+import www.jykj.com.jykj_zxyl.app_base.base_view.LoadingLayoutManager;
 import www.jykj.com.jykj_zxyl.app_base.http.ParameUtil;
 import www.jykj.com.jykj_zxyl.app_base.http.RetrofitUtil;
 import www.jykj.com.jykj_zxyl.app_base.mvp.AbstractMvpBaseActivity;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
+import www.jykj.com.jykj_zxyl.capitalpool.weiget.CommonPayPwdCheckDialog;
 import www.jykj.com.jykj_zxyl.custom.ChapterPop;
 import www.jykj.com.jykj_zxyl.wxapi.PayInfoBean;
 
@@ -84,6 +86,8 @@ public class VideoChapterActivity extends AbstractMvpBaseActivity<VideoChapterCo
     TextView priceTv;//价格
     @BindView(R.id.all_num)
     TextView allNum;//全部章节
+    @BindView(R.id.ll_content_root)
+    LinearLayout llContentRoot;
     private JYKJApplication mApp;
     private ChapterPop chapterPop;
     private int mPayType = 0;
@@ -97,6 +101,8 @@ public class VideoChapterActivity extends AbstractMvpBaseActivity<VideoChapterCo
     private String allPrice;
     private String allCode;
     private  int buyType = 0;
+    private CommonPayPwdCheckDialog commonPayPwdCheckDialog;
+    private LoadingLayoutManager mLoadingLayout;//重新加载空页面管理
     @Override
     protected void onBeforeSetContentLayout() {
         super.onBeforeSetContentLayout();
@@ -166,11 +172,45 @@ public class VideoChapterActivity extends AbstractMvpBaseActivity<VideoChapterCo
             if (chapterPop.isShowing()) {
                 chapterPop.dismiss();
             }
-            mPresenter.go2Pay(getParams(3), Double.parseDouble(payMoney) <= 0 ? 3 : mPayType);
+            if (mPayType==4) {
+                commonPayPwdCheckDialog.show();
+                commonPayPwdCheckDialog.setData(payMoney);
+            }else{
+                mPresenter.go2Pay(getParams(3), Double.parseDouble(payMoney) <= 0 ? 3 : mPayType);
+            }
+
+        });
+        commonPayPwdCheckDialog=new CommonPayPwdCheckDialog(this);
+        commonPayPwdCheckDialog.setOnCompleteListener(new CommonPayPwdCheckDialog.OnCompleteListener() {
+            @Override
+            public void onTextPwdComplete(String pwd) {
+                mPresenter.checkPassword(getParams(pwd));
+                commonPayPwdCheckDialog.dismiss();
+            }
         });
         mPresenter.getAccountBalance(this);
+        initLoadingAndRetryManager();
+    }
+    private String getParams(String pwd) {
+        HashMap<String, Object> stringStringHashMap = new HashMap<>();
+        stringStringHashMap.put("operDoctorCode", mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
+        stringStringHashMap.put("pwd", pwd);
+        return RetrofitUtil.encodeParam(stringStringHashMap);
     }
 
+
+    /**
+     * 初始化loading页面
+     */
+    private void initLoadingAndRetryManager() {
+        mLoadingLayout = LoadingLayoutManager.wrap(llContentRoot);
+        mLoadingLayout.setRetryListener(v -> {
+            mLoadingLayout.showLoading();
+            mPresenter.getVideoChapterList(getParams(0));
+
+        });
+        mLoadingLayout.showLoading();
+    }
 
     @Override
     protected void initData() {
@@ -240,6 +280,7 @@ public class VideoChapterActivity extends AbstractMvpBaseActivity<VideoChapterCo
 
     @Override
     public void getListSucess(ChapterListBean data) {
+        mLoadingLayout.showContent();
         Glide.with(this).load(data.getIconUrl()).into(new SimpleTarget<Drawable>() {
             @Override
             public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
@@ -356,5 +397,14 @@ public class VideoChapterActivity extends AbstractMvpBaseActivity<VideoChapterCo
     @Override
     public void getAccountBalanceResult(AccountBalanceBean accountBalanceBean) {
         balanceMoney = accountBalanceBean.getBalanceMoney();
+    }
+
+    @Override
+    public void checkPasswordResult(boolean isSucess, String msg) {
+        if (isSucess) {
+            mPresenter.go2Pay(getParams(3), Double.parseDouble(payMoney) <= 0 ? 3 : mPayType);
+        }else{
+            ToastUtils.showShort(msg);
+        }
     }
 }

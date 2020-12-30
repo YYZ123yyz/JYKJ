@@ -38,10 +38,12 @@ public class VideoChapterPresenter extends BasePresenterImpl<VideoChapterContrac
     private static final String GET_ACCOUNT_BALANCE_REQUEST_TAG="get_account_balance_request_tag";
     private static final String SEND_SEARCH_ACCOUNT_DOCTOR_ASSETS_INFO_CODE=
             "send_search_account_doctor_assets_info_code";
+    private static final String SEND_GET_CHECK_PWD_REQUEST_TAG="send_get_check_pwd_request_tag";
     @Override
     protected Object[] getRequestTags() {
         return new Object[]{GET_PATIENT_TAG, GET_IM_TEST_REQUEST_TAG
-                ,GET_ACCOUNT_BALANCE_REQUEST_TAG,SEND_SEARCH_ACCOUNT_DOCTOR_ASSETS_INFO_CODE};
+                ,GET_ACCOUNT_BALANCE_REQUEST_TAG
+                ,SEND_SEARCH_ACCOUNT_DOCTOR_ASSETS_INFO_CODE,SEND_GET_CHECK_PWD_REQUEST_TAG};
     }
 
 
@@ -331,6 +333,49 @@ public class VideoChapterPresenter extends BasePresenterImpl<VideoChapterContrac
             @Override
             protected String setTag() {
                 return SEND_SEARCH_ACCOUNT_DOCTOR_ASSETS_INFO_CODE;
+            }
+        });
+    }
+
+    @Override
+    public void checkPassword(String params) {
+        ApiHelper.getCapitalPoolApi().checkPassword(params).compose(Transformer.switchSchedulers(new ILoadingView() {
+            @Override
+            public void showLoadingView() {
+                if (mView != null) {
+                    mView.showLoading(100);
+                }
+            }
+
+            @Override
+            public void hideLoadingView() {
+                if (mView != null) {
+                    mView.hideLoading();
+                }
+
+            }
+        })).subscribe(new CommonDataObserver() {
+            @Override
+            protected void onSuccessResult(BaseBean baseBean) {
+                if (mView != null) {
+                    int resCode = baseBean.getResCode();
+                    if (resCode == 1) {
+                        mView.checkPasswordResult(true,baseBean.getResMsg());
+                    } else {
+                        mView.checkPasswordResult(false,baseBean.getResMsg());
+                    }
+
+                }
+            }
+
+            @Override
+            protected void onError(String s) {
+                super.onError(s);
+            }
+
+            @Override
+            protected String setTag() {
+                return SEND_GET_CHECK_PWD_REQUEST_TAG;
             }
         });
     }

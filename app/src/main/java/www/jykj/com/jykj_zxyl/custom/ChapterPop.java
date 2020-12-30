@@ -162,7 +162,7 @@ public class ChapterPop extends PopupWindow implements View.OnClickListener {
                     if (imageViews.get(i).getVisibility()==View.VISIBLE){
                         int type;
                         if(i==0){
-                            type=3;
+                            type=4;
                         }else{
                             type=i;
                         }
