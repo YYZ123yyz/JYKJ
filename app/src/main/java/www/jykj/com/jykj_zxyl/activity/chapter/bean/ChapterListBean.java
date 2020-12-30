@@ -23,6 +23,15 @@ public class ChapterListBean {
     private String price;
     private int freeType;
     private String iconUrl;
+    private int flagUserHasBuy;
+
+    public int getFlagUserHasBuy() {
+        return flagUserHasBuy;
+    }
+
+    public void setFlagUserHasBuy(int flagUserHasBuy) {
+        this.flagUserHasBuy = flagUserHasBuy;
+    }
 
     public String getCreateby() {
         return createby;
