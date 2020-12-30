@@ -43,6 +43,9 @@ public class RiskNomalAdapter extends BaseQuickAdapter<WarningListBean, BaseView
             case 50:
                 stateMsg = "正常";
                 break;
+            case 0:
+                stateMsg = "未设置";
+                break;
         }
         stateTv.setText(stateMsg);
 

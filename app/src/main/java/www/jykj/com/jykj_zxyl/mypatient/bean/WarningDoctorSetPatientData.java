@@ -11,6 +11,33 @@ public class WarningDoctorSetPatientData {
     private String highNum;
     private String lowNum;
     private String gradeFloatingValue;
+    private String linkPhone;
+    private String userLabelSecondName;
+    private String stateTypeName;
+
+    public String getLinkPhone() {
+        return linkPhone;
+    }
+
+    public void setLinkPhone(String linkPhone) {
+        this.linkPhone = linkPhone;
+    }
+
+    public String getUserLabelSecondName() {
+        return userLabelSecondName;
+    }
+
+    public void setUserLabelSecondName(String userLabelSecondName) {
+        this.userLabelSecondName = userLabelSecondName;
+    }
+
+    public String getStateTypeName() {
+        return stateTypeName;
+    }
+
+    public void setStateTypeName(String stateTypeName) {
+        this.stateTypeName = stateTypeName;
+    }
 
     public String getSetPatientWarningCode() {
         return setPatientWarningCode;

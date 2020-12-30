@@ -166,7 +166,7 @@ public class ChapterPop extends PopupWindow implements View.OnClickListener {
                         }else{
                             type=i;
                         }
-                        mListen.go2Pay(type,priceTv.getText().toString());
+                        mListen.go2Pay(type,priceTv.getText().toString(),ivAccept.isSelected());
                     }
                 }
                 break;
@@ -197,7 +197,7 @@ public class ChapterPop extends PopupWindow implements View.OnClickListener {
         this.mListen = listen;
     }
     public interface go2PayListen{
-        void go2Pay(int type,String money);
+        void go2Pay(int type,String money,boolean isContinued);
     }
 
 }

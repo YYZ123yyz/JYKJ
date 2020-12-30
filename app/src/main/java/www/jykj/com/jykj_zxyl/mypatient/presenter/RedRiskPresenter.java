@@ -93,7 +93,66 @@ public class RedRiskPresenter extends BasePresenterImpl<RedRiskContract.View>
 
     @Override
     public void setPatientWarning(String params) {
+        ApiHelper.getApiService().setPatientWarning(params)
+                .compose(Transformer.switchSchedulers(new ILoadingView() {
+                    @Override
+                    public void showLoadingView() {
+                        if (mView != null) {
+                            mView.showLoading(100);
+                        }
+                    }
 
+                    @Override
+                    public void hideLoadingView() {
+                        if (mView != null) {
+                            mView.hideLoading();
+                        }
+
+                    }
+                })).subscribe(new CommonDataObserver() {
+            @Override
+            protected void onSuccessResult(BaseBean baseBean) {
+                if (mView != null) {
+                    int resCode = baseBean.getResCode();
+                    if (resCode == 1) {
+
+                        if (baseBean.getResJsonData() != null) {
+                            LogUtils.e("诗句   " + baseBean.getResJsonData());
+                            if (baseBean.getResCode() == 1) {
+                                List<WarningListBean> warningListBeans = GsonUtils.jsonToList(baseBean.getResJsonData(), WarningListBean.class);
+                                mView.getListSucess(warningListBeans);
+                            } else {
+                                mView.showMsg(baseBean.getResMsg());
+                            }
+                           /* mView.getManDataSucess(manBeans);
+                            mView.getWomenDataSucess(womenBeans);*/
+
+                        } else {
+//                            mView.showMsg("加载失败");
+                        }
+
+                        /*mView.getOperUpdMyClinicDetailByOrderPatientMessageResult(true
+                                ,baseBean.getResMsg());*/
+                    } else {
+                       /* mView.getOperUpdMyClinicDetailByOrderPatientMessageResult(false
+                                ,baseBean.getResMsg());*/
+
+                    }
+                }
+            }
+
+            @Override
+            protected void onError(String s) {
+                super.onError(s);
+                LogUtils.e("加载失败  " + s);
+
+            }
+
+            @Override
+            protected String setTag() {
+                return "";
+            }
+        });
     }
 }
 

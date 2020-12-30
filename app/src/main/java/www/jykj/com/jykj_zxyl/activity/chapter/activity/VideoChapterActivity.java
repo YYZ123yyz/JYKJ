@@ -94,7 +94,9 @@ public class VideoChapterActivity extends AbstractMvpBaseActivity<VideoChapterCo
     private String detCode;
     private String payMoney;
     private double balanceMoney;
-
+    private String allPrice;
+    private String allCode;
+    private  int buyType = 0;
     @Override
     protected void onBeforeSetContentLayout() {
         super.onBeforeSetContentLayout();
@@ -156,11 +158,12 @@ public class VideoChapterActivity extends AbstractMvpBaseActivity<VideoChapterCo
         mRecycleview.setLayoutManager(new LinearLayoutManager(this));
         chapterPop = new ChapterPop(this);
 
-        chapterPop.setGo2PayListen((type, money) -> {
+        chapterPop.setGo2PayListen((type, money,isContinued) -> {
 
             mPayType = type;
             payMoney = money;
-            if (chapterPop.isShowing()){
+            //isContinued   是不是持续购买
+            if (chapterPop.isShowing()) {
                 chapterPop.dismiss();
             }
             mPresenter.go2Pay(getParams(3), Double.parseDouble(payMoney) <= 0 ? 3 : mPayType);
@@ -187,7 +190,7 @@ public class VideoChapterActivity extends AbstractMvpBaseActivity<VideoChapterCo
     private String getParams(int type) {
         HashMap<String, Object> stringStringHashMap = new HashMap<>();
         stringStringHashMap.put("courseWareCode", type == 0 ? courseWareCode : detCode);//1e18a17de66441c781bfe8a98d6dc1fc
-        stringStringHashMap.put("userType","5");
+        stringStringHashMap.put("userType", "5");
         switch (type) {
             case 0:  //页面
                 stringStringHashMap.put("operUserCode", mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
@@ -203,7 +206,7 @@ public class VideoChapterActivity extends AbstractMvpBaseActivity<VideoChapterCo
                 stringStringHashMap.put("operUserName", mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
                 stringStringHashMap.put("requestClientType", 1);
                 stringStringHashMap.put("payType", mPayType);//方式
-                stringStringHashMap.put("orderType", 0);//购买类型
+                stringStringHashMap.put("orderType", buyType);//购买类型 0,单件 1 全部  2 持续购买
                 stringStringHashMap.put("rewardPoints", 0);//积分
                 stringStringHashMap.put("couponCode", "");//优惠券
                 stringStringHashMap.put("payAmount", payMoney);//金额
@@ -212,14 +215,22 @@ public class VideoChapterActivity extends AbstractMvpBaseActivity<VideoChapterCo
         return RetrofitUtil.encodeParam(stringStringHashMap);
     }
 
-    @OnClick({R.id.li_back})
+    @OnClick({R.id.li_back, R.id.price_tv})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.li_back:
                 finish();
                 break;
+            case R.id.price_tv:
+                detCode = allCode;
+                buyType =1;
+                chapterPop.setPayMoney(allPrice);
+                chapterPop.setBalanceMoney(balanceMoney + "");
+                chapterPop.showPop(tittlePart);
+                break;
         }
     }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMainEventBus(PayInfoBean msg) {
         LogUtils.e("收到刷新了 ");
@@ -241,6 +252,10 @@ public class VideoChapterActivity extends AbstractMvpBaseActivity<VideoChapterCo
         tittleTv.setText(data.getTitle());
         nameTv.setText(data.getCreateby());
         int freeType = data.getFreeType();//0免费,1收费
+        int flagUserHasBuy = data.getFlagUserHasBuy();//0: 未购买  1: 购买过
+        priceTv.setVisibility(freeType == 0 ? View.GONE : (flagUserHasBuy == 0 ? View.VISIBLE :View.GONE));
+        allPrice = data.getPrice();
+        allCode = data.getCode();
         priceTv.setText(String.format("¥ %s元", data.getPrice()));
         programTv.setText(String.format("类目: %s", data.getClassName()));
         Glide.with(this).load(data.getDoctorLogoUrl()).into(ivHead);
@@ -258,9 +273,10 @@ public class VideoChapterActivity extends AbstractMvpBaseActivity<VideoChapterCo
                         if (freeTypePay == 0) {//修改0
                             mPresenter.getChapterSource(getParams(2));
                         } else {
-                            if (flagUserHasBuy == 0) { //没有买   修改0
+                            if (flagUserHasBuy == 0) { //没有买
+                                buyType = 0;
                                 chapterPop.setPayMoney(secondList.get(position).getPrice());
-                                chapterPop.setBalanceMoney(balanceMoney+"");
+                                chapterPop.setBalanceMoney(balanceMoney + "");
                                 chapterPop.showPop(tittlePart);
                             } else {
                                 mPresenter.getChapterSource(getParams(2));
@@ -339,6 +355,6 @@ public class VideoChapterActivity extends AbstractMvpBaseActivity<VideoChapterCo
 
     @Override
     public void getAccountBalanceResult(AccountBalanceBean accountBalanceBean) {
-        balanceMoney=accountBalanceBean.getBalanceMoney();
+        balanceMoney = accountBalanceBean.getBalanceMoney();
     }
 }

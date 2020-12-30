@@ -14,13 +14,13 @@
     <android.support.v4.widget.DrawerLayout
         android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            >
+            android:orientation="vertical">
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -30,10 +30,9 @@
                     android:layout_width="20dp"
                     android:layout_height="15dp"
                     android:layout_alignParentRight="true"
-                    android:src="@mipmap/zjtj_sx"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="5dp"
-                    />
+                    android:src="@mipmap/zjtj_sx" />
 
                 <android.support.design.widget.TabLayout
                     android:id="@+id/table_layout"
@@ -51,90 +50,95 @@
                 android:layout_height="match_parent" />
 
 
-
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
             android:layout_gravity="end"
             android:background="@color/writeColor"
-            >
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:orientation="vertical"
                 android:clickable="true"
-                >
+                android:orientation="vertical">
 
                 <TextView
+
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="姓名"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
                     android:textColor="@color/color_000000"
-                    android:textSize="15sp"
-                    />
+                    android:textSize="15sp" />
 
 
                 <EditText
+                    android:id="@+id/et_name"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="30dp"
                     android:layout_marginTop="20dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
                     android:background="@drawable/bg_round_eeeeee_5"
-                    android:textColor="@color/color_666666"
-                    android:textSize="15sp"
                     android:hint="请输入姓名"
-                    />
+                    android:textColor="@color/color_666666"
+                    android:textSize="15sp" />
 
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="年龄段"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginLeft="10dp"
                     android:textColor="@color/color_000000"
-                    android:textSize="15sp"
-                    />
+                    android:textSize="15sp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    >
+                    android:layout_height="30dp"
+                    android:layout_marginTop="20dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
                     <EditText
+                        android:id="@+id/et_age_1"
                         android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="10dp"
                         android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
                         android:background="@drawable/bg_round_eeeeee_5"
-                        android:textColor="@color/color_666666"
-                        android:textSize="15sp"
                         android:hint="年龄段"
-                        />
+                        android:inputType="number"
+                        android:textColor="@color/color_666666"
+                        android:textSize="15sp" />
+
                     <TextView
                         style="@style/div_h"
                         android:layout_width="25dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
                         />
 
                     <EditText
+                        android:id="@+id/et_age_2"
                         android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="10dp"
                         android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
                         android:background="@drawable/bg_round_eeeeee_5"
-                        android:textColor="@color/color_666666"
-                        android:textSize="15sp"
                         android:hint="年龄段"
-                        />
+                        android:inputType="number"
+                        android:textColor="@color/color_666666"
+                        android:textSize="15sp" />
                 </LinearLayout>
 
             </LinearLayout>
-
-
-
 
 
             <LinearLayout
@@ -142,29 +146,31 @@
                 android:layout_height="40dp"
                 android:layout_gravity="right"
                 android:layout_marginRight="10dp"
+                android:layout_marginBottom="35dp"
                 android:background="@mipmap/tjzj_zu">
+
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="重置"
-                    android:layout_weight="1"
-                    android:layout_gravity="center"
-                    android:gravity="center"
+
                     android:id="@+id/tv_cz"
-                    android:textColor="#ffffffff"
-                    android:textSize="15sp"
-                    />
-                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="确定"
-                    android:id="@+id/tv_qd"
-                    android:layout_weight="1"
                     android:layout_gravity="center"
+                    android:layout_weight="1"
                     android:gravity="center"
+                    android:text="重置"
                     android:textColor="#ffffffff"
-                    android:textSize="15sp"
-                    />
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/tv_qd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="确定"
+                    android:textColor="#ffffffff"
+                    android:textSize="15sp" />
             </LinearLayout>
         </LinearLayout>
 
