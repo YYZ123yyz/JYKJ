@@ -54,7 +54,7 @@ import www.jykj.com.jykj_zxyl.activity.home.NewsActivity;
 import www.jykj.com.jykj_zxyl.activity.home.QRCodeActivity;
 import www.jykj.com.jykj_zxyl.activity.home.tjhz.AddPatientActivity;
 import www.jykj.com.jykj_zxyl.activity.hyhd.BindDoctorFriend;
-import www.jykj.com.jykj_zxyl.activity.hyhd.VideoDetialPlayerActivity;
+import www.jykj.com.jykj_zxyl.activity.myreport.activity.MyReportActivity;
 import www.jykj.com.jykj_zxyl.activity.myself.UserAuthenticationActivity;
 import www.jykj.com.jykj_zxyl.adapter.TittleFragmentAdapter;
 import www.jykj.com.jykj_zxyl.adapter.TraditionFooterAdapter;
@@ -129,6 +129,7 @@ public class FragmentShouYe extends AbstractMvpBaseFragment<HomePagerContract.Vi
     private UltimateRefreshView mRefreshLayout;
     private LoadingLayoutManager mLoadingLayoutManager;//重新加载布局
     private int currentPos;
+    private LinearLayout lin_myreport;
 
     public CustomViewPager getPager() {
         return pager;
@@ -263,7 +264,15 @@ public class FragmentShouYe extends AbstractMvpBaseFragment<HomePagerContract.Vi
 
             }
         });
-
+        //我的报表
+        lin_myreport = view.findViewById(R.id.lin_myreport);
+        lin_myreport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), MyReportActivity.class);
+                startActivity(intent);
+            }
+        });
 
         fragmentAdapter = new TittleFragmentAdapter(getChildFragmentManager(), fragmentList);
         pager.setAdapter(fragmentAdapter);
