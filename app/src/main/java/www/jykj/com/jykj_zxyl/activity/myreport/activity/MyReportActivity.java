@@ -20,7 +20,7 @@ import www.jykj.com.jykj_zxyl.activity.myreport.activity.presenter.MyReportPrese
 import www.jykj.com.jykj_zxyl.app_base.base_view.BaseToolBar;
 import www.jykj.com.jykj_zxyl.app_base.mvp.AbstractMvpBaseActivity;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
-import www.jykj.com.jykj_zxyl.capitalpool.activity.StatisticChartActivity;
+
 import www.jykj.com.jykj_zxyl.custom.MoreFeaturesPopupWindow;
 import www.jykj.com.jykj_zxyl.util.ActivityUtil;
 
@@ -66,6 +66,7 @@ public class MyReportActivity extends AbstractMvpBaseActivity<MyReportContract.V
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_time:
+
                 break;
 
             case R.id.tv_select:

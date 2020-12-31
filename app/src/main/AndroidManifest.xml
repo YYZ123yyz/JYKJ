@@ -572,6 +572,7 @@
         <activity android:name=".capitalpool.activity.SmallChangeActivity" />
         <activity android:name=".capitalpool.activity.SmallChangeActivity"/>
         <activity android:name=".capitalpool.activity.ModifyActivity" />
+        <activity android:name=".activity.myreport.activity.ReportDetActivity" />
 
         <meta-data
             android:name="EASEMOB_APPKEY"
