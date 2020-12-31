@@ -1,7 +1,5 @@
 package www.jykj.com.jykj_zxyl.activity.myreport.activity;
 
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -9,18 +7,20 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
+import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.OnClick;
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.activity.myreport.activity.Contract.MyReportContract;
+import www.jykj.com.jykj_zxyl.activity.myreport.activity.bean.ReportBean;
 import www.jykj.com.jykj_zxyl.activity.myreport.activity.presenter.MyReportPresenter;
 import www.jykj.com.jykj_zxyl.app_base.base_view.BaseToolBar;
 import www.jykj.com.jykj_zxyl.app_base.mvp.AbstractMvpBaseActivity;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
-import www.jykj.com.jykj_zxyl.capitalpool.activity.StatisticChartActivity;
 import www.jykj.com.jykj_zxyl.custom.MoreFeaturesPopupWindow;
 import www.jykj.com.jykj_zxyl.util.ActivityUtil;
 
@@ -36,6 +36,10 @@ public class MyReportActivity extends AbstractMvpBaseActivity<MyReportContract.V
     private TextView tv_select;
     private MyReportDialog myReportDialog;
     private JYKJApplication mApp;
+    private List<ReportBean> listreportbean;
+    private String diseaseTypeName;
+    private TextView disease;
+    private String diseaseTypeCode;
 
     @Override
     protected int setLayoutId() {
@@ -44,6 +48,7 @@ public class MyReportActivity extends AbstractMvpBaseActivity<MyReportContract.V
 
     protected void initView() {
         ActivityUtil.setStatusBarMain(this);
+        listreportbean=new ArrayList<>();
         mApp= (JYKJApplication) getApplication();
         myReportDialog = new MyReportDialog(this);
         imageButtonE = findViewById(R.id.right_image_search);
@@ -93,34 +98,32 @@ public class MyReportActivity extends AbstractMvpBaseActivity<MyReportContract.V
     }
 
     private void showDrugDosageDialog() {
-        OptionsPickerView optionPickUnit = new OptionsPickerBuilder(this,
-                (options1, options2, options3, v) -> {
-                    TextView tv_disease = myReportDialog.findViewById(R.id.tv_disease);
-                    //    withdrawalState = drugDosageNameList.get(options1);
-                //    stateTv.setText(withdrawalState);
-                  /*  Log.e("TAG", "showDrugDosageDialog: "+withdrawalState );
-                    if(!TextUtils.isEmpty(withdrawalState)){
-                        if(withdrawalState.equals("0")){
-                            stateTv.setText("已提交");
-                        }else if(withdrawalState.equals("1")){
-                            stateTv.setText("审核中");
-                        }else if(withdrawalState.equals("2")){
-                            stateTv.setText("打款中");
-                        }else{
-                            stateTv.setText("已完成");
-                        }
-                    }*/
+        OptionsPickerView optionPickUnit = new OptionsPickerBuilder(this, new OnOptionsSelectListener() {
 
-                 //   pageNum = 0;
-                  //  mPresenter.getWithdrawDet(getParams());
-                })
-                .setCancelColor(getResources().getColor(R.color.textColor_vt))
-                .setSubmitColor(getResources().getColor(R.color.textColor_hzgltabzc))
+            @Override
+            public void onOptionsSelect(int options1, int options2, int options3, View v) {
+                diseaseTypeName = listreportbean.get(options1).getDiseaseTypeName();
+                diseaseTypeCode = listreportbean.get(options1).getDiseaseTypeCode();
+                disease = myReportDialog.findViewById(R.id.tv_disease);
+                disease.setText(diseaseTypeName);
+
+            }
+        })
+                .setCancelColor(getResources().getColor(com.hyphenate.easeui.R.color.textColor_vt))
+                .setSubmitColor(getResources().getColor(com.hyphenate.easeui.R.color.textColor_hzgltabzc))
                 .setSelectOptions(0).build();
 
-       // optionPickUnit.setNPicker(drugDosageNameList,
-       //         null, null);
+        optionPickUnit.setNPicker(getDayStrList(listreportbean), null, null);
         optionPickUnit.show();
+
+    }
+
+    private List<String> getDayStrList(List<ReportBean> report) {
+        List<String> list = new ArrayList<>();
+        for (ReportBean reportBean : report) {
+            list.add(reportBean.getDiseaseTypeName());
+        }
+        return list;
     }
 
     private void setToolBar() {
@@ -147,7 +150,9 @@ public class MyReportActivity extends AbstractMvpBaseActivity<MyReportContract.V
     @Override
     public void getmyReportResult(List<ReportBean> reportBeans) {
         if(reportBeans!=null){
-
+            for (ReportBean reportBean : reportBeans) {
+                listreportbean.add(reportBean);
+            }
         }
     }
 }
