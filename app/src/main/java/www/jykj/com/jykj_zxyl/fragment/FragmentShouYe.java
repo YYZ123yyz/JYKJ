@@ -23,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
+import com.allen.library.interceptor.Transformer;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
@@ -55,13 +56,19 @@ import www.jykj.com.jykj_zxyl.activity.home.QRCodeActivity;
 import www.jykj.com.jykj_zxyl.activity.home.tjhz.AddPatientActivity;
 import www.jykj.com.jykj_zxyl.activity.hyhd.BindDoctorFriend;
 import www.jykj.com.jykj_zxyl.activity.myreport.activity.MyReportActivity;
+import www.jykj.com.jykj_zxyl.activity.myreport.activity.bean.AuthorityBean;
 import www.jykj.com.jykj_zxyl.activity.myself.UserAuthenticationActivity;
 import www.jykj.com.jykj_zxyl.adapter.TittleFragmentAdapter;
 import www.jykj.com.jykj_zxyl.adapter.TraditionFooterAdapter;
 import www.jykj.com.jykj_zxyl.adapter.TraditionHeaderAdapter;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.BannerAndHospitalInfoBean;
+import www.jykj.com.jykj_zxyl.app_base.base_bean.BaseBean;
 import www.jykj.com.jykj_zxyl.app_base.base_html5.H5Activity;
 import www.jykj.com.jykj_zxyl.app_base.base_view.LoadingLayoutManager;
+import www.jykj.com.jykj_zxyl.app_base.http.ApiHelper;
+import www.jykj.com.jykj_zxyl.app_base.http.CommonDataObserver;
+import www.jykj.com.jykj_zxyl.app_base.http.ParameUtil;
+import www.jykj.com.jykj_zxyl.app_base.http.RetrofitUtil;
 import www.jykj.com.jykj_zxyl.app_base.interfaces.OnClickRelationContractListener;
 import www.jykj.com.jykj_zxyl.app_base.mvp.AbstractMvpBaseFragment;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
@@ -72,6 +79,7 @@ import www.jykj.com.jykj_zxyl.fragment.home.HomeEducationFragment;
 import www.jykj.com.jykj_zxyl.fragment.home.HomeGraphicFragment;
 import www.jykj.com.jykj_zxyl.fragment.home.HomeVideoFragment;
 import www.jykj.com.jykj_zxyl.mypatient.activity.PatientActivity;
+import www.jykj.com.jykj_zxyl.util.GsonUtils;
 import www.jykj.com.jykj_zxyl.util.StringUtils;
 import yyz_exploit.Utils.MyImageView;
 import yyz_exploit.bean.BindPatient;
@@ -269,8 +277,30 @@ public class FragmentShouYe extends AbstractMvpBaseFragment<HomePagerContract.Vi
         lin_myreport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), MyReportActivity.class);
-                startActivity(intent);
+
+                HashMap<String, Object> hashMap = ParameUtil.buildBaseParam();
+                hashMap.put("loginDoctorPosition", mApp.loginDoctorPosition);
+                hashMap.put("operDoctorCode", mApp.mViewSysUserDoctorInfoAndHospital.getDoctorId());
+                hashMap.put("operDoctorName", mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
+                String s = RetrofitUtil.encodeParam(hashMap);
+                ApiHelper.getApiService().getAuthority(s).compose(Transformer.switchSchedulers())
+                        .subscribe(new CommonDataObserver() {
+                            @Override
+                            protected void onSuccessResult(BaseBean baseBean) {
+                                int resCode = baseBean.getResCode();
+                                if (resCode == 1) {
+                                    AuthorityBean authorityBean = GsonUtils.fromJson(baseBean.getResJsonData(), AuthorityBean.class);
+                                    String userGradeName = authorityBean.getUserGradeName();
+                                    Log.e("TAG", "onSuccessResult: "+userGradeName );
+                                    Intent intent = new Intent(getContext(), MyReportActivity.class);
+                                    startActivity(intent);
+                                }
+                            }
+                        });
+
+
+
+
             }
         });
 
