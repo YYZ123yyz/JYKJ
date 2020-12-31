@@ -20,7 +20,7 @@ public class FragmentContract {
         void getOperRevokeResult();
     }
 
-    public interface Presenter extends BasePresenter<FragmentContract.View> {
+    public interface Presenter extends BasePresenter<View> {
         /**
          *  患者数据请求
          * @param rowNum
@@ -29,20 +29,9 @@ public class FragmentContract {
          * @param searchDoctorCode
          * @param searchStateType
          */
-        void sendOperNumberRequest(String rowNum, String pageNum, String loginDoctorPosition
-                , String searchDoctorCode,String searchStateType);
+        void sendSearchPatientListRequest(String rowNum, String pageNum, String loginDoctorPosition
+                , String searchDoctorCode, String searchStateType);
 
-        /**
-         *  撤销解约
-         * @param loginDoctorPosition
-         * @param mainDoctorCode
-         * @param mainDoctorName
-         * @param signCode
-         * @param signNo
-         * @param mainPatientCode
-         * @param mainUserName
-         */
-        void sendOperRevokeRequest(String loginDoctorPosition, String mainDoctorCode, String mainDoctorName
-                , String signCode,String signNo,String mainPatientCode,String mainUserName);
+
     }
 }

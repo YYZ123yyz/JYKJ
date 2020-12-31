@@ -48,7 +48,6 @@ import www.jykj.com.jykj_zxyl.appointment.activity.MyOnlineScheduActivity;
 import www.jykj.com.jykj_zxyl.capitalpool.activity.BalanceActivity;
 import www.jykj.com.jykj_zxyl.capitalpool.activity.ModifyIinforActivity;
 import www.jykj.com.jykj_zxyl.capitalpool.activity.RechargeActivity;
-import www.jykj.com.jykj_zxyl.capitalpool.activity.StatisticChartActivity;
 import www.jykj.com.jykj_zxyl.capitalpool.activity.UserAccountActivity;
 import www.jykj.com.jykj_zxyl.personal.activity.MyServiceHistoryActivity;
 import www.jykj.com.jykj_zxyl.util.GsonUtils;
@@ -333,7 +332,7 @@ public class FragmentMySelf extends Fragment {
                     startActivity(intent1);
                     break;
                 case R.id.lin_warning:
-                    Intent intent5 = new Intent(getActivity(), RechargeActivity.class);//WarningActivity.class   ReferenceMapActivity   RechargeActivity
+                    Intent intent5 = new Intent(getActivity(), ReferenceMapActivity.class);//WarningActivity.class   ReferenceMapActivity   RechargeActivity
                     startActivity(intent5);
                     break;
                 case R.id.ll_wallet_root:

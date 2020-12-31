@@ -34,14 +34,18 @@ public class AccountBalanceInfoListAdapter extends BaseQuickAdapter<AccountBalan
         TextView tvBillTitle = helper.getView(R.id.tv_bill_title);
         ImageView ivMoneySign = helper.getView(R.id.iv_money_sign);
         TextView tvDateTime = helper.getView(R.id.tv_date_time);
-        tvBillTitle.setText(String.format("%s %s", item.getInfoDesc(), item.getMainUserName()));
+        TextView tvBillContent = helper.getView(R.id.tv_bill_content);
+        TextView tvAmount = helper.getView(R.id.tv_amount);
         int changeType = item.getChangeType();
         if (changeType==1) {
             ivMoneySign.setImageResource(R.mipmap.bg_return_money);
         }else if(changeType==2){
             ivMoneySign.setImageResource(R.mipmap.bg_pay_money);
         }
-
+        tvBillTitle.setText(item.getOrderTypelines());
+        tvBillContent.setText(item.getInfoDesc());
+        String infoMoney = item.getInfoMoneyStr();
+        tvAmount.setText(infoMoney);
         tvDateTime.setText(DateUtils.getDateToStringYYYMMDDHHMM(item.getInfoDateTime()));
 
     }

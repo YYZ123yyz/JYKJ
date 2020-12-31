@@ -30,6 +30,7 @@ import netService.entity.ParmentEntity;
 import www.jykj.com.jykj_zxyl.app_base.base_activity.BaseActivity;
 import www.jykj.com.jykj_zxyl.application.Constant;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
+import www.jykj.com.jykj_zxyl.application.SharedPreferences_DataSave;
 import www.jykj.com.jykj_zxyl.util.ActivityUtil;
 import www.jykj.com.jykj_zxyl.R;
 import yyz_exploit.Utils.HttpUtils;
@@ -59,8 +60,6 @@ public class UseRegistActivity extends BaseActivity {
     private Timer mTimer;
     private String openid;
     private boolean login;
-
-
 
 
     @Override
@@ -173,7 +172,6 @@ public class UseRegistActivity extends BaseActivity {
     }
 
 
-
     /**
      * 点击事件
      */
@@ -248,29 +246,32 @@ public class UseRegistActivity extends BaseActivity {
             return;
         }
 
-            UserInfo userInfo = new UserInfo();
-            userInfo.setUserPhone(mPhoneNum.getText().toString());
-            userInfo.setUserPwd(mPassWord.getText().toString());
-            userInfo.setUserLoginSmsVerify(mVCode.getText().toString());
-            userInfo.setTokenSmsVerify(mSmsToken);
-            userInfo.setLoginClient("2");
-            userInfo.setDeviceToken("1234567890");
-            getProgressBar("请稍候", "正在注册");
-            //连接网络，注册
-            new Thread() {
-                public void run() {
-                    try {
-                        mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + new Gson().toJson(userInfo), Constant.SERVICEURL + "doctorLoginController/loginDoctorRegister");
-                    } catch (Exception e) {
-                        NetRetEntity retEntity = new NetRetEntity();
-                        retEntity.setResCode(0);
-                        retEntity.setResMsg("网络连接异常，请联系管理员：" + e.getMessage());
-                        mNetRetStr = new Gson().toJson(retEntity);
-                        e.printStackTrace();
-                    }
-                    mHandler.sendEmptyMessage(2);
+        UserInfo userInfo = new UserInfo();
+        userInfo.setUserPhone(mPhoneNum.getText().toString());
+        userInfo.setUserPwd(mPassWord.getText().toString());
+        userInfo.setUserLoginSmsVerify(mVCode.getText().toString());
+        userInfo.setTokenSmsVerify(mSmsToken);
+        userInfo.setLoginClient("2");
+        SharedPreferences_DataSave dataSave
+                = new SharedPreferences_DataSave(UseRegistActivity.this, "JYKJDOCTER");
+        String deviceToken = dataSave.getString("deviceToken", "");
+        userInfo.setDeviceToken(deviceToken);
+        getProgressBar("请稍候", "正在注册");
+        //连接网络，注册
+        new Thread() {
+            public void run() {
+                try {
+                    mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + new Gson().toJson(userInfo), Constant.SERVICEURL + "doctorLoginController/loginDoctorRegister");
+                } catch (Exception e) {
+                    NetRetEntity retEntity = new NetRetEntity();
+                    retEntity.setResCode(0);
+                    retEntity.setResMsg("网络连接异常，请联系管理员：" + e.getMessage());
+                    mNetRetStr = new Gson().toJson(retEntity);
+                    e.printStackTrace();
                 }
-            }.start();
+                mHandler.sendEmptyMessage(2);
+            }
+        }.start();
 
 
     }

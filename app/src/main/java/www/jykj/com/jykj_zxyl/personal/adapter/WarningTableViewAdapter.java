@@ -8,6 +8,8 @@ import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
 
+import com.blankj.utilcode.util.LogUtils;
+
 import java.util.List;
 
 public class WarningTableViewAdapter extends FragmentPagerAdapter {
@@ -60,5 +62,11 @@ public class WarningTableViewAdapter extends FragmentPagerAdapter {
        /* ForegroundColorSpan redSpan0 = new ForegroundColorSpan(Color.parseColor("#FEA32C"));
         builder.setSpan(redSpan0, 0, 2, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);*/
         return builder;
+    }
+
+    public void updataData(List<String> list ){
+        LogUtils.e("xxx更新   "+list.size());
+        titleList= list;
+        notifyDataSetChanged();
     }
 }

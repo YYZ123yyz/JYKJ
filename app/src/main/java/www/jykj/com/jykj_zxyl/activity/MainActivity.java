@@ -13,6 +13,7 @@ import android.content.res.Resources;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.ActivityCompat;
@@ -28,6 +29,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.blankj.utilcode.util.ToastUtils;
 import com.google.gson.Gson;
 import com.hyphenate.EMConnectionListener;
 import com.hyphenate.EMError;
@@ -40,10 +42,12 @@ import com.squareup.okhttp.Response;
 import com.umeng.commonsdk.UMConfigure;
 import com.umeng.message.IUmengRegisterCallback;
 import com.umeng.message.PushAgent;
+import com.umeng.message.entity.UMessage;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -53,15 +57,20 @@ import androidx.annotation.RequiresApi;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import util.VersionsUpdata;
 import www.jykj.com.jykj_zxyl.app_base.base_activity.BaseActivity;
+import www.jykj.com.jykj_zxyl.app_base.base_utils.ApplicationUtil;
 import www.jykj.com.jykj_zxyl.app_base.base_utils.Constants;
 import www.jykj.com.jykj_zxyl.app_base.base_utils.SPUtils;
 import www.jykj.com.jykj_zxyl.application.Constant;
 import www.jykj.com.jykj_zxyl.consultation.fragment.ConsultationFragment;
 import www.jykj.com.jykj_zxyl.service.PushIntentService;
 import www.jykj.com.jykj_zxyl.util.ImageViewUtil;
+import www.jykj.com.jykj_zxyl.util.StringUtils;
+import www.jykj.com.jykj_zxyl.util.UiHelper;
 import yyz_exploit.Utils.BadgeUtil;
 import yyz_exploit.Utils.HttpUtils;
 import yyz_exploit.bean.AppVersionBean;
@@ -131,7 +140,7 @@ public class MainActivity extends BaseActivity {
     private TextView mTvUnreadBtn;
     private int unreadMessageCount;
     private float fontSizeScale;
-
+    private String message;
     @Override
     protected int setLayoutId() {
         return R.layout.activity_main;
@@ -164,10 +173,76 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void initData() {
         super.initData();
+        Bundle extras1 = this.getIntent().getExtras();
+        if (extras1 != null) {
+            String message = extras1.getString("message");
+            if (StringUtils.isNotEmpty(message)) {
+                processMessageJump(message);
+            }
+        }
 
     }
 
 
+    /**
+     * 处理消息
+     *
+     * @param message 消息
+     */
+    private void processMessageJump(String message) {
+        UMessage msg;
+        try {
+            msg = new UMessage(new JSONObject(message));
+            Map<String, String> extra = msg.extra;
+            String pushParm = extra.get("pushParm");
+            String detailsCode = extra.get("detailsID");
+            String pushMsgType = extra.get("pushMsgType");
+            if (StringUtils.isNotEmpty(pushMsgType)) {
+                switch (pushMsgType) {
+                    case "1":
+                        UiHelper.goToJumpSysMessage(this, pushParm);
+                        break;
+                    case "2":
+                        break;
+                    case "3":
+                        UiHelper.goToJumpLiveDetial(this, detailsCode);
+                        break;
+                    case "4":
+                        UiHelper.goToJumpMyPatient(this);
+                        break;
+                    case "5":
+                        //UiHelper.goToJumpMedicalRecord(this);
+                        break;
+                    case "6":
+                        UiHelper.goToJumpMyClinic(this);
+                        break;
+                    case "7":
+
+                        break;
+                    case "8":
+                        UiHelper.gotoJumpVideoChapterDetial(this, detailsCode);
+                        break;
+                    case "9":
+                        break;
+                    default:
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        Bundle extras = intent.getExtras();
+        if (extras!=null) {
+            message=extras.getString("message");
+            ToastUtils.showLong(message);
+        }
+
+    }
 
     /**
      * 设置环信网络状态
@@ -233,6 +308,7 @@ public class MainActivity extends BaseActivity {
         List<String> providers = mLocationManager.getProviders(true);
         Location bestLocation = null;
         for (String provider : providers) {
+            @SuppressLint("MissingPermission")
             Location l = mLocationManager.getLastKnownLocation(provider);
             if (l == null) {
                 continue;

@@ -40,6 +40,7 @@ public class ChapterPop extends PopupWindow implements View.OnClickListener {
     private ArrayList<ImageView> imageViews;
     private ImageView ivAccept;
 
+
     public ChapterPop(Activity context) {
         super(context);
         mContext = context;
@@ -161,11 +162,11 @@ public class ChapterPop extends PopupWindow implements View.OnClickListener {
                     if (imageViews.get(i).getVisibility()==View.VISIBLE){
                         int type;
                         if(i==0){
-                            type=3;
+                            type=4;
                         }else{
                             type=i;
                         }
-                        mListen.go2Pay(type,priceTv.getText().toString());
+                        mListen.go2Pay(type,priceTv.getText().toString(),ivAccept.isSelected());
                     }
                 }
                 break;
@@ -196,7 +197,7 @@ public class ChapterPop extends PopupWindow implements View.OnClickListener {
         this.mListen = listen;
     }
     public interface go2PayListen{
-        void go2Pay(int type,String money);
+        void go2Pay(int type,String money,boolean isContinued);
     }
 
 }

@@ -7,10 +7,13 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
 
+import android.view.Gravity;
 import android.view.View;
+import android.widget.ImageButton;
 
 
 import com.blankj.utilcode.util.LogUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
 import java.util.ArrayList;
@@ -19,11 +22,13 @@ import java.util.HashMap;
 import butterknife.BindView;
 import butterknife.OnClick;
 import www.jykj.com.jykj_zxyl.R;
+import www.jykj.com.jykj_zxyl.app_base.base_view.BaseToolBar;
 import www.jykj.com.jykj_zxyl.app_base.http.ParameUtil;
 import www.jykj.com.jykj_zxyl.app_base.http.RetrofitUtil;
 import www.jykj.com.jykj_zxyl.app_base.mvp.AbstractMvpBaseActivity;
 
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
+import www.jykj.com.jykj_zxyl.custom.MoreFeaturesPopupWindow;
 import www.jykj.com.jykj_zxyl.custom.RefrecenmapBean;
 import www.jykj.com.jykj_zxyl.mypatient.adapter.ReferenceMapAdapter;
 import www.jykj.com.jykj_zxyl.mypatient.adapter.RiskNomalAdapter;
@@ -39,9 +44,14 @@ public class ReferenceMapActivity extends AbstractMvpBaseActivity<ReferenceContr
     RecyclerView manRecycleview;
     @BindView(R.id.women_recycle)
     RecyclerView womenRecyeleview;
+    @BindView(R.id.toolbar)
+    BaseToolBar toolbar;
+    @BindView(R.id.right_image_search)
+    ImageButton imageButtonE;
     private JYKJApplication mApp;
     private ArrayList<RefrecenmapBean> manBeans;
     private ArrayList<RefrecenmapBean> womenBeans;
+    private ArrayList<RefrecenmapBean> AllBeans;
     private ReferenceMapAdapter manAdapter;
     private ReferenceMapAdapter womenAdapter;
 
@@ -62,12 +72,29 @@ public class ReferenceMapActivity extends AbstractMvpBaseActivity<ReferenceContr
         linearLayoutManager.setOrientation(OrientationHelper.VERTICAL);
         linearLayoutManager.setScrollEnabled(false);
         manRecycleview.setLayoutManager(linearLayoutManager);
-
+        setToolBar();
         MyLinearManger linearLayoutManager1 = new MyLinearManger(this);
         linearLayoutManager1.setOrientation(OrientationHelper.VERTICAL);
         linearLayoutManager1.setScrollEnabled(false);
         womenRecyeleview.setLayoutManager(linearLayoutManager1);
     }
+
+    private void setToolBar() {
+        toolbar.setMainTitle("各年龄血压参考图");
+        //返回键
+        toolbar.setLeftTitleClickListener(view -> finish());
+        //add
+        toolbar.setRightTitleClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MoreFeaturesPopupWindow mPopupWindow = new MoreFeaturesPopupWindow(ReferenceMapActivity.this);
+                if (mPopupWindow != null && !mPopupWindow.isShowing()) {
+                    mPopupWindow.showAsDropDown(imageButtonE, 0, 0, Gravity.TOP + Gravity.RIGHT);
+                }
+            }
+        });
+    }
+
 
     @Override
     protected void initData() {
@@ -76,7 +103,7 @@ public class ReferenceMapActivity extends AbstractMvpBaseActivity<ReferenceContr
         mPresenter.getReferenceData(getParams(0));
         manBeans = new ArrayList<>();
         womenBeans = new ArrayList<>();
-
+        AllBeans = new ArrayList<>();
 
         manAdapter = new ReferenceMapAdapter(R.layout.item_referencemap, manBeans, this);
         manRecycleview.setAdapter(manAdapter);
@@ -267,7 +294,7 @@ public class ReferenceMapActivity extends AbstractMvpBaseActivity<ReferenceContr
                 startActivity(new Intent(ReferenceMapActivity.this, WarningActivity.class));
                 break;
             case R.id.submit:
-
+                mPresenter.updataReference(getParams(1));
                 break;
         }
 
@@ -279,7 +306,9 @@ public class ReferenceMapActivity extends AbstractMvpBaseActivity<ReferenceContr
         if (type == 0) {
             map.put("doctorCode", mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
         } else {
-
+            AllBeans.addAll(manBeans);
+            AllBeans.addAll(womenBeans);
+            map.put("warningDoctorSetSystemData",AllBeans);
         }
         return RetrofitUtil.encodeParam(map);
     }
@@ -298,7 +327,13 @@ public class ReferenceMapActivity extends AbstractMvpBaseActivity<ReferenceContr
 
     @Override
     public void showMsg(String msg) {
+        ToastUtils.showShort(msg);
+    }
 
+    @Override
+    public void updataSucess() {
+        ToastUtils.showShort("提交成功");
+        finish();
     }
 }
 

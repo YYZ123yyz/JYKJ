@@ -58,15 +58,32 @@
             android:src="@mipmap/iv_home_add" />
 
 
-        <ImageView
-            android:id="@+id/iv_message"
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:padding="2dp"
-            android:src="@mipmap/iv_home_message" />
+            android:padding="5dp">
+
+            <ImageView
+                android:id="@+id/iv_message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/iv_home_message" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/iv_message"
+                android:src="@mipmap/bg_un_read"
+                android:id="@+id/iv_unread_icon"
+                >
+
+
+            </ImageView>
+        </RelativeLayout>
+
 
     </LinearLayout>
 

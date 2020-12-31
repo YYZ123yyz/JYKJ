@@ -20,6 +20,8 @@ import com.google.gson.reflect.TypeToken;
 import java.util.List;
 
 import com.hyphenate.easeui.utils.ExtEaseUtils;
+import com.umeng.message.UmengNotifyClickActivity;
+
 import entity.basicDate.ProvideBasicsRegion;
 import entity.service.ViewSysUserDoctorInfoAndHospital;
 import entity.user.UserInfo;
@@ -33,29 +35,27 @@ import www.jykj.com.jykj_zxyl.app_base.base_utils.StringUtils;
 import www.jykj.com.jykj_zxyl.application.Constant;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 
-public class SplashActivity extends BaseActivity {
+public class SplashActivity extends UmengNotifyClickActivity {
     private JYKJApplication mApp;
     public ProgressDialog mDialogProgress = null;
     private String mNetLoginRetStr;                 //登录返回字符串
     private String mNetRegionRetStr;                 //获取返回字符串
     private Handler mHandler;
-
-
-
+    private String message;
     @Override
-    protected int setLayoutId() {
-        return R.layout.activity_splash;
-    }
-
-    @Override
-    protected void initView() {
-        super.initView();
-     //   requestWindowFeature(Window.FEATURE_NO_TITLE);  //无title
+    protected void onCreate(Bundle bundle) {
+        super.onCreate(bundle);
+        setContentView(R.layout.activity_splash);
+        //   requestWindowFeature(Window.FEATURE_NO_TITLE);  //无title
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);  //全屏
         setContentView(R.layout.activity_splash);
         mApp = (JYKJApplication) getApplication();
         mApp.gActivityList.add(this);
+        Bundle extras = this.getIntent().getExtras();
+        if (extras!=null) {
+            message= extras.getString("message");
+        }
         SharedPreferences sharedPreferences = this.getSharedPreferences("share", MODE_PRIVATE);
         boolean isFirstRun = sharedPreferences.getBoolean("isFirstRun", true);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -72,6 +72,8 @@ public class SplashActivity extends BaseActivity {
         getRegionDate();
         initHandler();
     }
+
+
 
     private void jumpToWelcomeActivity() {
         new Handler().postDelayed(new Runnable() {
@@ -108,6 +110,7 @@ public class SplashActivity extends BaseActivity {
            mApp.saveUserInfo();
             mApp.loginIM();
             Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+            intent.putExtra("message",message);
             startActivity(intent);
             finish();
         }else{
@@ -274,4 +277,10 @@ public class SplashActivity extends BaseActivity {
         }
     }
 
+    @Override
+    public void onMessage(Intent intent) {
+        super.onMessage(intent);
+
+
+    }
 }

@@ -57,6 +57,7 @@ import www.jykj.com.jykj_zxyl.app_base.base_activity.BaseActivity;
 import www.jykj.com.jykj_zxyl.app_base.base_utils.AndroidThreadExecutor;
 import www.jykj.com.jykj_zxyl.application.Constant;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
+import www.jykj.com.jykj_zxyl.application.SharedPreferences_DataSave;
 import www.jykj.com.jykj_zxyl.util.ActivityUtil;
 import www.jykj.com.jykj_zxyl.R;
 import yyz_exploit.Utils.HttpUtil;
@@ -465,7 +466,10 @@ public class PhoneLoginActivity extends BaseActivity {
         userInfo.setUserLoginSmsVerify(mVCode.getText().toString());
         userInfo.setTokenSmsVerify(mSmsToken);
         userInfo.setLoginClient("1");
-        userInfo.setDeviceToken("1234567890");
+        SharedPreferences_DataSave dataSave
+                = new SharedPreferences_DataSave(PhoneLoginActivity.this, "JYKJDOCTER");
+        String deviceToken = dataSave.getString("deviceToken", "");
+        userInfo.setDeviceToken(deviceToken);
         sp1 = getSharedPreferences("SP_Data_List", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp1.edit() ;
         editor.putString("KEY_Data_List_DATA", mPhoneNum.getText().toString()) ; //存入json串

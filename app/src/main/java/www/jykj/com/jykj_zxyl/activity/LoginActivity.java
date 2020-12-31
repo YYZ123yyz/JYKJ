@@ -60,6 +60,7 @@ import www.jykj.com.jykj_zxyl.app_base.base_activity.BaseActivity;
 import www.jykj.com.jykj_zxyl.app_base.base_utils.AndroidThreadExecutor;
 import www.jykj.com.jykj_zxyl.application.Constant;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
+import www.jykj.com.jykj_zxyl.application.SharedPreferences_DataSave;
 import www.jykj.com.jykj_zxyl.util.ActivityUtil;
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.util.PreferenceUtils;
@@ -319,7 +320,10 @@ public class LoginActivity extends BaseActivity {
         userInfo.setUserPhone(mAccountEdit.getText().toString());
         userInfo.setUserPwd(mPassWordEdit.getText().toString());
         userInfo.setLoginClient("2");
-        userInfo.setDeviceToken("1234567890");
+        SharedPreferences_DataSave dataSave
+                = new SharedPreferences_DataSave(LoginActivity.this, "JYKJDOCTER");
+        String deviceToken = dataSave.getString("deviceToken", "");
+        userInfo.setDeviceToken(deviceToken);
 //        //创建sp对象
         sp1 = getSharedPreferences("SP_Data_List", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp1.edit() ;

@@ -7,18 +7,176 @@
     android:orientation="vertical"
     android:layout_height="match_parent"
     tools:context=".mypatient.fragment.SignedPatientFragment">
-    <android.support.design.widget.TabLayout
-        app:tabPaddingEnd="30dp"
-        app:tabPaddingStart="20dp"
-        android:id="@+id/table_layout"
-        app:tabIndicatorColor="@color/groabColor"
+    <android.support.v4.widget.DrawerLayout
+        android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-       />
+        android:layout_height="match_parent" >
 
-    <!-- 与TabLayout相关联的ViewPager -->
-    <android.support.v4.view.ViewPager
-        android:id="@+id/viewpager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/iv_right_part"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:layout_alignParentEnd="true"
+                    android:src="@mipmap/zjtj_sx"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="5dp"
+                    />
+
+                <android.support.design.widget.TabLayout
+                    android:id="@+id/table_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:layout_toLeftOf="@+id/iv_right_part"
+                    app:tabIndicatorColor="@color/groabColor"
+                    app:tabPaddingEnd="30dp"
+                    app:tabPaddingStart="20dp" />
+            </RelativeLayout>
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/viewpager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_gravity="end"
+            android:background="@color/writeColor"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:clickable="true"
+                >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="姓名"
+                    android:layout_marginStart="8.5dp"
+                    android:layout_marginEnd="8.5dp"
+                    android:textColor="@color/color_000000"
+                    android:textSize="15sp"
+                    />
+
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginStart="8.5dp"
+                    android:layout_marginEnd="8.5dp"
+                    android:background="@drawable/bg_round_eeeeee_5"
+                    android:textColor="@color/color_666666"
+                    android:textSize="15sp"
+                    android:hint="请输入姓名"
+                    android:paddingStart="5dp"
+                    android:paddingEnd="5dp"
+                    />
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="年龄段"
+                    android:layout_marginStart="8.5dp"
+                    android:textColor="@color/color_000000"
+                    android:textSize="15sp"
+                    />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginStart="8.5dp"
+                    android:layout_marginEnd="8.5dp"
+                    >
+
+                    <EditText
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="30dp"
+                        android:layout_marginTop="20dp"
+                        android:background="@drawable/bg_round_eeeeee_15"
+                        android:textColor="@color/color_666666"
+                        android:textSize="15sp"
+                        android:hint="年龄段"
+                        android:gravity="center"
+                        />
+                    <TextView
+                        style="@style/div_h"
+                        android:layout_width="25dp"
+                        />
+
+                    <EditText
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="30dp"
+                        android:layout_marginTop="20dp"
+                        android:background="@drawable/bg_round_eeeeee_15"
+                        android:textColor="@color/color_666666"
+                        android:textSize="15sp"
+                        android:hint="年龄段"
+                        android:gravity="center"
+                        />
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+
+
+
+            <LinearLayout
+                android:layout_width="140dp"
+                android:layout_height="40dp"
+                android:layout_gravity="right"
+                android:layout_marginRight="10dp"
+                android:background="@mipmap/tjzj_zu">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="重置"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:id="@+id/tv_cz"
+                    android:textColor="#ffffffff"
+                    android:textSize="15sp"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="确定"
+                    android:id="@+id/tv_qd"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:textColor="#ffffffff"
+                    android:textSize="15sp"
+                    />
+            </LinearLayout>
+        </LinearLayout>
+
+
+    </android.support.v4.widget.DrawerLayout>
 </LinearLayout>

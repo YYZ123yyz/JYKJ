@@ -16,6 +16,8 @@ public class ReferenceContract {
         void getWomenDataSucess(ArrayList<RefrecenmapBean> manBeans);
 
         void showMsg(String msg);
+
+        void updataSucess();
     }
 
     public interface Presenter extends BasePresenter<View> {

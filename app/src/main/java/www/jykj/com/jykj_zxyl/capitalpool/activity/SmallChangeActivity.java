@@ -22,7 +22,6 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.PercentFormatter;
-import com.github.mikephil.charting.utils.ColorTemplate;
 import com.hyphenate.easeui.jykj.utils.DateUtils;
 import com.scwang.smart.refresh.header.ClassicsHeader;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
@@ -111,7 +110,7 @@ public class SmallChangeActivity extends AbstractMvpBaseActivity<AccountBalanceL
     private AccountBalanceInfoListAdapter accountBalanceInfoListAdapter;
     private List<AccountBalanceListInfoBean.AccountDoctorBalanceInfoListBean> listBeans;
     private ChartSketchListAdapter sketchListAdapter;
-    private List<ChartSketchBean> listSketch;
+    private List<AccountStisticInfoBean.AccountDoctorIncomeOutListBean> listSketch;
     private String currentDate="";
     private boolean isShowloading;
     private String sourceType="1";
@@ -142,6 +141,7 @@ public class SmallChangeActivity extends AbstractMvpBaseActivity<AccountBalanceL
         mPresenter.sendSearchAccountDoctorBalanceInfoListRequest(currentDate,
                 pageSize,pageIndex,this);
         tvStatisticFilterBtn.setText(currentDate);
+        tvFilterBtn.setText(currentDate);
     }
 
     /**
@@ -288,7 +288,7 @@ public class SmallChangeActivity extends AbstractMvpBaseActivity<AccountBalanceL
     }
 
     private void initChartData(){
-        chart.setVisibility(View.VISIBLE);
+
         chart.setUsePercentValues(true);
         chart.getDescription().setEnabled(false);
         chart.setExtraOffsets(5, 10, 5, 5);
@@ -350,6 +350,7 @@ public class SmallChangeActivity extends AbstractMvpBaseActivity<AccountBalanceL
             isShowloading=true;
             currentDate = DateUtils.getDateYYYMM(date);
             tvStatisticFilterBtn.setText(currentDate);
+            tvFilterBtn.setText(currentDate);
             mPresenter.sendSearchAccountDoctorBalanceInfoListRequest(currentDate,
                     pageSize,pageIndex,this);
             pageIndex=1;
@@ -370,171 +371,18 @@ public class SmallChangeActivity extends AbstractMvpBaseActivity<AccountBalanceL
         tvStatisticIncomeAmount.setText(String.format("¥ %s", accountStisticInfoBean.getTotalIncome()));
         ArrayList<PieEntry> entries = new ArrayList<>();
         ArrayList<Integer> colors = new ArrayList<>();
-        if(changeType.equals("1")){
-            listSketch.clear();
-            float incomeFigureText = accountStisticInfoBean.getIncomeFigureText();
-            if(incomeFigureText>0){
-                int color = Color.parseColor("#E24A47");
-                colors.add(color);
-                entries.add(new PieEntry(incomeFigureText,""));
-                ChartSketchBean chartSketchBean=new ChartSketchBean();
-                chartSketchBean.setColorSketch(color);
-                chartSketchBean.setSketchName("图文就诊");
-                listSketch.add(chartSketchBean);
-            }
-            float incomeVideo = accountStisticInfoBean.getIncomeVideo();
-            if (incomeVideo>0) {
-                int color = Color.parseColor("#EA883B");
-                colors.add(color);
-                entries.add(new PieEntry(incomeVideo,""));
-                ChartSketchBean chartSketchBean=new ChartSketchBean();
-                chartSketchBean.setColorSketch(color);
-                chartSketchBean.setSketchName("视频就诊");
-                listSketch.add(chartSketchBean);
-            }
-            float incomeAudio = accountStisticInfoBean.getIncomeAudio();
-            if (incomeAudio>0) {
-                int color = Color.parseColor("#A763A5");
-                colors.add(color);
-                entries.add(new PieEntry(incomeAudio,""));
-                ChartSketchBean chartSketchBean=new ChartSketchBean();
-                chartSketchBean.setColorSketch(color);
-                chartSketchBean.setSketchName("音频就诊");
-                listSketch.add(chartSketchBean);
-            }
-
-            float incomeCall = accountStisticInfoBean.getIncomeCall();
-            if (incomeCall>0) {
-                int color = Color.parseColor("#52B394");
-                colors.add(color);
-                entries.add(new PieEntry(incomeCall,""));
-                ChartSketchBean chartSketchBean=new ChartSketchBean();
-                chartSketchBean.setColorSketch(color);
-                chartSketchBean.setSketchName("电话就诊");
-                listSketch.add(chartSketchBean);
-            }
-
-            float incomeLiveBroadcast = accountStisticInfoBean.getIncomeLiveBroadcast();
-            if (incomeLiveBroadcast>0) {
-                int color = Color.parseColor("#3688A1");
-                colors.add(color);
-                entries.add(new PieEntry(incomeLiveBroadcast,""));
-                ChartSketchBean chartSketchBean=new ChartSketchBean();
-                chartSketchBean.setColorSketch(color);
-                chartSketchBean.setSketchName("观看直播");
-                listSketch.add(chartSketchBean);
-            }
-
-            float incomeSign = accountStisticInfoBean.getIncomeSign();
-            if (incomeSign>0) {
-                int color = Color.parseColor("#17B939");
-                colors.add(color);
-                entries.add(new PieEntry(incomeSign,""));
-                ChartSketchBean chartSketchBean=new ChartSketchBean();
-                chartSketchBean.setColorSketch(color);
-                chartSketchBean.setSketchName("签约服务");
-                listSketch.add(chartSketchBean);
-            }
-
-            float incomeConsultation = accountStisticInfoBean.getIncomeConsultation();
-            if (incomeConsultation>0) {
-                int color = Color.parseColor("#EFE343");
-                colors.add(color);
-                entries.add(new PieEntry(incomeConsultation,""));
-                ChartSketchBean chartSketchBean=new ChartSketchBean();
-                chartSketchBean.setColorSketch(color);
-                chartSketchBean.setSketchName("会诊收入");
-                listSketch.add(chartSketchBean);
-            }
-            float incomeRecharge = accountStisticInfoBean.getIncomeRecharge();
-            if(incomeRecharge>0){
-                int color = Color.parseColor("#B28850");
-                colors.add(color);
-                entries.add(new PieEntry(incomeRecharge,""));
-                ChartSketchBean chartSketchBean=new ChartSketchBean();
-                chartSketchBean.setColorSketch(color);
-                chartSketchBean.setSketchName("用户充值");
-                listSketch.add(chartSketchBean);
-            }
-
-            float incomeCourseware = accountStisticInfoBean.getIncomeCourseware();
-            if (incomeCourseware>0){
-                int color = Color.parseColor("#ACD598");
-                colors.add(color);
-                entries.add(new PieEntry(incomeCourseware,""));
-                ChartSketchBean chartSketchBean=new ChartSketchBean();
-                chartSketchBean.setColorSketch(color);
-                chartSketchBean.setSketchName("课件收入");
-                listSketch.add(chartSketchBean);
-            }
-
-
-
-        }else{
-            listSketch.clear();
-            float expendConsultation = accountStisticInfoBean.getExpendConsultation();
-            if (expendConsultation>0) {
-                int color = Color.parseColor("#E24A47");
-                colors.add(color);
-                entries.add(new PieEntry(expendConsultation,""));
-                ChartSketchBean chartSketchBean=new ChartSketchBean();
-                chartSketchBean.setColorSketch(color);
-                chartSketchBean.setSketchName("会诊支出");
-                listSketch.add(chartSketchBean);
-            }
-
-            float expendLiveBroadcast = accountStisticInfoBean.getExpendLiveBroadcast();
-            if (expendLiveBroadcast>0) {
-                int color = Color.parseColor("#52B394");
-                colors.add(color);
-                entries.add(new PieEntry(expendLiveBroadcast,""));
-                ChartSketchBean chartSketchBean=new ChartSketchBean();
-                chartSketchBean.setColorSketch(color);
-                chartSketchBean.setSketchName("直播支出");
-                listSketch.add(chartSketchBean);
-            }
-            float expendCourseware = accountStisticInfoBean.getExpendCourseware();
-            if (expendCourseware>0) {
-                int color = Color.parseColor("#8C97CB");
-                colors.add(color);
-                entries.add(new PieEntry(expendCourseware,""));
-                ChartSketchBean chartSketchBean=new ChartSketchBean();
-                chartSketchBean.setColorSketch(color);
-                chartSketchBean.setSketchName("课件支出");
-                listSketch.add(chartSketchBean);
-            }
-
-            float expendWithdrawal = accountStisticInfoBean.getExpendWithdrawal();
-            if (expendWithdrawal>0) {
-                int color = Color.parseColor("#CCE198");
-                colors.add(color);
-                entries.add(new PieEntry(expendWithdrawal,""));
-                ChartSketchBean chartSketchBean=new ChartSketchBean();
-                chartSketchBean.setColorSketch(color);
-                chartSketchBean.setSketchName("提现支出");
-                listSketch.add(chartSketchBean);
-            }
-
-
+        List<AccountStisticInfoBean.AccountDoctorIncomeOutListBean>
+                accountDoctorIncomeOutList = accountStisticInfoBean.getAccountDoctorIncomeOutList();
+        listSketch.clear();
+        if (!CollectionUtils.isEmpty(accountDoctorIncomeOutList)) {
+            listSketch.addAll(accountDoctorIncomeOutList);
         }
-
-        for (int c : ColorTemplate.VORDIPLOM_COLORS)
-            colors.add(c);
-
-        for (int c : ColorTemplate.JOYFUL_COLORS)
-            colors.add(c);
-
-        for (int c : ColorTemplate.COLORFUL_COLORS)
-            colors.add(c);
-
-        for (int c : ColorTemplate.LIBERTY_COLORS)
-            colors.add(c);
-
-        for (int c : ColorTemplate.PASTEL_COLORS)
-            colors.add(c);
-
-        colors.add(ColorTemplate.getHoloBlue());
-
+        for (AccountStisticInfoBean.AccountDoctorIncomeOutListBean
+                outListBean : accountDoctorIncomeOutList) {
+            int color = Color.parseColor(outListBean.getIncomeOutTypeRGB().replace("0x","#"));
+            colors.add(color);
+            entries.add(new PieEntry(outListBean.getIncomeOutTypeValue(),""));
+        }
 
         PieDataSet dataSet = new PieDataSet(entries, "Election Results");
         dataSet.setSliceSpace(3f);
@@ -559,6 +407,7 @@ public class SmallChangeActivity extends AbstractMvpBaseActivity<AccountBalanceL
         chart.invalidate();
 
         sketchListAdapter.notifyDataSetChanged();
+        chart.setVisibility(View.VISIBLE);
     }
 
     @Override
