@@ -590,6 +590,22 @@ public interface ApiService {
     //血压详情
     @POST("/bindingDoctorPatientControlle/searchDoctorManagePatientResHtnLClassifyLevelStateDetail")
     Observable<String> getStateDetail(@Query(value = "jsonDataInfo", encoded = true)
+
                                                  String queryJson);
+    //未读消息个数统计
+    @POST("/msgDataControlle/searchMsgPushReminderAllCount")
+    Observable<String> searchMsgPushReminderAllCount(@Query(value = "jsonDataInfo", encoded = true)
+
+                                                             String queryJson);
+    //我的消息】中提醒的消息
+    @POST("/msgDataControlle/searchMsgPushReminderListResAllData")
+    Observable<String> searchMsgPushReminderListResAllData(@Query(value = "jsonDataInfo", encoded = true)
+
+                                                                   String queryJson);
+    //修改已读未读消息状态
+    @POST("/msgDataControlle/operUpdMsgPushReminderState")
+    Observable<String> operUpdMsgPushReminderState(@Query(value = "jsonDataInfo", encoded = true)
+
+                                                           String queryJson);
 }
 

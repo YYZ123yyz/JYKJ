@@ -51,6 +51,8 @@ public class ParameUtil {
         paramMap.put("mainDoctorName",mProvideViewSysUserPatientInfoAndRegion.getUserName());
         paramMap.put("operUserCode",mProvideViewSysUserPatientInfoAndRegion.getDoctorCode());
         paramMap.put("operUserName",mProvideViewSysUserPatientInfoAndRegion.getUserName());
+        paramMap.put("searchDoctorCode",mProvideViewSysUserPatientInfoAndRegion.getDoctorCode());
+        paramMap.put("searchDoctorName",mProvideViewSysUserPatientInfoAndRegion.getUserName());
         return paramMap;
     }
 

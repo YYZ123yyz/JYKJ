@@ -2,9 +2,12 @@ package www.jykj.com.jykj_zxyl.util;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+
+import www.jykj.com.jykj_zxyl.activity.chapter.activity.VideoChapterActivity;
 import www.jykj.com.jykj_zxyl.activity.home.MyClinicActivity;
 import www.jykj.com.jykj_zxyl.activity.home.news.UnionNewsDetailActivity;
 import www.jykj.com.jykj_zxyl.activity.liveroom.LiveroomDetailActivity;
+import www.jykj.com.jykj_zxyl.app_base.base_html5.H5Activity;
 import www.jykj.com.jykj_zxyl.appointment.activity.MyClinicDetialActivity;
 import www.jykj.com.jykj_zxyl.mypatient.activity.PatientActivity;
 
@@ -23,10 +26,10 @@ public class UiHelper {
      */
     public static void goToJumpSysMessage(Context context, String url) {
         Bundle bundle = new Bundle();
-        bundle.putString("URL", url);
-        startActivity(context, UnionNewsDetailActivity.class, bundle);
+        bundle.putString("url", url);
+        bundle.putString("title","系统消息");
+        startActivity(context, H5Activity.class, bundle);
     }
-
 
     /**
      * 跳转直播详情
@@ -56,7 +59,7 @@ public class UiHelper {
      * @param context 上下文
      */
     public static void goToJumpMyClinic(Context context) {
-        startActivity(context, MyClinicActivity.class, null);
+        startActivity(context, MyClinicDetialActivity.class, null);
     }
 
     /**
@@ -68,7 +71,7 @@ public class UiHelper {
             ,String courseWareCode){
         Bundle bundle=new Bundle();
         bundle.putString("courseWareCode",courseWareCode);
-        startActivity(context, MyClinicDetialActivity.class, bundle);
+        startActivity(context, VideoChapterActivity.class, bundle);
     }
 
 

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/ll_content_root"
+    android:background="@color/writeColor"
+    android:layout_marginTop="3dp"
+    android:orientation="horizontal">
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
+        >
+
+        <ImageView
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_marginLeft="10dp"
+            android:id="@+id/iv_itemNewsAdapter_head"
+
+
+
+            />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/bg_un_read"
+            android:layout_marginStart="-10dp"
+            android:id="@+id/iv_un_read"
+            android:visibility="gone"
+            android:layout_toEndOf="@+id/iv_itemNewsAdapter_head"
+            />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
+        android:layout_marginLeft="10dp"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="通知"
+                android:textSize="16sp"
+                android:id="@+id/msgOperName"
+                android:textColor="@color/color_000000"
+                />
+
+        </LinearLayout>
+
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="sdf"
+                android:id="@+id/tv_itemNewsAdapter_userMessageText"
+                android:textSize="15sp"
+
+                android:layout_marginTop="5dp"
+                android:textColor="@color/color_000000"
+                android:singleLine="true"
+                android:ellipsize="end"
+                />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="12:48"
+            android:id="@+id/tv_itemNewMessageAdapter_userDateText"
+            android:textSize="7pt"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="10dp"
+            android:textColor="@color/textColor_vt"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_unread_status"
+            android:textSize="13sp"
+            android:gravity="end"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="15dp"
+            android:layout_alignParentEnd="true"
+            android:textColor="@color/color_c5c5c5"
+            android:text="已读"
+            >
+
+
+        </TextView>
+    </LinearLayout>
+
+</LinearLayout>

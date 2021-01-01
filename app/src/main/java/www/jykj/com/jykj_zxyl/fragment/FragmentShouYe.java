@@ -49,6 +49,7 @@ import rx.functions.Action1;
 import util.CustomViewPager;
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.activity.MainActivity;
+import www.jykj.com.jykj_zxyl.activity.home.MessageListActivity;
 import www.jykj.com.jykj_zxyl.activity.home.MyLiveRoomActivity;
 import www.jykj.com.jykj_zxyl.activity.home.NewsActivity;
 import www.jykj.com.jykj_zxyl.activity.home.QRCodeActivity;
@@ -702,7 +703,8 @@ public class FragmentShouYe extends AbstractMvpBaseFragment<HomePagerContract.Vi
 
                 break;
             case R.id.iv_message:
-                startActivity(new Intent(getActivity(), NewsActivity.class).putExtra("newMessage", mActivity.mProvideMsgPushReminderCount));
+                //startActivity(new Intent(getActivity(), NewsActivity.class).putExtra("newMessage", mActivity.mProvideMsgPushReminderCount));
+                startActivity(MessageListActivity.class,null);
                 break;
             case R.id.lin_myclinic:
                 startActivity(new Intent(getActivity(), MyClinicDetialActivity.class));

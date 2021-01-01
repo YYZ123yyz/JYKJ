@@ -2,40 +2,24 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/color_eeeeee"
     android:orientation="vertical">
 
-    <RelativeLayout
+
+    <include
+        android:id="@+id/title_bar"
+        layout="@layout/item_toolbar" />
+
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:background="@color/groabColor">
-
-        <LinearLayout
-            android:id="@+id/ll_back"
-            android:layout_width="60dp"
-            android:layout_height="match_parent"
-            android:layout_centerVertical="true">
-            <ImageView
-                android:id="@+id/iv_back_left"
-                android:layout_width="10dp"
-                android:layout_height="20dp"
-                android:layout_marginLeft="15dp"
-                android:layout_gravity="center_vertical"
-                android:src="@mipmap/arrow_left" />
-
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="消息"
-            android:textColor="@color/writeColor"
-            android:textSize="10pt" />
-
-    </RelativeLayout>
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:id="@+id/ll_content_root"
+        >
 
     <RelativeLayout
-        android:id="@+id/rl_hzjz"
+        android:id="@+id/rl_patient_visit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/writeColor">
@@ -72,50 +56,52 @@
             android:layout_centerVertical="true"
             android:text="1"
             android:padding="1dp"
-            android:id="@+id/tv_hzjz"
+            android:id="@+id/tv_unread_patient_visit"
             android:gravity="center"
+            android:visibility="gone"
             android:textColor="@color/writeColor"
             android:layout_toLeftOf="@+id/iv_arrow_right"
             android:layout_marginRight="20dp"/>
 
 
     </RelativeLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:layout_marginLeft="60dp"
-        android:background="@color/hintTextColor" />
+        android:layout_marginStart="60dp"
+        android:background="@color/color_eeeeee" />
     <RelativeLayout
-        android:id="@+id/rl_zhly"
+        android:id="@+id/rl_leave_msg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="1px"
         android:background="@color/writeColor">
 
         <ImageView
-            android:id="@+id/iv_zhly"
+            android:id="@+id/iv_leave_msg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="8dp"
-            android:src="@mipmap/home_news_zhly" />
+            android:src="@mipmap/bg_leave_msg" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="8dp"
-            android:layout_toRightOf="@+id/iv_zhly"
+            android:layout_toRightOf="@+id/iv_leave_msg"
             android:text="诊后留言"
             android:textColor="@color/blackColor" />
 
         <ImageView
+            android:id="@+id/iv_leave_msg_arrow_right"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="8dp"
-            android:id="@+id/hzjz_iv_arrow_right"
             android:src="@mipmap/roww_right" />
+
         <TextView
             android:layout_width="20dp"
             android:layout_height="20dp"
@@ -123,247 +109,53 @@
             android:layout_centerVertical="true"
             android:text="1"
             android:padding="1dp"
-            android:id="@+id/tv_zhly"
+            android:id="@+id/tv_unread_lieave_msg"
             android:gravity="center"
+            android:visibility="gone"
             android:textColor="@color/writeColor"
-            android:layout_toLeftOf="@+id/hzjz_iv_arrow_right"
+            android:layout_toLeftOf="@+id/iv_leave_msg_arrow_right"
             android:layout_marginRight="20dp"/>
+
+
     </RelativeLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:layout_marginLeft="60dp"
-        android:background="@color/hintTextColor" />
+        android:layout_marginStart="60dp"
+        android:background="@color/color_eeeeee" />
+
     <RelativeLayout
-        android:id="@+id/rl_add_patient"
+        android:id="@+id/rl_patient_sign"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
         android:background="@color/writeColor">
 
         <ImageView
-            android:id="@+id/iv_bdhz"
+            android:id="@+id/iv_patient_sign_msg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="8dp"
-            android:src="@mipmap/home_news_bdhz" />
+            android:src="@mipmap/bg_patient_sign" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="8dp"
-            android:layout_toRightOf="@+id/iv_bdhz"
-            android:text="添加患者"
-            android:textColor="@color/blackColor" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="8dp"
-            android:id="@+id/tjhz_iv_arrow_right"
-            android:src="@mipmap/roww_right" />
-        <TextView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:background="@mipmap/home_news_red_dot"
-            android:layout_centerVertical="true"
-            android:text="1"
-            android:padding="1dp"
-            android:id="@+id/tv_tjhz"
-            android:gravity="center"
-            android:textColor="@color/writeColor"
-            android:layout_toLeftOf="@+id/tjhz_iv_arrow_right"
-            android:layout_marginRight="20dp"/>
-    </RelativeLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:layout_marginLeft="60dp"
-        android:background="@color/hintTextColor" />
-    <RelativeLayout
-        android:id="@+id/rl_lmxx"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/writeColor">
-
-        <ImageView
-            android:id="@+id/iv_lmxx"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:src="@mipmap/home_news_lmxx" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="8dp"
-            android:layout_toRightOf="@+id/iv_lmxx"
-            android:text="联盟消息"
-            android:textColor="@color/blackColor" />
-
-
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="8dp"
-            android:id="@+id/lmxx_iv_arrow_right"
-            android:src="@mipmap/roww_right" />
-        <TextView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:background="@mipmap/home_news_red_dot"
-            android:layout_centerVertical="true"
-            android:text="1"
-            android:padding="1dp"
-            android:id="@+id/tv_lmxx"
-            android:gravity="center"
-            android:textColor="@color/writeColor"
-            android:layout_toLeftOf="@+id/lmxx_iv_arrow_right"
-            android:layout_marginRight="20dp"/>
-
-
-    </RelativeLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:layout_marginLeft="60dp"
-        android:background="@color/hintTextColor" />
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:id="@+id/ri_yjq"
-        android:layout_height="wrap_content"
-        android:background="@color/writeColor">
-
-        <ImageView
-            android:id="@+id/iv_yhqxx"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:src="@mipmap/home_news_yhqxx" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="8dp"
-            android:layout_toRightOf="@+id/iv_yhqxx"
-            android:text="医患圈消息"
-            android:textColor="@color/blackColor" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="8dp"
-            android:id="@+id/yhq_iv_arrow_right"
-            android:src="@mipmap/roww_right" />
-        <TextView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:background="@mipmap/home_news_red_dot"
-            android:layout_centerVertical="true"
-            android:text="1"
-            android:padding="1dp"
-            android:id="@+id/tv_yhq"
-            android:gravity="center"
-            android:textColor="@color/writeColor"
-            android:layout_toLeftOf="@+id/yhq_iv_arrow_right"
-            android:layout_marginRight="20dp"/>
-
-    </RelativeLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:layout_marginLeft="60dp"
-        android:background="@color/hintTextColor" />
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/ri_jjtx"
-        android:background="@color/writeColor">
-
-        <ImageView
-            android:id="@+id/iv_yctz"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:src="@mipmap/home_news_yctz" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="8dp"
-            android:layout_toRightOf="@+id/iv_yctz"
-            android:text="紧急提醒"
-            android:textColor="@color/blackColor" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="8dp"
-            android:id="@+id/jjtx_iv_arrow_right"
-            android:src="@mipmap/roww_right" />
-        <TextView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:background="@mipmap/home_news_red_dot"
-            android:layout_centerVertical="true"
-            android:text="1"
-            android:padding="1dp"
-            android:id="@+id/tv_jjtx"
-            android:gravity="center"
-            android:textColor="@color/writeColor"
-            android:layout_toLeftOf="@+id/jjtx_iv_arrow_right"
-            android:layout_marginRight="20dp"/>
-
-
-    </RelativeLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:layout_marginLeft="60dp"
-        android:background="@color/hintTextColor" />
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/ri_qyhz"
-        android:background="@color/writeColor">
-
-        <ImageView
-            android:id="@+id/iv_hzqy"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:src="@mipmap/home_news_hzqy" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="8dp"
-            android:layout_toRightOf="@+id/iv_hzqy"
+            android:layout_toRightOf="@+id/iv_patient_sign_msg"
             android:text="患者签约"
             android:textColor="@color/blackColor" />
 
         <ImageView
+            android:id="@+id/iv_patient_sign_arrow_right"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="8dp"
-            android:id="@+id/qyhz_iv_arrow_right"
             android:src="@mipmap/roww_right" />
+
         <TextView
             android:layout_width="20dp"
             android:layout_height="20dp"
@@ -371,48 +163,109 @@
             android:layout_centerVertical="true"
             android:text="1"
             android:padding="1dp"
-            android:id="@+id/tv_qyhz"
+            android:visibility="gone"
+            android:id="@+id/tv_unread_patient_sign_msg"
             android:gravity="center"
             android:textColor="@color/writeColor"
-            android:layout_toLeftOf="@+id/qyhz_iv_arrow_right"
+            android:layout_toLeftOf="@+id/iv_patient_sign_arrow_right"
             android:layout_marginRight="20dp"/>
+
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginStart="60dp"
+        android:background="@color/color_eeeeee" />
+
+
+
+
+    <RelativeLayout
+        android:id="@+id/rl_health_education"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/writeColor">
+
+        <ImageView
+            android:id="@+id/iv_health_education_msg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:src="@mipmap/bg_health_education" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="8dp"
+            android:layout_toRightOf="@+id/iv_health_education_msg"
+            android:text="健康教育"
+            android:textColor="@color/blackColor" />
+
+        <ImageView
+            android:id="@+id/iv_health_education_arrow_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="8dp"
+            android:src="@mipmap/roww_right" />
+
+        <TextView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@mipmap/home_news_red_dot"
+            android:layout_centerVertical="true"
+            android:text="1"
+            android:padding="1dp"
+            android:visibility="gone"
+            android:id="@+id/tv_unread_health_education_msg"
+            android:gravity="center"
+            android:textColor="@color/writeColor"
+            android:layout_toLeftOf="@+id/iv_health_education_arrow_right"
+            android:layout_marginRight="20dp"/>
+
 
     </RelativeLayout>
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:layout_marginLeft="60dp"
-        android:background="@color/hintTextColor" />
+        android:layout_marginStart="60dp"
+        android:background="@color/color_eeeeee" />
+
     <RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-        android:id="@+id/ri_xtxx"
-    android:background="@color/writeColor">
-
-    <ImageView
-        android:id="@+id/iv_xtxx"
-        android:layout_width="wrap_content"
+        android:id="@+id/rl_urgent_remind"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp"
-        android:src="@mipmap/home_news_xtxx" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="8dp"
-        android:layout_toRightOf="@+id/iv_xtxx"
-        android:text="系统消息"
-        android:textColor="@color/blackColor" />
+        android:background="@color/writeColor">
 
         <ImageView
+            android:id="@+id/iv_urgent_remind_msg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:src="@mipmap/bg_urgent_remind" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="8dp"
+            android:layout_toRightOf="@+id/iv_urgent_remind_msg"
+            android:text="紧急提醒"
+            android:textColor="@color/blackColor" />
+
+        <ImageView
+            android:id="@+id/iv_urgent_remind_arrow_right"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="8dp"
-            android:id="@+id/xtxx_iv_arrow_right"
             android:src="@mipmap/roww_right" />
+
         <TextView
             android:layout_width="20dp"
             android:layout_height="20dp"
@@ -420,16 +273,69 @@
             android:layout_centerVertical="true"
             android:text="1"
             android:padding="1dp"
-            android:id="@+id/tv_xtxx"
+            android:id="@+id/tv_unread_urgent_remind_msg"
             android:gravity="center"
+            android:visibility="gone"
             android:textColor="@color/writeColor"
-            android:layout_toLeftOf="@+id/xtxx_iv_arrow_right"
+            android:layout_toLeftOf="@+id/iv_urgent_remind_arrow_right"
             android:layout_marginRight="20dp"/>
 
-</RelativeLayout>
+
+    </RelativeLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:layout_marginLeft="60dp"
-        android:background="@color/hintTextColor" />
+        android:layout_marginStart="60dp"
+        android:background="@color/color_eeeeee" />
+
+    <RelativeLayout
+        android:id="@+id/rl_system_msg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/writeColor">
+
+        <ImageView
+            android:id="@+id/iv_system_msg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:src="@mipmap/bg_system_msg" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="8dp"
+            android:layout_toRightOf="@+id/iv_system_msg"
+            android:text="系统消息"
+            android:textColor="@color/blackColor" />
+
+        <ImageView
+            android:id="@+id/iv_system_msg_arrow_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="8dp"
+            android:src="@mipmap/roww_right" />
+
+        <TextView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@mipmap/home_news_red_dot"
+            android:layout_centerVertical="true"
+            android:text="1"
+            android:padding="1dp"
+            android:id="@+id/tv_unread_system_msg"
+            android:gravity="center"
+            android:visibility="gone"
+            android:textColor="@color/writeColor"
+            android:layout_toLeftOf="@+id/iv_system_msg_arrow_right"
+            android:layout_marginRight="20dp"/>
+
+
+    </RelativeLayout>
+
+    </LinearLayout>
 </LinearLayout>
