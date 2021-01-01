@@ -73,12 +73,11 @@
                 android:src="@mipmap/iv_home_message" />
 
             <ImageView
+                android:id="@+id/iv_unread_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toEndOf="@+id/iv_message"
-                android:src="@mipmap/bg_un_read"
-                android:id="@+id/iv_unread_icon"
-                >
+                android:src="@mipmap/bg_un_read">
 
 
             </ImageView>

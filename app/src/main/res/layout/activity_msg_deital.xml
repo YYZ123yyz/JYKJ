@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_eeeeee"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/title_bar"
+        layout="@layout/item_toolbar" />
+
+
+    <www.jykj.com.jykj_zxyl.app_base.base_view.ProgressWebView
+        android:id="@+id/wb_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/tv_immediate_btn"
+        android:layout_below="@+id/title_bar"
+        android:layout_marginBottom="20dp" />
+
+    <TextView
+        android:id="@+id/tv_immediate_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/bg_round_799dfe_17"
+        android:paddingStart="40dp"
+        android:paddingTop="4dp"
+        android:paddingEnd="40dp"
+        android:paddingBottom="4dp"
+        android:text="立即查看"
+        android:textColor="@color/white"
+        android:textSize="15sp">
+
+
+    </TextView>
+
+</RelativeLayout>

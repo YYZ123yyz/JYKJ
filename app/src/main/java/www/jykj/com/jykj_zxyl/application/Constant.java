@@ -57,7 +57,7 @@ public class Constant {
     /**
      * umeng appsecret
      */
-    public static final String UMENG_APP_SECRET="24d325ad92af1b6eba13a1bb4a2a074f";
+    public static final String UMENG_APP_SECRET="8dcf1b0b5dfe1915be8bdc7b3ee54811";
 
 
     /**

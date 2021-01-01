@@ -504,6 +504,10 @@
         <activity
             android:name=".medicalrecord.activity.AddDrugInfoActivity2"
             android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
+            />
+        <activity android:name=".activity.home.MessageListActivity"/>
+        <activity android:name=".activity.home.MessageListChildActivity"/>
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity
             android:name="com.tencent.rtmp.video.TXScreenCapture$TXScreenCaptureAssistantActivity"
@@ -572,6 +576,7 @@
         <activity android:name=".capitalpool.activity.SmallChangeActivity" />
         <activity android:name=".capitalpool.activity.SmallChangeActivity"/>
         <activity android:name=".capitalpool.activity.ModifyActivity" />
+        <activity android:name=".activity.home.news.MessageDetialActivity"/>
         <activity android:name=".activity.myreport.activity.ReportDetActivity" />
 
         <meta-data
