@@ -4,11 +4,11 @@
     android:layout_height="match_parent"
     android:background="@drawable/dialog_background"
     android:orientation="vertical"
-    android:paddingTop="10dp" >
+    android:paddingTop="10dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content">
 
         <TextView
             android:layout_width="match_parent"
@@ -25,28 +25,25 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="10dp"
-        android:orientation="horizontal" >
+        android:orientation="horizontal">
 
         <www.jykj.com.jykj_zxyl.util.widget.WheelView
             android:id="@+id/id_province"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1" >
-        </www.jykj.com.jykj_zxyl.util.widget.WheelView>
+            android:layout_weight="1"></www.jykj.com.jykj_zxyl.util.widget.WheelView>
 
         <www.jykj.com.jykj_zxyl.util.widget.WheelView
             android:id="@+id/id_city"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1" >
-        </www.jykj.com.jykj_zxyl.util.widget.WheelView>
+            android:layout_weight="1"></www.jykj.com.jykj_zxyl.util.widget.WheelView>
 
         <www.jykj.com.jykj_zxyl.util.widget.WheelView
             android:id="@+id/id_district"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1" >
-        </www.jykj.com.jykj_zxyl.util.widget.WheelView>
+            android:layout_weight="1"></www.jykj.com.jykj_zxyl.util.widget.WheelView>
     </LinearLayout>
 
     <Button
@@ -54,10 +51,10 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginTop="50dp"
-        android:gravity="center"
-        android:textSize="8pt"
         android:background="@mipmap/bg2"
+        android:gravity="center"
         android:text="确定"
-        android:textColor="#fff" />
+        android:textColor="#fff"
+        android:textSize="8pt" />
 
 </LinearLayout>

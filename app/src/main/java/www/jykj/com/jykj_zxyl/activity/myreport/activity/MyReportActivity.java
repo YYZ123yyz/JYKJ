@@ -1,5 +1,6 @@
 package www.jykj.com.jykj_zxyl.activity.myreport.activity;
 
+import android.content.Intent;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -28,7 +29,7 @@ import www.jykj.com.jykj_zxyl.util.ActivityUtil;
  * 我的报表
  */
 public class MyReportActivity extends AbstractMvpBaseActivity<MyReportContract.View,
-        MyReportPresenter> implements MyReportContract.View  {
+        MyReportPresenter> implements MyReportContract.View {
 
     private BaseToolBar toolbar;
     private ImageButton imageButtonE;
@@ -48,8 +49,8 @@ public class MyReportActivity extends AbstractMvpBaseActivity<MyReportContract.V
 
     protected void initView() {
         ActivityUtil.setStatusBarMain(this);
-        listreportbean=new ArrayList<>();
-        mApp= (JYKJApplication) getApplication();
+        listreportbean = new ArrayList<>();
+        mApp = (JYKJApplication) getApplication();
         myReportDialog = new MyReportDialog(this);
         imageButtonE = findViewById(R.id.right_image_search);
         toolbar = findViewById(R.id.toolbar);
@@ -63,18 +64,19 @@ public class MyReportActivity extends AbstractMvpBaseActivity<MyReportContract.V
     @Override
     protected void initData() {
         super.initData();
-   mPresenter.sendyReportRequest(mApp.loginDoctorPosition,mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(),
-           mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
+        mPresenter.sendyReportRequest(mApp.loginDoctorPosition, mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(),
+                mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
     }
 
-    @OnClick({R.id.tv_time,R.id.tv_select})
+    @OnClick({R.id.tv_time, R.id.tv_select})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_time:
+                startActivity(new Intent(MyReportActivity.this, ReportDetActivity.class));
                 break;
 
             case R.id.tv_select:
-                Log.e("TAG", "onClick: cccc"+"zoule " );
+                Log.e("TAG", "onClick: cccc" + "zoule ");
                 myReportDialog.show();
                 myReportDialog.setOnClickListener(new MyReportDialog.OnClickListener() {
                     @Override
@@ -149,7 +151,7 @@ public class MyReportActivity extends AbstractMvpBaseActivity<MyReportContract.V
 
     @Override
     public void getmyReportResult(List<ReportBean> reportBeans) {
-        if(reportBeans!=null){
+        if (reportBeans != null) {
             for (ReportBean reportBean : reportBeans) {
                 listreportbean.add(reportBean);
             }
