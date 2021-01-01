@@ -176,6 +176,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
+            android:id="@+id/tv_weichat"
             android:layout_toRightOf="@+id/iv_weichat"
             android:text="微信支付"
             android:textColor="@color/color_333333"
@@ -215,6 +216,7 @@
             android:layout_marginLeft="20dp"
             android:layout_toRightOf="@+id/iv_ali"
             android:text="支付宝支付"
+            android:id="@+id/tv_alipay"
             android:textColor="@color/color_333333"
             android:textSize="15sp" />
 

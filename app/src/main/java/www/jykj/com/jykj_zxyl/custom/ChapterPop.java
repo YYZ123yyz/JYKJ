@@ -3,7 +3,9 @@ package www.jykj.com.jykj_zxyl.custom;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.support.v4.content.ContextCompat;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,6 +32,8 @@ public class ChapterPop extends PopupWindow implements View.OnClickListener {
     private TextView priceTv;
     private TextView tvBalanceMoney;
     private TextView tvNotEnoughBalanceMoney;
+    private TextView tvWeiChat;
+    private TextView tvAlipay;
     private RelativeLayout balanceLayout;
     private RelativeLayout weichatLayout;
     private RelativeLayout aliLayout;
@@ -62,22 +66,25 @@ public class ChapterPop extends PopupWindow implements View.OnClickListener {
         tvBalanceMoney.setText(String.format("余额支付 （可用 :¥%s)", balanceMoney));
         tvNotEnoughBalanceMoney.setText(String.format("余额支付 （可用 :¥%s)", balanceMoney));
         if (StringUtils.isNotEmpty(mMoney)
-                &&StringUtils.isNotEmpty(balanceMoney)) {
+                && StringUtils.isNotEmpty(balanceMoney)) {
             double v = Double.parseDouble(mMoney);
             double v1 = Double.parseDouble(balanceMoney);
-            if (v<=v1) {
+            if (v <= v1) {
                 balanceLayout.setVisibility(View.VISIBLE);
                 rlMoneyNotEnough.setVisibility(View.GONE);
-            }else{
+            } else {
                 balanceLayout.setVisibility(View.GONE);
                 rlMoneyNotEnough.setVisibility(View.VISIBLE);
             }
+
         }
     }
 
 
 
     private void initView() {
+        tvWeiChat=mPopView.findViewById(R.id.tv_weichat);
+        tvAlipay=mPopView.findViewById(R.id.tv_alipay);
         priceTv = mPopView.findViewById(R.id.price_tv);
         tvBalanceMoney=mPopView.findViewById(R.id.tv_balance_money);
         balanceLayout = mPopView.findViewById(R.id.balace_layout);
@@ -131,7 +138,22 @@ public class ChapterPop extends PopupWindow implements View.OnClickListener {
 
     public void showPop(View view) {
         initData();
-        showHideIv(0);
+        double v = Double.parseDouble(mMoney);
+        if(v==0){
+            tvWeiChat.setTextColor(ContextCompat.getColor(mContext,R.color.color_999999));
+            tvAlipay.setTextColor(ContextCompat.getColor(mContext,R.color.color_999999));
+            showHideIv(0);
+        }else{
+            tvWeiChat.setTextColor(ContextCompat.getColor(mContext,R.color.color_333333));
+            tvAlipay.setTextColor(ContextCompat.getColor(mContext,R.color.color_333333));
+            if (balanceLayout.getVisibility()== View.GONE) {
+                showHideIv(1);
+            }else{
+                showHideIv(0);
+            }
+        }
+
+
         WindowManager.LayoutParams lp = mContext.getWindow().getAttributes();
         lp.alpha = 0.5f;
         mContext.getWindow().setAttributes(lp);
@@ -145,10 +167,17 @@ public class ChapterPop extends PopupWindow implements View.OnClickListener {
                 showHideIv(0);
                 break;
             case R.id.weichat_layout:
-                showHideIv(1);
+                double moneyWeiChat = Double.parseDouble(mMoney);
+                if (moneyWeiChat!=0) {
+                    showHideIv(1);
+                }
+
                 break;
             case R.id.ali_layout:
-                showHideIv(2);
+                double moneyAli = Double.parseDouble(mMoney);
+                if (moneyAli!=0) {
+                    showHideIv(2);
+                }
                 break;
             case R.id.iv_accept:
 
