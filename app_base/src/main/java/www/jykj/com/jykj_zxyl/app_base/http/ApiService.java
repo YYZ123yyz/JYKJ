@@ -607,5 +607,16 @@ public interface ApiService {
     Observable<String> operUpdMsgPushReminderState(@Query(value = "jsonDataInfo", encoded = true)
 
                                                            String queryJson);
+
+    //疾病类型
+    @POST("/doctorReportControlle/searchDoctorDiseaseTypeInfo")
+    Observable<String> getMyReport(@Query(value = "jsonDataInfo", encoded = true)
+                                              String queryJson);
+
+    //获取权限
+    @POST("/doctorReportControlle/searchDoctorReportUserGrade")
+    Observable<String> getAuthority(@Query(value = "jsonDataInfo", encoded = true)
+                                           String queryJson);
+
 }
 
