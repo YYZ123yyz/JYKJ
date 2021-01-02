@@ -1,6 +1,8 @@
 package www.jykj.com.jykj_zxyl.activity.myreport.activity;
 
 import android.content.Intent;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -27,6 +29,7 @@ import java.util.List;
 import butterknife.OnClick;
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.activity.myreport.activity.Contract.MyReportContract;
+import www.jykj.com.jykj_zxyl.activity.myreport.activity.adapter.RecyclerView_Adapter;
 import www.jykj.com.jykj_zxyl.activity.myreport.activity.bean.CommitBean;
 import www.jykj.com.jykj_zxyl.activity.myreport.activity.bean.DepartmentListBean;
 import www.jykj.com.jykj_zxyl.activity.myreport.activity.bean.ReportBean;
@@ -57,15 +60,28 @@ public class MyReportActivity extends AbstractMvpBaseActivity<MyReportContract.V
     private LinearLayout part_0;
     private ArrayList<DepartmentListBean> fListBeans;
     private ArrayList<DepartmentListBean.HospitalDepartmentListBean> sListBeans;
+    private RecyclerView_Adapter recyclerView_adapter;
+    private RecyclerView recy;
+    private LinearLayoutManager layoutManager;
+    private List<CommitBean>  list=new ArrayList<>();
     @Override
     protected int setLayoutId() {
         return R.layout.activity_my_report;
     }
 
     protected void initView() {
-        ActivityUtil.setStatusBarMain(this);
+     //   ActivityUtil.setStatusBarMain(this);
         listreportbean = new ArrayList<>();
         mApp = (JYKJApplication) getApplication();
+        recy = findViewById(R.id.recy);
+        //创建默认的线性LayoutManager
+        layoutManager = new LinearLayoutManager(this);
+        layoutManager.setOrientation(LinearLayout.VERTICAL);
+        recy.setLayoutManager(layoutManager);
+        //如果可以确定每个item的高度是固定的，设置这个选项可以提高性能
+        recy.setHasFixedSize(true);
+        recyclerView_adapter = new RecyclerView_Adapter(list);
+        recy.setAdapter(recyclerView_adapter);
         myReportDialog = new MyReportDialog(this);
         myReportDialog.setOnDevChoose(new MyReportDialog.onDevChoose() {
             @Override
@@ -82,7 +98,7 @@ public class MyReportActivity extends AbstractMvpBaseActivity<MyReportContract.V
 
             @Override
             public void onCommit() {
-                getcoommit();
+             //   getcoommit();
             }
 
         });
@@ -118,6 +134,7 @@ public class MyReportActivity extends AbstractMvpBaseActivity<MyReportContract.V
     @Override
     protected void initData() {
         super.initData();
+        getcoommit();
         mPresenter.sendyReportRequest(mApp.loginDoctorPosition, mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(),
                 mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
       //  mPresenter.getDetList(getParams());
@@ -196,15 +213,15 @@ public class MyReportActivity extends AbstractMvpBaseActivity<MyReportContract.V
 
 
     public void  getcoommit(){
-        String s = tv_time.getText().toString();
+       /* String s = tv_time.getText().toString();
         if(TextUtils.isEmpty(s)){
             ToastUtils.showShort("请选择日期");
             return;
-        }
+        }*/
         mPresenter.getInquireRequest(mApp.loginDoctorPosition, mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode()
-        , mApp.mViewSysUserDoctorInfoAndHospital.getUserName(), "10", s,
-                "1", "3", "",
-                mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
+        , mApp.mViewSysUserDoctorInfoAndHospital.getUserName(), "10", "2020-12",
+                "1", "", "",
+                "");
 
     }
 
@@ -245,7 +262,12 @@ public class MyReportActivity extends AbstractMvpBaseActivity<MyReportContract.V
     @Override
     public void getInquireResult(List<CommitBean> commitBeans) {
         if(commitBeans!=null){
-
+            for (CommitBean commitBean : commitBeans) {
+                list.add(commitBean);
+            }
+            recyclerView_adapter.setDate(list);
+            recy.setAdapter(recyclerView_adapter);
+            recyclerView_adapter.notifyDataSetChanged();
         }
     }
 }

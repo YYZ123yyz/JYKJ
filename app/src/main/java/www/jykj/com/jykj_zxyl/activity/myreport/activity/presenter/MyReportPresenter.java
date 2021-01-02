@@ -146,7 +146,7 @@ public class MyReportPresenter    extends
                 if (mView != null) {
                     int resCode = baseBean.getResCode();
                     if (resCode == 1) {
-                        LogUtils.e("xx"  +baseBean.getResJsonData());
+                        LogUtils.e("查看数据"  +baseBean.getResJsonData());
                         List<CommitBean> commitBeans = GsonUtils.jsonToList(baseBean.getResJsonData(), CommitBean.class);
                         mView.getInquireResult(commitBeans);
                         //   mView.getSearchMyClinicDetailResPatientMessageContentResult(diagnosisReplayBean);
