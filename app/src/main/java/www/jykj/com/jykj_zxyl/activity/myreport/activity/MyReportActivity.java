@@ -1,25 +1,38 @@
 package www.jykj.com.jykj_zxyl.activity.myreport.activity;
 
 import android.content.Intent;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
+import com.bigkoo.pickerview.builder.TimePickerBuilder;
 import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
+import com.bigkoo.pickerview.listener.OnTimeSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
+import com.bigkoo.pickerview.view.TimePickerView;
+import com.blankj.utilcode.util.LogUtils;
+import com.blankj.utilcode.util.ToastUtils;
+import com.hyphenate.easeui.jykj.utils.DateUtils;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.OnClick;
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.activity.myreport.activity.Contract.MyReportContract;
+import www.jykj.com.jykj_zxyl.activity.myreport.activity.bean.CommitBean;
+import www.jykj.com.jykj_zxyl.activity.myreport.activity.bean.DepartmentListBean;
 import www.jykj.com.jykj_zxyl.activity.myreport.activity.bean.ReportBean;
 import www.jykj.com.jykj_zxyl.activity.myreport.activity.presenter.MyReportPresenter;
 import www.jykj.com.jykj_zxyl.app_base.base_view.BaseToolBar;
+import www.jykj.com.jykj_zxyl.app_base.http.RetrofitUtil;
 import www.jykj.com.jykj_zxyl.app_base.mvp.AbstractMvpBaseActivity;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.custom.MoreFeaturesPopupWindow;
@@ -41,7 +54,9 @@ public class MyReportActivity extends AbstractMvpBaseActivity<MyReportContract.V
     private String diseaseTypeName;
     private TextView disease;
     private String diseaseTypeCode;
-
+    private LinearLayout part_0;
+    private ArrayList<DepartmentListBean> fListBeans;
+    private ArrayList<DepartmentListBean.HospitalDepartmentListBean> sListBeans;
     @Override
     protected int setLayoutId() {
         return R.layout.activity_my_report;
@@ -52,6 +67,26 @@ public class MyReportActivity extends AbstractMvpBaseActivity<MyReportContract.V
         listreportbean = new ArrayList<>();
         mApp = (JYKJApplication) getApplication();
         myReportDialog = new MyReportDialog(this);
+        myReportDialog.setOnDevChoose(new MyReportDialog.onDevChoose() {
+            @Override
+            public void onDevChoose() {
+                showNomalX2Dialog();
+            }
+
+            @Override
+            public void onDiseaseChoose() {
+                //疾病选择
+                showNomalDiaglog();
+            }
+
+
+            @Override
+            public void onCommit() {
+                getcoommit();
+            }
+
+        });
+        part_0 = findViewById(R.id.part_0);
         imageButtonE = findViewById(R.id.right_image_search);
         toolbar = findViewById(R.id.toolbar);
         //选择时间
@@ -61,70 +96,72 @@ public class MyReportActivity extends AbstractMvpBaseActivity<MyReportContract.V
         setToolBar();
     }
 
+    private void showNomalX2Dialog() {
+        if (fListBeans != null && sListBeans != null) {
+            ChooseDepDialog chooseNomalDIglog = new ChooseDepDialog(this);
+
+            chooseNomalDIglog.show();
+            chooseNomalDIglog.setData(fListBeans, sListBeans);
+        }
+
+    }
+
+
+    private void showNomalDiaglog() {
+        ChooseNomalDialog chooseNomalDIglog = new ChooseNomalDialog(this);
+        chooseNomalDIglog.setType(0);
+        chooseNomalDIglog.setData(getDayStrList(), null);
+        chooseNomalDIglog.show();
+    }
+
+
     @Override
     protected void initData() {
         super.initData();
         mPresenter.sendyReportRequest(mApp.loginDoctorPosition, mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(),
                 mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
+      //  mPresenter.getDetList(getParams());
+
     }
 
     @OnClick({R.id.tv_time, R.id.tv_select})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_time:
-                startActivity(new Intent(MyReportActivity.this, ReportDetActivity.class));
+                showCalendarDialog();
+            //    startActivity(new Intent(MyReportActivity.this, ReportDetActivity.class));
                 break;
 
             case R.id.tv_select:
-                Log.e("TAG", "onClick: cccc" + "zoule ");
-                myReportDialog.show();
-                myReportDialog.setOnClickListener(new MyReportDialog.OnClickListener() {
-                    @Override
-                    public void onClickSucessBtn() {
-
-                    }
-
-                    @Override
-                    public void disease() {
-                        //选择疾病
-                        showDrugDosageDialog();
-                    }
-
-                    @Override
-                    public void department() {
-
-                    }
-                });
+                myReportDialog.showPop(part_0);
                 break;
         }
     }
 
-    private void showDrugDosageDialog() {
-        OptionsPickerView optionPickUnit = new OptionsPickerBuilder(this, new OnOptionsSelectListener() {
 
+    private void showCalendarDialog() {
+        TimePickerView timePickerView = new TimePickerBuilder(this, new OnTimeSelectListener() {
             @Override
-            public void onOptionsSelect(int options1, int options2, int options3, View v) {
-                diseaseTypeName = listreportbean.get(options1).getDiseaseTypeName();
-                diseaseTypeCode = listreportbean.get(options1).getDiseaseTypeCode();
-                disease = myReportDialog.findViewById(R.id.tv_disease);
-                disease.setText(diseaseTypeName);
-
+            public void onTimeSelect(Date date, View v) {
+                String dateTime = DateUtils.getDateYYYMM(date);
+                tv_time.setText(dateTime);
             }
-        })
-                .setCancelColor(getResources().getColor(com.hyphenate.easeui.R.color.textColor_vt))
-                .setSubmitColor(getResources().getColor(com.hyphenate.easeui.R.color.textColor_hzgltabzc))
-                .setSelectOptions(0).build();
 
-        optionPickUnit.setNPicker(getDayStrList(listreportbean), null, null);
-        optionPickUnit.show();
-
+        }).setCancelColor(getResources().getColor(com.hyphenate.easeui.R.color.textColor_vt)).setSubmitColor(getResources().getColor(com.hyphenate.easeui.R.color.textColor_hzgltabzc))
+                .setType(new boolean[]{true, true, false, false, false, false})
+                .setLabel("年", "月", "", "", "", "").build();
+        timePickerView.show();
     }
 
-    private List<String> getDayStrList(List<ReportBean> report) {
-        List<String> list = new ArrayList<>();
-        for (ReportBean reportBean : report) {
-            list.add(reportBean.getDiseaseTypeName());
+
+    private ArrayList<String> getDayStrList() {
+        ArrayList<String> list = new ArrayList<>();
+        if (listreportbean != null) {
+            for (ReportBean reportBean : listreportbean) {
+                list.add(reportBean.getDiseaseTypeName());
+            }
         }
+
         return list;
     }
 
@@ -149,12 +186,66 @@ public class MyReportActivity extends AbstractMvpBaseActivity<MyReportContract.V
 
     }
 
+    public String getParams() {
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("loginDoctorPosition", mApp.loginDoctorPosition);
+        hashMap.put("operDoctorCode", mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
+        hashMap.put("operDoctorName", mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
+        return RetrofitUtil.encodeParam(hashMap);
+    }
+
+
+    public void  getcoommit(){
+        String s = tv_time.getText().toString();
+        if(TextUtils.isEmpty(s)){
+            ToastUtils.showShort("请选择日期");
+            return;
+        }
+        mPresenter.getInquireRequest(mApp.loginDoctorPosition, mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode()
+        , mApp.mViewSysUserDoctorInfoAndHospital.getUserName(), "10", s,
+                "1", "3", "",
+                mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
+
+    }
+
+
     @Override
     public void getmyReportResult(List<ReportBean> reportBeans) {
         if (reportBeans != null) {
             for (ReportBean reportBean : reportBeans) {
                 listreportbean.add(reportBean);
             }
+        }
+    }
+
+    @Override
+    public void getDetListSucess(List<DepartmentListBean> data) {
+        LogUtils.e("请求接口   呦呦呦    总共  "+data.size());
+        fListBeans = new ArrayList<>();
+        sListBeans = new ArrayList<>();
+
+        for (int i = 0; i < data.size(); i++) {
+            fListBeans.add(data.get(i));
+            LogUtils.e("请求接口   呦呦呦   实体类 "+   i +"            "+data.get(i).getHospitalDepartmentList());
+
+
+            if (data.get(i).getHospitalDepartmentList() !=null){
+
+                LogUtils.e("请求接口   呦呦呦   尺寸   "+data.get(i).getHospitalDepartmentList().size());
+
+                for (int j = 0; j < data.get(i).getHospitalDepartmentList().size(); j++) {
+                    sListBeans.add(data.get(i).getHospitalDepartmentList().get(j));
+                }
+            }
+
+
+        }
+    }
+
+    @Override
+    public void getInquireResult(List<CommitBean> commitBeans) {
+        if(commitBeans!=null){
+
         }
     }
 }

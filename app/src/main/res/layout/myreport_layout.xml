@@ -1,16 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#FFEEEEEE"
-    android:orientation="vertical">
-    <!--统计分类-->
+    android:layout_height="wrap_content"
+    android:background="@color/color_eeeeee"
+    >
+
     <LinearLayout
-        android:layout_marginLeft="@dimen/dp10"
-        android:layout_marginRight="@dimen/dp10"
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="40dp">
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+
+        android:background="@color/color_eeeeee"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_marginLeft="@dimen/dp10"
+            android:layout_marginRight="@dimen/dp10"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="40dp">
             <TextView
                 android:layout_weight="1"
                 android:textColor="#000"
@@ -19,154 +27,165 @@
                 android:text="统计分类"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
-        <RadioGroup
-            android:id="@+id/examination_radio"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical|end"
-            android:layout_marginRight="10dp"
+            <RadioGroup
+                android:id="@+id/examination_radio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|end"
+                android:layout_marginRight="10dp"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:textColor="#999999"
+                    android:layout_marginRight="@dimen/dp10"
+                    android:id="@+id/radio_yes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:button="@null"
+                    android:drawableLeft="@drawable/selector_check"
+                    android:drawablePadding="4dp"
+                    android:text="明细" />
+
+                <RadioButton
+                    android:textColor="#999999"
+                    android:id="@+id/radio_no"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:button="@null"
+                    android:drawableLeft="@drawable/selector_check"
+                    android:drawablePadding="4dp"
+                    android:text="疾病" />
+
+            </RadioGroup>
+        </LinearLayout>
+
+        <!--疾病类型-->
+        <LinearLayout
+            android:id="@+id/disease_class"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_40"
+            android:layout_marginLeft="@dimen/dp10"
+            android:layout_marginRight="@dimen/dp10"
             android:orientation="horizontal">
 
-            <RadioButton
-                android:textColor="#999999"
-                android:layout_marginRight="@dimen/dp10"
-                android:id="@+id/radio_yes"
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:button="@null"
-                android:drawableLeft="@drawable/selector_check"
-                android:drawablePadding="4dp"
-                android:text="明细" />
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:text="疾病类型"
+                android:textColor="#000"
+                android:textSize="@dimen/sp_16" />
 
-            <RadioButton
-                android:textColor="#999999"
-                android:id="@+id/radio_no"
+            <TextView
+                android:id="@+id/tv_disease"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:button="@null"
-                android:drawableLeft="@drawable/selector_check"
-                android:drawablePadding="4dp"
-                android:text="疾病" />
+                android:layout_gravity="center_vertical"
+                android:text="请选择" />
 
-        </RadioGroup>
-    </LinearLayout>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#FFD1D1D1"
-        />
-    <!--疾病类型-->
-    <LinearLayout
-        android:id="@+id/disease_class"
-        android:layout_marginRight="@dimen/dp10"
-        android:layout_marginLeft="@dimen/dp10"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_40">
-        <TextView
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:textSize="@dimen/sp_16"
-            android:text="疾病类型"
-            android:textColor="#000"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-        <TextView
-            android:id="@+id/tv_disease"
-            android:layout_gravity="center_vertical"
-            android:text="请选择"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginRight="10dp"
-            android:src="@mipmap/arrow_r" />
-    </LinearLayout>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#FFD1D1D1"
-        />
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="10dp"
+                android:src="@mipmap/arrow_r" />
+        </LinearLayout>
 
-    <!--科室-->
-    <LinearLayout
-        android:id="@+id/department_class"
-        android:layout_marginRight="@dimen/dp10"
-        android:layout_marginLeft="@dimen/dp10"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_40">
         <TextView
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:textSize="@dimen/sp_16"
-            android:text="科室"
-            android:textColor="#000"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#FFD1D1D1" />
+
+        <!--科室-->
+        <LinearLayout
+            android:id="@+id/department_class"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_40"
+            android:layout_marginLeft="@dimen/dp10"
+            android:layout_marginRight="@dimen/dp10"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:text="科室"
+                android:textColor="#000"
+                android:textSize="@dimen/sp_16" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="请选择" />
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="10dp"
+                android:src="@mipmap/arrow_r" />
+        </LinearLayout>
+
         <TextView
-            android:layout_gravity="center_vertical"
-            android:text="请选择"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginRight="10dp"
-            android:src="@mipmap/arrow_r" />
-    </LinearLayout>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#FFD1D1D1"
-        />
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#FFD1D1D1" />
 
 
-    <LinearLayout
-        android:layout_marginRight="@dimen/dp10"
-        android:layout_marginLeft="@dimen/dp10"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_40">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_40"
+            android:layout_marginLeft="@dimen/dp10"
+            android:layout_marginRight="@dimen/dp10"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:text="姓名"
+                android:textColor="#000"
+                android:textSize="@dimen/sp_16" />
+
+            <EditText
+                android:id="@+id/et_sny"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="10dp"
+                android:background="@null"
+                android:gravity="right"
+                android:hint="请输入医生姓名"
+                android:textColor="@color/textColor_vt"
+                android:textSize="8pt" />
+
+        </LinearLayout>
+
         <TextView
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:textSize="@dimen/sp_16"
-            android:text="姓名"
-            android:textColor="#000"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-        <EditText
-            android:id="@+id/et_sny"
-            android:gravity="right"
-            android:layout_marginRight="10dp"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:background="@null"
-            android:hint="请输入医生姓名"
-            android:textColor="@color/textColor_vt"
-            android:textSize="8pt" />
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#FFD1D1D1" />
+
+        <TextView
+            android:id="@+id/commit"
+            android:layout_width="67.5dp"
+            android:layout_height="@dimen/dp_30"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/dp_20"
+            android:background="@drawable/bg_round_ff799dee"
+            android:gravity="center"
+            android:text="确定"
+            android:layout_marginBottom="20dp"
+            android:textColor="#fff" />
+
 
     </LinearLayout>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#FFD1D1D1"
-        />
 
-    <TextView
-        android:id="@+id/commit"
-        android:textColor="#fff"
-        android:background="@drawable/bg_round_ff799dee"
-        android:gravity="center"
-        android:layout_marginTop="@dimen/dp_20"
-        android:text="确定"
-        android:layout_gravity="center_horizontal"
-        android:layout_width="67.5dp"
-        android:layout_height="@dimen/dp_30"/>
 
-</LinearLayout>
+
+
+</RelativeLayout>

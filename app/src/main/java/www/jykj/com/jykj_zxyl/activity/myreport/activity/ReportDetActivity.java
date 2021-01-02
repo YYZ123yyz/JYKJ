@@ -35,7 +35,8 @@ import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.custom.MoreFeaturesPopupWindow;
 import www.jykj.com.jykj_zxyl.util.Util;
 
-public class ReportDetActivity extends AbstractMvpBaseActivity<ReportDetContract.View, ReportDetPresenter> implements ReportDetContract.View {
+public class ReportDetActivity extends AbstractMvpBaseActivity<ReportDetContract.View,
+        ReportDetPresenter> implements ReportDetContract.View {
 
     @BindView(R.id.toolbar)
     BaseToolBar toolbar;
@@ -87,6 +88,11 @@ public class ReportDetActivity extends AbstractMvpBaseActivity<ReportDetContract
             public void onDiseaseChoose() {
 //                showDrugDosageDialog();
                 showNomalDiaglog();
+            }
+
+            @Override
+            public void onCommit() {
+
             }
         });
     }

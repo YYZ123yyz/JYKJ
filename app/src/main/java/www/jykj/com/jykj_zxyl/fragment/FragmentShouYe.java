@@ -57,6 +57,7 @@ import www.jykj.com.jykj_zxyl.activity.home.QRCodeActivity;
 import www.jykj.com.jykj_zxyl.activity.home.tjhz.AddPatientActivity;
 import www.jykj.com.jykj_zxyl.activity.hyhd.BindDoctorFriend;
 import www.jykj.com.jykj_zxyl.activity.myreport.activity.MyReportActivity;
+import www.jykj.com.jykj_zxyl.activity.myreport.activity.ReportDetActivity;
 import www.jykj.com.jykj_zxyl.activity.myreport.activity.bean.AuthorityBean;
 import www.jykj.com.jykj_zxyl.activity.myself.UserAuthenticationActivity;
 import www.jykj.com.jykj_zxyl.adapter.TittleFragmentAdapter;

@@ -125,6 +125,8 @@ public class StatisticsDialog extends PopupWindow implements View.OnClickListene
         void onDevChoose();
 
         void onDiseaseChoose();
+
+        void onCommit();
     }
 
 }
