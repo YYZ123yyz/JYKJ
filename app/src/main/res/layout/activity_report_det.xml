@@ -202,9 +202,193 @@
             android:background="@color/color_eeeeee" />
 
 
-        <android.support.v7.widget.RecyclerView
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="40dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="一次性就诊人次"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                 />
+
+
+            <TextView
+                android:id="@+id/oneTimeVisitNum_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:text="人民币100"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                 />
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="一次性就诊人数"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                />
+
+
+            <TextView
+                android:id="@+id/oneTimeVisitCount_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:text="人民币100"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                />
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="一次性就诊冻结金额"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                />
+
+
+            <TextView
+                android:id="@+id/oneTimeVisitFrozenAmount_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:text="人民币100"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                />
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="一次性就诊金额"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                />
+
+
+            <TextView
+                android:id="@+id/oneTimeVisitAmount_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:text="人民币100"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                />
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="一次性就诊退费人数"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                />
+
+
+            <TextView
+                android:id="@+id/oneTimeVisitRefundCount_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:text="人民币100"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                />
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="一次性就诊退费金额"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                />
+
+
+            <TextView
+                android:id="@+id/oneTimeVisitRefundAmount_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:text="人民币100"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                />
+
+
+        </RelativeLayout>
+
+
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -224,6 +408,7 @@
 
 
             <TextView
+                android:id="@+id/all_money_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
