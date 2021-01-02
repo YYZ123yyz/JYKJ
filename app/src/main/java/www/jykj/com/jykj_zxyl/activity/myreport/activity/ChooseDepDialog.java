@@ -26,6 +26,9 @@ import www.jykj.com.jykj_zxyl.activity.home.yslm.CreateUnionActivity;
 import www.jykj.com.jykj_zxyl.activity.home.yslm.DoctorUnionInviteMemberActivity;
 import www.jykj.com.jykj_zxyl.activity.home.yslm.JoinDoctorsUnionActivity;
 import www.jykj.com.jykj_zxyl.activity.home.yslm.UpdateUnionActivity;
+import www.jykj.com.jykj_zxyl.activity.myreport.activity.adapter.DesecAdapter;
+import www.jykj.com.jykj_zxyl.activity.myreport.activity.adapter.DevAdapter;
+import www.jykj.com.jykj_zxyl.activity.myreport.activity.bean.DepartmentListBean;
 import www.jykj.com.jykj_zxyl.activity.myself.UserCenterActivity;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.util.widget.OnWheelChangedListener;
@@ -33,9 +36,40 @@ import www.jykj.com.jykj_zxyl.util.widget.WheelView;
 import www.jykj.com.jykj_zxyl.util.widget.adapters.ArrayWheelAdapter;
 import www.jykj.com.jykj_zxyl.util.widget.adapters.BirthdayWheelAdapter;
 
-public class ChooseNomalDialog extends Dialog implements
-        android.view.View.OnClickListener{
+public class ChooseDepDialog extends Dialog implements
+        android.view.View.OnClickListener, OnWheelChangedListener {
     private JYKJApplication mApp;
+    private CreateUnionActivity mCreateActivity;
+    private JoinDoctorsUnionActivity mJoinUnionActivity;
+    private DoctorUnionInviteMemberActivity mDoctorUnionInviteMemberActivity;
+    private UpdateUnionActivity mUpdateUnionActivity;
+    private UserCenterActivity mUserCenterActivity;
+
+
+    /**
+     * 市
+     */
+    protected List<DepartmentListBean.HospitalDepartmentListBean> mCityList = new ArrayList<>();
+
+    /**
+     * 区
+     */
+    protected List<ProvideBasicsRegion> mDistList = new ArrayList<>();
+
+
+    private ArrayList<DepartmentListBean> mfDta;
+    private ArrayList<DepartmentListBean.HospitalDepartmentListBean> msData;
+
+
+    /**
+     * 当前省
+     */
+    protected DepartmentListBean mCurrentProviceName;
+    /**
+     * 当前市
+     */
+    protected ProvideBasicsRegion mCurrentCityName;
+
 
     private Context context;
     private WheelView mViewProvince;
@@ -43,12 +77,9 @@ public class ChooseNomalDialog extends Dialog implements
 
     private TextView mBtnConfirm;
 
-    private int intoActivity;
-    private ArrayList<String> mDepList;
-    private ArrayList<String> mDisList;
-    private int mType = 0;
+    private List<DepartmentListBean> mData;
 
-    public ChooseNomalDialog(Context context) {
+    public ChooseDepDialog(Context context) {
         super(context, R.style.DialogTheme);
         this.context = context;
         this.mApp = (JYKJApplication) context.getApplicationContext();
@@ -65,9 +96,8 @@ public class ChooseNomalDialog extends Dialog implements
 
         mViewProvince = (WheelView) view.findViewById(R.id.id_department);
         mViewCity = (WheelView) view.findViewById(R.id.id_disease);
-
+        mViewCity.setVisibility(View.VISIBLE);
         mBtnConfirm = (TextView) view.findViewById(R.id.btn_confirm);
-
 
         Window window = getWindow();
         window.getDecorView().setPadding(0, 0, 0, 0);
@@ -78,10 +108,14 @@ public class ChooseNomalDialog extends Dialog implements
         window.setGravity(Gravity.BOTTOM);
         setUpListener();
         setUpData(context);
+
         setContentView(view);
     }
 
     private void setUpListener() {
+        // 添加change事件
+        mViewProvince.addChangingListener(this);
+        // 添加change事件
 
 
         // 添加onclick事件
@@ -89,49 +123,17 @@ public class ChooseNomalDialog extends Dialog implements
     }
 
     private void setUpData(Context context) {
+        mfDta = new ArrayList<DepartmentListBean>();
+        msData = new ArrayList<DepartmentListBean.HospitalDepartmentListBean>();
 
+
+        mViewProvince.setViewAdapter(new DevAdapter<DepartmentListBean>(context, mfDta
+        ));
         // 设置可见条目数量
-        mViewProvince.setVisibleItems(5);
-        mViewCity.setVisibleItems(5);
+        mViewProvince.setVisibleItems(7);
 
 
-        if (mType == 1) {
-            mViewCity.setVisibility(View.VISIBLE);
-            updateAreas();
-        } else {
-            mViewCity.setVisibility(View.GONE);
-        }
-        updateCities();
-
-    }
-
-    private void updateAreas() {
-        if (mDisList != null) {
-            mViewProvince.setViewAdapter(new BirthdayWheelAdapter<String>(context, mDisList));
-            mViewProvince.setCurrentItem(0);
-        }
-    }
-
-    private void updateCities() {
-        if (mDepList != null) {
-            mViewProvince.setViewAdapter(new BirthdayWheelAdapter<String>(context, mDepList));
-            mViewProvince.setCurrentItem(0);
-        }
-
-
-    }
-
-    @Override
-    public void show() {
-        super.show();
-
-        if (mType == 1) {
-            mViewCity.setVisibility(View.VISIBLE);
-            updateAreas();
-        } else {
-            mViewCity.setVisibility(View.GONE);
-        }
-        updateCities();
+        updateCities(context);
 
     }
 
@@ -147,17 +149,42 @@ public class ChooseNomalDialog extends Dialog implements
 
     }
 
-    public void setType(int type) {
-        this.mType = type;
+    @Override
+    public void onChanged(WheelView wheel, int oldValue, int newValue) {
+        // TODO Auto-generated method stub
+        if (wheel == mViewProvince) {
+            updateCities(context);
+        }
     }
 
 
-    public void setData(ArrayList<String> depList, ArrayList<String> diseaseList) {
-        LogUtils.e("弹窗尺寸   " + depList.size());
-        mDepList = depList;
-        mDisList = diseaseList;
-    }
+    /**
+     * 根据当前的省，更新市WheelView的信息
+     */
+    private void updateCities(Context context) {
 
+        LogUtils.e("xxxxxxxxxxxxxxxxxxx  mfDta  "+mfDta.size());
+        LogUtils.e("xxxxxxxxxxxxxxxxxxx  msData  "+msData.size());
+        int pCurrent = mViewProvince.getCurrentItem();
+        if (mfDta .size() ==0 ){
+            return;
+        }
+        mCurrentProviceName = mfDta.get(pCurrent);
+        List<DepartmentListBean.HospitalDepartmentListBean> list = new ArrayList<>();
+
+
+        for (int i = 0; i < msData.size(); i++) {
+            if (msData.get(i).getParentId() == (mCurrentProviceName.getHospitalDepartmentId())) {
+                list.add(msData.get(i));
+            }
+        }
+        mCityList = list;
+        mViewCity
+                .setViewAdapter(new DesecAdapter<DepartmentListBean.HospitalDepartmentListBean>(context, list));
+        mViewCity.setCurrentItem(0);
+        mViewCity.setVisibleItems(7);
+
+    }
 
     private void showSelectedResult(Context context) {
 
@@ -165,6 +192,12 @@ public class ChooseNomalDialog extends Dialog implements
         this.dismiss();
     }
 
+    public void setData(ArrayList<DepartmentListBean> fDta, ArrayList<DepartmentListBean.HospitalDepartmentListBean> sData) {
+        mfDta.addAll(fDta);
+        msData.addAll(sData);
+        updateCities(context);
+
+    }
 
 
 }

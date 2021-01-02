@@ -59,7 +59,7 @@
             <www.jykj.com.jykj_zxyl.util.widget.WheelView
                 android:id="@+id/id_disease"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="260dp"
                 android:visibility="gone"
                 android:layout_weight="1" />
 

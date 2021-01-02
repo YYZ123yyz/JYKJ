@@ -25,6 +25,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.activity.myreport.activity.Contract.ReportDetContract;
+import www.jykj.com.jykj_zxyl.activity.myreport.activity.bean.DepartmentListBean;
 import www.jykj.com.jykj_zxyl.activity.myreport.activity.bean.ReportBean;
 import www.jykj.com.jykj_zxyl.activity.myreport.activity.presenter.ReportDetPresenter;
 import www.jykj.com.jykj_zxyl.app_base.base_view.BaseToolBar;
@@ -62,6 +63,8 @@ public class ReportDetActivity extends AbstractMvpBaseActivity<ReportDetContract
     private int mSignType = 0;//一次性
     private List<ReportBean> mReportBeans;
     private StatisticsDialog myReportDialog;
+    private ArrayList<DepartmentListBean> fListBeans;
+    private ArrayList<DepartmentListBean.HospitalDepartmentListBean> sListBeans;
 
     @Override
     protected int setLayoutId() {
@@ -77,7 +80,7 @@ public class ReportDetActivity extends AbstractMvpBaseActivity<ReportDetContract
         myReportDialog.setOnDevChoose(new StatisticsDialog.onDevChoose() {
             @Override
             public void onDevChoose() {
-
+                showNomalX2Dialog();
             }
 
             @Override
@@ -88,6 +91,16 @@ public class ReportDetActivity extends AbstractMvpBaseActivity<ReportDetContract
         });
     }
 
+    private void showNomalX2Dialog() {
+        if (fListBeans != null && sListBeans != null) {
+            ChooseDepDialog chooseNomalDIglog = new ChooseDepDialog(this);
+
+            chooseNomalDIglog.show();
+            chooseNomalDIglog.setData(fListBeans, sListBeans);
+        }
+
+    }
+
 
     @Override
     protected void initData() {
@@ -95,6 +108,7 @@ public class ReportDetActivity extends AbstractMvpBaseActivity<ReportDetContract
         mApp = (JYKJApplication) getApplication();
         mReportBeans = new ArrayList<>();
         mPresenter.sendyReportRequest(getParams());
+        mPresenter.getDetList(getParams());
     }
 
     @Override
@@ -158,17 +172,17 @@ public class ReportDetActivity extends AbstractMvpBaseActivity<ReportDetContract
         timePickerView.show();
     }
 
-    private void showNomalDiaglog(){
+    private void showNomalDiaglog() {
         ChooseNomalDialog chooseNomalDIglog = new ChooseNomalDialog(this);
         chooseNomalDIglog.setType(0);
-        chooseNomalDIglog.setData(getDayStrList(),null);
+        chooseNomalDIglog.setData(getDayStrList(), null);
         chooseNomalDIglog.show();
     }
 
 
     private ArrayList<String> getDayStrList() {
         ArrayList<String> list = new ArrayList<>();
-        if (mReportBeans != null){
+        if (mReportBeans != null) {
             for (ReportBean reportBean : mReportBeans) {
                 list.add(reportBean.getDiseaseTypeName());
             }
@@ -179,11 +193,60 @@ public class ReportDetActivity extends AbstractMvpBaseActivity<ReportDetContract
 
 
 
+    private ArrayList<String> getFStringList(){
+        ArrayList<String> list = new ArrayList<>();
+        if (fListBeans != null) {
+            for (DepartmentListBean reportBean : fListBeans) {
+                list.add(reportBean.getDepartmentName());
+            }
+        }
+
+        return list;
+    }
+
+    private ArrayList<String> getSStringList(){
+        ArrayList<String> list = new ArrayList<>();
+        if (sListBeans != null) {
+            for (DepartmentListBean.HospitalDepartmentListBean reportBean : sListBeans) {
+                list.add(reportBean.getDepartmentName());
+            }
+        }
+
+        return list;
+    }
+
     @Override
     public void getmyReportResult(List<ReportBean> reportBeans) {
-        LogUtils.e("传过来   "+reportBeans.size());
+        LogUtils.e("传过来   " + reportBeans.size());
         if (reportBeans != null) {
             mReportBeans = reportBeans;
+            LogUtils.e("真实尺寸    " + mReportBeans.size());
+        }
+    }
+
+    @Override
+    public void getDetListSucess(List<DepartmentListBean> data) {
+
+
+        LogUtils.e("请求接口   呦呦呦    总共  "+data.size());
+        fListBeans = new ArrayList<>();
+        sListBeans = new ArrayList<>();
+
+        for (int i = 0; i < data.size(); i++) {
+            fListBeans.add(data.get(i));
+            LogUtils.e("请求接口   呦呦呦   实体类 "+   i +"            "+data.get(i).getHospitalDepartmentList());
+
+
+            if (data.get(i).getHospitalDepartmentList() !=null){
+
+                LogUtils.e("请求接口   呦呦呦   尺寸   "+data.get(i).getHospitalDepartmentList().size());
+
+                for (int j = 0; j < data.get(i).getHospitalDepartmentList().size(); j++) {
+                    sListBeans.add(data.get(i).getHospitalDepartmentList().get(j));
+                }
+            }
+
+
         }
     }
 

@@ -70,7 +70,12 @@ public class StatisticsDialog extends PopupWindow implements View.OnClickListene
                 myDevChoose.onDiseaseChoose();
             }
         });
-
+        mPopView.findViewById(R.id.department_class).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                myDevChoose.onDevChoose();
+            }
+        });
     }
 
 

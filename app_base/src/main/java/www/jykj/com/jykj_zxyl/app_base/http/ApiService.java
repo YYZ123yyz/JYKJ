@@ -618,5 +618,11 @@ public interface ApiService {
     Observable<String> getAuthority(@Query(value = "jsonDataInfo", encoded = true)
                                            String queryJson);
 
+
+    //科室
+    @POST("/doctorReportControlle/searchHospitalDepartmentDtree")
+    Observable<String> getDepList(@Query(value = "jsonDataInfo", encoded = true)
+                                            String queryJson);
+
 }
 
