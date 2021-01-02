@@ -624,5 +624,10 @@ public interface ApiService {
     Observable<String> getDepList(@Query(value = "jsonDataInfo", encoded = true)
                                             String queryJson);
 
+    //详情
+
+    @POST("/doctorReportControlle/searchDoctorReportDoctorInfo")
+    Observable<String> getDoctorReport(@Query(value = "jsonDataInfo", encoded = true)
+                                          String queryJson);
 }
 

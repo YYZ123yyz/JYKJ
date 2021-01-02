@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import www.jykj.com.jykj_zxyl.activity.myreport.activity.Contract.ReportDetContract;
+import www.jykj.com.jykj_zxyl.activity.myreport.activity.bean.DepartDetBean;
 import www.jykj.com.jykj_zxyl.activity.myreport.activity.bean.DepartmentListBean;
 import www.jykj.com.jykj_zxyl.activity.myreport.activity.bean.ReportBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.BaseBean;
@@ -90,6 +91,43 @@ public class ReportDetPresenter extends BasePresenterImpl<ReportDetContract.View
                         LogUtils.e("xx"  +baseBean.getResJsonData());
                         List<DepartmentListBean> reportBeans = GsonUtils.jsonToList(baseBean.getResJsonData(), DepartmentListBean.class);
                         mView.getDetListSucess(reportBeans);
+                        //   mView.getSearchMyClinicDetailResPatientMessageContentResult(diagnosisReplayBean);
+                    }
+                }
+
+            }
+
+        });
+    }
+
+    @Override
+    public void getDet(String params) {
+        ApiHelper.getApiService().getDoctorReport(params)
+                .compose(Transformer.switchSchedulers(new ILoadingView() {
+                    @Override
+                    public void showLoadingView() {
+                        if (mView != null) {
+                            mView.showLoading(101);
+                        }
+
+                    }
+
+                    @Override
+                    public void hideLoadingView() {
+                        if (mView != null) {
+                            mView.hideLoading();
+                        }
+
+                    }
+                })).subscribe(new CommonDataObserver() {
+            @Override
+            protected void onSuccessResult(BaseBean baseBean) {
+                if (mView != null) {
+                    int resCode = baseBean.getResCode();
+                    if (resCode == 1) {
+                        LogUtils.e("详情  xx"  +baseBean.getResJsonData());
+                        DepartDetBean departDetBean = GsonUtils.fromJson(baseBean.getResJsonData(), DepartDetBean.class);
+                        mView.getDetSucess(departDetBean);
                         //   mView.getSearchMyClinicDetailResPatientMessageContentResult(diagnosisReplayBean);
                     }
                 }

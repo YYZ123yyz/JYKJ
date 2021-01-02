@@ -25,6 +25,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.activity.myreport.activity.Contract.ReportDetContract;
+import www.jykj.com.jykj_zxyl.activity.myreport.activity.bean.DepartDetBean;
 import www.jykj.com.jykj_zxyl.activity.myreport.activity.bean.DepartmentListBean;
 import www.jykj.com.jykj_zxyl.activity.myreport.activity.bean.ReportBean;
 import www.jykj.com.jykj_zxyl.activity.myreport.activity.presenter.ReportDetPresenter;
@@ -59,6 +60,22 @@ public class ReportDetActivity extends AbstractMvpBaseActivity<ReportDetContract
     ImageView ivSeleOnce;
     @BindView(R.id.part_0)
     LinearLayout partLayout;
+    @BindView(R.id.oneTimeVisitNum_tv)
+    TextView oneTimeVisitNum_tv;
+    @BindView(R.id.oneTimeVisitCount_tv)
+    TextView oneTimeVisitCount_tv;
+    @BindView(R.id.oneTimeVisitFrozenAmount_tv)
+    TextView oneTimeVisitFrozenAmount_tv;
+    @BindView(R.id.oneTimeVisitAmount_tv)
+    TextView oneTimeVisitAmount_tv;
+    @BindView(R.id.oneTimeVisitRefundCount_tv)
+    TextView oneTimeVisitRefundCount_tv;
+    @BindView(R.id.oneTimeVisitRefundAmount_tv)
+    TextView oneTimeVisitRefundAmount_tv;
+    @BindView(R.id.all_money_tv)
+    TextView all_money_tv;
+
+
     private JYKJApplication mApp;
     private int mSignType = 0;//一次性
     private List<ReportBean> mReportBeans;
@@ -109,6 +126,7 @@ public class ReportDetActivity extends AbstractMvpBaseActivity<ReportDetContract
         mReportBeans = new ArrayList<>();
         mPresenter.sendyReportRequest(getParams());
         mPresenter.getDetList(getParams());
+        mPresenter.getDet(getParams());
     }
 
     @Override
@@ -192,8 +210,7 @@ public class ReportDetActivity extends AbstractMvpBaseActivity<ReportDetContract
     }
 
 
-
-    private ArrayList<String> getFStringList(){
+    private ArrayList<String> getFStringList() {
         ArrayList<String> list = new ArrayList<>();
         if (fListBeans != null) {
             for (DepartmentListBean reportBean : fListBeans) {
@@ -204,7 +221,7 @@ public class ReportDetActivity extends AbstractMvpBaseActivity<ReportDetContract
         return list;
     }
 
-    private ArrayList<String> getSStringList(){
+    private ArrayList<String> getSStringList() {
         ArrayList<String> list = new ArrayList<>();
         if (sListBeans != null) {
             for (DepartmentListBean.HospitalDepartmentListBean reportBean : sListBeans) {
@@ -228,18 +245,18 @@ public class ReportDetActivity extends AbstractMvpBaseActivity<ReportDetContract
     public void getDetListSucess(List<DepartmentListBean> data) {
 
 
-        LogUtils.e("请求接口   呦呦呦    总共  "+data.size());
+        LogUtils.e("请求接口   呦呦呦    总共  " + data.size());
         fListBeans = new ArrayList<>();
         sListBeans = new ArrayList<>();
 
         for (int i = 0; i < data.size(); i++) {
             fListBeans.add(data.get(i));
-            LogUtils.e("请求接口   呦呦呦   实体类 "+   i +"            "+data.get(i).getHospitalDepartmentList());
+            LogUtils.e("请求接口   呦呦呦   实体类 " + i + "            " + data.get(i).getHospitalDepartmentList());
 
 
-            if (data.get(i).getHospitalDepartmentList() !=null){
+            if (data.get(i).getHospitalDepartmentList() != null) {
 
-                LogUtils.e("请求接口   呦呦呦   尺寸   "+data.get(i).getHospitalDepartmentList().size());
+                LogUtils.e("请求接口   呦呦呦   尺寸   " + data.get(i).getHospitalDepartmentList().size());
 
                 for (int j = 0; j < data.get(i).getHospitalDepartmentList().size(); j++) {
                     sListBeans.add(data.get(i).getHospitalDepartmentList().get(j));
@@ -250,11 +267,32 @@ public class ReportDetActivity extends AbstractMvpBaseActivity<ReportDetContract
         }
     }
 
+    @Override
+    public void getDetSucess(DepartDetBean bean) {
+        oneTimeVisitNum_tv.setText(bean.getOneTimeVisitNum());
+        oneTimeVisitCount_tv.setText(bean.getOneTimeVisitCount());
+        oneTimeVisitFrozenAmount_tv.setText(bean.getOneTimeVisitFrozenAmount());
+        oneTimeVisitAmount_tv.setText(bean.getOneTimeVisitAmount());
+        oneTimeVisitRefundCount_tv.setText(bean.getOneTimeVisitRefundCount());
+        oneTimeVisitRefundAmount_tv.setText(bean.getOneTimeVisitRefundAmount());
+        all_money_tv.setText(bean.getOneTimeVisitSumAmount() == null ? "0" : bean.getOneTimeVisitSumAmount());
+    }
+
     public String getParams() {
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("loginDoctorPosition", mApp.loginDoctorPosition);
         hashMap.put("operDoctorCode", mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
         hashMap.put("operDoctorName", mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
+
+
+        hashMap.put("userGradeCode", "10");
+        hashMap.put("reportPeriod", "2020-12");
+        hashMap.put("treatmentType", "1");
+        hashMap.put("diseaseTypeCode", "");
+        hashMap.put("departmentCode", "");
+        hashMap.put("userName", "");
+
+
         return RetrofitUtil.encodeParam(hashMap);
     }
 }
