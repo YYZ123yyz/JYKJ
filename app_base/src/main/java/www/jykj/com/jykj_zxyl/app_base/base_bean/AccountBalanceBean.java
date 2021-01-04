@@ -29,7 +29,7 @@ public class AccountBalanceBean {
 
     private String assetsCode;
     private double balanceIncome;
-    private double balanceMoney;
+    private String balanceMoney;
     private double balanceUse;
     private int couponsNum;
     private int flagFrozen;
@@ -59,11 +59,11 @@ public class AccountBalanceBean {
         this.balanceIncome = balanceIncome;
     }
 
-    public double getBalanceMoney() {
+    public String getBalanceMoney() {
         return balanceMoney;
     }
 
-    public void setBalanceMoney(double balanceMoney) {
+    public void setBalanceMoney(String balanceMoney) {
         this.balanceMoney = balanceMoney;
     }
 

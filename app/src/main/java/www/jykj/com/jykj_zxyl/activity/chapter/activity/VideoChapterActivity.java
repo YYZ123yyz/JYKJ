@@ -97,7 +97,7 @@ public class VideoChapterActivity extends AbstractMvpBaseActivity<VideoChapterCo
     private static final int SDK_PAY_FLAG = 3;
     private String detCode;
     private String payMoney;
-    private double balanceMoney;
+    private String balanceMoney;
     private String allPrice;
     private String allCode;
     private  int buyType = 0;
