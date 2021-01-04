@@ -56,7 +56,6 @@ public class AccountStisticInfoBean {
         private String incomeOutTypeName;
         private String incomeOutTypeRGB;
         private float incomeOutTypeValue;
-
         public String getIncomeOutType() {
             return incomeOutType;
         }
