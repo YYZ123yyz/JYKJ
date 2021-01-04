@@ -13,51 +13,7 @@
         android:background="@color/color_eeeeee"
         android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_marginLeft="@dimen/dp10"
-            android:layout_marginRight="@dimen/dp10"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="40dp">
-            <TextView
-                android:layout_weight="1"
-                android:textColor="#000"
-                android:textSize="@dimen/sp_16"
-                android:layout_gravity="center_vertical"
-                android:text="统计分类"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-            <RadioGroup
-                android:id="@+id/examination_radio"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical|end"
-                android:layout_marginRight="10dp"
-                android:orientation="horizontal">
 
-                <RadioButton
-                    android:textColor="#999999"
-                    android:layout_marginRight="@dimen/dp10"
-                    android:id="@+id/radio_yes"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:button="@null"
-                    android:drawableLeft="@drawable/selector_check"
-                    android:drawablePadding="4dp"
-                    android:text="明细" />
-
-                <RadioButton
-                    android:textColor="#999999"
-                    android:id="@+id/radio_no"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:button="@null"
-                    android:drawableLeft="@drawable/selector_check"
-                    android:drawablePadding="4dp"
-                    android:text="疾病" />
-
-            </RadioGroup>
-        </LinearLayout>
 
         <!--疾病类型-->
         <LinearLayout

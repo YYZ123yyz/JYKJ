@@ -3,9 +3,9 @@ package www.jykj.com.jykj_zxyl.activity.myreport.activity;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
-import android.os.Bundle;
+import android.graphics.drawable.ColorDrawable;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,15 +16,23 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+
+import com.chad.library.adapter.base.BaseQuickAdapter;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-import androidx.annotation.NonNull;
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.capitalpool.adapter.WithdrawTypeAdapter;
+import www.jykj.com.jykj_zxyl.capitalpool.bean.WithdrawCostBean;
 import www.jykj.com.jykj_zxyl.capitalpool.bean.WithdrawTypelListBean;
+import www.jykj.com.jykj_zxyl.capitalpool.weiget.MoneyDialog;
+import www.jykj.com.jykj_zxyl.capitalpool.weiget.PasswordEditText;
+import www.jykj.com.jykj_zxyl.capitalpool.weiget.WithdrawTypePop;
 
-public class MyReportDialog extends PopupWindow implements View.OnClickListener {
+public class StatisticsDialog extends PopupWindow implements View.OnClickListener {
 
 
     private final Activity mContext;
@@ -36,7 +44,7 @@ public class MyReportDialog extends PopupWindow implements View.OnClickListener 
     private ArrayList<WithdrawTypelListBean> mDatas;
 
 
-    public MyReportDialog(Activity context) {
+    public StatisticsDialog(Activity context) {
         super(context);
         mContext = context;
         init(context);
@@ -45,7 +53,7 @@ public class MyReportDialog extends PopupWindow implements View.OnClickListener 
 
     private void init(Activity context) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        mPopView = inflater.inflate(R.layout.myreport_layout, null);
+        mPopView = inflater.inflate(R.layout.myreport_layout_s, null);
         initView();
 
     }
@@ -66,12 +74,6 @@ public class MyReportDialog extends PopupWindow implements View.OnClickListener 
             @Override
             public void onClick(View v) {
                 myDevChoose.onDevChoose();
-            }
-        });
-        mPopView.findViewById(R.id.commit).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                myDevChoose.onCommit();
             }
         });
     }
