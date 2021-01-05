@@ -12,9 +12,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.RadioButton;
 import android.widget.TextView;
+
+import com.blankj.utilcode.util.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +38,11 @@ public class MyReportDialog extends PopupWindow implements View.OnClickListener 
     private RecyclerView mRecycleView;
     private WithdrawTypeAdapter typeAdapter;
     private ArrayList<WithdrawTypelListBean> mDatas;
-
+    private RadioButton manChoose;
+    private RadioButton womenChoose;
+    private String status;
+    private TextView tv_disease,tv_department;
+    private EditText et_sny;
 
     public MyReportDialog(Activity context) {
         super(context);
@@ -55,7 +63,16 @@ public class MyReportDialog extends PopupWindow implements View.OnClickListener 
     }
 
     private void initView() {
-
+        tv_disease = mPopView.findViewById(R.id.tv_disease);
+        tv_department = mPopView.findViewById(R.id.tv_department);
+        et_sny = mPopView.findViewById(R.id.et_sny);
+        manChoose = mPopView.findViewById(R.id.radio_yes);
+        womenChoose = mPopView.findViewById(R.id.radio_no);
+        if (manChoose.isChecked() ) {
+            status="1";
+        }else{
+            status="2";
+        }
         mPopView.findViewById(R.id.disease_class).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,7 +88,8 @@ public class MyReportDialog extends PopupWindow implements View.OnClickListener 
         mPopView.findViewById(R.id.commit).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                myDevChoose.onCommit();
+                myDevChoose.onCommit(status,tv_disease.getText().toString(),tv_department.getText().toString(),
+                        et_sny.getText().toString());
             }
         });
     }
@@ -124,7 +142,7 @@ public class MyReportDialog extends PopupWindow implements View.OnClickListener 
 
         void onDiseaseChoose();
 
-        void onCommit();
+        void onCommit(String mclass,String disease,String department,String name);
     }
 
 }

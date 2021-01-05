@@ -292,10 +292,18 @@ public class FragmentShouYe extends AbstractMvpBaseFragment<HomePagerContract.Vi
                                 int resCode = baseBean.getResCode();
                                 if (resCode == 1) {
                                     AuthorityBean authorityBean = GsonUtils.fromJson(baseBean.getResJsonData(), AuthorityBean.class);
-                                    String userGradeName = authorityBean.getUserGradeName();
-                                    Log.e("TAG", "onSuccessResult: "+userGradeName );
-                                    Intent intent = new Intent(getContext(), MyReportActivity.class);
-                                    startActivity(intent);
+                                    String userGradeCode = authorityBean.getUserGradeCode();
+                                    Log.e("TAG", "onSuccessResult: "+userGradeCode );
+                                    if(userGradeCode.equals("10")){
+                                        Intent intent = new Intent(getContext(), MyReportActivity.class);
+                                        intent.putExtra("usercode", userGradeCode);
+                                        startActivity(intent);
+                                    }else{
+                                        Intent intent = new Intent(getContext(), ReportDetActivity.class);
+                                        intent.putExtra("usercode", userGradeCode);
+                                        startActivity(intent);
+                                    }
+
                                 }
                             }
                         });

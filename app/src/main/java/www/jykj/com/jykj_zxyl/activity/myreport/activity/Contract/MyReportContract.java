@@ -15,7 +15,7 @@ public class MyReportContract {
          *
          * @param reportBeans
          */
-        void getmyReportResult(List<ReportBean> reportBeans);
+        void getmyReportResult(ReportBean reportBeans);
 
         /**
          * 二级科室

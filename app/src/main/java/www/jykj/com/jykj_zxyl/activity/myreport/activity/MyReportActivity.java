@@ -65,6 +65,8 @@ public class MyReportActivity extends AbstractMvpBaseActivity<MyReportContract.V
     private LinearLayoutManager layoutManager;
     private List<CommitBean>  list=new ArrayList<>();
     private TextView tv_detail;
+    private String usercode;
+    private String deviceTimeyears;
 
     @Override
     protected int setLayoutId() {
@@ -72,7 +74,9 @@ public class MyReportActivity extends AbstractMvpBaseActivity<MyReportContract.V
     }
 
     protected void initView() {
-     //   ActivityUtil.setStatusBarMain(this);
+        deviceTimeyears = DateUtils.getDeviceTimeyears();
+        Intent intent = getIntent();
+        usercode = intent.getStringExtra("usercode");
         listreportbean = new ArrayList<>();
         mApp = (JYKJApplication) getApplication();
         tv_detail = findViewById(R.id.tv_detail);
@@ -98,11 +102,11 @@ public class MyReportActivity extends AbstractMvpBaseActivity<MyReportContract.V
                 showNomalDiaglog();
             }
 
-
             @Override
-            public void onCommit() {
-             //   getcoommit();
+            public void onCommit(String mclass, String disease, String department, String name) {
+                getcoommit();
             }
+
 
         });
         part_0 = findViewById(R.id.part_0);
@@ -110,6 +114,7 @@ public class MyReportActivity extends AbstractMvpBaseActivity<MyReportContract.V
         toolbar = findViewById(R.id.toolbar);
         //选择时间
         tv_time = findViewById(R.id.tv_time);
+        tv_time.setText(deviceTimeyears);
         //自定义筛选
         tv_select = findViewById(R.id.tv_select);
         setToolBar();
@@ -137,10 +142,14 @@ public class MyReportActivity extends AbstractMvpBaseActivity<MyReportContract.V
     @Override
     protected void initData() {
         super.initData();
-        getcoommit();
         mPresenter.sendyReportRequest(mApp.loginDoctorPosition, mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(),
                 mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
-      //  mPresenter.getDetList(getParams());
+        //查询数据
+        mPresenter.getInquireRequest(mApp.loginDoctorPosition, mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode()
+                , mApp.mViewSysUserDoctorInfoAndHospital.getUserName(), usercode, deviceTimeyears,
+                "1", "", "",
+                "");
+
 
     }
 
@@ -218,13 +227,9 @@ public class MyReportActivity extends AbstractMvpBaseActivity<MyReportContract.V
 
 
     public void  getcoommit(){
-       /* String s = tv_time.getText().toString();
-        if(TextUtils.isEmpty(s)){
-            ToastUtils.showShort("请选择日期");
-            return;
-        }*/
+
         mPresenter.getInquireRequest(mApp.loginDoctorPosition, mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode()
-        , mApp.mViewSysUserDoctorInfoAndHospital.getUserName(), "10", "2020-12",
+        , mApp.mViewSysUserDoctorInfoAndHospital.getUserName(), usercode, deviceTimeyears,
                 "1", "", "",
                 "");
 
@@ -232,11 +237,9 @@ public class MyReportActivity extends AbstractMvpBaseActivity<MyReportContract.V
 
 
     @Override
-    public void getmyReportResult(List<ReportBean> reportBeans) {
+    public void getmyReportResult(ReportBean reportBeans) {
         if (reportBeans != null) {
-            for (ReportBean reportBean : reportBeans) {
-                listreportbean.add(reportBean);
-            }
+            listreportbean.add(reportBeans);
         }
     }
 

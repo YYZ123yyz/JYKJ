@@ -24,7 +24,7 @@
             android:layout_weight="1"
             android:background="@drawable/bg_round_ffffff_18"
             android:gravity="center"
-            android:text="2020年5月"
+            android:text=""
             android:layout_marginLeft="30dp"
            android:layout_gravity="center_vertical"
             android:layout_width="@dimen/dp_135"

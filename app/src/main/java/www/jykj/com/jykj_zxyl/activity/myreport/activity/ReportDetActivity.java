@@ -275,16 +275,13 @@ public class ReportDetActivity extends AbstractMvpBaseActivity<ReportDetContract
 
     @Override
     public void getDetSucess(DepartDetBean bean) {
-        if(bean!=null){
-            oneTimeVisitNum_tv.setText(bean.getOneTimeVisitNum());
-            oneTimeVisitCount_tv.setText(bean.getOneTimeVisitCount());
-            oneTimeVisitFrozenAmount_tv.setText(bean.getOneTimeVisitFrozenAmount());
-            oneTimeVisitAmount_tv.setText(bean.getOneTimeVisitAmount());
-            oneTimeVisitRefundCount_tv.setText(bean.getOneTimeVisitRefundCount());
-            oneTimeVisitRefundAmount_tv.setText(bean.getOneTimeVisitRefundAmount());
-            all_money_tv.setText(bean.getOneTimeVisitSumAmount() == null ? "0" : bean.getOneTimeVisitSumAmount());
-        }
-
+        oneTimeVisitNum_tv.setText(bean.getOneTimeVisitNum());
+        oneTimeVisitCount_tv.setText(bean.getOneTimeVisitCount());
+        oneTimeVisitFrozenAmount_tv.setText(bean.getOneTimeVisitFrozenAmount());
+        oneTimeVisitAmount_tv.setText(bean.getOneTimeVisitAmount());
+        oneTimeVisitRefundCount_tv.setText(bean.getOneTimeVisitRefundCount());
+        oneTimeVisitRefundAmount_tv.setText(bean.getOneTimeVisitRefundAmount());
+        all_money_tv.setText(bean.getOneTimeVisitSumAmount() == null ? "0" : bean.getOneTimeVisitSumAmount());
     }
 
     public String getParams() {

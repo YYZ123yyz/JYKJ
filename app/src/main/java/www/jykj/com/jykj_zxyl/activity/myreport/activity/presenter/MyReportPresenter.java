@@ -1,5 +1,7 @@
 package www.jykj.com.jykj_zxyl.activity.myreport.activity.presenter;
 
+import android.util.Log;
+
 import com.allen.library.interceptor.Transformer;
 import com.allen.library.interfaces.ILoadingView;
 import com.blankj.utilcode.util.LogUtils;
@@ -56,9 +58,9 @@ public class MyReportPresenter    extends
                 if (mView!=null) {
                     int resCode = baseBean.getResCode();
                     if (resCode==1) {
-
-                        List<ReportBean> reportBeans = GsonUtils.jsonToList(baseBean.getResJsonData(), ReportBean.class);
-                        mView.getmyReportResult(reportBeans);
+                        Log.e("TAG", "onSuccessResult:疾病 "+baseBean.getResJsonData() );
+                        ReportBean reportBean = GsonUtils.fromJson(baseBean.getResJsonData(), ReportBean.class);
+                        mView.getmyReportResult(reportBean);
                         //   mView.getSearchMyClinicDetailResPatientMessageContentResult(diagnosisReplayBean);
                     }
                 }
