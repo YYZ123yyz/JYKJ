@@ -47,6 +47,7 @@ import www.jykj.com.jykj_zxyl.app_base.mvp.AbstractMvpBaseFragment;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.mypatient.contract.FragmentContract;
 import www.jykj.com.jykj_zxyl.mypatient.presenter.FragmentPresenter;
+import www.jykj.com.jykj_zxyl.personal.activity.StateDetActivity;
 import www.jykj.com.jykj_zxyl.util.DateUtils;
 import yyz_exploit.activity.activity.RefuseActivity;
 import yyz_exploit.activity.activity.TerminationActivity;
@@ -74,6 +75,9 @@ public class SignedPatientChildFragment  extends AbstractMvpBaseFragment<Fragmen
     private Handler mHandler;
     private String mNetRetStr;
     private String sourceType;
+    private String patientName;
+    private Integer ageStart;
+    private Integer ageEnd;
     @Override
     protected int setLayoutId() {
         return R.layout.item_allfragment;
@@ -161,6 +165,16 @@ public class SignedPatientChildFragment  extends AbstractMvpBaseFragment<Fragmen
                         Bundle bundle=new Bundle();
                         bundle.putString("url",patientLablePunchClockState.getReportUrl());
                         startActivity(H5Activity.class,bundle);
+                    }
+
+                    @Override
+                    public void onClickCurrentStatus(int pos) {
+                        ProvideViewPatientLablePunchClockState state = mDatas.get(pos);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("patentCode", state.getPatientCode());
+                        bundle.putString("patentName", state.getUserName());
+                        bundle.putString("linkPhone", state.getLinkPhone());
+                        startActivity(StateDetActivity.class,bundle);
                     }
                 });
 
@@ -402,12 +416,16 @@ public class SignedPatientChildFragment  extends AbstractMvpBaseFragment<Fragmen
         refreshLayout.setRefreshFooter(new ClassicsFooter(getContext()));
         refreshLayout.setOnRefreshListener(refreshlayout -> {
             pageIndex = 1;
-            mPresenter.sendSearchPatientListRequest(pageSize + "", pageIndex + "", mApp.loginDoctorPosition, mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(), "0");
+            mPresenter.sendSearchPatientListRequest(pageSize + "", pageIndex + ""
+                    , mApp.loginDoctorPosition,
+                    mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(), sourceType,patientName,ageStart,ageEnd);
         });
 
         refreshLayout.setOnLoadMoreListener(refreshlayout -> {
             pageIndex++;
-            mPresenter.sendSearchPatientListRequest(pageSize + "", pageIndex + "", mApp.loginDoctorPosition, mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(), "0");
+            mPresenter.sendSearchPatientListRequest(pageSize + "", pageIndex + ""
+                    , mApp.loginDoctorPosition, mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(),
+                    sourceType,patientName,ageStart,ageEnd);
 
         });
     }
@@ -416,13 +434,40 @@ public class SignedPatientChildFragment  extends AbstractMvpBaseFragment<Fragmen
         SignedPatientChildFragment fragment = new SignedPatientChildFragment();
         Bundle args = new Bundle();
         args.putString("sourceType", type);
+        fragment.setArguments(args);
         return fragment;
     }
 
+    /**
+     * 搜索数据
+     * @param patientName 患者名称
+     * @param ageStart 开始年龄
+     * @param ageEnd 结束年龄
+     */
+    public void searchData(String patientName,Integer ageStart,Integer ageEnd ){
+        this.patientName=patientName;
+        this.ageStart=ageStart;
+        this.ageEnd=ageEnd;
+        pageIndex = 1;
+        mPresenter.sendSearchPatientListRequest(pageSize + "", pageIndex + "",
+                mApp.loginDoctorPosition, mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(),
+                sourceType,patientName,ageStart,ageEnd);
+    }
+
+    public void resetData(String patientName,Integer ageStart,Integer ageEnd){
+        this.patientName=patientName;
+        this.ageStart=ageStart;
+        this.ageEnd=ageEnd;
+    }
 
     @Override
     protected void initData() {
         super.initData();
+        Bundle arguments = this.getArguments();
+        if (arguments!=null) {
+            sourceType= arguments.getString("sourceType");
+
+        }
 
     }
 
@@ -430,7 +475,8 @@ public class SignedPatientChildFragment  extends AbstractMvpBaseFragment<Fragmen
     public void onResume() {
         super.onResume();
         mPresenter.sendSearchPatientListRequest(pageSize + "", pageIndex + "",
-                mApp.loginDoctorPosition, mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(), sourceType);
+                mApp.loginDoctorPosition, mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(),
+                sourceType,patientName,ageStart,ageEnd);
     }
 
     @Override

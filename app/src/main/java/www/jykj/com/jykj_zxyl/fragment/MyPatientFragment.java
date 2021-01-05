@@ -225,6 +225,11 @@ public class MyPatientFragment extends Fragment {
                         bundle.putString("url",patientLablePunchClockState.getReportUrl());
                         startActivity(H5Activity.class,bundle);
                     }
+
+                    @Override
+                    public void onClickCurrentStatus(int pos) {
+
+                    }
                 });
 
         //患者资料点击事件

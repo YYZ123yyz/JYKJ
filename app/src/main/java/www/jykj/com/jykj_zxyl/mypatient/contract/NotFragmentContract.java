@@ -12,7 +12,7 @@ public class NotFragmentContract {
          * 数据列表
          * @param provideViewPatientLablePunchClockState
          */
-        void getOperListResult(List<ProvideViewPatientLablePunchClockState> provideViewPatientLablePunchClockState);
+        void getPatientListResult(List<ProvideViewPatientLablePunchClockState> provideViewPatientLablePunchClockState);
         /**
          * 撤销解约
          */
@@ -28,8 +28,9 @@ public class NotFragmentContract {
          * @param searchDoctorCode
          * @param searchStateType
          */
-        void sendOperNumberRequest(String rowNum, String pageNum, String loginDoctorPosition
-                , String searchDoctorCode, String searchStateType);
+        void sendPatientListRequest(String rowNum, String pageNum, String loginDoctorPosition
+                , String searchDoctorCode, String searchStateType,String patientName,Integer ageStart,
+                                    Integer ageEnd);
 
         /**
          *  撤销解约

@@ -10,53 +10,57 @@ public class AccountBalanceBean {
 
 
     /**
-     * assetsCode : 3682267542b7484a8ec1fb3ffd6e05cf
-     * balanceIncome : 13000.0
-     * balanceMoney : 12600.0
-     * balanceUse : 400.0
-     * couponsNum : 0
-     * flagFrozen : 1
-     * frozenPrice : 200.0
-     * integralBalance : 0
-     * integralIncome : 0
-     * integralUse : 0
-     * isbinding : 1
-     * mainUserCode : 642c11aa51ef4e8aa3e833df960bef1f
+     * balanceIncome : 232620.40
+     * withdrawalLastDate : 2020-12-25 00:00:00.0
+     * balanceMoney : 0.00
+     * assetsCode : f1c4abe733a1446cbe033bae8d2a0aa8
      * mainUserName : 邱新海医生
+     * flagFrozen : 1
+     * integralIncome : 0
+     * mainUserCode : 642c11aa51ef4e8aa3e833df960bef1f
+     * integralUse : 0
+     * mainUserAlias :
+     * balanceUse : 10.19
+     * integralBalance : 0
+     * withdrawalPassword : e10adc3949ba59abbe56e057f20f883e
      * userUseType : 5
-     * withdrawalLastDate : 1608480000000
+     * couponsNum : 0
+     * isbinding : 1
+     * frozenPrice : 88.1000
      */
 
-    private String assetsCode;
-    private double balanceIncome;
+    private String balanceIncome;
+    private String withdrawalLastDate;
     private String balanceMoney;
-    private double balanceUse;
-    private int couponsNum;
-    private int flagFrozen;
-    private double frozenPrice;
-    private int integralBalance;
-    private int integralIncome;
-    private int integralUse;
-    private String isbinding;
-    private String mainUserCode;
+    private String assetsCode;
     private String mainUserName;
-    private int userUseType;
-    private long withdrawalLastDate;
+    private String flagFrozen;
+    private String integralIncome;
+    private String mainUserCode;
+    private String integralUse;
+    private String mainUserAlias;
+    private String balanceUse;
+    private String integralBalance;
+    private String withdrawalPassword;
+    private String userUseType;
+    private String couponsNum;
+    private String isbinding;
+    private String frozenPrice;
 
-    public String getAssetsCode() {
-        return assetsCode;
-    }
-
-    public void setAssetsCode(String assetsCode) {
-        this.assetsCode = assetsCode;
-    }
-
-    public double getBalanceIncome() {
+    public String getBalanceIncome() {
         return balanceIncome;
     }
 
-    public void setBalanceIncome(double balanceIncome) {
+    public void setBalanceIncome(String balanceIncome) {
         this.balanceIncome = balanceIncome;
+    }
+
+    public String getWithdrawalLastDate() {
+        return withdrawalLastDate;
+    }
+
+    public void setWithdrawalLastDate(String withdrawalLastDate) {
+        this.withdrawalLastDate = withdrawalLastDate;
     }
 
     public String getBalanceMoney() {
@@ -67,76 +71,12 @@ public class AccountBalanceBean {
         this.balanceMoney = balanceMoney;
     }
 
-    public double getBalanceUse() {
-        return balanceUse;
+    public String getAssetsCode() {
+        return assetsCode;
     }
 
-    public void setBalanceUse(double balanceUse) {
-        this.balanceUse = balanceUse;
-    }
-
-    public int getCouponsNum() {
-        return couponsNum;
-    }
-
-    public void setCouponsNum(int couponsNum) {
-        this.couponsNum = couponsNum;
-    }
-
-    public int getFlagFrozen() {
-        return flagFrozen;
-    }
-
-    public void setFlagFrozen(int flagFrozen) {
-        this.flagFrozen = flagFrozen;
-    }
-
-    public double getFrozenPrice() {
-        return frozenPrice;
-    }
-
-    public void setFrozenPrice(double frozenPrice) {
-        this.frozenPrice = frozenPrice;
-    }
-
-    public int getIntegralBalance() {
-        return integralBalance;
-    }
-
-    public void setIntegralBalance(int integralBalance) {
-        this.integralBalance = integralBalance;
-    }
-
-    public int getIntegralIncome() {
-        return integralIncome;
-    }
-
-    public void setIntegralIncome(int integralIncome) {
-        this.integralIncome = integralIncome;
-    }
-
-    public int getIntegralUse() {
-        return integralUse;
-    }
-
-    public void setIntegralUse(int integralUse) {
-        this.integralUse = integralUse;
-    }
-
-    public String getIsbinding() {
-        return isbinding;
-    }
-
-    public void setIsbinding(String isbinding) {
-        this.isbinding = isbinding;
-    }
-
-    public String getMainUserCode() {
-        return mainUserCode;
-    }
-
-    public void setMainUserCode(String mainUserCode) {
-        this.mainUserCode = mainUserCode;
+    public void setAssetsCode(String assetsCode) {
+        this.assetsCode = assetsCode;
     }
 
     public String getMainUserName() {
@@ -147,19 +87,99 @@ public class AccountBalanceBean {
         this.mainUserName = mainUserName;
     }
 
-    public int getUserUseType() {
+    public String getFlagFrozen() {
+        return flagFrozen;
+    }
+
+    public void setFlagFrozen(String flagFrozen) {
+        this.flagFrozen = flagFrozen;
+    }
+
+    public String getIntegralIncome() {
+        return integralIncome;
+    }
+
+    public void setIntegralIncome(String integralIncome) {
+        this.integralIncome = integralIncome;
+    }
+
+    public String getMainUserCode() {
+        return mainUserCode;
+    }
+
+    public void setMainUserCode(String mainUserCode) {
+        this.mainUserCode = mainUserCode;
+    }
+
+    public String getIntegralUse() {
+        return integralUse;
+    }
+
+    public void setIntegralUse(String integralUse) {
+        this.integralUse = integralUse;
+    }
+
+    public String getMainUserAlias() {
+        return mainUserAlias;
+    }
+
+    public void setMainUserAlias(String mainUserAlias) {
+        this.mainUserAlias = mainUserAlias;
+    }
+
+    public String getBalanceUse() {
+        return balanceUse;
+    }
+
+    public void setBalanceUse(String balanceUse) {
+        this.balanceUse = balanceUse;
+    }
+
+    public String getIntegralBalance() {
+        return integralBalance;
+    }
+
+    public void setIntegralBalance(String integralBalance) {
+        this.integralBalance = integralBalance;
+    }
+
+    public String getWithdrawalPassword() {
+        return withdrawalPassword;
+    }
+
+    public void setWithdrawalPassword(String withdrawalPassword) {
+        this.withdrawalPassword = withdrawalPassword;
+    }
+
+    public String getUserUseType() {
         return userUseType;
     }
 
-    public void setUserUseType(int userUseType) {
+    public void setUserUseType(String userUseType) {
         this.userUseType = userUseType;
     }
 
-    public long getWithdrawalLastDate() {
-        return withdrawalLastDate;
+    public String getCouponsNum() {
+        return couponsNum;
     }
 
-    public void setWithdrawalLastDate(long withdrawalLastDate) {
-        this.withdrawalLastDate = withdrawalLastDate;
+    public void setCouponsNum(String couponsNum) {
+        this.couponsNum = couponsNum;
+    }
+
+    public String getIsbinding() {
+        return isbinding;
+    }
+
+    public void setIsbinding(String isbinding) {
+        this.isbinding = isbinding;
+    }
+
+    public String getFrozenPrice() {
+        return frozenPrice;
+    }
+
+    public void setFrozenPrice(String frozenPrice) {
+        this.frozenPrice = frozenPrice;
     }
 }
