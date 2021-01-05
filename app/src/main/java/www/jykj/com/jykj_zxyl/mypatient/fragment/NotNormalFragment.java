@@ -160,6 +160,11 @@ public class NotNormalFragment extends AbstractMvpBaseFragment<NotFragmentContra
                         bundle.putString("url",patientLablePunchClockState.getReportUrl());
                         startActivity(H5Activity.class,bundle);
                     }
+
+                    @Override
+                    public void onClickCurrentStatus(int pos) {
+
+                    }
                 });
         //患者资料点击事件
         myPatientRecyclerAdapter.setOnItemClickListener(new MyPatientRecyclerAdapter.OnItemClickListener() {
@@ -400,12 +405,12 @@ public class NotNormalFragment extends AbstractMvpBaseFragment<NotFragmentContra
         refreshLayout.setRefreshFooter(new ClassicsFooter(getContext()));
         refreshLayout.setOnRefreshListener(refreshlayout -> {
             pageIndex = 1;
-            mPresenter.sendOperNumberRequest(pageSize + "", pageIndex + "", mApp.loginDoctorPosition, mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(), "1");
+           // mPresenter.sendOperNumberRequest(pageSize + "", pageIndex + "", mApp.loginDoctorPosition, mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(), "1");
         });
 
         refreshLayout.setOnLoadMoreListener(refreshlayout -> {
             pageIndex++;
-            mPresenter.sendOperNumberRequest(pageSize + "", pageIndex + "", mApp.loginDoctorPosition, mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(), "1");
+            //mPresenter.sendOperNumberRequest(pageSize + "", pageIndex + "", mApp.loginDoctorPosition, mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(), "1");
 
         });
     }
@@ -419,11 +424,12 @@ public class NotNormalFragment extends AbstractMvpBaseFragment<NotFragmentContra
     @Override
     public void onResume() {
         super.onResume();
-        mPresenter.sendOperNumberRequest(pageSize + "", pageIndex + "", mApp.loginDoctorPosition, mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(), "1");
+       // mPresenter.sendOperNumberRequest(pageSize + "", pageIndex + "", mApp.loginDoctorPosition, mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(), "1");
     }
 
+
     @Override
-    public void getOperListResult(List<ProvideViewPatientLablePunchClockState> provideViewPatientLablePunchClockState) {
+    public void getPatientListResult(List<ProvideViewPatientLablePunchClockState> provideViewPatientLablePunchClockState) {
 
         if (provideViewPatientLablePunchClockState != null) {
             if (pageIndex == 1) {
@@ -437,12 +443,12 @@ public class NotNormalFragment extends AbstractMvpBaseFragment<NotFragmentContra
                 mAllRecy.setAdapter(myPatientRecyclerAdapter);
                 myPatientRecyclerAdapter.notifyDataSetChanged();
                 refreshLayout.finishLoadMore();
-                  tvNoData.setVisibility(View.GONE);
+                tvNoData.setVisibility(View.GONE);
             } else {
                 if (pageIndex == 1) {
                     myPatientRecyclerAdapter.setData(mDatas);
                     myPatientRecyclerAdapter.notifyDataSetChanged();
-                        tvNoData.setVisibility(View.VISIBLE);
+                    tvNoData.setVisibility(View.VISIBLE);
                 } else {
                     refreshLayout.finishLoadMore();
                 }

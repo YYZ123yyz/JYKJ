@@ -52,7 +52,7 @@
 
         </LinearLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
@@ -63,7 +63,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:orientation="vertical"
                 android:clickable="true"
                 >
@@ -89,6 +88,7 @@
                     android:textColor="@color/color_666666"
                     android:textSize="15sp"
                     android:hint="请输入姓名"
+                    android:id="@+id/ed_input_content"
                     android:paddingStart="5dp"
                     android:paddingEnd="5dp"
                     />
@@ -98,6 +98,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="年龄段"
+                    android:layout_marginTop="19dp"
                     android:layout_marginStart="8.5dp"
                     android:textColor="@color/color_000000"
                     android:textSize="15sp"
@@ -109,33 +110,39 @@
                     android:orientation="horizontal"
                     android:layout_marginStart="8.5dp"
                     android:layout_marginEnd="8.5dp"
+                    android:layout_marginTop="19dp"
                     >
 
-                    <EditText
+                    <TextView
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         android:layout_height="30dp"
-                        android:layout_marginTop="20dp"
                         android:background="@drawable/bg_round_eeeeee_15"
                         android:textColor="@color/color_666666"
                         android:textSize="15sp"
-                        android:hint="年龄段"
+                        android:hint="开始年龄"
+                        android:layout_gravity="center_vertical"
+                        android:id="@+id/tv_start_age"
                         android:gravity="center"
                         />
                     <TextView
                         style="@style/div_h"
                         android:layout_width="25dp"
+                        android:layout_marginStart="7dp"
+                        android:layout_marginEnd="7dp"
+                        android:layout_gravity="center_vertical"
                         />
 
-                    <EditText
+                    <TextView
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         android:layout_height="30dp"
-                        android:layout_marginTop="20dp"
+                        android:layout_gravity="center_vertical"
                         android:background="@drawable/bg_round_eeeeee_15"
                         android:textColor="@color/color_666666"
                         android:textSize="15sp"
-                        android:hint="年龄段"
+                        android:hint="结束年龄"
+                        android:id="@+id/tv_end_age"
                         android:gravity="center"
                         />
                 </LinearLayout>
@@ -151,6 +158,9 @@
                 android:layout_height="40dp"
                 android:layout_gravity="right"
                 android:layout_marginRight="10dp"
+                android:layout_marginBottom="20dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
                 android:background="@mipmap/tjzj_zu">
                 <TextView
                     android:layout_width="wrap_content"
@@ -159,7 +169,7 @@
                     android:layout_weight="1"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:id="@+id/tv_cz"
+                    android:id="@+id/tv_reset_btn"
                     android:textColor="#ffffffff"
                     android:textSize="15sp"
                     />
@@ -167,7 +177,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="确定"
-                    android:id="@+id/tv_qd"
+                    android:id="@+id/tv_ensure_btn"
                     android:layout_weight="1"
                     android:layout_gravity="center"
                     android:gravity="center"
@@ -175,7 +185,7 @@
                     android:textSize="15sp"
                     />
             </LinearLayout>
-        </LinearLayout>
+        </RelativeLayout>
 
 
     </android.support.v4.widget.DrawerLayout>

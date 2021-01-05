@@ -50,7 +50,8 @@ public class ProvideViewPatientLablePunchClockState implements Serializable{
     private String userName;
     private String reportUrl;
     private int isSigning;
-
+    private String stateTypeName;
+    private String linkPhone;
 
 
     public long getBirthday() {
@@ -235,5 +236,21 @@ public class ProvideViewPatientLablePunchClockState implements Serializable{
 
     public void setIsSigning(int isSigning) {
         this.isSigning = isSigning;
+    }
+
+    public String getStateTypeName() {
+        return stateTypeName;
+    }
+
+    public void setStateTypeName(String stateTypeName) {
+        this.stateTypeName = stateTypeName;
+    }
+
+    public String getLinkPhone() {
+        return linkPhone;
+    }
+
+    public void setLinkPhone(String linkPhone) {
+        this.linkPhone = linkPhone;
     }
 }

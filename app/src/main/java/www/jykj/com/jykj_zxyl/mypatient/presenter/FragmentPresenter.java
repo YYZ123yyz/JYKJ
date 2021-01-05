@@ -25,13 +25,18 @@ public class FragmentPresenter  extends BasePresenterImpl<FragmentContract.View>
     }
 
     @Override
-    public void sendSearchPatientListRequest(String rowNum, String pageNum, String loginDoctorPosition, String searchDoctorCode, String searchStateType) {
+    public void sendSearchPatientListRequest(String rowNum, String pageNum, String loginDoctorPosition
+            , String searchDoctorCode, String searchStateType, String patientName,
+                                             Integer ageStart, Integer ageEnd) {
         HashMap<Object, Object> hashMap = new HashMap<>();
         hashMap.put("rowNum",rowNum);
         hashMap.put("pageNum",pageNum);
         hashMap.put("loginDoctorPosition",loginDoctorPosition);
         hashMap.put("searchDoctorCode",searchDoctorCode);
         hashMap.put("searchStateType",searchStateType);
+        hashMap.put("patientName",patientName);
+        hashMap.put("ageStart",ageStart);
+        hashMap.put("ageEnd",ageEnd);
         String s = RetrofitUtil.encodeParam(hashMap);
         ApiHelper.getApiService().searchList(s).compose(Transformer.switchSchedulers(new ILoadingView() {
             @Override
@@ -54,8 +59,9 @@ public class FragmentPresenter  extends BasePresenterImpl<FragmentContract.View>
                     int resCode = baseBean.getResCode();
                     String resJsonData = baseBean.getResJsonData();
                     if (resCode==1) {
-                        List<ProvideViewPatientLablePunchClockState> provideViewPatientLablePunchClockStates = GsonUtils.jsonToList(resJsonData, ProvideViewPatientLablePunchClockState.class);
-                      mView.getOperListResult(provideViewPatientLablePunchClockStates);
+                        List<ProvideViewPatientLablePunchClockState>
+                                provideViewPatientLablePunchClockStates = GsonUtils.jsonToList(resJsonData, ProvideViewPatientLablePunchClockState.class);
+                        mView.getOperListResult(provideViewPatientLablePunchClockStates);
                     }else{
 
                     }
@@ -76,6 +82,4 @@ public class FragmentPresenter  extends BasePresenterImpl<FragmentContract.View>
             }
         });
     }
-
-
 }

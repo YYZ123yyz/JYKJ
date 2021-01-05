@@ -25,13 +25,18 @@ public class NotFragmentPresenter extends BasePresenterImpl<NotFragmentContract.
     }
 
     @Override
-    public void sendOperNumberRequest(String rowNum, String pageNum, String loginDoctorPosition, String searchDoctorCode, String searchStateType) {
+    public void sendPatientListRequest(String rowNum, String pageNum, String loginDoctorPosition,
+                                      String searchDoctorCode, String searchStateType,
+                                      String patientName,Integer ageStart,Integer ageEnd) {
         HashMap<Object, Object> hashMap = new HashMap<>();
         hashMap.put("rowNum",rowNum);
         hashMap.put("pageNum",pageNum);
         hashMap.put("loginDoctorPosition",loginDoctorPosition);
         hashMap.put("searchDoctorCode",searchDoctorCode);
         hashMap.put("searchStateType",searchStateType);
+        hashMap.put("patientName",patientName);
+        hashMap.put("ageStart",ageStart);
+        hashMap.put("ageEnd",ageEnd);
         String s = RetrofitUtil.encodeParam(hashMap);
         ApiHelper.getApiService().searchNotList(s).compose(Transformer.switchSchedulers(new ILoadingView() {
             @Override
@@ -55,7 +60,7 @@ public class NotFragmentPresenter extends BasePresenterImpl<NotFragmentContract.
                     String resJsonData = baseBean.getResJsonData();
                     if (resCode==1) {
                         List<ProvideViewPatientLablePunchClockState> provideViewPatientLablePunchClockStates = GsonUtils.jsonToList(resJsonData, ProvideViewPatientLablePunchClockState.class);
-                      mView.getOperListResult(provideViewPatientLablePunchClockStates);
+                      mView.getPatientListResult(provideViewPatientLablePunchClockStates);
                     }else{
 
                     }
