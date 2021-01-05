@@ -34,7 +34,7 @@ import www.jykj.com.jykj_zxyl.util.widget.adapters.ArrayWheelAdapter;
 import www.jykj.com.jykj_zxyl.util.widget.adapters.BirthdayWheelAdapter;
 
 public class ChooseNomalDialog extends Dialog implements
-        android.view.View.OnClickListener{
+        android.view.View.OnClickListener {
     private JYKJApplication mApp;
 
     private Context context;
@@ -67,7 +67,12 @@ public class ChooseNomalDialog extends Dialog implements
         mViewCity = (WheelView) view.findViewById(R.id.id_disease);
 
         mBtnConfirm = (TextView) view.findViewById(R.id.btn_confirm);
-
+        view.findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+            }
+        });
 
         Window window = getWindow();
         window.getDecorView().setPadding(0, 0, 0, 0);
@@ -80,6 +85,8 @@ public class ChooseNomalDialog extends Dialog implements
         setUpData(context);
         setContentView(view);
     }
+
+
 
     private void setUpListener() {
 
@@ -160,11 +167,20 @@ public class ChooseNomalDialog extends Dialog implements
 
 
     private void showSelectedResult(Context context) {
+        int currentItem = mViewCity.getCurrentItem();
 
-
+        myListen.chooseListen(mDepList.get(currentItem),"");
         this.dismiss();
     }
 
 
+    public interface onDisChoose {
+        void chooseListen(String name, String id);
+    }
 
+    private onDisChoose myListen;
+
+    public void setOnDepChoose(onDisChoose listen) {
+        this.myListen = listen;
+    }
 }

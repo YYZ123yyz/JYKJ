@@ -169,10 +169,10 @@ public class ChooseDepDialog extends Dialog implements
      */
     private void updateCities(Context context) {
 
-        LogUtils.e("xxxxxxxxxxxxxxxxxxx  mfDta  "+mfDta.size());
-        LogUtils.e("xxxxxxxxxxxxxxxxxxx  msData  "+msData.size());
+        LogUtils.e("xxxxxxxxxxxxxxxxxxx  mfDta  " + mfDta.size());
+        LogUtils.e("xxxxxxxxxxxxxxxxxxx  msData  " + msData.size());
         int pCurrent = mViewProvince.getCurrentItem();
-        if (mfDta .size() ==0 ){
+        if (mfDta.size() == 0) {
             return;
         }
         mCurrentProviceName = mfDta.get(pCurrent);
@@ -193,7 +193,21 @@ public class ChooseDepDialog extends Dialog implements
     }
 
     private void showSelectedResult(Context context) {
-        myListen.chooseListen();
+        String depName = "";
+        String depId = "";
+        int pCurrent = mViewProvince.getCurrentItem();
+        int currentItem = mViewCity.getCurrentItem();
+
+        if (mCityList.size()!= 0 &&mCityList.get(currentItem) != null) {
+            DepartmentListBean.HospitalDepartmentListBean hospitalDepartmentListBean = mCityList.get(currentItem);
+            depName = hospitalDepartmentListBean.getDepartmentName();
+            depId = String.valueOf(hospitalDepartmentListBean.getHospitalDepartmentId());
+        } else {
+            DepartmentListBean departmentListBean = mfDta.get(pCurrent);
+            depName = departmentListBean.getDepartmentName();
+            depId = String.valueOf(departmentListBean.getHospitalDepartmentId());
+        }
+        myListen.chooseListen(depName, depId);
 
         this.dismiss();
     }
@@ -208,11 +222,11 @@ public class ChooseDepDialog extends Dialog implements
 
     private onDepChoose myListen;
 
-    public void setOnDepChoose(onDepChoose listen){
+    public void setOnDepChoose(onDepChoose listen) {
         this.myListen = listen;
     }
 
-    public interface onDepChoose{
-        void chooseListen();
+    public interface onDepChoose {
+        void chooseListen(String name, String id);
     }
 }

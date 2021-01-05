@@ -100,7 +100,7 @@ public class ReferenceMapActivity extends AbstractMvpBaseActivity<ReferenceContr
     protected void initData() {
         super.initData();
         mApp = (JYKJApplication) getApplication();
-        mPresenter.getReferenceData(getParams(0));
+        mPresenter.getReferenceData(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(),getParams(0));
         manBeans = new ArrayList<>();
         womenBeans = new ArrayList<>();
         AllBeans = new ArrayList<>();

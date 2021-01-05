@@ -22,7 +22,7 @@ public class ReferenceContract {
 
     public interface Presenter extends BasePresenter<View> {
 
-        void getReferenceData(String params);
+        void getReferenceData(String docCode,String params);
 
         void updataReference(String params);
     }

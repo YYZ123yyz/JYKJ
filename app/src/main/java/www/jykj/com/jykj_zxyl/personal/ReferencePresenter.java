@@ -23,7 +23,7 @@ public class ReferencePresenter extends BasePresenterImpl<ReferenceContract.View
     }
 
     @Override
-    public void getReferenceData(String params) {
+    public void getReferenceData(String docCode,String params) {
         ApiHelper.getApiService().getReferceList(params)
                 .compose(Transformer.switchSchedulers(new ILoadingView() {
                     @Override
@@ -54,6 +54,12 @@ public class ReferencePresenter extends BasePresenterImpl<ReferenceContract.View
                             List<RefrecenmapBean> refrecenmapBeans = GsonUtils.jsonToList(baseBean.getResJsonData(), RefrecenmapBean.class);
                             LogUtils.e("诗句  xxx   "+refrecenmapBeans.size());
                             for (int i = 0; i < refrecenmapBeans.size(); i++) {
+                                if (refrecenmapBeans.get(i).getDoctorCode().equals("0")){
+                                    refrecenmapBeans.get(i).setDoctorsetCode("");
+                                    refrecenmapBeans.get(i).setDoctorsetCode(docCode);
+                                }
+
+
                                 if (refrecenmapBeans.get(i).getFlagGender() == 1) { //男
                                     manBeans.add(refrecenmapBeans.get(i));
                                 } else {//女

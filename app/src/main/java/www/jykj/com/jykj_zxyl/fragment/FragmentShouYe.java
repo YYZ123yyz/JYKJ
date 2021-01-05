@@ -294,7 +294,7 @@ public class FragmentShouYe extends AbstractMvpBaseFragment<HomePagerContract.Vi
                                     AuthorityBean authorityBean = GsonUtils.fromJson(baseBean.getResJsonData(), AuthorityBean.class);
                                     String userGradeName = authorityBean.getUserGradeName();
                                     Log.e("TAG", "onSuccessResult: "+userGradeName );
-                                    Intent intent = new Intent(getContext(), MyReportActivity.class);
+                                    Intent intent = new Intent(getContext(), ReportDetActivity.class);
                                     startActivity(intent);
                                 }
                             }
