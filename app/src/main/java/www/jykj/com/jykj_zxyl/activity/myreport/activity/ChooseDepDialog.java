@@ -96,6 +96,12 @@ public class ChooseDepDialog extends Dialog implements
 
         mViewProvince = (WheelView) view.findViewById(R.id.id_department);
         mViewCity = (WheelView) view.findViewById(R.id.id_disease);
+        view.findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+            }
+        });
         mViewCity.setVisibility(View.VISIBLE);
         mBtnConfirm = (TextView) view.findViewById(R.id.btn_confirm);
 
@@ -187,7 +193,7 @@ public class ChooseDepDialog extends Dialog implements
     }
 
     private void showSelectedResult(Context context) {
-
+        myListen.chooseListen();
 
         this.dismiss();
     }
@@ -200,4 +206,13 @@ public class ChooseDepDialog extends Dialog implements
     }
 
 
+    private onDepChoose myListen;
+
+    public void setOnDepChoose(onDepChoose listen){
+        this.myListen = listen;
+    }
+
+    public interface onDepChoose{
+        void chooseListen();
+    }
 }
