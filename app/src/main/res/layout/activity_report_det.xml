@@ -186,6 +186,7 @@
                 />
 
             <TextView
+                android:id="@+id/choose_dis"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
@@ -210,6 +211,7 @@
 
 
             <TextView
+                android:id="@+id/tv_msg_0"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -241,6 +243,7 @@
 
 
             <TextView
+                android:id="@+id/tv_msg_1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -272,6 +275,7 @@
 
 
             <TextView
+                android:id="@+id/tv_msg_2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -303,6 +307,7 @@
 
 
             <TextView
+                android:id="@+id/tv_msg_3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -327,6 +332,7 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/lin_msg_0"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:paddingLeft="10dp"
@@ -334,6 +340,7 @@
 
 
             <TextView
+                android:id="@+id/tv_one_1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -358,6 +365,7 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/lin_msg_1"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:paddingLeft="10dp"
@@ -365,6 +373,7 @@
 
 
             <TextView
+                android:id="@+id/tv_one_2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"

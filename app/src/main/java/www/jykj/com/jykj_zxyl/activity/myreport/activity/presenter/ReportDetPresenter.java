@@ -51,10 +51,12 @@ public class ReportDetPresenter extends BasePresenterImpl<ReportDetContract.View
                 if (mView != null) {
                     int resCode = baseBean.getResCode();
                     if (resCode == 1) {
-                        LogUtils.e("xx"  +baseBean.getResJsonData());
+                        LogUtils.e("疾病 xx"  +baseBean.getResJsonData());
                         List<ReportBean> reportBeans = GsonUtils.jsonToList(baseBean.getResJsonData(), ReportBean.class);
                         mView.getmyReportResult(reportBeans);
                         //   mView.getSearchMyClinicDetailResPatientMessageContentResult(diagnosisReplayBean);
+                    }else {
+                        LogUtils.e("疾病  xx"  +baseBean.getResMsg());
                     }
                 }
 
@@ -129,6 +131,8 @@ public class ReportDetPresenter extends BasePresenterImpl<ReportDetContract.View
                         DepartDetBean departDetBean = GsonUtils.fromJson(baseBean.getResJsonData(), DepartDetBean.class);
                         mView.getDetSucess(departDetBean);
                         //   mView.getSearchMyClinicDetailResPatientMessageContentResult(diagnosisReplayBean);
+                    }else {
+                        LogUtils.e("详情  xx"  +baseBean.getResMsg());
                     }
                 }
 
