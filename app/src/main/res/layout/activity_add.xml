@@ -49,19 +49,20 @@
             android:text="请输入药物名称"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
+
         <EditText
+            android:id="@+id/et_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:layout_marginTop="10dp"
-            android:paddingTop="10dp"
-            android:paddingLeft="15dp"
+            android:background="#ffeeeeee"
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:gravity="top|left"
-            android:layout_width="match_parent"
-            android:layout_height="39dp"
-            android:layout_gravity="center_vertical"
             android:hint="请输入药物名称"
-            android:id="@+id/et_name"
-            android:background="#ffeeeeee"
+            android:paddingLeft="15dp"
+            android:paddingTop="10dp"
             android:textColor="#999999"
             android:textSize="15sp" />
         <LinearLayout

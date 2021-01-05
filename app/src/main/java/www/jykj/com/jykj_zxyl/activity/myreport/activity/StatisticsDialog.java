@@ -42,7 +42,10 @@ public class StatisticsDialog extends PopupWindow implements View.OnClickListene
     private RecyclerView mRecycleView;
     private WithdrawTypeAdapter typeAdapter;
     private ArrayList<WithdrawTypelListBean> mDatas;
-
+    private TextView depName;
+    private TextView disName;
+    private String depId ="";
+    private String disId ="";
 
     public StatisticsDialog(Activity context) {
         super(context);
@@ -74,6 +77,15 @@ public class StatisticsDialog extends PopupWindow implements View.OnClickListene
             @Override
             public void onClick(View v) {
                 myDevChoose.onDevChoose();
+            }
+        });
+
+        depName = mPopView.findViewById(R.id.dep_name_tv);
+        disName = mPopView.findViewById(R.id.tv_disease);
+        mPopView.findViewById(R.id.commit).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                myDevChoose.onCommit(depId,disId,depName.getText().toString().trim(),disName.getText().toString().trim());
             }
         });
     }
@@ -113,7 +125,15 @@ public class StatisticsDialog extends PopupWindow implements View.OnClickListene
 //        typeAdapter.addData(datas);
     }
 
+    public void setDepChoose(String name,String id){
+        depId =id;
+        depName.setText(name);
+    }
 
+    public void setDisChoose(String name,String id){
+        disId = id;
+        disName.setText(name);
+    }
 
     private onDevChoose myDevChoose;
 
@@ -126,7 +146,7 @@ public class StatisticsDialog extends PopupWindow implements View.OnClickListene
 
         void onDiseaseChoose();
 
-        void onCommit();
+        void onCommit(String dep,String dis,String depName, String disName);
     }
 
 }

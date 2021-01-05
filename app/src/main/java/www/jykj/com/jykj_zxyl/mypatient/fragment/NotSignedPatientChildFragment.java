@@ -47,6 +47,7 @@ import www.jykj.com.jykj_zxyl.app_base.mvp.AbstractMvpBaseFragment;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.mypatient.contract.NotFragmentContract;
 import www.jykj.com.jykj_zxyl.mypatient.presenter.NotFragmentPresenter;
+import www.jykj.com.jykj_zxyl.personal.activity.StateDetActivity;
 import www.jykj.com.jykj_zxyl.util.DateUtils;
 import yyz_exploit.activity.activity.RefuseActivity;
 import yyz_exploit.activity.activity.TerminationActivity;
@@ -56,7 +57,6 @@ import yyz_exploit.activity.activity.TerminationActivity;
  */
 public class NotSignedPatientChildFragment extends AbstractMvpBaseFragment<NotFragmentContract.View,
         NotFragmentPresenter> implements NotFragmentContract.View {
-
     @BindView(R.id.all_recy)
     RecyclerView mAllRecy;
     Unbinder unbinder;
@@ -71,6 +71,9 @@ public class NotSignedPatientChildFragment extends AbstractMvpBaseFragment<NotFr
     private Handler mHandler;
     private String mNetRetStr;
     private String sourceType;
+    private String patientName;
+    private Integer ageStart;
+    private Integer ageEnd;
     @Override
     protected int setLayoutId() {
         return R.layout.item_allfragment;
@@ -159,6 +162,11 @@ public class NotSignedPatientChildFragment extends AbstractMvpBaseFragment<NotFr
                         bundle.putString("url",patientLablePunchClockState.getReportUrl());
                         startActivity(H5Activity.class,bundle);
                     }
+
+                    @Override
+                    public void onClickCurrentStatus(int pos) {
+
+                    }
                 });
         myPatientRecyclerAdapter.setOnClickItemListener(
                 new MyPatientRecyclerAdapter.OnClickItemListener() {
@@ -229,6 +237,16 @@ public class NotSignedPatientChildFragment extends AbstractMvpBaseFragment<NotFr
                         Bundle bundle=new Bundle();
                         bundle.putString("url",patientLablePunchClockState.getReportUrl());
                         startActivity(H5Activity.class,bundle);
+                    }
+
+                    @Override
+                    public void onClickCurrentStatus(int pos) {
+                        ProvideViewPatientLablePunchClockState state = mDatas.get(pos);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("patentCode", state.getPatientCode());
+                        bundle.putString("patentName", state.getUserName());
+                        bundle.putString("linkPhone", state.getLinkPhone());
+                        startActivity(StateDetActivity.class,bundle);
                     }
                 });
         //患者资料点击事件
@@ -331,6 +349,7 @@ public class NotSignedPatientChildFragment extends AbstractMvpBaseFragment<NotFr
         NotSignedPatientChildFragment fragment = new NotSignedPatientChildFragment();
         Bundle args = new Bundle();
         args.putString("sourceType", type);
+        fragment.setArguments(args);
         return fragment;
     }
 
@@ -483,14 +502,40 @@ public class NotSignedPatientChildFragment extends AbstractMvpBaseFragment<NotFr
         refreshLayout.setRefreshFooter(new ClassicsFooter(getContext()));
         refreshLayout.setOnRefreshListener(refreshlayout -> {
             pageIndex = 1;
-            mPresenter.sendOperNumberRequest(pageSize + "", pageIndex + "", mApp.loginDoctorPosition, mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(), "0");
+            mPresenter.sendPatientListRequest(pageSize + "", pageIndex + "",
+                    mApp.loginDoctorPosition, mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode()
+                    , sourceType,patientName,ageStart,ageEnd);
         });
 
         refreshLayout.setOnLoadMoreListener(refreshlayout -> {
             pageIndex++;
-            mPresenter.sendOperNumberRequest(pageSize + "", pageIndex + "", mApp.loginDoctorPosition, mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(), "0");
+            mPresenter.sendPatientListRequest(pageSize + "", pageIndex + "",
+                    mApp.loginDoctorPosition,
+                    mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(), sourceType
+                    ,patientName,ageStart,ageEnd);
 
         });
+    }
+
+    /**
+     * 搜索数据
+     * @param patientName 患者名称
+     * @param ageStart 开始年龄
+     * @param ageEnd 结束年龄
+     */
+    public void searchData(String patientName,Integer ageStart,Integer ageEnd){
+        this.patientName=patientName;
+        this.ageStart=ageStart;
+        this.ageEnd=ageEnd;
+        pageIndex = 1;
+        mPresenter.sendPatientListRequest(pageSize + "", pageIndex + "",
+                mApp.loginDoctorPosition, mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(),
+                sourceType,patientName,ageStart,ageEnd);
+    }
+    public void resetData(String patientName,Integer ageStart,Integer ageEnd){
+        this.patientName=patientName;
+        this.ageStart=ageStart;
+        this.ageEnd=ageEnd;
     }
 
     @Override
@@ -502,12 +547,13 @@ public class NotSignedPatientChildFragment extends AbstractMvpBaseFragment<NotFr
     @Override
     public void onResume() {
         super.onResume();
-        mPresenter.sendOperNumberRequest(pageSize + "", pageIndex + "",
-                mApp.loginDoctorPosition, mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(), sourceType);
+        mPresenter.sendPatientListRequest(pageSize + "", pageIndex + "",
+                mApp.loginDoctorPosition, mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(),
+                sourceType,patientName,ageStart,ageEnd);
     }
 
     @Override
-    public void getOperListResult(List<ProvideViewPatientLablePunchClockState> provideViewPatientLablePunchClockState) {
+    public void getPatientListResult(List<ProvideViewPatientLablePunchClockState> provideViewPatientLablePunchClockState) {
 
         if (provideViewPatientLablePunchClockState != null) {
             if (pageIndex == 1) {

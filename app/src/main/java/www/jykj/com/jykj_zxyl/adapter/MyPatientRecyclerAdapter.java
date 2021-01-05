@@ -206,6 +206,14 @@ public class MyPatientRecyclerAdapter extends RecyclerView.Adapter<MyPatientRecy
                 }
             }
         });
+        viewHolder.mHzState.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onClickItemListener!=null) {
+                    onClickItemListener.onClickCurrentStatus(position);
+                }
+            }
+        });
 
 //        //用户血压点击事件
 //        if (mOnXYItemClickListener != null) {
@@ -429,6 +437,12 @@ public class MyPatientRecyclerAdapter extends RecyclerView.Adapter<MyPatientRecy
          * @param pos 位置
          */
         void onClickStatisticsChart(int pos);
+
+        /**
+         * 点击当前状态
+         * @param pos 位置
+         */
+        void onClickCurrentStatus(int pos);
 
     }
 

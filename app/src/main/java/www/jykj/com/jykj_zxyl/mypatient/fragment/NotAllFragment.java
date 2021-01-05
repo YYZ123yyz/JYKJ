@@ -163,6 +163,11 @@ public class NotAllFragment extends AbstractMvpBaseFragment<NotFragmentContract.
                         bundle.putString("url",patientLablePunchClockState.getReportUrl());
                         startActivity(H5Activity.class,bundle);
                     }
+
+                    @Override
+                    public void onClickCurrentStatus(int pos) {
+
+                    }
                 });
         myPatientRecyclerAdapter.setOnClickItemListener(
                 new MyPatientRecyclerAdapter.OnClickItemListener() {
@@ -233,6 +238,11 @@ public class NotAllFragment extends AbstractMvpBaseFragment<NotFragmentContract.
                         Bundle bundle=new Bundle();
                         bundle.putString("url",patientLablePunchClockState.getReportUrl());
                         startActivity(H5Activity.class,bundle);
+                    }
+
+                    @Override
+                    public void onClickCurrentStatus(int pos) {
+
                     }
                 });
         //患者资料点击事件
@@ -474,12 +484,12 @@ public class NotAllFragment extends AbstractMvpBaseFragment<NotFragmentContract.
         refreshLayout.setRefreshFooter(new ClassicsFooter(getContext()));
         refreshLayout.setOnRefreshListener(refreshlayout -> {
             pageIndex = 1;
-            mPresenter.sendOperNumberRequest(pageSize + "", pageIndex + "", mApp.loginDoctorPosition, mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(), "0");
+            //mPresenter.sendOperNumberRequest(pageSize + "", pageIndex + "", mApp.loginDoctorPosition, mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(), "0");
         });
 
         refreshLayout.setOnLoadMoreListener(refreshlayout -> {
             pageIndex++;
-            mPresenter.sendOperNumberRequest(pageSize + "", pageIndex + "", mApp.loginDoctorPosition, mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(), "0");
+            //mPresenter.sendOperNumberRequest(pageSize + "", pageIndex + "", mApp.loginDoctorPosition, mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(), "0");
 
         });
     }
@@ -493,12 +503,12 @@ public class NotAllFragment extends AbstractMvpBaseFragment<NotFragmentContract.
     @Override
     public void onResume() {
         super.onResume();
-        mPresenter.sendOperNumberRequest(pageSize + "", pageIndex + "", mApp.loginDoctorPosition, mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(), "0");
+       // mPresenter.sendOperNumberRequest(pageSize + "", pageIndex + "", mApp.loginDoctorPosition, mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(), "0");
     }
 
-    @Override
-    public void getOperListResult(List<ProvideViewPatientLablePunchClockState> provideViewPatientLablePunchClockState) {
 
+    @Override
+    public void getPatientListResult(List<ProvideViewPatientLablePunchClockState> provideViewPatientLablePunchClockState) {
         if (provideViewPatientLablePunchClockState != null) {
             if (pageIndex == 1) {
                 mDatas.clear();

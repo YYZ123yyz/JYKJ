@@ -158,6 +158,11 @@ public class AllFragment extends AbstractMvpBaseFragment<FragmentContract.View,
                         bundle.putString("url",patientLablePunchClockState.getReportUrl());
                         startActivity(H5Activity.class,bundle);
             }
+
+                    @Override
+                    public void onClickCurrentStatus(int pos) {
+
+                    }
                 });
 
         //患者资料点击事件
@@ -393,12 +398,12 @@ public class AllFragment extends AbstractMvpBaseFragment<FragmentContract.View,
         refreshLayout.setRefreshFooter(new ClassicsFooter(getContext()));
         refreshLayout.setOnRefreshListener(refreshlayout -> {
             pageIndex = 1;
-            mPresenter.sendSearchPatientListRequest(pageSize + "", pageIndex + "", mApp.loginDoctorPosition, mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(), "0");
+           // mPresenter.sendSearchPatientListRequest(pageSize + "", pageIndex + "", mApp.loginDoctorPosition, mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(), "0");
         });
 
         refreshLayout.setOnLoadMoreListener(refreshlayout -> {
             pageIndex++;
-            mPresenter.sendSearchPatientListRequest(pageSize + "", pageIndex + "", mApp.loginDoctorPosition, mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(), "0");
+           // mPresenter.sendSearchPatientListRequest(pageSize + "", pageIndex + "", mApp.loginDoctorPosition, mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(), "0");
 
         });
     }
@@ -412,7 +417,7 @@ public class AllFragment extends AbstractMvpBaseFragment<FragmentContract.View,
     @Override
     public void onResume() {
         super.onResume();
-        mPresenter.sendSearchPatientListRequest(pageSize + "", pageIndex + "", mApp.loginDoctorPosition, mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(), "0");
+       // mPresenter.sendSearchPatientListRequest(pageSize + "", pageIndex + "", mApp.loginDoctorPosition, mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode(), "0");
     }
 
     @Override

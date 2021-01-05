@@ -2,76 +2,108 @@ package www.jykj.com.jykj_zxyl.activity.myreport.activity.bean;
 
 public class DepartDetBean {
 
+
     /**
-     * oneTimeVisitAmount : 5000
-     * oneTimeVisitCount : 50
-     * oneTimeVisitFrozenAmount : 30
-     * oneTimeVisitNum : 30
-     * oneTimeVisitRefundAmount : 3500
-     * oneTimeVisitRefundCount : 10
+     * totalOneTimeVisitAmount : 8000.0
+     * totalOneTimeVisitCount : 4000
+     * totalOneTimeVisitFrozenAmount : 6000.0
+     * totalOneTimeVisitNum : 2000
+     * totalOneTimeVisitRefundAmount : 12000.0
+     * totalOneTimeVisitRefundCount : 10000
      */
 
-    private String oneTimeVisitAmount;
-    private String oneTimeVisitCount;
-    private String oneTimeVisitFrozenAmount;
-    private String oneTimeVisitNum;
-    private String oneTimeVisitRefundAmount;
-    private String oneTimeVisitRefundCount;
-    private String oneTimeVisitSumAmount;
+    private String totalOneTimeVisitAmount;
+    private String totalOneTimeVisitCount;
+    private String totalOneTimeVisitFrozenAmount;
+    private String totalOneTimeVisitNum;
+    private String totalOneTimeVisitRefundAmount;
+    private String totalOneTimeVisitRefundCount;
+    private String totalTerminatedPatientCount;
+    private String totalTerminatedPatientAmount;
+    private String totalSignUpPatientExecutedAmount;
 
-    public String getOneTimeVisitAmount() {
-        return oneTimeVisitAmount;
+    public String getTotalTerminatedPatientCount() {
+        return totalTerminatedPatientCount;
     }
 
-    public void setOneTimeVisitAmount(String oneTimeVisitAmount) {
-        this.oneTimeVisitAmount = oneTimeVisitAmount;
+    public void setTotalTerminatedPatientCount(String totalTerminatedPatientCount) {
+        this.totalTerminatedPatientCount = totalTerminatedPatientCount;
     }
 
-    public String getOneTimeVisitCount() {
-        return oneTimeVisitCount;
+    public String getTotalTerminatedPatientAmount() {
+        return totalTerminatedPatientAmount;
     }
 
-    public void setOneTimeVisitCount(String oneTimeVisitCount) {
-        this.oneTimeVisitCount = oneTimeVisitCount;
+    public void setTotalTerminatedPatientAmount(String totalTerminatedPatientAmount) {
+        this.totalTerminatedPatientAmount = totalTerminatedPatientAmount;
     }
 
-    public String getOneTimeVisitFrozenAmount() {
-        return oneTimeVisitFrozenAmount;
+    public String getTotalSignUpPatientExecutedAmount() {
+        return totalSignUpPatientExecutedAmount;
     }
 
-    public void setOneTimeVisitFrozenAmount(String oneTimeVisitFrozenAmount) {
-        this.oneTimeVisitFrozenAmount = oneTimeVisitFrozenAmount;
+    public void setTotalSignUpPatientExecutedAmount(String totalSignUpPatientExecutedAmount) {
+        this.totalSignUpPatientExecutedAmount = totalSignUpPatientExecutedAmount;
     }
 
-    public String getOneTimeVisitNum() {
-        return oneTimeVisitNum;
+    public String getTotalSignUpPatientCount() {
+        return totalSignUpPatientCount;
     }
 
-    public void setOneTimeVisitNum(String oneTimeVisitNum) {
-        this.oneTimeVisitNum = oneTimeVisitNum;
+    public void setTotalSignUpPatientCount(String totalSignUpPatientCount) {
+        this.totalSignUpPatientCount = totalSignUpPatientCount;
     }
 
-    public String getOneTimeVisitRefundAmount() {
-        return oneTimeVisitRefundAmount;
+    private String totalSignUpPatientCount;
+
+
+
+
+    public String getTotalOneTimeVisitAmount() {
+        return totalOneTimeVisitAmount;
     }
 
-    public void setOneTimeVisitRefundAmount(String oneTimeVisitRefundAmount) {
-        this.oneTimeVisitRefundAmount = oneTimeVisitRefundAmount;
+    public void setTotalOneTimeVisitAmount(String totalOneTimeVisitAmount) {
+        this.totalOneTimeVisitAmount = totalOneTimeVisitAmount;
     }
 
-    public String getOneTimeVisitRefundCount() {
-        return oneTimeVisitRefundCount;
+    public String getTotalOneTimeVisitCount() {
+        return totalOneTimeVisitCount;
     }
 
-    public void setOneTimeVisitRefundCount(String oneTimeVisitRefundCount) {
-        this.oneTimeVisitRefundCount = oneTimeVisitRefundCount;
+    public void setTotalOneTimeVisitCount(String totalOneTimeVisitCount) {
+        this.totalOneTimeVisitCount = totalOneTimeVisitCount;
     }
 
-    public String getOneTimeVisitSumAmount() {
-        return oneTimeVisitSumAmount;
+    public String getTotalOneTimeVisitFrozenAmount() {
+        return totalOneTimeVisitFrozenAmount;
     }
 
-    public void setOneTimeVisitSumAmount(String oneTimeVisitSumAmount) {
-        this.oneTimeVisitSumAmount = oneTimeVisitSumAmount;
+    public void setTotalOneTimeVisitFrozenAmount(String totalOneTimeVisitFrozenAmount) {
+        this.totalOneTimeVisitFrozenAmount = totalOneTimeVisitFrozenAmount;
+    }
+
+    public String getTotalOneTimeVisitNum() {
+        return totalOneTimeVisitNum;
+    }
+
+    public void setTotalOneTimeVisitNum(String totalOneTimeVisitNum) {
+        this.totalOneTimeVisitNum = totalOneTimeVisitNum;
+    }
+
+    public String getTotalOneTimeVisitRefundAmount() {
+        return totalOneTimeVisitRefundAmount;
+    }
+
+    public void setTotalOneTimeVisitRefundAmount(String totalOneTimeVisitRefundAmount) {
+        this.totalOneTimeVisitRefundAmount = totalOneTimeVisitRefundAmount;
+    }
+
+    public String getTotalOneTimeVisitRefundCount() {
+        return totalOneTimeVisitRefundCount;
+    }
+
+    public void setTotalOneTimeVisitRefundCount(String totalOneTimeVisitRefundCount) {
+        this.totalOneTimeVisitRefundCount = totalOneTimeVisitRefundCount;
     }
 }

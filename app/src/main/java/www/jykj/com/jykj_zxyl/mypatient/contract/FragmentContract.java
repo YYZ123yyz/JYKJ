@@ -30,7 +30,8 @@ public class FragmentContract {
          * @param searchStateType
          */
         void sendSearchPatientListRequest(String rowNum, String pageNum, String loginDoctorPosition
-                , String searchDoctorCode, String searchStateType);
+                , String searchDoctorCode, String searchStateType,String patientName
+                ,Integer  ageStart,Integer ageEnd);
 
 
     }
