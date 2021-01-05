@@ -97,12 +97,12 @@ public class ReportDetActivity extends AbstractMvpBaseActivity<ReportDetContract
         myReportDialog = new StatisticsDialog(this);
         myReportDialog.setOnDevChoose(new StatisticsDialog.onDevChoose() {
             @Override
-            public void onDevChoose() {
+            public void onDevChoose() {  //科室
                 showNomalX2Dialog();
             }
 
             @Override
-            public void onDiseaseChoose() {
+            public void onDiseaseChoose() {  //疾病
 //                showDrugDosageDialog();
                 showNomalDiaglog();
             }
@@ -112,6 +112,10 @@ public class ReportDetActivity extends AbstractMvpBaseActivity<ReportDetContract
 
             }
         });
+
+        mSignType = 0;
+        ivOnce.setSelected(true);
+        ivSign.setSelected(false);
     }
 
     private void showNomalX2Dialog() {
@@ -120,6 +124,12 @@ public class ReportDetActivity extends AbstractMvpBaseActivity<ReportDetContract
 
             chooseNomalDIglog.show();
             chooseNomalDIglog.setData(fListBeans, sListBeans);
+            chooseNomalDIglog.setOnDepChoose(new ChooseDepDialog.onDepChoose() {
+                @Override
+                public void chooseListen() {
+
+                }
+            });
         }
 
     }
@@ -129,10 +139,12 @@ public class ReportDetActivity extends AbstractMvpBaseActivity<ReportDetContract
     protected void initData() {
         super.initData();
         mApp = (JYKJApplication) getApplication();
+        tvTime.setText(DateUtils.getDeviceTimeOfYM());
+
         mReportBeans = new ArrayList<>();
-        mPresenter.sendyReportRequest(getParams());
-        mPresenter.getDetList(getParams());
-        mPresenter.getDet(getParams());
+        mPresenter.sendyReportRequest(getParams(0));
+        mPresenter.getDetList(getParams(0));
+        mPresenter.getDet(getParams(1));
     }
 
     @Override
@@ -240,29 +252,21 @@ public class ReportDetActivity extends AbstractMvpBaseActivity<ReportDetContract
 
     @Override
     public void getmyReportResult(List<ReportBean> reportBeans) {
-        LogUtils.e("传过来   " + reportBeans.size());
         if (reportBeans != null) {
             mReportBeans = reportBeans;
-            LogUtils.e("真实尺寸    " + mReportBeans.size());
         }
     }
 
     @Override
     public void getDetListSucess(List<DepartmentListBean> data) {
-
-
-        LogUtils.e("请求接口   呦呦呦    总共  " + data.size());
         fListBeans = new ArrayList<>();
         sListBeans = new ArrayList<>();
 
         for (int i = 0; i < data.size(); i++) {
             fListBeans.add(data.get(i));
-            LogUtils.e("请求接口   呦呦呦   实体类 " + i + "            " + data.get(i).getHospitalDepartmentList());
-
-
             if (data.get(i).getHospitalDepartmentList() != null) {
 
-                LogUtils.e("请求接口   呦呦呦   尺寸   " + data.get(i).getHospitalDepartmentList().size());
+
 
                 for (int j = 0; j < data.get(i).getHospitalDepartmentList().size(); j++) {
                     sListBeans.add(data.get(i).getHospitalDepartmentList().get(j));
@@ -287,19 +291,21 @@ public class ReportDetActivity extends AbstractMvpBaseActivity<ReportDetContract
 
     }
 
-    public String getParams() {
+    public String getParams(int type) {
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("loginDoctorPosition", mApp.loginDoctorPosition);
         hashMap.put("operDoctorCode", mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
         hashMap.put("operDoctorName", mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
 
+        if (type ==1 ){
+            hashMap.put("userGradeCode", "10");
+            hashMap.put("reportPeriod", tvTime.getText().toString());
+            hashMap.put("treatmentType", "1");
+            hashMap.put("diseaseTypeCode", "");
+            hashMap.put("departmentCode", "");
+            hashMap.put("userName", "");
 
-        hashMap.put("userGradeCode", "10");
-        hashMap.put("reportPeriod", "2020-12");
-        hashMap.put("treatmentType", "1");
-        hashMap.put("diseaseTypeCode", "");
-        hashMap.put("departmentCode", "");
-        hashMap.put("userName", "");
+        }
 
 
         return RetrofitUtil.encodeParam(hashMap);
