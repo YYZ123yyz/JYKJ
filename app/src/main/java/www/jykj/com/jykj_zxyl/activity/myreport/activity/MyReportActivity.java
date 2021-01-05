@@ -64,6 +64,8 @@ public class MyReportActivity extends AbstractMvpBaseActivity<MyReportContract.V
     private RecyclerView recy;
     private LinearLayoutManager layoutManager;
     private List<CommitBean>  list=new ArrayList<>();
+    private TextView tv_detail;
+
     @Override
     protected int setLayoutId() {
         return R.layout.activity_my_report;
@@ -73,6 +75,7 @@ public class MyReportActivity extends AbstractMvpBaseActivity<MyReportContract.V
      //   ActivityUtil.setStatusBarMain(this);
         listreportbean = new ArrayList<>();
         mApp = (JYKJApplication) getApplication();
+        tv_detail = findViewById(R.id.tv_detail);
         recy = findViewById(R.id.recy);
         //创建默认的线性LayoutManager
         layoutManager = new LinearLayoutManager(this);
@@ -141,16 +144,18 @@ public class MyReportActivity extends AbstractMvpBaseActivity<MyReportContract.V
 
     }
 
-    @OnClick({R.id.tv_time, R.id.tv_select})
+    @OnClick({R.id.tv_time, R.id.tv_select,R.id.tv_detail})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_time:
                 showCalendarDialog();
-            //    startActivity(new Intent(MyReportActivity.this, ReportDetActivity.class));
                 break;
 
             case R.id.tv_select:
                 myReportDialog.showPop(part_0);
+                break;
+            case R.id.tv_detail:
+                    startActivity(new Intent(MyReportActivity.this, ReportDetActivity.class));
                 break;
         }
     }
