@@ -76,5 +76,20 @@
       <option name="name" value="maven3" />
       <option name="url" value="https://dl.bintray.com/umsdk/release" />
     </remote-repository>
+    <remote-repository>
+      <option name="id" value="$USER_HOME$/Android/AndroidStudio/sdk/AndroidSDK/extras/google/m2repository" />
+      <option name="name" value="$USER_HOME$/Android/AndroidStudio/sdk/AndroidSDK/extras/google/m2repository" />
+      <option name="url" value="file:$USER_HOME$/Android/AndroidStudio/sdk/AndroidSDK/extras/google/m2repository/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="$USER_HOME$/Android/AndroidStudio/sdk/AndroidSDK/extras/android/m2repository" />
+      <option name="name" value="$USER_HOME$/Android/AndroidStudio/sdk/AndroidSDK/extras/android/m2repository" />
+      <option name="url" value="file:$USER_HOME$/Android/AndroidStudio/sdk/AndroidSDK/extras/android/m2repository/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="$USER_HOME$/Android/AndroidStudio/sdk/AndroidSDK/extras/m2repository" />
+      <option name="name" value="$USER_HOME$/Android/AndroidStudio/sdk/AndroidSDK/extras/m2repository" />
+      <option name="url" value="file:$USER_HOME$/Android/AndroidStudio/sdk/AndroidSDK/extras/m2repository/" />
+    </remote-repository>
   </component>
 </project>
