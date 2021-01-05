@@ -633,6 +633,10 @@ public interface ApiService {
     @POST("/doctorReportControlle/searchDoctorReportHostoryOrDepart")
     Observable<String> getInquire(@Query(value = "jsonDataInfo", encoded = true)
                                           String queryJson);
+    //上传图片
+    @POST("/doctorPersonalSetControlle/operUserDoctorStatus")
+    Observable<String> operUserDoctorStatus(@Query(value = "jsonDataInfo", encoded = true)
+                                                    String queryJson);
 
 }
 
