@@ -80,14 +80,7 @@ public class BalanceActivity extends AbstractMvpBaseActivity<BalanceContract.Vie
         toolbar.setRightTitleSearchBtnVisible(false);
         toolbar.setRightTitleClickListener(v -> startActivity(SmallChangeActivity.class,null));
         tvRechargeBtn.setOnClickListener(v -> {
-            if (accountBalanceBean!=null) {
-                String isbinding = accountBalanceBean.getIsbinding();
-                if (isbinding.equals("1")) {
-                    startActivity(RechargeActivity.class,null,1000);
-                }else{
-                    startActivity(UserAccountActivity.class,null,1001);
-                }
-            }
+            startActivity(RechargeActivity.class,null,1000);
         });
         tvWithDrawalBtn.setOnClickListener(v -> {
             if (accountBalanceBean!=null) {

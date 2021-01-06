@@ -16,6 +16,8 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.allen.library.utils.ToastUtils;
+
 import java.util.ArrayList;
 
 import www.jykj.com.jykj_zxyl.R;
@@ -43,7 +45,7 @@ public class ChapterPop extends PopupWindow implements View.OnClickListener {
     private ImageView aliIv;
     private ArrayList<ImageView> imageViews;
     private ImageView ivAccept;
-
+    private boolean agreeGgreement;
 
     public ChapterPop(Activity context) {
         super(context);
@@ -182,22 +184,28 @@ public class ChapterPop extends PopupWindow implements View.OnClickListener {
             case R.id.iv_accept:
 
                 ivAccept.setSelected(!ivAccept.isSelected());
+                agreeGgreement = ivAccept.isSelected();
                 break;
             case R.id.iv_close:
                 dismiss();
                 break;
             case R.id.go2pay_tv:
-                for (int i = 0; i < imageViews.size(); i++) {
-                    if (imageViews.get(i).getVisibility()==View.VISIBLE){
-                        int type;
-                        if(i==0){
-                            type=4;
-                        }else{
-                            type=i;
+                if(agreeGgreement){
+                    for (int i = 0; i < imageViews.size(); i++) {
+                        if (imageViews.get(i).getVisibility()==View.VISIBLE){
+                            int type;
+                            if(i==0){
+                                type=4;
+                            }else{
+                                type=i;
+                            }
+                            mListen.go2Pay(type,priceTv.getText().toString(),ivAccept.isSelected());
                         }
-                        mListen.go2Pay(type,priceTv.getText().toString(),ivAccept.isSelected());
                     }
+                }else{
+                    ToastUtils.showToast("请同意支付协议");
                 }
+
                 break;
             case R.id.service_tv:
 

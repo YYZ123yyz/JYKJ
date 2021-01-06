@@ -8,6 +8,7 @@ import java.util.HashMap;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.ViewSysUserDoctorInfoAndHospital;
 import www.jykj.com.jykj_zxyl.app_base.base_utils.GsonUtils;
 import www.jykj.com.jykj_zxyl.app_base.base_utils.SharedPreferences_DataSave;
+import www.jykj.com.jykj_zxyl.app_base.base_utils.StringUtils;
 
 /**
  * Description:
@@ -46,7 +47,12 @@ public class ParameUtil {
         paramMap.put("requestClientType","1");
         paramMap.put("operDoctorCode",mProvideViewSysUserPatientInfoAndRegion.getDoctorCode());
         paramMap.put("operDoctorName",mProvideViewSysUserPatientInfoAndRegion.getUserName());//
-        paramMap.put("operDoctorAlias",mProvideViewSysUserPatientInfoAndRegion.getUserNameAlias());
+        String userNameAlias = mProvideViewSysUserPatientInfoAndRegion.getUserNameAlias();
+        if (StringUtils.isNotEmpty(userNameAlias)) {
+            paramMap.put("operDoctorAlias", userNameAlias);
+        }else{
+            paramMap.put("operDoctorAlias", mProvideViewSysUserPatientInfoAndRegion.getUserName());
+        }
         paramMap.put("mainDoctorCode",mProvideViewSysUserPatientInfoAndRegion.getDoctorCode());
         paramMap.put("mainDoctorName",mProvideViewSysUserPatientInfoAndRegion.getUserName());
         paramMap.put("operUserCode",mProvideViewSysUserPatientInfoAndRegion.getDoctorCode());
