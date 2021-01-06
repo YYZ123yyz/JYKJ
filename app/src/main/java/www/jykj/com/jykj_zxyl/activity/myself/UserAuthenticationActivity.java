@@ -1154,11 +1154,10 @@ public class UserAuthenticationActivity extends BaseActivity {
         if (mPhotoInfos.size() > 0) {
             for (int i = 1; i < mPhotoInfos.size(); i++) {
                 if (mPhotoInfos.get(i) != null) {
-                    photoUrl.append("data:image/jpg;base64,");
                     String photo = mPhotoInfos.get(i).getPhoto();
                     Log.e("TAG", "run:  图片  " + photo);
                     if (i == mPhotoInfos.size() - 1) {
-                        photoUrl.append(photo);
+                        photoUrl.append("data:image/jpg;base64,").append(photo);
                     } else {
                         photoUrl.append("data:image/jpg;base64,").append(photo).append("^");
                     }
@@ -1166,14 +1165,12 @@ public class UserAuthenticationActivity extends BaseActivity {
                 }
             }
 
-
         }
-
         HashMap<String, Object> hashMap = ParameUtil.buildBaseDoctorParam(this);
         String s = photoUrl.toString();
         hashMap.put("imgIdArray", "");
         if (StringUtils.isNotEmpty(s)) {
-            hashMap.put("imgBase64Array", (URLEncoder.encode(s)));
+            hashMap.put("imgBase64Array", s);
         } else {
             hashMap.put("imgBase64Array", "");
         }
