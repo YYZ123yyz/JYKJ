@@ -336,7 +336,7 @@ public class ReportDetActivity extends AbstractMvpBaseActivity<ReportDetContract
                 oneTimeVisitAmount_tv.setText(String.format("¥%s元", bean.getTotalOneTimeVisitAmount()));
                 oneTimeVisitRefundCount_tv.setText(String.format("%s人", bean.getTotalOneTimeVisitRefundCount()));
                 oneTimeVisitRefundAmount_tv.setText(String.format("¥%s元", bean.getTotalOneTimeVisitRefundAmount()));
-
+                all_money_tv.setText(String.format("¥%s元", bean.getTotalOneTimeVisitSumAmount() == null ? "0" : bean.getTotalOneTimeVisitSumAmount()));//bean.getOneTimeVisitSumAmount() == null ? "0" : bean.getOneTimeVisitSumAmount()
 
             } else {//签约
                 linMsg1.setVisibility(View.GONE);
@@ -351,10 +351,13 @@ public class ReportDetActivity extends AbstractMvpBaseActivity<ReportDetContract
                 oneTimeVisitCount_tv.setText(String.format("¥%s元", bean.getTotalSignUpPatientExecutedAmount()));
                 oneTimeVisitFrozenAmount_tv.setText(String.format("%s人", bean.getTotalTerminatedPatientAmount()));
                 oneTimeVisitAmount_tv.setText(String.format("¥%s元", bean.getTotalTerminatedPatientCount()));
+                all_money_tv.setText(String.format("¥%s元", bean.getTotalSignPatientSumAmount() == null ? "0" : bean.getTotalSignPatientSumAmount()));//bean.getOneTimeVisitSumAmount() == null ? "0" : bean.getOneTimeVisitSumAmount()
+
             }
 
 
-            all_money_tv.setText("0");//bean.getOneTimeVisitSumAmount() == null ? "0" : bean.getOneTimeVisitSumAmount()
+
+
         }
 
     }

@@ -21,6 +21,24 @@ public class DepartDetBean {
     private String totalTerminatedPatientCount;
     private String totalTerminatedPatientAmount;
     private String totalSignUpPatientExecutedAmount;
+    private String totalOneTimeVisitSumAmount;
+    private String totalSignPatientSumAmount;
+
+    public String getTotalSignPatientSumAmount() {
+        return totalSignPatientSumAmount;
+    }
+
+    public void setTotalSignPatientSumAmount(String totalSignPatientSumAmount) {
+        this.totalSignPatientSumAmount = totalSignPatientSumAmount;
+    }
+
+    public String getTotalOneTimeVisitSumAmount() {
+        return totalOneTimeVisitSumAmount;
+    }
+
+    public void setTotalOneTimeVisitSumAmount(String totalOneTimeVisitSumAmount) {
+        this.totalOneTimeVisitSumAmount = totalOneTimeVisitSumAmount;
+    }
 
     public String getTotalTerminatedPatientCount() {
         return totalTerminatedPatientCount;
