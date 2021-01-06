@@ -219,6 +219,7 @@ public class EaseChatRowOrderCard extends EaseChatRow {
     }
 
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onSetUpView() {
         SharedPreferences_DataSave m_persist = new SharedPreferences_DataSave(activity,
@@ -654,6 +655,8 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                 case "MessageAfterDiagnosis":
                     tvImmediatelySeeBtn.setText("立即查看");
                     rlConsultationMessage.setVisibility(View.VISIBLE);
+                    mTvCancelContractMsg.setVisibility(View.GONE);
+                    tvDiagnosisMessage.setText("您已经成功对"+patientName+"发起诊后留言。");
                     switch (flagReplyType) {
                         case "1":
                             tvMessageTypeValue.setText("正常");
@@ -849,6 +852,7 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                         bundle.putString("orderCode",orderCode);
                         bundle.putString("patientName", nickName);
                         bundle.putString("patientCode", patientCode);
+                        bundle.putString("doctorUrl",imageUrl);
                         bundle.putString("status", "2");
                         bundle.putString("singNO", singNO);
                         startActivity(SigningDetailsActivity.class, bundle);

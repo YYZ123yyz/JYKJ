@@ -105,24 +105,25 @@ public class Rv_CoachingAdapter extends RecyclerView.Adapter<Rv_CoachingAdapter.
         }
         if(datas.get(position).getConfigDetailName().equals("图文")){
             viewHolder.time.setVisibility(View.GONE);
-            //频次
-            viewHolder.lin_frequency.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    OnItemCoachingClickListener.onClick(position);
-                }
-            });
+
         }else{
             viewHolder.time.setVisibility(View.VISIBLE);
-            //频次
-            viewHolder.lin_frequency.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    //   OnItemCoachingClickListener.onClick(position);
-                    OnItemCoachingLinClickListener.onClick(position);
-                }
-            });
+//            //频次
+//            viewHolder.lin_frequency.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    //   OnItemCoachingClickListener.onClick(position);
+//                    OnItemCoachingLinClickListener.onClick(position);
+//                }
+//            });
         }
+        //频次
+        viewHolder.lin_frequency.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                OnItemCoachingClickListener.onClick(position);
+            }
+        });
 
 
         viewHolder.tv_name.setText(datas.get(position).getConfigDetailName());

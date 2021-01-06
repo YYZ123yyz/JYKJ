@@ -27,7 +27,7 @@ public class EaseChatRowText extends EaseChatRow {
     private TextView contentView;
     private LinearLayout llUserInfoRoot;
     private TextView tvUserName;
-
+    private TextView tvUserStatus;
     public EaseChatRowText(Context context, EMMessage message, int position, BaseAdapter adapter) {
         super(context, message, position, adapter);
     }
@@ -43,6 +43,7 @@ public class EaseChatRowText extends EaseChatRow {
         contentView = (TextView) findViewById(R.id.tv_chatcontent);
         llUserInfoRoot = findViewById(R.id.ll_userinfo_root);
         tvUserName = findViewById(R.id.tv_user_name);
+        tvUserStatus=findViewById(R.id.tv_user_status);
     }
 
     @Override
@@ -63,12 +64,12 @@ public class EaseChatRowText extends EaseChatRow {
         if (reserveConfigStart != 0 && reserveConfigEnd != 0) {
             long msgTime = message.getMsgTime();
             if (msgTime >= reserveConfigStart && msgTime <= reserveConfigEnd) {
-                llUserInfoRoot.setVisibility(View.VISIBLE);
+                tvUserStatus.setVisibility(View.VISIBLE);
             } else {
-                llUserInfoRoot.setVisibility(View.GONE);
+                tvUserStatus.setVisibility(View.GONE);
             }
         } else {
-            llUserInfoRoot.setVisibility(View.GONE);
+            tvUserStatus.setVisibility(View.GONE);
         }
 
         int intAttribute = message.getIntAttribute("callStatus", 0);
