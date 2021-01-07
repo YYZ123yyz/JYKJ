@@ -30,7 +30,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:visibility="gone"
+            android:visibility="visible"
+            android:layout_marginStart="10dp"
             android:layout_toEndOf="@id/iv_userhead"
             android:id="@+id/ll_userinfo_root"
             >
@@ -87,7 +88,7 @@
                 android:textSize="15sp" />
         </RelativeLayout>
 
-        <TextView
+      <!--  <TextView
             android:id="@+id/tv_userid"
             style="@style/chat_text_name_style"
             android:layout_width="wrap_content"
@@ -95,7 +96,7 @@
             android:layout_marginLeft="@dimen/chat_nick_margin_left"
             android:textSize="@dimen/chat_nick_text_size"
             android:layout_toRightOf="@id/iv_userhead"
-            android:visibility="gone" />
+            android:visibility="gone" />-->
     </RelativeLayout>
 
 </LinearLayout>

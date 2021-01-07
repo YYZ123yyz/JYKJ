@@ -78,13 +78,13 @@ public class EaseChatRowFile extends EaseChatRow{
         if(reserveConfigStart!=0&&reserveConfigEnd!=0){
             long msgTime = message.getMsgTime();
             if(msgTime>=reserveConfigStart&&msgTime<=reserveConfigEnd){
-                llUserInfoRoot.setVisibility(View.VISIBLE);
+                tvUserStatus.setVisibility(View.VISIBLE);
 
             }else{
-                llUserInfoRoot.setVisibility(View.GONE);
+                tvUserStatus.setVisibility(View.GONE);
             }
         }else{
-            llUserInfoRoot.setVisibility(View.GONE);
+            tvUserStatus.setVisibility(View.GONE);
         }
 
 

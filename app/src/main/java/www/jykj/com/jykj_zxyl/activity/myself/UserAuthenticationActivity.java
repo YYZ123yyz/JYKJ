@@ -566,54 +566,57 @@ public class UserAuthenticationActivity extends BaseActivity {
                     mImageAdapter.notifyDataSetChanged();
                 }else{
                     final Uri uri = data.getData();//返回相册图片的Uri
-                    BitmapUtil.startPhotoZoom(mActivity, uri, 450);
+                   // BitmapUtil.startPhotoZoom(mActivity, uri, 450);
 
-                    final Bitmap[] photo = new Bitmap[1];
+                    //final Bitmap[] photo = new Bitmap[1];
+                    File file = UriUtils.uri2File(uri);
+                    Bitmap bitmap = ImageUtils.getBitmap(file);
+                    Bitmap clipBitmap = ImageUtils.compressBySampleSize(bitmap, 200, 200);
 //                getProgressBar("请稍候", "正在处理。。。");
                     new Thread() {
                         public void run() {
-                            if (uri != null) {
-                                try {
-                                    photo[0] = BitmapUtil.getimageBitmap(BitmapFactory.decodeStream(getContentResolver().openInputStream(data.getData())));//将imageUri对象的图片加载到内存
-                                } catch (FileNotFoundException e) {
-                                    e.printStackTrace();
-                                }
-                            } else {
-                                System.out.println("进来了");
-                                try {
-                                    photo[0] = BitmapUtil.getimageBitmap(BitmapFactory.decodeStream(getContentResolver().openInputStream(Uri.fromFile(new File(Environment.getExternalStorageDirectory(), "test.jpg")))));//将imageUri对象的图片加载到内存
-                                } catch (FileNotFoundException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                            System.out.println("图片：" + photo[0]);
+//                            if (uri != null) {
+//                                try {
+//                                    photo[0] = BitmapUtil.getimageBitmap(BitmapFactory.decodeStream(getContentResolver().openInputStream(data.getData())));//将imageUri对象的图片加载到内存
+//                                } catch (FileNotFoundException e) {
+//                                    e.printStackTrace();
+//                                }
+//                            } else {
+//                                System.out.println("进来了");
+//                                try {
+//                                    photo[0] = BitmapUtil.getimageBitmap(BitmapFactory.decodeStream(getContentResolver().openInputStream(Uri.fromFile(new File(Environment.getExternalStorageDirectory(), "test.jpg")))));//将imageUri对象的图片加载到内存
+//                                } catch (FileNotFoundException e) {
+//                                    e.printStackTrace();
+//                                }
+//                            }
+//                            System.out.println("图片：" + photo[0]);
                             switch (mCurrentPhoto) {
                                 case 1:
                                     runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
-                                            Glide.with(mContext).load(photo[0]).into(mZYZImage);
+                                            Glide.with(mContext).load(clipBitmap).into(mZYZImage);
                                         }
                                     });
-                                    upLoadImg(3, BitmapUtil.bitmaptoString(photo[0]));
+                                    upLoadImg(3, BitmapUtil.bitmaptoString(clipBitmap));
                                     break;
                                 case 2:
                                     runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
-                                            Glide.with(mContext).load(photo[0]).into(mZCZImage);
+                                            Glide.with(mContext).load(clipBitmap).into(mZCZImage);
                                         }
                                     });
-                                    upLoadImg(5, BitmapUtil.bitmaptoString(photo[0]));
+                                    upLoadImg(5, BitmapUtil.bitmaptoString(clipBitmap));
                                     break;
                                 case 3:
                                     runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
-                                            Glide.with(mContext).load(photo[0]).into(mZGZImage);
+                                            Glide.with(mContext).load(clipBitmap).into(mZGZImage);
                                         }
                                     });
-                                    upLoadImg(6, BitmapUtil.bitmaptoString(photo[0]));
+                                    upLoadImg(6, BitmapUtil.bitmaptoString(clipBitmap));
                                     break;
                                 case 6:
                                     //  setPicToView(data);
@@ -632,41 +635,46 @@ public class UserAuthenticationActivity extends BaseActivity {
                 if(mCurrentPhoto==6){
                     setPicToView(data);
                 }else{
-                    final Bitmap[] photo = {null};
+                    //final Bitmap[] photo = {null};
                     new Thread() {
                         public void run() {
-                            try {
-                                photo[0] = BitmapUtil.getimageBitmap(BitmapFactory.decodeStream(getContentResolver().openInputStream(Uri.fromFile(mTempFile))));//将imageUri对象的图片加载到内存
-                            } catch (FileNotFoundException e) {
-                                e.printStackTrace();
-                            }
+//                            try {
+//                                Uri uri = Uri.fromFile(mTempFile);
+//                                //photo[0] = BitmapUtil.getimageBitmap(BitmapFactory.decodeStream(getContentResolver().openInputStream(Uri.fromFile(mTempFile))));//将imageUri对象的图片加载到内存
+//                            } catch (FileNotFoundException e) {
+//                                e.printStackTrace();
+//                            }
+                            Uri uri = Uri.fromFile(mTempFile);
+                            File file = UriUtils.uri2File(uri);
+                            Bitmap bitmap = ImageUtils.getBitmap(file);
+                            Bitmap clipBitmap = ImageUtils.compressBySampleSize(bitmap, 200, 200);
                             switch (mCurrentPhoto) {
                                 case 1:
                                     runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
-                                            Glide.with(mContext).load(photo[0]).into(mZYZImage);
+                                            Glide.with(mContext).load(clipBitmap).into(mZYZImage);
                                         }
                                     });
-                                    upLoadImg(3, BitmapUtil.bitmaptoString(photo[0]));
+                                    upLoadImg(3, BitmapUtil.bitmaptoString(clipBitmap));
                                     break;
                                 case 2:
                                     runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
-                                            Glide.with(mContext).load(photo[0]).into(mZCZImage);
+                                            Glide.with(mContext).load(clipBitmap).into(mZCZImage);
                                         }
                                     });
-                                    upLoadImg(5, BitmapUtil.bitmaptoString(photo[0]));
+                                    upLoadImg(5, BitmapUtil.bitmaptoString(clipBitmap));
                                     break;
                                 case 3:
                                     runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
-                                            Glide.with(mContext).load(photo[0]).into(mZGZImage);
+                                            Glide.with(mContext).load(clipBitmap).into(mZGZImage);
                                         }
                                     });
-                                    upLoadImg(6, BitmapUtil.bitmaptoString(photo[0]));
+                                    upLoadImg(6, BitmapUtil.bitmaptoString(clipBitmap));
                                     break;
                                 case 6:
                                     //  setPicToView(data);
@@ -1146,11 +1154,10 @@ public class UserAuthenticationActivity extends BaseActivity {
         if (mPhotoInfos.size() > 0) {
             for (int i = 1; i < mPhotoInfos.size(); i++) {
                 if (mPhotoInfos.get(i) != null) {
-                    photoUrl.append("data:image/jpg;base64,");
                     String photo = mPhotoInfos.get(i).getPhoto();
                     Log.e("TAG", "run:  图片  " + photo);
                     if (i == mPhotoInfos.size() - 1) {
-                        photoUrl.append(photo);
+                        photoUrl.append("data:image/jpg;base64,").append(photo);
                     } else {
                         photoUrl.append("data:image/jpg;base64,").append(photo).append("^");
                     }
@@ -1158,14 +1165,12 @@ public class UserAuthenticationActivity extends BaseActivity {
                 }
             }
 
-
         }
-
         HashMap<String, Object> hashMap = ParameUtil.buildBaseDoctorParam(this);
         String s = photoUrl.toString();
         hashMap.put("imgIdArray", "");
         if (StringUtils.isNotEmpty(s)) {
-            hashMap.put("imgBase64Array", (URLEncoder.encode(s)));
+            hashMap.put("imgBase64Array", s);
         } else {
             hashMap.put("imgBase64Array", "");
         }

@@ -86,6 +86,7 @@ public class FragmentMySelf extends Fragment {
     private LinearLayout mLlCouponRoot;
     private LinearLayout mLlIntegralRoot;
     private String setStatus;
+    private int flagDoctorStatus;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_activitymain_myselffragment, container, false);
@@ -174,8 +175,10 @@ public class FragmentMySelf extends Fragment {
                                     GsonUtils.fromJson(baseBean.getResJsonData(),
                                             ProvideDoctorPatientUserInfo.class);
                             if (provideDoctorPatientUserInfo!=null) {
-                                int flagDoctorStatus = provideDoctorPatientUserInfo.getFlagDoctorStatus();
+                                 flagDoctorStatus = provideDoctorPatientUserInfo.getFlagDoctorStatus();
                                 mApp.mViewSysUserDoctorInfoAndHospital.setFlagDoctorStatus(flagDoctorStatus);
+                                mApp.mViewSysUserDoctorInfoAndHospital.
+                                        setUserNameAlias(provideDoctorPatientUserInfo.getUserNameAlias());
                                 if (flagDoctorStatus==0) {
                                     mUserAuthentication.setImageResource(R.mipmap.fragmentmyself_wrz);
                                 }else{
@@ -336,17 +339,23 @@ public class FragmentMySelf extends Fragment {
                     startActivity(intent5);
                     break;
                 case R.id.ll_wallet_root:
-                    Intent intent7 = new Intent(getActivity(), ModifyIinforActivity.class);
-                    Bundle bundle=new Bundle();
+                    if (flagDoctorStatus==1) {
+                        Intent intent7 = new Intent(getActivity(), ModifyIinforActivity.class);
+                        Bundle bundle=new Bundle();
 
-                    if(setStatus == null || setStatus.equals("0")){
-                        bundle.putInt("type",0);
-                    }else if(setStatus.equals("1")){
-                        bundle.putInt("type",1);
+                        if(setStatus == null || setStatus.equals("0")){
+                            bundle.putInt("type",0);
+                        }else if(setStatus.equals("1")){
+                            bundle.putInt("type",1);
+                        }
+                        bundle.putString("targetActivity", JumpTypeEnum.JUMP_BALANCE_ACTIVITY);
+                        intent7.putExtras(bundle);
+                        startActivity(intent7);
+                    }else{
+                        Intent intent4=new Intent(getActivity(),UserAuthenticationActivity.class);
+                        startActivity(intent4);
                     }
-                    bundle.putString("targetActivity", JumpTypeEnum.JUMP_BALANCE_ACTIVITY);
-                    intent7.putExtras(bundle);
-                    startActivity(intent7);
+
                     break;
                 case R.id.ll_coupon_root:
 

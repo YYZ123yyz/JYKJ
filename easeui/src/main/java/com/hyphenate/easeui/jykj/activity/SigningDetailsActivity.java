@@ -1162,6 +1162,7 @@ public class SigningDetailsActivity extends BaseActivity implements View.OnClick
                 mCoachingBean.get(pos).setMonths(monthListattrCode);
 
                 rvCoachingAdapter.notifyDataSetChanged();
+                initCoachData(mCoachingBean,isUpdate());
                 setTotalprice(mDetectBeans,mCoachingBean);
             }
         })

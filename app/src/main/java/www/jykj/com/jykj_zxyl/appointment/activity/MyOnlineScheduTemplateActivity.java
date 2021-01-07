@@ -1,7 +1,6 @@
 package www.jykj.com.jykj_zxyl.appointment.activity;
 
 
-import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -37,6 +36,7 @@ import www.jykj.com.jykj_zxyl.appointment.data.DataUtil;
 import www.jykj.com.jykj_zxyl.appointment.dialog.AddSignalSourceDialog;
 import www.jykj.com.jykj_zxyl.appointment.dialog.AppointTimeDialog;
 import www.jykj.com.jykj_zxyl.app_base.base_dialog.CommonConfirmDialog;
+import www.jykj.com.jykj_zxyl.custom.MoreFeaturesPopupWindow;
 import www.jykj.com.jykj_zxyl.util.DateUtils;
 import www.jykj.com.jykj_zxyl.util.StringUtils;
 
@@ -75,6 +75,7 @@ public class MyOnlineScheduTemplateActivity extends AbstractMvpBaseActivity<
     RelativeLayout rlBottom;
     @BindView(R.id.tv_no_data)
     TextView tvNoData;
+
     private JYKJApplication mApp;
     private LoadingLayoutManager mLoadingLayoutManager;//重新加载布局
     private CalendarAdapter mCalendarAdapter;
@@ -92,6 +93,7 @@ public class MyOnlineScheduTemplateActivity extends AbstractMvpBaseActivity<
     private String reserveDateRosterCode;//医生排班明细编号
     private int currentPos;
     private String checkStep="0";//校验步骤
+    private MoreFeaturesPopupWindow mPopupWindow;
     @Override
     protected void onBeforeSetContentLayout() {
         super.onBeforeSetContentLayout();
@@ -219,6 +221,19 @@ public class MyOnlineScheduTemplateActivity extends AbstractMvpBaseActivity<
                     currentCalendarItemBean.getWeek()+"",
                     weekStr,mStartTime,mEndTime,mSignalSourceNum,checkStep
                     ,reserveDateRosterCode,MyOnlineScheduTemplateActivity.this);
+        });
+        rightImageSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mPopupWindow ==null){
+                    mPopupWindow = new MoreFeaturesPopupWindow(MyOnlineScheduTemplateActivity.this);
+                }
+                if (!mPopupWindow.isShowing()) {
+                    mPopupWindow.showAsDropDown(rightImageSearch, 0, 0);
+                }else {
+                    mPopupWindow.dismiss();
+                }
+            }
         });
 
     }
