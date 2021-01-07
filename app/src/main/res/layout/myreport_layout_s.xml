@@ -93,6 +93,7 @@
 
 
         <LinearLayout
+            android:id="@+id/lin_name"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_40"
             android:layout_marginLeft="@dimen/dp10"

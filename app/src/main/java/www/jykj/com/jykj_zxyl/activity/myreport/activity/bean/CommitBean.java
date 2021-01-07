@@ -4,21 +4,49 @@ import java.io.Serializable;
 
 public class CommitBean implements Serializable {
 
+
     /**
      * departmentId : 1
-     * departmentName : 科室1
-     * departmentSumMoney : 5000.00
+     * departmentName : 内科
+     * totalDayAmount : 1400.0
      */
 
-    private String departmentId;
+    private int departmentId;
     private String departmentName;
-    private String departmentSumMoney;
+    private double totalDayAmount;
+    private String doctorName;
+    private String doctorCode;
+    private int status;
 
-    public String getDepartmentId() {
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public String getDoctorName() {
+        return doctorName;
+    }
+
+    public void setDoctorName(String doctorName) {
+        this.doctorName = doctorName;
+    }
+
+    public String getDoctorCode() {
+        return doctorCode;
+    }
+
+    public void setDoctorCode(String doctorCode) {
+        this.doctorCode = doctorCode;
+    }
+
+    public int getDepartmentId() {
         return departmentId;
     }
 
-    public void setDepartmentId(String departmentId) {
+    public void setDepartmentId(int departmentId) {
         this.departmentId = departmentId;
     }
 
@@ -30,11 +58,11 @@ public class CommitBean implements Serializable {
         this.departmentName = departmentName;
     }
 
-    public String getDepartmentSumMoney() {
-        return departmentSumMoney;
+    public double getTotalDayAmount() {
+        return totalDayAmount;
     }
 
-    public void setDepartmentSumMoney(String departmentSumMoney) {
-        this.departmentSumMoney = departmentSumMoney;
+    public void setTotalDayAmount(double totalDayAmount) {
+        this.totalDayAmount = totalDayAmount;
     }
 }

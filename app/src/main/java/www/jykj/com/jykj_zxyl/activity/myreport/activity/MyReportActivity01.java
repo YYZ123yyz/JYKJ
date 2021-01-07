@@ -4,21 +4,15 @@ import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
 import com.bigkoo.pickerview.builder.TimePickerBuilder;
-import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
 import com.bigkoo.pickerview.listener.OnTimeSelectListener;
-import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.bigkoo.pickerview.view.TimePickerView;
-import com.blankj.utilcode.util.LogUtils;
-import com.blankj.utilcode.util.ToastUtils;
 import com.hyphenate.easeui.jykj.utils.DateUtils;
 
 import java.util.ArrayList;
@@ -39,12 +33,11 @@ import www.jykj.com.jykj_zxyl.app_base.http.RetrofitUtil;
 import www.jykj.com.jykj_zxyl.app_base.mvp.AbstractMvpBaseActivity;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.custom.MoreFeaturesPopupWindow;
-import www.jykj.com.jykj_zxyl.util.ActivityUtil;
 
 /**
  * 我的报表
  */
-public class MyReportActivity extends AbstractMvpBaseActivity<MyReportContract.View,
+public class MyReportActivity01 extends AbstractMvpBaseActivity<MyReportContract.View,
         MyReportPresenter> implements MyReportContract.View {
 
     private BaseToolBar toolbar;
@@ -71,7 +64,6 @@ public class MyReportActivity extends AbstractMvpBaseActivity<MyReportContract.V
     private TextView choose_dis;
     private String name;
     private TextView hospitalname;
-    private String showType;
     private String departmentId;
 
     @Override
@@ -83,10 +75,11 @@ public class MyReportActivity extends AbstractMvpBaseActivity<MyReportContract.V
         deviceTimeyears = DateUtils.getDeviceTimeyears();
         Intent intent = getIntent();
         usercode = intent.getStringExtra("usercode");
-        name = intent.getStringExtra("name");
-        showType = intent.getStringExtra("showType");
-        //科室id
+
         departmentId = intent.getStringExtra("departmentId");
+       // departmentId = intent.getStringExtra("departmentId");
+
+        name = intent.getStringExtra("name");
         listreportbean = new ArrayList<>();
         mApp = (JYKJApplication) getApplication();
         choose_dis = findViewById(R.id.choose_dis);
@@ -105,22 +98,7 @@ public class MyReportActivity extends AbstractMvpBaseActivity<MyReportContract.V
         recyclerView_adapter.setOnItemClickListener(new RecyclerView_Adapter.OnItemClickListener() {
             @Override
             public void onClick(int position) {
-                int status = list.get(position).getStatus();
-
-                if(status==1){
-                    Intent intent1 = new Intent(MyReportActivity.this, MyReportActivity.class);
-                    int departmentId = list.get(position).getDepartmentId();
-                    intent1.putExtra("departmentId", departmentId+"");
-                    intent1.putExtra("name", name);
-                    intent1.putExtra("showType","2");
-                    intent1.putExtra("usercode","20");
-                    startActivity(intent1);
-                }  else{
-                    Intent intent = new Intent(MyReportActivity.this, ReportDetActivity.class);
-                    intent.putExtra("usercode", "10");
-                    intent.putExtra("showType","2");
-                    startActivity(intent);
-                }
+           //     Intent intent1 = new Intent(MyReportActivity.this, MyReportActivity.class);
 
             }
 
@@ -157,8 +135,8 @@ public class MyReportActivity extends AbstractMvpBaseActivity<MyReportContract.V
                 }
                 myReportDialog.dismiss();
                 mPresenter.getInquireRequest(mApp.loginDoctorPosition, "7d9e7fdf0f6440d894bfb0239e0e3dca"
-                        , "D_pan", usercode, deviceTimeyears    ,
-                        type, disid,"2", depid,
+                        , "D_pan", usercode, deviceTimeyears,
+                        type, disid,"1" ,depid,
                         name);
             }
 
@@ -223,8 +201,8 @@ public class MyReportActivity extends AbstractMvpBaseActivity<MyReportContract.V
         //查询数据
         mPresenter.getInquireRequest(mApp.loginDoctorPosition, "7d9e7fdf0f6440d894bfb0239e0e3dca"
                 , "D_Pan", usercode, deviceTimeyears,
-                "1", "", "2",
-                departmentId,"");
+                "1", "", "2",departmentId,
+                "");
 
     }
 
@@ -236,16 +214,11 @@ public class MyReportActivity extends AbstractMvpBaseActivity<MyReportContract.V
                 break;
 
             case R.id.tv_select:
-                if(showType.equals("2")){
-                    myReportDialog.status(usercode);
-                    myReportDialog.showPop(part_0);
-                }else if(showType.equals("1")){
-                    myReportDialog.showPop(part_0);
-                }
-
+                myReportDialog.status(usercode);
+                myReportDialog.showPop(part_0);
                 break;
             case R.id.tv_detail:
-                Intent intent = new Intent(MyReportActivity.this, ReportDetActivity.class);
+                Intent intent = new Intent(MyReportActivity01.this, ReportDetActivity.class);
                 intent.putExtra("usercode", usercode);
                 startActivity(intent);
                 break;
@@ -280,13 +253,13 @@ public class MyReportActivity extends AbstractMvpBaseActivity<MyReportContract.V
     }
 
     private void setToolBar() {
-        toolbar.setMainTitle(name+"报表");
+        toolbar.setMainTitle("医院报表");
         //返回键
         toolbar.setLeftTitleClickListener(view -> finish());
         toolbar.setRightTitleClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MoreFeaturesPopupWindow mPopupWindow = new MoreFeaturesPopupWindow(MyReportActivity.this);
+                MoreFeaturesPopupWindow mPopupWindow = new MoreFeaturesPopupWindow(MyReportActivity01.this);
                 if (mPopupWindow != null && !mPopupWindow.isShowing()) {
                     mPopupWindow.showAsDropDown(imageButtonE, 0, 0, Gravity.TOP + Gravity.RIGHT);
                 }

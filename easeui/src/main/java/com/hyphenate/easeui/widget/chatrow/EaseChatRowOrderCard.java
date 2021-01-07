@@ -748,7 +748,7 @@ public class EaseChatRowOrderCard extends EaseChatRow {
 
         if (message.direct() == EMMessage.Direct.RECEIVE) {
 
-            tvCancelContractAgreeBtn.setOnClickListener(new OnClickListener() {
+            tvCancelContractAgreeBtn.setOnClickListener(new OnClickListener()   {
                 @Override
                 public void onClick(View v) {
                     Object tag = tvCancelContractAgreeBtn.getTag();

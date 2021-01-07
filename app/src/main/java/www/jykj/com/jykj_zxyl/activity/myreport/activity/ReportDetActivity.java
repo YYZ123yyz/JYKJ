@@ -1,5 +1,7 @@
 package www.jykj.com.jykj_zxyl.activity.myreport.activity;
 
+import android.content.Intent;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageButton;
@@ -102,6 +104,9 @@ public class ReportDetActivity extends AbstractMvpBaseActivity<ReportDetContract
     private ArrayList<DepartmentListBean.HospitalDepartmentListBean> sListBeans;
     private String depId = "";
     private String diseaseTypeCode = "";
+    private String usercode;
+    private LinearLayout lin_customize;
+    private String showType;
 
     @Override
     protected int setLayoutId() {
@@ -111,8 +116,13 @@ public class ReportDetActivity extends AbstractMvpBaseActivity<ReportDetContract
     @Override
     protected void initView() {
         super.initView();
-
         setToolBar();
+        Intent intent = getIntent();
+        usercode = intent.getStringExtra("usercode");
+        showType = intent.getStringExtra("showType");
+        //自定义选择框
+        lin_customize = findViewById(R.id.lin_customize);
+
         myReportDialog = new StatisticsDialog(this);
         myReportDialog.setOnDevChoose(new StatisticsDialog.onDevChoose() {
             @Override
@@ -160,6 +170,7 @@ public class ReportDetActivity extends AbstractMvpBaseActivity<ReportDetContract
     }
 
 
+
     @Override
     protected void initData() {
         super.initData();
@@ -197,6 +208,23 @@ public class ReportDetActivity extends AbstractMvpBaseActivity<ReportDetContract
                 mSignType = 0;
                 ivOnce.setSelected(true);
                 ivSign.setSelected(false);
+                if(showType.equals("2")){
+                    if( mSignType == 0){
+                        //   Log.e("TAG", "onClickcccccccccccc: "+usercode );
+                        myReportDialog.oneTime(usercode);
+                        lin_customize.setVisibility(View.VISIBLE);
+                    }else if(mSignType==1){
+                        if(usercode.equals("10")){
+                            lin_customize.setVisibility(View.INVISIBLE);
+                        }else{
+                            lin_customize.setVisibility(View.VISIBLE);
+                            myReportDialog.signUp(usercode);
+                        }
+                    }
+                }else if (showType.equals("1")){
+                    myReportDialog.signUp(usercode);
+                }
+
                 mPresenter.getDet(getParams(1));
                 break;
 
@@ -204,6 +232,23 @@ public class ReportDetActivity extends AbstractMvpBaseActivity<ReportDetContract
                 mSignType = 1;
                 ivOnce.setSelected(false);
                 ivSign.setSelected(true);
+                if(showType.equals("2")){
+                    if( mSignType == 0){
+                        //   Log.e("TAG", "onClickcccccccccccc: "+usercode );
+                        myReportDialog.oneTime(usercode);
+                        lin_customize.setVisibility(View.VISIBLE);
+                    }else if(mSignType==1){
+                        if(usercode.equals("10")){
+                            lin_customize.setVisibility(View.INVISIBLE);
+                        }else{
+                            lin_customize.setVisibility(View.VISIBLE);
+                            myReportDialog.signUp(usercode);
+                        }
+                    }
+                }else if (showType.equals("1")){
+                    myReportDialog.signUp(usercode);
+                }
+
                 mPresenter.getDet(getParams(1));
                 break;
             case R.id.tv_time:

@@ -279,23 +279,45 @@ public class FragmentShouYe extends AbstractMvpBaseFragment<HomePagerContract.Vi
         lin_myreport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 HashMap<String, Object> hashMap = ParameUtil.buildBaseParam();
                 hashMap.put("loginDoctorPosition", mApp.loginDoctorPosition);
-                hashMap.put("operDoctorCode", mApp.mViewSysUserDoctorInfoAndHospital.getDoctorId());
-                hashMap.put("operDoctorName", mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
+                hashMap.put("operDoctorCode", "7d9e7fdf0f6440d894bfb0239e0e3dca");
+                hashMap.put("operDoctorName", "D_pan");
                 String s = RetrofitUtil.encodeParam(hashMap);
                 ApiHelper.getApiService().getAuthority(s).compose(Transformer.switchSchedulers())
                         .subscribe(new CommonDataObserver() {
                             @Override
                             protected void onSuccessResult(BaseBean baseBean) {
                                 int resCode = baseBean.getResCode();
+                                Log.e("TAG", "onSuccessResult:quanxian "+baseBean.getResJsonData() );
                                 if (resCode == 1) {
                                     AuthorityBean authorityBean = GsonUtils.fromJson(baseBean.getResJsonData(), AuthorityBean.class);
-                                    String userGradeName = authorityBean.getUserGradeName();
-                                    Log.e("TAG", "onSuccessResult: "+userGradeName );
-                                    Intent intent = new Intent(getContext(), ReportDetActivity.class);
-                                    startActivity(intent);
+                                    String userGradeCode = authorityBean.getUserGradeCode();
+                                    String hospitalName = authorityBean.getHospitalName();
+                                    String showType = authorityBean.getShowType();
+                                    Log.e("TAG", "onSuccessResult: "+userGradeCode );
+                                    if(showType.equals("2")){
+                                        if(userGradeCode.equals("10")){
+                                            Intent intent = new Intent(getContext(), ReportDetActivity.class);
+                                            intent.putExtra("usercode", userGradeCode);
+                                            intent.putExtra("name", hospitalName);
+                                            intent.putExtra("showType", showType);
+                                            startActivity(intent);
+                                        }else{
+                                            Intent intent = new Intent(getContext(), MyReportActivity.class);
+                                            intent.putExtra("usercode", userGradeCode);
+                                            intent.putExtra("name", hospitalName);
+                                            intent.putExtra("showType", showType);
+                                            startActivity(intent);
+                                        }
+                                    }else{
+                                        Intent intent = new Intent(getContext(), MyReportActivity.class);
+                                        intent.putExtra("usercode", userGradeCode);
+                                        intent.putExtra("name", hospitalName);
+                                        intent.putExtra("showType", showType);
+                                        startActivity(intent);
+                                    }
+
                                 }
                             }
                         });

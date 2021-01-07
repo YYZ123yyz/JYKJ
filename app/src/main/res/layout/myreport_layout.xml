@@ -14,6 +14,7 @@
         android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/lin_detail"
             android:layout_marginLeft="@dimen/dp10"
             android:layout_marginRight="@dimen/dp10"
             android:orientation="horizontal"
@@ -42,6 +43,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:button="@null"
+                    android:checked="true"
                     android:drawableLeft="@drawable/selector_check"
                     android:drawablePadding="4dp"
                     android:text="明细" />
@@ -82,7 +84,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:text="请选择" />
+               android:hint="请选择" />
 
             <ImageView
                 android:layout_width="20dp"
@@ -116,10 +118,11 @@
                 android:textSize="@dimen/sp_16" />
 
             <TextView
+                android:id="@+id/tv_department"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:text="请选择" />
+                android:hint="请选择" />
 
             <ImageView
                 android:layout_width="20dp"
@@ -136,6 +139,7 @@
 
 
         <LinearLayout
+            android:id="@+id/lin_name"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_40"
             android:layout_marginLeft="@dimen/dp10"

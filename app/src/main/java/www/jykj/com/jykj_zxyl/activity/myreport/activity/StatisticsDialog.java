@@ -6,6 +6,7 @@ import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -108,6 +109,42 @@ public class StatisticsDialog extends PopupWindow implements View.OnClickListene
     public void showPop(View view) {
         initData();
         this.showAsDropDown(view);
+    }
+
+    //一次性
+    public void oneTime(String sta){
+        Log.e("TAG", "oneTime: qqqqqqqqq "+sta );
+        if(sta.equals("30")){
+            //院长
+            mPopView.findViewById(R.id.disease_class).setVisibility(View.VISIBLE);
+            mPopView.findViewById(R.id.department_class).setVisibility(View.VISIBLE);
+            mPopView.findViewById(R.id.lin_name).setVisibility(View.VISIBLE);
+        } else if(sta.equals("20")){
+            //科室主任
+            mPopView.findViewById(R.id.department_class).setVisibility(View.GONE);
+            mPopView.findViewById(R.id.department_class).setVisibility(View.VISIBLE);
+            mPopView.findViewById(R.id.lin_name).setVisibility(View.VISIBLE);
+        }else if(sta.equals("10")){
+        //医生
+            mPopView.findViewById(R.id.disease_class).setVisibility(View.GONE);
+            mPopView.findViewById(R.id.department_class).setVisibility(View.GONE);
+            mPopView.findViewById(R.id.lin_name).setVisibility(View.VISIBLE);
+        }
+    }
+
+    //签约
+    public void signUp(String sta){
+        if(sta.equals("30")){
+            //院长
+            mPopView.findViewById(R.id.disease_class).setVisibility(View.GONE);
+            mPopView.findViewById(R.id.department_class).setVisibility(View.VISIBLE);
+            mPopView.findViewById(R.id.lin_name).setVisibility(View.VISIBLE);
+        } else if(sta.equals("20")){
+            //科室主任
+            mPopView.findViewById(R.id.disease_class).setVisibility(View.GONE);
+            mPopView.findViewById(R.id.department_class).setVisibility(View.GONE);
+            mPopView.findViewById(R.id.lin_name).setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
