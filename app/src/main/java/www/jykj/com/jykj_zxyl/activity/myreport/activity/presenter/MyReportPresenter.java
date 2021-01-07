@@ -59,8 +59,8 @@ public class MyReportPresenter    extends
                     int resCode = baseBean.getResCode();
                     if (resCode==1) {
                         Log.e("TAG", "onSuccessResult:疾病 "+baseBean.getResJsonData() );
-                        ReportBean reportBean = GsonUtils.fromJson(baseBean.getResJsonData(), ReportBean.class);
-                        mView.getmyReportResult(reportBean);
+                        List<ReportBean> reportBeans = GsonUtils.jsonToList(baseBean.getResJsonData(), ReportBean.class);
+                        mView.getmyReportResult(reportBeans);
                         //   mView.getSearchMyClinicDetailResPatientMessageContentResult(diagnosisReplayBean);
                     }
                 }
@@ -111,7 +111,7 @@ public class MyReportPresenter    extends
     @Override
     public void getInquireRequest(String loginDoctorPosition, String operDoctorCode,
                                   String operDoctorName, String userGradeCode, String reportPeriod,
-                                  String totalType, String diseaseTypeCode, String departmentCode,
+                                  String totalType, String diseaseTypeCode,String searchType, String departmentCode,
                                   String userName) {
 
         HashMap<String, Object> hashMap = new HashMap<>();
@@ -122,6 +122,7 @@ public class MyReportPresenter    extends
         hashMap.put("reportPeriod",reportPeriod);
         hashMap.put("totalType",totalType);
         hashMap.put("diseaseTypeCode", diseaseTypeCode);
+        hashMap.put("searchType", searchType);
         hashMap.put("departmentCode", departmentCode);
         hashMap.put("userName", userName);
         String s = RetrofitUtil.encodeParam(hashMap);
@@ -147,11 +148,10 @@ public class MyReportPresenter    extends
             protected void onSuccessResult(BaseBean baseBean) {
                 if (mView != null) {
                     int resCode = baseBean.getResCode();
+                    Log.e("TAG", "onSuccessResult:明细 "+baseBean.getResJsonData() );
                     if (resCode == 1) {
-                        LogUtils.e("查看数据"  +baseBean.getResJsonData());
                         List<CommitBean> commitBeans = GsonUtils.jsonToList(baseBean.getResJsonData(), CommitBean.class);
                         mView.getInquireResult(commitBeans);
-                        //   mView.getSearchMyClinicDetailResPatientMessageContentResult(diagnosisReplayBean);
                     }
                 }
 

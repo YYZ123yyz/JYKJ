@@ -523,6 +523,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <activity android:name=".activity.myreport.activity.MyReportActivity01"/>
         <activity
             android:name=".medicalrecord.activity.ConsultationInfoActivity"
             android:screenOrientation="portrait" />

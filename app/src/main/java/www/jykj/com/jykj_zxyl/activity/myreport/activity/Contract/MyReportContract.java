@@ -15,7 +15,7 @@ public class MyReportContract {
          *
          * @param reportBeans
          */
-        void getmyReportResult(ReportBean reportBeans);
+        void getmyReportResult(List<ReportBean> reportBeans);
 
         /**
          * 二级科室
@@ -37,7 +37,7 @@ public class MyReportContract {
         void getInquireRequest(String loginDoctorPosition, String operDoctorCode,
                                String operDoctorName, String userGradeCode,
                                String reportPeriod, String totalType,
-                               String diseaseTypeCode, String departmentCode,
+                               String diseaseTypeCode, String searchType,String departmentCode,
                                String userName);
 
 

@@ -57,9 +57,10 @@
         <TextView
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
-            android:layout_width="@dimen/dp_80"
+            android:layout_width="@dimen/dp_100"
             android:layout_height="wrap_content"/>
         <TextView
+            android:id="@+id/hospitalname"
             android:textColor="#000"
             android:layout_gravity="center_vertical"
             android:text="某某医院月报表"
@@ -85,8 +86,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
         <TextView
+            android:id="@+id/choose_dis"
             android:textColor="#799DFE"
-            android:text="高血压"
+            android:text=""
             android:layout_marginLeft="@dimen/dp10"
             android:layout_marginTop="22.5dp"
             android:layout_width="wrap_content"
@@ -115,25 +117,11 @@
           android:layout_height="wrap_content"/>
 
   </LinearLayout>
-    <com.scwang.smart.refresh.layout.SmartRefreshLayout
-        android:id="@+id/refreshLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/white">
-
-    <com.scwang.smart.refresh.header.ClassicsHeader
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recy"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
-
-        <com.scwang.smart.refresh.footer.ClassicsFooter
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </com.scwang.smart.refresh.layout.SmartRefreshLayout>
 
 
 </LinearLayout>
