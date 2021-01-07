@@ -971,7 +971,7 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                     case "MessageAfterDiagnosis":{
                         Bundle bundle = new Bundle();
                         bundle.putString("orderCode", orderCode);
-                        bundle.putString("patientCode", message.getTo());
+                        bundle.putString("patientCode", patientCode);
                         bundle.putString("patientName", patientName);
                         bundle.putBoolean("isFromCard",true);
                         Intent intent = new Intent();
