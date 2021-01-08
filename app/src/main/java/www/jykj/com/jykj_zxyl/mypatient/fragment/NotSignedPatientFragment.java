@@ -173,12 +173,12 @@ public class NotSignedPatientFragment extends AbstractMvpBaseFragment<SignedPati
     private void initViewPager(){
         List<String> titleList = new ArrayList<>();
         viewList = new ArrayList<>();
-        titleList.add("低危");
-        titleList.add("中危");
-        titleList.add("高危");
-        titleList.add("很高危");
-        titleList.add("正常");
-        titleList.add("全部");
+        titleList.add("低危(0)");
+        titleList.add("中危(0)");
+        titleList.add("高危(0)");
+        titleList.add("很高危(0)");
+        titleList.add("正常(0)");
+        titleList.add("全部(0)");
         for (int i = 0; i < titleList.size(); i++) {
             switch (i){
                 case 0:
