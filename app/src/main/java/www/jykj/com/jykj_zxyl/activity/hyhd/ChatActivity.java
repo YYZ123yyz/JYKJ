@@ -221,9 +221,11 @@ public class ChatActivity extends BaseActivity {
                 }
             }
         });
+        mFloatballManager.hide();
         sendGetCheckRequest(userCode,userName);
         //添加监听
         addListener();
+
 
     }
 
@@ -882,7 +884,7 @@ public class ChatActivity extends BaseActivity {
     public void onAttachedToWindow() {
         super.onAttachedToWindow();
         //只有activity被添加到windowmanager上以后才可以调用show方法。
-        mFloatballManager.show();
+       // mFloatballManager.show();
     }
 
     @Override

@@ -54,6 +54,7 @@
                 android:textColor="@color/color_ef0000"
                 android:text="(接诊中)"
                 android:textSize="13sp"
+                android:visibility="gone"
                 android:layout_marginEnd="10dp"
                 android:id="@+id/tv_user_status"
                 >
@@ -67,7 +68,7 @@
             android:id="@+id/bubble"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="5dp"
             android:layout_marginLeft="@dimen/margin_chat_activity"
             android:layout_toRightOf="@id/iv_userhead"
             android:layout_below="@+id/ll_userinfo_root"
