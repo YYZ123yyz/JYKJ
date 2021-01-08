@@ -30,6 +30,7 @@ import www.jykj.com.jykj_zxyl.fragment.FragmentShouYe;
 import www.jykj.com.jykj_zxyl.fragment.home.adapter.HealthEducationAdapter;
 import www.jykj.com.jykj_zxyl.fragment.home.adapter.HealthEducationItemType;
 import www.jykj.com.jykj_zxyl.util.DateUtils;
+import www.jykj.com.jykj_zxyl.util.StringUtils;
 
 public class HomeEducationFragment extends AbstractMvpBaseFragment<HealthEducationContract.View,
         HealthEducationPresenter> implements HealthEducationContract.View {
@@ -121,35 +122,10 @@ public class HomeEducationFragment extends AbstractMvpBaseFragment<HealthEducati
         mHealthEducationAdapter.setOnClickItemListener(pos -> {
             HomeHealthEducationBean healthEducationBean
                     = (HomeHealthEducationBean) mMultiItemEntitys.get(pos);
-            int flagContentType = healthEducationBean.getType();
-            int state = healthEducationBean.getState();
-            if (flagContentType==1) {
-                if (state==5) {
-                    int linkType = healthEducationBean.getLinkType();
-                    if (linkType==0) {
-                        Bundle bundle = new Bundle();
-                        bundle.putString("playUrl", healthEducationBean.getLinkUrl());
-                        bundle.putString("courseWareCode", healthEducationBean.getRelationCode());
-                        startActivity(VideoDetialPlayerActivity.class, bundle);
-                    }else if(linkType==1){
-                        Bundle bundle=new Bundle();
-                        bundle.putString("url",healthEducationBean.getLinkUrl());
-                        bundle.putString("title","图文");
-                        startActivity(H5Activity.class,bundle);
-                    }else if(linkType==2){
-                        Bundle bundle=new Bundle();
-                        bundle.putString("courseWareCode",healthEducationBean.getRelationCode());
-                        startActivity(VideoChapterActivity.class,bundle);
-                    }
-
-                }else{
-                    Intent parintent = new Intent(mActivity, LiveroomDetailActivity.class);
-                    parintent.putExtra("detailCode",healthEducationBean.getRelationCode());
-                    mActivity.startActivity(parintent);
-                }
-            }else if(flagContentType==2){
-                if(healthEducationBean.getUserCode().equals(
-                        mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode())) {
+            int linkType = healthEducationBean.getLinkType();
+            if (linkType==0) {
+                String userCode = healthEducationBean.getUserCode();
+                if(StringUtils.isNotEmpty(userCode)&&userCode.equals(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode())) {
                     Intent theintent = new Intent(mActivity, LivePublisherThreeActivity.class);
                     theintent.putExtra("detailCode", healthEducationBean.getRelationCode());
                     theintent.putExtra("pushUrl", healthEducationBean.getPushUrl());
@@ -159,19 +135,19 @@ public class HomeEducationFragment extends AbstractMvpBaseFragment<HealthEducati
                     theintent.putExtra("live_type", LivePublisherThreeActivity.LIVE_TYPE_HOTLIVE);
                     mActivity.startActivity(theintent);
                 }else{
-                    Intent theintent = new Intent(mActivity, LivePlayerTwoActivity.class);
-                    theintent.putExtra("chatId",healthEducationBean.getChatRoomCode());
-                    theintent.putExtra("pullUrl",healthEducationBean.getLinkUrl());
-                    theintent.putExtra("detailCode",healthEducationBean.getRelationCode());
-                    theintent.putExtra("PLAY_TYPE", LivePlayerTwoActivity.ACTIVITY_TYPE_LIVE_PLAY);
-                    mActivity.startActivity(theintent);
+                    Intent parintent = new Intent(mActivity, LiveroomDetailActivity.class);
+                    parintent.putExtra("detailCode",healthEducationBean.getRelationCode());
+                    mActivity.startActivity(parintent);
                 }
-
-            }else if(flagContentType==3){
+            }else if(linkType==1){
                 Bundle bundle=new Bundle();
                 bundle.putString("url",healthEducationBean.getLinkUrl());
                 bundle.putString("title","图文");
                 startActivity(H5Activity.class,bundle);
+            }else if(linkType==2){
+                Bundle bundle=new Bundle();
+                bundle.putString("courseWareCode",healthEducationBean.getRelationCode());
+                startActivity(VideoChapterActivity.class,bundle);
             }
 
         });
