@@ -122,32 +122,54 @@ public class HomeEducationFragment extends AbstractMvpBaseFragment<HealthEducati
         mHealthEducationAdapter.setOnClickItemListener(pos -> {
             HomeHealthEducationBean healthEducationBean
                     = (HomeHealthEducationBean) mMultiItemEntitys.get(pos);
-            int linkType = healthEducationBean.getLinkType();
-            if (linkType==0) {
-                String userCode = healthEducationBean.getUserCode();
-                if(StringUtils.isNotEmpty(userCode)&&userCode.equals(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode())) {
-                    Intent theintent = new Intent(mActivity, LivePublisherThreeActivity.class);
-                    theintent.putExtra("detailCode", healthEducationBean.getRelationCode());
-                    theintent.putExtra("pushUrl", healthEducationBean.getPushUrl());
-                    theintent.putExtra("chatRoomName", healthEducationBean.getChatRoomCode());
-                    theintent.putExtra("chatId", healthEducationBean.getChatRoomCode());
-                    theintent.putExtra("liveTitle", healthEducationBean.getTitle());
-                    theintent.putExtra("live_type", LivePublisherThreeActivity.LIVE_TYPE_HOTLIVE);
-                    mActivity.startActivity(theintent);
-                }else{
+            int state = healthEducationBean.getState();
+            switch (state){
+                case 1://预告
+                case 3:
                     Intent parintent = new Intent(mActivity, LiveroomDetailActivity.class);
                     parintent.putExtra("detailCode",healthEducationBean.getRelationCode());
                     mActivity.startActivity(parintent);
-                }
-            }else if(linkType==1){
-                Bundle bundle=new Bundle();
-                bundle.putString("url",healthEducationBean.getLinkUrl());
-                bundle.putString("title","图文");
-                startActivity(H5Activity.class,bundle);
-            }else if(linkType==2){
-                Bundle bundle=new Bundle();
-                bundle.putString("courseWareCode",healthEducationBean.getRelationCode());
-                startActivity(VideoChapterActivity.class,bundle);
+                    break;
+                case 2://热播
+                    String userCode = healthEducationBean.getUserCode();
+                    if(StringUtils.isNotEmpty(userCode)&&userCode.equals(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode())) {
+                        Intent theintent = new Intent(mActivity, LivePublisherThreeActivity.class);
+                        theintent.putExtra("detailCode", healthEducationBean.getRelationCode());
+                        theintent.putExtra("pushUrl", healthEducationBean.getPushUrl());
+                        theintent.putExtra("chatRoomName", healthEducationBean.getChatRoomCode());
+                        theintent.putExtra("chatId", healthEducationBean.getChatRoomCode());
+                        theintent.putExtra("liveTitle", healthEducationBean.getTitle());
+                        theintent.putExtra("live_type", LivePublisherThreeActivity.LIVE_TYPE_HOTLIVE);
+                        mActivity.startActivity(theintent);
+                    }else{
+                        Intent theintent = new Intent(mActivity, LivePlayerTwoActivity.class);
+                        theintent.putExtra("chatId",healthEducationBean.getChatRoomCode());
+                        theintent.putExtra("pullUrl",healthEducationBean.getLinkUrl());
+                        theintent.putExtra("detailCode",healthEducationBean.getRelationCode());
+                        theintent.putExtra("PLAY_TYPE", LivePlayerTwoActivity.ACTIVITY_TYPE_LIVE_PLAY);
+                        mActivity.startActivity(theintent);
+                    }
+                    break;
+                case 4:
+                    Bundle bundle=new Bundle();
+                    bundle.putString("url",healthEducationBean.getLinkUrl());
+                    bundle.putString("title","图文");
+                    startActivity(H5Activity.class,bundle);
+                    break;
+                case 5:
+                    int linkType = healthEducationBean.getLinkType();
+                    if (linkType==0) {
+                        Bundle bundle1 = new Bundle();
+                        bundle1.putString("playUrl", healthEducationBean.getLinkUrl());
+                        bundle1.putString("courseWareCode", healthEducationBean.getRelationCode());
+                        startActivity(VideoDetialPlayerActivity.class, bundle1);
+                    }else{
+                        Bundle bundle2=new Bundle();
+                        bundle2.putString("courseWareCode",healthEducationBean.getRelationCode());
+                        startActivity(VideoChapterActivity.class,bundle2);
+                    }
+
+                    break;
             }
 
         });
