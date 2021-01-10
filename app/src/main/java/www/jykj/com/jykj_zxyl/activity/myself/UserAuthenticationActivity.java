@@ -1165,7 +1165,6 @@ public class UserAuthenticationActivity extends BaseActivity {
     }
 
 
-
     /**
      * 提交
      */
@@ -1193,108 +1192,45 @@ public class UserAuthenticationActivity extends BaseActivity {
                     photoId.append(itemID).append("^");
                 }
             }
-
-            HashMap<String, Object> hashMap = ParameUtil.buildBaseDoctorParam(this);
-            String s = photoUrl.toString();
-            hashMap.put("imgIdArray", photoId.toString());
-            if (StringUtils.isNotEmpty(s)) {
-                hashMap.put("imgBase64Array", s);
-            } else {
-                hashMap.put("imgBase64Array", "");
-            }
-            String s1 = RetrofitUtil.encodeParam(hashMap);
-            ApiHelper.getApiService().operSubmitDoctorQualification_20201126(s1)
-                    .compose(Transformer.switchSchedulers(new ILoadingView() {
-                        @Override
-                        public void showLoadingView() {
-                            getProgressBar("请稍候", "正在提交。。。");
-                        }
-
-                        @Override
-                        public void hideLoadingView() {
-                            cacerProgress();
-                        }
-                    })).subscribe(new CommonDataObserver() {
-                @Override
-                protected void onSuccessResult(BaseBean baseBean) {
-                    int resCode = baseBean.getResCode();
-                    if (resCode == 1) {
-                        ToastUtils.showShort(baseBean.getResMsg());
-                        UserAuthenticationActivity.this.finish();
-                    }
-                }
-
-                @Override
-                protected String setTag() {
-                    return super.setTag();
-                }
-            });
-
-//        //开始识别
-//        new Thread() {
-//            public void run() {
-////                //提交数据
-//                try {
-//
-//                    StringBuilder photoUrl = new StringBuilder();
-//                    if (mPhotoInfos.size() > 0) {
-//                        for (int i = 1; i < mPhotoInfos.size(); i++) {
-//                            if (mPhotoInfos.get(i) != null) {
-//                                photoUrl.append("data:image/jpg;base64,");
-//                                String photo = mPhotoInfos.get(i).getPhoto();
-//                                Log.e("TAG", "run:  图片  "+photo );
-//                                if (i == mPhotoInfos.size() - 1) {
-//                                    photoUrl.append(photo);
-//                                } else {
-//                                    photoUrl.append("data:image/jpg;base64,").append(photo).append("^");
-//                                }
-//
-//                            }
-//                        }
-//
-//
-//                    }
-//                    UpLoadImgParment upLoadImgParment = new UpLoadImgParment();
-//                    upLoadImgParment.setLoginDoctorPosition(mApp.loginDoctorPosition);
-//                    upLoadImgParment.setOperDoctorCode(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
-//                    upLoadImgParment.setOperDoctorName(mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
-//
-//                    upLoadImgParment.setImgIdArray("");
-//                    String s = photoUrl.toString();
-//                    if (!TextUtils.isEmpty(s)) {
-//                        upLoadImgParment.setImgBase64Array((URLEncoder.encode(s)));
-//                    }else{
-//                        upLoadImgParment.setImgBase64Array("");
-//                    }
-//
-//                    String str = new Gson().toJson(upLoadImgParment);
-//                    mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + str, Constant.SERVICEURL + "doctorPersonalSetControlle/operSubmitDoctorQualification_20201126");
-//                    NetRetEntity netRetEntity = new Gson().fromJson(mNetRetStr, NetRetEntity.class);
-//                    if (netRetEntity.getResCode() == 0) {
-//                        NetRetEntity retEntity = new NetRetEntity();
-//                        retEntity.setResCode(0);
-//                        retEntity.setResMsg("提交失败：" + netRetEntity.getResMsg());
-//
-//                        mNetRetStr = new Gson().toJson(retEntity);
-//                        mHandler.sendEmptyMessage(5);
-//                        return;
-//                    }
-//
-//                } catch (Exception e) {
-//                    NetRetEntity retEntity = new NetRetEntity();
-//                    retEntity.setResCode(0);
-//                    retEntity.setResMsg("网络连接异常，请联系管理员：" + e.getMessage());
-//                    mNetRetStr = new Gson().toJson(retEntity);
-//                    mHandler.sendEmptyMessage(5);
-//                    return;
-//                }
-//
-//                mHandler.sendEmptyMessage(5);
-//            }
-//        }.start();
-
-
         }
+
+        HashMap<String, Object> hashMap = ParameUtil.buildBaseDoctorParam(this);
+        String s = photoUrl.toString();
+        hashMap.put("imgIdArray", photoId.toString());
+        if (StringUtils.isNotEmpty(s)) {
+            hashMap.put("imgBase64Array", s);
+        } else {
+            hashMap.put("imgBase64Array", "");
+        }
+        String s1 = RetrofitUtil.encodeParam(hashMap);
+        ApiHelper.getApiService().operSubmitDoctorQualification_20201126(s1)
+                .compose(Transformer.switchSchedulers(new ILoadingView() {
+                    @Override
+                    public void showLoadingView() {
+                        getProgressBar("请稍候", "正在提交。。。");
+                    }
+
+                    @Override
+                    public void hideLoadingView() {
+                        cacerProgress();
+                    }
+                })).subscribe(new CommonDataObserver() {
+            @Override
+            protected void onSuccessResult(BaseBean baseBean) {
+                int resCode = baseBean.getResCode();
+                if (resCode == 1) {
+                    ToastUtils.showShort(baseBean.getResMsg());
+                    UserAuthenticationActivity.this.finish();
+                }
+            }
+
+            @Override
+            protected String setTag() {
+                return super.setTag();
+            }
+        });
+
+
     }
 
 }
