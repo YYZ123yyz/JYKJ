@@ -90,7 +90,7 @@ public class UserAccountActivity extends AbstractMvpBaseActivity<UserAccountCont
                 switch (view.getId()) {
                     case R.id.iv_unbind:
                         Intent intent = new Intent(UserAccountActivity.this, ModifyIinforActivity.class);
-                        intent.putExtra("bankcardCode", dataList.get(position).getIdNumber());
+                        intent.putExtra("bankcardCode", dataList.get(position).getBankcardCode());
                         intent.putExtra("type", 3);
                         startActivity(intent);
                         break;
