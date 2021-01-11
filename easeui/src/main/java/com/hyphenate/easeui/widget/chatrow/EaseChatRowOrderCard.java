@@ -460,7 +460,7 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                 rlEndTime.setVisibility(View.GONE);
                 rlSurplusTimes.setVisibility(View.GONE);
                 rlSurplusDuration.setVisibility(View.GONE);
-                //mTvOrderUpdateBtn.setVisibility(View.GONE);
+                mTvOrderUpdateBtn.setVisibility(View.GONE);
                 mTvPriceValue.setVisibility(View.GONE);
                 if (mTvOperMsg!=null) {
                     mTvOperMsg.setVisibility(View.GONE);
@@ -663,6 +663,7 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                     tvImmediatelySeeBtn.setText("立即查看");
                     rlConsultationMessage.setVisibility(View.VISIBLE);
                     mTvCancelContractMsg.setVisibility(View.GONE);
+                    mTvOrderUpdateBtn.setVisibility(View.GONE);
                     tvDiagnosisMessage.setText("您已经成功对"+patientName+"发起诊后留言。");
                     switch (flagReplyType) {
                         case "1":
