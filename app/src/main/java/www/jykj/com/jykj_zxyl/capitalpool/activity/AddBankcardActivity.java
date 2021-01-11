@@ -110,7 +110,7 @@ public class AddBankcardActivity extends AbstractMvpBaseActivity<AddBankcardCont
             ToastUtils.showShort("请输入银行名");
             return;
         }
-        if (RegexUtils.isIDCard18(etCardNum.getText().toString().trim())) {
+        if (etCardNum.getText().toString().trim().length() != 18 || etCardNum.getText().toString().trim().length() != 15) {
             ToastUtils.showShort("请填写正确的身份证号");
             return;
         }
