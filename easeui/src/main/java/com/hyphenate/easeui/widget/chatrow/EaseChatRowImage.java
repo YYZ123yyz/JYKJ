@@ -29,6 +29,8 @@ public class EaseChatRowImage extends EaseChatRowFile{
     private EMImageMessageBody imgBody;
     private LinearLayout llUserInfoRoot;
     private TextView tvUserIdNew;
+    private TextView tvUserStatus;
+    private TextView tvUserName;
     public EaseChatRowImage(Context context, EMMessage message, int position, BaseAdapter adapter) {
         super(context, message, position, adapter);
     }
@@ -45,6 +47,8 @@ public class EaseChatRowImage extends EaseChatRowFile{
         imageView = (ImageView) findViewById(R.id.image);
         llUserInfoRoot=findViewById(R.id.ll_userinfo_root);
         tvUserIdNew=findViewById(R.id.tv_userid_new);
+        tvUserStatus=findViewById(R.id.tv_user_status);
+        tvUserName=findViewById(R.id.tv_user_name);
     }
 
 
@@ -91,6 +95,27 @@ public class EaseChatRowImage extends EaseChatRowFile{
                // usernickView.setVisibility(View.VISIBLE);
             }
 
+        }
+        if (tvUserStatus!=null) {
+            long reserveConfigStart = message.getLongAttribute("reserveConfigStart", 0);
+            long reserveConfigEnd = message.getLongAttribute("reserveConfigEnd", 0);
+            if (reserveConfigStart != 0 && reserveConfigEnd != 0) {
+                long msgTime = message.getMsgTime();
+                if (msgTime >= reserveConfigStart && msgTime <= reserveConfigEnd) {
+                    tvUserStatus.setVisibility(View.VISIBLE);
+                } else {
+                    tvUserStatus.setVisibility(View.GONE);
+                }
+            } else {
+                tvUserStatus.setVisibility(View.GONE);
+            }
+        }
+        if(tvUserName!=null){
+            if (message.direct() == EMMessage.Direct.SEND) {
+                EaseUserUtils.setUserNick(ExtEaseUtils.getInstance().getNickName(),tvUserName);
+            }else{
+                EaseUserUtils.setUserNick(message.getUserName(),tvUserName);
+            }
         }
 
 

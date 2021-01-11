@@ -55,6 +55,7 @@ import www.jykj.com.jykj_zxyl.app_base.base_bean.CheckImResultBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.PatientRecordDetBean;
 import www.jykj.com.jykj_zxyl.app_base.base_dialog.MedcalRecordDialog;
 import www.jykj.com.jykj_zxyl.app_base.base_utils.ActivityStackManager;
+import www.jykj.com.jykj_zxyl.app_base.base_utils.RxUtils;
 import www.jykj.com.jykj_zxyl.app_base.http.ApiHelper;
 import www.jykj.com.jykj_zxyl.app_base.http.CommonDataObserver;
 import www.jykj.com.jykj_zxyl.app_base.http.ParameUtil;
@@ -184,8 +185,7 @@ public class ChatActivity extends BaseActivity {
         //   SavePreferences.setData("isNewMsg",false);
         getTime(orderCode,"1","1","1");
         initHandler();
-        boolean showMenu = true;//换成false试试
-        initSinglePageFloatball(showMenu);
+        initSinglePageFloatball(true);
         //5 如果没有添加菜单，可以设置悬浮球点击事件
         mFloatballManager.setOnFloatBallClickListener(new FloatBallManager.OnFloatBallClickListener() {
             @Override
@@ -221,9 +221,11 @@ public class ChatActivity extends BaseActivity {
                 }
             }
         });
+
         sendGetCheckRequest(userCode,userName);
         //添加监听
         addListener();
+
 
     }
 
@@ -882,7 +884,7 @@ public class ChatActivity extends BaseActivity {
     public void onAttachedToWindow() {
         super.onAttachedToWindow();
         //只有activity被添加到windowmanager上以后才可以调用show方法。
-        mFloatballManager.show();
+        mFloatballManager.hide();
     }
 
     @Override

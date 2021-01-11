@@ -7,8 +7,8 @@ public class ReportBean implements Serializable {
 
 
     /**
-     * diseaseTypeCode : jibingzhenduanmingcheng001
-     * diseaseTypeName : 冠心病
+     * diseaseTypeCode : 883a425576604445b0be4971541ff2fb
+     * diseaseTypeName : 高血压
      */
 
     private String diseaseTypeCode;

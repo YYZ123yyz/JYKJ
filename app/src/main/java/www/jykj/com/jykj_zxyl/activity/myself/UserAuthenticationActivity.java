@@ -59,6 +59,7 @@ import www.jykj.com.jykj_zxyl.activity.home.tjhz.AddPatientQRCodeActivity;
 import www.jykj.com.jykj_zxyl.app_base.base_activity.BaseActivity;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.BaseBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.ImageInfoBean;
+import www.jykj.com.jykj_zxyl.app_base.base_utils.CollectionUtils;
 import www.jykj.com.jykj_zxyl.app_base.base_utils.OnClickHelper;
 import www.jykj.com.jykj_zxyl.app_base.http.ApiHelper;
 import www.jykj.com.jykj_zxyl.app_base.http.CommonDataObserver;
@@ -131,8 +132,8 @@ public class UserAuthenticationActivity extends BaseActivity {
     private LinearLayout lin_status;
     private LinearLayout lin_time;
     private TextView tv_time;
-    private ArrayList<String> imageArrList = new ArrayList<String>();
     private ArrayList<String> updataArrList = new ArrayList<String>();
+
     private boolean isUpdata = false;
     private TextView success;
     private LinearLayout lin_schedule;
@@ -282,17 +283,23 @@ public class UserAuthenticationActivity extends BaseActivity {
                                         if (otherCard1ImgUrl.contains("^")) {
                                             mPhotoInfos.clear();
                                             String[] split = otherCard1ImgUrl.split("\\^");
-                                            for (int i = 0; i < split.length; i++) {
+                                            int len;
+                                            if(split.length>3){
+                                                len=3;
+                                            }else{
+                                                len=split.length;
+                                            }
+                                            for (int i = 0; i < len; i++) {
                                                 Photo_Info photo_info = new Photo_Info();
                                                 photo_info.setPhotoUrl(split[i]);
-                                                photo_info.setStatus("2");
+                                                photo_info.setStatus("1");
                                                 mPhotoInfos.add(photo_info);
                                             }
                                         } else {
                                             mPhotoInfos.clear();
                                             if (!TextUtils.isEmpty(otherCard1ImgUrl)) {
                                                 Photo_Info photo_info = new Photo_Info();
-                                                photo_info.setStatus("2");
+                                                photo_info.setStatus("1");
                                                 photo_info.setPhotoUrl(otherCard1ImgUrl);
                                                 mPhotoInfos.add(photo_info);
                                                 Log.e("TAG", "handleMessage: ccc"+mPhotoInfos.size() );
@@ -318,6 +325,7 @@ public class UserAuthenticationActivity extends BaseActivity {
                                     tv_too.setText(refuseReason);
                                     //图片路径
                                     String otherCard1ImgUrl = provideDoctorQualification.getOtherCard1ImgUrl();
+                                    String otherCard1ImgId = provideDoctorQualification.getOtherCard1ImgId();
                                     Log.e("TAG", "handleMessage:  图片地址  "+otherCard1ImgUrl );
                                     if(!TextUtils.isEmpty(otherCard1ImgUrl)){
                                         text.setVisibility(View.GONE);
@@ -325,9 +333,17 @@ public class UserAuthenticationActivity extends BaseActivity {
                                         if (otherCard1ImgUrl.contains("^")) {
                                             mPhotoInfos.clear();
                                             String[] split = otherCard1ImgUrl.split("\\^");
-                                            for (int i = 0; i < split.length; i++) {
+                                            String[] split1 = otherCard1ImgId.split("\\^");
+                                            int len;
+                                            if(split.length>3){
+                                                len=3;
+                                            }else{
+                                                len=split.length;
+                                            }
+                                            for (int i = 0; i < len; i++) {
                                                 Photo_Info photo_info = new Photo_Info();
                                                 photo_info.setPhotoUrl(split[i]);
+                                                photo_info.setItemID(split1[i]);
                                                 photo_info.setStatus("2");
                                                 mPhotoInfos.add(photo_info);
                                             }
@@ -336,6 +352,7 @@ public class UserAuthenticationActivity extends BaseActivity {
                                             if (!TextUtils.isEmpty(otherCard1ImgUrl)) {
                                                 Photo_Info photo_info = new Photo_Info();
                                                 photo_info.setStatus("2");
+                                                photo_info.setItemID(otherCard1ImgId);
                                                 photo_info.setPhotoUrl(otherCard1ImgUrl);
                                                 mPhotoInfos.add(photo_info);
                                                 Log.e("TAG", "handleMessage: ccc"+mPhotoInfos.size() );
@@ -374,17 +391,23 @@ public class UserAuthenticationActivity extends BaseActivity {
                                         if (otherCard1ImgUrl.contains("^")) {
                                             mPhotoInfos.clear();
                                             String[] split = otherCard1ImgUrl.split("\\^");
-                                            for (int i = 0; i < split.length; i++) {
+                                            int len;
+                                            if(split.length>3){
+                                                len=3;
+                                            }else{
+                                                len=split.length;
+                                            }
+                                            for (int i = 0; i < len; i++) {
                                                 Photo_Info photo_info = new Photo_Info();
                                                 photo_info.setPhotoUrl(split[i]);
-                                                photo_info.setStatus("2");
+                                                photo_info.setStatus("3");
                                                 mPhotoInfos.add(photo_info);
                                             }
                                         } else {
                                             mPhotoInfos.clear();
                                             if (!TextUtils.isEmpty(otherCard1ImgUrl)) {
                                                 Photo_Info photo_info = new Photo_Info();
-                                                photo_info.setStatus("2");
+                                                photo_info.setStatus("3");
                                                 photo_info.setPhotoUrl(otherCard1ImgUrl);
                                                 mPhotoInfos.add(photo_info);
                                                 Log.e("TAG", "handleMessage: ccc"+mPhotoInfos.size() );
@@ -411,7 +434,13 @@ public class UserAuthenticationActivity extends BaseActivity {
                                         if (otherCard1ImgUrl.contains("^")) {
                                             mPhotoInfos.clear();
                                             String[] split = otherCard1ImgUrl.split("\\^");
-                                            for (int i = 0; i < split.length; i++) {
+                                            int len;
+                                            if(split.length>3){
+                                                len=3;
+                                            }else{
+                                                len=split.length;
+                                            }
+                                            for (int i = 0; i < len; i++) {
                                                 Photo_Info photo_info = new Photo_Info();
                                                 photo_info.setPhotoUrl(split[i]);
                                                 photo_info.setStatus("2");
@@ -891,9 +920,15 @@ public class UserAuthenticationActivity extends BaseActivity {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
 
-                                String photoID = mPhotoInfos.get(position).getPhotoID();
-                                if (!updataArrList.contains(photoID)) {
-                                    updataArrList.add(photoID);
+//                                String photoID = mPhotoInfos.get(position).getPhotoID();
+//                                if (!updataArrList.contains(photoID)) {
+//                                    updataArrList.add(photoID);
+//                                }
+                                String itemID = mPhotoInfos.get(position).getItemID();
+                                if (StringUtils.isNotEmpty(itemID)) {
+                                    if (!updataArrList.contains(itemID)) {
+                                        updataArrList.add(itemID);
+                                    }
                                 }
 
                                 mPhotoInfos.remove(position);
@@ -1130,50 +1165,40 @@ public class UserAuthenticationActivity extends BaseActivity {
     }
 
 
-
     /**
      * 提交
      */
     private void commit() {
-//        //身份证正面
-//        int idNumberPositive = provideDoctorQualification.getIdNumberPositive();
-//        //身份证反面
-//        int idNumberSide = provideDoctorQualification.getIdNumberSide();
-//        //医师执业证
-//        int practising = provideDoctorQualification.getPractising();
-//        //医师职称证
-//        int professional = provideDoctorQualification.getProfessional();
-//        //医师工作证
-//        int workCard = provideDoctorQualification.getWorkCard();
-        //       Log.e("TAG", "commit:  bbbbbb "+mPhotoType );
-//        if(idNumberPositive==0||idNumberSide==0||practising==0||professional==0||workCard==0){
-//            ToastUtils.showShort("[医师资格认证]资质未全部上传,请上传成功后重试");
-//            return;
-//        }
         StringBuilder photoUrl = new StringBuilder();
-        if (mPhotoInfos.size() > 0) {
-            for (int i = 1; i < mPhotoInfos.size(); i++) {
-                if (mPhotoInfos.get(i) != null) {
-                    photoUrl.append("data:image/jpg;base64,");
-                    String photo = mPhotoInfos.get(i).getPhoto();
-                    Log.e("TAG", "run:  图片  " + photo);
+        StringBuilder photoId = new StringBuilder();
+        if (!CollectionUtils.isEmpty(mPhotoInfos)) {
+            for (int i = 0; i < mPhotoInfos.size(); i++) {
+                String photo = mPhotoInfos.get(i).getPhoto();
+                if (photo != null) {
                     if (i == mPhotoInfos.size() - 1) {
-                        photoUrl.append(photo);
+                        photoUrl.append("data:image/jpg;base64,").append(photo);
                     } else {
                         photoUrl.append("data:image/jpg;base64,").append(photo).append("^");
                     }
-
                 }
             }
-
-
+        }
+        if (!CollectionUtils.isEmpty(updataArrList)) {
+            for (int i = 0; i < updataArrList.size(); i++) {
+                String itemID = updataArrList.get(i);
+                if (i == updataArrList.size() - 1) {
+                    photoId.append(itemID);
+                } else {
+                    photoId.append(itemID).append("^");
+                }
+            }
         }
 
         HashMap<String, Object> hashMap = ParameUtil.buildBaseDoctorParam(this);
         String s = photoUrl.toString();
-        hashMap.put("imgIdArray", "");
+        hashMap.put("imgIdArray", photoId.toString());
         if (StringUtils.isNotEmpty(s)) {
-            hashMap.put("imgBase64Array", (URLEncoder.encode(s)));
+            hashMap.put("imgBase64Array", s);
         } else {
             hashMap.put("imgBase64Array", "");
         }
@@ -1204,69 +1229,6 @@ public class UserAuthenticationActivity extends BaseActivity {
                 return super.setTag();
             }
         });
-
-//        //开始识别
-//        new Thread() {
-//            public void run() {
-////                //提交数据
-//                try {
-//
-//                    StringBuilder photoUrl = new StringBuilder();
-//                    if (mPhotoInfos.size() > 0) {
-//                        for (int i = 1; i < mPhotoInfos.size(); i++) {
-//                            if (mPhotoInfos.get(i) != null) {
-//                                photoUrl.append("data:image/jpg;base64,");
-//                                String photo = mPhotoInfos.get(i).getPhoto();
-//                                Log.e("TAG", "run:  图片  "+photo );
-//                                if (i == mPhotoInfos.size() - 1) {
-//                                    photoUrl.append(photo);
-//                                } else {
-//                                    photoUrl.append("data:image/jpg;base64,").append(photo).append("^");
-//                                }
-//
-//                            }
-//                        }
-//
-//
-//                    }
-//                    UpLoadImgParment upLoadImgParment = new UpLoadImgParment();
-//                    upLoadImgParment.setLoginDoctorPosition(mApp.loginDoctorPosition);
-//                    upLoadImgParment.setOperDoctorCode(mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
-//                    upLoadImgParment.setOperDoctorName(mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
-//
-//                    upLoadImgParment.setImgIdArray("");
-//                    String s = photoUrl.toString();
-//                    if (!TextUtils.isEmpty(s)) {
-//                        upLoadImgParment.setImgBase64Array((URLEncoder.encode(s)));
-//                    }else{
-//                        upLoadImgParment.setImgBase64Array("");
-//                    }
-//
-//                    String str = new Gson().toJson(upLoadImgParment);
-//                    mNetRetStr = HttpNetService.urlConnectionService("jsonDataInfo=" + str, Constant.SERVICEURL + "doctorPersonalSetControlle/operSubmitDoctorQualification_20201126");
-//                    NetRetEntity netRetEntity = new Gson().fromJson(mNetRetStr, NetRetEntity.class);
-//                    if (netRetEntity.getResCode() == 0) {
-//                        NetRetEntity retEntity = new NetRetEntity();
-//                        retEntity.setResCode(0);
-//                        retEntity.setResMsg("提交失败：" + netRetEntity.getResMsg());
-//
-//                        mNetRetStr = new Gson().toJson(retEntity);
-//                        mHandler.sendEmptyMessage(5);
-//                        return;
-//                    }
-//
-//                } catch (Exception e) {
-//                    NetRetEntity retEntity = new NetRetEntity();
-//                    retEntity.setResCode(0);
-//                    retEntity.setResMsg("网络连接异常，请联系管理员：" + e.getMessage());
-//                    mNetRetStr = new Gson().toJson(retEntity);
-//                    mHandler.sendEmptyMessage(5);
-//                    return;
-//                }
-//
-//                mHandler.sendEmptyMessage(5);
-//            }
-//        }.start();
 
 
     }

@@ -51,6 +51,8 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
         return vh;
     }
 
+
+
     //将数据与界面进行绑定的操作
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
@@ -77,14 +79,20 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
                             .into(viewHolder.mImageView);
                 }
 
-            } else{
+            } else if(status.equals("2")){
                 Log.e("TAG", "onBindViewHolder: xxxxxxxxxxxxxx"+datas.get(position).getPhotoUrl() );
-                viewHolder.delete_img.setVisibility(View.GONE);
+                viewHolder.delete_img.setVisibility(View.VISIBLE);
                 Glide.with(viewHolder.mImageView.getContext()).load(datas.get(position).getPhotoUrl())
                         .apply(RequestOptions.placeholderOf(R.color.color_ffffff)
                                 .diskCacheStrategy(DiskCacheStrategy.ALL))
                         .into(viewHolder.mImageView);
 
+            }else if(status.equals("3")){
+                viewHolder.delete_img.setVisibility(View.GONE);
+                Glide.with(viewHolder.mImageView.getContext()).load(datas.get(position).getPhotoUrl())
+                        .apply(RequestOptions.placeholderOf(R.color.color_ffffff)
+                                .diskCacheStrategy(DiskCacheStrategy.ALL))
+                        .into(viewHolder.mImageView);
             }
         }
         ViewGroup.LayoutParams layoutParams = viewHolder.mImageView.getLayoutParams();

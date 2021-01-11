@@ -28,13 +28,16 @@ import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.activity.hyhd.ChatActivity;
 import www.jykj.com.jykj_zxyl.adapter.WZZXImageViewRecycleAdapter;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.DiagnosisReplayBean;
+import www.jykj.com.jykj_zxyl.app_base.base_utils.ActivityStackManager;
 import www.jykj.com.jykj_zxyl.app_base.base_utils.CollectionUtils;
 import www.jykj.com.jykj_zxyl.app_base.mvp.AbstractMvpBaseActivity;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.personal.DiagnosisReplayContract;
 import www.jykj.com.jykj_zxyl.personal.DiagnosisReplayPresenter;
 import www.jykj.com.jykj_zxyl.personal.adapter.DiagnosisReplayAdapter;
+import www.jykj.com.jykj_zxyl.util.DateUtils;
 import www.jykj.com.jykj_zxyl.util.FullyGridLayoutManager;
+import www.jykj.com.jykj_zxyl.util.PhotoDialog;
 import www.jykj.com.jykj_zxyl.util.StringUtils;
 
 /**
@@ -181,11 +184,10 @@ public class DiagnosisReplayActivity extends
         mAdapter.setOnItemClickListener(new WZZXImageViewRecycleAdapter.OnItemClickListener() {
             @Override
             public void onClick(int position) {
-//                PhotoDialog photoDialog = new PhotoDialog(,R.style.PhotoDialog);
-//                photoDialog.setDate(mContext,mApp,mProvideBasicsImg,position);
-//                photoDialog.show();
+                PhotoDialog photoDialog = new PhotoDialog(DiagnosisReplayActivity.this,R.style.PhotoDialog);
+                photoDialog.setDate(DiagnosisReplayActivity.this,mApp,mProvideBasicsImg,position);
+                photoDialog.show();
             }
-
 
             @Override
             public void onLongClick(int position) {
@@ -270,9 +272,8 @@ public class DiagnosisReplayActivity extends
     @Override
     public void getOperUpdMyClinicDetailByOrderPatientMessageResult(boolean isSucess, String msg) {
         if (isSucess) {
-            if (!isFromCard) {
-                startJumpChatActivity();
-            }
+            ActivityStackManager.getInstance().finishChatActivity();
+            startJumpChatActivity();
             this.finish();
         } else {
             ToastUtils.showToast(msg);
@@ -298,7 +299,13 @@ public class DiagnosisReplayActivity extends
         String messageDate = diagnosisReplayBean.getMessageDate();
         String patientLinkPhone = diagnosisReplayBean.getPatientLinkPhone();
         String messageContent = diagnosisReplayBean.getMessageContent();
-        tvMsgDate.setText(StringUtils.isNotEmpty(messageDate) ? messageDate : "未提交");
+        if (StringUtils.isNotEmpty(messageDate)) {
+            long longTime = Long.parseLong(messageDate);
+            String stringTimeOfYYYYMMDDHHMM = DateUtils.getStringTimeOfYYYYMMDDHHMM(longTime);
+            tvMsgDate.setText(stringTimeOfYYYYMMDDHHMM);
+        }else{
+            tvMsgDate.setText("未提交");
+        }
         tvLinkPhone.setText(StringUtils.isNotEmpty(patientLinkPhone) ? patientLinkPhone : "未提交");
         content.setText(StringUtils.isNotEmpty(messageContent) ? messageContent : "未提交");
         String messageImgArray = diagnosisReplayBean.getMessageImgArray();

@@ -43,7 +43,7 @@ public class MyselfAdapter extends RecyclerView.Adapter<MyselfAdapter.ViewHolder
         if(doctorRecordBean!=null){
             viewHolder.tv_doctorname.setText("记录医生:  "+doctorRecordBean.getRecordName());
             long createDate = doctorRecordBean.getTreatmentDate();
-            String dates = DateUtils.stampToDates(createDate);
+            String dates = DateUtils.getDateToYYYYMMDDHHMM(createDate);
             viewHolder.item_time.setText(dates);
             viewHolder.tv_diagnosis.setText(doctorRecordBean.getRecordContent());
             if (OnItemCoachingClickListener != null) {

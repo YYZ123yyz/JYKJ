@@ -58,7 +58,7 @@ import yyz_exploit.activity.activity.TerminationActivity;
  * @author: qiuxinhai
  * @date: 2020-12-26 15:04
  */
-public class SignedPatientChildFragment  extends AbstractMvpBaseFragment<FragmentContract.View,
+public class  SignedPatientChildFragment  extends AbstractMvpBaseFragment<FragmentContract.View,
         FragmentPresenter> implements FragmentContract.View {
 
     @BindView(R.id.all_recy)

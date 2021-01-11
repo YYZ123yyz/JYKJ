@@ -30,6 +30,8 @@ import com.hyphenate.easeui.jykj.activity.TerminationActivity2;
 import com.hyphenate.easeui.jykj.bean.OrderMessage;
 import com.hyphenate.easeui.netService.HttpNetService;
 import com.hyphenate.easeui.netService.entity.NetRetEntity;
+import com.hyphenate.easeui.utils.EaseUserUtils;
+import com.hyphenate.easeui.utils.ExtEaseUtils;
 import com.hyphenate.easeui.utils.SharedPreferences_DataSave;
 import com.hyphenate.easeui.widget.EaseImageView;
 import org.greenrobot.eventbus.EventBus;
@@ -129,7 +131,7 @@ public class EaseChatRowOrderCard extends EaseChatRow {
     private TextView tvImmediatelySeeBtn;
     private TextView tvMessageTypeValue;
     private RelativeLayout rlConsultationMessage;
-
+    private TextView tvUserName;
     private String patientType;
     private String patientName;
     private ViewSysUserDoctorInfoAndHospital mViewSysUserDoctorInfoAndHospital;
@@ -209,7 +211,7 @@ public class EaseChatRowOrderCard extends EaseChatRow {
         tvImmediatelySeeBtn=findViewById(R.id.tv_immediately_see_btn);
         rlConsultationMessage=findViewById(R.id.rl_consultation_message);
         tvMessageTypeValue=findViewById(R.id.tv_message_type_value);
-
+        tvUserName=findViewById(R.id.tv_user_name);
         addListener();
     }
 
@@ -219,6 +221,7 @@ public class EaseChatRowOrderCard extends EaseChatRow {
     }
 
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onSetUpView() {
         SharedPreferences_DataSave m_persist = new SharedPreferences_DataSave(activity,
@@ -264,6 +267,11 @@ public class EaseChatRowOrderCard extends EaseChatRow {
         mTvSignTimeValue.setText(signUpTime);
         mTvPriceValue.setText(String.format("¥ %s", price));
         orderType = message.getStringAttribute("orderType", "");//1已同意 2 修改 3 拒绝（由患者操作发起时会携带此参数）
+        if (message.direct() == EMMessage.Direct.SEND) {
+            EaseUserUtils.setUserNick(ExtEaseUtils.getInstance().getNickName(), tvUserName);
+        } else {
+            EaseUserUtils.setUserNick(message.getUserName(), tvUserName);
+        }
         switch (messageType) {
             case "terminationOrder":
                 mTvCardTitle.setText("解约订单");
@@ -620,7 +628,7 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                                         bundle.putString("patientCode", patientCode);
                                         bundle.putString("singNO", singNO);
                                         bundle.putString("status", "2");
-                                        bundle.putString("doctorUrl", imageUrl);
+                                        bundle.putString("doctorUrl", mViewSysUserDoctorInfoAndHospital.getUserLogoUrl());
                                         bundle.putString("patientUrl", Constant.patientUrl);
                                         startActivity(SigningDetailsActivity.class, bundle);
                                     }
@@ -654,6 +662,8 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                 case "MessageAfterDiagnosis":
                     tvImmediatelySeeBtn.setText("立即查看");
                     rlConsultationMessage.setVisibility(View.VISIBLE);
+                    mTvCancelContractMsg.setVisibility(View.GONE);
+                    tvDiagnosisMessage.setText("您已经成功对"+patientName+"发起诊后留言。");
                     switch (flagReplyType) {
                         case "1":
                             tvMessageTypeValue.setText("正常");
@@ -745,7 +755,7 @@ public class EaseChatRowOrderCard extends EaseChatRow {
 
         if (message.direct() == EMMessage.Direct.RECEIVE) {
 
-            tvCancelContractAgreeBtn.setOnClickListener(new OnClickListener() {
+            tvCancelContractAgreeBtn.setOnClickListener(new OnClickListener()   {
                 @Override
                 public void onClick(View v) {
                     Object tag = tvCancelContractAgreeBtn.getTag();
@@ -827,6 +837,8 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                         bundle.putString("patientName", nickName);
                         bundle.putString("patientCode", patientCode);
                         bundle.putString("status", "2");
+                        bundle.putString("doctorUrl",
+                                mViewSysUserDoctorInfoAndHospital.getUserLogoUrl());
                         bundle.putString("singNO", singNO);
                         startActivity(SigningDetailsActivity.class, bundle);
                     }
@@ -849,6 +861,7 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                         bundle.putString("orderCode",orderCode);
                         bundle.putString("patientName", nickName);
                         bundle.putString("patientCode", patientCode);
+                        bundle.putString("doctorUrl",mViewSysUserDoctorInfoAndHospital.getUserLogoUrl());
                         bundle.putString("status", "2");
                         bundle.putString("singNO", singNO);
                         startActivity(SigningDetailsActivity.class, bundle);
@@ -967,7 +980,7 @@ public class EaseChatRowOrderCard extends EaseChatRow {
                     case "MessageAfterDiagnosis":{
                         Bundle bundle = new Bundle();
                         bundle.putString("orderCode", orderCode);
-                        bundle.putString("patientCode", message.getTo());
+                        bundle.putString("patientCode", patientCode);
                         bundle.putString("patientName", patientName);
                         bundle.putBoolean("isFromCard",true);
                         Intent intent = new Intent();

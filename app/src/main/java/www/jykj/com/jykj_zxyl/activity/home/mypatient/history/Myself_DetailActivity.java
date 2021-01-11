@@ -3,12 +3,14 @@ package www.jykj.com.jykj_zxyl.activity.home.mypatient.history;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -27,10 +29,12 @@ import butterknife.ButterKnife;
 import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.activity.home.mypatient.history.adapter.Myself_DetailAdapter;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.Myself_DetaiBean;
+import www.jykj.com.jykj_zxyl.app_base.base_view.GridDividerItemDecoration;
 import www.jykj.com.jykj_zxyl.app_base.mvp.AbstractMvpBaseActivity;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.util.ActivityUtil;
 import www.jykj.com.jykj_zxyl.util.DateUtils;
+import www.jykj.com.jykj_zxyl.util.FullyGridLayoutManager;
 
 /**
  * 个人填写详情
@@ -75,10 +79,14 @@ public class Myself_DetailActivity extends AbstractMvpBaseActivity<Myself_Detail
         //创建默认的线性LayoutManager
 //        LinearLayoutManager layoutManager = new LinearLayoutManager(tihs);
 //        layoutManager.setOrientation(LinearLayout.VERTICAL);
-        LinearLayoutManager gridLayoutManager = new LinearLayoutManager(this);
-        autoGridView.setLayoutManager(gridLayoutManager);
+        FullyGridLayoutManager mGridLayoutManager = new FullyGridLayoutManager(this, 3);
+        mGridLayoutManager.setOrientation(LinearLayout.VERTICAL);
         //如果可以确定每个item的高度是固定的，设置这个选项可以提高性能
+        autoGridView.setLayoutManager(mGridLayoutManager);
         autoGridView.setHasFixedSize(true);
+        GridDividerItemDecoration gridDividerItemDecoration=new GridDividerItemDecoration(1
+                , Color.parseColor("#D4D4D4"));
+        autoGridView.addItemDecoration(gridDividerItemDecoration);
     }
 
     private void addClick() {

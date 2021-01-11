@@ -320,6 +320,23 @@ public class DateUtils {
         return date;
     }
 
+    /**
+     * 当前的年月
+     * @return
+     */
+    public static String getDeviceTimeyears() {
+        String date = "";
+        try {
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM");
+            date = df.format(new Date());
+        } catch (Exception e) {
+            e.printStackTrace();
+            date = new Date().getTime() + "";//当前时间的long字符串
+        }
+        return date;
+    }
+
+
 
     /**
      * 当前的时间(设备)

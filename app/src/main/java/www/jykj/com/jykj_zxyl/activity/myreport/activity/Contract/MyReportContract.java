@@ -37,7 +37,7 @@ public class MyReportContract {
         void getInquireRequest(String loginDoctorPosition, String operDoctorCode,
                                String operDoctorName, String userGradeCode,
                                String reportPeriod, String totalType,
-                               String diseaseTypeCode, String departmentCode,
+                               String diseaseTypeCode, String searchType,String departmentCode,
                                String userName);
 
 
