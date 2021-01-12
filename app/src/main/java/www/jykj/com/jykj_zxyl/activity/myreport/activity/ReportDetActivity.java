@@ -17,6 +17,9 @@ import com.bigkoo.pickerview.listener.OnTimeSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.bigkoo.pickerview.view.TimePickerView;
 import com.blankj.utilcode.util.LogUtils;
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMMessage;
+import com.hyphenate.easeui.EaseConstant;
 import com.hyphenate.easeui.jykj.utils.DateUtils;
 
 import java.util.ArrayList;
@@ -403,7 +406,6 @@ public class ReportDetActivity extends AbstractMvpBaseActivity<ReportDetContract
                 price = bean.getTotalSignUpPatientExecutedAmount()+bean.getTotalTerminatedPatientCount()+bean.getTotalSignPatientSumAmount();
                 all_money_tv.setText(String.format("¥%s元", price));
             }
-
 
 
 

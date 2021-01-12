@@ -230,7 +230,7 @@ public class WithdrawActivity extends AbstractMvpBaseActivity<WithdrawContract.V
 
 
 
-        bankId = withdrawTypelListBean.getIdNumber();
+        bankId = withdrawTypelListBean.getBankcardCode();
     }
 
     @Override

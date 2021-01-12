@@ -30,9 +30,11 @@ public class ProvideViewPatientHealthyAndBasicsBean   implements Serializable {
     private int flagSmoking;
     private int flagStayUpLate;
     private int height;
+    private int flagAllergy;
     private String htnHistory;
     private String nation;
     private String nativePlace;
+    private String historyAllergy;
     private int waistline;
     private int weight;
 
@@ -146,5 +148,21 @@ public class ProvideViewPatientHealthyAndBasicsBean   implements Serializable {
 
     public void setWeight(int weight) {
         this.weight = weight;
+    }
+
+    public int getFlagAllergy() {
+        return flagAllergy;
+    }
+
+    public void setFlagAllergy(int flagAllergy) {
+        this.flagAllergy = flagAllergy;
+    }
+
+    public String getHistoryAllergy() {
+        return historyAllergy;
+    }
+
+    public void setHistoryAllergy(String historyAllergy) {
+        this.historyAllergy = historyAllergy;
     }
 }

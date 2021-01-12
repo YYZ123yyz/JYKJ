@@ -44,7 +44,7 @@
             android:inputType="numberDecimal"
             android:id="@+id/ed_input_content"
             android:textColor="@color/color_999999"
-            android:textSize="17sp" />
+            android:textSize="35sp" />
 
     </LinearLayout>
 

@@ -182,6 +182,7 @@ public class SymptomActivity extends AbstractMvpBaseActivity<SymptormContract.Vi
                 }
 
             });
+            selfDescrip.setText(symptormBean.getStateOfIllness());
         }
     }
 

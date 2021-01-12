@@ -3,6 +3,8 @@ package www.jykj.com.jykj_zxyl.appointment.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
@@ -32,6 +34,8 @@ import www.jykj.com.jykj_zxyl.app_base.http.CommonDataObserver;
 import www.jykj.com.jykj_zxyl.app_base.http.ParameUtil;
 import www.jykj.com.jykj_zxyl.app_base.http.RetrofitUtil;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
+import www.jykj.com.jykj_zxyl.capitalpool.activity.SmallChangeActivity;
+import www.jykj.com.jykj_zxyl.custom.MoreFeaturesPopupWindow;
 import www.jykj.com.jykj_zxyl.util.DateUtils;
 import www.jykj.com.jykj_zxyl.util.GsonUtils;
 import www.jykj.com.jykj_zxyl.util.StringUtils;
@@ -71,7 +75,7 @@ public class CancelAppointActivity extends BaseActivity {
     private BaseReasonBean currentBaseReasonBean;
     private JYKJApplication mApp;
     private CancelAppointResultBean cancelAppointResultBean;
-
+    private ImageButton imageButtonE;
     @Override
     protected void onBeforeSetContentLayout() {
         super.onBeforeSetContentLayout();
@@ -93,7 +97,7 @@ public class CancelAppointActivity extends BaseActivity {
     @Override
     protected void initView() {
         super.initView();
-
+        imageButtonE = findViewById(R.id.right_image_search);
         setToolBar();
         addListener();
     }
@@ -111,6 +115,16 @@ public class CancelAppointActivity extends BaseActivity {
         toolbar.setMainTitle("取消预约");
         //返回键
         toolbar.setLeftTitleClickListener(view -> finish());
+        toolbar.setRightSearchTitleClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MoreFeaturesPopupWindow mPopupWindow = new MoreFeaturesPopupWindow(
+                        CancelAppointActivity.this);
+                if (mPopupWindow != null && !mPopupWindow.isShowing()) {
+                    mPopupWindow.showAsDropDown(imageButtonE, 0, 0, Gravity.TOP + Gravity.RIGHT);
+                }
+            }
+        });
     }
 
     /**

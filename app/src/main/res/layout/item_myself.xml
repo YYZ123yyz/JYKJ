@@ -22,6 +22,7 @@
             android:id="@+id/tv_doctorname"
             android:text="记录医生:哦pool"
             android:textColor="#000"
+            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
     </LinearLayout>

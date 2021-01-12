@@ -183,8 +183,8 @@ public class BasicInformationActivity extends AbstractMvpBaseActivity<BasicInfor
             tvZzfxycsj.setText(date);
             // 确诊年份(confirmedYear)、
             long confirmedYear = provideViewPatientHealthyAndBasicsBean.getConfirmedYear();
-            String dates = DateUtils.getDateToYYYYMMDD(confirmedYear);
-            tvQznf.setText(dates);
+            //String dates = DateUtils.getDateToYYYYMMDD(confirmedYear);
+            tvQznf.setText(confirmedYear+"");
             // 是否有高血压病史(flagHtnHistory)
             if (provideViewPatientHealthyAndBasicsBean.getFlagHtnHistory() == 1) {
                 tvZxybs.setText("是");
@@ -198,19 +198,17 @@ public class BasicInformationActivity extends AbstractMvpBaseActivity<BasicInfor
                 tvSfyjzs.setText("否");
             }
             // 高血压病史描述(htnHistory)
-            if (TextUtils.isEmpty(provideViewPatientHealthyAndBasicsBean.getHtnHistory())) {
+            if (!TextUtils.isEmpty(provideViewPatientHealthyAndBasicsBean.getHtnHistory())) {
                 tvGxybsms.setText(provideViewPatientHealthyAndBasicsBean.getHtnHistory());
             }
             //   是否有过敏史(1:有;0:无;)(flagAllergy)
-           /* if (provideViewPatientHealthyAndBasicsBean.getFlagAllergy() != null) {
-                if (provideViewPatientHealthyAndBasicsBean.getFlagAllergy() == 1) {
-                    tvHave.setText("有");
-                    tvGmsms.setText(provideViewPatientHealthyAndBasicsBean.getHistoryAllergy());
-                } else {
-                    tvHave.setText("无");
-                    linGms.setVisibility(View.GONE);
-                }
-            }*/
+            if (provideViewPatientHealthyAndBasicsBean.getFlagAllergy() == 1) {
+                tvHave.setText("是");
+                tvGmsms.setText(provideViewPatientHealthyAndBasicsBean.getHistoryAllergy());
+            } else {
+                tvHave.setText("否");
+                linGms.setVisibility(View.GONE);
+            }
 
         }
 

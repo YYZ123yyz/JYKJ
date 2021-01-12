@@ -35,6 +35,7 @@ import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.personal.DiagnosisReplayContract;
 import www.jykj.com.jykj_zxyl.personal.DiagnosisReplayPresenter;
 import www.jykj.com.jykj_zxyl.personal.adapter.DiagnosisReplayAdapter;
+import www.jykj.com.jykj_zxyl.util.DateUtils;
 import www.jykj.com.jykj_zxyl.util.FullyGridLayoutManager;
 import www.jykj.com.jykj_zxyl.util.PhotoDialog;
 import www.jykj.com.jykj_zxyl.util.StringUtils;
@@ -298,7 +299,13 @@ public class DiagnosisReplayActivity extends
         String messageDate = diagnosisReplayBean.getMessageDate();
         String patientLinkPhone = diagnosisReplayBean.getPatientLinkPhone();
         String messageContent = diagnosisReplayBean.getMessageContent();
-        tvMsgDate.setText(StringUtils.isNotEmpty(messageDate) ? messageDate : "未提交");
+        if (StringUtils.isNotEmpty(messageDate)) {
+            long longTime = Long.parseLong(messageDate);
+            String stringTimeOfYYYYMMDDHHMM = DateUtils.getStringTimeOfYYYYMMDDHHMM(longTime);
+            tvMsgDate.setText(stringTimeOfYYYYMMDDHHMM);
+        }else{
+            tvMsgDate.setText("未提交");
+        }
         tvLinkPhone.setText(StringUtils.isNotEmpty(patientLinkPhone) ? patientLinkPhone : "未提交");
         content.setText(StringUtils.isNotEmpty(messageContent) ? messageContent : "未提交");
         String messageImgArray = diagnosisReplayBean.getMessageImgArray();

@@ -187,40 +187,40 @@ public class MessageListActivity extends AbstractMvpBaseActivity<UnReadMsgContra
         int msgTypeCount09 = unReadMsgBean.getMsgTypeCount09();
         if (msgTypeCount01 > 0) {
             tvUnreadPatientVisit.setVisibility(View.VISIBLE);
-            tvUnreadPatientVisit.setText(msgTypeCount01);
+            tvUnreadPatientVisit.setText(String.valueOf(msgTypeCount01));
         } else {
             tvUnreadPatientVisit.setVisibility(View.GONE);
         }
         if (msgTypeCount02 > 0) {
             tvUnreadLieaveMsg.setVisibility(View.VISIBLE);
-            tvUnreadLieaveMsg.setText(msgTypeCount02);
+            tvUnreadLieaveMsg.setText(String.valueOf(msgTypeCount02));
         } else {
             tvUnreadLieaveMsg.setVisibility(View.GONE);
         }
         if (msgTypeCount06 > 0) {
             tvUnreadUrgentRemindMsg.setVisibility(View.VISIBLE);
-            tvUnreadUrgentRemindMsg.setText(msgTypeCount06);
+            tvUnreadUrgentRemindMsg.setText(String.valueOf(msgTypeCount06));
         } else {
             tvUnreadUrgentRemindMsg.setVisibility(View.GONE);
         }
 
         if (msgTypeCount07 > 0) {
             tvUnreadPatientSignMsg.setVisibility(View.VISIBLE);
-            tvUnreadPatientSignMsg.setText(msgTypeCount07);
+            tvUnreadPatientSignMsg.setText(String.valueOf(msgTypeCount07));
         } else {
             tvUnreadPatientSignMsg.setVisibility(View.GONE);
         }
 
         if (msgTypeCount09 > 0) {
             tvUnreadHealthEducationMsg.setVisibility(View.VISIBLE);
-            tvUnreadHealthEducationMsg.setText(msgTypeCount09);
+            tvUnreadHealthEducationMsg.setText(String.valueOf(msgTypeCount09));
         } else {
             tvUnreadHealthEducationMsg.setVisibility(View.GONE);
         }
 
         if (msgTypeCount08 > 0) {
             tvUnreadSystemMsg.setVisibility(View.VISIBLE);
-            tvUnreadSystemMsg.setText(msgTypeCount08);
+            tvUnreadSystemMsg.setText(String.valueOf(msgTypeCount08));
         } else {
             tvUnreadSystemMsg.setVisibility(View.GONE);
         }

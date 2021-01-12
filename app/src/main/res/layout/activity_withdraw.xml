@@ -89,7 +89,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="25dp"
             android:background="@null"
-            android:hint="请输入充值金额"
+            android:hint="请输入提现金额"
             android:inputType="numberDecimal"
             android:textColor="@color/color_999999"
             android:layout_toLeftOf="@+id/all_money_tv"
