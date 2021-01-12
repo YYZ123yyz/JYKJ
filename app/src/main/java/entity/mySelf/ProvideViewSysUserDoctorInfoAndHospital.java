@@ -55,6 +55,7 @@ public class ProvideViewSysUserDoctorInfoAndHospital  implements java.io.Seriali
 	private String patientShareContent;
 	private String  patientShareTitle;
 
+
 	public String getDoctorShareContent() {
 		return doctorShareContent;
 	}

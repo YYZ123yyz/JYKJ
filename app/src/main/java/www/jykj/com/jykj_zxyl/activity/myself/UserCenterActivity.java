@@ -253,6 +253,10 @@ public class UserCenterActivity extends BaseActivity {
      * 设置布局显示
      */
     private void setLayoutDate() {
+        Integer flagDoctorStatus = mProvideViewSysUserDoctorInfoAndHospital.getFlagDoctorStatus();
+        if (flagDoctorStatus!=null) {
+            mUserNameText.setEnabled(flagDoctorStatus == 0);
+        }
         //姓名
         if (mProvideViewSysUserDoctorInfoAndHospital.getUserName() == null || "".equals(mProvideViewSysUserDoctorInfoAndHospital.getUserName()))
             mUserNameText.setHint("请填写姓名（必填）");
@@ -438,11 +442,22 @@ public class UserCenterActivity extends BaseActivity {
 
                     break;
                 case R.id.li_activityUserCenter_userSexLayout:
-                    showSexChoiceDialog();
+                    Integer flagDoctorStatus = mProvideViewSysUserDoctorInfoAndHospital.getFlagDoctorStatus();
+                    if (flagDoctorStatus!=null) {
+                        if (flagDoctorStatus==0) {
+                            showSexChoiceDialog();
+                        }
+                    }
+
                     break;
                 case R.id.li_activityUserCenter_userBirthLayout:
                     //showBirthDayChoiceDialog();
-                    showCalendarDialog();
+                    Integer flagDoctorStatus2 = mProvideViewSysUserDoctorInfoAndHospital.getFlagDoctorStatus();
+                    if (flagDoctorStatus2!=null) {
+                        if (flagDoctorStatus2==0) {
+                            showCalendarDialog();
+                        }
+                    }
                     break;
                 case R.id.li_activityUserCenter_userRegionLayout:
                     //选择区域
