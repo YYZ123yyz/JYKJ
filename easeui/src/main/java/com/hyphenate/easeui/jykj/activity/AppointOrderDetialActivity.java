@@ -180,6 +180,10 @@ public class AppointOrderDetialActivity
             case 3:
                 tvPaymentMode.setText("银联支付");
                 break;
+            case 4:
+                tvPaymentMode.setText("余额支付");
+                ivPaymentIcon.setImageResource(R.mipmap.bg_wallet);
+                break;
                 default:
         }
 

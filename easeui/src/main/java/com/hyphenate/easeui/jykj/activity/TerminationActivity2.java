@@ -68,7 +68,7 @@ public class TerminationActivity2 extends AppCompatActivity implements View.OnCl
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_termination);
+        setContentView(R.layout.activity_termination2);
         ActivityUtils.setStatusBarMain(this);
         mTerminationActivity = this;
         cancelContractDialog = new CancelContractDialog(TerminationActivity2.this);
