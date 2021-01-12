@@ -10,6 +10,12 @@
         <item name="android:windowTranslucentStatus">true</item>
     </style>
 
+    <style name="div_v">
+        <item name="android:layout_width">1dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@color/div_color</item>
+    </style>
+
     <style name="TabLayoutTextStyle">
         <item name="android:textSize">@dimen/textsizi</item>
     </style>

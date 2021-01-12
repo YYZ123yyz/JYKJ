@@ -73,6 +73,8 @@ public class MyReportActivity extends AbstractMvpBaseActivity<MyReportContract.V
     private TextView hospitalname;
     private String showType;
     private String departmentId;
+    private double price;
+    private TextView tv_price;
 
     @Override
     protected int setLayoutId() {
@@ -92,6 +94,8 @@ public class MyReportActivity extends AbstractMvpBaseActivity<MyReportContract.V
         choose_dis = findViewById(R.id.choose_dis);
         tv_detail = findViewById(R.id.tv_detail);
         recy = findViewById(R.id.recy);
+        tv_price = findViewById(R.id.tv_price);
+
         hospitalname = findViewById(R.id.hospitalname);
         hospitalname.setText(name+"月报表");
         //创建默认的线性LayoutManager
@@ -351,7 +355,10 @@ public class MyReportActivity extends AbstractMvpBaseActivity<MyReportContract.V
             list.clear();
             for (CommitBean commitBean : commitBeans) {
                 list.add(commitBean);
+                double totalDayAmount = commitBean.getTotalDayAmount();
+                price = price +totalDayAmount;
             }
+            tv_price.setText("￥"+price+"元");
             recyclerView_adapter.setDate(list);
             recy.setAdapter(recyclerView_adapter);
             recyclerView_adapter.notifyDataSetChanged();
