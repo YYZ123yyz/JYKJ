@@ -1,5 +1,6 @@
 package www.jykj.com.jykj_zxyl.activity.home.jyzl;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -39,6 +40,7 @@ import www.jykj.com.jykj_zxyl.adapter.JYZL_GRZLRecycleAdapter;
 import www.jykj.com.jykj_zxyl.application.Constant;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
 import www.jykj.com.jykj_zxyl.util.ActivityUtil;
+import www.jykj.com.jykj_zxyl.util.StringUtils;
 import www.jykj.com.jykj_zxyl.util.Util;
 
 /**
@@ -100,6 +102,7 @@ public class GRXX_GRZK_ZZXXActivity extends AppCompatActivity {
         getDate();
     }
 
+    @SuppressLint("HandlerLeak")
     private void initHandler() {
         mHandler = new Handler() {
             @Override
@@ -247,10 +250,13 @@ public class GRXX_GRZK_ZZXXActivity extends AppCompatActivity {
         else
             mMQZLFA.setText(mProvidePatientConditionHealthy.getCurrentTreatmentPlan());
 
-        if (mProvidePatientConditionHealthy.getStateOfIllness() != null || !"".equals(mProvidePatientConditionHealthy.getStateOfIllness()))
+        String stateOfIllness = mProvidePatientConditionHealthy.getStateOfIllness();
+        if (StringUtils.isNotEmpty(stateOfIllness)){
+            mBQZS.setText(stateOfIllness);
+        }else{
             mBQZS.setText("未设置");
-        else
-            mBQZS.setText(mProvidePatientConditionHealthy.getStateOfIllness());
+        }
+
     }
 
     /**

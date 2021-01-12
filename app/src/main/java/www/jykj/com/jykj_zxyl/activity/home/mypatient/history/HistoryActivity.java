@@ -7,6 +7,8 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.View;
+import android.widget.ImageButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,9 +17,11 @@ import www.jykj.com.jykj_zxyl.R;
 import www.jykj.com.jykj_zxyl.activity.MainActivity;
 import www.jykj.com.jykj_zxyl.activity.home.mypatient.history.fragment.DoctorFragment;
 import www.jykj.com.jykj_zxyl.activity.home.mypatient.history.fragment.MyselfFragment;
+import www.jykj.com.jykj_zxyl.activity.myself.ServicePermisionActivity;
 import www.jykj.com.jykj_zxyl.activity.myself.couponFragment.FragmentAdapter;
 import www.jykj.com.jykj_zxyl.app_base.base_activity.BaseActivity;
 import www.jykj.com.jykj_zxyl.app_base.base_view.BaseToolBar;
+import www.jykj.com.jykj_zxyl.custom.MoreFeaturesPopupWindow;
 import www.jykj.com.jykj_zxyl.util.ActivityUtil;
 import www.jykj.com.jykj_zxyl.util.MyViewPager;
 
@@ -35,7 +39,8 @@ public class HistoryActivity extends BaseActivity {
     private DoctorFragment doctorFragment;
     private String patientCode;
     private String patientName;
-
+    private ImageButton imageButtonE;
+    private MoreFeaturesPopupWindow mPopupWindow;
     @Override
     protected void onBeforeSetContentLayout() {
         super.onBeforeSetContentLayout();
@@ -55,6 +60,7 @@ public class HistoryActivity extends BaseActivity {
         Intent intent = getIntent();
         patientCode = intent.getStringExtra("patientCode");
         patientName = intent.getStringExtra("patientName");
+        imageButtonE = findViewById(R.id.right_image_search);
         mToolBar=findViewById(R.id.toolbar);
         mTabLayout=findViewById(R.id.tab_layout);
         mVpager=findViewById(R.id.vp_pager);
@@ -92,5 +98,18 @@ public class HistoryActivity extends BaseActivity {
         mToolBar.setMainTitle("既往病史");
         //返回键
         mToolBar.setLeftTitleClickListener(view -> finish());
+        mToolBar.setRightSearchTitleClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mPopupWindow ==null){
+                    mPopupWindow = new MoreFeaturesPopupWindow(HistoryActivity.this);
+                }
+                if (!mPopupWindow.isShowing()) {
+                    mPopupWindow.showAsDropDown(imageButtonE, 0, 0);
+                }else {
+                    mPopupWindow.dismiss();
+                }
+            }
+        });
     }
 }

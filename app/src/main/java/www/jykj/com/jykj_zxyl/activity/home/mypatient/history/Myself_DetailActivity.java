@@ -84,9 +84,9 @@ public class Myself_DetailActivity extends AbstractMvpBaseActivity<Myself_Detail
         //如果可以确定每个item的高度是固定的，设置这个选项可以提高性能
         autoGridView.setLayoutManager(mGridLayoutManager);
         autoGridView.setHasFixedSize(true);
-        GridDividerItemDecoration gridDividerItemDecoration=new GridDividerItemDecoration(1
-                , Color.parseColor("#D4D4D4"));
-        autoGridView.addItemDecoration(gridDividerItemDecoration);
+//        GridDividerItemDecoration gridDividerItemDecoration=new GridDividerItemDecoration(1
+//                , Color.parseColor("#D4D4D4"));
+//        autoGridView.addItemDecoration(gridDividerItemDecoration);
     }
 
     private void addClick() {

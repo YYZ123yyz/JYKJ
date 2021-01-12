@@ -103,6 +103,17 @@ public class ChatActivity extends BaseActivity {
     private String isReserveing;
     private int surplusDuration;
     private boolean isFirstOperation;
+    private int flagWriteDiagnosis;
+    private int flagWriteInspection;
+    private int flagWriteDrug;
+    private int flagWriteChiefComplaint;
+    private int flagWriteHistoryNew;
+    private int flagWriteHistoryPast;
+    private int flagHistoryAllergy;
+
+    private int flagWriteMedicalExamination;
+    private int flagWriteTreatmentProposal;
+
     @Override
     protected int setLayoutId() {
         return R.layout.activity_chat;
@@ -209,10 +220,52 @@ public class ChatActivity extends BaseActivity {
             public void onBallClick() {
                 if(StringUtils.isNotEmpty(orderCode)){
                     if (!isFirstOperation) {
-                        if (stringSparseArray.size()==0) {
-                            ToastUtils.showToast("病历信息不能为空");
+                        String content = stringSparseArray.get(MedcalRecordDialog.CHIEF_COMPLAINT_TYPE);
+                        if (flagWriteChiefComplaint==0&&TextUtils.isEmpty(content
+                        )) {
+                            ToastUtils.showToast("请填写主诉");
                             return;
                         }
+                        String history_new_type = stringSparseArray.get(MedcalRecordDialog.HISTORY_NEW_TYPE);
+                        if (flagWriteHistoryNew==0&&TextUtils.isEmpty(history_new_type)) {
+                            ToastUtils.showToast("请填写现病史");
+                            return;
+                        }
+                        String history_past_type = stringSparseArray.get(MedcalRecordDialog.HISTORY_PAST_TYPE);
+                        if (flagWriteHistoryPast==0&&TextUtils.isEmpty(history_past_type)) {
+                            ToastUtils.showToast("请填写既往史");
+                            return;
+                        }
+                        String history_allergy_type = stringSparseArray.get(MedcalRecordDialog.HISTORY_ALLERGY_TYPE);
+
+                        if (flagHistoryAllergy==0&&TextUtils.isEmpty(history_allergy_type)) {
+                            ToastUtils.showToast("请填写过敏史");
+                            return;
+                        }
+                        String medical_examination_type = stringSparseArray.get(MedcalRecordDialog.MEDICAL_EXAMINATION_TYPE);
+                        if (flagWriteMedicalExamination==0&&TextUtils.isEmpty(medical_examination_type)) {
+                            ToastUtils.showToast("请填写查体");
+                            return;
+                        }
+                        if (flagWriteDiagnosis==0) {
+                            ToastUtils.showToast("请填写临床诊断");
+                            return;
+                        }
+                        String treatmentproposal_type = stringSparseArray.get(MedcalRecordDialog.TREATMENTPROPOSAL_TYPE);
+                        if (flagWriteTreatmentProposal==0&&TextUtils.isEmpty(treatmentproposal_type)) {
+                            ToastUtils.showToast("请填写治疗建议");
+                            return;
+                        }
+                        if(flagWriteInspection==0){
+                            ToastUtils.showToast("请填写检查检验");
+                            return;
+                        }
+
+                        if (flagWriteDrug==0) {
+                            ToastUtils.showToast("请填写处方笺");
+                            return;
+                        }
+
                         sendMedicalRecordRequest(orderCode);
                     }else{
                         ToastUtils.showToast("已发送过病例不能重复发送");
@@ -497,40 +550,40 @@ public class ChatActivity extends BaseActivity {
      * @param patientRecordDetBean
      */
     private void initChoosedStatus(PatientRecordDetBean patientRecordDetBean){
-        int flagWriteChiefComplaint = patientRecordDetBean.getFlagWriteChiefComplaint();
+         flagWriteChiefComplaint = patientRecordDetBean.getFlagWriteChiefComplaint();
         if(flagWriteChiefComplaint==1){
             setMenueStatus(MedcalRecordDialog.CHIEF_COMPLAINT_TYPE);
         }
-        int flagWriteHistoryNew = patientRecordDetBean.getFlagWriteHistoryNew();
+         flagWriteHistoryNew = patientRecordDetBean.getFlagWriteHistoryNew();
         if(flagWriteHistoryNew==1){
             setMenueStatus(MedcalRecordDialog.HISTORY_NEW_TYPE);
         }
-        int flagWriteHistoryPast = patientRecordDetBean.getFlagWriteHistoryPast();
+         flagWriteHistoryPast = patientRecordDetBean.getFlagWriteHistoryPast();
         if (flagWriteHistoryPast==1) {
             setMenueStatus(MedcalRecordDialog.HISTORY_PAST_TYPE);
         }
-        int flagHistoryAllergy = patientRecordDetBean.getFlagHistoryAllergy();
+         flagHistoryAllergy = patientRecordDetBean.getFlagHistoryAllergy();
         if(flagHistoryAllergy==1){
             setMenueStatus(MedcalRecordDialog.HISTORY_ALLERGY_TYPE);
         }
-        int flagWriteMedicalExamination = patientRecordDetBean.getFlagWriteMedicalExamination();
+         flagWriteMedicalExamination = patientRecordDetBean.getFlagWriteMedicalExamination();
         if (flagWriteMedicalExamination==1) {
             setMenueStatus(MedcalRecordDialog.MEDICAL_EXAMINATION_TYPE);
         }
-        int flagWriteTreatmentProposal = patientRecordDetBean.getFlagWriteTreatmentProposal();
+         flagWriteTreatmentProposal = patientRecordDetBean.getFlagWriteTreatmentProposal();
         if (flagWriteTreatmentProposal==1) {
             setMenueStatus(MedcalRecordDialog.TREATMENTPROPOSAL_TYPE);
         }
-        int flagWriteInspection = patientRecordDetBean.getFlagWriteInspection();
+         flagWriteInspection = patientRecordDetBean.getFlagWriteInspection();
         if (flagWriteInspection==1) {
             setMenueStatus(MedcalRecordDialog.INSPECTION_TYPE);
         }
 
-        int flagWriteDrug = patientRecordDetBean.getFlagWriteDrug();
+         flagWriteDrug = patientRecordDetBean.getFlagWriteDrug();
         if (flagWriteDrug==1) {
             setMenueStatus(MedcalRecordDialog.PRESCRIPTION_NOTES_TYPE);
         }
-        int flagWriteDiagnosis = patientRecordDetBean.getFlagWriteDiagnosis();
+         flagWriteDiagnosis = patientRecordDetBean.getFlagWriteDiagnosis();
         if (flagWriteDiagnosis==1) {
             setMenueStatus(MedcalRecordDialog.CLINICAL_DIAGNOSIS_TYPE);
         }
