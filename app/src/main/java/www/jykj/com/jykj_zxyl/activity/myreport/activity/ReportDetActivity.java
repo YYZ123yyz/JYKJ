@@ -107,6 +107,7 @@ public class ReportDetActivity extends AbstractMvpBaseActivity<ReportDetContract
     private String usercode;
     private LinearLayout lin_customize;
     private String showType;
+    private String price;
 
     @Override
     protected int setLayoutId() {
@@ -124,6 +125,7 @@ public class ReportDetActivity extends AbstractMvpBaseActivity<ReportDetContract
         lin_customize = findViewById(R.id.lin_customize);
 
         myReportDialog = new StatisticsDialog(this);
+        myReportDialog.oneTime(usercode);
         myReportDialog.setOnDevChoose(new StatisticsDialog.onDevChoose() {
             @Override
             public void onDevChoose() {  //科室
@@ -210,7 +212,7 @@ public class ReportDetActivity extends AbstractMvpBaseActivity<ReportDetContract
                 ivSign.setSelected(false);
                 if(showType.equals("2")){
                     if( mSignType == 0){
-                        //   Log.e("TAG", "onClickcccccccccccc: "+usercode );
+                           Log.e("TAG", "onClickcccccccccccc: "+usercode );
                         myReportDialog.oneTime(usercode);
                         lin_customize.setVisibility(View.VISIBLE);
                     }else if(mSignType==1){
@@ -382,7 +384,8 @@ public class ReportDetActivity extends AbstractMvpBaseActivity<ReportDetContract
                 oneTimeVisitRefundCount_tv.setText(String.format("%s人", bean.getTotalOneTimeVisitRefundCount()));
                 oneTimeVisitRefundAmount_tv.setText(String.format("¥%s元", bean.getTotalOneTimeVisitRefundAmount()));
                 all_money_tv.setText(String.format("¥%s元", bean.getTotalOneTimeVisitSumAmount() == null ? "0" : bean.getTotalOneTimeVisitSumAmount()));//bean.getOneTimeVisitSumAmount() == null ? "0" : bean.getOneTimeVisitSumAmount()
-
+                price = bean.getTotalOneTimeVisitFrozenAmount()+bean.getTotalOneTimeVisitAmount()+bean.getTotalOneTimeVisitRefundAmount()+bean.getTotalOneTimeVisitSumAmount();
+                all_money_tv.setText(String.format("¥%s元", price));
             } else {//签约
                 linMsg1.setVisibility(View.GONE);
                 linMsg0.setVisibility(View.GONE);
@@ -397,7 +400,8 @@ public class ReportDetActivity extends AbstractMvpBaseActivity<ReportDetContract
                 oneTimeVisitFrozenAmount_tv.setText(String.format("%s人", bean.getTotalTerminatedPatientAmount()));
                 oneTimeVisitAmount_tv.setText(String.format("¥%s元", bean.getTotalTerminatedPatientCount()));
                 all_money_tv.setText(String.format("¥%s元", bean.getTotalSignPatientSumAmount() == null ? "0" : bean.getTotalSignPatientSumAmount()));//bean.getOneTimeVisitSumAmount() == null ? "0" : bean.getOneTimeVisitSumAmount()
-
+                price = bean.getTotalSignUpPatientExecutedAmount()+bean.getTotalTerminatedPatientCount()+bean.getTotalSignPatientSumAmount();
+                all_money_tv.setText(String.format("¥%s元", price));
             }
 
 

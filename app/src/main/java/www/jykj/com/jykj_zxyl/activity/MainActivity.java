@@ -152,7 +152,7 @@ public class MainActivity extends BaseActivity {
         super.initView();
         mContext = this;
         mainActivity = this;
-        EventBus.getDefault().register(this);
+      //  EventBus.getDefault().register(this);
         ActivityUtil.setStatusBarMain(mainActivity);
         mApp = (JYKJApplication) getApplication();
         mApp.gMainActivity = this;
@@ -400,6 +400,7 @@ public class MainActivity extends BaseActivity {
     @SuppressLint("DefaultLocale")
     private void setUnReadMsgBtnStatus() {
         unreadMessageCount = EMClient.getInstance().chatManager().getUnreadMessageCount();
+        Log.e("TAG", "setUnReadMsgBtnStatus: "+unreadMessageCount );
         if (unreadMessageCount > 0) {
             mTvUnreadBtn.setVisibility(View.VISIBLE);
             mTvUnreadBtn.setText(String.format("%d", unreadMessageCount));

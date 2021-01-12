@@ -132,7 +132,7 @@ public class MyReportDialog extends PopupWindow implements View.OnClickListener 
             mPopView.findViewById(R.id.lin_detail).setVisibility(View.VISIBLE);
             mPopView.findViewById(R.id.lin_name).setVisibility(View.VISIBLE);
         }else if(sta.equals("20")){
-            mPopView.findViewById(R.id.lin_detail).setVisibility(View.VISIBLE);
+            mPopView.findViewById(R.id.lin_detail).setVisibility(View.GONE);
             mPopView.findViewById(R.id.disease_class).setVisibility(View.VISIBLE);
             mPopView.findViewById(R.id.department_class).setVisibility(View.GONE);
             mPopView.findViewById(R.id.lin_name).setVisibility(View.VISIBLE);

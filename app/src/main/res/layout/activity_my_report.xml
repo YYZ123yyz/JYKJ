@@ -112,7 +112,7 @@
           android:layout_marginRight="@dimen/dp_15"
           android:layout_gravity="center_vertical"
           android:id="@+id/tv_price"
-          android:text="￥30000元"
+          android:text=""
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"/>
 

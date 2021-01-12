@@ -669,7 +669,7 @@ public class JYKJApplication extends Application {
      * 设置新消息
      */
     public void setNewsMessage() {
-        Map<String, EMConversation> conversationMap = EMClient.getInstance().chatManager().getAllConversations();
+       /* Map<String, EMConversation> conversationMap = EMClient.getInstance().chatManager().getAllConversations();
         List<String> userCodeList = new ArrayList<>();
         //遍历map中的键,获取用户Code列表
         for (String key : conversationMap.keySet()) {
@@ -683,7 +683,7 @@ public class JYKJApplication extends Application {
                 gNewMessageNum = conversation.getUnreadMsgCount();
             if (gNewMessageNum > 0)
                 return;
-        }
+        }*/
 
     }
 
