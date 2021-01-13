@@ -21,6 +21,7 @@ import www.jykj.com.jykj_zxyl.app_base.base_view.BaseToolBar;
 import www.jykj.com.jykj_zxyl.app_base.http.RetrofitUtil;
 import www.jykj.com.jykj_zxyl.app_base.mvp.AbstractMvpBaseActivity;
 import www.jykj.com.jykj_zxyl.application.JYKJApplication;
+import www.jykj.com.jykj_zxyl.capitalpool.BankCardTextWatcher;
 import www.jykj.com.jykj_zxyl.capitalpool.contract.AddBankcardContract;
 import www.jykj.com.jykj_zxyl.capitalpool.contract.AddBankcardPresenter;
 import www.jykj.com.jykj_zxyl.custom.MoreFeaturesPopupWindow;
@@ -54,6 +55,7 @@ public class AddBankcardActivity extends AbstractMvpBaseActivity<AddBankcardCont
         super.initView();
         imageButtonE = findViewById(R.id.right_image_search);
         toolbar = findViewById(R.id.toolbar);
+        BankCardTextWatcher.bind(etBankId);
         setToolBar();
     }
 
@@ -126,7 +128,7 @@ public class AddBankcardActivity extends AbstractMvpBaseActivity<AddBankcardCont
         stringStringHashMap.put("assetsCode", SPUtils.getInstance().getString("assetsCode") == null ? "" : SPUtils.getInstance().getString("assetsCode"));//SPUtils.getInstance().getString("assetsCode") == null ? "c877fc2a03bf4552ad070fb112794246" : SPUtils.getInstance().getString("assetsCode"))
         stringStringHashMap.put("cardUserName", etName.getText().toString().trim());
         stringStringHashMap.put("idNumber", etCardNum.getText().toString().trim());
-        stringStringHashMap.put("cardAccount", etBankId.getText().toString().trim());
+        stringStringHashMap.put("cardAccount", etBankId.getText().toString().trim().replaceAll(" ",""));
         stringStringHashMap.put("bankAddress", etCity.getText().toString().trim());
         stringStringHashMap.put("bankName", etBankName.getText().toString().trim());
         return RetrofitUtil.encodeParam(stringStringHashMap);

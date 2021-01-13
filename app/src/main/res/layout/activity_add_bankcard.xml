@@ -69,6 +69,7 @@
                 android:layout_marginRight="30dp"
                 android:textSize="15sp"
                 android:hint="请输入您的身份证号"
+                android:maxLength="18"
                 android:inputType="number"
                 android:digits="0123456789xyzXYZ" />
 
@@ -108,6 +109,8 @@
                 android:layout_gravity="center_vertical"
                 android:inputType="number"
                 android:textSize="15sp"
+                android:maxLength="26"
+                android:singleLine="true"
                 android:hint="请输入您的银行卡号"
                 android:layout_marginRight="30dp"
                 />
