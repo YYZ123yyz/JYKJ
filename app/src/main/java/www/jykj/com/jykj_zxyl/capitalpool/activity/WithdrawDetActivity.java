@@ -8,8 +8,10 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.allen.library.interceptor.Transformer;
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
 import com.bigkoo.pickerview.builder.TimePickerBuilder;
 import com.bigkoo.pickerview.listener.OnTimeSelectListener;
@@ -32,9 +34,13 @@ import java.util.Objects;
 import butterknife.BindView;
 import butterknife.OnClick;
 import www.jykj.com.jykj_zxyl.R;
+import www.jykj.com.jykj_zxyl.app_base.base_bean.BaseBean;
+import www.jykj.com.jykj_zxyl.app_base.base_bean.BaseReasonBean;
 import www.jykj.com.jykj_zxyl.app_base.base_bean.DrugDosageBean;
 import www.jykj.com.jykj_zxyl.app_base.base_view.BaseToolBar;
 import www.jykj.com.jykj_zxyl.app_base.base_view.LoadingLayoutManager;
+import www.jykj.com.jykj_zxyl.app_base.http.ApiHelper;
+import www.jykj.com.jykj_zxyl.app_base.http.CommonDataObserver;
 import www.jykj.com.jykj_zxyl.app_base.http.ParameUtil;
 import www.jykj.com.jykj_zxyl.app_base.http.RetrofitUtil;
 import www.jykj.com.jykj_zxyl.app_base.mvp.AbstractMvpBaseActivity;
@@ -45,6 +51,7 @@ import www.jykj.com.jykj_zxyl.capitalpool.bean.WithdrawDetBean;
 import www.jykj.com.jykj_zxyl.capitalpool.contract.WithdrawDetContract;
 import www.jykj.com.jykj_zxyl.capitalpool.contract.WithdrawDetPresenter;
 import www.jykj.com.jykj_zxyl.custom.MoreFeaturesPopupWindow;
+import www.jykj.com.jykj_zxyl.util.GsonUtils;
 import www.jykj.com.jykj_zxyl.util.Util;
 
 /**
@@ -59,16 +66,23 @@ public class WithdrawDetActivity extends AbstractMvpBaseActivity<WithdrawDetCont
     TextView dateTv;
     @BindView(R.id.withdrawState_tv)
     TextView stateTv;
+    @BindView(R.id.empty_layout)
+    LinearLayout emptyLyout;
     private BaseToolBar mToolBar;//顶部toolBar
     private SmartRefreshLayout mRefreshLayout;//刷新列表
     private JYKJApplication mApp;
     private String countPeriod = "";
-    private String withdrawalState = "";
+    private String withdrawalState = "0";
     private int pageNum = 1;
     private int rowNum = 10;
     private List<String> drugDosageNameList;
     private LoadingLayoutManager mLoadingLayout;
     private ImageButton imageButtonE;
+    private List<BaseReasonBean> classBean;
+    private int attrCode;
+    private String baseName;
+    private WithdrawDetAdapter withdrawDetAdapter;
+    private List<WithdrawDetBean> mData = new ArrayList<>();
     @Override
     protected int setLayoutId() {
         return R.layout.activity_withdraw_det;
@@ -88,9 +102,9 @@ public class WithdrawDetActivity extends AbstractMvpBaseActivity<WithdrawDetCont
         countPeriod = DateUtils.getDeviceTimeOfYM();
         myRecyeleview.setLayoutManager(new LinearLayoutManager(this));
         ArrayList<String> strings = new ArrayList<>();
-        mToolBar=findViewById(R.id.toolbar);
+        mToolBar = findViewById(R.id.toolbar);
         setToolBar();
-        initLoadingAndRetryManager();
+       // initLoadingAndRetryManager();
         addListener();
       /*  for (int i = 0; i < 8; i++) {
             strings.add("xx");
@@ -104,6 +118,7 @@ public class WithdrawDetActivity extends AbstractMvpBaseActivity<WithdrawDetCont
         mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
+                pageNum = 1;
                 mPresenter.getWithdrawDet(getParams());
             }
         });
@@ -148,18 +163,52 @@ public class WithdrawDetActivity extends AbstractMvpBaseActivity<WithdrawDetCont
         mApp = (JYKJApplication) getApplication();
         drugDosageNameList = getDrugDosageNameList();
         mPresenter.getWithdrawDet(getParams());
+
+        //获取编码
+        Obtain();
     }
+
+    private void Obtain() {
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("baseCode", "900163");
+        String s = RetrofitUtil.encodeParam(hashMap);
+        ApiHelper.getApiService().getBasicsDomain(s).compose(Transformer.switchSchedulers())
+                .subscribe(new CommonDataObserver() {
+
+                    @Override
+                    protected void onSuccessResult(BaseBean baseBean) {
+                        int resCode = baseBean.getResCode();
+                        Log.e("TAG", "onSuccessResult:  leixing " + baseBean.getResJsonData());
+                        if (resCode == 1) {
+                            String resJsonData = baseBean.getResJsonData();
+                            List<BaseReasonBean> cancelContractBeans
+                                    = GsonUtils.jsonToList(resJsonData, BaseReasonBean.class);
+                            classBean = cancelContractBeans;
+                        }
+                    }
+                });
+    }
+
+    private List<String> getstatusStrList(List<BaseReasonBean> classBean) {
+        List<String> list = new ArrayList<>();
+        for (BaseReasonBean baseReasonBean : classBean) {
+            list.add(baseReasonBean.getAttrName());
+        }
+        return list;
+    }
+
 
     private String getParams() {
         HashMap<String, Object> stringStringHashMap = new HashMap<>();
-        stringStringHashMap.put("loginDoctorPosition", ParameUtil.loginDoctorPosition);
+        stringStringHashMap.put("loginDoctorPosition", mApp.loginDoctorPosition);
+        stringStringHashMap.put("requestClientType", "1");
         stringStringHashMap.put("operDoctorCode", mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
         stringStringHashMap.put("operDoctorName", mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
-        stringStringHashMap.put("withdrawalState", "2");
+        stringStringHashMap.put("withdrawalState", withdrawalState);
         stringStringHashMap.put("countPeriod", countPeriod);
         stringStringHashMap.put("rowNum", String.valueOf(rowNum));
         stringStringHashMap.put("pageNum", String.valueOf(pageNum));
-        Log.e("TAG", "getParams: "+stringStringHashMap.toString() );
+        Log.e("TAG", "getParams: " + stringStringHashMap.toString());
         return RetrofitUtil.encodeParam(stringStringHashMap);
     }
 
@@ -186,7 +235,7 @@ public class WithdrawDetActivity extends AbstractMvpBaseActivity<WithdrawDetCont
                 String dateTime = DateUtils.getDate(date);
                 dateTv.setText(dateTime);
                 countPeriod = dateTime;
-                pageNum = 0;
+                pageNum = 1;
                 mPresenter.getWithdrawDet(getParams());
             }
 
@@ -199,29 +248,19 @@ public class WithdrawDetActivity extends AbstractMvpBaseActivity<WithdrawDetCont
     private void showDrugDosageDialog() {
         OptionsPickerView optionPickUnit = new OptionsPickerBuilder(this,
                 (options1, options2, options3, v) -> {
-                    withdrawalState = drugDosageNameList.get(options1);
-                    stateTv.setText(withdrawalState);
-                  /*  Log.e("TAG", "showDrugDosageDialog: "+withdrawalState );
-                    if(!TextUtils.isEmpty(withdrawalState)){
-                        if(withdrawalState.equals("0")){
-                            stateTv.setText("已提交");
-                        }else if(withdrawalState.equals("1")){
-                            stateTv.setText("审核中");
-                        }else if(withdrawalState.equals("2")){
-                            stateTv.setText("打款中");
-                        }else{
-                            stateTv.setText("已完成");
-                        }
-                    }*/
+                    attrCode = classBean.get(options1).getAttrCode();
+                    baseName = classBean.get(options1).getAttrName();
+                    stateTv.setText(baseName);
+                    withdrawalState = attrCode + "";
 
-                    pageNum = 0;
+                    pageNum = 1;
                     mPresenter.getWithdrawDet(getParams());
                 })
                 .setCancelColor(getResources().getColor(R.color.textColor_vt))
                 .setSubmitColor(getResources().getColor(R.color.textColor_hzgltabzc))
                 .setSelectOptions(0).build();
 
-        optionPickUnit.setNPicker(drugDosageNameList,
+        optionPickUnit.setNPicker(getstatusStrList(classBean),
                 null, null);
         optionPickUnit.show();
     }
@@ -248,7 +287,7 @@ public class WithdrawDetActivity extends AbstractMvpBaseActivity<WithdrawDetCont
     public void refreshLaodData() {
         pageNum = 1;
         HashMap<String, Object> stringStringHashMap = new HashMap<>();
-        stringStringHashMap.put("loginDoctorPosition", ParameUtil.loginDoctorPosition);
+        stringStringHashMap.put("loginDoctorPosition", mApp.loginDoctorPosition);
         stringStringHashMap.put("operDoctorCode", mApp.mViewSysUserDoctorInfoAndHospital.getDoctorCode());
         stringStringHashMap.put("operDoctorName", mApp.mViewSysUserDoctorInfoAndHospital.getUserName());
         stringStringHashMap.put("withdrawalState", withdrawalState);
@@ -258,7 +297,8 @@ public class WithdrawDetActivity extends AbstractMvpBaseActivity<WithdrawDetCont
         String s = RetrofitUtil.encodeParam(stringStringHashMap);
         mPresenter.getWithdrawDet(s);
     }
-    @Override
+
+   /* @Override
     public void showRetry() {
         if (pageNum == 1) {
             mLoadingLayout.showEmpty();
@@ -266,15 +306,47 @@ public class WithdrawDetActivity extends AbstractMvpBaseActivity<WithdrawDetCont
         mRefreshLayout.finishLoadMore();
         mRefreshLayout.finishRefresh();
 
-    }
+    }*/
 
 
     @Override
     public void getWithdrawDetResult(List<WithdrawDetBean> withdrawDetBeans) {
-         if(withdrawDetBeans!=null){
-             WithdrawDetAdapter withdrawDetAdapter = new WithdrawDetAdapter(R.layout.item_withdraw_det, withdrawDetBeans);
-             myRecyeleview.setAdapter(withdrawDetAdapter);
-         }
+        if (mRefreshLayout.isLoading()) {
+            mRefreshLayout.finishLoadMore();
+        }
+        if (mRefreshLayout.isRefreshing()) {
+            mRefreshLayout.finishRefresh();
+        }
+        if (withdrawDetBeans != null) {
+            mRefreshLayout.setVisibility(View.VISIBLE);
+            emptyLyout.setVisibility(View.GONE);
+            if (withdrawDetAdapter == null) {
+                mData.addAll(withdrawDetBeans);
+                withdrawDetAdapter = new WithdrawDetAdapter(R.layout.item_withdraw_det, mData);
+                myRecyeleview.setAdapter(withdrawDetAdapter);
+            } else {
+                if (pageNum == 1) {
+                    mData.clear();
+                }
+
+                mData.addAll(withdrawDetBeans);
+                withdrawDetAdapter.notifyDataSetChanged();
+            }
+        }
+    }
+
+    @Override
+    public void getDetSize() {
+        if (mRefreshLayout.isLoading()) {
+            mRefreshLayout.finishLoadMore();
+        }
+        if (mRefreshLayout.isRefreshing()) {
+            mRefreshLayout.finishRefresh();
+        }
+        if (pageNum == 1) {
+            emptyLyout.setVisibility(View.VISIBLE);
+            mRefreshLayout.setVisibility(View.GONE);
+        }
     }
 }
 

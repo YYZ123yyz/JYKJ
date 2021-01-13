@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -38,7 +39,7 @@ public class WithdrawActivity extends AbstractMvpBaseActivity<WithdrawContract.V
     @BindView(R.id.go2pay_tv)
     TextView go2Pay;
     @BindView(R.id.et_withdraw)
-    TextView etWithdraw;
+    EditText etWithdraw;
     @BindView(R.id.card_tv)
     TextView cardTv;
     @BindView(R.id.iv_card)
@@ -55,7 +56,7 @@ public class WithdrawActivity extends AbstractMvpBaseActivity<WithdrawContract.V
     private String bankId;
     private BaseToolBar toolbar;
     private ImageButton imageButtonE;
-    private double mBalance = 0;
+    private String mBalance = "";
 
     @Override
     protected int setLayoutId() {
@@ -106,11 +107,15 @@ public class WithdrawActivity extends AbstractMvpBaseActivity<WithdrawContract.V
         if (SPUtils.getInstance().getString("balance") != null) {
             String balance = SPUtils.getInstance().getString("balance");
             if (TextUtils.isEmpty(balance)) {
-                mBalance = 0;
+                mBalance = "0";
             } else {
-                mBalance = Double.parseDouble(balance);
-            }
 
+
+                mBalance =balance;
+
+
+            }
+            etWithdraw.setHint("");
         }
     }
 
@@ -163,6 +168,7 @@ public class WithdrawActivity extends AbstractMvpBaseActivity<WithdrawContract.V
             case R.id.all_money_tv:
 
                 etWithdraw.setText(String.valueOf(mBalance));
+                etWithdraw.setSelection(etWithdraw.getText().toString().length());
                 break;
         }
 
@@ -184,7 +190,13 @@ public class WithdrawActivity extends AbstractMvpBaseActivity<WithdrawContract.V
             return;
         }
 
-        if (Double.parseDouble(etWithdraw.getText().toString().trim()) > mBalance) {
+        if (Double.parseDouble(etWithdraw.getText().toString().trim()) == 0) {
+            ToastUtils.showShort("提现金额必须大于0");
+            return;
+        }
+
+
+        if (Double.parseDouble(etWithdraw.getText().toString().trim()) >Double.parseDouble(mBalance) ) {
             ToastUtils.showShort("余额不足");
             return;
         }

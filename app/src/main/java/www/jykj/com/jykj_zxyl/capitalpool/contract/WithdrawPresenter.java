@@ -3,6 +3,7 @@ package www.jykj.com.jykj_zxyl.capitalpool.contract;
 import com.allen.library.interceptor.Transformer;
 import com.allen.library.interfaces.ILoadingView;
 import com.blankj.utilcode.util.LogUtils;
+import com.blankj.utilcode.util.ToastUtils;
 
 import java.util.List;
 
@@ -107,6 +108,7 @@ public class WithdrawPresenter extends BasePresenterImpl<WithdrawContract.View>
                         mView.getTakeMedicinalRateResult(takeMedicinalRateBeans);*/
                     }else {
                         LogUtils.e("医生账户    "+resJsonData);
+                        ToastUtils.showShort(baseBean.getResMsg());
                     }
 
                 }

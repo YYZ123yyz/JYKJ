@@ -55,6 +55,8 @@ public class UserAccountActivity extends AbstractMvpBaseActivity<UserAccountCont
     private String alipayCollectionFilePath = "";
     private WithdrawTypelListBean aliBean;
     private WithdrawTypelListBean weichatBean;
+    private ImageView iv_type_wei1;
+    private ImageView iv_type;
 
     @Override
     protected int setLayoutId() {
@@ -101,6 +103,8 @@ public class UserAccountActivity extends AbstractMvpBaseActivity<UserAccountCont
         imageButtonE = findViewById(R.id.right_image_search);
         toolbar = findViewById(R.id.toolbar);
         setToolBar();
+        iv_type_wei1 = findViewById(R.id.iv_type_wei1);
+        iv_type = findViewById(R.id.iv_type);
     }
 
     private void setToolBar() {
@@ -214,6 +218,7 @@ public class UserAccountActivity extends AbstractMvpBaseActivity<UserAccountCont
         weichatId = weichatBean.getIdNumber();
         weChatCollectionFilePath = weichatBean.getWeChatCollectionFilePath();
         weichatTv.setText("微信收款码");
+        iv_type_wei1.setImageDrawable(getResources().getDrawable(R.mipmap.iv_charge_weichat));
         weicatMsgIv.setVisibility(View.VISIBLE);
     }
 
@@ -223,6 +228,7 @@ public class UserAccountActivity extends AbstractMvpBaseActivity<UserAccountCont
         aliId = aliBean.getIdNumber();
         alipayCollectionFilePath = aliBean.getAlipayCollectionFilePath();
         aliTv.setText("支付宝收款码");
+        iv_type.setImageDrawable(getResources().getDrawable(R.mipmap.iv_charge_ali));
         aliMsgIv.setVisibility(View.VISIBLE);
     }
 

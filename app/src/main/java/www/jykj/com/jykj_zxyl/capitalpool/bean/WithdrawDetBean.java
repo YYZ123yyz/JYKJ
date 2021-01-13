@@ -35,7 +35,15 @@ public class WithdrawDetBean implements Serializable {
     private long withdrawalDate;
     private long withdrawalDateTime;
     private int withdrawalState;
+    private String withdrawalStateName;
 
+    public String getWithdrawalStateName() {
+        return withdrawalStateName;
+    }
+
+    public void setWithdrawalStateName(String withdrawalStateName) {
+        this.withdrawalStateName = withdrawalStateName;
+    }
     public long getApproCreateDate() {
         return approCreateDate;
     }

@@ -64,6 +64,14 @@ public class DateUtils {
         String string = simpleDateFormat.format(data);
         return string;
     }
+
+    public static String getDateYYYMM(Date data) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(
+                "yyyy-MM");
+        String string = simpleDateFormat.format(data);
+        return string;
+    }
+
     /*
      * 将时间戳转换为时间
      */

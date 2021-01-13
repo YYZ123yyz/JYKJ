@@ -18,6 +18,7 @@ public class WithdrawDetContract {
          */
         void getWithdrawDetResult(List<WithdrawDetBean> withdrawDetBeans);
 
+        void getDetSize();
     }
 
     public interface Presenter extends BasePresenter<View> {
